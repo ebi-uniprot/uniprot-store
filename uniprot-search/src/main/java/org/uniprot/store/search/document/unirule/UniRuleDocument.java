@@ -23,6 +23,9 @@ public class UniRuleDocument implements Document {
     @Field("unirule_id")
     private String uniRuleId;
 
+    @Field("all_rule_id")
+    private Set<String> allRuleIds = new HashSet<>();
+
     @Field("condition_value")
     private Set<String> conditionValues = new HashSet<>();
 

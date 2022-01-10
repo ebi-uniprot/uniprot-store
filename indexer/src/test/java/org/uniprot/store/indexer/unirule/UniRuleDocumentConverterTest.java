@@ -1,7 +1,9 @@
 package org.uniprot.store.indexer.unirule;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,6 +90,10 @@ class UniRuleDocumentConverterTest {
             throws IOException {
         assertNotNull(solrDoc);
         assertEquals("UR001229753", solrDoc.getUniRuleId());
+        assertNotNull(solrDoc.getAllRuleIds());
+        assertFalse(solrDoc.getAllRuleIds().isEmpty());
+        assertTrue(solrDoc.getAllRuleIds().contains(solrDoc.getUniRuleId()));
+        assertTrue(solrDoc.getAllRuleIds().contains("PIRNR018063"));
         assertEquals(6, solrDoc.getConditionValues().size());
         assertEquals(
                 "[Porcine reproductive and respiratory syndrome virus (strain Lelystad), Archaea, Human adenovirus, Bacteria, Human mastadenovirus, PIRSF018063]",
