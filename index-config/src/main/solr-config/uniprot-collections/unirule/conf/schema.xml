@@ -18,6 +18,8 @@
 	<!-- =============================== UniRule fields =============================== -->
 	<field name="unirule_id" type="string" indexed="true"
 		stored="true" required="true" docValues="true" />
+	<field name="all_rule_id" type="string" indexed="true"
+		stored="false" required="true" multiValued="true" />
 	<field name="condition_value" type="full_ci" indexed="true"
 		stored="false" required="true" multiValued="true" />
 	<field name="keyword" type="full_ci" indexed="true"

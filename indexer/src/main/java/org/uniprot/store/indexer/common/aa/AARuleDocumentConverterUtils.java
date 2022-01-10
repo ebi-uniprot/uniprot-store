@@ -23,6 +23,7 @@ import org.uniprot.core.unirule.Annotation;
 import org.uniprot.core.unirule.Condition;
 import org.uniprot.core.unirule.ConditionSet;
 import org.uniprot.core.unirule.ConditionValue;
+import org.uniprot.core.unirule.Information;
 import org.uniprot.core.unirule.Rule;
 import org.uniprot.core.unirule.UniRuleEntry;
 import org.uniprot.core.util.Utils;
@@ -208,6 +209,16 @@ public class AARuleDocumentConverterUtils {
                         .flatMap(Collection::stream)
                         .collect(Collectors.toSet());
         return getSuperKingdoms(taxonIds, taxonomyRepo);
+    }
+
+    public static Set<String> getRuleIds(UniRuleEntry uniRuleEntry) {
+        Set<String> ruleIds = new HashSet<>();
+        ruleIds.add(uniRuleEntry.getUniRuleId().getValue());
+        Information info = uniRuleEntry.getInformation();
+        if (Utils.notNullNotEmpty(info.getOldRuleNum())) {
+            ruleIds.add(info.getOldRuleNum());
+        }
+        return ruleIds;
     }
 
     private static Set<String> getSuperKingdoms(Set<Integer> taxonIds, TaxonomyRepo taxonomyRepo) {

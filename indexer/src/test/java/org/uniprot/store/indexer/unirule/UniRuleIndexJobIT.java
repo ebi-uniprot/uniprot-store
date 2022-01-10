@@ -92,8 +92,10 @@ class UniRuleIndexJobIT {
         assertThat(response.size(), is(2));
         assertThat(response.get(0).getUniRuleId(), is("UR001229753"));
         assertThat(response.get(1).getUniRuleId(), is("UR001330252"));
-        //         verify the rule ids from the serialised object
+        // verify the rule ids from the serialised object
         response.forEach(this::verifyRule);
+        verifySearchByOldId();
+        verifySearchByRuleId();
     }
 
     private void verifySteps(Collection<StepExecution> steps) {
@@ -120,5 +122,29 @@ class UniRuleIndexJobIT {
         } catch (Exception e) {
             fail(e.getMessage());
         }
+    }
+
+    private void verifySearchByOldId() {
+        // fetch the data from solr and verify
+        List<UniRuleDocument> response =
+                solrClient.query(
+                        SolrCollection.unirule,
+                        new SolrQuery("all_rule_id:PIRSR006661-1"),
+                        UniRuleDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.size(), is(1));
+        assertThat(response.get(0).getUniRuleId(), is("UR001330252"));
+    }
+
+    private void verifySearchByRuleId() {
+        // fetch the data from solr and verify
+        List<UniRuleDocument> response =
+                solrClient.query(
+                        SolrCollection.unirule,
+                        new SolrQuery("all_rule_id:UR001229753"),
+                        UniRuleDocument.class);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.size(), is(1));
+        assertThat(response.get(0).getUniRuleId(), is("UR001229753"));
     }
 }

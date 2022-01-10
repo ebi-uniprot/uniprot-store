@@ -18,6 +18,16 @@
     "example": "unirule_id asc"
   },
   {
+    "id": "all_rule_id",
+    "fieldName": "all_rule_id",
+    "sortFieldId": "id_sort",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "validRegex": "UR(\\d{9})|MF_[0-9]{5}|PIRSR[0-9]+(\\-[0-9]+)?|PIRNR[0-9]+|RU[0-9]{6}|PRU[0-9]{5}",
+    "description": "Search by UniRule identifier. New or old",
+    "example": "PIRSR633508-4"
+  },
+  {
     "id":"superkingdom",
     "fieldName": "superkingdom",
     "fieldType": "GENERAL",

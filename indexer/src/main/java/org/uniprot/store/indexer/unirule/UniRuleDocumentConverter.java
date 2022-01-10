@@ -11,6 +11,7 @@ import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.g
 import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getKeywords;
 import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getOrganismNames;
 import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getProteinNames;
+import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getRuleIds;
 import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getSuperKingdoms;
 import static org.uniprot.store.indexer.common.aa.AARuleDocumentConverterUtils.getTaxonomyNames;
 
@@ -102,10 +103,11 @@ public class UniRuleDocumentConverter implements DocumentConverter<UniRuleType, 
         Map<String, Set<String>> commentTypeValues = getComments(uniRuleDocComments);
         ByteBuffer uniRuleObj = ByteBuffer.wrap(getAARuleObj(uniObj, this.objectMapper));
         Set<String> ecNumbers = extractEcs(uniObj);
+        Set<String> ruleIds = getRuleIds(uniObj);
 
         // build the solr document
         UniRuleDocument.UniRuleDocumentBuilder builder = UniRuleDocument.builder();
-        builder.uniRuleId(uniRuleId).featureTypes(featureTypes);
+        builder.uniRuleId(uniRuleId).allRuleIds(ruleIds).featureTypes(featureTypes);
         builder.conditionValues(conditionValues);
         builder.keywords(keywords).geneNames(geneNames);
         builder.goTerms(goTerms).proteinNames(proteinNames);
