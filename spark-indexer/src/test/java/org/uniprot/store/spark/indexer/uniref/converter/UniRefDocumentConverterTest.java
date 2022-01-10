@@ -14,6 +14,8 @@ import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
 import org.uniprot.core.impl.SequenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcIdBuilder;
 import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
+import org.uniprot.core.uniprotkb.taxonomy.Organism;
+import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
 import org.uniprot.core.uniref.*;
 import org.uniprot.core.uniref.impl.*;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
@@ -123,14 +125,16 @@ class UniRefDocumentConverterTest {
         UniRefMember member = getUniRefMember(type);
         RepresentativeMember representativeMember = getRepresentativeMember(type);
 
+        Organism commonOrganism =
+                new OrganismBuilder().taxonId(3L).scientificName("UniRefCommonTaxon").build();
+
         return new UniRefEntryBuilder()
                 .id("UniRef100_id")
                 .name("cluster name")
                 .memberCount(2)
                 .updated(LocalDate.of(2020, 2, 22))
                 .entryType(UniRefType.UniRef100)
-                .commonTaxonId(3L)
-                .commonTaxon("UniRefCommonTaxon")
+                .commonTaxon(commonOrganism)
                 .goTermsAdd(
                         new GeneOntologyEntryBuilder().aspect(GoAspect.COMPONENT).id("id").build())
                 .representativeMember(representativeMember)

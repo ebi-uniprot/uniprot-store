@@ -39,8 +39,8 @@ class DatasetUniRefEntryConverterTest {
         assertEquals("2019-10-01", entry.getUpdated().toString());
 
         // properties
-        assertEquals("common taxon Value", entry.getCommonTaxon());
-        assertEquals(9606, entry.getCommonTaxonId());
+        assertEquals(9606L, entry.getCommonTaxon().getTaxonId());
+        assertEquals("common taxon Value", entry.getCommonTaxon().getScientificName());
         assertEquals(10, entry.getMemberCount());
         assertEquals(3, entry.getGoTerms().size());
         GeneOntologyEntry goTerm = entry.getGoTerms().get(0);

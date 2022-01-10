@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.uniref.converter;
 
+import static org.uniprot.core.uniref.UniRefUtils.getOrganismCommonName;
+import static org.uniprot.core.uniref.UniRefUtils.getOrganismScientificName;
 import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
 import static org.uniprot.store.spark.indexer.uniref.UniRefXmlUtils.*;
 import static org.uniprot.store.spark.indexer.uniref.converter.DatasetUniRefConverterUtil.*;
@@ -14,6 +16,7 @@ import java.util.Map;
 
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
+import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
 import org.uniprot.core.uniref.*;
 import org.uniprot.core.uniref.impl.*;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
@@ -59,13 +62,16 @@ public class DatasetUniRefEntryConverter implements Function<Row, UniRefEntry>, 
                 String memberCount = propertyMap.get(PROPERTY_MEMBER_COUNT).get(0);
                 builder.memberCount(Integer.parseInt(memberCount));
             }
-            if (propertyMap.containsKey(PROPERTY_COMMON_TAXON)) {
-                String commonTaxon = propertyMap.get(PROPERTY_COMMON_TAXON).get(0);
-                builder.commonTaxon(commonTaxon);
-            }
             if (propertyMap.containsKey(PROPERTY_COMMON_TAXON_ID)) {
+                OrganismBuilder organismBuilder = new OrganismBuilder();
                 String commonTaxonId = propertyMap.get(PROPERTY_COMMON_TAXON_ID).get(0);
-                builder.commonTaxonId(Long.valueOf(commonTaxonId));
+                organismBuilder.taxonId(Long.parseLong(commonTaxonId));
+                if (propertyMap.containsKey(PROPERTY_COMMON_TAXON)) {
+                    String commonTaxon = propertyMap.get(PROPERTY_COMMON_TAXON).get(0);
+                    organismBuilder.commonName(getOrganismCommonName(commonTaxon));
+                    organismBuilder.scientificName(getOrganismScientificName(commonTaxon));
+                }
+                builder.commonTaxon(organismBuilder.build());
             }
             builder.goTermsSet(convertUniRefGoTermsProperties(propertyMap));
         }

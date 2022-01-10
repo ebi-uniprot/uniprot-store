@@ -10,6 +10,8 @@ import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
 import org.uniprot.core.impl.SequenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcIdBuilder;
 import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
+import org.uniprot.core.uniprotkb.taxonomy.Organism;
+import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
 import org.uniprot.core.uniref.*;
 import org.uniprot.core.uniref.impl.*;
 
@@ -51,13 +53,15 @@ public class UniRefEntryMocker {
 
         UniRefEntryId entryId = new UniRefEntryIdBuilder(getName(idRef, i)).build();
 
+        Organism commonOrganism =
+                new OrganismBuilder().taxonId(9606L).scientificName("Homo sapiens").build();
+
         return new UniRefEntryBuilder()
                 .id(entryId)
                 .name(getName(NAME_PREF, i))
                 .updated(LocalDate.of(2019, 8, 27))
                 .entryType(type)
-                .commonTaxonId(9606L)
-                .commonTaxon("Homo sapiens")
+                .commonTaxon(commonOrganism)
                 .seedId(getName(ACC_2_PREF, i))
                 .representativeMember(createReprestativeMember(i))
                 .membersAdd(createMember(i))
