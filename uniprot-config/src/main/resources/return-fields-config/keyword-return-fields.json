@@ -36,15 +36,6 @@
     "parentId": "keyword",
     "childNumber": 2,
     "itemType": "SINGLE",
-    "label": "Keyword",
-    "name": "keyword",
-    "paths" : ["keyword"],
-    "id": "keyword/keyword"
-  },
-  {
-    "parentId": "keyword",
-    "childNumber": 3,
-    "itemType": "SINGLE",
     "includeInSwagger": true,
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 2,
@@ -55,7 +46,7 @@
   },
   {
     "parentId": "keyword",
-    "childNumber": 4,
+    "childNumber": 3,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "isDefaultForTsv": true,
@@ -67,7 +58,7 @@
   },
   {
     "parentId": "keyword",
-    "childNumber": 5,
+    "childNumber": 4,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "label": "Synonyms",
@@ -77,7 +68,7 @@
   },
   {
     "parentId": "keyword",
-    "childNumber": 6,
+    "childNumber": 5,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "label": "Gene Ontologies",
@@ -87,7 +78,7 @@
   },
   {
     "parentId": "keyword",
-    "childNumber": 7,
+    "childNumber": 6,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "label": "Links",
@@ -97,7 +88,7 @@
   },
   {
     "parentId": "keyword",
-    "childNumber": 8,
+    "childNumber": 7,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "label": "Children",
@@ -107,7 +98,7 @@
   },
   {
     "parentId": "keyword",
-    "childNumber": 9,
+    "childNumber": 8,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "label": "Parents",
@@ -117,7 +108,7 @@
   },
   {
     "parentId": "keyword",
-    "childNumber": 10,
+    "childNumber": 9,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "label": "Statistics",

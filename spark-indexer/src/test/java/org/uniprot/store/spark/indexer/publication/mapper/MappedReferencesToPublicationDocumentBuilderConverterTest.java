@@ -189,7 +189,6 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
                                 new CommunityAnnotationBuilder().comment("cmValue").build())
                         .build());
 
-
         Tuple2<String, Iterable<MappedReference>> tuple = new Tuple2<>(accPub, mappedReferences);
         Tuple2<String, PublicationDocument.Builder> result = mapper.call(tuple);
         assertNotNull(result);
@@ -205,5 +204,4 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
         assertNotNull(doc.getPublicationMappedReferences());
         assertEquals(1, doc.getMainType());
     }
-
 }
