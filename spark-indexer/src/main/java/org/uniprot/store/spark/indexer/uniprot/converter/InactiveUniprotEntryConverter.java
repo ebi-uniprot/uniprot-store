@@ -24,14 +24,11 @@ public class InactiveUniprotEntryConverter
         if (Utils.notNull(source.getUniProtkbId())) {
             document.id = source.getUniProtkbId().getValue();
             if (!type.equals(InactiveReasonType.DEMERGED)) {
-                document.idDefault = source.getUniProtkbId().getValue();
+                document.idInactive = source.getUniProtkbId().getValue();
             }
         }
 
-        if (type.equals(InactiveReasonType.DELETED)) {
-            document.content.add(source.getPrimaryAccession().getValue());
-        }
-        document.inactiveReason = type.getDisplayName();
+       document.inactiveReason = type.getDisplayName();
         if (Utils.notNullNotEmpty(inactiveReason.getMergeDemergeTos())) {
             document.inactiveReason += ":" + String.join(",", inactiveReason.getMergeDemergeTos());
         }

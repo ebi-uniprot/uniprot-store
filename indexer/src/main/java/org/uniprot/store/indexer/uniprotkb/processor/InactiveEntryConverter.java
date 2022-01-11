@@ -20,12 +20,10 @@ public class InactiveEntryConverter
         if (Utils.notNull(source.getId())) {
             document.id = source.getId();
             if (!source.getReason().equalsIgnoreCase("demerged")) {
-                document.idDefault = source.getId();
+                document.idInactive = source.getId();
             }
         }
-        if (source.getReason().equalsIgnoreCase("deleted")) {
-            document.content.add(source.getAccession());
-        }
+
         document.inactiveReason = source.getInactiveReason();
         document.active = false;
 

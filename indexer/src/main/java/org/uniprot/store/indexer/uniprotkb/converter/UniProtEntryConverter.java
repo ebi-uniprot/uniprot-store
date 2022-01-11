@@ -186,6 +186,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
                 // we do not want false boosting for default searches that match a substring of
                 // the accession
                 document.idDefault = idParts[1];
+                document.content.add(uniProtkbId.getValue());
             }
         }
     }

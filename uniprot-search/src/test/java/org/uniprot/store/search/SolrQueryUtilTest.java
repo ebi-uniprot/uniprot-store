@@ -114,6 +114,20 @@ class SolrQueryUtilTest {
     }
 
     @Test
+    void hasNegativeWithExclamationTermSuccess() {
+        String inputQuery = "!(organism:Human)";
+        boolean result = SolrQueryUtil.hasNegativeTerm(inputQuery);
+        assertTrue(result);
+    }
+
+    @Test
+    void hasNegativeWithDashTermSuccess() {
+        String inputQuery = "-(organism:Human)";
+        boolean result = SolrQueryUtil.hasNegativeTerm(inputQuery);
+        assertTrue(result);
+    }
+
+    @Test
     void hasNegativeTermSuccess() {
         String inputQuery = "NOT (organism:Human)";
         boolean result = SolrQueryUtil.hasNegativeTerm(inputQuery);

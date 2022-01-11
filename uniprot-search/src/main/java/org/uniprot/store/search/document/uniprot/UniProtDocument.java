@@ -25,6 +25,9 @@ public class UniProtDocument implements Document {
     @Field("id_default")
     public String idDefault;
 
+    @Field("id_inactive")
+    public String idInactive;
+
     @Field("reviewed")
     public Boolean reviewed;
 
