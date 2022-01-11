@@ -25,7 +25,7 @@ public class GOEvidencesFileMapper implements PairFunction<String, String, GOEvi
     private static final long serialVersionUID = -1281122340563894280L;
     private final GOEvidences evidenceInstance;
 
-    public GOEvidencesFileMapper(){
+    public GOEvidencesFileMapper() {
         this.evidenceInstance = GOEvidences.INSTANCE;
     }
 
@@ -44,8 +44,10 @@ public class GOEvidencesFileMapper implements PairFunction<String, String, GOEvi
             Evidence evidence;
             try {
                 evidence = EvidenceHelper.parseEvidenceLine(evidenceValue);
-            } catch(IllegalArgumentException ile){
-                throw new IllegalArgumentException("Failed parsing line " + line + " with uniProtEcoId is " + uniProtECOId, ile);
+            } catch (IllegalArgumentException ile) {
+                throw new IllegalArgumentException(
+                        "Failed parsing line " + line + " with uniProtEcoId is " + uniProtECOId,
+                        ile);
             }
             return new Tuple2<>(accession, new GOEvidence(goId, evidence));
         } else {
@@ -59,7 +61,9 @@ public class GOEvidencesFileMapper implements PairFunction<String, String, GOEvi
                 .filter(evCode -> ecoId.equalsIgnoreCase(evCode.getCode()))
                 .findFirst()
                 .map(EvidenceCode::getCode)
-                .orElse(this.evidenceInstance.convertGAFToECO(ecoCode)
+                .orElse(
+                        this.evidenceInstance
+                                .convertGAFToECO(ecoCode)
                                 .orElse("")); // get by ECO code like IMP
     }
 }
