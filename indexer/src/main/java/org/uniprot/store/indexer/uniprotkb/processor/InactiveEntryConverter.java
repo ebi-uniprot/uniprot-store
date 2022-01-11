@@ -23,11 +23,7 @@ public class InactiveEntryConverter
                 document.idInactive = source.getId();
             }
         }
-        // TODO: 17/12/2021 no need to add accession to content when already added to accession
-        // field in document.
-        //        if (source.getReason().equalsIgnoreCase("deleted")) {
-        //            document.content.add(source.getAccession());
-        //        }
+
         document.inactiveReason = source.getInactiveReason();
         document.active = false;
 
