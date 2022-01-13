@@ -104,19 +104,9 @@
     "childNumber": 9,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "label": "UniProtKB reviewed (Swiss-Prot) protein count",
-    "name": "reviewed_protein_count",
-    "paths" : ["statistics.reviewedProteinCount"],
-    "id": "cross_reference/reviewed_protein_count"
-  },
-  {
-    "parentId": "cross_reference",
-    "childNumber": 10,
-    "itemType": "SINGLE",
-    "includeInSwagger": true,
-    "label": "UniProtKB unreviewed (TrEMBL) protein count",
-    "name": "unreviewed_protein_count",
-    "paths" : ["statistics.unreviewedProteinCount"],
-    "id": "cross_reference/unreviewed_protein_count"
+    "label": "UniProtKB reviewed (Swiss-Prot) & unreviewed (TrEMBL) protein count",
+    "name": "statistics",
+    "paths" : ["statistics"],
+    "id": "cross_reference/statistics"
   }
 ]

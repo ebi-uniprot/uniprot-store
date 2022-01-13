@@ -37,7 +37,7 @@
 	<field name="id_default" type="full_ci_split_numeric"
 		indexed="true" stored="false" required="false" multiValued="false" />
 	<field name="id_inactive" type="basic_ci" indexed="true"
-		   stored="false" required="false" multiValued="true" omitNorms="false" />
+		stored="false" required="false" multiValued="true" omitNorms="false" />
 	<copyField source="id" dest="id_sort" />
 
 	<field name="active" type="boolean" indexed="true" stored="true"

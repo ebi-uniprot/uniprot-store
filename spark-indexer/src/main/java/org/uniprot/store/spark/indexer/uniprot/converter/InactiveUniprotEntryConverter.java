@@ -28,7 +28,7 @@ public class InactiveUniprotEntryConverter
             }
         }
 
-       document.inactiveReason = type.getDisplayName();
+        document.inactiveReason = type.getDisplayName();
         if (Utils.notNullNotEmpty(inactiveReason.getMergeDemergeTos())) {
             document.inactiveReason += ":" + String.join(",", inactiveReason.getMergeDemergeTos());
         }
