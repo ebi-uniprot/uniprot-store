@@ -1,14 +1,14 @@
 package org.uniprot.store.indexer.uniprotkb.processor;
 
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.util.Utils;
-import org.uniprot.store.indexer.uniprot.inactiveentry.InactiveUniProtEntry;
-import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.util.Utils;
+import org.uniprot.store.indexer.uniprot.inactiveentry.InactiveUniProtEntry;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
