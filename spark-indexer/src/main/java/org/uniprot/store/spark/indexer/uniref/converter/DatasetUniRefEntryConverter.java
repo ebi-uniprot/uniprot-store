@@ -59,18 +59,19 @@ public class DatasetUniRefEntryConverter implements Function<Row, UniRefEntry>, 
         if (hasFieldName(PROPERTY, rowValue)) {
             Map<String, List<String>> propertyMap = RowUtils.convertProperties(rowValue);
             if (propertyMap.containsKey(PROPERTY_MEMBER_COUNT)) {
-                String memberCount = propertyMap.get(PROPERTY_MEMBER_COUNT).get(0);
-                builder.memberCount(Integer.parseInt(memberCount));
+                String memberCountStr = propertyMap.get(PROPERTY_MEMBER_COUNT).get(0);
+                int memberCount = Integer.parseInt(memberCountStr);
+                builder.memberCount(memberCount);
             }
             if (propertyMap.containsKey(PROPERTY_COMMON_TAXON_ID)) {
                 OrganismBuilder organismBuilder = new OrganismBuilder();
-                String commonTaxonId = propertyMap.get(PROPERTY_COMMON_TAXON_ID).get(0);
-                organismBuilder.taxonId(Long.parseLong(commonTaxonId));
                 if (propertyMap.containsKey(PROPERTY_COMMON_TAXON)) {
                     String commonTaxon = propertyMap.get(PROPERTY_COMMON_TAXON).get(0);
                     organismBuilder.commonName(getOrganismCommonName(commonTaxon));
                     organismBuilder.scientificName(getOrganismScientificName(commonTaxon));
                 }
+                String commonTaxonId = propertyMap.get(PROPERTY_COMMON_TAXON_ID).get(0);
+                organismBuilder.taxonId(Long.parseLong(commonTaxonId));
                 builder.commonTaxon(organismBuilder.build());
             }
             builder.goTermsSet(convertUniRefGoTermsProperties(propertyMap));
