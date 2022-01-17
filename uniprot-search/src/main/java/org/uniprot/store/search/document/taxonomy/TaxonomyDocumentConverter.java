@@ -20,9 +20,6 @@ public class TaxonomyDocumentConverter {
     }
 
     public TaxonomyDocument.TaxonomyDocumentBuilder convert(TaxonomyEntry entry) {
-        if (entry.getTaxonId() == 1L) {
-            return null;
-        }
         TaxonomyDocument.TaxonomyDocumentBuilder documentBuilder = TaxonomyDocument.builder();
         documentBuilder.id(String.valueOf(entry.getTaxonId()));
         documentBuilder.taxId(entry.getTaxonId());

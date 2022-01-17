@@ -31,6 +31,9 @@ public class TaxonomyEntryToDocumentMapper
     public TaxonomyDocument call(Tuple2<TaxonomyEntry, Optional<TaxonomyStatisticsWrapper>> tuple2)
             throws Exception {
         TaxonomyEntry entry = tuple2._1;
+        if (entry.getTaxonId() == 1L) {
+            return null;
+        }
         List<String> taxonomiesWith = new ArrayList<>();
         if (tuple2._2.isPresent()) {
             TaxonomyStatisticsWrapper statisticsWrapper = tuple2._2.get();
