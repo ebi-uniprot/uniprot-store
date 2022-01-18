@@ -38,24 +38,14 @@
     "childNumber": 2,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "label": "UniProtKB reviewed (Swiss-Prot) protein count",
-    "name": "reviewed_protein_count",
-    "paths" : ["statistics.reviewedProteinCount"],
-    "id": "reviewed_protein_count"
+    "label": "UniProtKB reviewed (Swiss-Prot) & unreviewed (TrEMBL) protein count",
+    "name": "statistics",
+    "paths" : ["statistics"],
+    "id": "statistics"
   },
   {
     "parentId": "unirule",
     "childNumber": 3,
-    "itemType": "SINGLE",
-    "includeInSwagger": true,
-    "label": "UniProtKB unreviewed (TrEMBL) protein count",
-    "name": "unreviewed_protein_count",
-    "paths" : ["statistics.unreviewedProteinCount"],
-    "id": "unreviewed_protein_count"
-  },
-  {
-    "parentId": "unirule",
-    "childNumber": 4,
     "itemType": "SINGLE",
     "name": "taxonomic_scope",
     "label": "Taxonomic scope",
@@ -64,7 +54,7 @@
   },
   {
     "parentId": "unirule",
-    "childNumber": 5,
+    "childNumber": 4,
     "itemType": "SINGLE",
     "name": "annotation_covered",
     "label": "Annotation covered",
@@ -73,7 +63,7 @@
   },
   {
     "parentId": "unirule",
-    "childNumber": 6,
+    "childNumber": 5,
     "itemType": "SINGLE",
     "name": "predicted_protein_name",
     "label": "Predicted protein name",
