@@ -1,3 +1,8 @@
+DECLARE uniprot_release_number VARCHAR2(7);
+BEGIN
+SELECT uniprot_release into uniprot_release_number from sptr.current_release;
+END;
+
 CREATE MATERIALIZED VIEW MV_DATA_SOURCE_STATS AS
 
 -- Cross Ref Begins
@@ -7,7 +12,8 @@ SELECT 'Cross Ref'                          AS data_type,
        reviewed_protein_count,
        unreviewed_protein_count,
        NULL                                 AS referenced_proteome_count,
-       NULL                                 AS proteome_count
+       NULL                                 AS proteome_count,
+       :uniprot_release_number              AS release_number
 FROM (
          SELECT dn.abbreviation              AS id,
                 count(DISTINCT db.accession) AS reviewed_protein_count
@@ -43,7 +49,8 @@ SELECT 'Subcellular Location'               AS data_type,
        r.reviewedProteinCount               AS reviewed_protein_count,
        u.unreviewedProteinCount             AS unreviewed_protein_count,
        NULL                                 AS referenced_proteome_count,
-       NULL                                 AS proteome_count
+       NULL                                 AS proteome_count,
+       :uniprot_release_number              AS release_number
 FROM (
          SELECT text        identifier,
                 count(1) AS reviewedProteinCount
@@ -120,7 +127,8 @@ SELECT 'Taxonomy'                   AS data_type,
        r.reviewedProteinCount       AS reviewed_protein_count,
        u.unreviewedProteinCount     AS unreviewed_protein_count,
        pr.referenceProteomeCount    AS referenced_proteome_count,
-       pc.proteomeCount             AS proteome_count
+       pc.proteomeCount             AS proteome_count,
+       :uniprot_release_number      AS release_number
 FROM (
          SELECT tax_id,
                 count(1) AS reviewedProteinCount
@@ -166,7 +174,8 @@ SELECT 'Disease'          AS data_type,
        COUNT(ACCESSION)   AS reviewed_protein_count,
        NULL               AS unreviewed_protein_count,
        NULL               AS referenced_proteome_count,
-       NULL               AS proteome_count
+       NULL               AS proteome_count,
+       :uniprot_release_number              AS release_number
 FROM (
          SELECT DISTINCT db.ACCESSION,
                          db.ENTRY_TYPE,
@@ -198,7 +207,8 @@ SELECT 'Keyword'                          AS data_type,
        r.reviewedProteinCount             AS reviewed_protein_count,
        u.unreviewedProteinCount           AS unreviewed_protein_count,
        NULL                               AS referenced_proteome_count,
-       NULL                               AS proteome_count
+       NULL                               AS proteome_count,
+       :uniprot_release_number            AS release_number
 FROM (
          SELECT kw.accession,
                 count(1) AS unreviewedProteinCount
@@ -230,7 +240,8 @@ SELECT 'Keyword'                          AS data_type,
        r.reviewedProteinCount             AS reviewed_protein_count,
        u.unreviewedProteinCount           AS unreviewed_protein_count,
        NULL                               AS referenced_proteome_count,
-       NULL                               AS proteome_count
+       NULL                               AS proteome_count,
+       :uniprot_release_number            AS release_number
 FROM (
          SELECT category.accession,
                 count(DISTINCT db.accession) AS reviewedProteinCount
@@ -296,7 +307,8 @@ SELECT 'Literature'                         AS data_type,
        r.reviewedProteinCount               AS reviewed_protein_count,
        u.unreviewedProteinCount             AS unreviewed_protein_count,
        NULL                                 AS referenced_proteome_count,
-       NULL                                 AS proteome_count
+       NULL                                 AS proteome_count,
+       :uniprot_release_number              AS release_number
 FROM (
          SELECT p2d.primary_id,
                 count(*) AS unreviewedProteinCount
@@ -334,7 +346,8 @@ SELECT 'UniRule'                            AS data_type,
        reviewed.reviewed_protein_count      AS reviewed_protein_count,
        unreviewed.unreviewed_protein_count  AS unreviewed_protein_count,
        NULL                                 AS referenced_proteome_count,
-       NULL                                 AS proteome_count
+       NULL                                 AS proteome_count,
+       :uniprot_release_number              AS release_number
 FROM (
          SELECT aar.source_id                 AS id,
                 count(DISTINCT aar.accession) AS unreviewed_protein_count
@@ -370,7 +383,8 @@ SELECT 'ARBA'                               AS data_type,
         NULL                                AS reviewed_protein_count,
         count(DISTINCT accession)         	AS unreviewed_protein_count,
         NULL                                AS referenced_proteome_count,
-        NULL                                AS proteome_count
+        NULL                                AS proteome_count,
+       :uniprot_release_number              AS release_number
 FROM
     (
         SELECT
