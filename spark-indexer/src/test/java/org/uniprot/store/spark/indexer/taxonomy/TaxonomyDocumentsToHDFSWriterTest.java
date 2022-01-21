@@ -116,8 +116,10 @@ class TaxonomyDocumentsToHDFSWriterTest {
         assertTrue(document.getOtherNames().contains("second name"));
 
         assertNotNull(document.getTaxonomiesWith());
+        assertEquals(5, document.getTaxonomiesWith().size());
         assertTrue(document.getTaxonomiesWith().contains("1_uniprotkb"));
         assertTrue(document.getTaxonomiesWith().contains("2_reviewed"));
+        assertTrue(document.getTaxonomiesWith().contains("3_unreviewed"));
         assertTrue(document.getTaxonomiesWith().contains("4_reference"));
         assertTrue(document.getTaxonomiesWith().contains("5_proteome"));
 

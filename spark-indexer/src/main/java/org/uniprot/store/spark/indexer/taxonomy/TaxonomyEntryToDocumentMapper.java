@@ -43,10 +43,11 @@ public class TaxonomyEntryToDocumentMapper
                 taxonomiesWith.add("1_uniprotkb");
                 taxonomiesWith.add("2_reviewed");
             }
-            if (statisticsWrapper.isOrganismUnreviewedProtein()
-                    && !statisticsWrapper.isOrganismUnreviewedProtein()) {
-                taxonomiesWith.add("1_uniprotkb");
+            if (statisticsWrapper.isOrganismUnreviewedProtein()) {
                 taxonomiesWith.add("3_unreviewed");
+                if (!statisticsWrapper.isOrganismReviewedProtein()) {
+                    taxonomiesWith.add("1_uniprotkb");
+                }
             }
             if (statistics.hasReferenceProteomeCount()) {
                 taxonomiesWith.add("4_reference");
