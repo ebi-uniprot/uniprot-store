@@ -101,6 +101,15 @@
     "example": "false"
   },
   {
+    "id": "excluded",
+    "fieldName": "excluded",
+    "fieldType": "GENERAL",
+    "validRegex": "^true|false$",
+    "dataType": "BOOLEAN",
+    "description": "Search if excluded",
+    "example": "false"
+  },
+  {
     "seqNumber": 2,
     "id": "organism_name",
     "fieldName": "organism_name",
