@@ -91,7 +91,7 @@
     "childNumber": 7,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "label": "UniProtKB reviewed (Swiss-Prot) & unreviewed (TrEMBL) protein count",
+    "label": "Statistics",
     "name": "statistics",
     "paths" : ["statistics"],
     "id": "disease/statistics"

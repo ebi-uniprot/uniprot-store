@@ -24,7 +24,7 @@
     "parentId": "arba",
     "childNumber": 1,
     "itemType": "SINGLE",
-    "label": "UniProtKB reviewed (Swiss-Prot) & unreviewed (TrEMBL) protein count",
+    "label": "Statistics",
     "name": "statistics",
     "paths" : ["statistics"],
     "id": "statistics"
