@@ -9,8 +9,10 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.graphx.Edge;
 import org.apache.spark.graphx.EdgeDirection;
 import org.apache.spark.graphx.Graph;
+import org.apache.spark.sql.SparkSession;
 import org.apache.spark.storage.StorageLevel;
 import org.uniprot.core.cv.chebi.ChebiEntry;
+import org.uniprot.store.spark.indexer.chebi.mapper.*;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
@@ -19,8 +21,10 @@ import scala.Tuple2;
 import scala.reflect.ClassTag;
 
 /**
- * ChebiRDDReader loads CHEBI data and also its related ids "is_a". This is a graph structure, and
- * we use Apache Spark GraphX library to load it.
+ * ChebiRDDReader loads CHEBI data and also its related ids "is_a","is_conjugate_base_of" and
+ * "has_major_microspecies_at_pH_7_3" from chebi.obo file. It also loads extra relatedIds from
+ * chebi_pH7_3_mapping.tsv file. Chebi data is a graph structure, and we use Apache Spark GraphX
+ * library to load it.
  *
  * <p>Bellow is the link that explain how Apache Spark GraphX works, and also gives more detail
  * about the pregel algorithm, that we use build the complete graph with all related ids.
@@ -47,13 +51,59 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
         ResourceBundle config = jobParameter.getApplicationConfig();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
         String filePath = releaseInputDir + config.getString("chebi.file.path");
+        String ph7MappingPath = releaseInputDir + config.getString("chebi.ph7.mapping.file.path");
 
         jobParameter
                 .getSparkContext()
                 .hadoopConfiguration()
                 .set("textinputformat.record.delimiter", "\n\n");
 
+        JavaPairRDD<Long, ChebiEntry> chebiRDD = loadChebiRDD(filePath);
+
+        // JavaPairRDD<chebiId, Iterable<relatedChebiEntry>>
+        JavaPairRDD<Long, Iterable<ChebiEntry>> relatedChebi =
+                loadRelatedIdsRDD(chebiRDD, ph7MappingPath);
+
+        // JavaPairRDD<chebiId, ChebiEntry>
         JavaRDD<Tuple2<Object, ChebiEntry>> vertices =
+                chebiRDD.leftOuterJoin(relatedChebi)
+                        .values() // Tuple2<ChebiEntry, Optional<Iterable<ChebiRelatedEntry>>>
+                        .map(new ChebiRelatedIdsJoinMapper());
+
+        vertices = loadChebiGraph(vertices, MAX_GRAPH_LOAD_CYCLE);
+
+        return vertices.mapToPair(new ChebiPairMapper());
+    }
+
+    /**
+     * This method load all related ids for a chebi entry.
+     *
+     * @param chebiRDD chebiRDD to extract related ids.
+     * @param ph7MappingPath chebi_pH7_3_mapping.tsv file path (extracted from
+     *     application.properties)
+     * @return JavaPairRDD<chebiId,Iterable<ChebiRelatedEntry>>
+     */
+    private JavaPairRDD<Long, Iterable<ChebiEntry>> loadRelatedIdsRDD(
+            JavaPairRDD<Long, ChebiEntry> chebiRDD, String ph7MappingPath) {
+        // JavaPairRDD<relatedId,chebiId>
+        JavaPairRDD<Long, Long> relatedIdRdd =
+                chebiRDD.values()
+                        .flatMapToPair(new ChebiRelatedIdsMapper())
+                        .union(loadChebiPH7RelatedMapping(ph7MappingPath));
+
+        return chebiRDD.join(relatedIdRdd) // Tuple2<relatedId, Tuple2<RelatedChebiEntry, chebiId>>>
+                .mapToPair(new ChebiRelatedChebiMapper()) // Tuple2<ChebiId, RelatedChebiEntry>
+                .groupByKey(); //  JavaPairRDD<chebiId,Iterable<ChebiRelatedEntry>>
+    }
+
+    /**
+     * This method load chebi.obo file into JavaPairRDD of chebi entries.
+     *
+     * @param filePath chebi.obo file path (extracted from application.properties)
+     * @return return JavaPairRDD<chebiId,ChebiEntry>
+     */
+    private JavaPairRDD<Long, ChebiEntry> loadChebiRDD(String filePath) {
+        JavaPairRDD<Long, ChebiEntry> chebiRDD =
                 jobParameter
                         .getSparkContext()
                         .textFile(filePath)
@@ -61,11 +111,29 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
                                 input ->
                                         !input.startsWith("format-version")
                                                 && !input.startsWith("[Typedef]"))
-                        .map(new ChebiFileMapper());
+                        .mapToPair(new ChebiFileMapper());
+        return chebiRDD;
+    }
 
-        vertices = loadChebiGraph(vertices, MAX_GRAPH_LOAD_CYCLE);
+    /**
+     * This method load chebi_pH7_3_mapping.tsv file into JavaPairRDD of chebiId and its relatedId.
+     *
+     * @param path chebi.obo file path (extracted from application.properties)
+     * @return return JavaPairRDD<chebiRelatedId,chebiId>
+     */
+    private JavaPairRDD<Long, Long> loadChebiPH7RelatedMapping(String path) {
+        SparkSession session =
+                SparkSession.builder()
+                        .sparkContext(jobParameter.getSparkContext().sc())
+                        .getOrCreate();
 
-        return vertices.mapToPair(new ChebiPairMapper());
+        return session.read()
+                .option("delimiter", "\t")
+                .option("header", "true")
+                .csv(path)
+                .toJavaRDD()
+                .mapToPair(new ChebiPH7RelatedMapper())
+                .filter(tuple -> !tuple._1.equals(tuple._2));
     }
 
     /**

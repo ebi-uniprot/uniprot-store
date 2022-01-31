@@ -41,36 +41,12 @@ class ChebiRDDReaderTest {
             JavaPairRDD<String, ChebiEntry> chebiRdd = reader.load();
             assertNotNull(chebiRdd);
             long count = chebiRdd.count();
-            assertEquals(17L, count);
-            Tuple2<String, ChebiEntry> tuple =
-                    chebiRdd.filter(tuple2 -> tuple2._1.equals("16526")).first();
+            assertEquals(28L, count);
+            // 16526
+            validateChebiWithMultiplesIsARelationAndMicrospeciesRelations(chebiRdd);
 
-            assertNotNull(tuple);
-            assertEquals("16526", tuple._1);
-            ChebiEntry entry = tuple._2;
-            assertEquals("16526", entry.getId());
-            assertEquals("carbon dioxide", entry.getName());
-            assertEquals("CURLTUGMZLYLDI-UHFFFAOYSA-N", entry.getInchiKey());
-
-            assertNotNull(entry.getRelatedIds());
-            assertEquals(11, entry.getRelatedIds().size());
-            List<String> relatedIds =
-                    entry.getRelatedIds().stream()
-                            .map(ChebiEntry::getId)
-                            .collect(Collectors.toList());
-            assertTrue(relatedIds.contains("138675"));
-
-            assertTrue(relatedIds.contains("1000"));
-            assertTrue(relatedIds.contains("1100"));
-            assertTrue(relatedIds.contains("1200"));
-            assertTrue(relatedIds.contains("1300"));
-            assertTrue(relatedIds.contains("1400"));
-            assertTrue(relatedIds.contains("1500"));
-
-            assertTrue(relatedIds.contains("2200"));
-            assertTrue(relatedIds.contains("2300"));
-            assertTrue(relatedIds.contains("2400"));
-            assertTrue(relatedIds.contains("2500"));
+            // 24867
+            validateChebiWithIsARelationAndConjugateRelations(chebiRdd);
         }
     }
 
@@ -92,6 +68,79 @@ class ChebiRDDReaderTest {
                             SparkIndexException.class, () -> reader.loadChebiGraph(vertices, 6));
             assertNotNull(exception);
         }
+    }
+
+    private void validateChebiWithMultiplesIsARelationAndMicrospeciesRelations(
+            JavaPairRDD<String, ChebiEntry> chebiRdd) {
+        Tuple2<String, ChebiEntry> tuple =
+                chebiRdd.filter(tuple2 -> tuple2._1.equals("16526")).first();
+
+        assertNotNull(tuple);
+        assertEquals("16526", tuple._1);
+        ChebiEntry entry = tuple._2;
+        assertEquals("16526", entry.getId());
+        assertEquals("carbon dioxide", entry.getName());
+        assertEquals("CURLTUGMZLYLDI-UHFFFAOYSA-N", entry.getInchiKey());
+
+        assertNotNull(entry.getRelatedIds());
+        assertEquals(15, entry.getRelatedIds().size());
+        List<String> relatedIds =
+                entry.getRelatedIds().stream().map(ChebiEntry::getId).collect(Collectors.toList());
+        assertTrue(relatedIds.contains("138675"));
+        // Can Load is_a
+        assertTrue(relatedIds.contains("1000"));
+        assertTrue(relatedIds.contains("1100"));
+        assertTrue(relatedIds.contains("1200"));
+        assertTrue(relatedIds.contains("1300"));
+        assertTrue(relatedIds.contains("1400"));
+        assertTrue(relatedIds.contains("1500"));
+
+        // Can Load is_a
+        assertTrue(relatedIds.contains("2200"));
+        assertTrue(relatedIds.contains("2300"));
+        assertTrue(relatedIds.contains("2400"));
+        assertTrue(relatedIds.contains("2500"));
+
+        // Can Load has_major_microspecies_at_pH_7_3
+        assertTrue(relatedIds.contains("4200"));
+        assertTrue(relatedIds.contains("4300"));
+        assertTrue(relatedIds.contains("4400"));
+        assertTrue(relatedIds.contains("4500"));
+    }
+
+    private void validateChebiWithIsARelationAndConjugateRelations(
+            JavaPairRDD<String, ChebiEntry> chebiRdd) {
+        Tuple2<String, ChebiEntry> tuple =
+                chebiRdd.filter(tuple2 -> tuple2._1.equals("24867")).first();
+
+        assertNotNull(tuple);
+        assertEquals("24867", tuple._1);
+        ChebiEntry entry = tuple._2;
+        assertEquals("24867", entry.getId());
+        assertEquals("monoatomic ion", entry.getName());
+        assertNull(entry.getInchiKey());
+
+        assertNotNull(entry.getRelatedIds());
+        assertEquals(13, entry.getRelatedIds().size());
+        List<String> relatedIds =
+                entry.getRelatedIds().stream().map(ChebiEntry::getId).collect(Collectors.toList());
+        // Can Load is_a
+        assertTrue(relatedIds.contains("24431"));
+        assertTrue(relatedIds.contains("23367"));
+        assertTrue(relatedIds.contains("24870"));
+        // Can Load is_a
+        assertTrue(relatedIds.contains("1000"));
+        assertTrue(relatedIds.contains("1100"));
+        assertTrue(relatedIds.contains("1200"));
+        assertTrue(relatedIds.contains("1300"));
+        assertTrue(relatedIds.contains("1400"));
+        assertTrue(relatedIds.contains("1500"));
+
+        // Can Load is_conjugate_base_of
+        assertTrue(relatedIds.contains("3200"));
+        assertTrue(relatedIds.contains("3300"));
+        assertTrue(relatedIds.contains("3400"));
+        assertTrue(relatedIds.contains("3500"));
     }
 
     private static JavaRDD<Tuple2<Object, ChebiEntry>> loadVertices(JobParameter parameter) {

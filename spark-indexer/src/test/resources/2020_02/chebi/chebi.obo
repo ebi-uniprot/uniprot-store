@@ -19,258 +19,304 @@ ontology: chebi
 [Term]
 id: CHEBI:24431
 name: chemical entity
-subset: 3_STAR
 def: "A chemical entity is a physical entity of interest in chemistry including molecular entities, parts thereof, and chemical substances." []
-synonym: "chemical entity" EXACT [UniProt]
+subset: 3_STAR
+property_value: hasId "24431" xsd:string
+property_value: hasSynonym "chemical entity" xsd:string {xref="UniProt"}
+property_value: http://purl.uniprot.org/core/name "chemical entity" xsd:string
 
 [Term]
 id: CHEBI:23367
 name: molecular entity
-subset: 3_STAR
 def: "Any constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex, conformer etc., identifiable as a separately distinguishable entity." []
-synonym: "molekulare Entitaet" RELATED [ChEBI]
-synonym: "molecular entity" EXACT IUPAC_NAME [IUPAC]
-synonym: "entite moleculaire" RELATED [IUPAC]
-synonym: "entidades moleculares" RELATED [IUPAC]
-synonym: "molecular entities" RELATED [IUPAC]
-synonym: "entidad molecular" RELATED [IUPAC]
-is_a: CHEBI:24431
+subset: 3_STAR
+is_a: CHEBI:24431 ! chemical entity
+property_value: hasId "23367" xsd:string
+property_value: hasSynonym "entidad molecular" xsd:string
+property_value: hasSynonym "entidades moleculares" xsd:string
+property_value: hasSynonym "entite moleculaire" xsd:string
+property_value: hasSynonym "molecular entities" xsd:string
+property_value: hasSynonym "molekulare Entitaet" xsd:string
+
 
 [Term]
 id: CHEBI:24870
 name: ion
-subset: 3_STAR
 def: "A molecular entity having a net electric charge." []
-synonym: "Ionen" RELATED [ChEBI]
-synonym: "Ion" EXACT [ChEBI]
-synonym: "ion" EXACT [ChEBI]
-synonym: "ion" EXACT IUPAC_NAME [IUPAC]
-synonym: "iones" RELATED [ChEBI]
-synonym: "ions" RELATED [ChEBI]
-is_a: CHEBI:23367
+subset: 3_STAR
+is_a: CHEBI:23367 ! molecular entity
+property_value: hasId "24870" xsd:string
+property_value: hasSynonym "Ion" xsd:string
+property_value: hasSynonym "ion" xsd:string
+property_value: hasSynonym "Ionen" xsd:string
+property_value: hasSynonym "iones" xsd:string
+property_value: hasSynonym "ions" xsd:string
 
 [Term]
 id: CHEBI:24867
 name: monoatomic ion
 subset: 3_STAR
-synonym: "monoatomic ions" RELATED [ChEBI]
-is_a: CHEBI:24870
-is_a: CHEBI:1000
+is_a: CHEBI:24870 ! ion
+is_a: CHEBI:1000 ! 1000-fluoroethyl methanesulfonate
+relationship: is_conjugate_base_of CHEBI:3200 ! 3200-conjugate-base-relation
+property_value: hasId "24867" xsd:string
+property_value: hasSynonym "monoatomic ions" xsd:string
+
 
 [Term]
 id: CHEBI:16526
 name: carbon dioxide
-alt_id: CHEBI:48829
-alt_id: CHEBI:13282
-alt_id: CHEBI:23011
-alt_id: CHEBI:13285
-alt_id: CHEBI:13283
-alt_id: CHEBI:13284
-alt_id: CHEBI:3283
-subset: 3_STAR
 def: "A one-carbon compound with formula CO2 in which the carbon is attached to each oxygen atom by a double bond. A colourless, odourless gas under normal conditions, it is produced during respiration by all animals, fungi and microorganisms that depend directly or indirectly on living or decaying plants for food." []
-synonym: "carbonic anhydride" RELATED [UM-BBD]
-synonym: "E 290" RELATED [ChEBI]
-synonym: "E-290" RELATED [ChEBI]
-synonym: "R-744" RELATED [ChEBI]
-synonym: "carbon dioxide" EXACT IUPAC_NAME [IUPAC]
-synonym: "E290" RELATED [ChEBI]
-synonym: "dioxidocarbon" EXACT IUPAC_NAME [IUPAC]
-synonym: "methanedione" EXACT IUPAC_NAME [IUPAC]
-synonym: "[CO2]" RELATED [MolBase]
-synonym: "CO2" RELATED [UniProt]
-synonym: "CARBON DIOXIDE" EXACT [PDBeChem]
-synonym: "CO2" RELATED [KEGG_COMPOUND]
-synonym: "Carbon dioxide" EXACT [KEGG_COMPOUND]
-property_value: http://purl.obolibrary.org/obo/chebi/formula "CO2" xsd:string
-property_value: http://purl.obolibrary.org/obo/chebi/monoisotopicmass "43.98983" xsd:string
-property_value: http://purl.obolibrary.org/obo/chebi/mass "44.010" xsd:string
-property_value: http://purl.obolibrary.org/obo/chebi/charge "0" xsd:string
-property_value: http://purl.obolibrary.org/obo/chebi/smiles "O=C=O" xsd:string
-property_value: http://purl.obolibrary.org/obo/chebi/inchikey "CURLTUGMZLYLDI-UHFFFAOYSA-N" xsd:string
-property_value: http://purl.obolibrary.org/obo/chebi/inchi "InChI=1S/CO2/c2-1-3" xsd:string
-xref: PMID:19854893 "Europe PMC"
-xref: PMID:15050588 "Europe PMC"
-xref: PMID:17448243 "Europe PMC"
-xref: MetaCyc:CARBON-DIOXIDE
-xref: PMID:16656478 "Europe PMC"
-xref: CAS:124-38-9 "ChemIDplus"
-xref: PPDB:119
-xref: Reaxys:1900390 "Reaxys"
-xref: PMID:16659660 "Europe PMC"
-xref: PMID:11584085 "Europe PMC"
-xref: PMID:17190796 "Europe PMC"
-xref: PMID:11094503 "Europe PMC"
-xref: PMID:24258718 "Europe PMC"
-xref: Gmelin:989 "Gmelin"
-xref: PMID:9611769 "Europe PMC"
-xref: PMID:23384758 "Europe PMC"
-xref: Drug_Central:4256 "DrugCentral"
-xref: Wikipedia:Carbon_dioxide
-xref: PMID:11802652 "Europe PMC"
-xref: PMID:17884085 "Europe PMC"
-xref: PMID:16591971 "Europe PMC"
-xref: CAS:124-38-9 "NIST Chemistry WebBook"
-xref: PMID:8869828 "Europe PMC"
-xref: PMID:14639145 "Europe PMC"
-xref: PMID:8482095 "Europe PMC"
-xref: PMID:17878298 "Europe PMC"
-xref: PMID:19043767 "Europe PMC"
-xref: PMID:19259576 "Europe PMC"
-xref: UM-BBD_compID:c0131 "UM-BBD"
-xref: PMID:23828359 "Europe PMC"
-xref: KEGG:D00004
+subset: 3_STAR
+xref: Beilstein:1900390
+xref: CAS:124-38-9
+xref: Drug_Central:4256
+xref: Gmelin:989
 xref: HMDB:HMDB0001967
-xref: PMID:8818713 "Europe PMC"
-xref: PMID:9730350 "Europe PMC"
-xref: PMID:10826146 "Europe PMC"
-xref: Beilstein:1900390 "Beilstein"
+xref: KEGG:C00011
+xref: KEGG:D00004
+xref: MetaCyc:CARBON-DIOXIDE
 xref: MolBase:752
 xref: PDBeChem:CO2
-xref: CAS:124-38-9 "KEGG COMPOUND"
-xref: KEGG:C00011
-relationship: has_role CHEBI:46787
-relationship: has_role CHEBI:35620
-relationship: has_role CHEBI:38867
-relationship: has_role CHEBI:48706
-relationship: has_role CHEBI:76413
-relationship: has_role CHEBI:77746
-relationship: has_role CHEBI:77974
-relationship: has_role CHEBI:78017
-relationship: has_role CHEBI:78433
-relationship: has_role CHEBI:75772
-relationship: has_role CHEBI:76971
-relationship: has_role CHEBI:75771
-is_a: CHEBI:138675
+xref: PMID:10826146
+xref: PMID:11094503
+xref: PMID:11584085
+xref: PMID:11802652
+xref: PMID:14639145
+xref: PMID:15050588
+xref: PMID:16591971
+xref: PMID:16656478
+xref: PMID:16659660
+xref: PMID:17190796
+xref: PMID:17448243
+xref: PMID:17878298
+xref: PMID:17884085
+xref: PMID:19043767
+xref: PMID:19259576
+xref: PMID:19854893
+xref: PMID:23384758
+xref: PMID:23828359
+xref: PMID:24258718
+xref: PMID:8482095
+xref: PMID:8818713
+xref: PMID:8869828
+xref: PMID:9611769
+xref: PMID:9730350
+xref: PPDB:119
+xref: Reaxys:1900390
+xref: UM-BBD_compID:c0131
+xref: Wikipedia:Carbon_dioxide
+is_a: CHEBI:138675 ! gas molecular entity
+relationship: RO:0000087 CHEBI:35620 ! vasodilator agent
+relationship: RO:0000087 CHEBI:38867 ! anaesthetic
+relationship: RO:0000087 CHEBI:46787 ! solvent
+relationship: RO:0000087 CHEBI:48706 ! antagonist
+relationship: RO:0000087 CHEBI:75771 ! mouse metabolite
+relationship: RO:0000087 CHEBI:75772 ! Saccharomyces cerevisiae metabolite
+relationship: RO:0000087 CHEBI:76413 ! greenhouse gas
+relationship: RO:0000087 CHEBI:76971 ! Escherichia coli metabolite
+relationship: RO:0000087 CHEBI:77746 ! human metabolite
+relationship: RO:0000087 CHEBI:77974 ! food packaging gas
+relationship: RO:0000087 CHEBI:78017 ! food propellant
+relationship: RO:0000087 CHEBI:78433 ! refrigerant
+property_value: hasId "16526" xsd:string
+property_value: hasSynonym "[CO2]" xsd:string
+property_value: hasSynonym "CARBON DIOXIDE" xsd:string
+property_value: hasSynonym "Carbon dioxide" xsd:string
+property_value: hasSynonym "carbonic anhydride" xsd:string
+property_value: hasSynonym "CO2" xsd:string {xref="UniProt"}
+property_value: hasSynonym "dioxidocarbon" xsd:string
+property_value: hasSynonym "E 290" xsd:string
+property_value: hasSynonym "E-290" xsd:string
+property_value: hasSynonym "E290" xsd:string
+property_value: hasSynonym "methanedione" xsd:string
+property_value: hasSynonym "R-744" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/charge "0" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/formula "CO2" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/inchi "InChI=1S/CO2/c2-1-3" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/inchikey "CURLTUGMZLYLDI-UHFFFAOYSA-N" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/smiles "O=C=O" xsd:string
+property_value: http://purl.uniprot.org/core/name "CO2" xsd:string
 
 [Term]
 id: CHEBI:15379
 name: dioxygen
-alt_id: CHEBI:7860
-alt_id: CHEBI:30491
-alt_id: CHEBI:10745
-alt_id: CHEBI:13416
-alt_id: CHEBI:25366
-alt_id: CHEBI:44742
-alt_id: CHEBI:23833
 subset: 3_STAR
-synonym: "E948" RELATED [ChEBI]
-synonym: "[OO]" RELATED [MolBase]
-synonym: "O2" RELATED [IUPAC]
-synonym: "dioxygen" EXACT IUPAC_NAME [IUPAC]
-synonym: "E 948" RELATED [ChEBI]
-synonym: "Disauerstoff" RELATED [ChEBI]
-synonym: "dioxygene" RELATED [ChEBI]
-synonym: "E-948" RELATED [ChEBI]
-synonym: "O2" RELATED [UniProt]
-synonym: "Oxygen" RELATED [KEGG_COMPOUND]
-synonym: "O2" RELATED [KEGG_COMPOUND]
-synonym: "molecular oxygen" RELATED [ChEBI]
-synonym: "OXYGEN MOLECULE" RELATED [PDBeChem]
-property_value: http://purl.obolibrary.org/obo/chebi/monoisotopicmass "31.98983" xsd:string
-property_value: http://purl.obolibrary.org/obo/chebi/mass "31.99880" xsd:string
+xref: CAS:7782-44-7
+xref: Gmelin:485
+xref: HMDB:HMDB0001377
+xref: KEGG:C00007
+xref: KEGG:D00003
+xref: MetaCyc:OXYGEN-MOLECULE
+xref: MolBase:750
+xref: PDBeChem:OXY
+xref: PMID:10906528
+xref: PMID:16977326
+xref: PMID:18210929
+xref: PMID:18638417
+xref: PMID:19840863
+xref: PMID:7710549
+xref: PMID:9463773
+xref: Wikipedia:Oxygen
+relationship: RO:0000087 CHEBI:27027 ! micronutrient
+relationship: RO:0000087 CHEBI:33284 ! nutrient
+relationship: RO:0000087 CHEBI:33893 ! reagent
+relationship: RO:0000087 CHEBI:35472 ! anti-inflammatory drug
+relationship: RO:0000087 CHEBI:63248 ! oxidising agent
+relationship: RO:0000087 CHEBI:75772 ! Saccharomyces cerevisiae metabolite
+relationship: RO:0000087 CHEBI:77746 ! human metabolite
+relationship: RO:0000087 CHEBI:77974 ! food packaging gas
+property_value: hasId "15379" xsd:string
+property_value: hasSynonym "[OO]" xsd:string
+property_value: hasSynonym "dioxygene" xsd:string
+property_value: hasSynonym "Disauerstoff" xsd:string
+property_value: hasSynonym "E 948" xsd:string
+property_value: hasSynonym "E-948" xsd:string
+property_value: hasSynonym "E948" xsd:string
+property_value: hasSynonym "molecular oxygen" xsd:string
+property_value: hasSynonym "O2" xsd:string {xref="UniProt"}
+property_value: hasSynonym "Oxygen" xsd:string
+property_value: hasSynonym "OXYGEN MOLECULE" xsd:string
 property_value: http://purl.obolibrary.org/obo/chebi/charge "0" xsd:string
 property_value: http://purl.obolibrary.org/obo/chebi/formula "O2" xsd:string
-property_value: http://purl.obolibrary.org/obo/chebi/inchikey "MYMOFIZGZYHOMD-UHFFFAOYSA-N" xsd:string
 property_value: http://purl.obolibrary.org/obo/chebi/inchi "InChI=1S/O2/c1-2" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/inchikey "MYMOFIZGZYHOMD-UHFFFAOYSA-N" xsd:string
 property_value: http://purl.obolibrary.org/obo/chebi/smiles "O=O" xsd:string
-xref: HMDB:HMDB0001377
-xref: MetaCyc:OXYGEN-MOLECULE
-xref: PMID:18638417 "Europe PMC"
-xref: PMID:19840863 "Europe PMC"
-xref: PMID:7710549 "Europe PMC"
-xref: MolBase:750
-xref: Gmelin:485 "Gmelin"
-xref: PMID:10906528 "Europe PMC"
-xref: PMID:16977326 "Europe PMC"
-xref: PMID:9463773 "Europe PMC"
-xref: CAS:7782-44-7 "NIST Chemistry WebBook"
-xref: Wikipedia:Oxygen
-xref: KEGG:D00003
-xref: PMID:18210929 "Europe PMC"
-xref: CAS:7782-44-7 "ChemIDplus"
-xref: KEGG:C00007
-xref: CAS:7782-44-7 "KEGG COMPOUND"
-xref: PDBeChem:OXY
-relationship: is_conjugate_base_of CHEBI:29793
-relationship: has_role CHEBI:35472
-relationship: has_role CHEBI:33893
-relationship: has_role CHEBI:33284
-relationship: has_role CHEBI:27027
-relationship: has_role CHEBI:63248
-relationship: has_role CHEBI:77746
-relationship: has_role CHEBI:77974
-relationship: has_role CHEBI:75772
-is_a: CHEBI:138675
+property_value: http://purl.uniprot.org/core/name "O2" xsd:string
+is_a: CHEBI:138675 ! gas molecular entity
 
 [Term]
 id: CHEBI:138675
 name: gas molecular entity
-subset: 3_STAR
 def: "Any main group molecular entity that is gaseous at standard temperature and pressure (STP; 0degreeC and 100 kPa)." []
-synonym: "gaseous molecular entity" RELATED [ChEBI]
-synonym: "gaseous molecular entities" RELATED [ChEBI]
-synonym: "gas molecular entities" RELATED [ChEBI]
-xref: Wikipedia:https://en.wikipedia.org/wiki/Gas
-is_a: CHEBI:1000
-is_a: CHEBI:2200
+subset: 3_STAR
+xref: Wikipedia:https\://en.wikipedia.org/wiki/Gas
+property_value: hasId "138675" xsd:string
+property_value: hasSynonym "gas molecular entities" xsd:string
+property_value: hasSynonym "gaseous molecular entities" xsd:string
+property_value: hasSynonym "gaseous molecular entity" xsd:string
+relationship: has_major_microspecies_at_pH_7_3 CHEBI:4200 ! 4200-major microspecies relation
+is_a: CHEBI:1000 ! 1000-fluoroethyl methanesulfonate
+is_a: CHEBI:2200 ! 2200-fluoroethyl methanesulfonate
 
 [Term]
 id: CHEBI:1000
-name: 3-chloroethyl methanesulfonate
+name: 1000-fluoroethyl methanesulfonate
 subset: 1_STAR
-is_a: CHEBI:1100
+is_a: CHEBI:1100 ! 1100-fluoroethyl methanesulfonate
 
 [Term]
 id: CHEBI:1100
-name: 2-fluoroethyl methanesulfonate
+name: 1100-fluoroethyl methanesulfonate
 subset: 1_STAR
-is_a: CHEBI:1200
+is_a: CHEBI:1200 ! 1200-fluoroethyl methanesulfonate
 
 [Term]
 id: CHEBI:1200
-name: 3-chloroethyl methanesulfonate
+name: 1200-fluoroethyl methanesulfonate
 subset: 1_STAR
-is_a: CHEBI:1300
+is_a: CHEBI:1300 ! 1300-fluoroethyl methanesulfonate
 
 [Term]
 id: CHEBI:1300
-name: 2-fluoroethyl methanesulfonate
+name: 1300-fluoroethyl methanesulfonate
 subset: 1_STAR
-is_a: CHEBI:1400
+is_a: CHEBI:1400 ! 1400-fluoroethyl methanesulfonate
 
 [Term]
 id: CHEBI:1400
-name: 3-chloroethyl methanesulfonate
+name: 1400-fluoroethyl methanesulfonate
 subset: 1_STAR
-is_a: CHEBI:1500
+is_a: CHEBI:1500 ! 1500-fluoroethyl methanesulfonate
 
 [Term]
 id: CHEBI:1500
-name: 2-fluoroethyl methanesulfonate
+name: 1500-fluoroethyl methanesulfonate
 subset: 1_STAR
 
 [Term]
 id: CHEBI:2200
-name: 2200-chloroethyl methanesulfonate
+name: 2200-fluoroethyl methanesulfonate
 subset: 1_STAR
-is_a: CHEBI:2300
+is_a: CHEBI:2300 ! 2300-fluoroethyl methanesulfonate
 
 [Term]
 id: CHEBI:2300
 name: 2300-fluoroethyl methanesulfonate
 subset: 1_STAR
-is_a: CHEBI:2400
+is_a: CHEBI:2400 ! 2400-fluoroethyl methanesulfonate
 
 [Term]
 id: CHEBI:2400
-name: 2400-chloroethyl methanesulfonate
+name: 2400-fluoroethyl methanesulfonate
 subset: 1_STAR
-is_a: CHEBI:2500
+is_a: CHEBI:2500 ! 2500-fluoroethyl methanesulfonate
 
 [Term]
 id: CHEBI:2500
 name: 2500-fluoroethyl methanesulfonate
+subset: 1_STAR
+
+[Term]
+id: CHEBI:3200
+name: 3200-conjugate-base-relation
+subset: 1_STAR
+is_a: CHEBI:3300 ! 3300-conjugate-base-relation-chain
+
+[Term]
+id: CHEBI:3300
+name: 3300-conjugate-base-relation-chain
+subset: 1_STAR
+is_a: CHEBI:3400 ! 3400-conjugate-base-relation-chain
+
+[Term]
+id: CHEBI:3400
+name: 3400-conjugate-base-relation-chain
+subset: 1_STAR
+is_a: CHEBI:3500 ! 3500-conjugate-base-relation-chain
+
+[Term]
+id: CHEBI:3500
+name: 3500-conjugate-base-relation-chain
+subset: 1_STAR
+
+[Term]
+id: CHEBI:4200
+name: 4200-major microspecies relation
+subset: 1_STAR
+property_value: http://purl.obolibrary.org/obo/chebi/inchikey "IIHHHHGGGFFFF-AABBBCCCDD-N" xsd:string
+is_a: CHEBI:4300 ! 4300-major microspecies relation-chain
+
+[Term]
+id: CHEBI:4300
+name: 4300-major microspecies relation-chain
+subset: 1_STAR
+is_a: CHEBI:4400 ! 4400-major microspecies relation-chain
+
+[Term]
+id: CHEBI:4400
+name: 4400-major microspecies relation-chain
+subset: 1_STAR
+is_a: CHEBI:4500 ! 4500-major microspecies relation-chain
+
+[Term]
+id: CHEBI:4500
+name: 4500-fluoroethyl methanesulfonate
+subset: 1_STAR
+
+[Term]
+id: CHEBI:5500
+name: 5500-ph7-tsv-chebi-mapping
+subset: 1_STAR
+
+[Term]
+id: CHEBI:5600
+name: 5600-ph7-tsv-chebi-mapping-related
+subset: 1_STAR
+
+[Term]
+id: CHEBI:5700
+name: 5700-ph7-tsv-chebi-mapping-related
 subset: 1_STAR
 
 [Typedef]
