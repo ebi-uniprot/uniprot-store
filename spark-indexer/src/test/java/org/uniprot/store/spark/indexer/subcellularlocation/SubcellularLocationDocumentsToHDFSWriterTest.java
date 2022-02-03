@@ -1,6 +1,8 @@
 package org.uniprot.store.spark.indexer.subcellularlocation;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.util.List;
+import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -15,9 +17,7 @@ import org.uniprot.store.search.document.subcell.SubcellularLocationDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.ResourceBundle;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author sahmad
@@ -47,13 +47,17 @@ class SubcellularLocationDocumentsToHDFSWriterTest {
 
     @Test
     void canIndexSubcellularLocation() throws IOException {
-        SubcellularLocationDocumentsToHDFSWriterTest.SubcellularLocationDocumentsToHDFSWriterFake writer =
-                new SubcellularLocationDocumentsToHDFSWriterFake(parameter);
+        SubcellularLocationDocumentsToHDFSWriterTest.SubcellularLocationDocumentsToHDFSWriterFake
+                writer = new SubcellularLocationDocumentsToHDFSWriterFake(parameter);
         writer.writeIndexDocumentsToHDFS();
         List<SubcellularLocationDocument> savedDocs = writer.getSavedDocuments();
         Assertions.assertNotNull(savedDocs);
         Assertions.assertEquals(520, savedDocs.size());
-        SubcellularLocationDocument membraneDoc = savedDocs.stream().filter(d -> d.getName().equalsIgnoreCase("membrane")).findFirst().get();
+        SubcellularLocationDocument membraneDoc =
+                savedDocs.stream()
+                        .filter(d -> d.getName().equalsIgnoreCase("membrane"))
+                        .findFirst()
+                        .get();
         Assertions.assertNotNull(membraneDoc);
         SubcellularLocationEntry membraneEntry = extractEntryFromDocument(membraneDoc);
         Assertions.assertNotNull(membraneEntry);
@@ -63,14 +67,16 @@ class SubcellularLocationDocumentsToHDFSWriterTest {
         Assertions.assertEquals(0L, membraneEntry.getStatistics().getUnreviewedProteinCount());
     }
 
-    SubcellularLocationEntry extractEntryFromDocument(SubcellularLocationDocument document) throws IOException {
-        ObjectMapper objectMapper = SubcellularLocationJsonConfig.getInstance().getFullObjectMapper();
+    SubcellularLocationEntry extractEntryFromDocument(SubcellularLocationDocument document)
+            throws IOException {
+        ObjectMapper objectMapper =
+                SubcellularLocationJsonConfig.getInstance().getFullObjectMapper();
         return objectMapper.readValue(
-                document.getSubcellularlocationObj(),
-                SubcellularLocationEntry.class);
+                document.getSubcellularlocationObj(), SubcellularLocationEntry.class);
     }
 
-    private static class SubcellularLocationDocumentsToHDFSWriterFake extends SubcellularLocationDocumentsToHDFSWriter {
+    private static class SubcellularLocationDocumentsToHDFSWriterFake
+            extends SubcellularLocationDocumentsToHDFSWriter {
         private List<SubcellularLocationDocument> documents;
 
         public SubcellularLocationDocumentsToHDFSWriterFake(JobParameter jobParameter) {

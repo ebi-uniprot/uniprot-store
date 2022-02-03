@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.taxonomy;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.apache.spark.api.java.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
@@ -12,9 +14,8 @@ import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.model.TaxonomyStatisticsWrapper;
-import scala.Tuple2;
 
-import static org.junit.jupiter.api.Assertions.*;
+import scala.Tuple2;
 
 class TaxonomyEntryToDocumentMapperTest {
 
@@ -22,14 +23,15 @@ class TaxonomyEntryToDocumentMapperTest {
     void canMapOrganismWithReviewedUniprotKbEntries() throws Exception {
         TaxonomyEntryToDocumentMapper mapper = new TaxonomyEntryToDocumentMapper();
         TaxonomyEntry entry = getTaxonomyEntry();
-        TaxonomyStatistics stats = new TaxonomyStatisticsBuilder()
-                .reviewedProteinCount(10L)
-                .build();
-        TaxonomyStatisticsWrapper wrapper = TaxonomyStatisticsWrapper.builder()
-                .organismReviewedProtein(true)
-                .statistics(stats)
-                .build();
-        Tuple2<TaxonomyEntry, Optional<TaxonomyStatisticsWrapper>> tuple = new Tuple2<>(entry,Optional.of(wrapper));
+        TaxonomyStatistics stats =
+                new TaxonomyStatisticsBuilder().reviewedProteinCount(10L).build();
+        TaxonomyStatisticsWrapper wrapper =
+                TaxonomyStatisticsWrapper.builder()
+                        .organismReviewedProtein(true)
+                        .statistics(stats)
+                        .build();
+        Tuple2<TaxonomyEntry, Optional<TaxonomyStatisticsWrapper>> tuple =
+                new Tuple2<>(entry, Optional.of(wrapper));
 
         TaxonomyDocument result = mapper.call(tuple);
 
@@ -46,14 +48,15 @@ class TaxonomyEntryToDocumentMapperTest {
         TaxonomyEntryToDocumentMapper mapper = new TaxonomyEntryToDocumentMapper();
 
         TaxonomyEntry entry = getTaxonomyEntry();
-        TaxonomyStatistics stats = new TaxonomyStatisticsBuilder()
-                .unreviewedProteinCount(10L)
-                .build();
-        TaxonomyStatisticsWrapper wrapper = TaxonomyStatisticsWrapper.builder()
-                .organismUnreviewedProtein(true)
-                .statistics(stats)
-                .build();
-        Tuple2<TaxonomyEntry, Optional<TaxonomyStatisticsWrapper>> tuple = new Tuple2<>(entry,Optional.of(wrapper));
+        TaxonomyStatistics stats =
+                new TaxonomyStatisticsBuilder().unreviewedProteinCount(10L).build();
+        TaxonomyStatisticsWrapper wrapper =
+                TaxonomyStatisticsWrapper.builder()
+                        .organismUnreviewedProtein(true)
+                        .statistics(stats)
+                        .build();
+        Tuple2<TaxonomyEntry, Optional<TaxonomyStatisticsWrapper>> tuple =
+                new Tuple2<>(entry, Optional.of(wrapper));
 
         TaxonomyDocument result = mapper.call(tuple);
 
@@ -70,13 +73,12 @@ class TaxonomyEntryToDocumentMapperTest {
         TaxonomyEntryToDocumentMapper mapper = new TaxonomyEntryToDocumentMapper();
 
         TaxonomyEntry entry = getTaxonomyEntry();
-        TaxonomyStatistics stats = new TaxonomyStatisticsBuilder()
-                .referenceProteomeCount(10)
-                .build();
-        TaxonomyStatisticsWrapper wrapper = TaxonomyStatisticsWrapper.builder()
-                .statistics(stats)
-                .build();
-        Tuple2<TaxonomyEntry, Optional<TaxonomyStatisticsWrapper>> tuple = new Tuple2<>(entry,Optional.of(wrapper));
+        TaxonomyStatistics stats =
+                new TaxonomyStatisticsBuilder().referenceProteomeCount(10).build();
+        TaxonomyStatisticsWrapper wrapper =
+                TaxonomyStatisticsWrapper.builder().statistics(stats).build();
+        Tuple2<TaxonomyEntry, Optional<TaxonomyStatisticsWrapper>> tuple =
+                new Tuple2<>(entry, Optional.of(wrapper));
 
         TaxonomyDocument result = mapper.call(tuple);
 
@@ -92,13 +94,11 @@ class TaxonomyEntryToDocumentMapperTest {
     void canMapOrganismWithProteome() throws Exception {
         TaxonomyEntryToDocumentMapper mapper = new TaxonomyEntryToDocumentMapper();
         TaxonomyEntry entry = getTaxonomyEntry();
-        TaxonomyStatistics stats = new TaxonomyStatisticsBuilder()
-                .proteomeCount(10)
-                .build();
-        TaxonomyStatisticsWrapper wrapper = TaxonomyStatisticsWrapper.builder()
-                .statistics(stats)
-                .build();
-        Tuple2<TaxonomyEntry, Optional<TaxonomyStatisticsWrapper>> tuple = new Tuple2<>(entry,Optional.of(wrapper));
+        TaxonomyStatistics stats = new TaxonomyStatisticsBuilder().proteomeCount(10).build();
+        TaxonomyStatisticsWrapper wrapper =
+                TaxonomyStatisticsWrapper.builder().statistics(stats).build();
+        Tuple2<TaxonomyEntry, Optional<TaxonomyStatisticsWrapper>> tuple =
+                new Tuple2<>(entry, Optional.of(wrapper));
 
         TaxonomyDocument result = mapper.call(tuple);
 
@@ -113,16 +113,19 @@ class TaxonomyEntryToDocumentMapperTest {
     void mapWithAllTaxonomiesWith() throws Exception {
         TaxonomyEntryToDocumentMapper mapper = new TaxonomyEntryToDocumentMapper();
         TaxonomyEntry entry = getTaxonomyEntry();
-        TaxonomyStatistics stats = new TaxonomyStatisticsBuilder()
-                .proteomeCount(10)
-                .referenceProteomeCount(20)
-                .build();
-        TaxonomyStatisticsWrapper wrapper = TaxonomyStatisticsWrapper.builder()
-                .organismReviewedProtein(true)
-                .organismUnreviewedProtein(true)
-                .statistics(stats)
-                .build();
-        Tuple2<TaxonomyEntry, Optional<TaxonomyStatisticsWrapper>> tuple = new Tuple2<>(entry,Optional.of(wrapper));
+        TaxonomyStatistics stats =
+                new TaxonomyStatisticsBuilder()
+                        .proteomeCount(10)
+                        .referenceProteomeCount(20)
+                        .build();
+        TaxonomyStatisticsWrapper wrapper =
+                TaxonomyStatisticsWrapper.builder()
+                        .organismReviewedProtein(true)
+                        .organismUnreviewedProtein(true)
+                        .statistics(stats)
+                        .build();
+        Tuple2<TaxonomyEntry, Optional<TaxonomyStatisticsWrapper>> tuple =
+                new Tuple2<>(entry, Optional.of(wrapper));
 
         TaxonomyDocument result = mapper.call(tuple);
 
@@ -141,19 +144,16 @@ class TaxonomyEntryToDocumentMapperTest {
     void mapWhenRootReturnNull() throws Exception {
         TaxonomyEntryToDocumentMapper mapper = new TaxonomyEntryToDocumentMapper();
 
-        TaxonomyEntry entry = new TaxonomyEntryBuilder()
-                .taxonId(1L)
-                .build();
-        Tuple2<TaxonomyEntry, Optional<TaxonomyStatisticsWrapper>> tuple = new Tuple2<>(entry,Optional.empty());
+        TaxonomyEntry entry = new TaxonomyEntryBuilder().taxonId(1L).build();
+        Tuple2<TaxonomyEntry, Optional<TaxonomyStatisticsWrapper>> tuple =
+                new Tuple2<>(entry, Optional.empty());
         TaxonomyDocument result = mapper.call(tuple);
         assertNull(result);
     }
 
     @NotNull
     private TaxonomyEntry getTaxonomyEntry() {
-        Taxonomy parent = new TaxonomyBuilder()
-                .taxonId(10L)
-                .build();
+        Taxonomy parent = new TaxonomyBuilder().taxonId(10L).build();
         return new TaxonomyEntryBuilder()
                 .taxonId(9606L)
                 .parent(parent)

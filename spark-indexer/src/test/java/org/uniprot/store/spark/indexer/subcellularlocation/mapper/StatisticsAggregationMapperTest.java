@@ -23,7 +23,8 @@ class StatisticsAggregationMapperTest {
     void testMergedStats() throws Exception {
         StatisticsAggregationMapper mapper = new StatisticsAggregationMapper();
         Statistics stats1 = new StatisticsBuilder().reviewedProteinCount(2L).build();
-        Statistics stats2 = new StatisticsBuilder().reviewedProteinCount(2L).unreviewedProteinCount(3).build();
+        Statistics stats2 =
+                new StatisticsBuilder().reviewedProteinCount(2L).unreviewedProteinCount(3).build();
         Statistics mergedStats = mapper.call(stats1, stats2);
         Assertions.assertNotNull(mergedStats);
         Assertions.assertEquals(4L, mergedStats.getReviewedProteinCount());

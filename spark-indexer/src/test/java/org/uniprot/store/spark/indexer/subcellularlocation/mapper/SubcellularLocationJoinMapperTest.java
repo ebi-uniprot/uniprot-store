@@ -1,5 +1,11 @@
 package org.uniprot.store.spark.indexer.subcellularlocation.mapper;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.Iterator;
+import java.util.ResourceBundle;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.Test;
@@ -9,13 +15,7 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
-import java.util.Iterator;
-import java.util.ResourceBundle;
-
 import scala.Tuple2;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author sahmad
