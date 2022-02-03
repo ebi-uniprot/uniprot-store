@@ -1,12 +1,12 @@
 package org.uniprot.store.spark.indexer.subcellularlocation.mapper;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.cv.subcell.SubcellularLocationFileReader;
 import org.uniprot.store.search.document.subcell.SubcellularLocationDocument;
-
-import java.util.List;
 
 /**
  * @author sahmad
@@ -34,7 +34,8 @@ class SubcellularLocationEntryToDocumentTest {
         Assertions.assertNotNull(entries);
         Assertions.assertEquals(1, entries.size());
 
-        SubcellularLocationEntryToDocument entryToDocument = new SubcellularLocationEntryToDocument();
+        SubcellularLocationEntryToDocument entryToDocument =
+                new SubcellularLocationEntryToDocument();
         SubcellularLocationDocument document = entryToDocument.call(entries.get(0));
         Assertions.assertNotNull(document);
         Assertions.assertEquals("SL-0456", document.getId());

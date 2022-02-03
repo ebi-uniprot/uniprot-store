@@ -1,13 +1,13 @@
 package org.uniprot.store.spark.indexer.subcellularlocation.mapper;
 
+import static org.uniprot.store.spark.indexer.subcellularlocation.mapper.SubcellularLocationFlatAncestorTest.createSubcellularLocationEntry;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.Statistics;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.core.cv.subcell.impl.SubcellularLocationEntryBuilder;
 import org.uniprot.core.impl.StatisticsBuilder;
-
-import static org.uniprot.store.spark.indexer.subcellularlocation.mapper.SubcellularLocationFlatAncestorTest.createSubcellularLocationEntry;
 
 /**
  * @author sahmad
@@ -28,19 +28,25 @@ class SubcellullarLocationStatisticsMergerTest {
     void testMergedSubcell() throws Exception {
         SubcellullarLocationStatisticsMerger mapper = new SubcellullarLocationStatisticsMerger();
         SubcellularLocationEntry entry1 = createSubcellularLocationEntry("SL-0001");
-        Statistics stats1 = new StatisticsBuilder().unreviewedProteinCount(3L).reviewedProteinCount(2L).build();
-        SubcellularLocationEntry entryWithStats1 = SubcellularLocationEntryBuilder.from(entry1).statistics(stats1).build();
+        Statistics stats1 =
+                new StatisticsBuilder().unreviewedProteinCount(3L).reviewedProteinCount(2L).build();
+        SubcellularLocationEntry entryWithStats1 =
+                SubcellularLocationEntryBuilder.from(entry1).statistics(stats1).build();
         SubcellularLocationEntry entry2 = createSubcellularLocationEntry("SL-0001");
-        Statistics stats2 = new StatisticsBuilder().unreviewedProteinCount(2L).reviewedProteinCount(3L).build();
-        SubcellularLocationEntry entryWithStats2 = SubcellularLocationEntryBuilder.from(entry2).statistics(stats2).build();
+        Statistics stats2 =
+                new StatisticsBuilder().unreviewedProteinCount(2L).reviewedProteinCount(3L).build();
+        SubcellularLocationEntry entryWithStats2 =
+                SubcellularLocationEntryBuilder.from(entry2).statistics(stats2).build();
         SubcellularLocationEntry mergedEntry = mapper.call(entryWithStats1, entryWithStats2);
         Assertions.assertNotNull(mergedEntry);
         Assertions.assertEquals(entry1.getId(), mergedEntry.getId());
         Assertions.assertEquals(entry1.getName(), mergedEntry.getName());
         Assertions.assertNotNull(mergedEntry.getStatistics());
-        Assertions.assertEquals(stats1.getReviewedProteinCount() + stats2.getReviewedProteinCount(),
+        Assertions.assertEquals(
+                stats1.getReviewedProteinCount() + stats2.getReviewedProteinCount(),
                 mergedEntry.getStatistics().getReviewedProteinCount());
-        Assertions.assertEquals(stats1.getUnreviewedProteinCount() + stats2.getUnreviewedProteinCount(),
+        Assertions.assertEquals(
+                stats1.getUnreviewedProteinCount() + stats2.getUnreviewedProteinCount(),
                 mergedEntry.getStatistics().getUnreviewedProteinCount());
     }
 
@@ -48,15 +54,21 @@ class SubcellullarLocationStatisticsMergerTest {
     void testMergedSubcellWithStatsMissing() throws Exception {
         SubcellullarLocationStatisticsMerger mapper = new SubcellullarLocationStatisticsMerger();
         SubcellularLocationEntry entry1 = createSubcellularLocationEntry("SL-0001");
-        Statistics stats1 = new StatisticsBuilder().unreviewedProteinCount(3L).reviewedProteinCount(2L).build();
-        SubcellularLocationEntry entryWithStats1 = SubcellularLocationEntryBuilder.from(entry1).statistics(stats1).build();
+        Statistics stats1 =
+                new StatisticsBuilder().unreviewedProteinCount(3L).reviewedProteinCount(2L).build();
+        SubcellularLocationEntry entryWithStats1 =
+                SubcellularLocationEntryBuilder.from(entry1).statistics(stats1).build();
         SubcellularLocationEntry entry2 = createSubcellularLocationEntry("SL-0001");
         SubcellularLocationEntry mergedEntry = mapper.call(entryWithStats1, entry2);
         Assertions.assertNotNull(mergedEntry);
         Assertions.assertEquals(entry1.getId(), mergedEntry.getId());
         Assertions.assertEquals(entry1.getName(), mergedEntry.getName());
         Assertions.assertNotNull(mergedEntry.getStatistics());
-        Assertions.assertEquals(stats1.getReviewedProteinCount(), mergedEntry.getStatistics().getReviewedProteinCount());
-        Assertions.assertEquals(stats1.getUnreviewedProteinCount(), mergedEntry.getStatistics().getUnreviewedProteinCount());
+        Assertions.assertEquals(
+                stats1.getReviewedProteinCount(),
+                mergedEntry.getStatistics().getReviewedProteinCount());
+        Assertions.assertEquals(
+                stats1.getUnreviewedProteinCount(),
+                mergedEntry.getStatistics().getUnreviewedProteinCount());
     }
 }

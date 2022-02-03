@@ -16,10 +16,15 @@ public class StatisticsAggregationMapper implements Function2<Statistics, Statis
         if (SparkUtils.isThereAnyNullEntry(stat1, stat2)) {
             mergedStats = SparkUtils.getNotNullEntry(stat1, stat2);
         } else {
-            mergedStats = new StatisticsBuilder()
-                    .reviewedProteinCount(stat1.getReviewedProteinCount() + stat2.getReviewedProteinCount())
-                    .unreviewedProteinCount(stat1.getUnreviewedProteinCount() + stat2.getUnreviewedProteinCount())
-                    .build();
+            mergedStats =
+                    new StatisticsBuilder()
+                            .reviewedProteinCount(
+                                    stat1.getReviewedProteinCount()
+                                            + stat2.getReviewedProteinCount())
+                            .unreviewedProteinCount(
+                                    stat1.getUnreviewedProteinCount()
+                                            + stat2.getUnreviewedProteinCount())
+                            .build();
         }
         return mergedStats;
     }

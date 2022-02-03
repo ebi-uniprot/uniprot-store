@@ -1,6 +1,5 @@
 package org.uniprot.store.search.document.subcell;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
