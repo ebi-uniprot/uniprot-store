@@ -64,7 +64,7 @@ public class SubcellularLocationLoadProcessor
                 .category(entry.getCategory().getName())
                 .definition(entry.getDefinition())
                 .synonyms(entry.getSynonyms())
-                .subcellularlocationObj(ByteBuffer.wrap(subcellularLocationByte))
+                .subcellularlocationObj(subcellularLocationByte)
                 .build();
     }
 
