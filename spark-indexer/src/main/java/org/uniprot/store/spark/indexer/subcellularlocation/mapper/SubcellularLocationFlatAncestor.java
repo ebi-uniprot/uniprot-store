@@ -49,6 +49,8 @@ public class SubcellularLocationFlatAncestor
         selfAncestors.add(createTuple2(builder.build()));
 
         List<SubcellularLocationEntry> parents = currentNode.getIsA();
+        List<SubcellularLocationEntry> partOfs = currentNode.getPartOf();
+        parents.addAll(partOfs);
         for (SubcellularLocationEntry parent : parents) {
             traverseParents(parent, statistics, selfAncestors);
         }
