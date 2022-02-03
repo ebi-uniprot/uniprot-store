@@ -5,6 +5,7 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.genecentric.GeneCentricDocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.literature.LiteratureDocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHDFSWriter;
+import org.uniprot.store.spark.indexer.subcellularlocation.SubcellularLocationDocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.suggest.SuggestDocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.taxonomy.TaxonomyDocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.uniparc.UniParcDocumentsToHDFSWriter;
@@ -44,6 +45,9 @@ public class DocumentsToHDFSWriterFactory {
                 break;
             case taxonomy:
                 writer = new TaxonomyDocumentsToHDFSWriter(jobParameter);
+                break;
+            case subcellularlocation:
+                writer = new SubcellularLocationDocumentsToHDFSWriter(jobParameter);
                 break;
             default:
                 throw new UnsupportedOperationException(
