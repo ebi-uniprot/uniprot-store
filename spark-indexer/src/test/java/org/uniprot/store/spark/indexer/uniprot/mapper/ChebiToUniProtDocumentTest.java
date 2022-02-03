@@ -28,24 +28,12 @@ class ChebiToUniProtDocumentTest {
 
         doc.commentMap.put(CC_CATALYTIC_ACTIVITY, catalyticValues);
 
+        ChebiEntry relatedId1 = new ChebiEntryBuilder().id("11").inchiKey("inch11").build();
+        ChebiEntry chebi1 =
+                new ChebiEntryBuilder().id("1").inchiKey("inch1").relatedIdsAdd(relatedId1).build();
 
-        ChebiEntry relatedId1 = new ChebiEntryBuilder()
-                .id("11")
-                .inchiKey("inch11")
-                .build();
-        ChebiEntry chebi1 = new ChebiEntryBuilder()
-                .id("1")
-                .inchiKey("inch1")
-                .relatedIdsAdd(relatedId1)
-                .build();
-
-        ChebiEntry relatedId2 = new ChebiEntryBuilder()
-                .id("21")
-                .inchiKey("inch21")
-                .build();
-        ChebiEntry relatedId3 = new ChebiEntryBuilder()
-                .id("22")
-                .build();
+        ChebiEntry relatedId2 = new ChebiEntryBuilder().id("21").inchiKey("inch21").build();
+        ChebiEntry relatedId3 = new ChebiEntryBuilder().id("22").build();
         ChebiEntry chebi2 =
                 new ChebiEntryBuilder()
                         .id("2")
@@ -99,23 +87,12 @@ class ChebiToUniProtDocumentTest {
         doc.cofactorChebi.add("CHEBI:2");
         doc.cofactorChebi.add("NotChebiId");
 
-        ChebiEntry relatedId1 = new ChebiEntryBuilder()
-                .id("11")
-                .inchiKey("inch11")
-                .build();
-        ChebiEntry chebi1 = new ChebiEntryBuilder()
-                .id("1")
-                .inchiKey("inch1")
-                .relatedIdsAdd(relatedId1)
-                .build();
+        ChebiEntry relatedId1 = new ChebiEntryBuilder().id("11").inchiKey("inch11").build();
+        ChebiEntry chebi1 =
+                new ChebiEntryBuilder().id("1").inchiKey("inch1").relatedIdsAdd(relatedId1).build();
 
-        ChebiEntry relatedId2 = new ChebiEntryBuilder()
-                .id("21")
-                .inchiKey("inch21")
-                .build();
-        ChebiEntry relatedId3 = new ChebiEntryBuilder()
-                .id("22")
-                .build();
+        ChebiEntry relatedId2 = new ChebiEntryBuilder().id("21").inchiKey("inch21").build();
+        ChebiEntry relatedId3 = new ChebiEntryBuilder().id("22").build();
         ChebiEntry chebi2 =
                 new ChebiEntryBuilder()
                         .id("2")
@@ -145,7 +122,6 @@ class ChebiToUniProtDocumentTest {
         assertTrue(result.inchikey.contains(chebi2.getInchiKey()));
         assertTrue(result.inchikey.contains(relatedId2.getInchiKey()));
 
-
         assertNotNull(doc.cofactorChebi);
         assertEquals(10, doc.cofactorChebi.size());
         assertTrue(doc.cofactorChebi.contains("NotChebiId"));
@@ -172,23 +148,12 @@ class ChebiToUniProtDocumentTest {
         doc.commentMap.put(CC_CATALYTIC_ACTIVITY, catalyticValues);
         doc.cofactorChebi.add("CHEBI:2");
 
-        ChebiEntry relatedId1 = new ChebiEntryBuilder()
-                .id("11")
-                .inchiKey("inch11")
-                .build();
-        ChebiEntry chebi1 = new ChebiEntryBuilder()
-                .id("1")
-                .inchiKey("inch1")
-                .relatedIdsAdd(relatedId1)
-                .build();
+        ChebiEntry relatedId1 = new ChebiEntryBuilder().id("11").inchiKey("inch11").build();
+        ChebiEntry chebi1 =
+                new ChebiEntryBuilder().id("1").inchiKey("inch1").relatedIdsAdd(relatedId1).build();
 
-        ChebiEntry relatedId2 = new ChebiEntryBuilder()
-                .id("21")
-                .inchiKey("inch21")
-                .build();
-        ChebiEntry relatedId3 = new ChebiEntryBuilder()
-                .id("22")
-                .build();
+        ChebiEntry relatedId2 = new ChebiEntryBuilder().id("21").inchiKey("inch21").build();
+        ChebiEntry relatedId3 = new ChebiEntryBuilder().id("22").build();
         ChebiEntry chebi2 =
                 new ChebiEntryBuilder()
                         .id("2")

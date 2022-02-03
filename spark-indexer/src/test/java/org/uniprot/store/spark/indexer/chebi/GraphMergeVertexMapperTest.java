@@ -25,7 +25,12 @@ class GraphMergeVertexMapperTest {
                 new ChebiEntryBuilder()
                         .id("1")
                         .relatedIdsAdd(
-                                new ChebiEntryBuilder().id("2").name("n2").inchiKey("i2").build())
+                                new ChebiEntryBuilder()
+                                        .id("2")
+                                        .name("n2")
+                                        .inchiKey("i2")
+                                        .synonymsAdd("s2")
+                                        .build())
                         .relatedIdsAdd(
                                 new ChebiEntryBuilder()
                                         .id("20")
@@ -56,5 +61,7 @@ class GraphMergeVertexMapperTest {
         assertEquals("2", related2.getId());
         assertEquals("n2", related2.getName());
         assertEquals("i2", related2.getInchiKey());
+        assertNotNull(related2.getSynonyms());
+        assertTrue(related2.getSynonyms().contains("s2"));
     }
 }

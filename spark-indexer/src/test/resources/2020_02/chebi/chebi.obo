@@ -58,7 +58,6 @@ name: monoatomic ion
 subset: 3_STAR
 is_a: CHEBI:24870 ! ion
 is_a: CHEBI:1000 ! 1000-fluoroethyl methanesulfonate
-relationship: is_conjugate_base_of CHEBI:3200 ! 3200-conjugate-base-relation
 property_value: hasId "24867" xsd:string
 property_value: hasSynonym "monoatomic ions" xsd:string
 
@@ -255,6 +254,8 @@ is_a: CHEBI:2500 ! 2500-fluoroethyl methanesulfonate
 [Term]
 id: CHEBI:2500
 name: 2500-fluoroethyl methanesulfonate
+property_value: hasSynonym "2500-synonym" xsd:string
+property_value: http://purl.obolibrary.org/obo/chebi/inchikey "AABBBCCCDD-IIHHHHGGGFFFF-N" xsd:string
 subset: 1_STAR
 
 [Term]
@@ -262,6 +263,7 @@ id: CHEBI:3200
 name: 3200-conjugate-base-relation
 subset: 1_STAR
 is_a: CHEBI:3300 ! 3300-conjugate-base-relation-chain
+relationship: is_conjugate_base_of CHEBI:6500 ! 6500-conjugate-acid-relation-chain
 
 [Term]
 id: CHEBI:3300
@@ -317,6 +319,24 @@ subset: 1_STAR
 [Term]
 id: CHEBI:5700
 name: 5700-ph7-tsv-chebi-mapping-related
+subset: 1_STAR
+
+[Term]
+id: CHEBI:6500
+name: 6500-conjugate-acid-relation-chain
+relationship: is_conjugate_acid_of CHEBI:3200 ! 3200-conjugate-base-relation
+is_a: CHEBI:6600 ! 6600-conjugate-acid-relation-chain
+subset: 1_STAR
+
+[Term]
+id: CHEBI:6600
+name: 6600-conjugate-acid-relation-chain
+is_a: CHEBI:6700 ! 6700-conjugate-acid-relation-chain
+subset: 1_STAR
+
+[Term]
+id: CHEBI:6700
+name: 6700-conjugate-acid-relation-chain
 subset: 1_STAR
 
 [Typedef]

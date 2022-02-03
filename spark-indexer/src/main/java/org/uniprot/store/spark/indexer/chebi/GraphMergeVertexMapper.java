@@ -45,6 +45,9 @@ class GraphMergeVertexMapper
         if (Utils.nullOrEmpty(chebi1.getRelatedIds())) {
             mergedBuilder.relatedIdsSet(chebi2.getRelatedIds());
         }
+        if (Utils.nullOrEmpty(chebi1.getSynonyms())) {
+            mergedBuilder.synonymsSet(chebi2.getSynonyms());
+        }
         return mergedBuilder.build();
     }
 }
