@@ -50,9 +50,10 @@ public class SubcellularLocationFlatAncestor
 
         List<SubcellularLocationEntry> parents = currentNode.getIsA();
         List<SubcellularLocationEntry> partOfs = currentNode.getPartOf();
-        parents.addAll(partOfs);
-        for (SubcellularLocationEntry parent : parents) {
-            traverseParents(parent, statistics, selfAncestors);
+        List<SubcellularLocationEntry> relatedEntries = new ArrayList<>(parents);
+        relatedEntries.addAll(partOfs);
+        for (SubcellularLocationEntry related : relatedEntries) {
+            traverseParents(related, statistics, selfAncestors);
         }
     }
 
