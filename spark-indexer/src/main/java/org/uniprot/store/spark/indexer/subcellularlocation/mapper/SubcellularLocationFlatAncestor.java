@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.PairFlatMapFunction;
@@ -27,32 +28,48 @@ public class SubcellularLocationFlatAncestor
     @Override
     public Iterator<Tuple2<String, SubcellularLocationEntry>> call(
             Tuple2<SubcellularLocationEntry, Optional<Statistics>> tuple) throws Exception {
-        List<Tuple2<String, SubcellularLocationEntry>> selfAncestors = new ArrayList<>();
-        if (tuple._2.isPresent()) {
-            Statistics stats = tuple._2.get();
-            SubcellularLocationEntry node = tuple._1;
-            traverseParents(node, stats, selfAncestors);
+        List<Tuple2<String, SubcellularLocationEntry>> relatedTuples = new ArrayList<>();
+        if (tuple._2.isPresent()) { // if stats is there
+            Statistics statistics = tuple._2.get();
+            SubcellularLocationEntry currentEntry = tuple._1;
+            List<SubcellularLocationEntry> allRelatedNodes = new ArrayList<>();
+            traverseRelatedEntries(currentEntry, allRelatedNodes);
+            relatedTuples = updateStatistics(statistics, allRelatedNodes);
         } else {
-            selfAncestors.add(createTuple2(tuple._1));
+            relatedTuples.add(createTuple2(tuple._1));
         }
-        return selfAncestors.iterator();
+        return relatedTuples.iterator();
     }
 
-    private void traverseParents(
-            SubcellularLocationEntry currentNode,
-            Statistics statistics,
-            List<Tuple2<String, SubcellularLocationEntry>> selfAncestors) {
-        SubcellularLocationEntryBuilder builder = SubcellularLocationEntryBuilder.from(currentNode);
-        Statistics currentNodeStats = getCurrentNodeStats(currentNode);
-        Statistics mergedStats = mergeStatistics(currentNodeStats, statistics);
-        builder.statistics(mergedStats);
-        selfAncestors.add(createTuple2(builder.build()));
-
-        List<SubcellularLocationEntry> parents = currentNode.getIsA();
-        // TODO find current node's parent that is where current node is HP(PART OF) and then add 1 from parent node
-        for (SubcellularLocationEntry parent : parents) {
-            traverseParents(parent, statistics, selfAncestors);
+    private void traverseRelatedEntries(SubcellularLocationEntry currentEntry, List<SubcellularLocationEntry> allRelatedEntries){
+        if(!isProcessed(currentEntry, allRelatedEntries)){
+            allRelatedEntries.add(currentEntry);
+            List<SubcellularLocationEntry> parents = currentEntry.getIsA();
+            List<SubcellularLocationEntry> partOfs = currentEntry.getPartOf();
+            List<SubcellularLocationEntry> relatedEntries = new ArrayList<>(parents);
+            relatedEntries.addAll(partOfs);
+            for (SubcellularLocationEntry related : relatedEntries) {
+                traverseRelatedEntries(related, allRelatedEntries);
+            }
         }
+    }
+
+    private List<Tuple2<String, SubcellularLocationEntry>> updateStatistics(Statistics statistics,
+                                                                            List<SubcellularLocationEntry> allRelatedEntries) {
+        List<Tuple2<String, SubcellularLocationEntry>> selfAncestors = new ArrayList<>();
+        for(SubcellularLocationEntry currentNode : allRelatedEntries) {
+            SubcellularLocationEntryBuilder builder = SubcellularLocationEntryBuilder.from(currentNode);
+            Statistics currentNodeStats = getCurrentNodeStats(currentNode);
+            Statistics mergedStats = mergeStatistics(currentNodeStats, statistics);
+            builder.statistics(mergedStats);
+            selfAncestors.add(createTuple2(builder.build()));
+        }
+
+        return selfAncestors;
+    }
+
+    private boolean isProcessed(SubcellularLocationEntry currrentNode, List<SubcellularLocationEntry> processedNodes){
+        return processedNodes.stream().anyMatch(node -> currrentNode.getId().equals(node.getId()));
     }
 
     private Tuple2<String, SubcellularLocationEntry> createTuple2(SubcellularLocationEntry entry) {
