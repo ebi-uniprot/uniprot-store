@@ -1,31 +1,23 @@
 package org.uniprot.store.spark.indexer.subcellularlocation.mapper;
 
+import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.Function2;
 import org.uniprot.core.Statistics;
 import org.uniprot.core.impl.StatisticsBuilder;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
+import java.util.HashSet;
+
 /**
  * @author sahmad
  * @created 02/02/2022
  */
-public class StatisticsAggregationMapper implements Function2<Statistics, Statistics, Statistics> {
+public class StatisticsAggregationMapper implements Function<HashSet<MappedProteinAccession>, Statistics> {
+
     @Override
-    public Statistics call(Statistics stat1, Statistics stat2) throws Exception {
-        Statistics mergedStats;
-        if (SparkUtils.isThereAnyNullEntry(stat1, stat2)) {
-            mergedStats = SparkUtils.getNotNullEntry(stat1, stat2);
-        } else {
-            mergedStats =
-                    new StatisticsBuilder()
-                            .reviewedProteinCount(
-                                    stat1.getReviewedProteinCount()
-                                            + stat2.getReviewedProteinCount())
-                            .unreviewedProteinCount(
-                                    stat1.getUnreviewedProteinCount()
-                                            + stat2.getUnreviewedProteinCount())
-                            .build();
-        }
-        return mergedStats;
+    public Statistics call(HashSet<MappedProteinAccession> v1) throws Exception {
+        long reviewedCount = v1.stream().filter(MappedProteinAccession::isReviewed).count();
+        long unreviewedCount = v1.stream().filter(acc -> !acc.isReviewed()).count();
+        return new StatisticsBuilder().reviewedProteinCount(reviewedCount).unreviewedProteinCount(unreviewedCount).build();
     }
 }

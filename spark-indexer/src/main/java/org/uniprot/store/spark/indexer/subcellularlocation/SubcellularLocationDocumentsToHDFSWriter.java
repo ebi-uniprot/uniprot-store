@@ -2,6 +2,8 @@ package org.uniprot.store.spark.indexer.subcellularlocation;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
+import java.util.HashSet;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,9 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.subcell.SubcellularLocationRDDReader;
+import org.uniprot.store.spark.indexer.subcellularlocation.mapper.CombineFunction;
+import org.uniprot.store.spark.indexer.subcellularlocation.mapper.MappedProteinAccession;
+import org.uniprot.store.spark.indexer.subcellularlocation.mapper.MergeFunction;
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.StatisticsAggregationMapper;
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SubcellularLocationEntryToDocument;
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SubcellularLocationFlatAncestor;
@@ -44,34 +49,30 @@ public class SubcellularLocationDocumentsToHDFSWriter implements DocumentsToHDFS
 
     @Override
     public void writeIndexDocumentsToHDFS() {
-        StatisticsAggregationMapper aggregationMapper = new StatisticsAggregationMapper();
-        // read uniprotkb and get Tuple2 <SL-XXXX, Statistics>
-        JavaPairRDD<String, Statistics> slIdStatsRDD =
-                this.uniProtKBReader
-                        .load()
-                        .flatMapToPair(new SubcellularLocationJoinMapper())
-                        .aggregateByKey(null, aggregationMapper, aggregationMapper);
+        // read uniprotkb and get Tuple2 <SL-XXXX, MappedProteinAccession>
+        JavaPairRDD<String, Iterable<MappedProteinAccession>> subcellIdProteinsRDD = this.uniProtKBReader
+                .load()
+                .flatMapToPair(new SubcellularLocationJoinMapper())
+                .groupByKey();// use aggregateByKey TODO
 
         SubcellularLocationRDDReader subcellReader =
                 new SubcellularLocationRDDReader(this.jobParameter);
-        SubcellullarLocationStatisticsMerger subcellMerger =
-                new SubcellullarLocationStatisticsMerger();
         // read subcellular input file in RDD<SL-xxxx, SLEntry>
         JavaPairRDD<String, SubcellularLocationEntry> subcellRDD =
                 subcellReader.load(); // small data set
-        // get RDD with total count for each id but children's(ancestors) counts are not properly
-        // updated
-        // RDD should have 500+ records (same number as in input file subcell.txt)
-        // RDD<SL-xxxx, Entry>
-        JavaPairRDD<String, SubcellularLocationEntry> slIdEntryWithStatsRDD =
-                subcellRDD
-                        .leftOuterJoin(slIdStatsRDD)
-                        .values()
-                        .flatMapToPair(new SubcellularLocationFlatAncestor())
-                        .aggregateByKey(null, subcellMerger, subcellMerger);
+
+        // RDD<SL-xxxx, Statistics>
+        JavaPairRDD<String, Statistics> subcellIdStatsRDD = subcellRDD
+                .leftOuterJoin(subcellIdProteinsRDD)
+                .values()
+                .flatMapToPair(new SubcellularLocationFlatAncestor())
+                .aggregateByKey(new HashSet<>(), new CombineFunction(), new MergeFunction())
+                .mapValues(new StatisticsAggregationMapper());
+
+        Map<String, Statistics> subcellIdStatsMap = subcellIdStatsRDD.collectAsMap();
         // convert to solr document to save in hdfs
         JavaRDD<SubcellularLocationDocument> subcellDocumentRDD =
-                slIdEntryWithStatsRDD.mapValues(new SubcellularLocationEntryToDocument()).values();
+                subcellReader.load().mapValues(new SubcellularLocationEntryToDocument(subcellIdStatsMap)).values();
         saveToHDFS(subcellDocumentRDD);
     }
 
