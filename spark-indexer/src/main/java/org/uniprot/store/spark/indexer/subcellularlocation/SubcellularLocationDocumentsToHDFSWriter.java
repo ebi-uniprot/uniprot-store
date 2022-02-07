@@ -69,6 +69,7 @@ public class SubcellularLocationDocumentsToHDFSWriter implements DocumentsToHDFS
                 .aggregateByKey(new HashSet<>(), new CombineFunction(), new MergeFunction())
                 .mapValues(new StatisticsAggregationMapper());
 
+        // TODO use spark way
         Map<String, Statistics> subcellIdStatsMap = subcellIdStatsRDD.collectAsMap();
         // convert to solr document to save in hdfs
         JavaRDD<SubcellularLocationDocument> subcellDocumentRDD =
