@@ -36,7 +36,7 @@ class SubcellularLocationEntryToDocumentTest {
         Assertions.assertEquals(1, entries.size());
 
         SubcellularLocationEntryToDocument entryToDocument =
-                new SubcellularLocationEntryToDocument(new HashMap<>());
+                new SubcellularLocationEntryToDocument();
         SubcellularLocationDocument document = entryToDocument.call(entries.get(0));
         Assertions.assertNotNull(document);
         Assertions.assertEquals("SL-0456", document.getId());

@@ -1,18 +1,16 @@
 package org.uniprot.store.spark.indexer.subcellularlocation.mapper;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.apache.spark.api.java.function.PairFlatMapFunction;
-import org.uniprot.core.Statistics;
-import org.uniprot.core.impl.StatisticsBuilder;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.uniprotkb.comment.CommentType;
 import org.uniprot.core.uniprotkb.comment.SubcellularLocation;
 import org.uniprot.core.uniprotkb.comment.SubcellularLocationComment;
 import org.uniprot.core.uniprotkb.comment.SubcellularLocationValue;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import scala.Tuple2;
 
