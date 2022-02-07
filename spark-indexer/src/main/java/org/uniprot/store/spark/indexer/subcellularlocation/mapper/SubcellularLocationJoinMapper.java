@@ -2,6 +2,7 @@ package org.uniprot.store.spark.indexer.subcellularlocation.mapper;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
 import org.uniprot.core.Statistics;
@@ -31,12 +32,24 @@ public class SubcellularLocationJoinMapper
         List<SubcellularLocationComment> comments =
                 entry.getCommentsByType(CommentType.SUBCELLULAR_LOCATION);
         MappedProteinAccession mappedProteinAccession = getMappedProteinAccession(entry);
-        return comments.stream()
+        List<String> locationSubcellIds = comments.stream()
                 .flatMap(comment -> comment.getSubcellularLocations().stream())
                 .filter(SubcellularLocation::hasLocation)
                 .map(SubcellularLocation::getLocation)
-                .map(SubcellularLocationValue::getId)
-                .map(subcellId -> new Tuple2<>(subcellId, mappedProteinAccession))
+                .map(SubcellularLocationValue::getId).collect(Collectors.toList());
+        List<String> topologySubcellIds = comments.stream()
+                .flatMap(comment -> comment.getSubcellularLocations().stream())
+                .filter(SubcellularLocation::hasTopology)
+                .map(SubcellularLocation::getTopology)
+                .map(SubcellularLocationValue::getId).collect(Collectors.toList());
+        List<String> orientationSubcellIds = comments.stream()
+                .flatMap(comment -> comment.getSubcellularLocations().stream())
+                .filter(SubcellularLocation::hasOrientation)
+                .map(SubcellularLocation::getOrientation)
+                .map(SubcellularLocationValue::getId).collect(Collectors.toList());
+        locationSubcellIds.addAll(topologySubcellIds);
+        locationSubcellIds.addAll(orientationSubcellIds);
+        return locationSubcellIds.stream().map(subcellId -> new Tuple2<>(subcellId, mappedProteinAccession))
                 .iterator();
     }
 

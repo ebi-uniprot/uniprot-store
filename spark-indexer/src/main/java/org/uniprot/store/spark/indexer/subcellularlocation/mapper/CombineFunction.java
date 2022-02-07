@@ -10,7 +10,8 @@ import java.util.List;
  * @author sahmad
  * @created 07/02/2022
  */
-public class CombineFunction implements Function2<HashSet<MappedProteinAccession>, Iterable<MappedProteinAccession>, HashSet<MappedProteinAccession>> {
+public class CombineFunction implements Function2<HashSet<MappedProteinAccession>,
+        Iterable<MappedProteinAccession>, HashSet<MappedProteinAccession>> {
     @Override
     public HashSet<MappedProteinAccession> call(HashSet<MappedProteinAccession> joined, Iterable<MappedProteinAccession> input) throws Exception {
         List<MappedProteinAccession> inputList = new ArrayList<>();
