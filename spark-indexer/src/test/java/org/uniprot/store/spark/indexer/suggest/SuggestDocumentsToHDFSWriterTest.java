@@ -118,6 +118,23 @@ class SuggestDocumentsToHDFSWriterTest {
     }
 
     @Test
+    void getRheaComp() {
+        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+        JavaRDD<SuggestDocument> rheaCompRdd = writer.getRheaComp(flatFileRDD);
+        assertNotNull(rheaCompRdd);
+        long count = rheaCompRdd.count();
+        assertEquals(2L, count);
+        SuggestDocument document = rheaCompRdd.first();
+
+        assertNotNull(document);
+        assertEquals(CATALYTIC_ACTIVITY.name(), document.dictionary);
+        assertEquals("RHEA-COMP:10694", document.id);
+        assertEquals("N(4)-acetylcytidine(34) in elongator tRNA(Met)", document.value);
+        assertNotNull(document.altValues);
+        assertTrue(document.altValues.isEmpty());
+    }
+
+    @Test
     void getEC() {
         SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
         JavaRDD<SuggestDocument> suggestRdd = writer.getEC(flatFileRDD);
