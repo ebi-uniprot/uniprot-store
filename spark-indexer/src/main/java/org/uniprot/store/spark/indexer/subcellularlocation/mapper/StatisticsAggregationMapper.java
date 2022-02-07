@@ -1,10 +1,8 @@
 package org.uniprot.store.spark.indexer.subcellularlocation.mapper;
 
 import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.Function2;
 import org.uniprot.core.Statistics;
 import org.uniprot.core.impl.StatisticsBuilder;
-import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import java.util.HashSet;
 

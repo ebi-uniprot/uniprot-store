@@ -1,18 +1,15 @@
 package org.uniprot.store.spark.indexer.subcellularlocation.mapper;
 
-import java.io.Serializable;
-import java.util.Map;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.spark.api.java.function.Function;
-import org.uniprot.core.Statistics;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
-import org.uniprot.core.cv.subcell.impl.SubcellularLocationEntryBuilder;
 import org.uniprot.core.json.parser.subcell.SubcellularLocationJsonConfig;
 import org.uniprot.store.search.document.subcell.SubcellularLocationDocument;
 import org.uniprot.store.spark.indexer.common.exception.IndexHDFSDocumentsException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.Serializable;
 
 /**
  * @author sahmad
@@ -23,10 +20,8 @@ public class SubcellularLocationEntryToDocument
 
     private static final long serialVersionUID = -9175446448727424391L;
     private final ObjectMapper objectMapper;
-    Map<String, Statistics> subcellIdStatsMap;
-    public SubcellularLocationEntryToDocument(Map<String, Statistics> subcellIdStatsMap) {
+    public SubcellularLocationEntryToDocument() {
         this.objectMapper = SubcellularLocationJsonConfig.getInstance().getFullObjectMapper();
-        this.subcellIdStatsMap = subcellIdStatsMap;
     }
 
     @Override
@@ -35,17 +30,14 @@ public class SubcellularLocationEntryToDocument
     }
 
     private SubcellularLocationDocument convert(SubcellularLocationEntry entry) {
-        Statistics statistics = this.subcellIdStatsMap.get(entry.getId());
-        SubcellularLocationEntry entryWithStats = SubcellularLocationEntryBuilder.from(entry)
-                .statistics(statistics).build();
-        byte[] subcellularLocationByte = getSubcellularLocationEntryBinary(entryWithStats);
+        byte[] subcellularLocationByte = getSubcellularLocationEntryBinary(entry);
 
         return SubcellularLocationDocument.builder()
-                .id(entryWithStats.getId())
-                .name(entryWithStats.getName())
-                .category(entryWithStats.getCategory().getName())
-                .definition(entryWithStats.getDefinition())
-                .synonyms(entryWithStats.getSynonyms())
+                .id(entry.getId())
+                .name(entry.getName())
+                .category(entry.getCategory().getName())
+                .definition(entry.getDefinition())
+                .synonyms(entry.getSynonyms())
                 .subcellularlocationObj(subcellularLocationByte)
                 .build();
     }
