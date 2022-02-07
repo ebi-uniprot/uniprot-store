@@ -22,35 +22,32 @@ import scala.Tuple2;
  * @created 31/01/2022
  */
 public class SubcellularLocationJoinMapper
-        implements PairFlatMapFunction<Tuple2<String, UniProtKBEntry>, String, Statistics> {
-    // returns Iterator of Tuple2<SL-xxxx, Tuple2<Accession, isReviewed>>
+        implements PairFlatMapFunction<Tuple2<String, UniProtKBEntry>, String, MappedProteinAccession> {
+    // returns Iterator of Tuple2<SL-xxxx, MappedProteinAccession<accession, reviewed>>
     @Override
-    public Iterator<Tuple2<String, Statistics>> call(Tuple2<String, UniProtKBEntry> accessionEntry)
+    public Iterator<Tuple2<String, MappedProteinAccession>> call(Tuple2<String, UniProtKBEntry> accessionEntry)
             throws Exception {
         UniProtKBEntry entry = accessionEntry._2;
         List<SubcellularLocationComment> comments =
                 entry.getCommentsByType(CommentType.SUBCELLULAR_LOCATION);
-        Statistics statistics = getStatistics(entry);
+        MappedProteinAccession mappedProteinAccession = getMappedProteinAccession(entry);
         return comments.stream()
                 .flatMap(comment -> comment.getSubcellularLocations().stream())
                 .filter(SubcellularLocation::hasLocation)
                 .map(SubcellularLocation::getLocation)
                 .map(SubcellularLocationValue::getId)
-                .map(subcellId -> new Tuple2<>(subcellId, statistics))
+                .map(subcellId -> new Tuple2<>(subcellId, mappedProteinAccession))
                 .iterator();
     }
 
-    private Statistics getStatistics(UniProtKBEntry entry) {
-        StatisticsBuilder statisticsBuilder = new StatisticsBuilder();
+    private MappedProteinAccession getMappedProteinAccession(UniProtKBEntry entry) {
+        MappedProteinAccession.MappedProteinAccessionBuilder builder = new MappedProteinAccession.MappedProteinAccessionBuilder();
         if (!isIsoform(entry.getPrimaryAccession().getValue())) {
             boolean isReviewed = entry.getEntryType() == UniProtKBEntryType.SWISSPROT;
-            statisticsBuilder =
-                    isReviewed
-                            ? statisticsBuilder.reviewedProteinCount(1L)
-                            : statisticsBuilder.unreviewedProteinCount(1L);
+            builder.proteinAccession(entry.getPrimaryAccession().getValue());
+            builder.isReviewed(isReviewed);
         }
-
-        return statisticsBuilder.build();
+        return builder.build();
     }
 
     private boolean isIsoform(String accession) {

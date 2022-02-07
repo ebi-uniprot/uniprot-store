@@ -1,5 +1,6 @@
 package org.uniprot.store.spark.indexer.subcellularlocation.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -35,7 +36,7 @@ class SubcellularLocationEntryToDocumentTest {
         Assertions.assertEquals(1, entries.size());
 
         SubcellularLocationEntryToDocument entryToDocument =
-                new SubcellularLocationEntryToDocument();
+                new SubcellularLocationEntryToDocument(new HashMap<>());
         SubcellularLocationDocument document = entryToDocument.call(entries.get(0));
         Assertions.assertNotNull(document);
         Assertions.assertEquals("SL-0456", document.getId());
