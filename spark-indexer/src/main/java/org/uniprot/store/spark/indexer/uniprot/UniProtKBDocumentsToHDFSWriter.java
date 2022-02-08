@@ -16,6 +16,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.pathway.UniPathway;
+import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniref.UniRefEntry;
@@ -33,6 +34,8 @@ import org.uniprot.store.spark.indexer.go.evidence.GOEvidenceMapper;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidencesRDDReader;
 import org.uniprot.store.spark.indexer.go.relations.GORelationRDDReader;
 import org.uniprot.store.spark.indexer.literature.LiteratureMappedRDDReader;
+import org.uniprot.store.spark.indexer.subcell.SubcellularLocationRDDReader;
+import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SubcellularLocationJoinMapper;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniprot.mapper.*;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniRefJoinMapper;
@@ -83,6 +86,8 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         uniProtDocumentRDD = joinAllUniRefs(uniProtDocumentRDD);
 
         uniProtDocumentRDD = joinLiteratureMapped(uniProtDocumentRDD);
+
+        uniProtDocumentRDD = joinSubcellularLocationRelations(uniProtEntryRDD, uniProtDocumentRDD);
 
         boolean shouldIndexInactive =
                 Boolean.parseBoolean(config.getString("uniprot.index.inactive"));
@@ -292,5 +297,27 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         return uniProtDocumentRDD
                 .leftOuterJoin(literatureMappedRDD)
                 .mapValues(new LiteratureMappedToUniProtDocument());
+    }
+
+    JavaPairRDD<String, UniProtDocument> joinSubcellularLocationRelations(JavaPairRDD<String, UniProtKBEntry> uniProtEntryRDD,
+                                                                                  JavaPairRDD<String, UniProtDocument> uniProtDocumentRDD) {
+        SubcellularLocationRDDReader subcellReader = new SubcellularLocationRDDReader(this.parameter);
+        // SL-ID, SubcellEntry from subcell.txt
+        JavaPairRDD<String, SubcellularLocationEntry> subcellRDD = subcellReader.load();
+        // SL-ID, Accession from uniprotkb input file
+        JavaPairRDD<String, String> subcellProteinsRDD = uniProtEntryRDD
+                .flatMapToPair(new SubcellularLocationJoinMapper())
+                .mapValues(mp -> mp.getProteinAccession());
+        // Accession, List<SubcellEntry>
+        JavaPairRDD<String, Iterable<SubcellularLocationEntry>> accessionSubcellLocationsRDD = subcellRDD.
+                leftOuterJoin(subcellProteinsRDD)
+                .values()
+                .filter(tuple -> tuple._2.isPresent())
+                .mapToPair(new SubcellularLocationEntryTupleMapper())
+                .groupByKey();
+        // join with documents and then update document with ancestors subcell ids and values
+        return uniProtDocumentRDD
+                .leftOuterJoin(accessionSubcellLocationsRDD)
+                .mapValues(new UniProtDocumentSubcellEntriesMapper());
     }
 }
