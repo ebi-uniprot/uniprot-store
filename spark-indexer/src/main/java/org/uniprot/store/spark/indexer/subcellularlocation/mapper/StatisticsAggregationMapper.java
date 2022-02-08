@@ -13,9 +13,9 @@ import java.util.HashSet;
 public class StatisticsAggregationMapper implements Function<HashSet<MappedProteinAccession>, Statistics> {
 
     @Override
-    public Statistics call(HashSet<MappedProteinAccession> v1) throws Exception {
-        long reviewedCount = v1.stream().filter(MappedProteinAccession::isReviewed).count();
-        long unreviewedCount = v1.stream().filter(acc -> !acc.isReviewed()).count();
+    public Statistics call(HashSet<MappedProteinAccession> input) throws Exception {
+        long reviewedCount = input.stream().filter(MappedProteinAccession::isReviewed).count();
+        long unreviewedCount = input.stream().filter(acc -> !acc.isReviewed()).count();
         return new StatisticsBuilder().reviewedProteinCount(reviewedCount).unreviewedProteinCount(unreviewedCount).build();
     }
 }
