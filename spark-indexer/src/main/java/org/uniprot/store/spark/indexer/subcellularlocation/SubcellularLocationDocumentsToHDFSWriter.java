@@ -2,7 +2,6 @@ package org.uniprot.store.spark.indexer.subcellularlocation;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 
@@ -18,11 +17,9 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.subcell.SubcellularLocationRDDReader;
-import org.uniprot.store.spark.indexer.subcellularlocation.mapper.CombineMappedProteinAccessionIterables;
-import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SeqMappedProteinAccessionSet;
-import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SeqMappedProteinAccessionIterable;
-import org.uniprot.store.spark.indexer.subcellularlocation.mapper.MappedProteinAccession;
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.CombineMappedProteinAccessionSets;
+import org.uniprot.store.spark.indexer.subcellularlocation.mapper.MappedProteinAccession;
+import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SeqMappedProteinAccessionSet;
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.StatisticsAggregationMapper;
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SubcellularLocationEntryStatisticsMerger;
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SubcellularLocationEntryToDocument;
@@ -52,11 +49,11 @@ public class SubcellularLocationDocumentsToHDFSWriter implements DocumentsToHDFS
     @Override
     public void writeIndexDocumentsToHDFS() {
         // read uniprotkb and get Tuple2 <SL-XXXX, MappedProteinAccession>
-        JavaPairRDD<String, Iterable<MappedProteinAccession>> subcellIdProteinsRDD = this.uniProtKBReader.load()
-                .flatMapToPair(new SubcellularLocationJoinMapper())
-                .groupByKey();
-//                .aggregateByKey(new ArrayList<>(), new SeqMappedProteinAccessionIterable(), new CombineMappedProteinAccessionIterables());
-
+        JavaPairRDD<String, Iterable<MappedProteinAccession>> subcellIdProteinsRDD =
+                this.uniProtKBReader
+                        .load()
+                        .flatMapToPair(new SubcellularLocationJoinMapper())
+                        .groupByKey();
         SubcellularLocationRDDReader subcellReader =
                 new SubcellularLocationRDDReader(this.jobParameter);
         // read subcellular input file in RDD<SL-xxxx, SLEntry>
@@ -64,22 +61,26 @@ public class SubcellularLocationDocumentsToHDFSWriter implements DocumentsToHDFS
                 subcellReader.load(); // small data set
 
         // RDD<SL-xxxx, Statistics>
-        JavaPairRDD<String, Statistics> subcellIdStatsRDD = subcellRDD
-                .leftOuterJoin(subcellIdProteinsRDD)
-                .values()
-                .flatMapToPair(new SubcellularLocationFlatAncestor())
-                .aggregateByKey(new HashSet<>(), new SeqMappedProteinAccessionSet(),
-                        new CombineMappedProteinAccessionSets())
-                .mapValues(new StatisticsAggregationMapper());
+        JavaPairRDD<String, Statistics> subcellIdStatsRDD =
+                subcellRDD
+                        .leftOuterJoin(subcellIdProteinsRDD)
+                        .values()
+                        .flatMapToPair(new SubcellularLocationFlatAncestor())
+                        .aggregateByKey(
+                                new HashSet<>(),
+                                new SeqMappedProteinAccessionSet(),
+                                new CombineMappedProteinAccessionSets())
+                        .mapValues(new StatisticsAggregationMapper());
 
         //  join the stats with subcell and convert to solr document to save in hdfs
         // RDD<SubcellularLocationEntryStatistics>
-        JavaRDD<SubcellularLocationDocument> subcellDocumentRDD = subcellReader
-                .load()
-                .leftOuterJoin(subcellIdStatsRDD)
-                .values()
-                .map(new SubcellularLocationEntryStatisticsMerger())
-                .map(new SubcellularLocationEntryToDocument());
+        JavaRDD<SubcellularLocationDocument> subcellDocumentRDD =
+                subcellReader
+                        .load()
+                        .leftOuterJoin(subcellIdStatsRDD)
+                        .values()
+                        .map(new SubcellularLocationEntryStatisticsMerger())
+                        .map(new SubcellularLocationEntryToDocument());
 
         saveToHDFS(subcellDocumentRDD);
     }
