@@ -63,7 +63,7 @@ class SubcellularLocationDocumentsToHDFSWriterTest {
         Assertions.assertNotNull(membraneEntry);
         Assertions.assertEquals("Membrane", membraneEntry.getName());
         Assertions.assertNotNull(membraneEntry.getStatistics());
-        Assertions.assertEquals(3L, membraneEntry.getStatistics().getReviewedProteinCount());
+        Assertions.assertEquals(1L, membraneEntry.getStatistics().getReviewedProteinCount());
         Assertions.assertEquals(0L, membraneEntry.getStatistics().getUnreviewedProteinCount());
     }
 

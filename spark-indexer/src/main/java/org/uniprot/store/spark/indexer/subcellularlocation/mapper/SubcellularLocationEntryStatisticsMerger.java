@@ -12,15 +12,19 @@ import scala.Tuple2;
  * @author sahmad
  * @created 07/02/2022
  */
-public class SubcellularLocationEntryStatisticsMerger implements Function<Tuple2<SubcellularLocationEntry,
-        Optional<Statistics>>,SubcellularLocationEntry> {
+public class SubcellularLocationEntryStatisticsMerger
+        implements Function<
+                Tuple2<SubcellularLocationEntry, Optional<Statistics>>, SubcellularLocationEntry> {
 
     @Override
-    public SubcellularLocationEntry call(Tuple2<SubcellularLocationEntry, Optional<Statistics>> tuple) throws Exception {
+    public SubcellularLocationEntry call(
+            Tuple2<SubcellularLocationEntry, Optional<Statistics>> tuple) throws Exception {
         Optional<Statistics> optStatistics = tuple._2;
-        if(optStatistics.isPresent()){
+        if (optStatistics.isPresent()) {
             SubcellularLocationEntry entry = tuple._1;
-            return SubcellularLocationEntryBuilder.from(entry).statistics(optStatistics.get()).build();
+            return SubcellularLocationEntryBuilder.from(entry)
+                    .statistics(optStatistics.get())
+                    .build();
         }
         return tuple._1;
     }
