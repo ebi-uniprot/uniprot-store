@@ -52,12 +52,10 @@ public class SubcellularLocationDocumentsToHDFSWriter implements DocumentsToHDFS
     @Override
     public void writeIndexDocumentsToHDFS() {
         // read uniprotkb and get Tuple2 <SL-XXXX, MappedProteinAccession>
-        JavaPairRDD<String, Iterable<MappedProteinAccession>> subcellIdProteinsRDD =
-                this.uniProtKBReader
-                .load()
+        JavaPairRDD<String, Iterable<MappedProteinAccession>> subcellIdProteinsRDD = this.uniProtKBReader.load()
                 .flatMapToPair(new SubcellularLocationJoinMapper())
-                .aggregateByKey(new ArrayList<>(), new SeqMappedProteinAccessionIterable(),
-                        new CombineMappedProteinAccessionIterables());
+                .groupByKey();
+//                .aggregateByKey(new ArrayList<>(), new SeqMappedProteinAccessionIterable(), new CombineMappedProteinAccessionIterables());
 
         SubcellularLocationRDDReader subcellReader =
                 new SubcellularLocationRDDReader(this.jobParameter);
