@@ -10,9 +10,9 @@ import scala.Tuple2;
  * @author sahmad
  * @created 08/02/2022
  */
-public class SubcellularLocationEntryTupleMapper implements PairFunction<Tuple2<SubcellularLocationEntry, Optional<String>>, String, SubcellularLocationEntry> {
+public class SubcellularLocationEntryTupleMapper implements PairFunction<Tuple2<SubcellularLocationEntry, String>, String, SubcellularLocationEntry> {
     @Override
-    public Tuple2<String, SubcellularLocationEntry> call(Tuple2<SubcellularLocationEntry, Optional<String>> tuple) throws Exception {
-        return new Tuple2<>(tuple._2.get(), tuple._1());
+    public Tuple2<String, SubcellularLocationEntry> call(Tuple2<SubcellularLocationEntry, String> tuple) throws Exception {
+        return new Tuple2<>(tuple._2, tuple._1());
     }
 }

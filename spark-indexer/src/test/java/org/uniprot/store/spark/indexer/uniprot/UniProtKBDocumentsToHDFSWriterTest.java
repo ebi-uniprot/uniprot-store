@@ -201,6 +201,17 @@ class UniProtKBDocumentsToHDFSWriterTest {
         assertEquals("1358782", result.get(0).communityPubmedIds.get(0));
     }
 
+    @Test
+    void canJoinSubcellularLocation(){
+        UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
+        UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
+        JavaPairRDD<String, UniProtKBEntry> uniProtRDD = reader.load();
+        JavaPairRDD<String, UniProtDocument> uniProtDocument = uniProtRDD.mapValues(new UniProtEntryToSolrDocument(new HashMap<>()));
+
+        JavaPairRDD<String, UniProtDocument> uniProtDocumentWithSubcells = writer.joinSubcellularLocationRelations(uniProtRDD, uniProtDocument);
+        System.out.println();
+    }
+
     private UniProtDocument createUniProtDoc(String accession) {
         UniProtDocument document = new UniProtDocument();
         document.accession = accession;
