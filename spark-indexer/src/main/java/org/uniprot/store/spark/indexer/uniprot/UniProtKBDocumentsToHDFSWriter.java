@@ -309,11 +309,9 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                 .flatMapToPair(new SubcellularLocationJoinMapper())
                 .mapValues(mp -> mp.getProteinAccession());
         // Accession, List<SubcellEntry>
-        JavaPairRDD<String, Iterable<SubcellularLocationEntry>> accessionSubcellLocationsRDD = subcellRDD.
-                leftOuterJoin(subcellProteinsRDD)
-                .values()
-                .filter(tuple -> tuple._2.isPresent())
-                .mapToPair(new SubcellularLocationEntryTupleMapper())
+        JavaPairRDD<String, Iterable<SubcellularLocationEntry>> accessionSubcellLocationsRDD = subcellProteinsRDD.
+                join(subcellRDD)
+                .mapToPair(Tuple2::_2)
                 .groupByKey();
         // join with documents and then update document with ancestors subcell ids and values
         return uniProtDocumentRDD
