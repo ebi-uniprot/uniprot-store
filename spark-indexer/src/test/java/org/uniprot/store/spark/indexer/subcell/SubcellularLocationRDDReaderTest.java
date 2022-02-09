@@ -36,11 +36,12 @@ class SubcellularLocationRDDReaderTest {
             long count = subcellRdd.count();
             assertEquals(520L, count);
             Tuple2<String, SubcellularLocationEntry> tuple =
-                    subcellRdd.filter(tuple2 -> tuple2._1.equals("acidocalcisome")).first();
+                    subcellRdd.filter(tuple2 -> tuple2._1.equals("SL-0002")).first();
 
             assertNotNull(subcellRdd);
-            assertEquals("acidocalcisome", tuple._1);
+            assertEquals("SL-0002", tuple._1);
             assertEquals("SL-0002", tuple._2.getId());
+            assertEquals("Acidocalcisome", tuple._2.getName());
         }
     }
 }

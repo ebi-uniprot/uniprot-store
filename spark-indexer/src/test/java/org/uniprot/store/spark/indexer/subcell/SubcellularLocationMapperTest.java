@@ -16,12 +16,13 @@ class SubcellularLocationMapperTest {
 
     @Test
     void testSubcellularLocationMapper() throws Exception {
-        SubcellularLocationEntry entry = new SubcellularLocationEntryBuilder().name("ID").build();
+        SubcellularLocationEntry entry =
+                new SubcellularLocationEntryBuilder().id("SL-0000").name("ID").build();
 
         SubcellularLocationMapper mapper = new SubcellularLocationMapper();
         Tuple2<String, SubcellularLocationEntry> result = mapper.call(entry);
         assertNotNull(result);
-        assertEquals("id", result._1);
+        assertEquals("SL-0000", result._1);
         assertEquals(entry, result._2);
     }
 }
