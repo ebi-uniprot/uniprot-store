@@ -202,14 +202,42 @@ class UniProtKBDocumentsToHDFSWriterTest {
     }
 
     @Test
-    void canJoinSubcellularLocation(){
+    void canJoinSubcellularLocation() {
         UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
         UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
         JavaPairRDD<String, UniProtKBEntry> uniProtRDD = reader.load();
-        JavaPairRDD<String, UniProtDocument> uniProtDocument = uniProtRDD.mapValues(new UniProtEntryToSolrDocument(new HashMap<>()));
-
-        JavaPairRDD<String, UniProtDocument> uniProtDocumentWithSubcells = writer.joinSubcellularLocationRelations(uniProtRDD, uniProtDocument);
-        System.out.println();
+        JavaPairRDD<String, UniProtDocument> uniProtDocument =
+                uniProtRDD.mapValues(new UniProtEntryToSolrDocument(new HashMap<>()));
+        Map<String, UniProtDocument> accessionDoc = uniProtDocument.collectAsMap();
+        assertNotNull(accessionDoc);
+        assertEquals(1, accessionDoc.size());
+        UniProtDocument documentBeforeJoin = accessionDoc.values().stream().findFirst().get();
+        List<String> slIds =
+                documentBeforeJoin.content.stream()
+                        .filter(str -> str.startsWith("SL-"))
+                        .collect(Collectors.toList());
+        Set<String> slTerms = documentBeforeJoin.subcellLocationTerm;
+        assertEquals(13, slIds.size());
+        assertEquals(26, documentBeforeJoin.subcellLocationTerm.size());
+        assertTrue(documentBeforeJoin.subcellLocationTerm.containsAll(slIds));
+        // verify the number of sl ids in content and subcell term
+        JavaPairRDD<String, UniProtDocument> uniProtDocumentWithSubcells =
+                writer.joinSubcellularLocationRelations(uniProtRDD, uniProtDocument);
+        // after join
+        Map<String, UniProtDocument> accessionDocAfterJoin =
+                uniProtDocumentWithSubcells.collectAsMap();
+        assertNotNull(accessionDocAfterJoin);
+        assertEquals(1, accessionDocAfterJoin.size());
+        UniProtDocument documentAfterJoin =
+                accessionDocAfterJoin.values().stream().findFirst().get();
+        List<String> slIdsAfterJoin =
+                documentAfterJoin.content.stream()
+                        .filter(str -> str.startsWith("SL-"))
+                        .collect(Collectors.toList());
+        assertEquals(19, slIdsAfterJoin.size());
+        assertTrue(slIdsAfterJoin.containsAll(slIds));
+        assertEquals(44, documentAfterJoin.subcellLocationTerm.size());
+        assertTrue(documentAfterJoin.subcellLocationTerm.containsAll(slTerms));
     }
 
     private UniProtDocument createUniProtDoc(String accession) {
