@@ -20,7 +20,7 @@ import scala.Tuple2;
  * @author sahmad
  * @created 03/02/2022
  */
-public class SubcellularLocationFlatAncestorTest {
+class SubcellularLocationFlatAncestorTest {
 
     @Test
     void testAncestorFlattening() throws Exception {
