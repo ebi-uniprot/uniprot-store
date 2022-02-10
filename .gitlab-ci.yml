@@ -37,6 +37,10 @@ store:settings:
     expire_in: 2 days
     paths:
       - ./${MAVEN_SETTINGS}
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+    - when: manual
+      allow_failure: true
 
 store:test:
   stage: test
@@ -53,6 +57,10 @@ store:test:
     reports:
       junit:
         - ./*/target/surefire-reports/TEST-*.xml
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+    - when: manual
+      allow_failure: true
 
 store:sonar:
   stage: quality
@@ -60,6 +68,10 @@ store:sonar:
   dependencies:
     - store:test
     - store:settings
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+    - when: manual
+      allow_failure: true
 
 store:deploy:
   stage: deploy
