@@ -218,11 +218,11 @@
 	<dynamicField name="ftlen_*" type="int" indexed="true"
 		required="false" stored="false" multiValued="true" />
     <!-- did you mean fields? -->
-    <field name="did_you_mean" type="textSpell" indexed="true" stored="false" multiValued="true"/>
-    <copyField source="protein_name" dest="did_you_mean"/>
-    <copyField source="gene_exact" dest="did_you_mean"/>
-    <copyField source="organism_name" dest="did_you_mean"/>
-    <copyField source="taxonomy_name" dest="did_you_mean"/>
+<!--    <field name="did_you_mean" type="text_suggest" indexed="true" stored="false" multiValued="true"/>-->
+<!--    <copyField source="protein_name" dest="did_you_mean"/>-->
+<!--    <copyField source="gene_exact" dest="did_you_mean"/>-->
+<!--    <copyField source="organism_name" dest="did_you_mean"/>-->
+<!--    <copyField source="taxonomy_name" dest="did_you_mean"/>-->
 
 	<copyField source="ft_site" dest="ft_sites" />
 	<copyField source="ft_metal" dest="ft_sites" />
@@ -484,4 +484,12 @@
 		</analyzer>
 	</fieldType>
 	<!-- End of UJDK type definitions -->
+<!--    <fieldType name="text_suggest" class="solr.TextField" positionIncrementGap="100">-->
+<!--        <analyzer>-->
+<!--            <tokenizer class="solr.ClassicTokenizerFactory"/>-->
+<!--            <filter class="solr.ClassicFilterFactory"/>-->
+<!--            <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />-->
+<!--            <filter class="solr.LowerCaseFilterFactory"/>-->
+<!--        </analyzer>-->
+<!--    </fieldType>-->
 </schema>
