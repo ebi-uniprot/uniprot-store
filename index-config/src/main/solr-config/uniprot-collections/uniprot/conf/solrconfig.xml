@@ -131,17 +131,34 @@
 	</initParams>
 
     <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
-        <str name="queryAnalyzerFieldType">textSpell</str>
         <lst name="spellchecker">
             <str name="name">default</str>
-            <str name="field">did_you_mean</str>
-            <str name="spellcheckIndexDir">./spellchecker</str>
-            <str name="buildOnCommit">true</str>
+            <str name="field">keyword</str>
+            <str name="classname">solr.DirectSolrSpellChecker</str>
+            <str name="distanceMeasure">internal</str>
+            <float name="accuracy">0.5</float>
+            <int name="maxEdits">2</int>
+            <int name="minPrefix">1</int>
+            <int name="maxInspections">5</int>
+            <int name="minQueryLength">4</int>
+            <int name="maxQueryLength">40</int>
+            <float name="maxQueryFrequency">0.01</float>
+            <float name="thresholdTokenFrequency">.01</float>
         </lst>
-
     </searchComponent>
+
+<!--    <searchComponent name="spellcheck" class="solr.SpellCheckComponent">-->
+<!--        <str name="queryAnalyzerFieldType">full_ci_split_numeric</str>-->
+<!--        <lst name="spellchecker">-->
+<!--            <str name="name">default</str>-->
+<!--            <str name="field">protein_name</str>-->
+<!--            <str name="spellcheckIndexDir">./spellchecker</str>-->
+<!--            <str name="buildOnCommit">true</str>-->
+<!--        </lst>-->
+<!--    </searchComponent>-->
     <requestHandler name="/spell" class="solr.SearchHandler" lazy="true">
         <lst name="defaults">
+            <str name="spellcheck.dictionary">default</str>
             <str name="spellcheck.onlyMorePopular">false</str>
             <str name="spellcheck.extendedResults">false</str>
             <str name="spellcheck.count">5</str>
