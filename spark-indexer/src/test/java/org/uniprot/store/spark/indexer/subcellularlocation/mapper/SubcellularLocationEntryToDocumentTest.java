@@ -1,8 +1,10 @@
 package org.uniprot.store.spark.indexer.subcellularlocation.mapper;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.cv.subcell.SubcellularLocationFileReader;
@@ -31,17 +33,17 @@ class SubcellularLocationEntryToDocumentTest {
                         "HP   Endomembrane system.",
                         "//");
         List<SubcellularLocationEntry> entries = reader.parseLines(input);
-        Assertions.assertNotNull(entries);
-        Assertions.assertEquals(1, entries.size());
+        assertNotNull(entries);
+        assertEquals(1, entries.size());
 
         SubcellularLocationEntryToDocument entryToDocument =
                 new SubcellularLocationEntryToDocument();
         SubcellularLocationDocument document = entryToDocument.call(entries.get(0));
-        Assertions.assertNotNull(document);
-        Assertions.assertEquals("SL-0456", document.getId());
-        Assertions.assertEquals("Cell tip", document.getName());
-        Assertions.assertNotNull(document.getSubcellularlocationObj());
-        Assertions.assertNotNull(document.getDefinition());
-        Assertions.assertNotNull(document.getCategory());
+        assertNotNull(document);
+        assertEquals("SL-0456", document.getId());
+        assertEquals("Cell tip", document.getName());
+        assertNotNull(document.getSubcellularlocationObj());
+        assertNotNull(document.getDefinition());
+        assertNotNull(document.getCategory());
     }
 }

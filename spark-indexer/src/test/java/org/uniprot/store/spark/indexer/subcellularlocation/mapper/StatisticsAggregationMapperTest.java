@@ -1,9 +1,11 @@
 package org.uniprot.store.spark.indexer.subcellularlocation.mapper;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.Statistics;
 
@@ -34,9 +36,9 @@ class StatisticsAggregationMapperTest {
                         .build();
         mappedProteins.addAll(Set.of(mpa1, mpa2, mpa3));
         Statistics mergedStats = mapper.call(mappedProteins);
-        Assertions.assertNotNull(mergedStats);
-        Assertions.assertEquals(2, mergedStats.getReviewedProteinCount());
-        Assertions.assertEquals(1, mergedStats.getUnreviewedProteinCount());
+        assertNotNull(mergedStats);
+        assertEquals(2, mergedStats.getReviewedProteinCount());
+        assertEquals(1, mergedStats.getUnreviewedProteinCount());
     }
 
     @Test
@@ -50,9 +52,9 @@ class StatisticsAggregationMapperTest {
                         .build();
         mappedProteins.add(mpa2);
         Statistics mergedStats = mapper.call(mappedProteins);
-        Assertions.assertNotNull(mergedStats);
-        Assertions.assertEquals(0, mergedStats.getReviewedProteinCount());
-        Assertions.assertEquals(1, mergedStats.getUnreviewedProteinCount());
+        assertNotNull(mergedStats);
+        assertEquals(0, mergedStats.getReviewedProteinCount());
+        assertEquals(1, mergedStats.getUnreviewedProteinCount());
     }
 
     @Test
@@ -72,8 +74,8 @@ class StatisticsAggregationMapperTest {
         mappedProteins.add(mpa2);
         mappedProteins.add(mpa1);
         Statistics mergedStats = mapper.call(mappedProteins);
-        Assertions.assertNotNull(mergedStats);
-        Assertions.assertEquals(2, mergedStats.getReviewedProteinCount());
-        Assertions.assertEquals(0, mergedStats.getUnreviewedProteinCount());
+        assertNotNull(mergedStats);
+        assertEquals(2, mergedStats.getReviewedProteinCount());
+        assertEquals(0, mergedStats.getUnreviewedProteinCount());
     }
 }

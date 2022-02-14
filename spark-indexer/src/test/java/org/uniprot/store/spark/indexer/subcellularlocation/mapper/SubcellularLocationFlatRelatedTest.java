@@ -1,18 +1,17 @@
 package org.uniprot.store.spark.indexer.subcellularlocation.mapper;
 
-import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.apache.spark.api.java.Optional;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.Statistics;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.core.cv.subcell.impl.SubcellularLocationEntryBuilder;
-import org.uniprot.core.impl.StatisticsBuilder;
 
 import scala.Tuple2;
 
@@ -20,11 +19,11 @@ import scala.Tuple2;
  * @author sahmad
  * @created 03/02/2022
  */
-class SubcellularLocationFlatAncestorTest {
+class SubcellularLocationFlatRelatedTest {
 
     @Test
     void testAncestorFlattening() throws Exception {
-        SubcellularLocationFlatAncestor flatAncestor = new SubcellularLocationFlatAncestor();
+        SubcellularLocationFlatRelated flatAncestor = new SubcellularLocationFlatRelated();
         SubcellularLocationEntry grandParent = createSubcellularLocationEntry("SL-0003");
         SubcellularLocationEntry parent = createSubcellularLocationEntry("SL-0002");
         SubcellularLocationEntry son = createSubcellularLocationEntry("SL-0001");
@@ -46,9 +45,6 @@ class SubcellularLocationFlatAncestorTest {
                         .isAAdd(parentWithParent)
                         .partOfAdd(partOfSon)
                         .build();
-        Statistics modelStatistics =
-                new StatisticsBuilder().reviewedProteinCount(1L).unreviewedProteinCount(2L).build();
-        List<MappedProteinAccession> mappedProteins = new ArrayList<>();
         List<String> proteins = List.of("P12345", "Q12345");
         MappedProteinAccession mpa1 =
                 new MappedProteinAccession.MappedProteinAccessionBuilder()
@@ -71,7 +67,7 @@ class SubcellularLocationFlatAncestorTest {
             Tuple2<String, Iterable<MappedProteinAccession>> ancestor = ancestorsIterator.next();
             verifyStatistics(ancestor, proteins);
         }
-        Assertions.assertEquals(4, ancestorsCount);
+        assertEquals(4, ancestorsCount);
     }
 
     static SubcellularLocationEntry createSubcellularLocationEntry(String subcellId) {
@@ -87,9 +83,8 @@ class SubcellularLocationFlatAncestorTest {
                 StreamSupport.stream(ancestor._2().spliterator(), false)
                         .map(pa -> pa.getProteinAccession())
                         .collect(Collectors.toList());
-        Assertions.assertTrue(
-                List.of("SL-0001", "SL-0002", "SL-0003", "SL-0000").contains(ancestor._1));
-        Assertions.assertEquals(accessions.size(), proteins.size());
-        Assertions.assertEquals(accessions.toString(), proteins.toString());
+        assertTrue(List.of("SL-0001", "SL-0002", "SL-0003", "SL-0000").contains(ancestor._1));
+        assertEquals(accessions.size(), proteins.size());
+        assertEquals(accessions.toString(), proteins.toString());
     }
 }

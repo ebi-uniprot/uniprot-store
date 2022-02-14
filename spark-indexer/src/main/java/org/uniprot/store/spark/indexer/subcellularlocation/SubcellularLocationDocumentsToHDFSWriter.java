@@ -23,7 +23,7 @@ import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SeqMappedProte
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.StatisticsAggregationMapper;
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SubcellularLocationEntryStatisticsMerger;
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SubcellularLocationEntryToDocument;
-import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SubcellularLocationFlatAncestor;
+import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SubcellularLocationFlatRelated;
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SubcellularLocationJoinMapper;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
@@ -65,7 +65,7 @@ public class SubcellularLocationDocumentsToHDFSWriter implements DocumentsToHDFS
                 subcellRDD
                         .leftOuterJoin(subcellIdProteinsRDD)
                         .values()
-                        .flatMapToPair(new SubcellularLocationFlatAncestor())
+                        .flatMapToPair(new SubcellularLocationFlatRelated())
                         .aggregateByKey(
                                 new HashSet<>(),
                                 new SeqMappedProteinAccessionSet(),

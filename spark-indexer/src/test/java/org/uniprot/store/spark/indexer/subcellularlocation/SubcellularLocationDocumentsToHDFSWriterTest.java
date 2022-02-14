@@ -1,5 +1,8 @@
 package org.uniprot.store.spark.indexer.subcellularlocation;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -7,7 +10,6 @@ import java.util.ResourceBundle;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -51,20 +53,20 @@ class SubcellularLocationDocumentsToHDFSWriterTest {
                 writer = new SubcellularLocationDocumentsToHDFSWriterFake(parameter);
         writer.writeIndexDocumentsToHDFS();
         List<SubcellularLocationDocument> savedDocs = writer.getSavedDocuments();
-        Assertions.assertNotNull(savedDocs);
-        Assertions.assertEquals(520, savedDocs.size());
+        assertNotNull(savedDocs);
+        assertEquals(520, savedDocs.size());
         SubcellularLocationDocument membraneDoc =
                 savedDocs.stream()
                         .filter(d -> d.getName().equalsIgnoreCase("membrane"))
                         .findFirst()
                         .get();
-        Assertions.assertNotNull(membraneDoc);
+        assertNotNull(membraneDoc);
         SubcellularLocationEntry membraneEntry = extractEntryFromDocument(membraneDoc);
-        Assertions.assertNotNull(membraneEntry);
-        Assertions.assertEquals("Membrane", membraneEntry.getName());
-        Assertions.assertNotNull(membraneEntry.getStatistics());
-        Assertions.assertEquals(1L, membraneEntry.getStatistics().getReviewedProteinCount());
-        Assertions.assertEquals(0L, membraneEntry.getStatistics().getUnreviewedProteinCount());
+        assertNotNull(membraneEntry);
+        assertEquals("Membrane", membraneEntry.getName());
+        assertNotNull(membraneEntry.getStatistics());
+        assertEquals(1L, membraneEntry.getStatistics().getReviewedProteinCount());
+        assertEquals(0L, membraneEntry.getStatistics().getUnreviewedProteinCount());
     }
 
     SubcellularLocationEntry extractEntryFromDocument(SubcellularLocationDocument document)
