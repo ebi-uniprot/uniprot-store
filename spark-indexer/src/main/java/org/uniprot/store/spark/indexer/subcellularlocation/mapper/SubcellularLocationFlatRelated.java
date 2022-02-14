@@ -16,7 +16,7 @@ import scala.Tuple2;
  * @author sahmad
  * @created 31/01/2022
  */
-public class SubcellularLocationFlatAncestor
+public class SubcellularLocationFlatRelated
         implements PairFlatMapFunction<
                 Tuple2<SubcellularLocationEntry, Optional<Iterable<MappedProteinAccession>>>,
                 String,

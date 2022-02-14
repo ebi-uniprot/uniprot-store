@@ -1,8 +1,10 @@
 package org.uniprot.store.spark.indexer.subcellularlocation.mapper;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.util.HashSet;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -29,8 +31,8 @@ class CombineMappedProteinAccessionSetsTest {
         input2.add(mpa3);
         input2.add(mpa4);
         HashSet<MappedProteinAccession> result = combineFunction.call(input1, input2);
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(4, result.size());
+        assertNotNull(result);
+        assertEquals(4, result.size());
     }
 
     @Test
@@ -47,7 +49,7 @@ class CombineMappedProteinAccessionSetsTest {
         input1.add(mpa3);
         HashSet<MappedProteinAccession> input2 = new HashSet<>();
         HashSet<MappedProteinAccession> result = combineFunction.call(input1, input2);
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(3, result.size());
+        assertNotNull(result);
+        assertEquals(3, result.size());
     }
 }
