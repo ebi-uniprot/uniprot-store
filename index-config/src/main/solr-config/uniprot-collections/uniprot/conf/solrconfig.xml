@@ -129,4 +129,27 @@
 			<str name="df">content</str>
 		</lst>
 	</initParams>
+
+    <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
+        <str name="queryAnalyzerFieldType">textSpell</str>
+        <lst name="spellchecker">
+            <str name="name">default</str>
+            <str name="field">did_you_mean</str>
+            <str name="spellcheckIndexDir">./spellchecker</str>
+            <str name="buildOnCommit">true</str>
+        </lst>
+
+    </searchComponent>
+    <requestHandler name="/spell" class="solr.SearchHandler" lazy="true">
+        <lst name="defaults">
+            <str name="spellcheck.onlyMorePopular">false</str>
+            <str name="spellcheck.extendedResults">false</str>
+            <str name="spellcheck.count">5</str>
+            <str name="spellcheck">on</str>
+            <str name="spellcheck.collate">true</str>
+        </lst>
+        <arr name="last-components">
+            <str>spellcheck</str>
+        </arr>
+    </requestHandler>
 </config>

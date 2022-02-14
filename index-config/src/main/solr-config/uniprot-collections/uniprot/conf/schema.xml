@@ -217,6 +217,12 @@
 		indexed="true" required="false" stored="false" multiValued="true" />
 	<dynamicField name="ftlen_*" type="int" indexed="true"
 		required="false" stored="false" multiValued="true" />
+    <!-- did you mean fields? -->
+    <field name="did_you_mean" type="textSpell" indexed="true" stored="false" multiValued="true"/>
+    <copyField source="protein_name" dest="did_you_mean"/>
+    <copyField source="gene_exact" dest="did_you_mean"/>
+    <copyField source="organism_name" dest="did_you_mean"/>
+    <copyField source="taxonomy_name" dest="did_you_mean"/>
 
 	<copyField source="ft_site" dest="ft_sites" />
 	<copyField source="ft_metal" dest="ft_sites" />
