@@ -79,7 +79,11 @@
 			<str name="q.op">AND</str>
 			<str name="echoParams">explicit</str>
 			<int name="rows">10</int>
+            <str name="spellcheck">true</str>
 		</lst>
+        <arr name="last-components">
+            <str>spellcheck</str>
+        </arr>
 	</requestHandler>
 	<requestHandler name="/query" class="solr.SearchHandler">
 		<lst name="defaults">
@@ -124,4 +128,21 @@
 	<!-- =============================== Taxonomy configurations =============================== -->
 	<!-- ====================================================================================== -->
 	<slowQueryThresholdMillis>${slow.query.time.millis:15000}</slowQueryThresholdMillis>
+
+    <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
+        <lst name="spellchecker">
+            <str name="name">default</str>
+            <str name="field">scientific</str>
+            <str name="classname">solr.DirectSolrSpellChecker</str>
+            <str name="distanceMeasure">internal</str>
+            <float name="accuracy">0.5</float>
+            <int name="maxEdits">2</int>
+            <int name="minPrefix">1</int>
+            <int name="maxInspections">5</int>
+            <int name="minQueryLength">4</int>
+            <int name="maxQueryLength">40</int>
+            <float name="maxQueryFrequency">0.01</float>
+            <float name="thresholdTokenFrequency">.01</float>
+        </lst>
+    </searchComponent>
 </config>

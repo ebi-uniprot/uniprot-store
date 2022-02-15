@@ -79,7 +79,12 @@
 			<str name="q.op">AND</str>
 			<str name="echoParams">explicit</str>
 			<int name="rows">10</int>
+            <str name="spellcheck.dictionary">default</str>
+            <str name="spellcheck">true</str>
 		</lst>
+        <arr name="last-components">
+            <str>spellcheck</str>
+        </arr>
 	</requestHandler>
 	<requestHandler name="/query" class="solr.SearchHandler">
 		<lst name="defaults">
@@ -133,7 +138,7 @@
     <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
         <lst name="spellchecker">
             <str name="name">default</str>
-            <str name="field">keyword</str>
+            <str name="field">organism_name</str>
             <str name="classname">solr.DirectSolrSpellChecker</str>
             <str name="distanceMeasure">internal</str>
             <float name="accuracy">0.5</float>
