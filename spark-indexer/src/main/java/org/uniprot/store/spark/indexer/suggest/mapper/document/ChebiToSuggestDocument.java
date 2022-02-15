@@ -1,9 +1,15 @@
 package org.uniprot.store.spark.indexer.suggest.mapper.document;
 
 import static org.uniprot.core.util.Utils.nullOrEmpty;
+import static org.uniprot.store.spark.indexer.uniprot.mapper.ChebiToUniProtDocument.CHEBI_PREFIX;
 
-import org.apache.spark.api.java.function.Function;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.spark.api.java.function.PairFlatMapFunction;
 import org.uniprot.core.cv.chebi.ChebiEntry;
+import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 import scala.Tuple2;
@@ -15,7 +21,8 @@ import scala.Tuple2;
  * @since 2020-01-17
  */
 public class ChebiToSuggestDocument
-        implements Function<Tuple2<String, ChebiEntry>, SuggestDocument> {
+        implements PairFlatMapFunction<
+                Tuple2<String, Tuple2<String, ChebiEntry>>, String, SuggestDocument> {
     private static final long serialVersionUID = 1671999070788047349L;
     private final String dictionaryName;
 
@@ -24,16 +31,33 @@ public class ChebiToSuggestDocument
     }
 
     @Override
-    public SuggestDocument call(Tuple2<String, ChebiEntry> tuple) throws Exception {
-        ChebiEntry chebi = tuple._2;
+    public Iterator<Tuple2<String, SuggestDocument>> call(
+            Tuple2<String, Tuple2<String, ChebiEntry>> tuple) throws Exception {
+        List<Tuple2<String, SuggestDocument>> result = new ArrayList<>();
+        ChebiEntry chebi = tuple._2._2;
+        result.add(convertEntry(chebi));
+        if (Utils.notNullNotEmpty(chebi.getRelatedIds())) {
+            chebi.getRelatedIds().stream().map(this::convertEntry).forEach(result::add);
+        }
+        return result.iterator();
+    }
+
+    private Tuple2<String, SuggestDocument> convertEntry(ChebiEntry entry) {
+        String chebiId = entry.getId();
+        if (!chebiId.startsWith(CHEBI_PREFIX)) {
+            chebiId = CHEBI_PREFIX + chebiId;
+        }
         SuggestDocument.SuggestDocumentBuilder suggestionBuilder =
                 SuggestDocument.builder()
-                        .id(tuple._1)
+                        .id(chebiId)
                         .dictionary(dictionaryName)
-                        .value(chebi.getName());
-        if (!nullOrEmpty(chebi.getInchiKey())) {
-            suggestionBuilder.altValue(chebi.getInchiKey());
+                        .value(entry.getName());
+        if (!nullOrEmpty(entry.getSynonyms())) {
+            suggestionBuilder.altValues(entry.getSynonyms());
         }
-        return suggestionBuilder.build();
+        if (!nullOrEmpty(entry.getInchiKey())) {
+            suggestionBuilder.altValue(entry.getInchiKey());
+        }
+        return new Tuple2<>(entry.getId(), suggestionBuilder.build());
     }
 }

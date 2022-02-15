@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.chebi;
+package org.uniprot.store.spark.indexer.chebi.mapper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +25,7 @@ class ChebiFileMapperTest {
                         + "is_a: CHEBI:36342";
 
         ChebiFileMapper mapper = new ChebiFileMapper();
-        Tuple2<Object, ChebiEntry> result = mapper.call(input);
+        Tuple2<Long, ChebiEntry> result = mapper.call(input);
         assertNotNull(result);
         assertEquals(36347L, result._1);
         ChebiEntry chebi = result._2;
@@ -58,7 +58,7 @@ class ChebiFileMapperTest {
                         + "is_a: CHEBI:33627";
 
         ChebiFileMapper mapper = new ChebiFileMapper();
-        Tuple2<Object, ChebiEntry> result = mapper.call(input);
+        Tuple2<Long, ChebiEntry> result = mapper.call(input);
         assertNotNull(result);
         assertEquals(30151L, result._1);
         ChebiEntry chebi = result._2;

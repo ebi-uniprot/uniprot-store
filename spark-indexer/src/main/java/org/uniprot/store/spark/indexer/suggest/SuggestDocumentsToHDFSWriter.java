@@ -156,9 +156,9 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         JavaRDD<SuggestDocument> catalyticActivitySuggest =
                 flatFileCatalyticActivityRDD
                         .join(chebiRDD)
-                        .mapValues(new ChebiToSuggestDocument(CATALYTIC_ACTIVITY.name()))
-                        .values()
-                        .distinct();
+                        .flatMapToPair(new ChebiToSuggestDocument(CATALYTIC_ACTIVITY.name()))
+                        .reduceByKey((chebiTuple1, chebiTuple2) -> chebiTuple1)
+                        .values();
 
         // JavaPairRDD<chebiId,chebiId> flatFileCofactorRDD --> extracted from flat file
         // CC(Cofactor) lines
@@ -170,9 +170,9 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         JavaRDD<SuggestDocument> cofactorSuggest =
                 flatFileCofactorRDD
                         .join(chebiRDD)
-                        .mapValues(new ChebiToSuggestDocument(CHEBI.name()))
-                        .values()
-                        .distinct();
+                        .flatMapToPair(new ChebiToSuggestDocument(CHEBI.name()))
+                        .reduceByKey((chebiTuple1, chebiTuple2) -> chebiTuple1)
+                        .values();
 
         return catalyticActivitySuggest.union(cofactorSuggest);
     }

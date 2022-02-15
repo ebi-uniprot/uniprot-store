@@ -108,13 +108,34 @@ class SuggestDocumentsToHDFSWriterTest {
         JavaRDD<SuggestDocument> suggestRdd = writer.getChebi(flatFileRDD);
         assertNotNull(suggestRdd);
         long count = suggestRdd.count();
-        assertEquals(5L, count);
-        SuggestDocument document = suggestRdd.first();
+        assertEquals(17L, count);
+        SuggestDocument document = suggestRdd.filter(c -> c.id.equals("CHEBI:23367")).first();
 
         assertNotNull(document);
         assertEquals(CATALYTIC_ACTIVITY.name(), document.dictionary);
         assertEquals("CHEBI:23367", document.id);
         assertEquals("molecular entity", document.value);
+        assertEquals("medium", document.importance);
+
+        assertEquals(5, document.altValues.size());
+        assertTrue(document.altValues.contains("entidad molecular"));
+        assertTrue(document.altValues.contains("entidades moleculares"));
+        assertTrue(document.altValues.contains("entite moleculaire"));
+        assertTrue(document.altValues.contains("molecular entities"));
+        assertTrue(document.altValues.contains("molekulare Entitaet"));
+
+        // Make sure we add relatedIds to suggest as well
+        document = suggestRdd.filter(c -> c.id.equals("CHEBI:2500")).first();
+
+        assertNotNull(document);
+        assertEquals(CHEBI.name(), document.dictionary);
+        assertEquals("CHEBI:2500", document.id);
+        assertEquals("2500-fluoroethyl methanesulfonate", document.value);
+        assertEquals("medium", document.importance);
+
+        assertEquals(2, document.altValues.size());
+        assertTrue(document.altValues.contains("2500-synonym"));
+        assertTrue(document.altValues.contains("AABBBCCCDD-IIHHHHGGGFFFF-N"));
     }
 
     @Test

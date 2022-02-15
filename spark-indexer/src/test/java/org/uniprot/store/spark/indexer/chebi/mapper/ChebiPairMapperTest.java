@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.chebi;
+package org.uniprot.store.spark.indexer.chebi.mapper;
 
 import static org.junit.jupiter.api.Assertions.*;
 

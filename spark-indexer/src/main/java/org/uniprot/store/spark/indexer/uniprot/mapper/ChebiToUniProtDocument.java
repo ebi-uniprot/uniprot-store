@@ -29,13 +29,7 @@ public class ChebiToUniProtDocument
             if (tuple2._2.isPresent()) {
                 Iterable<ChebiEntry> chebiEntries = tuple2._2.get();
                 Map<String, ChebiEntry> mappedChebi = new HashMap<>();
-                chebiEntries.forEach(
-                        chebiEntry -> {
-                            mappedChebi.put(CHEBI_PREFIX + chebiEntry.getId(), chebiEntry);
-                            if (Utils.notNullNotEmpty(chebiEntry.getInchiKey())) {
-                                doc.inchikey.add(chebiEntry.getInchiKey());
-                            }
-                        });
+                chebiEntries.forEach(entry -> mappedChebi.put(CHEBI_PREFIX + entry.getId(), entry));
                 if (Utils.notNullNotEmpty(doc.cofactorChebi)) {
                     addCofactorChebi(doc, mappedChebi);
                 }
@@ -71,6 +65,19 @@ public class ChebiToUniProtDocument
                         .map(ChebiEntry::getInchiKey)
                         .filter(Objects::nonNull)
                         .collect(Collectors.toSet());
+        doc.inchikey.addAll(catalyticInchiKey);
+
+        Set<String> catalyticRelatedInchiKey =
+                catalytic.stream()
+                        .filter(id -> id.startsWith(CHEBI_PREFIX))
+                        .map(mappedChebi::get)
+                        .filter(Objects::nonNull)
+                        .flatMap(id -> id.getRelatedIds().stream())
+                        .filter(Objects::nonNull)
+                        .map(ChebiEntry::getInchiKey)
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toSet());
+        doc.inchikey.addAll(catalyticRelatedInchiKey);
 
         catalytic.addAll(relatedCatalytic);
 
@@ -80,6 +87,7 @@ public class ChebiToUniProtDocument
                         .collect(Collectors.toSet()));
 
         catalytic.addAll(catalyticInchiKey);
+        catalytic.addAll(catalyticRelatedInchiKey);
     }
 
     private void addCofactorChebi(UniProtDocument doc, Map<String, ChebiEntry> mappedChebi) {
@@ -100,6 +108,19 @@ public class ChebiToUniProtDocument
                         .map(ChebiEntry::getInchiKey)
                         .filter(Objects::nonNull)
                         .collect(Collectors.toSet());
+        doc.inchikey.addAll(cofactorsInchiKey);
+
+        Set<String> cofactorsRelatedInchiKey =
+                doc.cofactorChebi.stream()
+                        .filter(id -> id.startsWith(CHEBI_PREFIX))
+                        .map(mappedChebi::get)
+                        .filter(Objects::nonNull)
+                        .flatMap(id -> id.getRelatedIds().stream())
+                        .filter(Objects::nonNull)
+                        .map(ChebiEntry::getInchiKey)
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toSet());
+        doc.inchikey.addAll(cofactorsRelatedInchiKey);
 
         doc.cofactorChebi.addAll(relatedCofactors);
 
@@ -109,5 +130,6 @@ public class ChebiToUniProtDocument
                         .collect(Collectors.toSet()));
 
         doc.cofactorChebi.addAll(cofactorsInchiKey);
+        doc.cofactorChebi.addAll(cofactorsRelatedInchiKey);
     }
 }
