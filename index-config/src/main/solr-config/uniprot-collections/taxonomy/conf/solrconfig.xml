@@ -79,7 +79,7 @@
 			<str name="q.op">AND</str>
 			<str name="echoParams">explicit</str>
 			<int name="rows">10</int>
-            <str name="spellcheck">true</str>
+            <str name="spellcheck">on</str>
 		</lst>
         <arr name="last-components">
             <str>spellcheck</str>
@@ -130,9 +130,10 @@
 	<slowQueryThresholdMillis>${slow.query.time.millis:15000}</slowQueryThresholdMillis>
 
     <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
+        <str name="queryAnalyzerFieldType">text_suggest</str>
         <lst name="spellchecker">
             <str name="name">default</str>
-            <str name="field">scientific</str>
+            <str name="field">suggest</str>
             <str name="classname">solr.DirectSolrSpellChecker</str>
             <str name="distanceMeasure">internal</str>
             <float name="accuracy">0.5</float>
@@ -143,6 +144,14 @@
             <int name="maxQueryLength">40</int>
             <float name="maxQueryFrequency">0.01</float>
             <float name="thresholdTokenFrequency">.01</float>
+        </lst>
+        <lst name="spellchecker">
+            <str name="name">wordbreak</str>
+            <str name="field">suggest</str>
+            <str name="classname">solr.WordBreakSolrSpellChecker</str>
+            <str name="combineWords">true</str>
+            <str name="breakWords">true</str>
+            <int name="maxChanges">10</int>
         </lst>
     </searchComponent>
 </config>
