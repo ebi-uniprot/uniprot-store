@@ -58,14 +58,19 @@
     <field name="suggest" type="text_suggest" indexed="true" stored="false"/>
     <copyField source="scientific" dest="suggest"/>
     <fieldType name="text_suggest" class="solr.TextField"
-               positionIncrementGap="100">
-        <analyzer>
+               positionIncrementGap="100" omitNorms="true">
+        <analyzer type="index">
             <tokenizer class="solr.StandardTokenizerFactory"/>
-            <filter class="solr.StopFilterFactory" ignoreCase="true"
-                    words="stopwords.txt"/>
+            <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
             <filter class="solr.LowerCaseFilterFactory"/>
-            <filter class="solr.ASCIIFoldingFilterFactory"/>
-            <filter class="solr.EnglishPossessiveFilterFactory"/>
+            <filter class="solr.ClassicFilterFactory"/>
+        </analyzer>
+        <analyzer type="query">
+            <tokenizer class="solr.StandardTokenizerFactory"/>
+            <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true"  expand="true"/>
+            <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+            <filter class="solr.ClassicFilterFactory"/>
         </analyzer>
     </fieldType>
     <!-- Did you mean related changes end -->
