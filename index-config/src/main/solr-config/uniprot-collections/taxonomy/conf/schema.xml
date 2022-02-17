@@ -11,93 +11,93 @@
 	language governing permissions and limitations under the License. -->
 <schema name="taxonomy" version="1.6">
 
-    <uniqueKey>id</uniqueKey>
+	<uniqueKey>id</uniqueKey>
 
-    <field name="_version_" type="plong" indexed="true" stored="true" />
+	<field name="_version_" type="plong" indexed="true" stored="true" />
 
-    <!-- =============================== taxonomy fields =============================== -->
-    <field name="id" type="string" indexed="true" stored="true"
-           required="true" multiValued="false" docValues="true" />
-    <field name="tax_id" type="plong" indexed="true" stored="true"
-           required="true" multiValued="false" docValues="true" />
-    <field name="parent" type="plong" indexed="true" stored="true"
-           required="false" multiValued="false" docValues="true" />
-    <field name="name_sort" type="string" indexed="true"
-           docValues="true" />
+	<!-- =============================== taxonomy fields =============================== -->
+	<field name="id" type="string" indexed="true" stored="true"
+		required="true" multiValued="false" docValues="true" />
+	<field name="tax_id" type="plong" indexed="true" stored="true"
+		required="true" multiValued="false" docValues="true" />
+	<field name="parent" type="plong" indexed="true" stored="true"
+		required="false" multiValued="false" docValues="true" />
+	<field name="name_sort" type="string" indexed="true"
+		docValues="true" />
 
-    <field name="rank" type="basic_ci" indexed="true" />
-    <field name="scientific" type="full_ci" indexed="true" />
-    <field name="common" type="full_ci" indexed="true" />
-    <field name="synonym" type="full_ci" indexed="true" />
-    <field name="mnemonic" type="basic_ci" indexed="true" />
-    <field name="strain" type="full_ci" indexed="true"
-           multiValued="true" />
-    <field name="other_name" type="full_ci" indexed="true"
-           multiValued="true" />
-    <field name="host" type="plong" indexed="true" multiValued="true" />
-    <field name="ancestor" type="plong" indexed="true"
-           multiValued="true" />
+	<field name="rank" type="basic_ci" indexed="true" />
+	<field name="scientific" type="full_ci" indexed="true" />
+	<field name="common" type="full_ci" indexed="true" />
+	<field name="synonym" type="full_ci" indexed="true" />
+	<field name="mnemonic" type="basic_ci" indexed="true" />
+	<field name="strain" type="full_ci" indexed="true"
+		multiValued="true" />
+	<field name="other_name" type="full_ci" indexed="true"
+		multiValued="true" />
+	<field name="host" type="plong" indexed="true" multiValued="true" />
+	<field name="ancestor" type="plong" indexed="true"
+		multiValued="true" />
 
-    <field name="hidden" type="boolean" indexed="true"
-           docValues="true" />
-    <field name="active" type="boolean" indexed="true"
-           docValues="true" />
-    <field name="linked" type="boolean" indexed="true"
-           docValues="true" />
-    <field name="taxonomies_with" type="string" indexed="true"
-           stored="false" required="false" multiValued="true" docValues="true" />
-    <field name="superkingdom" type="string" indexed="true"
-           stored="false" required="false" multiValued="false" docValues="true" />
-    <!-- the whole taxonomy object as binary -->
-    <field name="taxonomy_obj" type="binary" indexed="false"
-           stored="true" required="true" multiValued="false" />
-    <!-- @lgonzales: replaces field was in the old website, but we have not
-        find usage, so I will keep commented out for now, it get values from tax_update
-        tables. <field name="replaces"/> -->
+	<field name="hidden" type="boolean" indexed="true"
+		docValues="true" />
+	<field name="active" type="boolean" indexed="true"
+		docValues="true" />
+	<field name="linked" type="boolean" indexed="true"
+		docValues="true" />
+	<field name="taxonomies_with" type="string" indexed="true"
+		stored="false" required="false" multiValued="true" docValues="true" />
+	<field name="superkingdom" type="string" indexed="true"
+		stored="false" required="false" multiValued="false" docValues="true" />
+	<!-- the whole taxonomy object as binary -->
+	<field name="taxonomy_obj" type="binary" indexed="false"
+		stored="true" required="true" multiValued="false" />
+	<!-- @lgonzales: replaces field was in the old website, but we have not 
+		find usage, so I will keep commented out for now, it get values from tax_update 
+		tables. <field name="replaces"/> -->
 
-    <copyField source="scientific" dest="name_sort" />
-    <!-- =============================== field types =============================== -->
-    <fieldType name="plong" class="solr.LongPointField"
-               docValues="true" />
-    <fieldType name="string" class="solr.StrField"
-               sortMissingLast="true" />
-    <fieldType name="boolean" class="solr.BoolField"
-               sortMissingLast="true" />
-    <fieldType name="binary" class="solr.BinaryField" />
+	<copyField source="scientific" dest="name_sort" />
+	<!-- =============================== field types =============================== -->
+	<fieldType name="plong" class="solr.LongPointField"
+		docValues="true" />
+	<fieldType name="string" class="solr.StrField"
+		sortMissingLast="true" />
+	<fieldType name="boolean" class="solr.BoolField"
+		sortMissingLast="true" />
+	<fieldType name="binary" class="solr.BinaryField" />
 
-    <fieldType name="basic_ci" class="solr.TextField"
-               sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
-        <analyzer type="index">
-            <tokenizer class="solr.WhitespaceTokenizerFactory" />
-            <filter class="solr.LowerCaseFilterFactory" />
-        </analyzer>
-        <analyzer type="query">
-            <tokenizer class="solr.WhitespaceTokenizerFactory" />
-            <filter class="solr.LowerCaseFilterFactory" />
-        </analyzer>
-    </fieldType>
-    <fieldType name="full_ci" class="solr.TextField"
-               sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
-        <analyzer type="index">
-            <tokenizer class="solr.WhitespaceTokenizerFactory" />
-            <filter class="solr.ASCIIFoldingFilterFactory"
-                    preserveOriginal="false" />
-            <filter class="solr.WordDelimiterGraphFilterFactory"
-                    generateWordParts="1" generateNumberParts="1" catenateWords="1"
-                    catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
-                    preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
-            <filter class="solr.FlattenGraphFilterFactory" />
-            <filter class="solr.LowerCaseFilterFactory" />
-        </analyzer>
-        <analyzer type="query">
-            <tokenizer class="solr.WhitespaceTokenizerFactory" />
-            <filter class="solr.ASCIIFoldingFilterFactory"
-                    preserveOriginal="false" />
-            <filter class="solr.WordDelimiterGraphFilterFactory"
-                    generateWordParts="1" generateNumberParts="1" catenateWords="1"
-                    catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
-                    preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
-            <filter class="solr.LowerCaseFilterFactory" />
-        </analyzer>
-    </fieldType>
+	<fieldType name="basic_ci" class="solr.TextField"
+		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		<analyzer type="index">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+		<analyzer type="query">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
+	<fieldType name="full_ci" class="solr.TextField"
+		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		<analyzer type="index">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.ASCIIFoldingFilterFactory"
+				preserveOriginal="false" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+				generateWordParts="1" generateNumberParts="1" catenateWords="1"
+				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
+				preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
+			<filter class="solr.FlattenGraphFilterFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+		<analyzer type="query">
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.ASCIIFoldingFilterFactory"
+				preserveOriginal="false" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+				generateWordParts="1" generateNumberParts="1" catenateWords="1"
+				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
+				preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
 </schema>
