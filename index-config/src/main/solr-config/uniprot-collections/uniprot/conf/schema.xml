@@ -352,14 +352,6 @@
 	<!-- suggester definition -->
 	<field name="suggest" type="text_suggest" indexed="true"
 		stored="false" multiValued="true" />
-	<!-- Should we add cc_disease to suggest too? -->
-	<copyField source="protein_name" dest="suggest" />
-	<copyField source="gene_exact" dest="suggest" />
-	<copyField source="organism_name" dest="suggest" />
-	<copyField source="taxonomy_name" dest="suggest" />
-	<copyField source="strain" dest="suggest" />
-	<!-- suggester ends -->
-
 	<!-- =============================== field types =============================== -->
 	<fieldType name="string" class="solr.StrField"
 		sortMissingLast="true" />
@@ -496,8 +488,6 @@
 			<tokenizer class="solr.StandardTokenizerFactory" />
 			<filter class="solr.StopFilterFactory" ignoreCase="true"
 				words="stopwords.txt" />
-			<filter class="solr.KeywordMarkerFilterFactory"
-				protected="protwords.txt" />
 			<filter class="solr.LowerCaseFilterFactory" />
 			<filter class="solr.RemoveDuplicatesTokenFilterFactory" />
 		</analyzer>
@@ -508,8 +498,6 @@
 				words="stopwords.txt" />
 			<filter class="solr.SynonymFilterFactory"
 				synonyms="synonyms.txt" ignoreCase="true" expand="true" />
-			<filter class="solr.KeywordMarkerFilterFactory"
-				protected="protwords.txt" />
 			<filter class="solr.LowerCaseFilterFactory" />
 			<filter class="solr.RemoveDuplicatesTokenFilterFactory" />
 		</analyzer>

@@ -137,20 +137,21 @@
 			<str name="df">content</str>
 		</lst>
 	</initParams>
-    <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
-        <str name="queryAnalyzerFieldType">text_suggest</str>
-        <lst name="spellchecker">
-            <str name="name">default</str>
-            <str name="field">suggest</str>
-            <str name="classname">solr.DirectSolrSpellChecker</str>
-            <str name="distanceMeasure">internal</str>
-            <float name="accuracy">0.5</float>
-            <int name="maxEdits">2</int>
-            <int name="minPrefix">1</int>
-            <int name="maxInspections">5</int>
-            <int name="minQueryLength">4</int>
-            <int name="maxQueryLength">40</int>
-            <float name="maxQueryFrequency">0.01</float>
-        </lst>
-    </searchComponent>
+	<searchComponent name="spellcheck"
+		class="solr.SpellCheckComponent">
+		<str name="queryAnalyzerFieldType">text_suggest</str>
+		<lst name="spellchecker">
+			<str name="name">default</str>
+			<str name="field">suggest</str>
+			<str name="classname">solr.DirectSolrSpellChecker</str>
+			<str name="distanceMeasure">internal</str>
+			<float name="accuracy">0.5</float>
+			<int name="maxEdits">2</int>
+			<int name="minPrefix">1</int>
+			<int name="maxInspections">5</int>
+			<int name="minQueryLength">4</int>
+			<int name="maxQueryLength">40</int>
+			<float name="maxQueryFrequency">0.01</float>
+		</lst>
+	</searchComponent>
 </config>
