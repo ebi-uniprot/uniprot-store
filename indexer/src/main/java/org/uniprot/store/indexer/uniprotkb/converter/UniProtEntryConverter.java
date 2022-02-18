@@ -39,6 +39,7 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
 public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, UniProtDocument> {
 
     private static final String DASH = "-";
+    static final int SPELLCHECK_MIN_LENGTH = 4;
     /** An enum set representing all of the organelles that are children of plastid */
     private static final EnumSet<GeneEncodingType> PLASTID_CHILD =
             EnumSet.of(
@@ -120,7 +121,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
             convertSequence(source.getSequence(), document);
             convertEntryScore(source, document);
             convertEvidenceSources(source, document);
-
+            populateSpellcheckSuggestions(document);
             return document;
         } catch (Exception e) {
             String message = "Error converting UniProt entry";
@@ -272,6 +273,24 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
         if (proteinExistence != null) {
             document.proteinExistence = proteinExistence.getId();
         }
+    }
+
+    private void populateSpellcheckSuggestions(UniProtDocument document) {
+        // populate fields used in spellcheck
+        Collection<String> diseases = document.commentMap.getOrDefault("cc_disease", List.of());
+        populateSuggestions(diseases, document);
+        populateSuggestions(document.proteinNames, document);
+        populateSuggestions(document.geneNamesExact, document);
+        populateSuggestions(document.organismTaxon, document);
+        populateSuggestions(document.rcStrain, document);
+    }
+
+    private void populateSuggestions(Collection<String> values, UniProtDocument document) {
+        Set<String> length4orMore =
+                values.stream()
+                        .filter(val -> val.length() >= SPELLCHECK_MIN_LENGTH)
+                        .collect(Collectors.toSet());
+        document.suggests.addAll(length4orMore);
     }
 
     public Object getSuggestions() {

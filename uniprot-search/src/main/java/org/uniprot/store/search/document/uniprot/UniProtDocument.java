@@ -366,6 +366,9 @@ public class UniProtDocument implements Document {
     @Field("uniparc")
     public String uniparc;
 
+    @Field("suggest")
+    public Set<String> suggests = new HashSet<>();
+
     @Override
     public String getDocumentId() {
         return accession;
@@ -488,7 +491,8 @@ public class UniProtDocument implements Document {
                 && Objects.equals(computationalPubmedIds, that.computationalPubmedIds)
                 && Objects.equals(communityPubmedIds, that.communityPubmedIds)
                 && Objects.equals(uniparc, that.uniparc)
-                && Objects.equals(rheaIds, that.rheaIds);
+                && Objects.equals(rheaIds, that.rheaIds)
+                && Objects.equals(suggests, that.suggests);
     }
 
     @Override
@@ -606,7 +610,8 @@ public class UniProtDocument implements Document {
                 computationalPubmedIds,
                 communityPubmedIds,
                 uniparc,
-                rheaIds);
+                rheaIds,
+                suggests);
     }
 
     @Override
@@ -852,6 +857,10 @@ public class UniProtDocument implements Document {
                 + '\''
                 + ", rheaIds='"
                 + rheaIds
+                + '\''
+                + '\''
+                + ", suggests='"
+                + suggests
                 + '\''
                 + '}';
     }

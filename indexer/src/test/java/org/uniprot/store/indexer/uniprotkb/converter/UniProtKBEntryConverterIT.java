@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 import static org.uniprot.core.util.Utils.notNull;
 import static org.uniprot.cv.go.RelationshipType.IS_A;
 import static org.uniprot.cv.go.RelationshipType.PART_OF;
+import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter.SPELLCHECK_MIN_LENGTH;
 import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.createSuggestionMapKey;
 
 import java.io.InputStream;
@@ -229,6 +230,13 @@ class UniProtKBEntryConverterIT {
         assertEquals(2, doc.score);
 
         assertFalse(doc.isIsoform);
+        // verify spell check related values
+        assertNotNull(doc.suggests);
+        assertFalse(doc.suggests.isEmpty());
+        assertEquals(2, doc.suggests.size());
+        assertTrue(doc.suggests.contains(doc.proteinNames.get(0)));
+        assertTrue(doc.suggests.contains(doc.organismTaxon.get(0)));
+        doc.suggests.stream().forEach(val -> assertTrue(val.length() >= SPELLCHECK_MIN_LENGTH));
     }
 
     @Test
@@ -448,6 +456,24 @@ class UniProtKBEntryConverterIT {
         //        assertNotNull(doc.avro_binary);
 
         assertFalse(doc.isIsoform);
+        // verify spell check related values
+        assertNotNull(doc.suggests);
+        assertFalse(doc.suggests.isEmpty());
+        assertEquals(10, doc.suggests.size());
+        assertTrue(
+                doc.suggests.containsAll(
+                        List.of(
+                                "Sprague-Dawley",
+                                "NMDA receptor synaptonuclear signaling and neuronal migration factor",
+                                "Nelf",
+                                "Jacob protein",
+                                "Rattus norvegicus",
+                                "Wistar",
+                                "Nasal embryonic LHRH factor",
+                                "Nsmf",
+                                "Juxtasynaptic attractor of caldendrin on dendritic boutons protein",
+                                "Nasal embryonic luteinizing hormone-releasing hormone factor")));
+        doc.suggests.stream().forEach(val -> assertTrue(val.length() >= SPELLCHECK_MIN_LENGTH));
     }
 
     @Test
@@ -606,6 +632,11 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(5, doc.score);
         //        assertNotNull(doc.avro_binary);
+        // verify spell check related values
+        assertNotNull(doc.suggests);
+        assertFalse(doc.suggests.isEmpty());
+        assertEquals(10, doc.suggests.size());
+        doc.suggests.stream().forEach(val -> assertTrue(val.length() >= SPELLCHECK_MIN_LENGTH));
     }
 
     @Test
@@ -622,6 +653,21 @@ class UniProtKBEntryConverterIT {
         assertNull(doc.canonicalAccession);
         assertNull(doc.isIsoform);
         assertNull(doc.reviewed);
+        assertNotNull(doc.suggests);
+        assertTrue(doc.suggests.isEmpty());
+    }
+
+    @Test
+    void testConvertP38606EntryWithDisease() throws Exception {
+        when(repoMock.retrieveNodeUsingTaxID(anyInt())).thenReturn(Optional.<TaxonomicNode>empty());
+        String file = "P11362.txt";
+        UniProtKBEntry entry = parse(file);
+        assertNotNull(entry);
+        UniProtDocument doc = convertEntry(entry);
+        assertNotNull(doc);
+        assertEquals("P11362", doc.accession);
+        assertFalse(doc.suggests.isEmpty());
+        assertTrue(doc.suggests.containsAll(doc.commentMap.get("cc_disease")));
     }
 
     private void checkCatalyticChebiSuggestions(List<ChebiEntry> chebiList) {
