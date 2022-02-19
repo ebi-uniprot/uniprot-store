@@ -275,7 +275,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
         }
     }
 
-    private void populateSpellcheckSuggestions(UniProtDocument document) {
+    public static void populateSpellcheckSuggestions(UniProtDocument document) {
         // populate fields used in spellcheck
         Collection<String> diseases = document.commentMap.getOrDefault("cc_disease", List.of());
         populateSuggestions(diseases, document);
@@ -285,7 +285,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
         populateSuggestions(document.rcStrain, document);
     }
 
-    private void populateSuggestions(Collection<String> values, UniProtDocument document) {
+    private static void populateSuggestions(Collection<String> values, UniProtDocument document) {
         Set<String> length4orMore =
                 values.stream()
                         .filter(val -> val.length() >= SPELLCHECK_MIN_LENGTH)
