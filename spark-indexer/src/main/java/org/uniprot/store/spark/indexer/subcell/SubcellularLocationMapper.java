@@ -20,6 +20,6 @@ public class SubcellularLocationMapper
     @Override
     public Tuple2<String, SubcellularLocationEntry> call(SubcellularLocationEntry entry)
             throws Exception {
-        return new Tuple2<>(entry.getName().toLowerCase(), entry);
+        return new Tuple2<>(entry.getId(), entry);
     }
 }

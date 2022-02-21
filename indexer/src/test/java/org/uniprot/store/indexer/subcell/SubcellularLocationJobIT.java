@@ -3,7 +3,6 @@ package org.uniprot.store.indexer.subcell;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -127,10 +126,10 @@ class SubcellularLocationJobIT {
         SubcellularLocationDocument subcellularLocationDocument = response.get(0);
         validateSubcellularLocationDocument(subcellularLocationDocument);
 
-        ByteBuffer byteBuffer = subcellularLocationDocument.getSubcellularlocationObj();
+        byte[] byteArray = subcellularLocationDocument.getSubcellularlocationObj();
         ObjectMapper jsonMapper = SubcellularLocationJsonConfig.getInstance().getFullObjectMapper();
         SubcellularLocationEntry entry =
-                jsonMapper.readValue(byteBuffer.array(), SubcellularLocationEntryImpl.class);
+                jsonMapper.readValue(byteArray, SubcellularLocationEntryImpl.class);
         validateSubcellularLocationEntry(entry);
     }
 

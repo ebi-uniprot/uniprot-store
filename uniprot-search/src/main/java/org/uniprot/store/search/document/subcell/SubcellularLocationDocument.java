@@ -1,6 +1,5 @@
 package org.uniprot.store.search.document.subcell;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -29,7 +28,7 @@ public class SubcellularLocationDocument implements Document {
     @Field private String category;
 
     @Field("subcellularlocation_obj")
-    private ByteBuffer subcellularlocationObj;
+    private byte[] subcellularlocationObj;
 
     @Field private String definition;
 

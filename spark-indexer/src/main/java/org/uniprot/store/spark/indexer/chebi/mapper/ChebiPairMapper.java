@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.chebi;
+package org.uniprot.store.spark.indexer.chebi.mapper;
 
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.cv.chebi.ChebiEntry;
