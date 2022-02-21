@@ -1,0 +1,10 @@
+RHEA-COMP:12851	cytidine(32) in tRNA(Ser)
+RHEA-COMP:10693	cytidine(34) in elongator tRNA(Met)
+RHEA-COMP:10694	N(4)-acetylcytidine(34) in elongator tRNA(Met)
+RHEA-COMP:10000	oxidized [2Fe-2S]-[ferredoxin]
+RHEA-COMP:10001	reduced [2Fe-2S]-[ferredoxin]
+RHEA-COMP:10002	reduced 2[4Fe-4S]-[ferredoxin]
+RHEA-COMP:10004	oxidized 2[4Fe-4S]-[ferredoxin]
+RHEA-COMP:10033	[(1->4)-beta-D-glucosyl](n)
+RHEA-COMP:10034	[(1->4)-beta-D-glucosyl](n+1)
+RHEA-COMP:10035	[(1->4)-beta-D-glucosyl](n-1)

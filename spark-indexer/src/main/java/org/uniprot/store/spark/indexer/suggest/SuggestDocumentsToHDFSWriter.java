@@ -40,23 +40,13 @@ import org.uniprot.store.spark.indexer.ec.ECRDDReader;
 import org.uniprot.store.spark.indexer.go.relations.GORelationRDDReader;
 import org.uniprot.store.spark.indexer.keyword.KeywordRDDReader;
 import org.uniprot.store.spark.indexer.proteome.ProteomeRDDReader;
+import org.uniprot.store.spark.indexer.rhea.RheaCompRDDReader;
+import org.uniprot.store.spark.indexer.rhea.model.RheaComp;
 import org.uniprot.store.spark.indexer.subcell.SubcellularLocationRDDReader;
 import org.uniprot.store.spark.indexer.suggest.mapper.ProteomeToTaxonomyPair;
 import org.uniprot.store.spark.indexer.suggest.mapper.TaxonomyHighImportanceReduce;
-import org.uniprot.store.spark.indexer.suggest.mapper.document.ChebiToSuggestDocument;
-import org.uniprot.store.spark.indexer.suggest.mapper.document.ECToSuggestDocument;
-import org.uniprot.store.spark.indexer.suggest.mapper.document.GOToSuggestDocument;
-import org.uniprot.store.spark.indexer.suggest.mapper.document.KeywordToSuggestDocument;
-import org.uniprot.store.spark.indexer.suggest.mapper.document.OrganismToSuggestDocument;
-import org.uniprot.store.spark.indexer.suggest.mapper.document.ProteomeToSuggestDocument;
-import org.uniprot.store.spark.indexer.suggest.mapper.document.SubcellularLocationToSuggestDocument;
-import org.uniprot.store.spark.indexer.suggest.mapper.document.TaxonomyToSuggestDocument;
-import org.uniprot.store.spark.indexer.suggest.mapper.document.UniParcTaxonomyToSuggestDocument;
-import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.FlatFileToCatalyticActivityChebi;
-import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.FlatFileToCofactorChebi;
-import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.FlatFileToEC;
-import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.FlatFileToOrganism;
-import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.FlatFileToOrganismHost;
+import org.uniprot.store.spark.indexer.suggest.mapper.document.*;
+import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.*;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyLineageReader;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniparc.UniParcRDDTupleReader;
@@ -94,6 +84,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .union(getSubcell())
                         .union(getEC(flatFileRDD))
                         .union(getChebi(flatFileRDD))
+                        .union(getRheaComp(flatFileRDD))
                         .union(getGo(flatFileRDD))
                         .union(getOrganism(flatFileRDD))
                         .union(getProteome())
@@ -175,6 +166,32 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .values();
 
         return catalyticActivitySuggest.union(cofactorSuggest);
+    }
+
+    /**
+     * @param flatFileRDD JavaRDD<flatFile entry in String format>
+     * @return JavaRDD of SuggestDocument with RheaComp information mapped from UniprotKB flat file
+     *     entries
+     */
+    JavaRDD<SuggestDocument> getRheaComp(JavaRDD<String> flatFileRDD) {
+
+        // JavaPairRDD<RheaCompId,RheaComp Entry> --> extracted from rhea-comp-names.tsv
+        RheaCompRDDReader rheaCompReader = new RheaCompRDDReader(jobParameter);
+        JavaPairRDD<String, RheaComp> rheaCompRDD = rheaCompReader.load();
+
+        // JavaPairRDD<rheaCompId,rheaCompId> flatFileCatalyticActivityRDD --> extracted from flat
+        // file
+        // CC(CatalyticActivity) lines
+        JavaPairRDD<String, String> flatFileCatalyticActivityRDD =
+                flatFileRDD
+                        .flatMapToPair(new FlatFileToCatalyticActivityRheaComp())
+                        .reduceByKey((rheaComp1, rheaComp2) -> rheaComp1);
+
+        return flatFileCatalyticActivityRDD
+                .join(rheaCompRDD)
+                .mapValues(new RheaCompToSuggestDocument())
+                .values()
+                .distinct();
     }
 
     /**
