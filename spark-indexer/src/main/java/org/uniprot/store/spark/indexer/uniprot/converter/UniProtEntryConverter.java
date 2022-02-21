@@ -104,7 +104,8 @@ public class UniProtEntryConverter
             convertSequence(source.getSequence(), document);
             convertEntryScore(source, document);
             convertEvidenceSources(source, document);
-            org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter.populateSpellcheckSuggestions(document);
+            org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter
+                    .populateSpellcheckSuggestions(document);
             return document;
         } catch (Exception e) {
             String message = "Error converting UniProt entry";

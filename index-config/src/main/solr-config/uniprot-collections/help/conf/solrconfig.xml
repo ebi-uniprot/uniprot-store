@@ -79,10 +79,15 @@
 			<str name="q.op">AND</str>
 			<str name="echoParams">explicit</str>
 			<int name="rows">10</int>
+			<str name="spellcheck">true</str>
 			<str name="spellcheck.dictionary">direct</str>
 			<str name="spellcheck.count">5</str>
 			<str name="spellcheck.extendedResults">true</str>
 			<str name="spellcheck.maxResultsForSuggest">0</str>
+			<str name="spellcheck.collate">true</str>
+			<str name="spellcheck.collateExtendedResults">true</str>
+			<str name="spellcheck.maxCollations">5</str>
+			<str name="spellcheck.maxCollationTries">5</str>
 		</lst>
 		<arr name="last-components">
 			<str>spellcheck</str>
