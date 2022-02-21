@@ -12,6 +12,7 @@ import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
@@ -164,6 +165,9 @@ class UniProtKBEntryConverterIT {
         assertEquals(2, doc.score);
 
         assertFalse(doc.isIsoform);
+        assertNotNull(doc.suggests);
+        assertEquals(1, doc.suggests.size());
+        assertTrue(doc.suggests.containsAll(doc.proteinNames));
     }
 
     @Test
@@ -344,6 +348,15 @@ class UniProtKBEntryConverterIT {
         assertEquals(5, doc.score);
 
         assertFalse(doc.isIsoform);
+        assertNotNull(doc.suggests);
+        assertEquals(9, doc.suggests.size());
+        assertTrue(doc.suggests.containsAll(doc.rcStrain));
+        assertTrue(doc.suggests.containsAll(doc.proteinNames));
+        Set<String> gene4More =
+                doc.geneNamesExact.stream()
+                        .filter(gn -> gn.length() >= 4)
+                        .collect(Collectors.toSet());
+        assertTrue(doc.suggests.containsAll(gene4More));
     }
 
     @Test

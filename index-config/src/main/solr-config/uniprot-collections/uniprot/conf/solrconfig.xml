@@ -82,8 +82,11 @@
 			<!-- default spell check related configs -->
 			<str name="spellcheck">true</str>
 			<str name="spellcheck.count">5</str>
-			<str name="spellcheck.extendedResults">true</str>
 			<str name="spellcheck.maxResultsForSuggest">0</str>
+			<str name="spellcheck.collate">true</str>
+			<str name="spellcheck.collateExtendedResults">true</str>
+			<str name="spellcheck.maxCollations">5</str>
+			<str name="spellcheck.maxCollationTries">5</str>
 		</lst>
 		<arr name="last-components">
 			<str>spellcheck</str>
