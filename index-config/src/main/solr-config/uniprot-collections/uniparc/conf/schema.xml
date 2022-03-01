@@ -42,6 +42,12 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="length" type="int" indexed="true" stored="false"
 		required="false" multiValued="false" />
+	<!-- suggester definition -->
+	<field name="suggest" type="text_suggest" indexed="true"
+		stored="false" multiValued="true" />
+	<copyField source="taxonomy_name" dest="suggest" />
+	<copyField source="protein" dest="suggest" />
+	<copyField source="gene" dest="suggest" />
 
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
@@ -91,6 +97,27 @@
 				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
 				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
 				catenateNumbers="0" catenateWords="0" catenateAll="0" />
+		</analyzer>
+	</fieldType>
+	<fieldType name="text_suggest" class="solr.TextField"
+		positionIncrementGap="100" omitNorms="true">
+		<analyzer type="index">
+			<filter class="solr.ASCIIFoldingFilterFactory" />
+			<tokenizer class="solr.StandardTokenizerFactory" />
+			<filter class="solr.StopFilterFactory" ignoreCase="true"
+				words="stopwords.txt" />
+			<filter class="solr.LowerCaseFilterFactory" />
+			<filter class="solr.RemoveDuplicatesTokenFilterFactory" />
+		</analyzer>
+		<analyzer type="query">
+			<filter class="solr.ASCIIFoldingFilterFactory" />
+			<tokenizer class="solr.StandardTokenizerFactory" />
+			<filter class="solr.StopFilterFactory" ignoreCase="true"
+				words="stopwords.txt" />
+			<filter class="solr.SynonymFilterFactory"
+				synonyms="synonyms.txt" ignoreCase="true" expand="true" />
+			<filter class="solr.LowerCaseFilterFactory" />
+			<filter class="solr.RemoveDuplicatesTokenFilterFactory" />
 		</analyzer>
 	</fieldType>
 </schema>
