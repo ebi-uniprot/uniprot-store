@@ -59,7 +59,7 @@
 
 	<!-- Protein name section -->
 	<!-- access protein name via protgene_default for default search -->
-	<field name="protein_name" type="full_ci_split_numeric"
+	<field name="protein_name" type="full_ci"
 		indexed="true" stored="false" required="false" multiValued="true" />
 	<field name="protein_name_sort" type="string" indexed="true"
 		stored="false" required="false" multiValued="false" docValues="true" />
@@ -111,7 +111,7 @@
 
 	<!-- Gene -->
 	<!-- access gene name via protgene_default for default search -->
-	<field name="gene" type="full_ci_split_numeric" indexed="true"
+	<field name="gene" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="gene_exact" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
@@ -123,7 +123,7 @@
 		stored="false" required="false" multiValued="true" omitNorms="false" />
 
 	<!-- Field to aid default search -->
-	<field name="protgene_default" type="full_ci_split_numeric"
+	<field name="protgene_default" type="full_ci"
 		indexed="true" stored="false" required="false" multiValued="true" />
 	<copyField source="gene" dest="protgene_default" />
 	<copyField source="protein_name" dest="protgene_default" />
