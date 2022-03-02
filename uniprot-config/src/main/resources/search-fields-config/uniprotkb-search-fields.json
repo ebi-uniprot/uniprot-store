@@ -89,30 +89,6 @@
     "fieldType": "GENERAL"
   },
   {
-    "id":"uniref_cluster_50",
-    "fieldName": "uniref_cluster_50",
-    "dataType": "STRING",
-    "fieldType": "GENERAL"
-  },
-  {
-    "id":"uniref_cluster_90",
-    "fieldName": "uniref_cluster_90",
-    "dataType": "STRING",
-    "fieldType": "GENERAL"
-  },
-  {
-    "id":"uniref_cluster_100",
-    "fieldName": "uniref_cluster_100",
-    "dataType": "STRING",
-    "fieldType": "GENERAL"
-  },
-  {
-    "id":"uniparc",
-    "fieldName": "uniparc",
-    "dataType": "STRING",
-    "fieldType": "GENERAL"
-  },
-  {
     "id":"ec_exact",
     "fieldName": "ec_exact",
     "dataType": "STRING",
@@ -154,18 +130,6 @@
   {
     "id":"rhea",
     "fieldName": "rhea",
-    "dataType": "STRING",
-    "fieldType": "GENERAL"
-  },
-  {
-    "id":"chebi",
-    "fieldName": "chebi",
-    "dataType": "STRING",
-    "fieldType": "GENERAL"
-  },
-  {
-    "id":"inchikey",
-    "fieldName": "inchikey",
     "dataType": "STRING",
     "fieldType": "GENERAL"
   },
@@ -213,6 +177,7 @@
     "fieldName": "cc_cofactor",
     "dataType": "STRING",
     "fieldType": "GENERAL",
+    "tags": ["CHEBI", "InChIKey"],
     "example":  "Zinc",
     "description" : "Search by cofactor, any non-protein substance",
     "includeInSwagger": true
@@ -723,6 +688,36 @@
   },
   {
     "seqNumber": 21,
+    "label": "Small molecule",
+    "id": "small_molecule",
+    "itemType": "GROUP"
+  },
+  {
+    "childNumber": 0,
+    "id": "chebi_field",
+    "label": "CHEBI ID",
+    "parentId": "small_molecule",
+    "itemType": "SINGLE",
+    "fieldName": "chebi",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by CHEBI ID",
+    "example": "29105"
+  },
+  {
+    "childNumber": 1,
+    "id": "inchikey_field",
+    "label": "InChIKey",
+    "parentId": "small_molecule",
+    "itemType": "SINGLE",
+    "fieldName": "inchikey",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by CHEBI inchikey",
+    "example": "XLYOFNOQVPJJNP-UHFFFAOYSA-N"
+  },
+  {
+    "seqNumber": 22,
     "id": "keyword_field",
     "label": "Keyword [KW]",
     "fieldName": "keyword",
@@ -736,7 +731,7 @@
     "includeInSwagger": true
   },
   {
-    "seqNumber": 22,
+    "seqNumber": 23,
     "id": "literature_citation",
     "label": "Literature Citation",
     "itemType": "GROUP"
@@ -844,7 +839,7 @@
     "includeInSwagger": true
   },
   {
-    "seqNumber": 23,
+    "seqNumber": 24,
     "id": "proteomes",
     "label": "Proteomes",
     "itemType": "GROUP"
@@ -876,7 +871,7 @@
     "example": "chromosome"
   },
   {
-    "seqNumber": 24,
+    "seqNumber": 25,
     "id": "cited_for",
     "label": "Cited for",
     "fieldName": "scope",
@@ -887,7 +882,7 @@
     "example": "microtubule"
   },
   {
-    "seqNumber": 25,
+    "seqNumber": 26,
     "id": "reviewed",
     "label": "Reviewed",
     "fieldName": "reviewed",
@@ -910,7 +905,7 @@
     "includeInSwagger": true
   },
   {
-    "seqNumber": 26,
+    "seqNumber": 27,
     "id": "active",
     "label": "Active",
     "fieldName": "active",
@@ -930,6 +925,63 @@
     ],
     "description": "Search by active or not",
     "example": "true"
+  },
+  {
+    "seqNumber": 28,
+    "label": "UniRef ID",
+    "id": "uniref_group",
+    "itemType": "GROUP"
+  },
+  {
+    "childNumber": 0,
+    "id": "uniref_cluster_50",
+    "label": "UniRef50",
+    "parentId": "uniref_group",
+    "itemType": "SINGLE",
+    "fieldName": "uniref_cluster_50",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "validRegex": "^UniRef50_[\\w|-]+$",
+    "description": "Search by UniRef 50",
+    "example": "UniRef50_P05067"
+  },
+  {
+    "childNumber": 1,
+    "id": "uniref_cluster_90",
+    "label": "UniRef90",
+    "parentId": "uniref_group",
+    "itemType": "SINGLE",
+    "fieldName": "uniref_cluster_90",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "validRegex": "^UniRef90_[\\w|-]+$",
+    "description": "Search by UniRef 90",
+    "example": "UniRef90_P05067"
+  },
+  {
+    "childNumber": 2,
+    "id": "uniref_cluster_100",
+    "label": "UniRef100",
+    "parentId": "uniref_group",
+    "itemType": "SINGLE",
+    "fieldName": "uniref_cluster_100",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "validRegex": "^UniRef100_[\\w|-]+$",
+    "description": "Search by UniRef 100",
+    "example": "UniRef100_P05067"
+  },
+  {
+    "seqNumber": 29,
+    "label": "UniParc ID",
+    "id":"uniparc",
+    "itemType": "SINGLE",
+    "fieldName": "uniparc",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "validRegex": "UPI[\\w]{10}",
+    "description": "Search by UniParc ID",
+    "example": "UPI000002DB1C"
   },
   {
     "label": "Function",
@@ -1215,6 +1267,7 @@
     "fieldName": "cc_catalytic_activity",
     "fieldType": "GENERAL",
     "dataType": "STRING",
+    "tags": ["RHEA", "CHEBI", "InChIKey"],
     "autoComplete": "{CONTEXT_PATH}/suggester?dict=catalytic_activity&query=?",
     "autoCompleteQueryField": "cc_catalytic_activity",
     "description": "Search by comment catalytic activity",

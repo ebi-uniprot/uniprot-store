@@ -1206,6 +1206,7 @@
     "fieldName": "cc_catalytic_activity",
     "fieldType": "GENERAL",
     "dataType": "STRING",
+    "tags": ["CHEBI", "inchikey"],
     "autoComplete": "/uniprot/api/suggester?dict=catalytic_activity&query=?",
     "autoCompleteQueryField": "cc_catalytic_activity",
     "description": "Search by comment catalytic activity",
