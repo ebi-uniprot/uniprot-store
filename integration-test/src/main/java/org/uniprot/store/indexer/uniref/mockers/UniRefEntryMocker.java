@@ -136,7 +136,7 @@ public class UniRefEntryMocker {
         return new RepresentativeMemberBuilder()
                 .memberIdType(type)
                 .memberId(memberId)
-                .organismName("Homo sapiens (Representative)")
+                .organismName("Homo sapiens (human)")
                 .organismTaxId(9600)
                 .sequenceLength(length)
                 .proteinName(pName)
