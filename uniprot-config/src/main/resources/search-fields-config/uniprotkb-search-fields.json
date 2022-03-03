@@ -713,7 +713,7 @@
     "fieldName": "inchikey",
     "fieldType": "GENERAL",
     "dataType": "STRING",
-    "description": "Search by CHEBI inchikey",
+    "description": "Search by CHEBI InChIKey",
     "example": "XLYOFNOQVPJJNP-UHFFFAOYSA-N"
   },
   {
