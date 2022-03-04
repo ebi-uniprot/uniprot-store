@@ -701,6 +701,8 @@
     "fieldName": "chebi",
     "fieldType": "GENERAL",
     "dataType": "STRING",
+    "autoComplete": "{CONTEXT_PATH}/suggester?dict=chebi&query=?",
+    "autoCompleteQueryField": "chebi",
     "description": "Search by CHEBI ID",
     "example": "29105"
   },
@@ -1027,7 +1029,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by cofactor chebi ",
-    "autoComplete": "{CONTEXT_PATH}/suggester?dict=chebi&query=?",
+    "autoComplete": "{CONTEXT_PATH}/suggester?dict=cofactor&query=?",
     "autoCompleteQueryField": "cc_cofactor_chebi",
     "example": "29105"
   },
