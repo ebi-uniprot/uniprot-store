@@ -37,6 +37,12 @@
         "fieldName" : {
           "type" : "string"
         },
+        "tags" : {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "dataType" : {
           "type" : "string",
           "enum" : [ "STRING", "INTEGER", "ENUM", "DATE", "BOOLEAN" ]

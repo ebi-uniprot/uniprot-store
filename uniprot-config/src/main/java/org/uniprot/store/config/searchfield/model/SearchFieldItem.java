@@ -28,6 +28,7 @@ public class SearchFieldItem implements Field, Serializable {
     private String description;
     private String example;
     private String validRegex;
+    private List<String> tags;
     private List<Value> values;
     private String autoComplete;
     private String autoCompleteQueryField;
