@@ -13,6 +13,7 @@ public enum SuggestDictionary {
     GO,
     EC,
     CATALYTIC_ACTIVITY,
+    COFACTOR,
     ORGANISM,
     HOST,
     CHEBI,

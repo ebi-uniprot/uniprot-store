@@ -23,6 +23,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.opentest4j.AssertionFailedError;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
@@ -108,10 +109,17 @@ class SuggestDocumentsToHDFSWriterTest {
         JavaRDD<SuggestDocument> suggestRdd = writer.getChebi(flatFileRDD);
         assertNotNull(suggestRdd);
         long count = suggestRdd.count();
-        assertEquals(17L, count);
-        SuggestDocument document = suggestRdd.filter(c -> c.id.equals("CHEBI:23367")).first();
+        assertEquals(30L, count);
+        List<SuggestDocument> catalyticDocs =
+                suggestRdd.filter(c -> c.dictionary.equals(CATALYTIC_ACTIVITY.name())).collect();
+        assertEquals(10, catalyticDocs.size());
+        assertNotNull(catalyticDocs);
+        SuggestDocument document =
+                catalyticDocs.stream()
+                        .filter(c -> c.id.equals("CHEBI:23367"))
+                        .findFirst()
+                        .orElseThrow(AssertionFailedError::new);
 
-        assertNotNull(document);
         assertEquals(CATALYTIC_ACTIVITY.name(), document.dictionary);
         assertEquals("CHEBI:23367", document.id);
         assertEquals("molecular entity", document.value);
@@ -125,9 +133,34 @@ class SuggestDocumentsToHDFSWriterTest {
         assertTrue(document.altValues.contains("molekulare Entitaet"));
 
         // Make sure we add relatedIds to suggest as well
-        document = suggestRdd.filter(c -> c.id.equals("CHEBI:2500")).first();
+        List<SuggestDocument> cofactorDocs =
+                suggestRdd.filter(c -> c.dictionary.equals(COFACTOR.name())).collect();
+        assertEquals(7, cofactorDocs.size());
+        assertNotNull(cofactorDocs);
+        document =
+                cofactorDocs.stream()
+                        .filter(c -> c.id.equals("CHEBI:2500"))
+                        .findFirst()
+                        .orElseThrow(AssertionFailedError::new);
 
-        assertNotNull(document);
+        assertEquals(COFACTOR.name(), document.dictionary);
+        assertEquals("CHEBI:2500", document.id);
+        assertEquals("2500-fluoroethyl methanesulfonate", document.value);
+        assertEquals("medium", document.importance);
+
+        assertEquals(2, document.altValues.size());
+        assertTrue(document.altValues.contains("2500-synonym"));
+        assertTrue(document.altValues.contains("AABBBCCCDD-IIHHHHGGGFFFF-N"));
+
+        List<SuggestDocument> chebiDocs =
+                suggestRdd.filter(c -> c.dictionary.equals(CHEBI.name())).collect();
+        assertNotNull(chebiDocs);
+        document =
+                chebiDocs.stream()
+                        .filter(c -> c.id.equals("CHEBI:2500"))
+                        .findFirst()
+                        .orElseThrow(AssertionFailedError::new);
+
         assertEquals(CHEBI.name(), document.dictionary);
         assertEquals("CHEBI:2500", document.id);
         assertEquals("2500-fluoroethyl methanesulfonate", document.value);
@@ -136,6 +169,23 @@ class SuggestDocumentsToHDFSWriterTest {
         assertEquals(2, document.altValues.size());
         assertTrue(document.altValues.contains("2500-synonym"));
         assertTrue(document.altValues.contains("AABBBCCCDD-IIHHHHGGGFFFF-N"));
+
+        assertEquals(13, chebiDocs.size());
+        List<String> chebiIds =
+                chebiDocs.stream()
+                        .map(SuggestDocument::getDocumentId)
+                        .collect(Collectors.toList());
+        List<String> cofactorIds =
+                cofactorDocs.stream()
+                        .map(SuggestDocument::getDocumentId)
+                        .collect(Collectors.toList());
+        List<String> catalyticIds =
+                catalyticDocs.stream()
+                        .map(SuggestDocument::getDocumentId)
+                        .collect(Collectors.toList());
+
+        assertTrue(chebiIds.containsAll(cofactorIds));
+        assertTrue(chebiIds.containsAll(catalyticIds));
     }
 
     @Test

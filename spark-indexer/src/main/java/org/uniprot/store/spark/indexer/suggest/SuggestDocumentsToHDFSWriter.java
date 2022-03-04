@@ -1,11 +1,6 @@
 package org.uniprot.store.spark.indexer.suggest;
 
-import static org.uniprot.store.search.document.suggest.SuggestDictionary.CATALYTIC_ACTIVITY;
-import static org.uniprot.store.search.document.suggest.SuggestDictionary.CHEBI;
-import static org.uniprot.store.search.document.suggest.SuggestDictionary.HOST;
-import static org.uniprot.store.search.document.suggest.SuggestDictionary.ORGANISM;
-import static org.uniprot.store.search.document.suggest.SuggestDictionary.TAXONOMY;
-import static org.uniprot.store.search.document.suggest.SuggestDictionary.UNIPARC_TAXONOMY;
+import static org.uniprot.store.search.document.suggest.SuggestDictionary.*;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
 import java.util.ArrayList;
@@ -161,11 +156,22 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         JavaRDD<SuggestDocument> cofactorSuggest =
                 flatFileCofactorRDD
                         .join(chebiRDD)
-                        .flatMapToPair(new ChebiToSuggestDocument(CHEBI.name()))
+                        .flatMapToPair(new ChebiToSuggestDocument(COFACTOR.name()))
                         .reduceByKey((chebiTuple1, chebiTuple2) -> chebiTuple1)
                         .values();
 
-        return catalyticActivitySuggest.union(cofactorSuggest);
+        JavaRDD<SuggestDocument> chebiSuggest =
+                catalyticActivitySuggest
+                        .filter(doc -> doc.id.startsWith("CHEBI"))
+                        .union(cofactorSuggest)
+                        .map(
+                                doc -> {
+                                    doc.dictionary = CHEBI.name();
+                                    return doc;
+                                })
+                        .distinct();
+
+        return catalyticActivitySuggest.union(cofactorSuggest).union(chebiSuggest);
     }
 
     /**
