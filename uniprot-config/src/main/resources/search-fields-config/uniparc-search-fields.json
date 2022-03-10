@@ -199,5 +199,14 @@
     "description": "Search by database index",
     "example": "1",
     "includeInSwagger": true
+  },
+  {
+    "id": "organism_name",
+    "fieldName": "organism_name",
+    "label": "Organism name",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by organism name",
+    "example": "Human"
   }
 ]
