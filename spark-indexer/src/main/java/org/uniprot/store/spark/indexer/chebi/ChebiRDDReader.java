@@ -9,7 +9,6 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.graphx.Edge;
 import org.apache.spark.graphx.EdgeDirection;
 import org.apache.spark.graphx.Graph;
-import org.apache.spark.sql.SparkSession;
 import org.apache.spark.storage.StorageLevel;
 import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.store.spark.indexer.chebi.mapper.*;
@@ -87,9 +86,7 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
             JavaPairRDD<Long, ChebiEntry> chebiRDD, String ph7MappingPath) {
         // JavaPairRDD<relatedId,chebiId>
         JavaPairRDD<Long, Long> relatedIdRdd =
-                chebiRDD.values()
-                        .flatMapToPair(new ChebiRelatedIdsMapper())
-                        .union(loadChebiPH7RelatedMapping(ph7MappingPath));
+                chebiRDD.values().flatMapToPair(new ChebiRelatedIdsMapper());
 
         return chebiRDD.join(relatedIdRdd) // Tuple2<relatedId, Tuple2<RelatedChebiEntry, chebiId>>>
                 .mapToPair(new ChebiRelatedChebiMapper()) // Tuple2<ChebiId, RelatedChebiEntry>
@@ -113,27 +110,6 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
                                                 && !input.startsWith("[Typedef]"))
                         .mapToPair(new ChebiFileMapper());
         return chebiRDD;
-    }
-
-    /**
-     * This method load chebi_pH7_3_mapping.tsv file into JavaPairRDD of chebiId and its relatedId.
-     *
-     * @param path chebi.obo file path (extracted from application.properties)
-     * @return return JavaPairRDD<chebiRelatedId,chebiId>
-     */
-    private JavaPairRDD<Long, Long> loadChebiPH7RelatedMapping(String path) {
-        SparkSession session =
-                SparkSession.builder()
-                        .sparkContext(jobParameter.getSparkContext().sc())
-                        .getOrCreate();
-
-        return session.read()
-                .option("delimiter", "\t")
-                .option("header", "true")
-                .csv(path)
-                .toJavaRDD()
-                .mapToPair(new ChebiPH7RelatedMapper())
-                .filter(tuple -> !tuple._1.equals(tuple._2));
     }
 
     /**

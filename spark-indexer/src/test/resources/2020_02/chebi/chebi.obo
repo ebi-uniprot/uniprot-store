@@ -259,30 +259,6 @@ property_value: http://purl.obolibrary.org/obo/chebi/inchikey "AABBBCCCDD-IIHHHH
 subset: 1_STAR
 
 [Term]
-id: CHEBI:3200
-name: 3200-conjugate-base-relation
-subset: 1_STAR
-is_a: CHEBI:3300 ! 3300-conjugate-base-relation-chain
-relationship: is_conjugate_base_of CHEBI:6500 ! 6500-conjugate-acid-relation-chain
-
-[Term]
-id: CHEBI:3300
-name: 3300-conjugate-base-relation-chain
-subset: 1_STAR
-is_a: CHEBI:3400 ! 3400-conjugate-base-relation-chain
-
-[Term]
-id: CHEBI:3400
-name: 3400-conjugate-base-relation-chain
-subset: 1_STAR
-is_a: CHEBI:3500 ! 3500-conjugate-base-relation-chain
-
-[Term]
-id: CHEBI:3500
-name: 3500-conjugate-base-relation-chain
-subset: 1_STAR
-
-[Term]
 id: CHEBI:4200
 name: 4200-major microspecies relation
 subset: 1_STAR
@@ -303,40 +279,7 @@ is_a: CHEBI:4500 ! 4500-major microspecies relation-chain
 
 [Term]
 id: CHEBI:4500
-name: 4500-fluoroethyl methanesulfonate
-subset: 1_STAR
-
-[Term]
-id: CHEBI:5500
-name: 5500-ph7-tsv-chebi-mapping
-subset: 1_STAR
-
-[Term]
-id: CHEBI:5600
-name: 5600-ph7-tsv-chebi-mapping-related
-subset: 1_STAR
-
-[Term]
-id: CHEBI:5700
-name: 5700-ph7-tsv-chebi-mapping-related
-subset: 1_STAR
-
-[Term]
-id: CHEBI:6500
-name: 6500-conjugate-acid-relation-chain
-relationship: is_conjugate_acid_of CHEBI:3200 ! 3200-conjugate-base-relation
-is_a: CHEBI:6600 ! 6600-conjugate-acid-relation-chain
-subset: 1_STAR
-
-[Term]
-id: CHEBI:6600
-name: 6600-conjugate-acid-relation-chain
-is_a: CHEBI:6700 ! 6700-conjugate-acid-relation-chain
-subset: 1_STAR
-
-[Term]
-id: CHEBI:6700
-name: 6700-conjugate-acid-relation-chain
+name: 4500-major microspecies relation-chain
 subset: 1_STAR
 
 [Typedef]

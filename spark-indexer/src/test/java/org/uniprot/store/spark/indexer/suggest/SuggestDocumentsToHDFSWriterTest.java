@@ -172,9 +172,7 @@ class SuggestDocumentsToHDFSWriterTest {
 
         assertEquals(13, chebiDocs.size());
         List<String> chebiIds =
-                chebiDocs.stream()
-                        .map(SuggestDocument::getDocumentId)
-                        .collect(Collectors.toList());
+                chebiDocs.stream().map(SuggestDocument::getDocumentId).collect(Collectors.toList());
         List<String> cofactorIds =
                 cofactorDocs.stream()
                         .map(SuggestDocument::getDocumentId)
