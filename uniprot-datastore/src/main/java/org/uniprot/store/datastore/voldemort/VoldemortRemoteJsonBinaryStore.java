@@ -141,16 +141,6 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         }
     }
 
-    // TODO: 16/03/2022 StoreResult:
-
-    /**
-     * class StoreResult<T> {
-     *     T entity;    // when writing response, if entity is not null, then use this entity
-     *     String id;   // when writing response, if entity is null, then add id to failedIds
-     * }
-     */
-
-    // TODO: 16/03/2022 return List<StoreResult<T>>
     public List<T> getEntries(Iterable<String> accessions) {
         try {
             List<T> toReturn = new ArrayList<>();
@@ -163,8 +153,6 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
                             T entry = getEntryFromBinary(versionedEntry);
                             toReturn.add(entry);
                         } else {
-                            // TODO: 16/03/2022 return StoreResult with only id & entity is null
-                            // remove below exception
                             throw new RetrievalException(
                                     "Could not fetch entry " + acc + " from Voldemort.");
                         }
