@@ -1,10 +1,8 @@
 package org.uniprot.store.spark.indexer.chebi.mapper;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
 import org.uniprot.core.cv.chebi.ChebiEntry;

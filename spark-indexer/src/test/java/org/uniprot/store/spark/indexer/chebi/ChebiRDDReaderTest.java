@@ -70,8 +70,7 @@ class ChebiRDDReaderTest {
         }
     }
 
-    private void validateChebiWithMultiplesIsARelations(
-            JavaPairRDD<String, ChebiEntry> chebiRdd) {
+    private void validateChebiWithMultiplesIsARelations(JavaPairRDD<String, ChebiEntry> chebiRdd) {
         Tuple2<String, ChebiEntry> tuple =
                 chebiRdd.filter(tuple2 -> tuple2._1.equals("16526")).first();
 
