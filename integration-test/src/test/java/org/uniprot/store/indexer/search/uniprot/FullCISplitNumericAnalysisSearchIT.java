@@ -1,5 +1,19 @@
 package org.uniprot.store.indexer.search.uniprot;
 
+import static java.util.Arrays.asList;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasSize;
+import static org.uniprot.store.indexer.search.DocFieldTransformer.fieldTransformer;
+import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,20 +24,6 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.store.indexer.search.DocFieldTransformer;
 import org.uniprot.store.search.field.QueryBuilder;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
-
-import static java.util.Arrays.asList;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.hasSize;
-import static org.uniprot.store.indexer.search.DocFieldTransformer.fieldTransformer;
-import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
 
 /**
  * This class tests the edge cases of the {@code full_ci} field type defined in UniProt's
