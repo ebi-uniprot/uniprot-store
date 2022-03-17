@@ -40,34 +40,4 @@ class GraphSendVertexMessageMapper
 
         return JavaConverters.asScalaIteratorConverter(result.iterator()).asScala();
     }
-
-    /*
-        @Override
-    public Iterator<Tuple2<Object, ChebiEntry>> apply(EdgeTriplet<ChebiEntry, String> triplet) {
-        List<Tuple2<Object, ChebiEntry>> result = new ArrayList<>();
-        ChebiEntryBuilder srcBuilder = ChebiEntryBuilder.from(triplet.srcAttr());
-        if (triplet.dstAttr() != null) {
-            for (ChebiEntry dstRelated : triplet.dstAttr().getRelatedIds()) {
-                if (!triplet.srcAttr().getId().equals(dstRelated.getId())) {
-                    srcBuilder.relatedIdsAdd(dstRelated);
-                }
-            }
-
-            ChebiEntryBuilder dstBuilder = ChebiEntryBuilder.from(triplet.dstAttr());
-            for (ChebiEntry srcRelated : triplet.srcAttr().getRelatedIds()) {
-                if (!triplet.dstAttr().getId().equals(srcRelated.getId())) {
-                    dstBuilder.relatedIdsAdd(srcRelated);
-                }
-            }
-            ChebiEntry dst = dstBuilder.build();
-            Object dstId = triplet.dstId();
-            result.add(new Tuple2<>(dstId, dst));
-        }
-        ChebiEntry src = srcBuilder.build();
-        Object srcId = triplet.srcId();
-        result.add(new Tuple2<>(srcId, src));
-
-        return JavaConverters.asScalaIteratorConverter(result.iterator()).asScala();
-    }
-     */
 }
