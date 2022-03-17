@@ -1,7 +1,9 @@
 package org.uniprot.store.spark.indexer.chebi.mapper;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
@@ -24,15 +26,22 @@ public class ChebiRelatedIdsMapper implements PairFlatMapFunction<ChebiEntry, Lo
     @Override
     public Iterator<Tuple2<Long, Long>> call(ChebiEntry entry) throws Exception {
         final Long entryId = Long.parseLong(entry.getId());
+        List<Tuple2<Long, Long>> result = new ArrayList<>();
         if (Utils.notNullNotEmpty(entry.getRelatedIds())) {
-            return entry.getRelatedIds().stream()
+            entry.getRelatedIds().stream()
                     .map(ChebiEntry::getId)
                     .map(Long::parseLong)
                     .map(relatedId -> new Tuple2<>(relatedId, entryId))
-                    .collect(Collectors.toList())
-                    .iterator();
-        } else {
-            return Collections.emptyIterator();
+                    .forEach(result::add);
         }
+
+        if (Utils.notNullNotEmpty(entry.getMajorMicrospecies())) {
+            entry.getMajorMicrospecies().stream()
+                    .map(ChebiEntry::getId)
+                    .map(Long::parseLong)
+                    .map(majorMicrospecieId -> new Tuple2<>(entryId, majorMicrospecieId))
+                    .forEach(result::add);
+        }
+        return result.iterator();
     }
 }
