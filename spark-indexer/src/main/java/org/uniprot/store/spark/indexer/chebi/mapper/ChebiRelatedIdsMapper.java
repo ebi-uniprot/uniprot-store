@@ -3,6 +3,7 @@ package org.uniprot.store.spark.indexer.chebi.mapper;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
 import org.uniprot.core.cv.chebi.ChebiEntry;
@@ -37,9 +38,22 @@ public class ChebiRelatedIdsMapper implements PairFlatMapFunction<ChebiEntry, Lo
             entry.getMajorMicrospecies().stream()
                     .map(ChebiEntry::getId)
                     .map(Long::parseLong)
-                    .map(majorMicrospecieId -> new Tuple2<>(entryId, majorMicrospecieId))
+                    .flatMap(majorMicrospecieId -> createMajorMicroespeciesRelation(entryId, majorMicrospecieId))
                     .forEach(result::add);
         }
         return result.iterator();
+    }
+
+    /**
+     * This method creates a bi-directional relation for majorMicrospecies relations
+     * @param entryId ChebiId
+     * @param majorMicrospecieId Related majorMicrospecie ChebiId
+     * @return bi-directional majorMicrospecies relations
+     */
+    private Stream<Tuple2<Long, Long>> createMajorMicroespeciesRelation(Long  entryId, Long majorMicrospecieId) {
+        List<Tuple2<Long, Long>> result = new ArrayList<>();
+        result.add(new Tuple2<>(entryId, majorMicrospecieId));
+        result.add(new Tuple2<>(majorMicrospecieId, entryId));
+        return result.stream();
     }
 }

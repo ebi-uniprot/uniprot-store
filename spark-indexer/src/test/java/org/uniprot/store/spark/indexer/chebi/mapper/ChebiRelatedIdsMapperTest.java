@@ -51,14 +51,22 @@ class ChebiRelatedIdsMapperTest {
         assertNotNull(result);
         ArrayList<Tuple2<Long, Long>> mappedRelated = new ArrayList<>();
         result.forEachRemaining(mappedRelated::add);
-        assertEquals(2, mappedRelated.size());
+        assertEquals(4, mappedRelated.size());
         Tuple2<Long, Long> relatedTuple = mappedRelated.get(0);
         assertEquals(chebiId, relatedTuple._1);
         assertEquals(222L, relatedTuple._2);
 
         relatedTuple = mappedRelated.get(1);
+        assertEquals(222L, relatedTuple._1);
+        assertEquals(chebiId, relatedTuple._2);
+        relatedTuple = mappedRelated.get(2);
         assertEquals(chebiId, relatedTuple._1);
         assertEquals(333L, relatedTuple._2);
+
+        relatedTuple = mappedRelated.get(3);
+        assertEquals(333L, relatedTuple._1);
+        assertEquals(chebiId, relatedTuple._2);
+
     }
 
     @Test

@@ -88,7 +88,7 @@ class ChebiRDDReaderTest {
         assertTrue(entry.getSynonyms().contains("carbonic anhydride"));
 
         assertNotNull(entry.getRelatedIds());
-        assertEquals(11, entry.getRelatedIds().size());
+        assertEquals(15, entry.getRelatedIds().size());
         List<String> relatedIds =
                 entry.getRelatedIds().stream().map(ChebiEntry::getId).collect(Collectors.toList());
         assertTrue(relatedIds.contains("138675"));
@@ -105,6 +105,12 @@ class ChebiRDDReaderTest {
         assertTrue(relatedIds.contains("2300"));
         assertTrue(relatedIds.contains("2400"));
         assertTrue(relatedIds.contains("2500"));
+
+        // Can Load has_major_microspecies_at_pH_7_3
+        assertTrue(relatedIds.contains("4200"));
+        assertTrue(relatedIds.contains("4300"));
+        assertTrue(relatedIds.contains("4400"));
+        assertTrue(relatedIds.contains("4500"));
     }
 
     private void validateChebiWithMajorMicroespecies(JavaPairRDD<String, ChebiEntry> chebiRdd) {
