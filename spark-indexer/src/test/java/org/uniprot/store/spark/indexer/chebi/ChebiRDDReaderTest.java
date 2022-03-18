@@ -41,9 +41,12 @@ class ChebiRDDReaderTest {
             JavaPairRDD<String, ChebiEntry> chebiRdd = reader.load();
             assertNotNull(chebiRdd);
             long count = chebiRdd.count();
-            assertEquals(21L, count);
+            assertEquals(28L, count);
             // 16526
             validateChebiWithMultiplesIsARelationAndMicrospeciesRelations(chebiRdd);
+
+            // 3200 And 6500
+            validateChebiWithIsARelationAndConjugateRelations(chebiRdd);
         }
     }
 
@@ -109,6 +112,54 @@ class ChebiRDDReaderTest {
         assertTrue(relatedIds.contains("4300"));
         assertTrue(relatedIds.contains("4400"));
         assertTrue(relatedIds.contains("4500"));
+    }
+
+    private void validateChebiWithIsARelationAndConjugateRelations(
+            JavaPairRDD<String, ChebiEntry> chebiRdd) {
+        Tuple2<String, ChebiEntry> tuple =
+                chebiRdd.filter(tuple2 -> tuple2._1.equals("3200")).first();
+
+        assertNotNull(tuple);
+        assertEquals("3200", tuple._1);
+        ChebiEntry entry = tuple._2;
+        assertEquals("3200", entry.getId());
+        assertEquals("3200-conjugate-base-relation", entry.getName());
+        assertNull(entry.getInchiKey());
+
+        assertNotNull(entry.getRelatedIds());
+        assertEquals(6, entry.getRelatedIds().size());
+        List<String> relatedIds =
+                entry.getRelatedIds().stream().map(ChebiEntry::getId).collect(Collectors.toList());
+        // Can Load is_a
+        assertTrue(relatedIds.contains("3300"));
+        assertTrue(relatedIds.contains("3400"));
+        assertTrue(relatedIds.contains("3500"));
+
+        // Can Load is_conjugate_base_of
+        assertTrue(relatedIds.contains("6500"));
+        assertTrue(relatedIds.contains("6600"));
+        assertTrue(relatedIds.contains("6700"));
+
+        tuple = chebiRdd.filter(tuple2 -> tuple2._1.equals("6500")).first();
+        entry = tuple._2;
+        assertEquals("6500", entry.getId());
+        assertEquals("6500-conjugate-acid-relation-chain", entry.getName());
+        assertNull(entry.getInchiKey());
+
+        assertNotNull(entry.getRelatedIds());
+        assertEquals(6, entry.getRelatedIds().size());
+        relatedIds =
+                entry.getRelatedIds().stream().map(ChebiEntry::getId).collect(Collectors.toList());
+
+        // Can Load is_conjugate_acid_of
+        assertTrue(relatedIds.contains("3200"));
+        assertTrue(relatedIds.contains("3300"));
+        assertTrue(relatedIds.contains("3400"));
+        assertTrue(relatedIds.contains("3500"));
+
+        // Can Load is_a
+        assertTrue(relatedIds.contains("6600"));
+        assertTrue(relatedIds.contains("6700"));
     }
 
     private static JavaRDD<Tuple2<Object, ChebiEntry>> loadVertices(JobParameter parameter) {
