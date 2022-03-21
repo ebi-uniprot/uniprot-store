@@ -193,17 +193,17 @@ class VoldemortRemoteJsonBinaryStoreTest {
     }
 
     @Test
-    void getEntriesInvalidAccessions() throws Exception {
+    void getEntriesDoNotReturnInvalidAccessions() throws Exception {
         Versioned<byte[]> versioned =
                 new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
         Map<String, Versioned<byte[]>> entryMap = new HashMap<>();
         entryMap.put(KEYWORD_ID, versioned);
         Mockito.when(client.getAll(Mockito.anyIterable())).thenReturn(entryMap);
         List<String> accessions = Arrays.asList(KEYWORD_ID, "INVALID");
-        RetrievalException result =
-                assertThrows(RetrievalException.class, () -> voldemort.getEntries(accessions));
+        List<KeywordEntry> result = voldemort.getEntries(accessions);
         assertNotNull(result);
-        assertEquals("Error getting entry from BDB store", result.getMessage());
+        assertEquals(1, result.size());
+        assertEquals(entry, result.get(0));
     }
 
     @Test
