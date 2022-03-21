@@ -152,9 +152,6 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
                         if (versionedEntry != null) {
                             T entry = getEntryFromBinary(versionedEntry);
                             toReturn.add(entry);
-                        } else {
-                            throw new RetrievalException(
-                                    "Could not fetch entry " + acc + " from Voldemort.");
                         }
                     });
 
