@@ -3,6 +3,7 @@ package org.uniprot.store.spark.indexer.chebi.mapper;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
@@ -27,21 +28,29 @@ public class ChebiRelatedIdsMapper implements PairFlatMapFunction<ChebiEntry, Lo
         final Long entryId = Long.parseLong(entry.getId());
         List<Tuple2<Long, Long>> result = new ArrayList<>();
         if (Utils.notNullNotEmpty(entry.getRelatedIds())) {
-            entry.getRelatedIds().stream()
-                    .map(ChebiEntry::getId)
-                    .map(Long::parseLong)
-                    .map(relatedId -> new Tuple2<>(relatedId, entryId))
-                    .forEach(result::add);
+            result.addAll(mapRelatedIds(entry, entryId));
         }
 
         if (Utils.notNullNotEmpty(entry.getMajorMicrospecies())) {
-            entry.getMajorMicrospecies().stream()
-                    .map(ChebiEntry::getId)
-                    .map(Long::parseLong)
-                    .flatMap(majorMicrospecieId -> createMajorMicroespeciesRelation(entryId, majorMicrospecieId))
-                    .forEach(result::add);
+            result.addAll(mapMajorMicrospecies(entry, entryId));
         }
         return result.iterator();
+    }
+
+    private List<Tuple2<Long, Long>> mapRelatedIds(ChebiEntry entry, Long entryId) {
+        return entry.getRelatedIds().stream()
+                .map(ChebiEntry::getId)
+                .map(Long::parseLong)
+                .map(relatedId -> new Tuple2<>(relatedId, entryId))
+                .collect(Collectors.toList());
+    }
+
+    private List<Tuple2<Long, Long>> mapMajorMicrospecies(ChebiEntry entry, Long entryId) {
+        return entry.getMajorMicrospecies().stream()
+                .map(ChebiEntry::getId)
+                .map(Long::parseLong)
+                .flatMap(majorMicrospecieId -> createMajorMicroespeciesRelation(entryId, majorMicrospecieId))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -51,9 +60,8 @@ public class ChebiRelatedIdsMapper implements PairFlatMapFunction<ChebiEntry, Lo
      * @return bi-directional majorMicrospecies relations
      */
     private Stream<Tuple2<Long, Long>> createMajorMicroespeciesRelation(Long  entryId, Long majorMicrospecieId) {
-        List<Tuple2<Long, Long>> result = new ArrayList<>();
-        result.add(new Tuple2<>(entryId, majorMicrospecieId));
-        result.add(new Tuple2<>(majorMicrospecieId, entryId));
-        return result.stream();
+        Tuple2<Long, Long> relation1 = new Tuple2<>(entryId, majorMicrospecieId);
+        Tuple2<Long, Long> relation2 = new Tuple2<>(majorMicrospecieId, entryId);
+        return Stream.of(relation1, relation2);
     }
 }
