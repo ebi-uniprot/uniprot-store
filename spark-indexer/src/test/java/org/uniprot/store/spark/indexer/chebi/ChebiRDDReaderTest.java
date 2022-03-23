@@ -41,7 +41,7 @@ class ChebiRDDReaderTest {
             JavaPairRDD<String, ChebiEntry> chebiRdd = reader.load();
             assertNotNull(chebiRdd);
             long count = chebiRdd.count();
-            assertEquals(21L, count);
+            assertEquals(28L, count);
             // 16526
             validateChebiWithMultiplesIsARelations(chebiRdd);
 
