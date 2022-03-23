@@ -38,6 +38,38 @@ class ChebiRelatedIdsMapperTest {
     }
 
     @Test
+    void mapChebiEntriesWithMajorMicrospecies() throws Exception {
+        ChebiRelatedIdsMapper mapper = new ChebiRelatedIdsMapper();
+        Long chebiId = 1111L;
+        ChebiEntry entry =
+                new ChebiEntryBuilder()
+                        .id(String.valueOf(chebiId))
+                        .majorMicrospeciesAdd(new ChebiEntryBuilder().id("222").build())
+                        .majorMicrospeciesAdd(new ChebiEntryBuilder().id("333").build())
+                        .build();
+        Iterator<Tuple2<Long, Long>> result = mapper.call(entry);
+        assertNotNull(result);
+        ArrayList<Tuple2<Long, Long>> mappedRelated = new ArrayList<>();
+        result.forEachRemaining(mappedRelated::add);
+        assertEquals(4, mappedRelated.size());
+        Tuple2<Long, Long> relatedTuple = mappedRelated.get(0);
+        assertEquals(chebiId, relatedTuple._1);
+        assertEquals(222L, relatedTuple._2);
+
+        relatedTuple = mappedRelated.get(1);
+        assertEquals(222L, relatedTuple._1);
+        assertEquals(chebiId, relatedTuple._2);
+        relatedTuple = mappedRelated.get(2);
+        assertEquals(chebiId, relatedTuple._1);
+        assertEquals(333L, relatedTuple._2);
+
+        relatedTuple = mappedRelated.get(3);
+        assertEquals(333L, relatedTuple._1);
+        assertEquals(chebiId, relatedTuple._2);
+
+    }
+
+    @Test
     void mapChebiEntriesWithoutRelated() throws Exception {
         ChebiRelatedIdsMapper mapper = new ChebiRelatedIdsMapper();
         Long chebiId = 1111L;
