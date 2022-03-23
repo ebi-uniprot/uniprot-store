@@ -50,7 +50,6 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
         ResourceBundle config = jobParameter.getApplicationConfig();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
         String filePath = releaseInputDir + config.getString("chebi.file.path");
-        String ph7MappingPath = releaseInputDir + config.getString("chebi.ph7.mapping.file.path");
 
         jobParameter
                 .getSparkContext()
@@ -60,8 +59,7 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
         JavaPairRDD<Long, ChebiEntry> chebiRDD = loadChebiRDD(filePath);
 
         // JavaPairRDD<chebiId, Iterable<relatedChebiEntry>>
-        JavaPairRDD<Long, Iterable<ChebiEntry>> relatedChebi =
-                loadRelatedIdsRDD(chebiRDD, ph7MappingPath);
+        JavaPairRDD<Long, Iterable<ChebiEntry>> relatedChebi = loadRelatedIdsRDD(chebiRDD);
 
         // JavaPairRDD<chebiId, ChebiEntry>
         JavaRDD<Tuple2<Object, ChebiEntry>> vertices =
@@ -78,12 +76,10 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
      * This method load all related ids for a chebi entry.
      *
      * @param chebiRDD chebiRDD to extract related ids.
-     * @param ph7MappingPath chebi_pH7_3_mapping.tsv file path (extracted from
-     *     application.properties)
      * @return JavaPairRDD<chebiId,Iterable<ChebiRelatedEntry>>
      */
     private JavaPairRDD<Long, Iterable<ChebiEntry>> loadRelatedIdsRDD(
-            JavaPairRDD<Long, ChebiEntry> chebiRDD, String ph7MappingPath) {
+            JavaPairRDD<Long, ChebiEntry> chebiRDD) {
         // JavaPairRDD<relatedId,chebiId>
         JavaPairRDD<Long, Long> relatedIdRdd =
                 chebiRDD.values().flatMapToPair(new ChebiRelatedIdsMapper());
