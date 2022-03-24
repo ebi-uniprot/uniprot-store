@@ -66,7 +66,6 @@ class ChebiRelatedIdsMapperTest {
         relatedTuple = mappedRelated.get(3);
         assertEquals(333L, relatedTuple._1);
         assertEquals(chebiId, relatedTuple._2);
-
     }
 
     @Test

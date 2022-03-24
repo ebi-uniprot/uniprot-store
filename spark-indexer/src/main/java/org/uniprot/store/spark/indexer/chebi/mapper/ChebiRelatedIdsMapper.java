@@ -49,17 +49,21 @@ public class ChebiRelatedIdsMapper implements PairFlatMapFunction<ChebiEntry, Lo
         return entry.getMajorMicrospecies().stream()
                 .map(ChebiEntry::getId)
                 .map(Long::parseLong)
-                .flatMap(majorMicrospecieId -> createMajorMicroespeciesRelation(entryId, majorMicrospecieId))
+                .flatMap(
+                        majorMicrospecieId ->
+                                createMajorMicroespeciesRelation(entryId, majorMicrospecieId))
                 .collect(Collectors.toList());
     }
 
     /**
      * This method creates a bi-directional relation for majorMicrospecies relations
+     *
      * @param entryId ChebiId
      * @param majorMicrospecieId Related majorMicrospecie ChebiId
      * @return bi-directional majorMicrospecies relations
      */
-    private Stream<Tuple2<Long, Long>> createMajorMicroespeciesRelation(Long  entryId, Long majorMicrospecieId) {
+    private Stream<Tuple2<Long, Long>> createMajorMicroespeciesRelation(
+            Long entryId, Long majorMicrospecieId) {
         Tuple2<Long, Long> relation1 = new Tuple2<>(entryId, majorMicrospecieId);
         Tuple2<Long, Long> relation2 = new Tuple2<>(majorMicrospecieId, entryId);
         return Stream.of(relation1, relation2);
