@@ -177,7 +177,6 @@
     "fieldName": "cc_cofactor",
     "dataType": "STRING",
     "fieldType": "GENERAL",
-    "tags": ["CHEBI", "InChIKey"],
     "example":  "Zinc",
     "description" : "Search by cofactor, any non-protein substance",
     "includeInSwagger": true
@@ -1018,6 +1017,7 @@
     "label": "ChEBI term",
     "childNumber": 0,
     "itemType": "SIBLING_GROUP",
+    "tags": ["CHEBI", "InChIKey"],
     "id": "chebi_term"
   },
   {
@@ -1259,6 +1259,7 @@
     "label": "Catalytic Activity",
     "childNumber": 3,
     "itemType": "SIBLING_GROUP",
+    "tags": ["RHEA", "CHEBI", "InChIKey"],
     "id": "catalytic_activity"
   },
   {
@@ -1269,7 +1270,6 @@
     "fieldName": "cc_catalytic_activity",
     "fieldType": "GENERAL",
     "dataType": "STRING",
-    "tags": ["RHEA", "CHEBI", "InChIKey"],
     "autoComplete": "{CONTEXT_PATH}/suggester?dict=catalytic_activity&query=?",
     "autoCompleteQueryField": "cc_catalytic_activity",
     "description": "Search by comment catalytic activity",
