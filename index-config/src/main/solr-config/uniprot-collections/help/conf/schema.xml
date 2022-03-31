@@ -69,7 +69,7 @@
 			<filter class="solr.LowerCaseFilterFactory" />
 			<filter class="solr.PorterStemFilterFactory" />
 			<filter class="solr.RemoveDuplicatesTokenFilterFactory" />
-			<filter class="solr.EdgeNGramFilterFactory" minGramSize="3"
+			<filter class="solr.EdgeNGramFilterFactory" minGramSize="1"
 				maxGramSize="10" />
 			<filter class="solr.FlattenGraphFilterFactory" />
 		</analyzer>
