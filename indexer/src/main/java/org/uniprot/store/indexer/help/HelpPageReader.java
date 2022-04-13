@@ -1,5 +1,11 @@
 package org.uniprot.store.indexer.help;
 
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
+import org.jsoup.Jsoup;
+import org.uniprot.store.search.document.help.HelpDocument;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -11,12 +17,6 @@ import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
-import org.jsoup.Jsoup;
-import org.uniprot.store.search.document.help.HelpDocument;
-
 /**
  * @author sahmad
  * @created 06/07/2021
@@ -25,6 +25,8 @@ import org.uniprot.store.search.document.help.HelpDocument;
 public class HelpPageReader {
     protected static final String CATEGORIES_COLON = "categories:";
     protected static final String TITLE_COLON = "title:";
+    protected static final String TYPE_COLON = "type:";
+    protected static final String DATE_COLON = "date:";
     private static final String META_REGION_SEP = "---";
 
     public HelpDocument read(String fileName) throws IOException {
@@ -78,6 +80,23 @@ public class HelpPageReader {
             builder.title(splitTitle[1].strip());
         } else {
             log.warn("No title set for Help document ID: " + builder);
+        }
+
+        populateType(builder, line);
+        populateDate(builder, line);
+    }
+
+    private void populateDate(HelpDocument.HelpDocumentBuilder builder, String line) {
+        String[] splitTitle = line.split(DATE_COLON);
+        if (splitTitle.length == 2) {
+            builder.releaseDate(new Date(splitTitle[1].strip()));
+        }
+    }
+
+    private void populateType(HelpDocument.HelpDocumentBuilder builder, String line) {
+        String[] splitTitle = line.split(TYPE_COLON);
+        if (splitTitle.length == 2) {
+            builder.type(splitTitle[1].strip());
         }
     }
 

@@ -38,6 +38,12 @@
 	<field name="category" type="string" indexed="true" stored="true"
 		multiValued="true" docValues="true" />
 
+    <!-- type -->
+    <field name="type" type="string" indexed="true" stored="true" />
+
+    <!-- release_date -->
+    <field name="release_date" type="pdate" indexed="false" stored="true" required="false" />
+
 	<!-- spellchecking -->
 	<field name="text_spellcheck" type="textSpell" indexed="true"
 		stored="true" multiValued="true" docValues="false" />

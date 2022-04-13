@@ -36,6 +36,11 @@ public class HelpDocument implements Document {
     @Field("category")
     private List<String> categories;
 
+    private String type;
+
+    @Field("release_date")
+    private Date releaseDate;
+
     private Map<String, List<String>> matches;
 
     @Override
