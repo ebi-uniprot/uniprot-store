@@ -60,5 +60,23 @@
     "name": "lastModified",
     "id": "lastModified",
     "paths" : ["lastModified"]
+  },
+   {
+    "parentId": "helpCentre",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "label": "type",
+    "name": "type",
+    "id": "type",
+    "paths" : ["type"]
+  },
+  {
+    "parentId": "helpCentre",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "label": "date",
+    "name": "date",
+    "id": "date",
+    "paths" : ["date"]
   }
 ]

@@ -1,5 +1,6 @@
 package org.uniprot.store.search.document.help;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -28,13 +29,19 @@ public class HelpDocument implements Document {
     @Field private String content;
 
     @Field("date_modified")
-    private Date lastModified;
+    private LocalDate lastModified;
 
     @Field("content_original")
     private String contentOriginal;
 
     @Field("category")
     private List<String> categories;
+    
+    @Field("type")
+    private String type;
+    
+    @Field("date")
+    private LocalDate date;
 
     private Map<String, List<String>> matches;
 

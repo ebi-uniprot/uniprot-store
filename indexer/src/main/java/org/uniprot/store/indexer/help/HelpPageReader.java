@@ -3,6 +3,8 @@ package org.uniprot.store.indexer.help;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +26,9 @@ import org.uniprot.store.search.document.help.HelpDocument;
 @Slf4j
 public class HelpPageReader {
     protected static final String CATEGORIES_COLON = "categories:";
+    protected static final String TYPE_COLON = "type:";
     protected static final String TITLE_COLON = "title:";
+    protected static final String DATE_COLON = "date:";
     private static final String META_REGION_SEP = "---";
 
     public HelpDocument read(String fileName) throws IOException {
@@ -32,7 +36,9 @@ public class HelpPageReader {
         File helpFile = new File(fileName);
         HelpDocument.HelpDocumentBuilder builder = HelpDocument.builder();
         builder.id(extractId(fileName));
-        builder.lastModified(new Date(helpFile.lastModified()));
+        Date date = new Date(helpFile.lastModified());
+        LocalDate localDate =date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        builder.lastModified(localDate);
         try (Scanner scanner = new Scanner(helpFile, StandardCharsets.UTF_8)) {
             boolean startMetaRegion = false;
             boolean endMetaRegion = false;
@@ -58,6 +64,7 @@ public class HelpPageReader {
             builder.content(getCleanContent(content));
         }
         return builder.build();
+
     }
 
     protected void populateMeta(HelpDocument.HelpDocumentBuilder builder, String line) {
@@ -72,7 +79,15 @@ public class HelpPageReader {
         } else {
             log.warn("No categories set for Help document ID: " + builder);
         }
-
+        String[] splitType = line.split(TYPE_COLON);
+        if (splitType.length == 2) {
+            builder.type(splitType[1].strip());
+        } 
+        String[] dateType = line.split(DATE_COLON);
+        if (dateType.length == 2) {
+            builder.date(LocalDate.parse(dateType[1].strip()));
+        } 
+        
         String[] splitTitle = line.split(TITLE_COLON);
         if (splitTitle.length == 2) {
             builder.title(splitTitle[1].strip());

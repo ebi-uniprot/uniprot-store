@@ -24,7 +24,7 @@
 		stored="false" required="true" docValues="true" />
 	<copyField source="title" dest="title_sort" />
 
-	<!-- date -->
+	<!-- modified date -->
 	<field name="date_modified" type="pdate" indexed="false"
 		stored="true" required="false" />
 
@@ -37,6 +37,13 @@
 	<!-- category -->
 	<field name="category" type="string" indexed="true" stored="true"
 		multiValued="true" docValues="true" />
+		
+		<!-- type -->
+	<field name="type" type="string" indexed="true" stored="true"
+		multiValued="false" docValues="true" />
+	<!-- date -->
+	<field name="date" type="pdate" indexed="true"
+		stored="true"  docValues="true" required="false" />
 
 	<!-- spellchecking -->
 	<field name="text_spellcheck" type="textSpell" indexed="true"

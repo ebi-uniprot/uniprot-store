@@ -40,5 +40,23 @@
     "dataType": "STRING",
     "description": "Search by category",
     "example": "Biocuration"
+  },
+    {
+    "id": "type",
+    "fieldName": "type",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by type: help or news",
+    "example": "help",
+    "includeInSwagger": false
+  },
+   {
+    "id": "date",
+    "fieldName": "date",
+     "dataType": "DATE",
+    "itemType": "SINGLE",
+    "fieldType": "RANGE",
+    "description": "Search by Date of creation",
+    "example": "[2018-03-04 TO 2018-03-08]"
   }
 ]
