@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.uniprot.store.indexer.help.HelpPageItemReaderTest.ABOUT_CONTENT;
 import static org.uniprot.store.indexer.help.HelpPageItemReaderTest.THREE_D_CONTENT;
 
@@ -151,8 +152,8 @@ class HelpPagesLoadJobIT {
                         .collect(Collectors.toList())
                         .get(0);
 
-        assertThat(indexingStep.getReadCount(), is(2));
-        assertThat(indexingStep.getWriteCount(), is(2));
+        assertThat(indexingStep.getReadCount(), is(3));
+        assertThat(indexingStep.getWriteCount(), is(3));
 
         List<HelpDocument> response =
                 solrClient.query(
@@ -160,8 +161,9 @@ class HelpPagesLoadJobIT {
                         new SolrQuery("*:*").addSort(SolrQuery.SortClause.asc("id")),
                         HelpDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.size(), is(2));
-        HelpDocument doc3D = response.get(0);
+        assertThat(response.size(), is(3));
+        HelpDocument doc3D = getDoc(response, "3d-structure_annotation_in_swiss-prot");
+        assertNotNull(doc3D);
         assertThat(doc3D.getId(), is("3d-structure_annotation_in_swiss-prot"));
         assertThat(doc3D.getTitle(), is("3D-structure annotation in UniProtKB/Swiss-Prot"));
         assertThat(
@@ -169,7 +171,8 @@ class HelpPagesLoadJobIT {
                 containsInAnyOrder("3D structure", "Biocuration", "Cross-references", "help"));
         assertThat(doc3D.getContentOriginal(), is(THREE_D_CONTENT));
         assertThat(doc3D.getContent(), is(CLEAN_THREE_D_CONTENT));
-        HelpDocument about = response.get(1);
+        HelpDocument about =  getDoc(response, "about");
+        assertNotNull(about);
         assertThat(about.getId(), is("about"));
         assertThat(about.getTitle(), is("About UniProt"));
         assertThat(
@@ -178,8 +181,20 @@ class HelpPagesLoadJobIT {
                         "About UniProt", "Staff", "UniProtKB", "UniRef", "UniParc", "help"));
         assertThat(about.getContentOriginal(), is(ABOUT_CONTENT));
         assertThat(about.getContent(), is(CLEAN_ABOUT_CONTENT));
+        HelpDocument release =  getDoc(response, "2019-11-13-release");
+        assertNotNull(release);
+        
         // clean up
         solrClient.delete(SolrCollection.help, "*:*");
         solrClient.commit(SolrCollection.help);
+    }
+    private HelpDocument getDoc(List<HelpDocument> response, String id) {
+    	for(HelpDocument doc:response) {
+    		if(doc.getId().equals(id)) {
+    			return doc;
+    		}
+    	}
+    	return null;
+    	
     }
 }
