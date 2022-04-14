@@ -1,17 +1,16 @@
 package org.uniprot.store.search.document.help;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.solr.client.solrj.beans.Field;
+import org.uniprot.store.search.document.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import org.apache.solr.client.solrj.beans.Field;
-import org.uniprot.store.search.document.Document;
 
 /**
  * @author sahmad
@@ -29,7 +28,7 @@ public class HelpDocument implements Document {
     @Field private String content;
 
     @Field("date_modified")
-    private LocalDate lastModified;
+    private Date lastModified;
 
     @Field("content_original")
     private String contentOriginal;
@@ -41,7 +40,7 @@ public class HelpDocument implements Document {
     private String type;
 
     @Field("release_date")
-    private LocalDate releaseDate;
+    private Date releaseDate;
 
     private Map<String, List<String>> matches;
 

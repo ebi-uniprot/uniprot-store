@@ -36,9 +36,7 @@ public class HelpPageReader {
         File helpFile = new File(fileName);
         HelpDocument.HelpDocumentBuilder builder = HelpDocument.builder();
         builder.id(extractId(fileName));
-        Date date = new Date(helpFile.lastModified());
-        LocalDate localDate =date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        builder.lastModified(localDate);
+        builder.lastModified(new Date(helpFile.lastModified()));
         try (Scanner scanner = new Scanner(helpFile, StandardCharsets.UTF_8)) {
             boolean startMetaRegion = false;
             boolean endMetaRegion = false;
@@ -95,7 +93,11 @@ public class HelpPageReader {
     	 String[] dateType = line.split(DATE_COLON);
          if (dateType.length == 2) {
          	try {
-         	builder.releaseDate(LocalDate.parse(dateType[1].strip()));
+         		LocalDate localDate = LocalDate.parse(dateType[1].strip());
+         		Date date =Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+         				
+         				
+         	builder.releaseDate(date);
          	}catch(Exception e) {
          		 log.warn("Failed to parse release date: " + dateType[1]);
          	}

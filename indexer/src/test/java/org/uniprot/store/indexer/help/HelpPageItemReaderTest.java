@@ -6,7 +6,9 @@ import static org.uniprot.store.indexer.help.HelpPageReader.CATEGORIES_COLON;
 import static org.uniprot.store.indexer.help.HelpPageReader.TITLE_COLON;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -108,7 +110,7 @@ public class HelpPageItemReaderTest {
           assertEquals("UniProt release 2019_10", helpDoc.getTitle());
           assertEquals(List.of("mammals", "Toxins"), helpDoc.getCategories());
           assertEquals("releaseNotes", helpDoc.getType());
-          assertEquals(LocalDate.parse("2019-11-13"), helpDoc.getReleaseDate());
+          assertEquals(LocalDate.parse("2019-11-13"), helpDoc.getReleaseDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
           assertEquals(RELEASE_2019_11_13, helpDoc.getContentOriginal());
 	}
 
