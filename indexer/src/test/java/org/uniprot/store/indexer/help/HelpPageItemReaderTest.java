@@ -108,7 +108,7 @@ public class HelpPageItemReaderTest {
           assertEquals("UniProt release 2019_10", helpDoc.getTitle());
           assertEquals(List.of("mammals", "Toxins"), helpDoc.getCategories());
           assertEquals("releaseNotes", helpDoc.getType());
-          assertEquals(LocalDate.parse("2019-11-13"), helpDoc.getDate());
+          assertEquals(LocalDate.parse("2019-11-13"), helpDoc.getReleaseDate());
           assertEquals(RELEASE_2019_11_13, helpDoc.getContentOriginal());
 	}
 
@@ -124,7 +124,7 @@ public class HelpPageItemReaderTest {
                 helpDoc.getContent()
                         .contains("Related keywords: 3D-structure 3D-structure databases"));
         assertEquals(null, helpDoc.getType());
-        assertNull(helpDoc.getDate());
+        assertNull(helpDoc.getReleaseDate());
     }
 
     private void verifyAbout(HelpDocument helpDoc) {
@@ -132,7 +132,7 @@ public class HelpPageItemReaderTest {
         assertEquals("About UniProt", helpDoc.getTitle());
         assertEquals(6, helpDoc.getCategories().size());
         assertEquals("help", helpDoc.getType());
-        assertNull(helpDoc.getDate());
+        assertNull(helpDoc.getReleaseDate());
         assertEquals(
                 List.of("About UniProt", "Staff", "UniProtKB", "UniRef", "UniParc", "help"),
                 helpDoc.getCategories());

@@ -1,5 +1,11 @@
 package org.uniprot.store.indexer.help;
 
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
+import org.jsoup.Jsoup;
+import org.uniprot.store.search.document.help.HelpDocument;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -13,12 +19,6 @@ import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
-import org.jsoup.Jsoup;
-import org.uniprot.store.search.document.help.HelpDocument;
-
 /**
  * @author sahmad
  * @created 06/07/2021
@@ -26,8 +26,8 @@ import org.uniprot.store.search.document.help.HelpDocument;
 @Slf4j
 public class HelpPageReader {
     protected static final String CATEGORIES_COLON = "categories:";
-    protected static final String TYPE_COLON = "type:";
     protected static final String TITLE_COLON = "title:";
+    protected static final String TYPE_COLON = "type:";
     protected static final String DATE_COLON = "date:";
     private static final String META_REGION_SEP = "---";
 
@@ -79,21 +79,34 @@ public class HelpPageReader {
         } else {
             log.warn("No categories set for Help document ID: " + builder);
         }
-        String[] splitType = line.split(TYPE_COLON);
-        if (splitType.length == 2) {
-            builder.type(splitType[1].strip());
-        } 
-        String[] dateType = line.split(DATE_COLON);
-        if (dateType.length == 2) {
-            builder.date(LocalDate.parse(dateType[1].strip()));
-        } 
-        
+   
         String[] splitTitle = line.split(TITLE_COLON);
         if (splitTitle.length == 2) {
             builder.title(splitTitle[1].strip());
         } else {
             log.warn("No title set for Help document ID: " + builder);
         }
+
+        populateType(builder, line);
+        populateDate(builder, line);
+    }
+
+    private void populateDate(HelpDocument.HelpDocumentBuilder builder, String line) {
+    	 String[] dateType = line.split(DATE_COLON);
+         if (dateType.length == 2) {
+         	try {
+         	builder.releaseDate(LocalDate.parse(dateType[1].strip()));
+         	}catch(Exception e) {
+         		 log.warn("Failed to parse release date: " + dateType[1]);
+         	}
+         } 
+    }
+
+    private void populateType(HelpDocument.HelpDocumentBuilder builder, String line) {
+    	 String[] splitType = line.split(TYPE_COLON);
+         if (splitType.length == 2) {
+             builder.type(splitType[1].strip());
+         } 
     }
 
     private String extractId(String filePath) {

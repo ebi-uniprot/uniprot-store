@@ -37,13 +37,13 @@
 	<!-- category -->
 	<field name="category" type="string" indexed="true" stored="true"
 		multiValued="true" docValues="true" />
-		
-		<!-- type -->
-	<field name="type" type="string" indexed="true" stored="true"
-		multiValued="false" docValues="true" />
-	<!-- date -->
-	<field name="date" type="pdate" indexed="true"
+
+	   <!-- release_date -->
+	<field name="release_date" type="pdate" indexed="true"
 		stored="true"  docValues="true" required="false" />
+
+    <!-- type -->
+    <field name="type" type="string" indexed="true" stored="true" />
 
 	<!-- spellchecking -->
 	<field name="text_spellcheck" type="textSpell" indexed="true"

@@ -39,9 +39,9 @@ public class HelpDocument implements Document {
     
     @Field("type")
     private String type;
-    
-    @Field("date")
-    private LocalDate date;
+
+    @Field("release_date")
+    private LocalDate releaseDate;
 
     private Map<String, List<String>> matches;
 
