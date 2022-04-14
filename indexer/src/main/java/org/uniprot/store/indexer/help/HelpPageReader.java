@@ -1,11 +1,5 @@
 package org.uniprot.store.indexer.help;
 
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
-import org.jsoup.Jsoup;
-import org.uniprot.store.search.document.help.HelpDocument;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -18,6 +12,12 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
+
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
+import org.jsoup.Jsoup;
+import org.uniprot.store.search.document.help.HelpDocument;
 
 /**
  * @author sahmad
@@ -62,7 +62,6 @@ public class HelpPageReader {
             builder.content(getCleanContent(content));
         }
         return builder.build();
-
     }
 
     protected void populateMeta(HelpDocument.HelpDocumentBuilder builder, String line) {
@@ -77,7 +76,7 @@ public class HelpPageReader {
         } else {
             log.warn("No categories set for Help document ID: " + builder);
         }
-   
+
         String[] splitTitle = line.split(TITLE_COLON);
         if (splitTitle.length == 2) {
             builder.title(splitTitle[1].strip());
@@ -90,25 +89,24 @@ public class HelpPageReader {
     }
 
     private void populateDate(HelpDocument.HelpDocumentBuilder builder, String line) {
-    	 String[] dateType = line.split(DATE_COLON);
-         if (dateType.length == 2) {
-         	try {
-         		LocalDate localDate = LocalDate.parse(dateType[1].strip());
-         		Date date =Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-         				
-         				
-         	builder.releaseDate(date);
-         	}catch(Exception e) {
-         		 log.warn("Failed to parse release date: " + dateType[1]);
-         	}
-         } 
+        String[] dateType = line.split(DATE_COLON);
+        if (dateType.length == 2) {
+            try {
+                LocalDate localDate = LocalDate.parse(dateType[1].strip());
+                Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                builder.releaseDate(date);
+            } catch (Exception e) {
+                log.warn("Failed to parse release date: " + dateType[1]);
+            }
+        }
     }
 
     private void populateType(HelpDocument.HelpDocumentBuilder builder, String line) {
-    	 String[] splitType = line.split(TYPE_COLON);
-         if (splitType.length == 2) {
-             builder.type(splitType[1].strip());
-         } 
+        String[] splitType = line.split(TYPE_COLON);
+        if (splitType.length == 2) {
+            builder.type(splitType[1].strip());
+        }
     }
 
     private String extractId(String filePath) {

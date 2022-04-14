@@ -8,7 +8,6 @@ import static org.uniprot.store.indexer.help.HelpPageReader.TITLE_COLON;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -91,30 +90,32 @@ public class HelpPageItemReaderTest {
         assertNotNull(helpDoc.getContent());
         assertNotNull(helpDoc.getCategories());
         assertFalse(helpDoc.getCategories().isEmpty());
-        boolean found =false;
+        boolean found = false;
         if ("3d-structure_annotation_in_swiss-prot".equals(helpDoc.getId())) {
             verify3DAnnotation(helpDoc);
-            found =true;
+            found = true;
         } else if ("about".equals(helpDoc.getId())) {
             verifyAbout(helpDoc);
-            found =true;
-        }else if ("2019-11-13-release".equals(helpDoc.getId())) {
-        	verify20191113release(helpDoc);
-        	found=true;
+            found = true;
+        } else if ("2019-11-13-release".equals(helpDoc.getId())) {
+            verify20191113release(helpDoc);
+            found = true;
         }
         assertTrue(found);
     }
 
     private void verify20191113release(HelpDocument helpDoc) {
-    	  assertEquals("2019-11-13-release", helpDoc.getDocumentId());
-          assertEquals("UniProt release 2019_10", helpDoc.getTitle());
-          assertEquals(List.of("mammals", "Toxins"), helpDoc.getCategories());
-          assertEquals("releaseNotes", helpDoc.getType());
-          assertEquals(LocalDate.parse("2019-11-13"), helpDoc.getReleaseDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-          assertEquals(RELEASE_2019_11_13, helpDoc.getContentOriginal());
-	}
+        assertEquals("2019-11-13-release", helpDoc.getDocumentId());
+        assertEquals("UniProt release 2019_10", helpDoc.getTitle());
+        assertEquals(List.of("mammals", "Toxins"), helpDoc.getCategories());
+        assertEquals("releaseNotes", helpDoc.getType());
+        assertEquals(
+                LocalDate.parse("2019-11-13"),
+                helpDoc.getReleaseDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        assertEquals(RELEASE_2019_11_13, helpDoc.getContentOriginal());
+    }
 
-	private void verify3DAnnotation(HelpDocument helpDoc) {
+    private void verify3DAnnotation(HelpDocument helpDoc) {
         assertEquals("3d-structure_annotation_in_swiss-prot", helpDoc.getDocumentId());
         assertEquals("3D-structure annotation in UniProtKB/Swiss-Prot", helpDoc.getTitle());
         assertEquals(4, helpDoc.getCategories().size());
@@ -251,81 +252,80 @@ public class HelpPageItemReaderTest {
                     + "Phone: (+1 202) 687 1039  \n"
                     + "  \n"
                     + "Fax: (+1 202) 687 0057";
-    
-    static final String RELEASE_2019_11_13 =
-    		"\n"
-    		+ "# Headline\n"
-    		+ "\n"
-    		+ "## A scorpion venom toxin may help unravel the mystery of chronic pain\n"
-    		+ "\n"
-    		+ "The old saying goes 'an ounce of prevention is worth a pound of cure’, and indeed, our body has developed various strategies to alert us of potential dangers to avoid. One contributor to this strategy is [TRPA1](http://www.uniprot.org/uniprot/?query=name%3A%22Transient+receptor+potential+cation+channel+subfamily+A+member+1%22+reviewed%3Ayes), also called the 'wasabi receptor'. TRPA1, a member of the transient receptor family (TRP), is a plasma membrane cation channel expressed by primary afferent sensory neurons. It is activated by chemically reactive electrophiles present in a range of environmental irritants and endogenous inflammatory agents. Cigarette smoke, for example, is rich in reactive electrophiles that can trigger TRPA1 in the cells that line the airways, inducing coughing and sustained airway inflammation. Some plants, such as mustard, wasabi or onions, have evolved compounds that activate TRPA1, possibly to ward off animals that might otherwise eat them. In this context, TRPA1 activation is responsible for the sinus-jolting sting of wasabi and the flood of tears associated with chopping onions.\n"
-    		+ "\n"
-    		+ "Not only plants produce TRPA1 activating compounds. [Black rock scorpions](http://www.uniprot.org/taxonomy/1330407) do too, as has been reported in [a recent publication by Lin King et al](https://www.ncbi.nlm.nih.gov/pubmed/31447178). This comes as a surprise. Most animal toxins identified so far target voltage-gated ion channels, and the few known to act on TRP channels all activate the capsaicin receptor, TRPV1. The newly discovered black rock scorpion toxin has been called Wasabi receptor toxin or [WaTx](http://www.uniprot.org/uniprot/C0HLG4). In its mature form, it is a 19 amino acid-long peptide, which has the amazing ability to penetrate cells by passive diffusion. This property is not unique to WaTx, other proteins, such as HIV Tat or *Drosophila* penetratin also share it, but WaTx does not have any sequence similarity to them.\n"
-    		+ "\n"
-    		+ "Once in the cell, WaTx binds TRPA1 at the same site as plant and environmental irritants, but the similarity ends there. Reactive electrophiles covalently bind TRPA1 and produce a large increase in the probability of channel opening characterized by brief transitions between open and closed states. This results in the influx of sodium and calcium ions. The influx of Ca(2+), in turn, causes the exocytosis of dense-core vesicles, the release of calcitonin-gene-related peptide (CGRP) and substance P, and ultimately induces neurogenic inflammation. WaTx non-covalent binding to TRPA1 stabilizes the open state of the channel and prolongs open time. Consequently, it induces neuronal depolarization and subsequent hypersensitivities, which are characteristic of chronic pain. In addition, it decreases the relative Ca(2+)-permeability of the channel. The Ca(+2) influx is not sufficient to trigger CGRP release and does not cause any inflammation. These observations show a striking convergent evolution between plants and animals in terms of binding site, resulting, however, in a very different modulation of cation channel activity and a distinct outcome in terms of inflammation.\n"
-    		+ "\n"
-    		+ "TRPA1 is expressed in virtually every animal, from worms and humans, but WaTx only activates mammalian orthologs. Why so? It is difficult to say. Black rock scorpions feed on insects like cockroaches and beetles, as well as other small invertebrates such as millipedes, centipedes, spiders and rarely earthworms, but never mammals. Therefore, WaTx may have a deterrent role aimed specifically at mammalian predators.\n"
-    		+ "\n"
-    		+ "One thing is certain: with WaTx, scorpions provide us with a powerful tool to study the central neural pathways contributing to chronic pain and to investigate the link between chronic pain and inflammation. TRPA1 is emerging as a potential target for new classes of non-opioid analgesics to treat chronic pain.\n"
-    		+ "\n"
-    		+ "As of this release, [WaTx](http://www.uniprot.org/uniprot/C0HLG4) has been annotated and is painlessly available in UniProtKB/Swiss-Prot.\n"
-    		+ "\n"
-    		+ "# UniProtKB news\n"
-    		+ "\n"
-    		+ "## Removal of the cross-references to EcoGene\n"
-    		+ "\n"
-    		+ "Cross-references to EcoGene have been removed.\n"
-    		+ "\n"
-    		+ "## Change of the cross-references to DisProt\n"
-    		+ "\n"
-    		+ "Cross-references to DisProt may now be isoform-specific. The general format of isoform-specific cross-references was described in release [2014\\_03](http://www.uniprot.org/news/2014/03/19/release) .\n"
-    		+ "\n"
-    		+ "Example: [Q9NQC3](http://www.uniprot.org/uniprot/Q9NQC3)\n"
-    		+ "\n"
-    		+ "## Changes to the [controlled vocabulary of human diseases](https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/humdisease)\n"
-    		+ "\n"
-    		+ "New diseases:\n"
-    		+ "\n"
-    		+ "-   [Deafness, autosomal dominant, 37](http://www.uniprot.org/diseases/DI-05635)\n"
-    		+ "-   [Ectodermal dysplasia 15, hypohidrotic/hair type](http://www.uniprot.org/diseases/DI-05636)\n"
-    		+ "-   [Epilepsy, rolandic, with proxysmal exercise-induce dystonia and writer's cramp](http://www.uniprot.org/diseases/DI-05646)\n"
-    		+ "-   [Epileptic encephalopathy, early infantile, 77](http://www.uniprot.org/diseases/DI-05640)\n"
-    		+ "-   [Erythrokeratodermia variabilis et progressiva 6](http://www.uniprot.org/diseases/DI-05634)\n"
-    		+ "-   [Hepatitis, fulminant viral](http://www.uniprot.org/diseases/DI-05641)\n"
-    		+ "-   [Hyper-IgE recurrent infection syndrome 4, autosomal recessive](http://www.uniprot.org/diseases/DI-05628)\n"
-    		+ "-   [Hypoalphalipoproteinemia, primary, 2](http://www.uniprot.org/diseases/DI-05627)\n"
-    		+ "-   [Hypopigmentation, organomegaly, and delayed myelination and development](http://www.uniprot.org/diseases/DI-05637)\n"
-    		+ "-   [Ichthyotic keratoderma, spasticity, hypomyelination, and dysmorphic facies](http://www.uniprot.org/diseases/DI-05630)\n"
-    		+ "-   [Immunodeficiency 64](http://www.uniprot.org/diseases/DI-05632)\n"
-    		+ "-   [Microangiopathy and leukoencephalopathy, pontine, autosomal dominant](http://www.uniprot.org/diseases/DI-05644)\n"
-    		+ "-   [Mitochondrial DNA depletion syndrome 16, hepatic type](http://www.uniprot.org/diseases/DI-05631)\n"
-    		+ "-   [Myopathy, congenital, with tremor](http://www.uniprot.org/diseases/DI-05629)\n"
-    		+ "-   [Neurodevelopmental disorder with visual defects and brain anomalies](http://www.uniprot.org/diseases/DI-05639)\n"
-    		+ "-   [Night blindness, congenital stationary, 1I](http://www.uniprot.org/diseases/DI-05643)\n"
-    		+ "-   [Oculoectodermal syndrome](http://www.uniprot.org/diseases/DI-05645)\n"
-    		+ "-   [Oocyte maturation defect 7](http://www.uniprot.org/diseases/DI-05642)\n"
-    		+ "-   [Pseudofolliculitis barbae](http://www.uniprot.org/diseases/DI-05647)\n"
-    		+ "-   [Robinow syndrome, autosomal recessive 2](http://www.uniprot.org/diseases/DI-05633)\n"
-    		+ "-   [Trichothiodystrophy 7, non-photosensitive](http://www.uniprot.org/diseases/DI-05638)\n"
-    		+ "-   [Van Esch-O'Driscoll syndrome](http://www.uniprot.org/diseases/DI-05626)\n"
-    		+ "\n"
-    		+ "## Changes in [subcellular location controlled vocabulary](https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/subcell)\n"
-    		+ "\n"
-    		+ "New subcellular locations:\n"
-    		+ "\n"
-    		+ "-   [Neuronal dense core vesicle](http://www.uniprot.org/locations/SL-0526)\n"
-    		+ "-   [Neuronal dense core vesicle membrane](http://www.uniprot.org/locations/SL-0532)\n"
-    		+ "-   [Postsynaptic early endosome](http://www.uniprot.org/locations/SL-0523)\n"
-    		+ "-   [Postsynaptic early endosome membrane](http://www.uniprot.org/locations/SL-0534)\n"
-    		+ "-   [Postsynaptic endocytic zone](http://www.uniprot.org/locations/SL-0528)\n"
-    		+ "-   [Postsynaptic endosome](http://www.uniprot.org/locations/SL-0522)\n"
-    		+ "-   [Postsynaptic Golgi apparatus](http://www.uniprot.org/locations/SL-0521)\n"
-    		+ "-   [Postsynaptic recycling endosome](http://www.uniprot.org/locations/SL-0524)\n"
-    		+ "-   [Postsynaptic recycling endosome membrane](http://www.uniprot.org/locations/SL-0533)\n"
-    		+ "-   [Presynaptic active zone membrane](http://www.uniprot.org/locations/SL-0527)\n"
-    		+ "-   [Presynaptic endocytic zone](http://www.uniprot.org/locations/SL-0529)\n"
-    		+ "-   [Presynaptic endosome](http://www.uniprot.org/locations/SL-0525)\n"
-    		+ "-   [Spine apparatus](http://www.uniprot.org/locations/SL-0530)\n"
-    		+ "-   [Synaptic cell membrane](http://www.uniprot.org/locations/SL-0531)";
 
+    static final String RELEASE_2019_11_13 =
+            "\n"
+                    + "# Headline\n"
+                    + "\n"
+                    + "## A scorpion venom toxin may help unravel the mystery of chronic pain\n"
+                    + "\n"
+                    + "The old saying goes 'an ounce of prevention is worth a pound of cure’, and indeed, our body has developed various strategies to alert us of potential dangers to avoid. One contributor to this strategy is [TRPA1](http://www.uniprot.org/uniprot/?query=name%3A%22Transient+receptor+potential+cation+channel+subfamily+A+member+1%22+reviewed%3Ayes), also called the 'wasabi receptor'. TRPA1, a member of the transient receptor family (TRP), is a plasma membrane cation channel expressed by primary afferent sensory neurons. It is activated by chemically reactive electrophiles present in a range of environmental irritants and endogenous inflammatory agents. Cigarette smoke, for example, is rich in reactive electrophiles that can trigger TRPA1 in the cells that line the airways, inducing coughing and sustained airway inflammation. Some plants, such as mustard, wasabi or onions, have evolved compounds that activate TRPA1, possibly to ward off animals that might otherwise eat them. In this context, TRPA1 activation is responsible for the sinus-jolting sting of wasabi and the flood of tears associated with chopping onions.\n"
+                    + "\n"
+                    + "Not only plants produce TRPA1 activating compounds. [Black rock scorpions](http://www.uniprot.org/taxonomy/1330407) do too, as has been reported in [a recent publication by Lin King et al](https://www.ncbi.nlm.nih.gov/pubmed/31447178). This comes as a surprise. Most animal toxins identified so far target voltage-gated ion channels, and the few known to act on TRP channels all activate the capsaicin receptor, TRPV1. The newly discovered black rock scorpion toxin has been called Wasabi receptor toxin or [WaTx](http://www.uniprot.org/uniprot/C0HLG4). In its mature form, it is a 19 amino acid-long peptide, which has the amazing ability to penetrate cells by passive diffusion. This property is not unique to WaTx, other proteins, such as HIV Tat or *Drosophila* penetratin also share it, but WaTx does not have any sequence similarity to them.\n"
+                    + "\n"
+                    + "Once in the cell, WaTx binds TRPA1 at the same site as plant and environmental irritants, but the similarity ends there. Reactive electrophiles covalently bind TRPA1 and produce a large increase in the probability of channel opening characterized by brief transitions between open and closed states. This results in the influx of sodium and calcium ions. The influx of Ca(2+), in turn, causes the exocytosis of dense-core vesicles, the release of calcitonin-gene-related peptide (CGRP) and substance P, and ultimately induces neurogenic inflammation. WaTx non-covalent binding to TRPA1 stabilizes the open state of the channel and prolongs open time. Consequently, it induces neuronal depolarization and subsequent hypersensitivities, which are characteristic of chronic pain. In addition, it decreases the relative Ca(2+)-permeability of the channel. The Ca(+2) influx is not sufficient to trigger CGRP release and does not cause any inflammation. These observations show a striking convergent evolution between plants and animals in terms of binding site, resulting, however, in a very different modulation of cation channel activity and a distinct outcome in terms of inflammation.\n"
+                    + "\n"
+                    + "TRPA1 is expressed in virtually every animal, from worms and humans, but WaTx only activates mammalian orthologs. Why so? It is difficult to say. Black rock scorpions feed on insects like cockroaches and beetles, as well as other small invertebrates such as millipedes, centipedes, spiders and rarely earthworms, but never mammals. Therefore, WaTx may have a deterrent role aimed specifically at mammalian predators.\n"
+                    + "\n"
+                    + "One thing is certain: with WaTx, scorpions provide us with a powerful tool to study the central neural pathways contributing to chronic pain and to investigate the link between chronic pain and inflammation. TRPA1 is emerging as a potential target for new classes of non-opioid analgesics to treat chronic pain.\n"
+                    + "\n"
+                    + "As of this release, [WaTx](http://www.uniprot.org/uniprot/C0HLG4) has been annotated and is painlessly available in UniProtKB/Swiss-Prot.\n"
+                    + "\n"
+                    + "# UniProtKB news\n"
+                    + "\n"
+                    + "## Removal of the cross-references to EcoGene\n"
+                    + "\n"
+                    + "Cross-references to EcoGene have been removed.\n"
+                    + "\n"
+                    + "## Change of the cross-references to DisProt\n"
+                    + "\n"
+                    + "Cross-references to DisProt may now be isoform-specific. The general format of isoform-specific cross-references was described in release [2014\\_03](http://www.uniprot.org/news/2014/03/19/release) .\n"
+                    + "\n"
+                    + "Example: [Q9NQC3](http://www.uniprot.org/uniprot/Q9NQC3)\n"
+                    + "\n"
+                    + "## Changes to the [controlled vocabulary of human diseases](https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/humdisease)\n"
+                    + "\n"
+                    + "New diseases:\n"
+                    + "\n"
+                    + "-   [Deafness, autosomal dominant, 37](http://www.uniprot.org/diseases/DI-05635)\n"
+                    + "-   [Ectodermal dysplasia 15, hypohidrotic/hair type](http://www.uniprot.org/diseases/DI-05636)\n"
+                    + "-   [Epilepsy, rolandic, with proxysmal exercise-induce dystonia and writer's cramp](http://www.uniprot.org/diseases/DI-05646)\n"
+                    + "-   [Epileptic encephalopathy, early infantile, 77](http://www.uniprot.org/diseases/DI-05640)\n"
+                    + "-   [Erythrokeratodermia variabilis et progressiva 6](http://www.uniprot.org/diseases/DI-05634)\n"
+                    + "-   [Hepatitis, fulminant viral](http://www.uniprot.org/diseases/DI-05641)\n"
+                    + "-   [Hyper-IgE recurrent infection syndrome 4, autosomal recessive](http://www.uniprot.org/diseases/DI-05628)\n"
+                    + "-   [Hypoalphalipoproteinemia, primary, 2](http://www.uniprot.org/diseases/DI-05627)\n"
+                    + "-   [Hypopigmentation, organomegaly, and delayed myelination and development](http://www.uniprot.org/diseases/DI-05637)\n"
+                    + "-   [Ichthyotic keratoderma, spasticity, hypomyelination, and dysmorphic facies](http://www.uniprot.org/diseases/DI-05630)\n"
+                    + "-   [Immunodeficiency 64](http://www.uniprot.org/diseases/DI-05632)\n"
+                    + "-   [Microangiopathy and leukoencephalopathy, pontine, autosomal dominant](http://www.uniprot.org/diseases/DI-05644)\n"
+                    + "-   [Mitochondrial DNA depletion syndrome 16, hepatic type](http://www.uniprot.org/diseases/DI-05631)\n"
+                    + "-   [Myopathy, congenital, with tremor](http://www.uniprot.org/diseases/DI-05629)\n"
+                    + "-   [Neurodevelopmental disorder with visual defects and brain anomalies](http://www.uniprot.org/diseases/DI-05639)\n"
+                    + "-   [Night blindness, congenital stationary, 1I](http://www.uniprot.org/diseases/DI-05643)\n"
+                    + "-   [Oculoectodermal syndrome](http://www.uniprot.org/diseases/DI-05645)\n"
+                    + "-   [Oocyte maturation defect 7](http://www.uniprot.org/diseases/DI-05642)\n"
+                    + "-   [Pseudofolliculitis barbae](http://www.uniprot.org/diseases/DI-05647)\n"
+                    + "-   [Robinow syndrome, autosomal recessive 2](http://www.uniprot.org/diseases/DI-05633)\n"
+                    + "-   [Trichothiodystrophy 7, non-photosensitive](http://www.uniprot.org/diseases/DI-05638)\n"
+                    + "-   [Van Esch-O'Driscoll syndrome](http://www.uniprot.org/diseases/DI-05626)\n"
+                    + "\n"
+                    + "## Changes in [subcellular location controlled vocabulary](https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/docs/subcell)\n"
+                    + "\n"
+                    + "New subcellular locations:\n"
+                    + "\n"
+                    + "-   [Neuronal dense core vesicle](http://www.uniprot.org/locations/SL-0526)\n"
+                    + "-   [Neuronal dense core vesicle membrane](http://www.uniprot.org/locations/SL-0532)\n"
+                    + "-   [Postsynaptic early endosome](http://www.uniprot.org/locations/SL-0523)\n"
+                    + "-   [Postsynaptic early endosome membrane](http://www.uniprot.org/locations/SL-0534)\n"
+                    + "-   [Postsynaptic endocytic zone](http://www.uniprot.org/locations/SL-0528)\n"
+                    + "-   [Postsynaptic endosome](http://www.uniprot.org/locations/SL-0522)\n"
+                    + "-   [Postsynaptic Golgi apparatus](http://www.uniprot.org/locations/SL-0521)\n"
+                    + "-   [Postsynaptic recycling endosome](http://www.uniprot.org/locations/SL-0524)\n"
+                    + "-   [Postsynaptic recycling endosome membrane](http://www.uniprot.org/locations/SL-0533)\n"
+                    + "-   [Presynaptic active zone membrane](http://www.uniprot.org/locations/SL-0527)\n"
+                    + "-   [Presynaptic endocytic zone](http://www.uniprot.org/locations/SL-0529)\n"
+                    + "-   [Presynaptic endosome](http://www.uniprot.org/locations/SL-0525)\n"
+                    + "-   [Spine apparatus](http://www.uniprot.org/locations/SL-0530)\n"
+                    + "-   [Synaptic cell membrane](http://www.uniprot.org/locations/SL-0531)";
 }
