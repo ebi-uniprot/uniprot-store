@@ -74,9 +74,9 @@
     "parentId": "helpCentre",
     "childNumber": 7,
     "itemType": "SINGLE",
-    "label": "date",
-    "name": "date",
-    "id": "date",
-    "paths" : ["date"]
+    "label": "releaseDate",
+    "name": "releaseDate",
+    "id": "releaseDate",
+    "paths" : ["releaseDate"]
   }
 ]

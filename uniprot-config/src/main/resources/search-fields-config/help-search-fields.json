@@ -51,8 +51,8 @@
     "includeInSwagger": false
   },
    {
-    "id": "date",
-    "fieldName": "date",
+    "id": "release_date",
+    "fieldName": "release_date",
      "dataType": "DATE",
     "itemType": "SINGLE",
     "fieldType": "RANGE",
