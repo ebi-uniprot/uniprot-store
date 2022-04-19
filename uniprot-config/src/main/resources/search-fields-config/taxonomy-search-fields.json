@@ -18,15 +18,6 @@
     "example": "85621"
   },
   {
-    "id": "parent",
-    "fieldName": "parent",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "validRegex": "^[0-9]+$",
-    "description": "Search by parent id",
-    "example": "9606"
-  },
-  {
     "id": "name_sort_id",
     "fieldName": "name_sort",
     "fieldType": "SORT",
@@ -295,5 +286,17 @@
         "value": "false"
       }
     ]
+  },
+  {
+    "seqNumber": 8,
+    "id": "parent",
+    "label": "Parent",
+    "itemType": "SINGLE",
+    "fieldName": "parent",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "validRegex": "^[0-9]+$",
+    "description": "Search by parent id",
+    "example": "9606"
   }
 ]
