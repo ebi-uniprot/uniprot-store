@@ -9,15 +9,6 @@
     "example": "85621"
   },
   {
-    "id": "ancestor",
-    "fieldName": "ancestor",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "validRegex": "^[0-9]+$",
-    "description": "Search by taxon ancestor id",
-    "example": "85621"
-  },
-  {
     "id": "name_sort_id",
     "fieldName": "name_sort",
     "fieldType": "SORT",
@@ -298,5 +289,17 @@
     "validRegex": "^[0-9]+$",
     "description": "Search by parent id",
     "example": "9606"
+  },
+  {
+    "seqNumber": 9,
+    "id": "ancestor",
+    "label": "Ancestor",
+    "fieldName": "ancestor",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "itemType": "SINGLE",
+    "validRegex": "^[0-9]+$",
+    "description": "Search by taxon ancestor id",
+    "example": "85621"
   }
 ]
