@@ -41,22 +41,32 @@
     "description": "Search by category",
     "example": "Biocuration"
   },
-    {
+  {
     "id": "type",
     "fieldName": "type",
     "fieldType": "GENERAL",
     "dataType": "STRING",
-    "description": "Search by type: help or news",
+    "description": "Search by type: help or releaseNotes",
     "example": "help",
     "includeInSwagger": false
   },
-   {
+  {
     "id": "release_date",
     "fieldName": "release_date",
-     "dataType": "DATE",
+    "dataType": "DATE",
     "itemType": "SINGLE",
     "fieldType": "RANGE",
     "description": "Search by Date of creation",
-    "example": "[2018-03-04 TO 2018-03-08]"
+    "example": "[2018-03-04 TO 2018-03-08]",
+    "sortFieldId": "release_date_sort"
+  },
+  {
+    "id": "release_date_sort",
+    "itemType": "SINGLE",
+    "fieldName": "release_date",
+    "fieldType": "SORT",
+    "dataType": "DATE",
+    "description": "Sort by Date of creation",
+    "example": "release_date desc"
   }
 ]
