@@ -1,9 +1,10 @@
 package org.uniprot.store.indexer.help;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.store.indexer.help.HelpPageReader.CATEGORIES_COLON;
-import static org.uniprot.store.indexer.help.HelpPageReader.TITLE_COLON;
+import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.uniprot.store.search.document.help.HelpDocument;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -11,21 +12,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-import org.uniprot.store.search.document.help.HelpDocument;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.indexer.help.HelpPageReader.CATEGORIES_COLON;
+import static org.uniprot.store.indexer.help.HelpPageReader.TITLE_COLON;
 
 /**
  * @author sahmad
  * @created 06/07/2021
  */
-public class HelpPageItemReaderTest {
+class HelpPageItemReaderTest {
 
     @Test
     void testRead() throws Exception {
-        HelpPageItemReader reader = new HelpPageItemReader("src/test/resources/help");
+        HelpPageItemReader reader =
+                new HelpPageItemReader(
+                        List.of("src/test/resources/help", "src/test/resources/release-notes"));
         HelpDocument helpDoc;
         while ((helpDoc = reader.read()) != null) {
             verifyHelpDocument(helpDoc);
