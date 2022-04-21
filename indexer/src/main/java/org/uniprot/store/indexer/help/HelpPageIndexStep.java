@@ -1,6 +1,7 @@
 package org.uniprot.store.indexer.help;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.Step;
@@ -30,8 +31,8 @@ public class HelpPageIndexStep {
     @Value(("${ds.import.chunk.size}"))
     private Integer chunkSize;
 
-    @Value(("${indexer.help.page.files.directory}"))
-    private String directoryPath;
+    @Value("#{'${indexer.help.page.files.directory}'.split(',')}")
+    private List<String> directoryPaths;
 
     @Autowired
     public HelpPageIndexStep(StepBuilderFactory steps, UniProtSolrClient uniProtSolrClient) {
@@ -57,7 +58,7 @@ public class HelpPageIndexStep {
 
     @Bean(name = "helpPageReader")
     public ItemReader<HelpDocument> helpDocumentItemReader() throws IOException {
-        return new HelpPageItemReader(this.directoryPath);
+        return new HelpPageItemReader(this.directoryPaths);
     }
 
     @Bean(name = "helpPageWriter")
