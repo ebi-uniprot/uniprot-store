@@ -4184,7 +4184,7 @@
   {
     "parentId": "pathology_biotech",
     "itemType": "SIBLING_GROUP",
-    "label": "Alergenic properties",
+    "label": "Allergenic properties",
     "id": "alergenic_properties",
     "childNumber": 1
   },
