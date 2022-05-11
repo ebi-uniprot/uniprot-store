@@ -79,7 +79,6 @@
 			<str name="q.op">AND</str>
 			<str name="echoParams">explicit</str>
 			<int name="rows">10</int>
-			<str name="spellcheck">true</str>
 			<str name="spellcheck.dictionary">direct</str>
 			<str name="spellcheck.count">5</str>
 			<str name="spellcheck.extendedResults">true</str>

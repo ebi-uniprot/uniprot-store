@@ -80,7 +80,6 @@
 			<str name="echoParams">explicit</str>
 			<int name="rows">10</int>
 			<!-- default spell check related configs -->
-			<str name="spellcheck">true</str>
 			<str name="spellcheck.count">5</str>
 			<str name="spellcheck.maxResultsForSuggest">0</str>
 			<str name="spellcheck.collate">true</str>
