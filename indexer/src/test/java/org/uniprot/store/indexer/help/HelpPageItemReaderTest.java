@@ -1,10 +1,9 @@
 package org.uniprot.store.indexer.help;
 
-import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-import org.uniprot.store.search.document.help.HelpDocument;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.indexer.help.HelpPageReader.CATEGORIES_COLON;
+import static org.uniprot.store.indexer.help.HelpPageReader.TITLE_COLON;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -12,10 +11,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.store.indexer.help.HelpPageReader.CATEGORIES_COLON;
-import static org.uniprot.store.indexer.help.HelpPageReader.TITLE_COLON;
+import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.uniprot.store.search.document.help.HelpDocument;
 
 /**
  * @author sahmad

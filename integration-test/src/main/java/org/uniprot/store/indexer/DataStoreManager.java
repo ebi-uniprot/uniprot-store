@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +73,7 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
         temporaryFolder = Files.createTempDirectory("solr");
         System.setProperty("solr.data.home", temporaryFolder.toString());
         File solrHome = new File(System.getProperty(ClosableEmbeddedSolrClient.SOLR_HOME));
-        container = new CoreContainer(solrHome.getAbsolutePath());
+        container = new CoreContainer(Paths.get(solrHome.getAbsolutePath()), null);
         container.load();
     }
 

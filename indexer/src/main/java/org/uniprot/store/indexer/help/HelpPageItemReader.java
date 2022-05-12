@@ -1,8 +1,5 @@
 package org.uniprot.store.indexer.help;
 
-import org.springframework.batch.item.ItemReader;
-import org.uniprot.store.search.document.help.HelpDocument;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,6 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
+
+import org.springframework.batch.item.ItemReader;
+import org.uniprot.store.search.document.help.HelpDocument;
 
 /**
  * @author sahmad
@@ -22,10 +22,11 @@ public class HelpPageItemReader implements ItemReader<HelpDocument> {
 
     @SuppressWarnings("squid:S2095")
     public HelpPageItemReader(List<String> directoryPaths) throws IOException {
-        Predicate<Path> isValidMdFile = path ->
-                path.toFile().isFile()
-                        && path.toString().endsWith(".md")
-                        && !path.toString().endsWith("Home.md");
+        Predicate<Path> isValidMdFile =
+                path ->
+                        path.toFile().isFile()
+                                && path.toString().endsWith(".md")
+                                && !path.toString().endsWith("Home.md");
 
         Stream<Path> pathsStream = Stream.empty();
         for (String directoryPath : directoryPaths) {

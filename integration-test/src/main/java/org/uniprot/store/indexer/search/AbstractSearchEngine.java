@@ -2,6 +2,7 @@ package org.uniprot.store.indexer.search;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -181,7 +182,8 @@ public abstract class AbstractSearchEngine<E> implements BeforeAllCallback, Afte
         File solrConfigDir = new File(SOLR_CONFIG_DIR);
 
         logger.info(solrConfigDir.getAbsolutePath());
-        CoreContainer container = new CoreContainer(solrConfigDir.getAbsolutePath());
+        CoreContainer container =
+                new CoreContainer(Paths.get(solrConfigDir.getAbsolutePath()), null);
 
         container.load();
         container.waitForLoadingCoresToFinish((long) 60 * 1000);
