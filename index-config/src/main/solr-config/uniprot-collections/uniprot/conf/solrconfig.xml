@@ -44,8 +44,8 @@
 
 	<query>
 		<maxBooleanClauses>${solr.max.booleanClauses:10240}</maxBooleanClauses>
-		<filterCache class="solr.CaffeineCache" size="512"
-			initialSize="512" autowarmCount="0" />
+		<filterCache class="solr.CaffeineCache" maxRamMB="2048"
+			autowarmCount="100000" />
 		<queryResultCache class="solr.CaffeineCache"
 			size="512" initialSize="512" autowarmCount="0" />
 		<documentCache class="solr.CaffeineCache" size="512"
