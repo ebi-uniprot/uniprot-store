@@ -171,7 +171,7 @@ class HelpPagesLoadJobIT {
                 containsInAnyOrder("3D structure", "Biocuration", "Cross-references", "help"));
         assertThat(doc3D.getContentOriginal(), is(THREE_D_CONTENT));
         assertThat(doc3D.getContent(), is(CLEAN_THREE_D_CONTENT));
-        HelpDocument about =  getDoc(response, "about");
+        HelpDocument about = getDoc(response, "about");
         assertNotNull(about);
         assertThat(about.getId(), is("about"));
         assertThat(about.getTitle(), is("About UniProt"));
@@ -181,20 +181,20 @@ class HelpPagesLoadJobIT {
                         "About UniProt", "Staff", "UniProtKB", "UniRef", "UniParc", "help"));
         assertThat(about.getContentOriginal(), is(ABOUT_CONTENT));
         assertThat(about.getContent(), is(CLEAN_ABOUT_CONTENT));
-        HelpDocument release =  getDoc(response, "2019-11-13-release");
+        HelpDocument release = getDoc(response, "2019-11-13-release");
         assertNotNull(release);
-        
+
         // clean up
         solrClient.delete(SolrCollection.help, "*:*");
         solrClient.commit(SolrCollection.help);
     }
+
     private HelpDocument getDoc(List<HelpDocument> response, String id) {
-    	for(HelpDocument doc:response) {
-    		if(doc.getId().equals(id)) {
-    			return doc;
-    		}
-    	}
-    	return null;
-    	
+        for (HelpDocument doc : response) {
+            if (doc.getId().equals(id)) {
+                return doc;
+            }
+        }
+        return null;
     }
 }
