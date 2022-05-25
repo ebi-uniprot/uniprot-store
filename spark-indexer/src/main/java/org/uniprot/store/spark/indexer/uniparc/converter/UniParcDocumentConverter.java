@@ -68,6 +68,9 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
         if (Utils.notNull(xref.getOrganism())) {
             builder.taxLineageId((int) xref.getOrganism().getTaxonId());
         }
+        if (Utils.notNullNotEmpty(xref.getComponent())) {
+            builder.proteomeComponent(xref.getComponent());
+        }
     }
 
     private void processSequenceFeature(

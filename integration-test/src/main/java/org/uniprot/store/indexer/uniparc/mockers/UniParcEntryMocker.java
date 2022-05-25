@@ -102,7 +102,7 @@ public class UniParcEntryMocker {
                         .proteinName(getName("anotherProteinName", i))
                         .organism(getOrganism(9606L))
                         .proteomeId("UP000005640")
-                        .component("com")
+                        .component("chromosome")
                         .build();
 
         return Arrays.asList(xref, xref2);

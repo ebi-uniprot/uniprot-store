@@ -60,6 +60,10 @@ public class UniParcDocument implements Document {
     private Set<String> upids = new HashSet<>();
 
     @Singular
+    @Field("proteomecomponent")
+    public Set<String> proteomeComponents = new HashSet<>();
+
+    @Singular
     @Field("taxonomy_name")
     private Set<String> organismTaxons = new HashSet<>();
 
