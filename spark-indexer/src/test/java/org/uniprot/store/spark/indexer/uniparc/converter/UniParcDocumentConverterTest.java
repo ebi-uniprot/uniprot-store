@@ -120,6 +120,9 @@ class UniParcDocumentConverterTest {
         assertNotNull(result.getUpids());
         assertEquals(1, result.getUpids().size());
         assertTrue(result.getUpids().contains("proteomeIdValue"));
+        assertNotNull(result.getProteomeComponents());
+        assertEquals(1, result.getProteomeComponents().size());
+        assertTrue(result.getProteomeComponents().contains("componentValue"));
 
         assertNotNull(result.getOrganismTaxons());
         assertTrue(result.getOrganismTaxons().isEmpty());

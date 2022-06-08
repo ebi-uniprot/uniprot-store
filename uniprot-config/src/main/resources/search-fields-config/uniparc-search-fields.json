@@ -182,6 +182,17 @@
     "example": "IPR004251",
     "includeInSwagger": true
   },
+   {
+    "seqNumber": 13,
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "label": "Proteome Component",
+    "fieldName": "proteomecomponent",
+    "id": "proteomecomponent",
+    "dataType": "STRING",
+    "description": "Search by Proteome component",
+    "example": "chromosome"
+  },
   {
     "id": "length_sort",
     "fieldName": "length",
@@ -209,4 +220,5 @@
     "description": "Search by organism name",
     "example": "Human"
   }
+   
 ]
