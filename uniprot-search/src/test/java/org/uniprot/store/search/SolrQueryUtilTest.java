@@ -106,6 +106,15 @@ class SolrQueryUtilTest {
     }
 
     @Test
+    void getTermValuesSpecialChar() {
+        String inputQuery = "accession:P21802-2";
+        List<String> values = SolrQueryUtil.getTermValues(inputQuery, "accession");
+        assertNotNull(values);
+        assertEquals(1, values.size());
+        assertEquals("P21802-2", values.get(0));
+    }
+
+    @Test
     void getTermValue() {
         String inputQuery = "length:[1 TO 10]";
         String value = SolrQueryUtil.getTermValue(inputQuery, "length");

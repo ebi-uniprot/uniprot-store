@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.QueryParser;
@@ -32,7 +33,7 @@ public class SolrQueryUtil {
     public static List<String> getTermValues(String inputQuery, String term) {
         List<String> result = new ArrayList<>();
         try {
-            QueryParser qp = new QueryParser("", new StandardAnalyzer());
+            QueryParser qp = new QueryParser("", new WhitespaceAnalyzer());
             qp.setAllowLeadingWildcard(true);
             Query query = qp.parse(inputQuery);
             result.addAll(getTermValues(query, term));
