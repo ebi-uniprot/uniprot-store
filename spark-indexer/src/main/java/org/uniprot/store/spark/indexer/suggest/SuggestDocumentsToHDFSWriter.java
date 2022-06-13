@@ -82,7 +82,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .union(getChebi(flatFileRDD))
                         .union(getRheaComp(flatFileRDD))
                         .union(getGo(flatFileRDD))
-                        .union(getOrganism(flatFileRDD))
+                        .union(getUniprotKbOrganism(flatFileRDD))
                         .union(getProteome())
                         .union(getUniParcTaxonomy())
                         .repartition(suggestPartition);
@@ -251,31 +251,27 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      * @return JavaRDD of SuggestDocument with Organism/Organism Host and Taxonomy information
      *     mapped from UniprotKB flat file entries
      */
-    JavaRDD<SuggestDocument> getOrganism(JavaRDD<String> flatFileRDD) {
+    JavaRDD<SuggestDocument> getUniprotKbOrganism(JavaRDD<String> flatFileRDD) {
+        var organismWithLineage = getOrganismWithLineageRDD();
 
-        TaxonomyLineageReader lineageReader = new TaxonomyLineageReader(jobParameter, true);
-        JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage = lineageReader.load();
-        organismWithLineage.repartition(organismWithLineage.getNumPartitions());
-
-        // ORGANISM
         // JavaPairRDD<taxId, taxId> flatFileOrganismRDD -> extract from flat file OX line
         JavaPairRDD<String, String> flatFileOrganismRDD =
                 flatFileRDD
                         .mapToPair(new FlatFileToOrganism())
                         .reduceByKey((taxId1, taxId2) -> taxId1);
 
+        // ORGANISM
         JavaRDD<SuggestDocument> organismSuggester =
-                flatFileOrganismRDD
-                        .join(organismWithLineage)
-                        .mapValues(new OrganismToSuggestDocument(ORGANISM.name()))
-                        .union(getDefaultHighImportantTaxon(ORGANISM))
-                        .reduceByKey(new TaxonomyHighImportanceReduce())
-                        .values();
+                getOrganism(flatFileOrganismRDD, organismWithLineage, ORGANISM);
         // TAXONOMY
         JavaRDD<SuggestDocument> taxonomySuggester =
                 flatFileOrganismRDD
                         .join(organismWithLineage)
-                        .mapToPair(rdd -> new Tuple2<>(rdd._1, new Tuple2<>(rdd._2._1, Optional.of(rdd._2._2))))
+                        .mapToPair(
+                                rdd ->
+                                        new Tuple2<>(
+                                                rdd._1,
+                                                new Tuple2<>(rdd._2._1, Optional.of(rdd._2._2))))
                         .flatMapToPair(new TaxonomyToSuggestDocument(TAXONOMY))
                         .union(getDefaultHighImportantTaxon(TAXONOMY))
                         .reduceByKey(new TaxonomyHighImportanceReduce())
@@ -306,12 +302,24 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         TaxonomyRDDReader taxonomyRDDReader = new TaxonomyRDDReader(jobParameter, false);
         JavaPairRDD<String, TaxonomyEntry> taxonomyRDD = taxonomyRDDReader.load();
 
-        return proteomeEntryJavaPairRDD
-                .mapToPair(new ProteomeToTaxonomyPair())
-                .join(taxonomyRDD)
-                .mapValues(new ProteomeToSuggestDocument())
-                .values()
-                .distinct();
+        var taxonIdProteomeIdPair =
+                proteomeEntryJavaPairRDD.mapToPair(new ProteomeToTaxonomyPair());
+
+        var upidTaxonomyDocs =
+                taxonIdProteomeIdPair
+                        .join(taxonomyRDD)
+                        .mapValues(new ProteomeToSuggestDocument())
+                        .values()
+                        .distinct();
+
+//        var organismWithLineageRDD = getOrganismWithLineageRDD();
+//        var organismSuggester =
+//                getOrganism(taxonIdProteomeIdPair, organismWithLineageRDD, PROTEOME_ORGANISM);
+//        var taxonomyIdDocs =
+//                getTaxonomy(taxonIdProteomeIdPair, organismWithLineageRDD, PROTEOME_TAXONOMY);
+
+//        return taxonomyIdDocs.union(upidTaxonomyDocs).union(organismSuggester);
+        return upidTaxonomyDocs;
     }
 
     JavaRDD<SuggestDocument> getUniParcTaxonomy() {
@@ -333,21 +341,43 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .mapToPair(taxonId -> new Tuple2<>(taxonId, taxonId))
                         .reduceByKey((taxId1, taxId2) -> taxId1);
 
-        return getTaxonomy(taxonIdTaxonIdPair, SuggestDictionary.UNIPARC_TAXONOMY);
+        return getTaxonomy(
+                taxonIdTaxonIdPair,
+                getOrganismWithLineageRDD(),
+                SuggestDictionary.UNIPARC_TAXONOMY);
     }
 
-    private JavaRDD<SuggestDocument> getTaxonomy(JavaPairRDD<String, String> taxonIdTaxonIdPair, SuggestDictionary dict) {
+    private JavaPairRDD<String, List<TaxonomyLineage>> getOrganismWithLineageRDD() {
         // compute the lineage of the taxonomy ids in the format <2, <2,131567,1>> using db
         TaxonomyLineageReader lineageReader = new TaxonomyLineageReader(jobParameter, true);
         JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage = lineageReader.load();
         organismWithLineage.repartition(organismWithLineage.getNumPartitions());
+        return organismWithLineage;
+    }
 
+    private JavaRDD<SuggestDocument> getTaxonomy(
+            JavaPairRDD<String, String> taxonIdKeyXValuePair,
+            JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineageRDD,
+            SuggestDictionary dict) {
         // TAXONOMY is the node along with its ancestors
-        return taxonIdTaxonIdPair
-                .leftOuterJoin(organismWithLineage)
+        return taxonIdKeyXValuePair
+                .leftOuterJoin(organismWithLineageRDD)
                 .flatMapToPair(new TaxonomyToSuggestDocument(dict))
                 .reduceByKey((taxId, suggestDoc) -> taxId)
                 .union(getDefaultHighImportantTaxon(UNIPARC_TAXONOMY))
+                .reduceByKey(new TaxonomyHighImportanceReduce())
+                .values();
+    }
+
+    private JavaRDD<SuggestDocument> getOrganism(
+            JavaPairRDD<String, String> taxonIdKeyXValuePair,
+            JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineageRDD,
+            SuggestDictionary dict) {
+        // TAXONOMY is the node along with its ancestors
+        return taxonIdKeyXValuePair
+                .join(organismWithLineageRDD)
+                .mapValues(new OrganismToSuggestDocument(dict.name()))
+                .union(getDefaultHighImportantTaxon(ORGANISM))
                 .reduceByKey(new TaxonomyHighImportanceReduce())
                 .values();
     }
