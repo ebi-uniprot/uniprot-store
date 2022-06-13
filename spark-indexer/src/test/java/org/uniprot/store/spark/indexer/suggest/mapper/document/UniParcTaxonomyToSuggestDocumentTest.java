@@ -26,7 +26,8 @@ class UniParcTaxonomyToSuggestDocumentTest {
 
     @Test
     void testTaxonomyToSuggestDocumentWithoutLineage() throws Exception {
-        TaxonomyToSuggestDocument mapper = new TaxonomyToSuggestDocument(SuggestDictionary.UNIPARC_TAXONOMY);
+        TaxonomyToSuggestDocument mapper =
+                new TaxonomyToSuggestDocument(SuggestDictionary.UNIPARC_TAXONOMY);
         Tuple2<String, Tuple2<String, Optional<List<TaxonomyLineage>>>> tuple =
                 new Tuple2<>("1111", new Tuple2<>("1111", Optional.empty()));
         Iterator<Tuple2<String, SuggestDocument>> results = mapper.call(tuple);
@@ -59,7 +60,8 @@ class UniParcTaxonomyToSuggestDocumentTest {
                         .build();
         input.add(organism2);
 
-        TaxonomyToSuggestDocument mapper = new TaxonomyToSuggestDocument(SuggestDictionary.UNIPARC_TAXONOMY);
+        TaxonomyToSuggestDocument mapper =
+                new TaxonomyToSuggestDocument(SuggestDictionary.UNIPARC_TAXONOMY);
         Tuple2<String, Tuple2<String, Optional<List<TaxonomyLineage>>>> tuple =
                 new Tuple2<>("1111", new Tuple2<>("1111", Optional.of(input)));
         Iterator<Tuple2<String, SuggestDocument>> results = mapper.call(tuple);

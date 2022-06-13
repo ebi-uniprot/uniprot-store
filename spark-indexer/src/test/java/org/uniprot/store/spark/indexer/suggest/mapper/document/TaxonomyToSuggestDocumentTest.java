@@ -26,8 +26,12 @@ class TaxonomyToSuggestDocumentTest {
     void testOrganismToSuggestDocumentSingleOrganism() throws Exception {
         TaxonomyLineage organism =
                 new TaxonomyLineageBuilder().taxonId(1111).scientificName("value").build();
-        TaxonomyToSuggestDocument mapper = new TaxonomyToSuggestDocument(SuggestDictionary.TAXONOMY);
-        var tuple = new Tuple2<>("1111", new Tuple2<>("1111", Optional.of(Collections.singletonList(organism))));
+        TaxonomyToSuggestDocument mapper =
+                new TaxonomyToSuggestDocument(SuggestDictionary.TAXONOMY);
+        var tuple =
+                new Tuple2<>(
+                        "1111",
+                        new Tuple2<>("1111", Optional.of(Collections.singletonList(organism))));
         Iterator<Tuple2<String, SuggestDocument>> results = mapper.call(tuple);
         assertNotNull(results);
         List<Tuple2<String, SuggestDocument>> resultList = new ArrayList<>();
@@ -58,7 +62,8 @@ class TaxonomyToSuggestDocumentTest {
                         .build();
         input.add(organism2);
 
-        TaxonomyToSuggestDocument mapper = new TaxonomyToSuggestDocument(SuggestDictionary.TAXONOMY);
+        TaxonomyToSuggestDocument mapper =
+                new TaxonomyToSuggestDocument(SuggestDictionary.TAXONOMY);
         var tuple = new Tuple2<>("1111", new Tuple2<>("1111", Optional.of(input)));
         Iterator<Tuple2<String, SuggestDocument>> results = mapper.call(tuple);
         assertNotNull(results);
