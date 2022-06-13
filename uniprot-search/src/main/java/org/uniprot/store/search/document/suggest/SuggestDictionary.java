@@ -18,5 +18,7 @@ public enum SuggestDictionary {
     HOST,
     CHEBI,
     PROTEOME_UPID,
-    UNIPARC_TAXONOMY
+    UNIPARC_TAXONOMY,
+    PROTEOME_TAXONOMY,
+    PROTEOME_ORGANISM
 }
