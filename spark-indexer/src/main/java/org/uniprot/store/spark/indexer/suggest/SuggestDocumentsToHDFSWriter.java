@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.Optional;
 import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.core.cv.ec.ECEntry;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
@@ -274,7 +275,8 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         JavaRDD<SuggestDocument> taxonomySuggester =
                 flatFileOrganismRDD
                         .join(organismWithLineage)
-                        .flatMapToPair(new TaxonomyToSuggestDocument())
+                        .mapToPair(rdd -> new Tuple2<>(rdd._1, new Tuple2<>(rdd._2._1, Optional.of(rdd._2._2))))
+                        .flatMapToPair(new TaxonomyToSuggestDocument(TAXONOMY))
                         .union(getDefaultHighImportantTaxon(TAXONOMY))
                         .reduceByKey(new TaxonomyHighImportanceReduce())
                         .values();
@@ -317,29 +319,33 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         UniParcRDDTupleReader uniParcRDDReader = new UniParcRDDTupleReader(jobParameter, false);
         JavaRDD<UniParcEntry> uniParcRDD = uniParcRDDReader.load();
 
-        // compute the lineage of the taxonomy ids in the format <2, <2,131567,1>> using db
-        TaxonomyLineageReader lineageReader = new TaxonomyLineageReader(jobParameter, true);
-        JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage = lineageReader.load();
-        organismWithLineage.repartition(organismWithLineage.getNumPartitions());
-
         // JavaPairRDD<taxId, taxId> get taxonomies from uniparcRDDs, flat it, get unique only
         JavaPairRDD<String, String> taxonIdTaxonIdPair =
                 uniParcRDD
                         .flatMap(
                                 entry ->
                                         entry.getUniParcCrossReferences().stream()
-                                                .filter(xref -> Utils.notNull(xref.getOrganism()))
                                                 .map(UniParcCrossReference::getOrganism)
+                                                .filter(Utils::notNull)
                                                 .map(Organism::getTaxonId)
                                                 .map(String::valueOf)
                                                 .iterator())
                         .mapToPair(taxonId -> new Tuple2<>(taxonId, taxonId))
                         .reduceByKey((taxId1, taxId2) -> taxId1);
 
+        return getTaxonomy(taxonIdTaxonIdPair, SuggestDictionary.UNIPARC_TAXONOMY);
+    }
+
+    private JavaRDD<SuggestDocument> getTaxonomy(JavaPairRDD<String, String> taxonIdTaxonIdPair, SuggestDictionary dict) {
+        // compute the lineage of the taxonomy ids in the format <2, <2,131567,1>> using db
+        TaxonomyLineageReader lineageReader = new TaxonomyLineageReader(jobParameter, true);
+        JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage = lineageReader.load();
+        organismWithLineage.repartition(organismWithLineage.getNumPartitions());
+
         // TAXONOMY is the node along with its ancestors
         return taxonIdTaxonIdPair
                 .leftOuterJoin(organismWithLineage)
-                .flatMapToPair(new UniParcTaxonomyToSuggestDocument())
+                .flatMapToPair(new TaxonomyToSuggestDocument(dict))
                 .reduceByKey((taxId, suggestDoc) -> taxId)
                 .union(getDefaultHighImportantTaxon(UNIPARC_TAXONOMY))
                 .reduceByKey(new TaxonomyHighImportanceReduce())

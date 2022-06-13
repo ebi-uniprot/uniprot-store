@@ -13,6 +13,7 @@ import org.apache.spark.api.java.Optional;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
+import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
 import scala.Tuple2;
@@ -25,7 +26,7 @@ class UniParcTaxonomyToSuggestDocumentTest {
 
     @Test
     void testTaxonomyToSuggestDocumentWithoutLineage() throws Exception {
-        UniParcTaxonomyToSuggestDocument mapper = new UniParcTaxonomyToSuggestDocument();
+        TaxonomyToSuggestDocument mapper = new TaxonomyToSuggestDocument(SuggestDictionary.UNIPARC_TAXONOMY);
         Tuple2<String, Tuple2<String, Optional<List<TaxonomyLineage>>>> tuple =
                 new Tuple2<>("1111", new Tuple2<>("1111", Optional.empty()));
         Iterator<Tuple2<String, SuggestDocument>> results = mapper.call(tuple);
@@ -58,7 +59,7 @@ class UniParcTaxonomyToSuggestDocumentTest {
                         .build();
         input.add(organism2);
 
-        UniParcTaxonomyToSuggestDocument mapper = new UniParcTaxonomyToSuggestDocument();
+        TaxonomyToSuggestDocument mapper = new TaxonomyToSuggestDocument(SuggestDictionary.UNIPARC_TAXONOMY);
         Tuple2<String, Tuple2<String, Optional<List<TaxonomyLineage>>>> tuple =
                 new Tuple2<>("1111", new Tuple2<>("1111", Optional.of(input)));
         Iterator<Tuple2<String, SuggestDocument>> results = mapper.call(tuple);
