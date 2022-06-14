@@ -33,6 +33,19 @@ public class SolrQueryUtil {
     public static List<String> getTermValues(String inputQuery, String term) {
         List<String> result = new ArrayList<>();
         try {
+            QueryParser qp = new QueryParser("", new StandardAnalyzer());
+            qp.setAllowLeadingWildcard(true);
+            Query query = qp.parse(inputQuery);
+            result.addAll(getTermValues(query, term));
+        } catch (Exception e) {
+            // Syntax error is validated by ValidSolrQuerySyntax
+        }
+        return result;
+    }
+
+    public static List<String> getTermValuesWithWhitespaceAnalyzer(String inputQuery, String term) {
+        List<String> result = new ArrayList<>();
+        try {
             QueryParser qp = new QueryParser("", new WhitespaceAnalyzer());
             qp.setAllowLeadingWildcard(true);
             Query query = qp.parse(inputQuery);

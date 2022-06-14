@@ -106,9 +106,50 @@ class SolrQueryUtilTest {
     }
 
     @Test
-    void getTermValuesSpecialChar() {
+    void getTermValuesSpecialCharReturnsTwoValues() {
         String inputQuery = "accession:P21802-2";
         List<String> values = SolrQueryUtil.getTermValues(inputQuery, "accession");
+        assertNotNull(values);
+        assertEquals(2, values.size());
+        assertEquals("p21802", values.get(0));
+        assertEquals("2", values.get(1));
+    }
+
+    @Test
+    void getTermValuesWithWhitespaceAnalyzerManyValues() {
+        String inputQuery = "(organism:\"homo sapiens\") OR (organism:rat)";
+        List<String> values =
+                SolrQueryUtil.getTermValuesWithWhitespaceAnalyzer(inputQuery, "organism");
+        assertNotNull(values);
+        assertEquals(2, values.size());
+        assertEquals("homo sapiens", values.get(0));
+        assertEquals("rat", values.get(1));
+    }
+
+    @Test
+    void getTermValuesWithWhitespaceAnalyzerOneValue() {
+        String inputQuery = "(organism:human) OR (length:[1 TO 10})";
+        List<String> values =
+                SolrQueryUtil.getTermValuesWithWhitespaceAnalyzer(inputQuery, "organism");
+        assertNotNull(values);
+        assertEquals(1, values.size());
+        assertEquals("human", values.get(0));
+    }
+
+    @Test
+    void getTermValuesWithWhitespaceAnalyzerNoValue() {
+        String inputQuery = "organism:*";
+        List<String> values =
+                SolrQueryUtil.getTermValuesWithWhitespaceAnalyzer(inputQuery, "keyword");
+        assertNotNull(values);
+        assertTrue(values.isEmpty());
+    }
+
+    @Test
+    void getTermValuesWithWhitespaceAnalyzerSpecialChar() {
+        String inputQuery = "accession:P21802-2";
+        List<String> values =
+                SolrQueryUtil.getTermValuesWithWhitespaceAnalyzer(inputQuery, "accession");
         assertNotNull(values);
         assertEquals(1, values.size());
         assertEquals("P21802-2", values.get(0));
