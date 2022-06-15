@@ -80,9 +80,9 @@ class TaxonomyRDDReaderTest {
             JavaPairRDD<String, TaxonomyEntry> taxonomyRDD = reader.load();
             assertNotNull(taxonomyRDD);
             long count = taxonomyRDD.count();
-            assertEquals(6, count);
+            assertEquals(10, count);
 
-            List<Tuple2<String, TaxonomyEntry>> tuples = taxonomyRDD.take(6);
+            List<Tuple2<String, TaxonomyEntry>> tuples = taxonomyRDD.take(10);
             TaxonomyEntry taxWithLineage =
                     tuples.stream()
                             .map(Tuple2::_2)
