@@ -2,6 +2,7 @@ package org.uniprot.store.spark.indexer.suggest;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doReturn;
 import static org.uniprot.store.search.document.suggest.SuggestDictionary.*;
@@ -25,6 +26,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
 import org.opentest4j.AssertionFailedError;
+import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
@@ -270,8 +272,8 @@ class SuggestDocumentsToHDFSWriterTest {
         int count = (int) suggestRdd.count();
 
         var upidTaxonomyDocsCount = 7;
-        var organismDocsCount = 7;
-        var taxonomyDocsCount = 7;
+        var organismDocsCount = 33;
+        var taxonomyDocsCount = 36;
         assertEquals(
                 upidTaxonomyDocsCount + organismDocsCount + taxonomyDocsCount, suggests.size());
 
@@ -283,14 +285,14 @@ class SuggestDocumentsToHDFSWriterTest {
                         suggests.subList(
                                 upidTaxonomyDocsCount, upidTaxonomyDocsCount + organismDocsCount),
                         doc -> doc.id);
-        assertNotNull(resultMap);
+        assertNameToIdForProteomeSuggest(resultMap, PROTEOME_ORGANISM);
 
         resultMap =
                 getResultMap(
                         suggests.subList(
                                 upidTaxonomyDocsCount + organismDocsCount, suggests.size()),
                         doc -> doc.id);
-        assertNotNull(resultMap);
+        assertNameToIdForProteomeSuggest(resultMap, PROTEOME_TAXONOMY);
     }
 
     private void assertOrganismNameToUpIdSuggest(Map<String, List<SuggestDocument>> resultMap) {
@@ -304,11 +306,24 @@ class SuggestDocumentsToHDFSWriterTest {
         assertEquals("UP000006687", resultMap.get("UP000006687").get(0).altValues.get(0));
     }
 
+    private void assertNameToIdForProteomeSuggest(
+            Map<String, List<SuggestDocument>> resultMap, SuggestDictionary dict) {
+        final var taxonId = "1559365";
+        assertTrue(resultMap.containsKey(taxonId));
+        assertEquals(1, resultMap.get(taxonId).size());
+        assertNotNull(resultMap.get(taxonId).get(0));
+        assertEquals(dict.name(), resultMap.get(taxonId).get(0).dictionary);
+        assertEquals(taxonId, resultMap.get(taxonId).get(0).id);
+        assertEquals("scientificName for " + taxonId, resultMap.get(taxonId).get(0).value);
+        assertEquals(1, resultMap.get(taxonId).get(0).altValues.size());
+        assertEquals("commonName for " + taxonId, resultMap.get(taxonId).get(0).altValues.get(0));
+    }
+
     private <T> Map<String, List<T>> getResultMap(
             List<T> result, Function<T, String> mappingFunction) {
         Map<String, List<T>> map = result.stream().collect(Collectors.groupingBy(mappingFunction));
         for (Map.Entry<String, List<T>> stringListEntry : map.entrySet()) {
-            //            assertThat(stringListEntry.getValue(), hasSize(1));
+            assertThat(stringListEntry.getValue(), hasSize(1));
         }
         return map;
     }

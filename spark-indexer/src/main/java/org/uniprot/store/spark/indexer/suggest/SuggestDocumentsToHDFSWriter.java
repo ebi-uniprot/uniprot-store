@@ -265,11 +265,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         JavaRDD<SuggestDocument> taxonomySuggester =
                 flatFileOrganismRDD
                         .join(organismWithLineage)
-                        .mapToPair(
-                                rdd ->
-                                        new Tuple2<>(
-                                                rdd._1,
-                                                new Tuple2<>(rdd._2._1, Optional.of(rdd._2._2))))
+                        .mapValues(rdd -> new Tuple2<>(rdd._1, Optional.of(rdd._2)))
                         .flatMapToPair(new TaxonomyToSuggestDocument(TAXONOMY))
                         .union(getDefaultHighImportantTaxon(TAXONOMY))
                         .reduceByKey(new TaxonomyHighImportanceReduce())
@@ -394,6 +390,10 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
             suggestList.addAll(
                     SuggestionConfig.loadDefaultTaxonSynonymSuggestions(
                             dictionary, SuggestionConfig.DEFAULT_HOST_SYNONYMS_FILE));
+        } else if (dictionary.equals(PROTEOME_TAXONOMY) || dictionary.equals(PROTEOME_ORGANISM)) {
+            suggestList.addAll(
+                    SuggestionConfig.loadDefaultTaxonSynonymSuggestions(
+                            dictionary, SuggestionConfig.DEFAULT_PROTEOME_SYNONYMS_FILE));
         }
         List<Tuple2<String, SuggestDocument>> tupleList =
                 suggestList.stream()
