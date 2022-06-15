@@ -12,6 +12,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.Optional;
+import org.apache.spark.storage.StorageLevel;
 import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.core.cv.ec.ECEntry;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
@@ -340,7 +341,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         // compute the lineage of the taxonomy ids in the format <2, <2,131567,1>> using db
         TaxonomyLineageReader lineageReader = new TaxonomyLineageReader(jobParameter, true);
         JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage = lineageReader.load();
-        organismWithLineage.repartition(organismWithLineage.getNumPartitions());
+        organismWithLineage.repartition(organismWithLineage.getNumPartitions()).persist(StorageLevel.DISK_ONLY());
         return organismWithLineage;
     }
 
