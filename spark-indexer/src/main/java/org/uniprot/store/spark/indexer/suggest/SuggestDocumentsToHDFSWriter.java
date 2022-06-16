@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -73,19 +74,21 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     @Override
     public void writeIndexDocumentsToHDFS() {
         UniProtKBRDDTupleReader flatFileReader = new UniProtKBRDDTupleReader(jobParameter, false);
+        var organismWithLineageRDD = getOrganismWithLineageRDD();
+
         JavaRDD<String> flatFileRDD = flatFileReader.loadFlatFileToRDD();
         int suggestPartition = Integer.parseInt(config.getString("suggest.partition.size"));
         JavaRDD<SuggestDocument> suggestRDD =
                 getMain()
-//                        .union(getKeyword())
-//                        .union(getSubcell())
-//                        .union(getEC(flatFileRDD))
-//                        .union(getChebi(flatFileRDD))
-//                        .union(getRheaComp(flatFileRDD))
+                        //                        .union(getKeyword())
+                        //                        .union(getSubcell())
+                        //                        .union(getEC(flatFileRDD))
+                        //                        .union(getChebi(flatFileRDD))
+                        //                        .union(getRheaComp(flatFileRDD))
                         .union(getGo(flatFileRDD))
-                        .union(getUniprotKbOrganism(flatFileRDD))
-                        .union(getProteome())
-                        .union(getUniParcTaxonomy())
+                        .union(getUniprotKbOrganism(flatFileRDD, organismWithLineageRDD))
+                        .union(getProteome(organismWithLineageRDD))
+                        .union(getUniParcTaxonomy(organismWithLineageRDD))
                         .repartition(suggestPartition);
         String hdfsPath =
                 getCollectionOutputReleaseDirPath(
@@ -252,10 +255,9 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
      * @return JavaRDD of SuggestDocument with Organism/Organism Host and Taxonomy information
      *     mapped from UniprotKB flat file entries
      */
-    JavaRDD<SuggestDocument> getUniprotKbOrganism(JavaRDD<String> flatFileRDD) {
-        var organismWithLineage = getOrganismWithLineageRDD();
-
-        // JavaPairRDD<taxId, taxId> flatFileOrganismRDD -> extract from flat file OX line
+    JavaRDD<SuggestDocument> getUniprotKbOrganism(
+            JavaRDD<String> flatFileRDD,
+            JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage) {
         JavaPairRDD<String, String> flatFileOrganismRDD =
                 flatFileRDD
                         .mapToPair(new FlatFileToOrganism())
@@ -292,13 +294,13 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     }
 
     /** @return JavaRDD of SuggestDocument built from Proteome input file */
-    JavaRDD<SuggestDocument> getProteome() {
+    JavaRDD<SuggestDocument> getProteome(
+            JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineageRDD) {
         ProteomeRDDReader proteomeRDDReader = new ProteomeRDDReader(jobParameter, false);
         JavaPairRDD<String, ProteomeEntry> proteomeEntryJavaPairRDD = proteomeRDDReader.load();
         var taxonIdProteomeIdPair =
                 proteomeEntryJavaPairRDD.mapToPair(new ProteomeToTaxonomyPair());
 
-        var organismWithLineageRDD = getOrganismWithLineageRDD();
         var upidTaxonomyDocs =
                 taxonIdProteomeIdPair
                         .join(organismWithLineageRDD)
@@ -314,7 +316,8 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         return upidTaxonomyDocs.union(organismSuggester).union(taxonomyIdDocs);
     }
 
-    JavaRDD<SuggestDocument> getUniParcTaxonomy() {
+    JavaRDD<SuggestDocument> getUniParcTaxonomy(
+            JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineageRDD) {
         // load the uniparc input file
         UniParcRDDTupleReader uniParcRDDReader = new UniParcRDDTupleReader(jobParameter, false);
         JavaRDD<UniParcEntry> uniParcRDD = uniParcRDDReader.load();
@@ -334,9 +337,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .reduceByKey((taxId1, taxId2) -> taxId1);
 
         return getTaxonomy(
-                taxonIdTaxonIdPair,
-                getOrganismWithLineageRDD(),
-                SuggestDictionary.UNIPARC_TAXONOMY);
+                taxonIdTaxonIdPair, organismWithLineageRDD, SuggestDictionary.UNIPARC_TAXONOMY);
     }
 
     JavaPairRDD<String, List<TaxonomyLineage>> getOrganismWithLineageRDD() {
@@ -345,7 +346,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage = lineageReader.load();
         organismWithLineage.repartition(organismWithLineage.getNumPartitions());
         organismWithLineage.persist(StorageLevel.DISK_ONLY());
-        log.info("Total no of TaxonomyLineageReader: " + organismWithLineage.count());
+        //        log.info("Total no of TaxonomyLineageReader: " + organismWithLineage.count());
         return organismWithLineage;
     }
 

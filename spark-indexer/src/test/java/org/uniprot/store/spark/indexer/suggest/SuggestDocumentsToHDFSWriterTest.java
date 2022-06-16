@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doReturn;
 import static org.uniprot.store.search.document.suggest.SuggestDictionary.*;
 
 import java.io.IOException;
@@ -24,7 +23,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.Mockito;
 import org.opentest4j.AssertionFailedError;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
@@ -260,13 +258,11 @@ class SuggestDocumentsToHDFSWriterTest {
 
     @Test
     void getProteome() {
-        SuggestDocumentsToHDFSWriter writer =
-                Mockito.spy(new SuggestDocumentsToHDFSWriter(parameter));
-        doReturn(new TaxonomyRDDReaderFake(parameter, true).loadTaxonomyLineage())
-                .when(writer)
-                .getOrganismWithLineageRDD();
+        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
 
-        JavaRDD<SuggestDocument> suggestRdd = writer.getProteome();
+        JavaRDD<SuggestDocument> suggestRdd =
+                writer.getProteome(
+                        new TaxonomyRDDReaderFake(parameter, true).loadTaxonomyLineage());
         assertNotNull(suggestRdd);
         var suggests = suggestRdd.collect();
         int count = (int) suggestRdd.count();
