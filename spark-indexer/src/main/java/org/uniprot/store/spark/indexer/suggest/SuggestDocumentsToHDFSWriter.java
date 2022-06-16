@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -56,6 +57,7 @@ import scala.Tuple2;
  * @author lgonzales
  * @since 2020-01-15
  */
+@Slf4j
 public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     private final JavaSparkContext sparkContext;
@@ -75,11 +77,11 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         int suggestPartition = Integer.parseInt(config.getString("suggest.partition.size"));
         JavaRDD<SuggestDocument> suggestRDD =
                 getMain()
-                        .union(getKeyword())
-                        .union(getSubcell())
-                        .union(getEC(flatFileRDD))
-                        .union(getChebi(flatFileRDD))
-                        .union(getRheaComp(flatFileRDD))
+//                        .union(getKeyword())
+//                        .union(getSubcell())
+//                        .union(getEC(flatFileRDD))
+//                        .union(getChebi(flatFileRDD))
+//                        .union(getRheaComp(flatFileRDD))
                         .union(getGo(flatFileRDD))
                         .union(getUniprotKbOrganism(flatFileRDD))
                         .union(getProteome())
@@ -341,8 +343,9 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         // compute the lineage of the taxonomy ids in the format <2, <2,131567,1>> using db
         TaxonomyLineageReader lineageReader = new TaxonomyLineageReader(jobParameter, true);
         JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage = lineageReader.load();
-        organismWithLineage.persist(StorageLevel.DISK_ONLY());
         organismWithLineage.repartition(organismWithLineage.getNumPartitions());
+        organismWithLineage.persist(StorageLevel.DISK_ONLY());
+        log.info("Total no of TaxonomyLineageReader: " + organismWithLineage.count());
         return organismWithLineage;
     }
 
