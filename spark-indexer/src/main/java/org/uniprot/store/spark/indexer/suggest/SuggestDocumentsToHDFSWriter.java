@@ -346,7 +346,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage = lineageReader.load();
         organismWithLineage.repartition(organismWithLineage.getNumPartitions());
         organismWithLineage.persist(StorageLevel.DISK_ONLY());
-        //        log.info("Total no of TaxonomyLineageReader: " + organismWithLineage.count());
+        log.info("Total no of TaxonomyLineageReader: " + organismWithLineage.count());
         return organismWithLineage;
     }
 
