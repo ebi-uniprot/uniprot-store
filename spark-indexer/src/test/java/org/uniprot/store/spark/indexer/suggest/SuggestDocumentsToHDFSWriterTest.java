@@ -265,11 +265,19 @@ class SuggestDocumentsToHDFSWriterTest {
                         new TaxonomyRDDReaderFake(parameter, true).loadTaxonomyLineage());
         assertNotNull(suggestRdd);
         var suggests = suggestRdd.collect();
-        int count = (int) suggestRdd.count();
 
+        var totalEntriesInXmlFile = 7;
+        var totalNumbersOfDefaultTaxonSynonyms = 28;
         var upidTaxonomyDocsCount = 7;
-        var organismDocsCount = 33;
-        var taxonomyDocsCount = 36;
+        var duplicateTaxonIdInXmlFile = 1;
+        var alreadyPresentInSynonymsFile = 1;
+        var extraLineageFromTaxonomyRDDReaderFake = 7;
+        var organismDocsCount =
+                totalNumbersOfDefaultTaxonSynonyms
+                        + totalEntriesInXmlFile
+                        - duplicateTaxonIdInXmlFile
+                        - alreadyPresentInSynonymsFile;
+        var taxonomyDocsCount = organismDocsCount + extraLineageFromTaxonomyRDDReaderFake;
         assertEquals(
                 upidTaxonomyDocsCount + organismDocsCount + taxonomyDocsCount, suggests.size());
 
@@ -282,6 +290,7 @@ class SuggestDocumentsToHDFSWriterTest {
                                 upidTaxonomyDocsCount, upidTaxonomyDocsCount + organismDocsCount),
                         doc -> doc.id);
         assertNameToIdForProteomeSuggest(resultMap, PROTEOME_ORGANISM);
+        assertTaxons(resultMap, false);
 
         resultMap =
                 getResultMap(
@@ -289,6 +298,18 @@ class SuggestDocumentsToHDFSWriterTest {
                                 upidTaxonomyDocsCount + organismDocsCount, suggests.size()),
                         doc -> doc.id);
         assertNameToIdForProteomeSuggest(resultMap, PROTEOME_TAXONOMY);
+        assertTaxons(resultMap, true);
+    }
+
+    private void assertTaxons(Map<String, List<SuggestDocument>> resultMap, boolean isTaxonomy) {
+        assertAll(
+                () -> assertEquals(resultMap.containsKey("10114"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("39107"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("10066"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("289375"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("60713"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("1076254"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("1559364"), isTaxonomy));
     }
 
     private void assertOrganismNameToUpIdSuggest(Map<String, List<SuggestDocument>> resultMap) {

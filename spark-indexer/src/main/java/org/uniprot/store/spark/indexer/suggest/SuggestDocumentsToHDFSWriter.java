@@ -80,11 +80,11 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         int suggestPartition = Integer.parseInt(config.getString("suggest.partition.size"));
         JavaRDD<SuggestDocument> suggestRDD =
                 getMain()
-                        //                        .union(getKeyword())
-                        //                        .union(getSubcell())
-                        //                        .union(getEC(flatFileRDD))
-                        //                        .union(getChebi(flatFileRDD))
-                        //                        .union(getRheaComp(flatFileRDD))
+                        .union(getKeyword())
+                        .union(getSubcell())
+                        .union(getEC(flatFileRDD))
+                        .union(getChebi(flatFileRDD))
+                        .union(getRheaComp(flatFileRDD))
                         .union(getGo(flatFileRDD))
                         .union(getUniprotKbOrganism(flatFileRDD, organismWithLineageRDD))
                         .union(getProteome(organismWithLineageRDD))
@@ -346,6 +346,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage = lineageReader.load();
         organismWithLineage.repartition(organismWithLineage.getNumPartitions());
         organismWithLineage.persist(StorageLevel.DISK_ONLY());
+        // Count is terminal operator to have this RDD persist on disk
         log.info("Total no of TaxonomyLineageReader: " + organismWithLineage.count());
         return organismWithLineage;
     }
