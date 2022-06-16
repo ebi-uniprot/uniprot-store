@@ -341,7 +341,8 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         // compute the lineage of the taxonomy ids in the format <2, <2,131567,1>> using db
         TaxonomyLineageReader lineageReader = new TaxonomyLineageReader(jobParameter, true);
         JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage = lineageReader.load();
-        organismWithLineage.repartition(organismWithLineage.getNumPartitions()).persist(StorageLevel.DISK_ONLY());
+        organismWithLineage.persist(StorageLevel.DISK_ONLY());
+        organismWithLineage.repartition(organismWithLineage.getNumPartitions());
         return organismWithLineage;
     }
 
