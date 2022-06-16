@@ -1,8 +1,8 @@
 package org.uniprot.store.search.field.validator;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 class FieldRegexConstantsTest {
 
@@ -40,7 +40,6 @@ class FieldRegexConstantsTest {
         assertFalse("A0A2P1AB45_1".matches(FieldRegexConstants.UNIPROTKB_ACCESSION_OR_ID));
         assertFalse("A0A2P1AB45_1234567".matches(FieldRegexConstants.UNIPROTKB_ACCESSION_OR_ID));
     }
-
 
     @Test
     void testUniProtKBAccessionOrIdRegexWithSwissId() {
