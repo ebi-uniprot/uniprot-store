@@ -78,8 +78,8 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
         JavaRDD<String> flatFileRDD = flatFileReader.loadFlatFileToRDD();
         int suggestPartition = Integer.parseInt(config.getString("suggest.partition.size"));
-        JavaRDD<SuggestDocument> suggestRDD =
-                getMain()
+        JavaRDD<SuggestDocument> suggestRDD = getProteome(organismWithLineageRDD).repartition(suggestPartition);
+/*                getMain()
                         .union(getKeyword())
                         .union(getSubcell())
                         .union(getEC(flatFileRDD))
@@ -89,7 +89,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .union(getUniprotKbOrganism(flatFileRDD, organismWithLineageRDD))
                         .union(getProteome(organismWithLineageRDD))
                         .union(getUniParcTaxonomy(organismWithLineageRDD))
-                        .repartition(suggestPartition);
+                        .repartition(suggestPartition);*/
         String hdfsPath =
                 getCollectionOutputReleaseDirPath(
                         config, jobParameter.getReleaseName(), SolrCollection.suggest);
@@ -313,7 +313,8 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         var taxonomyIdDocs =
                 getTaxonomy(taxonIdProteomeIdPair, organismWithLineageRDD, PROTEOME_TAXONOMY);
 
-        return upidTaxonomyDocs.union(organismSuggester).union(taxonomyIdDocs);
+        //return upidTaxonomyDocs.union(organismSuggester).union(taxonomyIdDocs);
+        return organismSuggester.union(taxonomyIdDocs);
     }
 
     JavaRDD<SuggestDocument> getUniParcTaxonomy(
