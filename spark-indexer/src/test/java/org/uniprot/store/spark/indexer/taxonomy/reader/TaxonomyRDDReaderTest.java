@@ -93,10 +93,11 @@ class TaxonomyRDDReaderTest {
             assertNotNull(taxWithLineage);
             assertEquals(10116L, taxWithLineage.getTaxonId());
             assertNotNull(taxWithLineage.getLineages());
-            assertEquals(3, taxWithLineage.getLineages().size());
-            assertEquals(10114L, taxWithLineage.getLineages().get(0).getTaxonId());
-            assertEquals(39107L, taxWithLineage.getLineages().get(1).getTaxonId());
-            assertEquals(10066L, taxWithLineage.getLineages().get(2).getTaxonId());
+            assertEquals(4, taxWithLineage.getLineages().size());
+            assertEquals(10116L, taxWithLineage.getLineages().get(0).getTaxonId());
+            assertEquals(10114L, taxWithLineage.getLineages().get(1).getTaxonId());
+            assertEquals(39107L, taxWithLineage.getLineages().get(2).getTaxonId());
+            assertEquals(10066L, taxWithLineage.getLineages().get(3).getTaxonId());
         }
     }
 
