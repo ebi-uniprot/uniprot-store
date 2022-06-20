@@ -262,7 +262,7 @@ class SuggestDocumentsToHDFSWriterTest {
 
         JavaRDD<SuggestDocument> suggestRdd =
                 writer.getProteome(
-                        new TaxonomyRDDReaderFake(parameter, true).loadTaxonomyLineage());
+                        new TaxonomyRDDReaderFake(parameter, true, true).loadTaxonomyLineage());
         assertNotNull(suggestRdd);
         var suggests = suggestRdd.collect();
 

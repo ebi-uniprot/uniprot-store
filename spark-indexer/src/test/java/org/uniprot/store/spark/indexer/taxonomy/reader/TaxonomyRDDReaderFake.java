@@ -14,10 +14,13 @@ import scala.Tuple2;
 public class TaxonomyRDDReaderFake extends TaxonomyRDDReader {
 
     private final JobParameter jobParameter;
+    private final boolean includeOrganism;
 
-    public TaxonomyRDDReaderFake(JobParameter jobParameter, boolean withLineage) {
+    public TaxonomyRDDReaderFake(
+            JobParameter jobParameter, boolean withLineage, boolean includeOrganism) {
         super(jobParameter, withLineage);
         this.jobParameter = jobParameter;
+        this.includeOrganism = includeOrganism;
     }
 
     @Override
@@ -42,7 +45,13 @@ public class TaxonomyRDDReaderFake extends TaxonomyRDDReader {
 
     private List<TaxonomyLineage> lineages(int... taxonIds) {
         List<TaxonomyLineage> lineages = new ArrayList<>();
-        for (int taxonId : taxonIds) {
+        int i = 1;
+        if (includeOrganism) {
+            i = 0;
+        }
+
+        for (; i < taxonIds.length; i++) {
+            int taxonId = taxonIds[i];
             lineages.add(taxonomyLineage(taxonId));
         }
         return lineages;

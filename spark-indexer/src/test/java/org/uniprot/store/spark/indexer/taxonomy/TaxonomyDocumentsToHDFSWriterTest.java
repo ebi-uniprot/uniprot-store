@@ -146,7 +146,7 @@ class TaxonomyDocumentsToHDFSWriterTest {
                 entry.getLineages().stream()
                         .collect(
                                 Collectors.toMap(TaxonomyLineage::getTaxonId, Function.identity()));
-        assertEquals(4, lineageMap.size());
+        assertEquals(3, lineageMap.size());
         assertTrue(lineageMap.containsKey(10114L));
         assertEquals("scientificName for 10114", lineageMap.get(10114L).getScientificName());
         assertTrue(lineageMap.containsKey(39107L));
@@ -227,7 +227,7 @@ class TaxonomyDocumentsToHDFSWriterTest {
 
         @Override
         TaxonomyRDDReader getTaxonomyRDDReader() {
-            return new TaxonomyRDDReaderFake(parameter, true);
+            return new TaxonomyRDDReaderFake(parameter, true, false);
         }
 
         @Override
