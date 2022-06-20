@@ -119,7 +119,10 @@
     "dataType": "STRING",
     "sortFieldId": "organism_sort",
     "description": "Search by organism",
-    "example": "Human"
+    "example": "Human",
+    "autoComplete": "{CONTEXT_PATH}/suggester?dict=proteome_organism&query=?",
+    "autoCompleteQueryField": "organism_id",
+    "autoCompleteQueryFieldValidRegex": "^[0-9]+$"
   },
   {
     "id": "organism_id",
@@ -139,7 +142,10 @@
     "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "Search by taxonomy name",
-    "example": "Human"
+    "example": "Human",
+    "autoComplete": "{CONTEXT_PATH}/suggester?dict=proteome_taxonomy&query=?",
+    "autoCompleteQueryField": "taxonomy_id",
+    "autoCompleteQueryFieldValidRegex": "^[0-9]+$"
   },
   {
     "id": "taxonomy_id",

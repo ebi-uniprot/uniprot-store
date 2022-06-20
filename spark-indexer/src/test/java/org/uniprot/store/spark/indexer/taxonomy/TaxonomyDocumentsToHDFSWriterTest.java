@@ -227,7 +227,7 @@ class TaxonomyDocumentsToHDFSWriterTest {
 
         @Override
         TaxonomyRDDReader getTaxonomyRDDReader() {
-            return new TaxonomyRDDReaderFake(parameter, true);
+            return new TaxonomyRDDReaderFake(parameter, true, false);
         }
 
         @Override

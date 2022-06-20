@@ -26,6 +26,7 @@ import org.uniprot.store.search.document.suggest.SuggestDocument;
 public class SuggestionConfig {
     public static final String DEFAULT_TAXON_SYNONYMS_FILE = "default-taxon-synonyms.txt";
     public static final String DEFAULT_HOST_SYNONYMS_FILE = "default-host-synonyms.txt";
+    public static final String DEFAULT_PROTEOME_SYNONYMS_FILE = "default-proteome-synonyms.txt";
     private static final String COMMENT_LINE_PREFIX = "#";
     static final String DATABASE_PREFIX = "Database: ";
     static final String FEATURE_CATEGORY_PREFIX = "Feature Category: ";

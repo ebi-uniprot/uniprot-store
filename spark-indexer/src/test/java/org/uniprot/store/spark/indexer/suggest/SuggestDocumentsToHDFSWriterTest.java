@@ -24,10 +24,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.opentest4j.AssertionFailedError;
+import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyH2Utils;
+import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReaderFake;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
 /**
@@ -257,24 +259,81 @@ class SuggestDocumentsToHDFSWriterTest {
     @Test
     void getProteome() {
         SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
-        JavaRDD<SuggestDocument> suggestRdd = writer.getProteome();
+
+        JavaRDD<SuggestDocument> suggestRdd =
+                writer.getProteome(
+                        new TaxonomyRDDReaderFake(parameter, true, true).loadTaxonomyLineage());
         assertNotNull(suggestRdd);
-        int count = (int) suggestRdd.count();
-        assertEquals(7, count);
+        var suggests = suggestRdd.collect();
 
-        Map<String, List<SuggestDocument>> resultMap =
-                getResultMap(suggestRdd.take(count), doc -> doc.id);
+        var totalEntriesInXmlFile = 7;
+        var totalNumbersOfDefaultTaxonSynonyms = 28;
+        var upidTaxonomyDocsCount = 7;
+        var duplicateTaxonIdInXmlFile = 1;
+        var alreadyPresentInSynonymsFile = 1;
+        var extraLineageFromTaxonomyRDDReaderFake = 7;
+        var organismDocsCount =
+                totalNumbersOfDefaultTaxonSynonyms
+                        + totalEntriesInXmlFile
+                        - duplicateTaxonIdInXmlFile
+                        - alreadyPresentInSynonymsFile;
+        var taxonomyDocsCount = organismDocsCount + extraLineageFromTaxonomyRDDReaderFake;
+        assertEquals(
+                upidTaxonomyDocsCount + organismDocsCount + taxonomyDocsCount, suggests.size());
 
+        var resultMap = getResultMap(suggests.subList(0, upidTaxonomyDocsCount), doc -> doc.id);
+        assertOrganismNameToUpIdSuggest(resultMap);
+
+        resultMap =
+                getResultMap(
+                        suggests.subList(
+                                upidTaxonomyDocsCount, upidTaxonomyDocsCount + organismDocsCount),
+                        doc -> doc.id);
+        assertNameToIdForProteomeSuggest(resultMap, PROTEOME_ORGANISM);
+        assertTaxons(resultMap, false);
+
+        resultMap =
+                getResultMap(
+                        suggests.subList(
+                                upidTaxonomyDocsCount + organismDocsCount, suggests.size()),
+                        doc -> doc.id);
+        assertNameToIdForProteomeSuggest(resultMap, PROTEOME_TAXONOMY);
+        assertTaxons(resultMap, true);
+    }
+
+    private void assertTaxons(Map<String, List<SuggestDocument>> resultMap, boolean isTaxonomy) {
+        assertAll(
+                () -> assertEquals(resultMap.containsKey("10114"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("39107"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("10066"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("289375"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("60713"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("1076254"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("1559364"), isTaxonomy));
+    }
+
+    private void assertOrganismNameToUpIdSuggest(Map<String, List<SuggestDocument>> resultMap) {
         assertTrue(resultMap.containsKey("UP000006687"));
         assertEquals(1, resultMap.get("UP000006687").size());
         assertNotNull(resultMap.get("UP000006687").get(0));
         assertEquals(PROTEOME_UPID.name(), resultMap.get("UP000006687").get(0).dictionary);
         assertEquals("UP000006687", resultMap.get("UP000006687").get(0).id);
-        assertEquals(
-                "Porcine reproductive and respiratory syndrome virus",
-                resultMap.get("UP000006687").get(0).value);
+        assertEquals("scientificName for 11049", resultMap.get("UP000006687").get(0).value);
         assertEquals(1, resultMap.get("UP000006687").get(0).altValues.size());
         assertEquals("UP000006687", resultMap.get("UP000006687").get(0).altValues.get(0));
+    }
+
+    private void assertNameToIdForProteomeSuggest(
+            Map<String, List<SuggestDocument>> resultMap, SuggestDictionary dict) {
+        final var taxonId = "1559365";
+        assertTrue(resultMap.containsKey(taxonId));
+        assertEquals(1, resultMap.get(taxonId).size());
+        assertNotNull(resultMap.get(taxonId).get(0));
+        assertEquals(dict.name(), resultMap.get(taxonId).get(0).dictionary);
+        assertEquals(taxonId, resultMap.get(taxonId).get(0).id);
+        assertEquals("scientificName for " + taxonId, resultMap.get(taxonId).get(0).value);
+        assertEquals(1, resultMap.get(taxonId).get(0).altValues.size());
+        assertEquals("commonName for " + taxonId, resultMap.get(taxonId).get(0).altValues.get(0));
     }
 
     private <T> Map<String, List<T>> getResultMap(
