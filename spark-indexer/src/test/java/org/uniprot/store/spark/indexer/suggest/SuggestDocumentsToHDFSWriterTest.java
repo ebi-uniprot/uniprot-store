@@ -1,16 +1,19 @@
 package org.uniprot.store.spark.indexer.suggest;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.store.search.document.suggest.SuggestDictionary.*;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -20,8 +23,10 @@ import java.util.stream.Collectors;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.mockito.Mockito;
 import org.opentest4j.AssertionFailedError;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
@@ -72,6 +77,52 @@ class SuggestDocumentsToHDFSWriterTest {
         Statement statement = this.dbConnection.createStatement();
         TaxonomyH2Utils.dropTables(statement);
         dbConnection.close();
+    }
+
+    @Test
+    void testWriteIndexDocumentsToHDFS(@TempDir Path hdfsPath) {
+        SuggestDocumentsToHDFSWriter writer = Mockito.mock(SuggestDocumentsToHDFSWriter.class);
+        Mockito.doCallRealMethod()
+                .when(writer)
+                .writeIndexDocumentsToHDFS(Mockito.anyInt(), Mockito.anyString());
+        JavaRDD<SuggestDocument> emptyRDD =
+                parameter.getSparkContext().parallelize(new ArrayList<>());
+
+        Mockito.when(writer.getMain()).thenReturn(emptyRDD);
+        Mockito.verify(writer, Mockito.atMostOnce()).getMain();
+        Mockito.when(writer.getKeyword()).thenReturn(emptyRDD);
+        Mockito.when(writer.getSubcell()).thenReturn(emptyRDD);
+        Mockito.when(writer.getEC(Mockito.any())).thenReturn(emptyRDD);
+        Mockito.when(writer.getChebi(Mockito.any())).thenReturn(emptyRDD);
+        Mockito.when(writer.getRheaComp(Mockito.any())).thenReturn(emptyRDD);
+        Mockito.when(writer.getGo(Mockito.any())).thenReturn(emptyRDD);
+        Mockito.when(writer.getUniprotKbOrganism(Mockito.any(), Mockito.any()))
+                .thenReturn(emptyRDD);
+        Mockito.when(writer.getProteome(Mockito.any())).thenReturn(emptyRDD);
+        Mockito.when(writer.getUniParcTaxonomy(Mockito.any())).thenReturn(emptyRDD);
+
+        writer.writeIndexDocumentsToHDFS(
+                1, hdfsPath.toString() + File.separator + "testWriteIndexDocumentsToHDFS");
+
+        Mockito.verify(writer, Mockito.atMostOnce()).getMain();
+        Mockito.verify(writer, Mockito.atMostOnce()).getKeyword();
+        Mockito.verify(writer, Mockito.atMostOnce()).getSubcell();
+        Mockito.verify(writer, Mockito.atMostOnce()).getEC(Mockito.any());
+        Mockito.verify(writer, Mockito.atMostOnce()).getChebi(Mockito.any());
+        Mockito.verify(writer, Mockito.atMostOnce()).getRheaComp(Mockito.any());
+        Mockito.verify(writer, Mockito.atMostOnce()).getGo(Mockito.any());
+        Mockito.verify(writer, Mockito.atMostOnce())
+                .getUniprotKbOrganism(Mockito.any(), Mockito.any());
+        Mockito.verify(writer, Mockito.atMostOnce()).getProteome(Mockito.any());
+        Mockito.verify(writer, Mockito.atMostOnce()).getUniParcTaxonomy(Mockito.any());
+    }
+
+    @Test
+    void testGetFlatFileRDD() {
+        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+        JavaRDD<String> result = writer.getFlatFileRDD();
+        assertNotNull(result);
+        assertEquals(1, result.count());
     }
 
     @Test

@@ -73,11 +73,17 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     /** load all the data for SuggestDocument and write it into HDFS (Hadoop File System) */
     @Override
     public void writeIndexDocumentsToHDFS() {
-        UniProtKBRDDTupleReader flatFileReader = new UniProtKBRDDTupleReader(jobParameter, false);
+        int suggestPartition = Integer.parseInt(config.getString("suggest.partition.size"));
+        String hdfsPath =
+                getCollectionOutputReleaseDirPath(
+                        config, jobParameter.getReleaseName(), SolrCollection.suggest);
+        writeIndexDocumentsToHDFS(suggestPartition, hdfsPath);
+    }
+
+    void writeIndexDocumentsToHDFS(int suggestPartition, String hdfsPath) {
         var organismWithLineageRDD = getOrganismWithLineageRDD();
 
-        JavaRDD<String> flatFileRDD = flatFileReader.loadFlatFileToRDD();
-        int suggestPartition = Integer.parseInt(config.getString("suggest.partition.size"));
+        JavaRDD<String> flatFileRDD = getFlatFileRDD();
         JavaRDD<SuggestDocument> suggestRDD =
                 getMain()
                         .union(getKeyword())
@@ -90,10 +96,13 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .union(getProteome(organismWithLineageRDD))
                         .union(getUniParcTaxonomy(organismWithLineageRDD))
                         .repartition(suggestPartition);
-        String hdfsPath =
-                getCollectionOutputReleaseDirPath(
-                        config, jobParameter.getReleaseName(), SolrCollection.suggest);
+
         SolrUtils.saveSolrInputDocumentRDD(suggestRDD, hdfsPath);
+    }
+
+    JavaRDD<String> getFlatFileRDD() {
+        UniProtKBRDDTupleReader flatFileReader = new UniProtKBRDDTupleReader(jobParameter, false);
+        return flatFileReader.loadFlatFileToRDD();
     }
 
     /** @return JavaRDD of SuggestDocument for uniprotkb main text search field */
