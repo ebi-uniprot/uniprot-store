@@ -19,10 +19,9 @@ import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.opentest4j.AssertionFailedError;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
@@ -299,6 +298,102 @@ class SuggestDocumentsToHDFSWriterTest {
                         doc -> doc.id);
         assertNameToIdForProteomeSuggest(resultMap, PROTEOME_TAXONOMY);
         assertTaxons(resultMap, true);
+    }
+
+    @Test
+    void getUniprotKbOrganism() {
+        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+
+        JavaRDD<SuggestDocument> suggestRdd =
+                writer.getUniprotKbOrganism(
+                        flatFileRDD,
+                        new TaxonomyRDDReaderFake(parameter, true, true).loadTaxonomyLineage());
+        assertNotNull(suggestRdd);
+        var suggests = suggestRdd.collect();
+
+        var totalEntriesInXmlFile = 1;
+        var totalNumbersOfDefaultTaxonSynonyms = 35;
+        var totalHostEntriesInXmlFile = 0;
+        var totalNumbersOfDefaultHostSynonyms = 18;
+        var totalHostSynonymsDocs = totalNumbersOfDefaultHostSynonyms + totalHostEntriesInXmlFile;
+        var alreadyPresentInSynonymsFile = 1;
+        var extraLineageFromTaxonomyRDDReaderFake = 3;
+        var organismDocsCount =
+                totalNumbersOfDefaultTaxonSynonyms
+                        + totalEntriesInXmlFile
+                        - alreadyPresentInSynonymsFile;
+        var taxonomyDocsCount = organismDocsCount + extraLineageFromTaxonomyRDDReaderFake;
+        assertEquals(
+                totalHostSynonymsDocs + organismDocsCount + taxonomyDocsCount, suggests.size());
+
+        var resultMap = getResultMap(suggests.subList(0, organismDocsCount), doc -> doc.id);
+        assertTaxons(resultMap, false);
+
+        resultMap =
+                getResultMap(
+                        suggests.subList(taxonomyDocsCount + organismDocsCount, suggests.size()),
+                        doc -> doc.id);
+        assertTaxons(resultMap, false);
+    }
+
+    @Test
+    void getUniParcTaxonomy() {
+        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+
+        JavaRDD<SuggestDocument> suggestRdd =
+                writer.getUniParcTaxonomy(
+                        new TaxonomyRDDReaderFake(parameter, true, true).loadTaxonomyLineage());
+        assertNotNull(suggestRdd);
+        var suggests = suggestRdd.collect();
+
+        var totalEntriesInXmlFile = 1;
+        var totalNumbersOfDefaultTaxonSynonyms = 35;
+        var alreadyPresentInSynonymsFile = 1;
+        var extraLineageFromTaxonomyRDDReaderFake = 3;
+        var organismDocsCount =
+                totalNumbersOfDefaultTaxonSynonyms
+                        + totalEntriesInXmlFile
+                        - alreadyPresentInSynonymsFile;
+        var taxonomyDocsCount = organismDocsCount + extraLineageFromTaxonomyRDDReaderFake;
+        assertEquals(taxonomyDocsCount, suggests.size());
+
+        var resultMap = getResultMap(suggests, doc -> doc.id);
+        assertAll(
+                () -> assertTrue(resultMap.containsKey("10114")),
+                () -> assertTrue(resultMap.containsKey("39107")),
+                () -> assertTrue(resultMap.containsKey("10066")));
+    }
+
+    @Nested
+    class GetDefaultHighImportantTaxonTest {
+        private final SuggestDocumentsToHDFSWriter writer =
+                new SuggestDocumentsToHDFSWriter(parameter);
+
+        @ParameterizedTest
+        @EnumSource(
+                value = SuggestDictionary.class,
+                names = {"UNIPARC_TAXONOMY", "TAXONOMY", "ORGANISM"},
+                mode = EnumSource.Mode.INCLUDE)
+        void canLoadDefaultHighImportantTaxonomy(SuggestDictionary dict) {
+            var dicRDD = writer.getDefaultHighImportantTaxon(dict);
+            assertEquals(35, dicRDD.count());
+        }
+
+        @Test
+        void canLoadDefaultHighImportantHost() {
+            var dicRDD = writer.getDefaultHighImportantTaxon(HOST);
+            assertEquals(18, dicRDD.count());
+        }
+
+        @ParameterizedTest
+        @EnumSource(
+                value = SuggestDictionary.class,
+                names = {"PROTEOME_TAXONOMY", "PROTEOME_ORGANISM"},
+                mode = EnumSource.Mode.INCLUDE)
+        void canLoadDefaultHighImportantProteome(SuggestDictionary dict) {
+            var dicRDD = writer.getDefaultHighImportantTaxon(dict);
+            assertEquals(28, dicRDD.count());
+        }
     }
 
     private void assertTaxons(Map<String, List<SuggestDocument>> resultMap, boolean isTaxonomy) {
