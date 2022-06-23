@@ -1,16 +1,19 @@
 package org.uniprot.store.spark.indexer.suggest;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.store.search.document.suggest.SuggestDictionary.*;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -19,15 +22,18 @@ import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.mockito.Mockito;
 import org.opentest4j.AssertionFailedError;
+import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyH2Utils;
+import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReaderFake;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
 /**
@@ -71,6 +77,52 @@ class SuggestDocumentsToHDFSWriterTest {
         Statement statement = this.dbConnection.createStatement();
         TaxonomyH2Utils.dropTables(statement);
         dbConnection.close();
+    }
+
+    @Test
+    void testWriteIndexDocumentsToHDFS(@TempDir Path hdfsPath) {
+        SuggestDocumentsToHDFSWriter writer = Mockito.mock(SuggestDocumentsToHDFSWriter.class);
+        Mockito.doCallRealMethod()
+                .when(writer)
+                .writeIndexDocumentsToHDFS(Mockito.anyInt(), Mockito.anyString());
+        JavaRDD<SuggestDocument> emptyRDD =
+                parameter.getSparkContext().parallelize(new ArrayList<>());
+
+        Mockito.when(writer.getMain()).thenReturn(emptyRDD);
+        Mockito.verify(writer, Mockito.atMostOnce()).getMain();
+        Mockito.when(writer.getKeyword()).thenReturn(emptyRDD);
+        Mockito.when(writer.getSubcell()).thenReturn(emptyRDD);
+        Mockito.when(writer.getEC(Mockito.any())).thenReturn(emptyRDD);
+        Mockito.when(writer.getChebi(Mockito.any())).thenReturn(emptyRDD);
+        Mockito.when(writer.getRheaComp(Mockito.any())).thenReturn(emptyRDD);
+        Mockito.when(writer.getGo(Mockito.any())).thenReturn(emptyRDD);
+        Mockito.when(writer.getUniprotKbOrganism(Mockito.any(), Mockito.any()))
+                .thenReturn(emptyRDD);
+        Mockito.when(writer.getProteome(Mockito.any())).thenReturn(emptyRDD);
+        Mockito.when(writer.getUniParcTaxonomy(Mockito.any())).thenReturn(emptyRDD);
+
+        writer.writeIndexDocumentsToHDFS(
+                1, hdfsPath.toString() + File.separator + "testWriteIndexDocumentsToHDFS");
+
+        Mockito.verify(writer, Mockito.atMostOnce()).getMain();
+        Mockito.verify(writer, Mockito.atMostOnce()).getKeyword();
+        Mockito.verify(writer, Mockito.atMostOnce()).getSubcell();
+        Mockito.verify(writer, Mockito.atMostOnce()).getEC(Mockito.any());
+        Mockito.verify(writer, Mockito.atMostOnce()).getChebi(Mockito.any());
+        Mockito.verify(writer, Mockito.atMostOnce()).getRheaComp(Mockito.any());
+        Mockito.verify(writer, Mockito.atMostOnce()).getGo(Mockito.any());
+        Mockito.verify(writer, Mockito.atMostOnce())
+                .getUniprotKbOrganism(Mockito.any(), Mockito.any());
+        Mockito.verify(writer, Mockito.atMostOnce()).getProteome(Mockito.any());
+        Mockito.verify(writer, Mockito.atMostOnce()).getUniParcTaxonomy(Mockito.any());
+    }
+
+    @Test
+    void testGetFlatFileRDD() {
+        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+        JavaRDD<String> result = writer.getFlatFileRDD();
+        assertNotNull(result);
+        assertEquals(1, result.count());
     }
 
     @Test
@@ -257,24 +309,177 @@ class SuggestDocumentsToHDFSWriterTest {
     @Test
     void getProteome() {
         SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
-        JavaRDD<SuggestDocument> suggestRdd = writer.getProteome();
+
+        JavaRDD<SuggestDocument> suggestRdd =
+                writer.getProteome(
+                        new TaxonomyRDDReaderFake(parameter, true, true).loadTaxonomyLineage());
         assertNotNull(suggestRdd);
-        int count = (int) suggestRdd.count();
-        assertEquals(7, count);
+        var suggests = suggestRdd.collect();
 
-        Map<String, List<SuggestDocument>> resultMap =
-                getResultMap(suggestRdd.take(count), doc -> doc.id);
+        var totalEntriesInXmlFile = 7;
+        var totalNumbersOfDefaultTaxonSynonyms = 28;
+        var upidTaxonomyDocsCount = 7;
+        var duplicateTaxonIdInXmlFile = 1;
+        var alreadyPresentInSynonymsFile = 1;
+        var extraLineageFromTaxonomyRDDReaderFake = 7;
+        var organismDocsCount =
+                totalNumbersOfDefaultTaxonSynonyms
+                        + totalEntriesInXmlFile
+                        - duplicateTaxonIdInXmlFile
+                        - alreadyPresentInSynonymsFile;
+        var taxonomyDocsCount = organismDocsCount + extraLineageFromTaxonomyRDDReaderFake;
+        assertEquals(
+                upidTaxonomyDocsCount + organismDocsCount + taxonomyDocsCount, suggests.size());
 
+        var resultMap = getResultMap(suggests.subList(0, upidTaxonomyDocsCount), doc -> doc.id);
+        assertOrganismNameToUpIdSuggest(resultMap);
+
+        resultMap =
+                getResultMap(
+                        suggests.subList(
+                                upidTaxonomyDocsCount, upidTaxonomyDocsCount + organismDocsCount),
+                        doc -> doc.id);
+        assertNameToIdForProteomeSuggest(resultMap, PROTEOME_ORGANISM);
+        assertTaxons(resultMap, false);
+
+        resultMap =
+                getResultMap(
+                        suggests.subList(
+                                upidTaxonomyDocsCount + organismDocsCount, suggests.size()),
+                        doc -> doc.id);
+        assertNameToIdForProteomeSuggest(resultMap, PROTEOME_TAXONOMY);
+        assertTaxons(resultMap, true);
+    }
+
+    @Test
+    void getUniprotKbOrganism() {
+        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+
+        JavaRDD<SuggestDocument> suggestRdd =
+                writer.getUniprotKbOrganism(
+                        flatFileRDD,
+                        new TaxonomyRDDReaderFake(parameter, true, true).loadTaxonomyLineage());
+        assertNotNull(suggestRdd);
+        var suggests = suggestRdd.collect();
+
+        var totalEntriesInXmlFile = 1;
+        var totalNumbersOfDefaultTaxonSynonyms = 35;
+        var totalHostEntriesInXmlFile = 0;
+        var totalNumbersOfDefaultHostSynonyms = 18;
+        var totalHostSynonymsDocs = totalNumbersOfDefaultHostSynonyms + totalHostEntriesInXmlFile;
+        var alreadyPresentInSynonymsFile = 1;
+        var extraLineageFromTaxonomyRDDReaderFake = 3;
+        var organismDocsCount =
+                totalNumbersOfDefaultTaxonSynonyms
+                        + totalEntriesInXmlFile
+                        - alreadyPresentInSynonymsFile;
+        var taxonomyDocsCount = organismDocsCount + extraLineageFromTaxonomyRDDReaderFake;
+        assertEquals(
+                totalHostSynonymsDocs + organismDocsCount + taxonomyDocsCount, suggests.size());
+
+        var resultMap = getResultMap(suggests.subList(0, organismDocsCount), doc -> doc.id);
+        assertTaxons(resultMap, false);
+
+        resultMap =
+                getResultMap(
+                        suggests.subList(taxonomyDocsCount + organismDocsCount, suggests.size()),
+                        doc -> doc.id);
+        assertTaxons(resultMap, false);
+    }
+
+    @Test
+    void getUniParcTaxonomy() {
+        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+
+        JavaRDD<SuggestDocument> suggestRdd =
+                writer.getUniParcTaxonomy(
+                        new TaxonomyRDDReaderFake(parameter, true, true).loadTaxonomyLineage());
+        assertNotNull(suggestRdd);
+        var suggests = suggestRdd.collect();
+
+        var totalEntriesInXmlFile = 1;
+        var totalNumbersOfDefaultTaxonSynonyms = 35;
+        var alreadyPresentInSynonymsFile = 1;
+        var extraLineageFromTaxonomyRDDReaderFake = 3;
+        var organismDocsCount =
+                totalNumbersOfDefaultTaxonSynonyms
+                        + totalEntriesInXmlFile
+                        - alreadyPresentInSynonymsFile;
+        var taxonomyDocsCount = organismDocsCount + extraLineageFromTaxonomyRDDReaderFake;
+        assertEquals(taxonomyDocsCount, suggests.size());
+
+        var resultMap = getResultMap(suggests, doc -> doc.id);
+        assertAll(
+                () -> assertTrue(resultMap.containsKey("10114")),
+                () -> assertTrue(resultMap.containsKey("39107")),
+                () -> assertTrue(resultMap.containsKey("10066")));
+    }
+
+    @Nested
+    class GetDefaultHighImportantTaxonTest {
+        private final SuggestDocumentsToHDFSWriter writer =
+                new SuggestDocumentsToHDFSWriter(parameter);
+
+        @ParameterizedTest
+        @EnumSource(
+                value = SuggestDictionary.class,
+                names = {"UNIPARC_TAXONOMY", "TAXONOMY", "ORGANISM"},
+                mode = EnumSource.Mode.INCLUDE)
+        void canLoadDefaultHighImportantTaxonomy(SuggestDictionary dict) {
+            var dicRDD = writer.getDefaultHighImportantTaxon(dict);
+            assertEquals(35, dicRDD.count());
+        }
+
+        @Test
+        void canLoadDefaultHighImportantHost() {
+            var dicRDD = writer.getDefaultHighImportantTaxon(HOST);
+            assertEquals(18, dicRDD.count());
+        }
+
+        @ParameterizedTest
+        @EnumSource(
+                value = SuggestDictionary.class,
+                names = {"PROTEOME_TAXONOMY", "PROTEOME_ORGANISM"},
+                mode = EnumSource.Mode.INCLUDE)
+        void canLoadDefaultHighImportantProteome(SuggestDictionary dict) {
+            var dicRDD = writer.getDefaultHighImportantTaxon(dict);
+            assertEquals(28, dicRDD.count());
+        }
+    }
+
+    private void assertTaxons(Map<String, List<SuggestDocument>> resultMap, boolean isTaxonomy) {
+        assertAll(
+                () -> assertEquals(resultMap.containsKey("10114"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("39107"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("10066"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("289375"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("60713"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("1076254"), isTaxonomy),
+                () -> assertEquals(resultMap.containsKey("1559364"), isTaxonomy));
+    }
+
+    private void assertOrganismNameToUpIdSuggest(Map<String, List<SuggestDocument>> resultMap) {
         assertTrue(resultMap.containsKey("UP000006687"));
         assertEquals(1, resultMap.get("UP000006687").size());
         assertNotNull(resultMap.get("UP000006687").get(0));
         assertEquals(PROTEOME_UPID.name(), resultMap.get("UP000006687").get(0).dictionary);
         assertEquals("UP000006687", resultMap.get("UP000006687").get(0).id);
-        assertEquals(
-                "Porcine reproductive and respiratory syndrome virus",
-                resultMap.get("UP000006687").get(0).value);
+        assertEquals("scientificName for 11049", resultMap.get("UP000006687").get(0).value);
         assertEquals(1, resultMap.get("UP000006687").get(0).altValues.size());
         assertEquals("UP000006687", resultMap.get("UP000006687").get(0).altValues.get(0));
+    }
+
+    private void assertNameToIdForProteomeSuggest(
+            Map<String, List<SuggestDocument>> resultMap, SuggestDictionary dict) {
+        final var taxonId = "1559365";
+        assertTrue(resultMap.containsKey(taxonId));
+        assertEquals(1, resultMap.get(taxonId).size());
+        assertNotNull(resultMap.get(taxonId).get(0));
+        assertEquals(dict.name(), resultMap.get(taxonId).get(0).dictionary);
+        assertEquals(taxonId, resultMap.get(taxonId).get(0).id);
+        assertEquals("scientificName for " + taxonId, resultMap.get(taxonId).get(0).value);
+        assertEquals(1, resultMap.get(taxonId).get(0).altValues.size());
+        assertEquals("commonName for " + taxonId, resultMap.get(taxonId).get(0).altValues.get(0));
     }
 
     private <T> Map<String, List<T>> getResultMap(
