@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<proteomes xmlns="http://uniprot.org/proteomes"
+<proteomes xmlns="http://uniprot.org/proteome"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:schemaLocation="http://uniprot.org/uniprot http://www.uniprot.org/support/docs/proteome.xsd">
-<proteome>
+<proteome proteinCount="30">
     <upid>UP000000718</upid>
     <description>Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87) is a thermophilic sulfate-reducing bacterium isolated from a thermal vent in Yellowstone Lake in Wyoming, USA. It has the ability to use sulfate, thiosulfate, and sulfite as terminal electron acceptors. Pyruvate can support fermentative growth.</description>
     <taxonomy>289376</taxonomy>
@@ -75,7 +75,7 @@
         <property name="stdCdss" value="1166.2682710251531"/>
     </scores>
 </proteome>
-<proteome>
+<proteome proteinCount="40">
     <upid>UP000006687</upid>
     <taxonomy>11049</taxonomy>
     <modified>2020-10-18Z</modified>
@@ -125,7 +125,7 @@
         <property name="stdCdss" value="0.7483314773547883"/>
     </scores>
 </proteome>
-<proteome>
+<proteome proteinCount="50">
     <upid>UP000029766</upid>
     <taxonomy>60714</taxonomy>
     <modified>2020-10-17Z</modified>
@@ -169,7 +169,7 @@
         <property name="stdCdss" value="1.3700084222088114"/>
     </scores>
 </proteome>
-<proteome>
+<proteome proteinCount="60">
     <upid>UP000164653</upid>
     <taxonomy>1076255</taxonomy>
     <modified>2020-10-17Z</modified>
@@ -218,7 +218,7 @@
         <property name="stdCdss" value="41.93235560500493"/>
     </scores>
 </proteome>
-<proteome>
+<proteome proteinCount="70">
     <upid>UP000029775</upid>
     <taxonomy>1559365</taxonomy>
     <modified>2020-10-17Z</modified>

@@ -23,7 +23,6 @@ class UniProtEntryFeatureConverter {
     private static final String FT_LENGTH = "ftlen_";
     private static final String FT_EV = "ftev_";
 
-    
     void convertFeature(List<UniProtKBFeature> features, UniProtDocument document) {
         for (UniProtKBFeature feature : features) {
             String field = getFeatureField(feature, FEATURE);
@@ -49,42 +48,41 @@ class UniProtEntryFeatureConverter {
                     .filter(value -> !document.proteinsWith.contains(value)) // avoid duplicated
                     .ifPresent(value -> document.proteinsWith.add(value));
 
-            
             addFeatureCrossReferences(feature, document, featuresOfTypeList);
-			if(feature.hasLigand()) {
-				Ligand ligand = feature.getLigand();
-				featuresOfTypeList.add(ligand.getName());
-				document.content.add(ligand.getName());
-//				if(Utils.notNullNotEmpty(ligand.getId())) {
-//					featuresOfTypeList.add(ligand.getId());
-//					document.content.add(ligand.getId());
-//				}
-				if(Utils.notNullNotEmpty(ligand.getLabel())) {
-					featuresOfTypeList.add(ligand.getLabel());
-					document.content.add(ligand.getLabel());
-				}
-				if(Utils.notNullNotEmpty(ligand.getNote())) {
-					featuresOfTypeList.add(ligand.getNote());
-					document.content.add(ligand.getNote());
-				}
-			}
-			if(feature.hasLigandPart()) {
-				LigandPart ligandPart = feature.getLigandPart();
-				featuresOfTypeList.add(ligandPart.getName());
-				document.content.add(ligandPart.getName());
-//				if(Utils.notNullNotEmpty(ligandPart.getId())) {
-//					featuresOfTypeList.add(ligandPart.getId());
-//					document.content.add(ligandPart.getId());
-//				}
-				if(Utils.notNullNotEmpty(ligandPart.getLabel())) {
-					featuresOfTypeList.add(ligandPart.getLabel());
-					document.content.add(ligandPart.getLabel());
-				}
-				if(Utils.notNullNotEmpty(ligandPart.getNote())) {
-					featuresOfTypeList.add(ligandPart.getNote());
-					document.content.add(ligandPart.getNote());
-				}	
-			}
+            if (feature.hasLigand()) {
+                Ligand ligand = feature.getLigand();
+                featuresOfTypeList.add(ligand.getName());
+                document.content.add(ligand.getName());
+                //				if(Utils.notNullNotEmpty(ligand.getId())) {
+                //					featuresOfTypeList.add(ligand.getId());
+                //					document.content.add(ligand.getId());
+                //				}
+                if (Utils.notNullNotEmpty(ligand.getLabel())) {
+                    featuresOfTypeList.add(ligand.getLabel());
+                    document.content.add(ligand.getLabel());
+                }
+                if (Utils.notNullNotEmpty(ligand.getNote())) {
+                    featuresOfTypeList.add(ligand.getNote());
+                    document.content.add(ligand.getNote());
+                }
+            }
+            if (feature.hasLigandPart()) {
+                LigandPart ligandPart = feature.getLigandPart();
+                featuresOfTypeList.add(ligandPart.getName());
+                document.content.add(ligandPart.getName());
+                //				if(Utils.notNullNotEmpty(ligandPart.getId())) {
+                //					featuresOfTypeList.add(ligandPart.getId());
+                //					document.content.add(ligandPart.getId());
+                //				}
+                if (Utils.notNullNotEmpty(ligandPart.getLabel())) {
+                    featuresOfTypeList.add(ligandPart.getLabel());
+                    document.content.add(ligandPart.getLabel());
+                }
+                if (Utils.notNullNotEmpty(ligandPart.getNote())) {
+                    featuresOfTypeList.add(ligandPart.getNote());
+                    document.content.add(ligandPart.getNote());
+                }
+            }
 
             // start and end of location
             int length =
@@ -97,7 +95,6 @@ class UniProtEntryFeatureConverter {
                     document.featureLengthMap.computeIfAbsent(lengthField, k -> new HashSet<>());
             lengthList.add(length);
 
-           
             Collection<String> evidenceList =
                     document.featureEvidenceMap.computeIfAbsent(evField, k -> new HashSet<>());
             evidenceList.addAll(evidences);
@@ -108,26 +105,32 @@ class UniProtEntryFeatureConverter {
         String field = type + feature.getType().name().toLowerCase();
         return field.replace(' ', '_');
     }
-    private void addFeatureCrossReferences(UniProtKBFeature feature, UniProtDocument document, Collection<String> featuresOfTypeList) {
-		if (Utils.notNullNotEmpty(feature.getFeatureCrossReferences())) {
-			feature.getFeatureCrossReferences().stream().forEach(xref -> {
-				addFeatureCrossReference(xref, document, featuresOfTypeList);
-			});
-		}
 
-	}
+    private void addFeatureCrossReferences(
+            UniProtKBFeature feature,
+            UniProtDocument document,
+            Collection<String> featuresOfTypeList) {
+        if (Utils.notNullNotEmpty(feature.getFeatureCrossReferences())) {
+            feature.getFeatureCrossReferences().stream()
+                    .forEach(
+                            xref -> {
+                                addFeatureCrossReference(xref, document, featuresOfTypeList);
+                            });
+        }
+    }
 
-	private void addFeatureCrossReference(CrossReference<UniprotKBFeatureDatabase> xref, UniProtDocument document, Collection<String> featuresOfTypeList) {
-		String xrefId = xref.getId();
-		UniprotKBFeatureDatabase dbType = xref.getDatabase();
-		String dbname = dbType.getName();
+    private void addFeatureCrossReference(
+            CrossReference<UniprotKBFeatureDatabase> xref,
+            UniProtDocument document,
+            Collection<String> featuresOfTypeList) {
+        String xrefId = xref.getId();
+        UniprotKBFeatureDatabase dbType = xref.getDatabase();
+        String dbname = dbType.getName();
 
-		List<String> xrefIds = UniProtEntryConverterUtil.getXrefId(xrefId, dbname);
-		document.crossRefs.addAll(xrefIds);
-		document.databases.add(dbname.toLowerCase());
-		document.content.addAll(xrefIds);
-		featuresOfTypeList.addAll(xrefIds);
-		
-	}
-
+        List<String> xrefIds = UniProtEntryConverterUtil.getXrefId(xrefId, dbname);
+        document.crossRefs.addAll(xrefIds);
+        document.databases.add(dbname.toLowerCase());
+        document.content.addAll(xrefIds);
+        featuresOfTypeList.addAll(xrefIds);
+    }
 }

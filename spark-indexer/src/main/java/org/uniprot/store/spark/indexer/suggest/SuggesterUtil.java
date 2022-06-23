@@ -50,25 +50,27 @@ public class SuggesterUtil {
         CcLineConverter converter = new CcLineConverter(new HashMap<>(), new HashMap<>());
         return converter.convert(ccLineObject);
     }
-    
+
     public static String getFeatureLines(String entryStr) {
         return Arrays.stream(entryStr.split("\n"))
-                        .filter(line -> line.startsWith("FT  "))
-                        .collect(Collectors.joining("\n"));
-    }
-    
-    public static List<UniProtKBFeature> getFeaturesByType(String entryStr, UniprotKBFeatureType type) {
-    	String featureLines = Arrays.stream(entryStr.split("\n"))
                 .filter(line -> line.startsWith("FT  "))
                 .collect(Collectors.joining("\n"));
-    	final UniprotKBLineParser<FtLineObject> ftParser =
+    }
+
+    public static List<UniProtKBFeature> getFeaturesByType(
+            String entryStr, UniprotKBFeatureType type) {
+        String featureLines =
+                Arrays.stream(entryStr.split("\n"))
+                        .filter(line -> line.startsWith("FT  "))
+                        .collect(Collectors.joining("\n"));
+        final UniprotKBLineParser<FtLineObject> ftParser =
                 new DefaultUniprotKBLineParserFactory().createFtLineParser();
-    	
-    	 FtLineObject ftLineObject = ftParser.parse(featureLines + "\n");
-         FtLineConverter converter = new FtLineConverter();
-         List<UniProtKBFeature> features= converter.convert(ftLineObject);
-         return features.stream().filter(feature -> feature.getType() == type)
-        		 .collect(Collectors.toList());
-    	
+
+        FtLineObject ftLineObject = ftParser.parse(featureLines + "\n");
+        FtLineConverter converter = new FtLineConverter();
+        List<UniProtKBFeature> features = converter.convert(ftLineObject);
+        return features.stream()
+                .filter(feature -> feature.getType() == type)
+                .collect(Collectors.toList());
     }
 }
