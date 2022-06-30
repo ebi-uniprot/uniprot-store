@@ -227,6 +227,9 @@ public class IdMappingFieldConfig {
                         false,
                         null,
                         "EMBL");
+        UniProtDatabaseDetail giNumber =
+                new UniProtDatabaseDetail(
+                        "GI number", "GI number", sequence, null, null, false, null, "P_GI");
         UniProtDatabaseDetail refSeqNucleotide =
                 new UniProtDatabaseDetail(
                         "RefSeq Nucleotide",
@@ -326,6 +329,7 @@ public class IdMappingFieldConfig {
         return List.of(
                 embl,
                 emblCds,
+                giNumber,
                 refSeqNucleotide,
                 refSeqProtein,
                 ensemblProtein,
