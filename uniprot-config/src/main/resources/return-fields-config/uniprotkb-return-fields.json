@@ -167,6 +167,18 @@
     "childNumber": 12,
     "itemType": "SINGLE",
     "includeInSwagger": true,
+    "name": "lineage_ids",
+    "label": "Taxonomic lineage (Ids)",
+    "id": "names_&_taxonomy/taxonomic_lineage_ids",
+    "paths": [
+      "lineages[*].taxonId"
+    ]
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 13,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
     "name": "virus_hosts",
     "label": "Virus hosts",
     "id": "names_&_taxonomy/virus_hosts",
