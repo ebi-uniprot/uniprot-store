@@ -49,7 +49,11 @@ class UniProtKBEntryCommentsConverterTest {
                         + "CC         ChEBI:CHEBI:46858, ChEBI:CHEBI:82620, ChEBI:CHEBI:456216;\n"
                         + "CC         EC=2.7.10.1; Evidence={ECO:0000255|PROSITE-ProRule:PRU10028,\n"
                         + "CC         ECO:0000269|PubMed:16844695, ECO:0000269|PubMed:18056630,\n"
-                        + "CC         ECO:0000269|PubMed:19410646, ECO:0000269|PubMed:21454610};";
+                        + "CC         ECO:0000269|PubMed:19410646, ECO:0000269|PubMed:21454610};\n"
+                        + "CC       PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:42321;\n"
+                        + "CC         Evidence={ECO:0000250|UniProtKB:Q66GT5};\n"
+                        + "CC       PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:47005;\n"
+                        + "CC         Evidence={ECO:0000305};";
 
         UniProtKBEntry entry = createUniProtEntryFromCommentLine(catalyticActivityLine);
 
@@ -63,18 +67,24 @@ class UniProtKBEntryCommentsConverterTest {
                 "CATALYTIC ACTIVITY:\n"
                         + "Reaction=ATP + L-tyrosyl-[protein] = ADP + H(+) + O-phospho-L-tyrosyl-[protein]; Xref=Rhea:RHEA:10596, "
                         + "Rhea:RHEA-COMP:10136, Rhea:RHEA-COMP:10137, ChEBI:CHEBI:15378, ChEBI:CHEBI:30616, ChEBI:CHEBI:46858, "
-                        + "ChEBI:CHEBI:82620, ChEBI:CHEBI:456216; EC=2.7.10.1;";
+                        + "ChEBI:CHEBI:82620, ChEBI:CHEBI:456216; EC=2.7.10.1;\n"
+                        + "PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:42321;\n"
+                        + "PhysiologicalDirection=left-to-right; Xref=Rhea:RHEA:47005;";
         assertTrue(document.commentMap.containsKey("cc_catalytic_activity"));
-        assertEquals(9, document.commentMap.get("cc_catalytic_activity").size());
+        assertEquals(11, document.commentMap.get("cc_catalytic_activity").size());
         assertTrue(document.commentMap.get("cc_catalytic_activity").contains(expectedIndexed));
         assertTrue(document.commentMap.get("cc_catalytic_activity").contains("RHEA-COMP:10136"));
         assertTrue(document.commentMap.get("cc_catalytic_activity").contains("RHEA:10596"));
+        assertTrue(document.commentMap.get("cc_catalytic_activity").contains("RHEA:42321"));
+        assertTrue(document.commentMap.get("cc_catalytic_activity").contains("RHEA:47005"));
         assertTrue(document.commentMap.get("cc_catalytic_activity").contains("CHEBI:456216"));
 
         assertTrue(document.content.contains(expectedIndexed));
 
         assertTrue(document.commentEvMap.containsKey(CCEV_CATALYTIC_ACTIVITY));
-        assertEquals(4, document.commentEvMap.get(CCEV_CATALYTIC_ACTIVITY).size());
+        assertEquals(6, document.commentEvMap.get(CCEV_CATALYTIC_ACTIVITY).size());
+        assertTrue(document.commentEvMap.get(CCEV_CATALYTIC_ACTIVITY).contains("ECO_0000305"));
+        assertTrue(document.commentEvMap.get(CCEV_CATALYTIC_ACTIVITY).contains("ECO_0000250"));
         assertTrue(document.commentEvMap.get(CCEV_CATALYTIC_ACTIVITY).contains("ECO_0000269"));
         assertTrue(document.commentEvMap.get(CCEV_CATALYTIC_ACTIVITY).contains("ECO_0000255"));
         assertTrue(document.commentEvMap.get(CCEV_CATALYTIC_ACTIVITY).contains("experimental"));
@@ -82,10 +92,15 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertEquals(1, document.proteinsWith.size());
         assertTrue(document.proteinsWith.contains(ProteinsWith.CATALYTIC_ACTIVITY.getValue()));
-        assertEquals(3, document.rheaIds.size());
+        assertEquals(5, document.rheaIds.size());
         assertTrue(
                 document.rheaIds.containsAll(
-                        List.of("RHEA-COMP:10136", "RHEA:10596", "RHEA-COMP:10137")));
+                        List.of(
+                                "RHEA-COMP:10136",
+                                "RHEA:10596",
+                                "RHEA-COMP:10137",
+                                "RHEA:42321",
+                                "RHEA:47005")));
     }
 
     @Test

@@ -454,6 +454,15 @@ class UniProtEntryCommentsConverter implements Serializable {
                             UniProtEntryConverterUtil.extractEvidence(
                                     caComment.getReaction().getEvidences()));
                 }
+                if (caComment.hasPhysiologicalReactions()) {
+                    var physiologicalEvidences =
+                            caComment.getPhysiologicalReactions().stream()
+                                    .filter(PhysiologicalReaction::hasEvidences)
+                                    .flatMap(reaction -> reaction.getEvidences().stream())
+                                    .collect(Collectors.toList());
+                    evidences.addAll(
+                            UniProtEntryConverterUtil.extractEvidence(physiologicalEvidences));
+                }
                 break;
             default:
                 break;
@@ -481,27 +490,41 @@ class UniProtEntryCommentsConverter implements Serializable {
     private void convertCatalyticActivity(CatalyticActivityComment comment, UniProtDocument doc) {
         Reaction reaction = comment.getReaction();
 
+        String field = this.getCommentField(comment);
         if (reaction.hasReactionCrossReferences()) {
-            String field = this.getCommentField(comment);
-            List<CrossReference<ReactionDatabase>> reactionReferences =
-                    reaction.getReactionCrossReferences();
-            reactionReferences.forEach(
-                    val -> {
-                        Collection<String> value =
-                                doc.commentMap.computeIfAbsent(field, k -> new ArrayList<>());
-                        value.add(val.getId());
-                    });
+            convertReactionInformation(doc, reaction.getReactionCrossReferences(), field);
+        }
 
-            // add rhea ids
-            List<String> rheaIds =
-                    reactionReferences.stream()
-                            .filter(rr -> ReactionDatabase.RHEA.equals(rr.getDatabase()))
-                            .map(CrossReference::getId)
+        if (comment.hasPhysiologicalReactions()) {
+            var physiologicalReactionCrossReferences =
+                    comment.getPhysiologicalReactions().stream()
+                            .filter(PhysiologicalReaction::hasReactionCrossReference)
+                            .map(PhysiologicalReaction::getReactionCrossReference)
                             .collect(Collectors.toList());
+            convertReactionInformation(doc, physiologicalReactionCrossReferences, field);
+        }
+    }
 
-            if (Utils.notNullNotEmpty(rheaIds)) {
-                doc.rheaIds.addAll(rheaIds);
-            }
+    private void convertReactionInformation(
+            UniProtDocument doc,
+            List<CrossReference<ReactionDatabase>> reactionReferences,
+            String field) {
+        reactionReferences.forEach(
+                val -> {
+                    Collection<String> value =
+                            doc.commentMap.computeIfAbsent(field, k -> new ArrayList<>());
+                    value.add(val.getId());
+                });
+
+        // add rhea ids
+        List<String> rheaIds =
+                reactionReferences.stream()
+                        .filter(rr -> ReactionDatabase.RHEA.equals(rr.getDatabase()))
+                        .map(CrossReference::getId)
+                        .collect(Collectors.toList());
+
+        if (Utils.notNullNotEmpty(rheaIds)) {
+            doc.rheaIds.addAll(rheaIds);
         }
     }
 
