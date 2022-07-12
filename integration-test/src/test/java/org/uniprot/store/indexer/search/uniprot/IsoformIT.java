@@ -67,7 +67,7 @@ class IsoformIT {
 
     @Test
     void queryIsofromAccessionFromEntry3MatchesEntry3() {
-        String query = accession(PRIMARY_ACCESSION3.toLowerCase());
+        String query = accession(PRIMARY_ACCESSION3);
         String query1 = isoformOnly();
         String and = QueryBuilder.and(query, query1);
 
