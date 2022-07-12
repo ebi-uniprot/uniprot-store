@@ -81,8 +81,8 @@
 	<field name="canonical_acc" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="false" />
 
-	<field name="accession" type="basic_ci" indexed="true"
-		stored="false" required="true" multiValued="true" />
+	<field name="accession" type="string" indexed="true"
+		stored="false" required="true" multiValued="true" docValues="true" />
 	<copyField source="accession_id" dest="accession" />
 	<copyField source="canonical_acc" dest="accession" />
 
