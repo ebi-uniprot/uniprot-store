@@ -455,7 +455,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                                     caComment.getReaction().getEvidences()));
                 }
                 if (caComment.hasPhysiologicalReactions()) {
-                    var physiologicalEvidences =
+                    List<Evidence> physiologicalEvidences =
                             caComment.getPhysiologicalReactions().stream()
                                     .filter(PhysiologicalReaction::hasEvidences)
                                     .flatMap(reaction -> reaction.getEvidences().stream())
