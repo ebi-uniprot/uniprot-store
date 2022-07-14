@@ -19,8 +19,10 @@
 		required="false" multiValued="false" />
 	<field name="length" type="int" indexed="true" stored="false"
 		required="false" multiValued="false" />
-	<field name="created" type="date" indexed="true" stored="false"
-		required="false" docValues="true" />
+	<field name="created_sort" type="date" indexed="true"
+		stored="false" required="false" docValues="true" />
+	<field name="created" type="rdates" indexed="true" stored="false"
+		required="false" />
 	<field name="uniprot_id" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="upi" type="basic_ci" indexed="true" stored="false"
@@ -48,7 +50,8 @@
 		docValues="true" />
 	<fieldType name="date" class="solr.DatePointField"
 		docValues="true" />
-
+	<fieldType name="rdates" class="solr.DateRangeField"
+		multiValued="true" />
 	<fieldType name="basic_ci" class="solr.TextField"
 		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
 		<analyzer type="index">
@@ -62,26 +65,22 @@
 	</fieldType>
 
 	<fieldType name="full_ci" class="solr.TextField"
-		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		sortMissingLast="true" omitNorms="false" positionIncrementGap="100">
 		<analyzer type="index">
 			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
 				pattern="[- /()]+" />
-			<filter class="solr.StopFilterFactory" words="stopwords.txt"
-				ignoreCase="true" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
 				preserveOriginal="false" />
+			<filter class="solr.LowerCaseFilterFactory" />
 			<filter class="solr.WordDelimiterGraphFilterFactory"
 				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
 				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
 				catenateNumbers="0" catenateWords="1" catenateAll="1" />
 			<filter class="solr.FlattenGraphFilterFactory" />
-			<filter class="solr.LowerCaseFilterFactory" />
 		</analyzer>
 		<analyzer type="query">
 			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
 				pattern="[- /()]+" />
-			<filter class="solr.StopFilterFactory" words="stopwords.txt"
-				ignoreCase="true" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
 				preserveOriginal="false" />
 			<filter class="solr.LowerCaseFilterFactory" />
@@ -89,6 +88,7 @@
 				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
 				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
 				catenateNumbers="0" catenateWords="0" catenateAll="0" />
+
 		</analyzer>
 	</fieldType>
 	<fieldType name="text_suggest" class="solr.TextField"

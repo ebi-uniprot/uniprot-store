@@ -49,7 +49,7 @@
 	</fieldType>
 
 	<fieldType name="full_ci" class="solr.TextField"
-		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		sortMissingLast="true" omitNorms="false" positionIncrementGap="100">
 		<analyzer type="index">
 			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
 				pattern="[- /()]+" />

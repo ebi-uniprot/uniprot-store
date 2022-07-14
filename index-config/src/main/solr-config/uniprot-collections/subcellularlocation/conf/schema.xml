@@ -57,27 +57,30 @@
 		</analyzer>
 	</fieldType>
 	<fieldType name="full_ci" class="solr.TextField"
-		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		sortMissingLast="true" omitNorms="false" positionIncrementGap="100">
 		<analyzer type="index">
-			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
+				pattern="[- /()]+" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
 				preserveOriginal="false" />
-			<filter class="solr.WordDelimiterGraphFilterFactory"
-				generateWordParts="1" generateNumberParts="1" catenateWords="1"
-				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
-				preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
-			<filter class="solr.FlattenGraphFilterFactory" />
 			<filter class="solr.LowerCaseFilterFactory" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
+				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
+				catenateNumbers="0" catenateWords="1" catenateAll="1" />
+			<filter class="solr.FlattenGraphFilterFactory" />
 		</analyzer>
 		<analyzer type="query">
-			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
+				pattern="[- /()]+" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
 				preserveOriginal="false" />
-			<filter class="solr.WordDelimiterGraphFilterFactory"
-				generateWordParts="1" generateNumberParts="1" catenateWords="1"
-				catenateNumbers="1" catenateAll="1" splitOnCaseChange="1"
-				preserveOriginal="1" splitOnNumerics="0" stemEnglishPossessive="1" />
 			<filter class="solr.LowerCaseFilterFactory" />
+			<filter class="solr.WordDelimiterGraphFilterFactory"
+				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
+				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
+				catenateNumbers="0" catenateWords="0" catenateAll="0" />
+
 		</analyzer>
 	</fieldType>
 </schema>

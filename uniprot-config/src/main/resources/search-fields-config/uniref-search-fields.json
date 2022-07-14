@@ -133,7 +133,7 @@
   },
   {
     "id": "created_sort",
-    "fieldName": "created",
+    "fieldName": "created_sort",
     "fieldType": "SORT",
     "dataType": "DATE",
     "description": "Sort by created",
