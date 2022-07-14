@@ -51,12 +51,6 @@ public class SuggesterUtil {
         return converter.convert(ccLineObject);
     }
 
-    public static String getFeatureLines(String entryStr) {
-        return Arrays.stream(entryStr.split("\n"))
-                .filter(line -> line.startsWith("FT  "))
-                .collect(Collectors.joining("\n"));
-    }
-
     public static List<UniProtKBFeature> getFeaturesByType(
             String entryStr, UniprotKBFeatureType type) {
         String featureLines =
