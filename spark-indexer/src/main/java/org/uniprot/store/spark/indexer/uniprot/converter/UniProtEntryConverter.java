@@ -23,6 +23,7 @@ import org.uniprot.store.indexer.util.DateUtils;
 import org.uniprot.store.search.document.DocumentConversionException;
 import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 /**
  * Created 18/04/19
@@ -180,9 +181,8 @@ public class UniProtEntryConverter
 
     private void convertEntryScore(UniProtKBEntry source, UniProtDocument document) {
         UniProtEntryScored entryScored = new UniProtEntryScored(source);
-        double score = entryScored.score();
-        int q = (int) (score / 20d);
-        document.score = q > 4 ? 5 : q + 1;
+        int score = SparkUtils.scaleAnnotationScore(entryScored.score());
+        document.score = score;
     }
 
     private void convertSequence(Sequence seq, UniProtDocument document) {

@@ -42,12 +42,12 @@ public class UniProtEntryRetryWriter extends ItemRetryWriter<UniProtKBEntry, Uni
         super.write(items.stream().map(this::addAnnotationScore).collect(Collectors.toList()));
     }
 
-    // TODO: 26/07/19 why don't we set the annotation score by default when we read the entry?
     private UniProtKBEntry addAnnotationScore(UniProtKBEntry entry) {
         UniProtEntryScored entryScored = new UniProtEntryScored(entry);
         double score = entryScored.score();
+        int q = (int) (score / 20d);
         UniProtKBEntryBuilder builder = UniProtKBEntryBuilder.from(entry);
-        builder.annotationScore(score);
+        builder.annotationScore(q > 4 ? 5 : q + 1);
         return builder.build();
     }
 }
