@@ -1,9 +1,6 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
@@ -11,6 +8,11 @@ import org.uniprot.core.flatfile.parser.UniprotKBLineParser;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniprotKBLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.ac.AcLineObject;
 import org.uniprot.core.flatfile.parser.impl.cc.cclineobject.*;
+import org.uniprot.core.uniprotkb.feature.UniProtKBFeature;
+import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureDatabase;
+import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureType;
+import org.uniprot.core.util.Utils;
+import org.uniprot.store.spark.indexer.suggest.SuggesterUtil;
 
 import scala.Tuple2;
 
@@ -23,21 +25,15 @@ public class ChebiJoinMapper implements PairFlatMapFunction<String, String, Stri
      */
     @Override
     public Iterator<Tuple2<String, String>> call(String entryStr) throws Exception {
-        List<Tuple2<String, String>> chebiTuple = new ArrayList<>();
+        Set<Tuple2<String, String>> chebiTuple = new HashSet<>();
         if (entryStr.contains("CC   -!- CATALYTIC ACTIVITY:")
                 || entryStr.contains("CC   -!- COFACTOR:")) {
-            final UniprotKBLineParser<AcLineObject> acParser =
-                    new DefaultUniprotKBLineParserFactory().createAcLineParser();
             List<String> extractedLines =
                     Arrays.stream(entryStr.split("\n"))
                             .filter(line -> line.startsWith("CC   ") || line.startsWith("AC   "))
                             .collect(Collectors.toList());
 
-            String acLine =
-                    extractedLines.stream()
-                            .filter(line -> line.startsWith("AC  "))
-                            .collect(Collectors.joining("\n"));
-            String accession = acParser.parse(acLine + "\n").primaryAcc;
+            String accession = getAccesion(extractedLines);
 
             String commentLine =
                     extractedLines.stream()
@@ -85,8 +81,8 @@ public class ChebiJoinMapper implements PairFlatMapFunction<String, String, Stri
                                     StructuredCofactor cofactor =
                                             (StructuredCofactor) ccValue.getObject();
                                     cofactor.getCofactors().stream()
-                                            .filter(xref -> xref.getXref() != null)
                                             .map(CofactorItem::getXref)
+                                            .filter(Objects::nonNull)
                                             .map(xref -> xref.substring(xref.indexOf("CHEBI:") + 6))
                                             .forEach(
                                                     chebiId ->
@@ -97,6 +93,41 @@ public class ChebiJoinMapper implements PairFlatMapFunction<String, String, Stri
                                 }
                             });
         }
+        if (entryStr.contains("FT   BINDING         ")) {
+            List<String> extractedLines =
+                    Arrays.stream(entryStr.split("\n"))
+                            .filter(line -> line.startsWith("FT   ") || line.startsWith("AC   "))
+                            .collect(Collectors.toList());
+
+            String accession = getAccesion(extractedLines);
+
+            List<UniProtKBFeature> features =
+                    SuggesterUtil.getFeaturesByType(
+                            String.join("\n", extractedLines), UniprotKBFeatureType.BINDING);
+            features.stream()
+                    .filter(feature -> Utils.notNullNotEmpty(feature.getFeatureCrossReferences()))
+                    .flatMap(feature -> feature.getFeatureCrossReferences().stream())
+                    .filter(xref -> xref.getDatabase() == UniprotKBFeatureDatabase.CHEBI)
+                    .forEach(
+                            xref -> {
+                                String id = xref.getId();
+                                if (id.startsWith("CHEBI:")) {
+                                    id = id.substring("CHEBI:".length());
+                                }
+                                chebiTuple.add(new Tuple2<>(id, accession));
+                            });
+        }
         return chebiTuple.iterator();
+    }
+
+    private String getAccesion(List<String> extractedLines) {
+        final UniprotKBLineParser<AcLineObject> acParser =
+                new DefaultUniprotKBLineParserFactory().createAcLineParser();
+        String acLine =
+                extractedLines.stream()
+                        .filter(line -> line.startsWith("AC  "))
+                        .collect(Collectors.joining("\n"));
+        String accession = acParser.parse(acLine + "\n").primaryAcc;
+        return accession;
     }
 }

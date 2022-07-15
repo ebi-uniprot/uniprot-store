@@ -85,6 +85,7 @@ class ProteomeIndexIT {
         try {
             ProteomeEntry proteome = objectMapper.readValue(obj, ProteomeEntry.class);
             assertEquals(upid, proteome.getId().getValue());
+            assertNotNull(proteome.getProteinCount());
         } catch (Exception e) {
             fail(e.getMessage());
         }

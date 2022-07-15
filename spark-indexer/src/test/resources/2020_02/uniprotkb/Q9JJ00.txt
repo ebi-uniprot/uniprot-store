@@ -381,6 +381,16 @@ FT                   /evidence="ECO:0000305"
 FT   CONFLICT        267
 FT                   /note="K -> R (in Ref. 2; BAB22897)"
 FT                   /evidence="ECO:0000305"
+FT   BINDING         140
+FT                   /ligand="Zn(2+)"
+FT                   /ligand_id="ChEBI:CHEBI:29106"
+FT                   /ligand_note="catalytic"
+FT                   /evidence="ECO:0000255|HAMAP-Rule:MF_00009"
+FT   BINDING         146
+FT                   /ligand="Zn(2+)"
+FT                   /ligand_id="ChEBI:CHEBI:29106"
+FT                   /ligand_note="catalytic"
+FT                   /evidence="ECO:0000255|HAMAP-Rule:MF_00009"
 SQ   SEQUENCE   328 AA;  35914 MW;  6CA35DF8DBF72ACF CRC64;
      MENHSKQTEA PHPGTYMPAG YPPPYPPAAF QGPSDHAAYP IPQAGYQGPP GPYPGPQPGY
      PVPPGGYAGG GPSGFPVQNQ PAYNHPGGPG GTPWMPAPPP PLNCPPGLEY LAQIDQLLVH

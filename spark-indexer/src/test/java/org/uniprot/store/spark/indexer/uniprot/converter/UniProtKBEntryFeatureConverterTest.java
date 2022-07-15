@@ -16,9 +16,11 @@ import org.uniprot.core.uniprotkb.evidence.Evidence;
 import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
 import org.uniprot.core.uniprotkb.evidence.impl.EvidenceBuilder;
 import org.uniprot.core.uniprotkb.feature.*;
-import org.uniprot.core.uniprotkb.feature.AlternativeSequence;
 import org.uniprot.core.uniprotkb.feature.impl.AlternativeSequenceBuilder;
+import org.uniprot.core.uniprotkb.feature.impl.LigandBuilder;
+import org.uniprot.core.uniprotkb.feature.impl.LigandPartBuilder;
 import org.uniprot.core.uniprotkb.feature.impl.UniProtKBFeatureBuilder;
+import org.uniprot.store.search.document.uniprot.ProteinsWith;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
@@ -88,6 +90,56 @@ class UniProtKBEntryFeatureConverterTest {
         assertEquals(Collections.singletonList(14), document.proteinsWith);
     }
 
+    @Test
+    void convertBindingFeature() {
+        UniProtDocument document = new UniProtDocument();
+
+        List<UniProtKBFeature> features = Collections.singletonList(createBindingFeature());
+        UniProtEntryFeatureConverter converter = new UniProtEntryFeatureConverter();
+        converter.convertFeature(features, document);
+
+        assertTrue(document.featuresMap.containsKey("ft_binding"));
+        List<String> chainValue =
+                List.of(
+                        "A1",
+                        "CHEBI:29180",
+                        "CHEBI:83071",
+                        "ChEBI-CHEBI:29180",
+                        "nucleotidyl-adenosine residue",
+                        "ChEBI-CHEBI:83071",
+                        "BINDING",
+                        "tRNA(Thr)");
+        assertEquals(new HashSet<>(chainValue), document.featuresMap.get("ft_binding"));
+
+        assertTrue(document.featureEvidenceMap.containsKey("ftev_binding"));
+        List<String> chainEvidenceValue = Arrays.asList("manual", "ECO_0000255");
+        assertEquals(
+                new HashSet<>(chainEvidenceValue), document.featureEvidenceMap.get("ftev_binding"));
+
+        assertTrue(document.featureLengthMap.containsKey("ftlen_binding"));
+        List<Integer> bindingLengthValue = Collections.singletonList(12);
+        assertEquals(
+                new HashSet<>(bindingLengthValue), document.featureLengthMap.get("ftlen_binding"));
+
+        assertEquals(8, document.content.size());
+        assertEquals(
+                new HashSet<>(
+                        List.of(
+                                "A1",
+                                "CHEBI:29180",
+                                "CHEBI:83071",
+                                "ChEBI-CHEBI:29180",
+                                "nucleotidyl-adenosine residue",
+                                "ChEBI-CHEBI:83071",
+                                "BINDING",
+                                "tRNA(Thr)")),
+                document.content);
+
+        assertEquals(
+                Collections.singletonList(ProteinsWith.BINDING_SITE.getValue()),
+                document.proteinsWith);
+    }
+
     private static UniProtKBFeature getFeature() {
         AlternativeSequence alternativeSequence =
                 new AlternativeSequenceBuilder()
@@ -106,12 +158,47 @@ class UniProtKBEntryFeatureConverterTest {
         return new UniProtKBFeatureBuilder()
                 .type(UniprotKBFeatureType.CHAIN)
                 .alternativeSequence(alternativeSequence)
-                .featureCrossReference(xrefs)
+                .featureCrossReferenceAdd(xrefs)
                 .description("description value")
                 .evidencesSet(evidences)
                 .featureId("FT12345")
                 .location(location)
                 .build();
+    }
+
+    private UniProtKBFeature createBindingFeature() {
+        LigandPart ligandPart =
+                createLigandPart("nucleotidyl-adenosine residue", "ChEBI:CHEBI:83071", null, null);
+
+        Ligand ligand = createLigand("tRNA(Thr)", "ChEBI:CHEBI:29180", "A1", null);
+        CrossReference<UniprotKBFeatureDatabase> xref1 =
+                new CrossReferenceBuilder<UniprotKBFeatureDatabase>()
+                        .database(UniprotKBFeatureDatabase.CHEBI)
+                        .id("CHEBI:29180")
+                        .build();
+        CrossReference<UniprotKBFeatureDatabase> xref2 =
+                new CrossReferenceBuilder<UniprotKBFeatureDatabase>()
+                        .database(UniprotKBFeatureDatabase.CHEBI)
+                        .id("CHEBI:83071")
+                        .build();
+
+        return new UniProtKBFeatureBuilder()
+                .type(UniprotKBFeatureType.BINDING)
+                .location(new FeatureLocation(23, 34))
+                .evidencesAdd(createEvidence())
+                .ligand(ligand)
+                .ligandPart(ligandPart)
+                .featureCrossReferenceAdd(xref1)
+                .featureCrossReferenceAdd(xref2)
+                .build();
+    }
+
+    private Ligand createLigand(String name, String id, String label, String note) {
+        return new LigandBuilder().name(name).id(id).label(label).note(note).build();
+    }
+
+    private LigandPart createLigandPart(String name, String id, String label, String note) {
+        return new LigandPartBuilder().name(name).id(id).label(label).note(note).build();
     }
 
     private static Evidence createEvidence() {

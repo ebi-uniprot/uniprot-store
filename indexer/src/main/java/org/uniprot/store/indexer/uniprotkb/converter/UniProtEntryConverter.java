@@ -70,7 +70,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
                 new UniProtEntryCrossReferenceConverter(goRepo, suggestDocuments);
         this.commentsConverter =
                 new UniProtEntryCommentsConverter(chebiRepo, pathwayRepo, suggestDocuments);
-        this.featureConverter = new UniProtEntryFeatureConverter();
+        this.featureConverter = new UniProtEntryFeatureConverter(chebiRepo, suggestDocuments);
         this.referencesConverter = new UniProtEntryReferencesConverter();
         this.proteinDescriptionConverter =
                 new UniprotKBEntryProteinDescriptionConverter(ecRepo, suggestDocuments);
