@@ -197,7 +197,7 @@ class ChebiToUniProtDocumentTest {
         assertTrue(result.cofactorChebi.contains("inch2"));
         assertTrue(result.cofactorChebi.contains("inch21"));
     }
-    
+
     @Test
     void canMapBindingChebiToUniProtDocument() throws Exception {
         ChebiToUniProtDocument mapper = new ChebiToUniProtDocument();
