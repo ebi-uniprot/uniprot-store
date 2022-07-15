@@ -197,4 +197,66 @@ class ChebiToUniProtDocumentTest {
         assertTrue(result.cofactorChebi.contains("inch2"));
         assertTrue(result.cofactorChebi.contains("inch21"));
     }
+    
+    @Test
+    void canMapBindingChebiToUniProtDocument() throws Exception {
+        ChebiToUniProtDocument mapper = new ChebiToUniProtDocument();
+        UniProtDocument doc = new UniProtDocument();
+        List<String> bindingValues = new ArrayList<>();
+        bindingValues.add("CHEBI:1");
+        bindingValues.add("CHEBI:2");
+        bindingValues.add("Ca2+");
+
+        doc.featuresMap.put(FT_BINDING, bindingValues);
+
+        ChebiEntry relatedId1 = new ChebiEntryBuilder().id("11").inchiKey("inch11").build();
+        ChebiEntry chebi1 =
+                new ChebiEntryBuilder().id("1").inchiKey("inch1").relatedIdsAdd(relatedId1).build();
+
+        ChebiEntry relatedId2 = new ChebiEntryBuilder().id("21").inchiKey("inch21").build();
+        ChebiEntry relatedId3 = new ChebiEntryBuilder().id("22").build();
+        ChebiEntry chebi2 =
+                new ChebiEntryBuilder()
+                        .id("2")
+                        .inchiKey("inch2")
+                        .relatedIdsAdd(relatedId2)
+                        .relatedIdsAdd(relatedId3)
+                        .build();
+
+        Iterable<ChebiEntry> chebiEntries = List.of(chebi1, chebi2);
+        Tuple2<UniProtDocument, Optional<Iterable<ChebiEntry>>> tuple =
+                new Tuple2<>(doc, Optional.of(chebiEntries));
+
+        UniProtDocument result = mapper.call(tuple);
+        assertNotNull(result);
+
+        assertEquals(5, result.chebi.size());
+        assertTrue(result.chebi.contains("CHEBI:1"));
+        assertTrue(result.chebi.contains("CHEBI:2"));
+        assertTrue(result.chebi.contains("CHEBI:11"));
+        assertTrue(result.chebi.contains("CHEBI:21"));
+        assertTrue(result.chebi.contains("CHEBI:22"));
+
+        assertEquals(4, result.inchikey.size());
+        assertTrue(result.inchikey.contains(chebi1.getInchiKey()));
+        assertTrue(result.inchikey.contains(relatedId1.getInchiKey()));
+
+        assertTrue(result.inchikey.contains(chebi2.getInchiKey()));
+        assertTrue(result.inchikey.contains(relatedId2.getInchiKey()));
+
+        Collection<String> resultBinding = result.featuresMap.get(FT_BINDING);
+        assertNotNull(resultBinding);
+        assertEquals(10, resultBinding.size());
+        assertTrue(resultBinding.contains("Ca2+"));
+        assertTrue(resultBinding.contains("CHEBI:1"));
+        assertTrue(resultBinding.contains("inch1"));
+        assertTrue(resultBinding.contains("CHEBI:11"));
+        assertTrue(resultBinding.contains("inch11"));
+
+        assertTrue(resultBinding.contains("CHEBI:2"));
+        assertTrue(resultBinding.contains("inch2"));
+        assertTrue(resultBinding.contains("CHEBI:21"));
+        assertTrue(resultBinding.contains("inch21"));
+        assertTrue(resultBinding.contains("CHEBI:22"));
+    }
 }
