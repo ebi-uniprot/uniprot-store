@@ -291,33 +291,6 @@ class ReferenceSearchIT {
     }
 
     @Test
-    void refAuthoringGroupAbbrev() {
-        String query = authorGroup("NYSGRC");
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, containsInAnyOrder(Q6GZX3, Q6GZX4));
-    }
-
-    @Test
-    void refAuthoringGroupNoAbbrev() {
-        String query = authorGroup("New York structural genomics research consortium");
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, containsInAnyOrder(Q6GZX3, Q6GZX4));
-    }
-
-    @Test
-    void refAuthoringGroupFull() {
-        String query = authorGroup("New York structural genomics research consortium (NYSGRC);");
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, containsInAnyOrder(Q6GZX3, Q6GZX4));
-    }
-
-    @Test
     void refJournalFull() {
         String query = journal("Nat. Chem. Biol.");
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -556,12 +529,6 @@ class ReferenceSearchIT {
     private String author(String value) {
         return query(
                 searchEngine.getSearchFieldConfig().getSearchFieldItemByName("lit_author"), value);
-    }
-
-    private String authorGroup(String value) {
-        return query(
-                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("lit_organisation"),
-                value);
     }
 
     private String journal(String value) {

@@ -143,12 +143,6 @@
     "includeInSwagger": true
   },
   {
-    "id":"lit_organisation",
-    "fieldName": "lit_organisation",
-    "dataType": "STRING",
-    "fieldType": "GENERAL"
-  },
-  {
     "id":"is_isoform",
     "fieldName": "is_isoform",
     "validRegex": "^true|false$",

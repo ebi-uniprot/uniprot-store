@@ -157,14 +157,6 @@
     "description": "this is a dummy description"
   },
   {
-    "id": "lit_organisation",
-    "fieldName": "lit_organisation",
-    "dataType": "STRING",
-    "fieldType": "GENERAL",
-    "example": "sample example",
-    "description": "this is a dummy description"
-  },
-  {
     "id": "is_isoform",
     "fieldName": "is_isoform",
     "validRegex": "^true|false$",
