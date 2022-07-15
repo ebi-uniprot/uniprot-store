@@ -175,4 +175,9 @@ public class SparkUtils {
     public static <T> boolean isThereAnyNullEntry(T entry1, T entry2) {
         return entry1 == null || entry2 == null;
     }
+
+    public static int scaleAnnotationScore(double score){
+        int q = (int) (score / 20d);
+        return q > 4 ? 5 : q + 1;
+    }
 }
