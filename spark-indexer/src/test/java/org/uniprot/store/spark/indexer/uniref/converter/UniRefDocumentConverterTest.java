@@ -115,6 +115,7 @@ class UniRefDocumentConverterTest {
         assertEquals(2, result.getCount());
         assertEquals(11, result.getLength());
         assertEquals(d22Feb2020, result.getCreated());
+        assertEquals(d22Feb2020, result.getCreatedSort());
         assertEquals(
                 "representativeMemberOrganismName memberorganismName", result.getOrganismSort());
         assertTrue(result.getTaxLineageIds().contains(1));

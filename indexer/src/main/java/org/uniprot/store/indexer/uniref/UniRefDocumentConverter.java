@@ -43,6 +43,7 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
                 .count(entry.getMembers().size() + 1)
                 .length(entry.getRepresentativeMember().getSequence().getLength())
                 .created(DateUtils.convertLocalDateToUTCDate(entry.getUpdated()))
+                .createdSort(DateUtils.convertLocalDateToUTCDate(entry.getUpdated()))
                 .uniprotIds(getUniProtIds(entry))
                 .upids(getUniParcIds(entry))
                 .clusters(getClusterIds(entry))
