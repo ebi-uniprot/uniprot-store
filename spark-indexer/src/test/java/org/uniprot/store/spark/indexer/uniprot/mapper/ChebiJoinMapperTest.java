@@ -24,12 +24,13 @@ class ChebiJoinMapperTest {
         assertNotNull(result);
         Map<String, String> resultMap = new HashMap<>();
         result.forEachRemaining(tuple -> resultMap.put(tuple._1, tuple._2));
-        assertEquals(12, resultMap.size());
+        assertEquals(13, resultMap.size());
         resultMap.values().forEach(acc -> assertEquals("Q9JJ00", acc));
         assertTrue(resultMap.containsKey("59789"));
         assertTrue(resultMap.containsKey("57844"));
         assertTrue(resultMap.containsKey("15377"));
         assertTrue(resultMap.containsKey("29105"));
+        assertTrue(resultMap.containsKey("29106"));
         assertTrue(resultMap.containsKey("43474"));
         assertTrue(resultMap.containsKey("57643"));
         assertTrue(resultMap.containsKey("18420"));
