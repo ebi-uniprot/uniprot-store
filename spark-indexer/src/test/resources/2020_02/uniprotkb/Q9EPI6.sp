@@ -283,6 +283,16 @@ FT                   /evidence="ECO:0000269|PubMed:18303947"
 FT   CONFLICT        174
 FT                   /note="K -> Q (in Ref. 3; AAH87719)"
 FT                   /evidence="ECO:0000305"
+FT   BINDING         140
+FT                   /ligand="Zn(2+)"
+FT                   /ligand_id="ChEBI:CHEBI:2400"
+FT                   /ligand_note="catalytic"
+FT                   /evidence="ECO:0000255|HAMAP-Rule:MF_00009"
+FT   BINDING         146
+FT                   /ligand="Zn(2+)"
+FT                   /ligand_id="ChEBI:CHEBI:6600"
+FT                   /ligand_note="catalytic"
+FT                   /evidence="ECO:0000255|HAMAP-Rule:MF_00009"
 SQ   SEQUENCE   532 AA;  60282 MW;  01AEF4B6A09EB753 CRC64;
      MGAAASRRRA LRSEAMSSVA AKVRAARAFG EYLSQSHPEN RNGADHLLAD AYSGHEGSPE
      MQPAPHNKRR LSLVSNGRYE GSISDEAVSG KTATEGPQPR VYTISREPAL LPGSEAEAIE

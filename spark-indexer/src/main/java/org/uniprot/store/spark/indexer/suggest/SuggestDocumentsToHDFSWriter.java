@@ -174,10 +174,25 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .reduceByKey((chebiTuple1, chebiTuple2) -> chebiTuple1)
                         .values();
 
+        // JavaPairRDD<chebiId,chebiId> flatFileBindingsRDD --> extracted from flat file
+        // FT(Binding) lines
+        JavaPairRDD<String, String> flatFileBindingsRDD =
+                flatFileRDD
+                        .flatMapToPair(new FlatFileToBindingFeatureChebi())
+                        .reduceByKey((chebiId1, chebiId2) -> chebiId1);
+
+        JavaRDD<SuggestDocument> bindingsSuggest =
+                flatFileBindingsRDD
+                        .join(chebiRDD)
+                        .flatMapToPair(new ChebiToSuggestDocument(BINDING.name()))
+                        .reduceByKey((chebiTuple1, chebiTuple2) -> chebiTuple1)
+                        .values();
+
         JavaRDD<SuggestDocument> chebiSuggest =
                 catalyticActivitySuggest
                         .filter(doc -> doc.id.startsWith("CHEBI"))
                         .union(cofactorSuggest)
+                        .union(bindingsSuggest)
                         .map(
                                 doc -> {
                                     doc.dictionary = CHEBI.name();
@@ -185,7 +200,10 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                                 })
                         .distinct();
 
-        return catalyticActivitySuggest.union(cofactorSuggest).union(chebiSuggest);
+        return catalyticActivitySuggest
+                .union(cofactorSuggest)
+                .union(chebiSuggest)
+                .union(bindingsSuggest);
     }
 
     /**

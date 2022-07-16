@@ -225,13 +225,13 @@ class UniProtKBEntryConverterIT {
         assertEquals(0, doc.organismHostNames.size());
         assertEquals(0, doc.organismHostIds.size());
 
-        assertEquals(153, doc.crossRefs.size());
+        assertEquals(157, doc.crossRefs.size());
         assertTrue(doc.crossRefs.contains("refseq-NM_001270626.1"));
         assertTrue(doc.crossRefs.contains("refseq-NM_001270626"));
         assertTrue(doc.crossRefs.contains("NM_001270626.1"));
         assertTrue(doc.crossRefs.contains("NM_001270626"));
 
-        assertEquals(21, doc.databases.size());
+        assertEquals(22, doc.databases.size());
         assertTrue(doc.databases.contains("refseq"));
         assertTrue(doc.databases.contains("ensembl"));
 
@@ -260,7 +260,7 @@ class UniProtKBEntryConverterIT {
         assertEquals(5, doc.referenceJournals.size());
         assertTrue(doc.referenceJournals.contains("Genome Res."));
 
-        assertEquals(17, doc.proteinsWith.size());
+        assertEquals(18, doc.proteinsWith.size());
         assertTrue(doc.proteinsWith.contains(ProteinsWith.CHAIN.getValue()));
 
         assertEquals(11, doc.commentMap.keySet().size());
@@ -281,16 +281,16 @@ class UniProtKBEntryConverterIT {
         assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("ECO_0000305"));
         assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("manual"));
 
-        assertEquals(9, doc.featuresMap.size());
+        assertEquals(10, doc.featuresMap.size());
         assertTrue(doc.featuresMap.containsKey(FT_CONFLICT_FIELD));
         assertTrue(doc.featuresMap.get(FT_CONFLICT_FIELD).contains("in Ref. 3; AAH87719"));
 
-        assertEquals(9, doc.featureEvidenceMap.size());
+        assertEquals(10, doc.featureEvidenceMap.size());
         assertTrue(doc.featureEvidenceMap.containsKey(FTEV_CONFLICT_FIELD));
         assertTrue(doc.featureEvidenceMap.get(FTEV_CONFLICT_FIELD).contains("ECO_0000305"));
         assertTrue(doc.featureEvidenceMap.get(FTEV_CONFLICT_FIELD).contains("manual"));
 
-        assertEquals(9, doc.featureLengthMap.size());
+        assertEquals(10, doc.featureLengthMap.size());
         assertTrue(doc.featureLengthMap.containsKey(FTLEN_CHAIN_FIELD));
         assertTrue(doc.featureLengthMap.get(FTLEN_CHAIN_FIELD).contains(531));
 

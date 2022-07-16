@@ -161,7 +161,7 @@ class SuggestDocumentsToHDFSWriterTest {
         JavaRDD<SuggestDocument> suggestRdd = writer.getChebi(flatFileRDD);
         assertNotNull(suggestRdd);
         long count = suggestRdd.count();
-        assertEquals(30L, count);
+        assertEquals(36L, count);
         List<SuggestDocument> catalyticDocs =
                 suggestRdd.filter(c -> c.dictionary.equals(CATALYTIC_ACTIVITY.name())).collect();
         assertEquals(10, catalyticDocs.size());
@@ -207,6 +207,7 @@ class SuggestDocumentsToHDFSWriterTest {
         List<SuggestDocument> chebiDocs =
                 suggestRdd.filter(c -> c.dictionary.equals(CHEBI.name())).collect();
         assertNotNull(chebiDocs);
+        assertEquals(15, chebiDocs.size());
         document =
                 chebiDocs.stream()
                         .filter(c -> c.id.equals("CHEBI:2500"))
@@ -222,7 +223,22 @@ class SuggestDocumentsToHDFSWriterTest {
         assertTrue(document.altValues.contains("2500-synonym"));
         assertTrue(document.altValues.contains("AABBBCCCDD-IIHHHHGGGFFFF-N"));
 
-        assertEquals(13, chebiDocs.size());
+        List<SuggestDocument> bindingDocs =
+                suggestRdd.filter(c -> c.dictionary.equals(BINDING.name())).collect();
+        assertEquals(4, bindingDocs.size());
+        document =
+                bindingDocs.stream()
+                        .filter(c -> c.id.equals("CHEBI:6700"))
+                        .findFirst()
+                        .orElseThrow(AssertionFailedError::new);
+
+        assertEquals(BINDING.name(), document.dictionary);
+        assertEquals("CHEBI:6700", document.id);
+        assertEquals("6700-conjugate-acid-relation-chain", document.value);
+        assertEquals("medium", document.importance);
+
+        assertEquals(0, document.altValues.size());
+
         List<String> chebiIds =
                 chebiDocs.stream().map(SuggestDocument::getDocumentId).collect(Collectors.toList());
         List<String> cofactorIds =
@@ -234,8 +250,14 @@ class SuggestDocumentsToHDFSWriterTest {
                         .map(SuggestDocument::getDocumentId)
                         .collect(Collectors.toList());
 
+        List<String> bindingIds =
+                catalyticDocs.stream()
+                        .map(SuggestDocument::getDocumentId)
+                        .collect(Collectors.toList());
+
         assertTrue(chebiIds.containsAll(cofactorIds));
         assertTrue(chebiIds.containsAll(catalyticIds));
+        assertTrue(chebiIds.containsAll(bindingIds));
     }
 
     @Test
