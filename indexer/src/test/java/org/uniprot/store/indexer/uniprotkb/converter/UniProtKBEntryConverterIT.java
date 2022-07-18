@@ -338,9 +338,10 @@ class UniProtKBEntryConverterIT {
                 doc.referenceTitles.contains(
                         "Characterization of the novel brain-specific protein Jacob."));
 
-        assertEquals(55, doc.referenceAuthors.size());
+        assertEquals(56, doc.referenceAuthors.size());
         assertTrue(doc.referenceAuthors.contains("Kramer P.R."));
         assertTrue(doc.referenceAuthors.contains("Wray S."));
+        assertTrue(doc.referenceAuthors.contains("The MGC Project Team"));
 
         assertEquals(7, doc.referenceCitationIds.size());
         assertTrue(doc.referenceCitationIds.contains("CI-73HJSSOHL8LGA"));
@@ -348,9 +349,6 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(5, doc.referencePubmeds.size());
         assertTrue(doc.referencePubmeds.contains("15489334"));
-
-        assertEquals(1, doc.referenceOrganizations.size());
-        assertTrue(doc.referenceOrganizations.contains("The MGC Project Team"));
 
         assertEquals(7, doc.referenceDates.size());
         assertTrue(
@@ -553,9 +551,10 @@ class UniProtKBEntryConverterIT {
                 doc.referenceTitles.contains(
                         "Characterization of the novel brain-specific protein Jacob."));
 
-        assertEquals(62, doc.referenceAuthors.size());
+        assertEquals(63, doc.referenceAuthors.size());
         assertTrue(doc.referenceAuthors.contains("Kramer P.R."));
         assertTrue(doc.referenceAuthors.contains("Wray S."));
+        assertTrue(doc.referenceAuthors.contains("The MGC Project Team"));
 
         assertEquals(8, doc.referenceCitationIds.size());
         assertTrue(doc.referenceCitationIds.contains("CI-ASPSN3R5FFN1I"));
@@ -563,9 +562,6 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(6, doc.referencePubmeds.size());
         assertTrue(doc.referencePubmeds.contains("15489334"));
-
-        assertEquals(1, doc.referenceOrganizations.size());
-        assertTrue(doc.referenceOrganizations.contains("The MGC Project Team"));
 
         assertEquals(8, doc.referenceDates.size());
         assertTrue(

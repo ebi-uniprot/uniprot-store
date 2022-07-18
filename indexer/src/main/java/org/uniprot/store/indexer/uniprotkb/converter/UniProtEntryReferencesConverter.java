@@ -147,7 +147,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
                                 });
             }
             if (citation.hasAuthoringGroup()) {
-                document.referenceOrganizations.addAll(citation.getAuthoringGroups());
+                document.referenceAuthors.addAll(citation.getAuthoringGroups());
             }
             if (citation.hasPublicationDate()) {
                 convertPublicationDate(citation.getPublicationDate().getValue(), document);
