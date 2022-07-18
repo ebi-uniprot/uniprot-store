@@ -7,8 +7,8 @@ import org.apache.hadoop.io.Text;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.genecentric.GeneCentricEntry;
 import org.uniprot.core.genecentric.Protein;
-
 import org.uniprot.store.spark.indexer.common.exception.IndexHDFSDocumentsException;
+
 import scala.Tuple2;
 
 /**

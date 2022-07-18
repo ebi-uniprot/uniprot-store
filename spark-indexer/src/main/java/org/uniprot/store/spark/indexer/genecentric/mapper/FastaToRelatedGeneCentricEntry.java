@@ -36,8 +36,8 @@ public class FastaToRelatedGeneCentricEntry extends FastaToGeneCentricEntry {
             uniProtKBFasta = UniProtKBFastaParser.fromFasta(fastaInput);
         } catch (Exception e) {
             throw new IndexHDFSDocumentsException(
-                    "In Proteome: " + proteomeId +
-                            ", unable to parse fastaInput: " + fastaInput, e);
+                    "In Proteome: " + proteomeId + ", unable to parse fastaInput: " + fastaInput,
+                    e);
         }
         Protein protein = ProteinBuilder.from(uniProtKBFasta).build();
 

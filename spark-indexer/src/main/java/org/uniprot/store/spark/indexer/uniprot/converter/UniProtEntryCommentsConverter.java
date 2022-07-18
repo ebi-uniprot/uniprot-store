@@ -125,12 +125,11 @@ class UniProtEntryCommentsConverter implements Serializable {
                                 evidence.addAll(getTextsEvidence(note.getTexts()));
                             });
 
-            comment.getIsoforms().stream().
-                    filter(APIsoform::hasIsoformSequenceStatus)
+            comment.getIsoforms().stream()
+                    .filter(APIsoform::hasIsoformSequenceStatus)
                     .map(APIsoform::getIsoformSequenceStatus)
                     .map(IsoformSequenceStatus::getName)
                     .forEach(values::add);
-
         }
 
         List<String> events = new ArrayList<>();
