@@ -176,8 +176,6 @@
 	<!-- Citations -->
 	<field name="lit_author" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
-	<field name="lit_organisation" type="full_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
 
 	<field name="lit_title" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />

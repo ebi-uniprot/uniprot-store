@@ -40,13 +40,13 @@ class UniProtKBEntryReferencesConverterTest {
         converter.convertReferences(references, document);
 
         // reference fields
-        assertEquals(Arrays.asList("one  author", "two  author"), document.referenceAuthors);
+        assertEquals(
+                Arrays.asList("one  author", "one auth group", "two  author", "two auth group"),
+                document.referenceAuthors);
         assertEquals(Arrays.asList("one  tittle", "two  tittle"), document.referenceTitles);
         assertEquals(Arrays.asList(get1Jan2029(), get1Jan2029()), document.referenceDates);
         assertEquals(
                 Arrays.asList("one journal name", "two journal name"), document.referenceJournals);
-        assertEquals(
-                Arrays.asList("one auth group", "two auth group"), document.referenceOrganizations);
         assertEquals(Arrays.asList("oneid", "twoid"), document.referencePubmeds);
         assertEquals(Arrays.asList("oneid", "twoid"), document.referenceCitationIds);
         assertEquals(
