@@ -294,15 +294,17 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentEvMap.containsKey(CCEV_ALTERNATIVE_PRODUCTS_FIELD));
         assertEquals(0, document.commentEvMap.get(CCEV_ALTERNATIVE_PRODUCTS_FIELD).size());
 
-        assertEquals(5, document.ap.size());
+        assertEquals(8, document.ap.size());
         assertTrue(document.ap.contains("Alternative promoter usage"));
         assertTrue(document.ap.contains("Produced from the genomic RNA."));
+        assertTrue(document.ap.contains("external"));
         assertEquals(0, document.apEv.size());
-        assertEquals(3, document.apApu.size());
+        assertEquals(6, document.apApu.size());
         assertTrue(document.apApu.contains("Produced from the genomic RNA."));
         assertTrue(
                 document.apApu.contains(
                         "Produced by alternative initiation from the subgenomic RNA."));
+        assertTrue(document.apApu.contains("described"));
         assertEquals(0, document.apApuEv.size());
 
         assertTrue(document.content.contains(alternativeProductsLine));
@@ -353,16 +355,18 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentEvMap.containsKey(CCEV_ALTERNATIVE_PRODUCTS_FIELD));
         assertEquals(0, document.commentEvMap.get(CCEV_ALTERNATIVE_PRODUCTS_FIELD).size());
 
-        assertEquals(3, document.ap.size());
+        assertEquals(5, document.ap.size());
         assertTrue(document.ap.contains("Ribosomal frameshifting"));
         assertTrue(document.ap.contains("Produced by conventional translation."));
+        assertTrue(document.ap.contains("external"));
         assertEquals(3, document.apEv.size());
         assertTrue(document.apEv.contains("ECO_0000269"));
-        assertEquals(2, document.apRf.size());
+        assertEquals(4, document.apRf.size());
         assertTrue(document.apRf.contains("Produced by conventional translation."));
         assertTrue(
                 document.apRf.contains(
                         "Produced by -1 ribosomal frameshifting. The N-terminus is translated following a ribosomal skip event."));
+        assertTrue(document.apRf.contains("external"));
         assertEquals(3, document.apRfEv.size());
         assertTrue(document.apRfEv.contains("ECO_0000269"));
 

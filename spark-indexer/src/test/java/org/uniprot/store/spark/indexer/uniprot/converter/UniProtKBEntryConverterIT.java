@@ -314,10 +314,12 @@ class UniProtKBEntryConverterIT {
                         .filter(val -> !val.startsWith("SL-"))
                         .collect(Collectors.toList());
 
-        assertEquals(3, doc.ap.size());
+        assertEquals(5, doc.ap.size());
         assertTrue(doc.ap.contains("Alternative splicing"));
-        assertEquals(2, doc.apAs.size());
+        assertTrue(doc.ap.contains("described"));
+        assertEquals(4, doc.apAs.size());
         assertTrue(doc.apAs.contains("Additional isoforms seem to exist."));
+        assertTrue(doc.apAs.contains("displayed"));
 
         assertEquals(5, doc.interactors.size());
         assertTrue(doc.interactors.contains("P27361"));
@@ -464,10 +466,12 @@ class UniProtKBEntryConverterIT {
         assertEquals(0, doc.subcellLocationNote.size());
         assertEquals(0, doc.subcellLocationNoteEv.size());
 
-        assertEquals(2, doc.ap.size());
+        assertEquals(4, doc.ap.size());
         assertTrue(doc.ap.contains("Alternative splicing"));
-        assertEquals(1, doc.apAs.size());
+        assertTrue(doc.ap.contains("described"));
+        assertEquals(3, doc.apAs.size());
         assertTrue(doc.apAs.contains("No experimental confirmation available."));
+        assertTrue(doc.apAs.contains("external"));
 
         assertEquals(0, doc.interactors.size());
 
