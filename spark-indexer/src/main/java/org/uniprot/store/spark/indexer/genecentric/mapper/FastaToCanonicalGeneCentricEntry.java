@@ -9,6 +9,7 @@ import org.uniprot.core.genecentric.impl.GeneCentricEntryBuilder;
 import org.uniprot.core.genecentric.impl.ProteinBuilder;
 import org.uniprot.core.parser.fasta.uniprot.UniProtKBFastaParser;
 
+import org.uniprot.store.spark.indexer.common.exception.IndexHDFSDocumentsException;
 import scala.Tuple2;
 
 /**
@@ -24,7 +25,14 @@ public class FastaToCanonicalGeneCentricEntry extends FastaToGeneCentricEntry {
             String proteomeId, Tuple2<LongWritable, Text> fastaTuple) {
         String fastaInput = fastaTuple._2.toString();
 
-        UniProtKBFasta uniProtKBFasta = UniProtKBFastaParser.fromFasta(fastaInput);
+        UniProtKBFasta uniProtKBFasta;
+        try {
+            uniProtKBFasta = UniProtKBFastaParser.fromFasta(fastaInput);
+        } catch (Exception e) {
+            throw new IndexHDFSDocumentsException(
+                    "In Proteome: " + proteomeId +
+                            ", unable to parse fastaInput: " + fastaInput, e);
+        }
         Protein protein = ProteinBuilder.from(uniProtKBFasta).build();
         String accession = protein.getId();
 

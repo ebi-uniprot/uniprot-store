@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.uniprot.core.genecentric.GeneCentricEntry;
 import org.uniprot.core.genecentric.Protein;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
+import org.uniprot.store.spark.indexer.common.exception.IndexHDFSDocumentsException;
 
 import scala.Tuple2;
 
@@ -91,5 +92,15 @@ class FastaToRelatedGeneCentricEntryTest {
         assertNotNull(result);
         assertEquals("readthrough", result._1);
         assertNull(result._2);
+    }
+
+    @Test
+    void readErrorInvalidFastaInput() {
+        String fastaInput = ">tr|A0A0G2KK10|A0A0G2KK10_DANRE\n" + "AVEEKIEWLESHQDADIEDFKA";
+
+        FastaToRelatedGeneCentricEntry mapper = new FastaToRelatedGeneCentricEntry();
+        String proteomeId = "UP000000554";
+        Tuple2<LongWritable, Text> tuple = new Tuple2<>(new LongWritable(), new Text(fastaInput));
+        assertThrows(IndexHDFSDocumentsException.class, () -> mapper.parseEntry(proteomeId, tuple));
     }
 }

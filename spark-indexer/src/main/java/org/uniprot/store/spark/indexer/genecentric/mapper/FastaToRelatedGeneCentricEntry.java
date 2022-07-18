@@ -13,6 +13,7 @@ import org.uniprot.core.genecentric.impl.ProteinBuilder;
 import org.uniprot.core.parser.fasta.uniprot.UniProtKBFastaParser;
 import org.uniprot.core.uniprotkb.UniProtKBAccession;
 import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
+import org.uniprot.store.spark.indexer.common.exception.IndexHDFSDocumentsException;
 
 import scala.Tuple2;
 
@@ -30,7 +31,14 @@ public class FastaToRelatedGeneCentricEntry extends FastaToGeneCentricEntry {
         Tuple2<String, GeneCentricEntry> result = null;
         String fastaInput = fastaTuple._2.toString();
 
-        UniProtKBFasta uniProtKBFasta = UniProtKBFastaParser.fromFasta(fastaInput);
+        UniProtKBFasta uniProtKBFasta;
+        try {
+            uniProtKBFasta = UniProtKBFastaParser.fromFasta(fastaInput);
+        } catch (Exception e) {
+            throw new IndexHDFSDocumentsException(
+                    "In Proteome: " + proteomeId +
+                            ", unable to parse fastaInput: " + fastaInput, e);
+        }
         Protein protein = ProteinBuilder.from(uniProtKBFasta).build();
 
         // Related protein names contains the prefix: Isoform of P0CX05,
