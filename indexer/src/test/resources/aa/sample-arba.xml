@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<unirules xmlns="http://uniprot.org/unirule-1.2" xmlns:uniprot="http://uniprot.org/uniprot">
+<unirules xmlns="http://uniprot.org/unirule-1.3" xmlns:uniprot="http://uniprot.org/uniprot">
     <unirule status="APPLY" id="ARBA00000001" creator="ARBA" created="2020-05-12+01:00" modifiedBy="ARBA" modified="2021-01-04Z">
         <information>
             <version>0</version>
