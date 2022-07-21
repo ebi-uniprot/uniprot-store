@@ -123,6 +123,22 @@ class TaxonomyEntryToUniProtDocumentTest {
     @Test
     void testDocumentWithValidOrganismHosts() throws Exception {
 
+        TaxonomyLineage lineage =
+                new TaxonomyLineageBuilder()
+                        .taxonId(1111L)
+                        .scientificName("lineage scientific 1111")
+                        .commonName("lineage common 1111")
+                        .synonymsAdd("lineage synonym 1111")
+                        .build();
+
+        TaxonomyLineage lineage2 =
+                new TaxonomyLineageBuilder()
+                        .taxonId(2222L)
+                        .scientificName("lineage scientific 2222")
+                        .commonName("lineage common 2222")
+                        .synonymsAdd("lineage synonym 2222")
+                        .build();
+
         TaxonomyEntry organismHost9606 =
                 new TaxonomyEntryBuilder()
                         .taxonId(9606L)
@@ -130,6 +146,7 @@ class TaxonomyEntryToUniProtDocumentTest {
                         .scientificName("organism scientific name 9606")
                         .mnemonic("organism mnemonic 9606")
                         .synonymsAdd("organism synonym 9606")
+                        .lineagesAdd(lineage)
                         .build();
 
         TaxonomyEntry organismHost9000 =
@@ -139,6 +156,8 @@ class TaxonomyEntryToUniProtDocumentTest {
                         .scientificName("organism scientific name 9000")
                         .mnemonic("organism mnemonic 9000")
                         .synonymsAdd("organism synonym 9000")
+                        .lineagesAdd(lineage)
+                        .lineagesAdd(lineage2)
                         .build();
 
         UniProtDocument doc = new UniProtDocument();
@@ -157,7 +176,7 @@ class TaxonomyEntryToUniProtDocumentTest {
 
         assertNotNull(result);
 
-        assertEquals(6, result.content.size());
+        assertEquals(10, result.content.size());
         assertTrue(result.content.containsAll(result.organismHostNames));
         // organism hosts ids is already added to content in entry converter
 
@@ -168,6 +187,12 @@ class TaxonomyEntryToUniProtDocumentTest {
         assertTrue(result.organismHostNames.contains("organism synonym 9606"));
         assertTrue(result.organismHostNames.contains("organism common name 9606"));
         assertTrue(result.organismHostNames.contains("organism scientific name 9606"));
+
+        assertTrue(result.organismHostNames.contains("lineage scientific 1111"));
+        assertTrue(result.organismHostNames.contains("lineage common 1111"));
+
+        assertTrue(result.organismHostNames.contains("lineage scientific 2222"));
+        assertTrue(result.organismHostNames.contains("lineage common 2222"));
     }
 
     @Test
