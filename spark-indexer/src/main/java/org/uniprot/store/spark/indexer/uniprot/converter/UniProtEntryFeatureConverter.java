@@ -53,10 +53,6 @@ class UniProtEntryFeatureConverter {
                 Ligand ligand = feature.getLigand();
                 featuresOfTypeList.add(ligand.getName());
                 document.content.add(ligand.getName());
-                //				if(Utils.notNullNotEmpty(ligand.getId())) {
-                //					featuresOfTypeList.add(ligand.getId());
-                //					document.content.add(ligand.getId());
-                //				}
                 if (Utils.notNullNotEmpty(ligand.getLabel())) {
                     featuresOfTypeList.add(ligand.getLabel());
                     document.content.add(ligand.getLabel());
@@ -70,10 +66,6 @@ class UniProtEntryFeatureConverter {
                 LigandPart ligandPart = feature.getLigandPart();
                 featuresOfTypeList.add(ligandPart.getName());
                 document.content.add(ligandPart.getName());
-                //				if(Utils.notNullNotEmpty(ligandPart.getId())) {
-                //					featuresOfTypeList.add(ligandPart.getId());
-                //					document.content.add(ligandPart.getId());
-                //				}
                 if (Utils.notNullNotEmpty(ligandPart.getLabel())) {
                     featuresOfTypeList.add(ligandPart.getLabel());
                     document.content.add(ligandPart.getLabel());
@@ -128,8 +120,10 @@ class UniProtEntryFeatureConverter {
         String dbname = dbType.getName();
 
         List<String> xrefIds = UniProtEntryConverterUtil.getXrefId(xrefId, dbname);
-        document.crossRefs.addAll(xrefIds);
-        document.databases.add(dbname.toLowerCase());
+        if (!dbType.equals(UniprotKBFeatureDatabase.CHEBI)) {
+            document.crossRefs.addAll(xrefIds);
+            document.databases.add(dbname.toLowerCase());
+        }
         document.content.addAll(xrefIds);
         featuresOfTypeList.addAll(xrefIds);
     }
