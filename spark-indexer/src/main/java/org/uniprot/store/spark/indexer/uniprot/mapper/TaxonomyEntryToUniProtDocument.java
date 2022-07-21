@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
+import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 import org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil;
@@ -76,11 +77,12 @@ public class TaxonomyEntryToUniProtDocument
             }
 
             if (Utils.notNullNotEmpty(doc.organismHostIds)) {
-                doc.organismHostIds.forEach(
+                ArrayList<Integer> hostIds = new ArrayList<>(doc.organismHostIds);
+                hostIds.forEach(
                         taxId -> {
                             TaxonomyEntry organismHost = taxonomyEntryMap.get((long) taxId);
                             if (Utils.notNull(organismHost)) {
-                                doc.organismHostNames.addAll(getOrganismNames(organismHost));
+                                updateOrganismHost(doc, organismHost);
                             } else {
                                 log.warn(
                                         getWarnMessage(
@@ -97,6 +99,21 @@ public class TaxonomyEntryToUniProtDocument
                             + doc.accession);
         }
         return doc;
+    }
+
+    private void updateOrganismHost(UniProtDocument doc, TaxonomyEntry organismHost) {
+        doc.organismHostNames.addAll(getOrganismNames(organismHost));
+        if (organismHost.hasLineage()) {
+            organismHost.getLineages().forEach(lineage -> updateLineageHost(doc, lineage));
+        }
+    }
+
+    private void updateLineageHost(UniProtDocument doc, TaxonomyLineage lineage) {
+        doc.organismHostIds.add(Math.toIntExact(lineage.getTaxonId()));
+        doc.organismHostNames.add(lineage.getScientificName());
+        if (lineage.hasCommonName()) {
+            doc.organismHostNames.add(lineage.getCommonName());
+        }
     }
 
     private String getWarnMessage(String accession, Set<Long> keys, int organismTaxId) {
@@ -116,15 +133,7 @@ public class TaxonomyEntryToUniProtDocument
         doc.taxLineageIds.add(Math.toIntExact(organism.getTaxonId()));
         doc.organismTaxon.addAll(organismNames);
         if (organism.hasLineage()) {
-            organism.getLineages()
-                    .forEach(
-                            lineage -> {
-                                doc.taxLineageIds.add(Math.toIntExact(lineage.getTaxonId()));
-                                doc.organismTaxon.add(lineage.getScientificName());
-                                if (lineage.hasCommonName()) {
-                                    doc.organismTaxon.add(lineage.getCommonName());
-                                }
-                            });
+            organism.getLineages().forEach(lineage -> updateLineageTaxonomy(doc, lineage));
         } else {
             log.warn("Unable to find organism lineage for: " + doc.organismTaxId);
         }
@@ -138,6 +147,14 @@ public class TaxonomyEntryToUniProtDocument
             doc.modelOrganism = (int) organism.getTaxonId();
         } else {
             doc.otherOrganism = organism.getScientificName();
+        }
+    }
+
+    private void updateLineageTaxonomy(UniProtDocument doc, TaxonomyLineage lineage) {
+        doc.taxLineageIds.add(Math.toIntExact(lineage.getTaxonId()));
+        doc.organismTaxon.add(lineage.getScientificName());
+        if (lineage.hasCommonName()) {
+            doc.organismTaxon.add(lineage.getCommonName());
         }
     }
 
