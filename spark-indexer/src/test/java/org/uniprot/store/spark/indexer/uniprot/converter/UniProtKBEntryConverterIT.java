@@ -225,13 +225,13 @@ class UniProtKBEntryConverterIT {
         assertEquals(0, doc.organismHostNames.size());
         assertEquals(0, doc.organismHostIds.size());
 
-        assertEquals(157, doc.crossRefs.size());
+        assertEquals(153, doc.crossRefs.size());
         assertTrue(doc.crossRefs.contains("refseq-NM_001270626.1"));
         assertTrue(doc.crossRefs.contains("refseq-NM_001270626"));
         assertTrue(doc.crossRefs.contains("NM_001270626.1"));
         assertTrue(doc.crossRefs.contains("NM_001270626"));
 
-        assertEquals(22, doc.databases.size());
+        assertEquals(21, doc.databases.size());
         assertTrue(doc.databases.contains("refseq"));
         assertTrue(doc.databases.contains("ensembl"));
 

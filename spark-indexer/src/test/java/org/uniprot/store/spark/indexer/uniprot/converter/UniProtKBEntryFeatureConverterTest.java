@@ -3,10 +3,7 @@ package org.uniprot.store.spark.indexer.uniprot.converter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.CrossReference;
@@ -88,6 +85,8 @@ class UniProtKBEntryFeatureConverterTest {
                 document.content);
 
         assertEquals(Collections.singletonList(14), document.proteinsWith);
+        assertEquals(Set.of("dbsnp"), document.databases);
+        assertEquals(Set.of("dbSNP-DBSNP-12345", "DBSNP-12345"), document.crossRefs);
     }
 
     @Test
@@ -138,6 +137,8 @@ class UniProtKBEntryFeatureConverterTest {
         assertEquals(
                 Collections.singletonList(ProteinsWith.BINDING_SITE.getValue()),
                 document.proteinsWith);
+        assertTrue(document.crossRefs.isEmpty());
+        assertTrue(document.databases.isEmpty());
     }
 
     private static UniProtKBFeature getFeature() {
