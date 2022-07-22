@@ -14,6 +14,7 @@ import org.uniprot.core.cv.keyword.KeywordCategory;
 import org.uniprot.core.gene.Gene;
 import org.uniprot.core.scorer.uniprotkb.UniProtEntryScored;
 import org.uniprot.core.uniprotkb.*;
+import org.uniprot.core.uniprotkb.comment.CommentType;
 import org.uniprot.core.uniprotkb.evidence.Evidence;
 import org.uniprot.core.uniprotkb.evidence.EvidenceDatabase;
 import org.uniprot.core.uniprotkb.evidence.EvidenceDatabaseCategory;
@@ -39,6 +40,7 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
 public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, UniProtDocument> {
 
     private static final String DASH = "-";
+    private static final String CANONICAL = DASH + "1";
     static final int SPELLCHECK_MIN_LENGTH = 4;
     /** An enum set representing all of the organelles that are children of plastid */
     private static final EnumSet<GeneEncodingType> PLASTID_CHILD =
@@ -99,6 +101,9 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
                 document.canonicalAccession = canonicalAccession;
             } else {
                 document.isIsoform = false;
+                if (!hasIsoform(source)) {
+                    document.canonicalAccession = document.accession + CANONICAL;
+                }
             }
             document.reviewed = (source.getEntryType() == UniProtKBEntryType.SWISSPROT);
             addValueListToStringList(document.secacc, source.getSecondaryAccessions());
@@ -131,6 +136,11 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
             log.error(message, e);
             throw new DocumentConversionException(message, e);
         }
+    }
+
+    private boolean hasIsoform(UniProtKBEntry source) {
+        return source.hasComments()
+                && !source.getCommentsByType(CommentType.ALTERNATIVE_PRODUCTS).isEmpty();
     }
 
     private void convertEntryAudit(EntryAudit entryAudit, UniProtDocument document) {
