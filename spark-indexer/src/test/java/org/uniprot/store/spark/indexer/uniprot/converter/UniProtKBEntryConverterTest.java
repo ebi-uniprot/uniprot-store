@@ -56,11 +56,36 @@ class UniProtKBEntryConverterTest {
 
         // then
         assertEquals("P12345", document.accession);
-        assertNull(document.canonicalAccession);
+        assertEquals("P12345-1", document.canonicalAccession);
         assertEquals("UNIPROT_ENTRYID", document.id);
         assertFalse(document.isIsoform);
         assertTrue(document.active);
         assertTrue(document.secacc.isEmpty());
+    }
+
+    @Test
+    void convertCanonicalAccessionWithIsoformsEntry() {
+        // given
+        AlternativeProductsComment alternativeproducts =
+                new AlternativeProductsCommentBuilder().build();
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder("P21802", "UNIPROT_ENTRYID", UniProtKBEntryType.TREMBL)
+                        .secondaryAccessionsAdd(new UniProtKBAccessionBuilder("P21803").build())
+                        .commentsAdd(alternativeproducts)
+                        .sequence(new SequenceBuilder("AAAAA").build())
+                        .build();
+
+        // when
+        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtDocument document = converter.convert(entry);
+
+        // then
+        assertEquals("P21802", document.accession);
+        assertNull(document.canonicalAccession);
+        assertEquals("UNIPROT_ENTRYID", document.id);
+        assertFalse(document.isIsoform);
+        assertTrue(document.active);
+        assertTrue(document.secacc.contains("P21803"));
     }
 
     @Test
