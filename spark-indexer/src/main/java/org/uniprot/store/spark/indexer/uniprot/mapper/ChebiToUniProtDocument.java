@@ -73,7 +73,7 @@ public class ChebiToUniProtDocument
             Map<String, ChebiEntry> mappedChebi) {
         Set<String> relatedCatalytic =
                 chebiRelatedItem.stream()
-                        .filter(id -> id.startsWith(CHEBI_PREFIX))
+                        .filter(id -> Objects.nonNull(id) && id.startsWith(CHEBI_PREFIX))
                         .map(mappedChebi::get)
                         .filter(Objects::nonNull)
                         .flatMap(id -> id.getRelatedIds().stream())
@@ -82,7 +82,7 @@ public class ChebiToUniProtDocument
 
         Set<String> catalyticInchiKey =
                 chebiRelatedItem.stream()
-                        .filter(id -> id.startsWith(CHEBI_PREFIX))
+                        .filter(id -> Objects.nonNull(id) && id.startsWith(CHEBI_PREFIX))
                         .map(mappedChebi::get)
                         .filter(Objects::nonNull)
                         .map(ChebiEntry::getInchiKey)
@@ -92,7 +92,7 @@ public class ChebiToUniProtDocument
 
         Set<String> catalyticRelatedInchiKey =
                 chebiRelatedItem.stream()
-                        .filter(id -> id.startsWith(CHEBI_PREFIX))
+                        .filter(id -> Objects.nonNull(id) && id.startsWith(CHEBI_PREFIX))
                         .map(mappedChebi::get)
                         .filter(Objects::nonNull)
                         .flatMap(id -> id.getRelatedIds().stream())
@@ -106,7 +106,7 @@ public class ChebiToUniProtDocument
 
         doc.chebi.addAll(
                 chebiRelatedItem.stream()
-                        .filter(id -> id.startsWith(CHEBI_PREFIX))
+                        .filter(id -> Objects.nonNull(id) && id.startsWith(CHEBI_PREFIX))
                         .collect(Collectors.toSet()));
 
         chebiRelatedItem.addAll(catalyticInchiKey);

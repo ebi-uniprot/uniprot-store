@@ -206,6 +206,7 @@ class ChebiToUniProtDocumentTest {
         bindingValues.add("CHEBI:1");
         bindingValues.add("CHEBI:2");
         bindingValues.add("Ca2+");
+        bindingValues.add(null);
 
         doc.featuresMap.put(FT_BINDING, bindingValues);
 
@@ -246,7 +247,7 @@ class ChebiToUniProtDocumentTest {
 
         Collection<String> resultBinding = result.featuresMap.get(FT_BINDING);
         assertNotNull(resultBinding);
-        assertEquals(10, resultBinding.size());
+        assertEquals(11, resultBinding.size());
         assertTrue(resultBinding.contains("Ca2+"));
         assertTrue(resultBinding.contains("CHEBI:1"));
         assertTrue(resultBinding.contains("inch1"));
