@@ -44,7 +44,7 @@ class UniProtResultFieldsTest {
         assertEquals(15, groups.size());
         verifyGroupSize(groups, "Names & Taxonomy", 13);
         verifyGroupSize(groups, "Sequences", 19);
-        verifyGroupSize(groups, "Function", 18);
+        verifyGroupSize(groups, "Function", 15);
         verifyGroupSize(groups, "Miscellaneous", 11);
         verifyGroupSize(groups, "Interaction", 2);
         verifyGroupSize(groups, "Expression", 3);

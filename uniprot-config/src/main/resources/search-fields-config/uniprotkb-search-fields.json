@@ -1462,46 +1462,6 @@
   {
     "parentId": "sites",
     "childNumber": 2,
-    "label": "Metal binding",
-    "id": "sites_metal_binding",
-    "itemType": "SIBLING_GROUP"
-  },
-  {
-    "parentId": "sites_metal_binding",
-    "childNumber": 0,
-    "id": "ft_metal",
-    "itemType": "SINGLE",
-    "fieldName": "ft_metal",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by feature metal binding",
-    "example": "phosphocysteine"
-  },
-  {
-    "parentId": "sites_metal_binding",
-    "childNumber": 1,
-    "id": "ftlen_metal",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_metal",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature metal binding within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sites_metal_binding",
-    "childNumber": 2,
-    "id": "ftev_metal",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_metal",
-    "fieldType": "EVIDENCE",
-    "dataType": "STRING",
-    "description": "Search feature metal binding with evidence type",
-    "example": "manual"
-  },
-  {
-    "parentId": "sites",
-    "childNumber": 3,
     "label": "Binding site",
     "id": "sites_binding_site",
     "itemType": "SIBLING_GROUP"
@@ -1514,6 +1474,8 @@
     "fieldName": "ft_binding",
     "fieldType": "GENERAL",
     "dataType": "STRING",
+    "autoComplete": "{CONTEXT_PATH}/suggester?dict=binding&query=?",
+    "autoCompleteQueryField": "ft_binding",
     "description": "Search by feature binding site",
     "example": "phosphocysteine"
   },
@@ -1541,7 +1503,7 @@
   },
   {
     "parentId": "sites",
-    "childNumber": 4,
+    "childNumber": 3,
     "label": "Other",
     "id": "sites_other",
     "itemType": "SIBLING_GROUP"
@@ -1582,46 +1544,6 @@
   {
     "parentId": "function",
     "childNumber": 8,
-    "label": "Calcium binding",
-    "id": "calcium_binding",
-    "itemType": "SIBLING_GROUP"
-  },
-  {
-    "parentId": "calcium_binding",
-    "childNumber": 0,
-    "id": "ft_ca_bind",
-    "itemType": "SINGLE",
-    "fieldName": "ft_ca_bind",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by feature calcium binding",
-    "example": "site"
-  },
-  {
-    "parentId": "calcium_binding",
-    "childNumber": 1,
-    "id": "ftlen_ca_bind",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_ca_bind",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature calcium binding within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "calcium_binding",
-    "childNumber": 2,
-    "id": "ftev_ca_bind",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_ca_bind",
-    "fieldType": "EVIDENCE",
-    "dataType": "STRING",
-    "description": "Search feature calcium binding with evidence type",
-    "example": "any"
-  },
-  {
-    "parentId": "function",
-    "childNumber": 9,
     "label": "DNA binding",
     "id": "dna_binding",
     "itemType": "SIBLING_GROUP"
@@ -1661,47 +1583,7 @@
   },
   {
     "parentId": "function",
-    "childNumber": 10,
-    "label": "Nucleotide binding",
-    "id": "nucleotide_binding",
-    "itemType": "SIBLING_GROUP"
-  },
-  {
-    "parentId": "nucleotide_binding",
-    "childNumber": 0,
-    "id": "ft_np_bind",
-    "fieldName": "ft_np_bind",
-    "itemType": "SINGLE",
-    "dataType": "STRING",
-    "fieldType": "GENERAL",
-    "description": "Search by feature Nucleotide binding",
-    "example": "NADP"
-  },
-  {
-    "parentId": "nucleotide_binding",
-    "childNumber": 1,
-    "dataType": "INTEGER",
-    "id": "ftlen_np_bind",
-    "fieldName": "ftlen_np_bind",
-    "itemType": "SINGLE",
-    "fieldType": "RANGE",
-    "description": "Search feature Nucleotide binding within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "nucleotide_binding",
-    "childNumber": 2,
-    "id": "ftev_np_bind",
-    "fieldName": "ftev_np_bind",
-    "itemType": "SINGLE",
-    "dataType": "STRING",
-    "fieldType": "EVIDENCE",
-    "description": "Search feature Nucleotide binding with evidence type",
-    "example": "any"
-  },
-  {
-    "parentId": "function",
-    "childNumber": 11,
+    "childNumber": 9,
     "label": "Pathway",
     "id": "pathway",
     "itemType": "SIBLING_GROUP"
@@ -1731,7 +1613,7 @@
   },
   {
     "parentId": "function",
-    "childNumber": 12,
+    "childNumber": 10,
     "label": "Miscellaneous [CC]",
     "id": "miscellaneous_cc",
     "itemType": "SIBLING_GROUP"
