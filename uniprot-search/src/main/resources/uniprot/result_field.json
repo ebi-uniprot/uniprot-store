@@ -154,10 +154,6 @@
 				"name": "ft_binding"
 			},
 			{
-				"label": "Calcium binding",
-				"name": "ft_ca_bind"
-			},
-			{
 				"label": "Catalytic activity",
 				"name": "cc_catalytic_activity"
 			},
@@ -184,14 +180,6 @@
 			{
 				"label": "Kinetics",
 				"name": "kinetics"
-			},
-			{
-				"label": "Metal binding",
-				"name": "ft_metal"
-			},
-			{
-				"label": "Nucleotide binding",
-				"name": "ft_np_bind"
 			},
 			{
 				"label": "Pathway",

@@ -191,11 +191,6 @@
         "mandatoryJsonField": false
       },
       {
-        "label": "Calcium binding",
-        "name": "ft_ca_bind",
-        "mandatoryJsonField": false
-      },
-      {
         "label": "Catalytic activity",
         "name": "cc_catalytic_activity",
         "mandatoryJsonField": false
@@ -228,16 +223,6 @@
       {
         "label": "Kinetics",
         "name": "kinetics",
-        "mandatoryJsonField": false
-      },
-      {
-        "label": "Metal binding",
-        "name": "ft_metal",
-        "mandatoryJsonField": false
-      },
-      {
-        "label": "Nucleotide binding",
-        "name": "ft_np_bind",
         "mandatoryJsonField": false
       },
       {

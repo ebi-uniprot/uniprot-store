@@ -470,18 +470,6 @@
     "childNumber": 3,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "name": "ft_ca_bind",
-    "label": "Calcium binding",
-    "id": "function/calcium_binding",
-    "paths": [
-      "features[?(@.type=='Calcium binding')]"
-    ]
-  },
-  {
-    "parentId": "function",
-    "childNumber": 4,
-    "itemType": "SINGLE",
-    "includeInSwagger": true,
     "name": "cc_catalytic_activity",
     "label": "Catalytic activity",
     "id": "function/catalytic_activity",
@@ -491,7 +479,7 @@
   },
   {
     "parentId": "function",
-    "childNumber": 5,
+    "childNumber": 4,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "name": "cc_cofactor",
@@ -503,7 +491,7 @@
   },
   {
     "parentId": "function",
-    "childNumber": 6,
+    "childNumber": 5,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "name": "ft_dna_bind",
@@ -515,7 +503,7 @@
   },
   {
     "parentId": "function",
-    "childNumber": 7,
+    "childNumber": 6,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "name": "ec",
@@ -527,7 +515,7 @@
   },
   {
     "parentId": "function",
-    "childNumber": 8,
+    "childNumber": 7,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "name": "cc_activity_regulation",
@@ -539,7 +527,7 @@
   },
   {
     "parentId": "function",
-    "childNumber": 9,
+    "childNumber": 8,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "name": "cc_function",
@@ -551,7 +539,7 @@
   },
   {
     "parentId": "function",
-    "childNumber": 10,
+    "childNumber": 9,
     "itemType": "SINGLE",
     "name": "kinetics",
     "label": "Kinetics",
@@ -562,31 +550,7 @@
   },
   {
     "parentId": "function",
-    "childNumber": 11,
-    "itemType": "SINGLE",
-    "includeInSwagger": true,
-    "name": "ft_metal",
-    "label": "Metal binding",
-    "id": "function/metal_binding",
-    "paths": [
-      "features[?(@.type=='Metal binding')]"
-    ]
-  },
-  {
-    "parentId": "function",
-    "childNumber": 12,
-    "itemType": "SINGLE",
-    "includeInSwagger": true,
-    "name": "ft_np_bind",
-    "label": "Nucleotide binding",
-    "id": "function/nucleotide_binding",
-    "paths": [
-      "features[?(@.type=='Nucleotide binding')]"
-    ]
-  },
-  {
-    "parentId": "function",
-    "childNumber": 13,
+    "childNumber": 10,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "name": "cc_pathway",
@@ -598,7 +562,7 @@
   },
   {
     "parentId": "function",
-    "childNumber": 14,
+    "childNumber": 11,
     "itemType": "SINGLE",
     "name": "ph_dependence",
     "label": "pH dependence",
@@ -609,7 +573,7 @@
   },
   {
     "parentId": "function",
-    "childNumber": 15,
+    "childNumber": 12,
     "itemType": "SINGLE",
     "name": "redox_potential",
     "label": "Redox potential",
@@ -620,7 +584,7 @@
   },
   {
     "parentId": "function",
-    "childNumber": 16,
+    "childNumber": 13,
     "itemType": "SINGLE",
     "name": "rhea",
     "label": "Rhea ID",
@@ -631,7 +595,7 @@
   },
   {
     "parentId": "function",
-    "childNumber": 17,
+    "childNumber": 14,
     "itemType": "SINGLE",
     "includeInSwagger": true,
     "name": "ft_site",
@@ -643,7 +607,7 @@
   },
   {
     "parentId": "function",
-    "childNumber": 18,
+    "childNumber": 15,
     "itemType": "SINGLE",
     "name": "temp_dependence",
     "label": "Temperature dependence",
