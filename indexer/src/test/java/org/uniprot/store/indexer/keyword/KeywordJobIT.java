@@ -75,8 +75,8 @@ class KeywordJobIT {
         assertThat(stepMap, is(notNullValue()));
         assertThat(stepMap.containsKey(Constants.KEYWORD_INDEX_STEP), is(true));
         StepExecution step = stepMap.get(Constants.KEYWORD_INDEX_STEP);
-        assertThat(step.getReadCount(), is(1199));
-        assertThat(step.getWriteCount(), is(1199));
+        assertThat(step.getReadCount(), is(1201));
+        assertThat(step.getWriteCount(), is(1201));
 
         // Validating if solr document was written correctly
         SolrQuery solrQuery = new SolrQuery("*:*").setRows(2000);
@@ -84,7 +84,7 @@ class KeywordJobIT {
         List<KeywordDocument> response =
                 solrClient.query(SolrCollection.keyword, solrQuery, KeywordDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.size(), is(1199));
+        assertThat(response.size(), is(1201));
 
         // validating if can search one single entry
         solrQuery = new SolrQuery("name:2Fe-2S");
