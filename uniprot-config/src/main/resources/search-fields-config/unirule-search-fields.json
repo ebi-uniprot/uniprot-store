@@ -109,6 +109,7 @@
   },
   {
     "parentId": "cofactors",
+    "label": "Cofactor",
     "childNumber": 0,
     "id": "cc_cofactor",
     "fieldName": "cc_cofactor",
@@ -123,6 +124,7 @@
   {
     "parentId": "cofactors",
     "childNumber": 1,
+    "label": "Cofactor note",
     "id": "cc_cofactor_note",
     "fieldName": "cc_cofactor_note",
     "itemType": "SINGLE",
@@ -134,6 +136,7 @@
   {
     "parentId": "function",
     "childNumber": 2,
+    "label": "Catalytic activity",
     "id": "cc_catalytic_activity_field",
     "itemType": "SINGLE",
     "fieldName": "cc_catalytic_activity",
@@ -148,6 +151,7 @@
   {
     "parentId": "function",
     "childNumber": 3,
+    "label": "Activity regulation",
     "id": "cc_activity_regulation",
     "itemType": "SINGLE",
     "fieldName": "cc_activity_regulation",
@@ -160,6 +164,7 @@
   {
     "parentId": "function",
     "childNumber": 4,
+    "label": "Pathway",
     "id": "cc_pathway",
     "itemType": "SINGLE",
     "fieldName": "cc_pathway",
@@ -185,6 +190,7 @@
   {
     "parentId": "cc_subcellular",
     "childNumber": 0,
+    "label": "Subcellular location term",
     "id": "cc_scl_term_field",
     "itemType": "SINGLE",
     "fieldName": "cc_subcellular_location",
@@ -198,6 +204,7 @@
   {
     "parentId": "cc_subcellular",
     "childNumber": 1,
+    "label": "Note",
     "id": "cc_scl_note",
     "itemType": "SINGLE",
     "fieldName": "cc_subcellular_location_note",
@@ -215,6 +222,7 @@
   {
     "parentId": "expression",
     "childNumber": 0,
+    "label": "Induction",
     "id": "cc_induction",
     "itemType": "SINGLE",
     "fieldName": "cc_induction",
@@ -234,6 +242,7 @@
     "parentId": "family_domains",
     "childNumber": 0,
     "id": "cc_domain",
+    "label": "Domain comments [CC]",
     "itemType": "SINGLE",
     "fieldName": "cc_domain",
     "fieldType": "GENERAL",
@@ -258,6 +267,7 @@
   {
     "parentId": "family_domains",
     "childNumber": 2,
+    "label": "Comment similarity",
     "id": "cc_similarity",
     "itemType": "SINGLE",
     "fieldName": "cc_similarity",
