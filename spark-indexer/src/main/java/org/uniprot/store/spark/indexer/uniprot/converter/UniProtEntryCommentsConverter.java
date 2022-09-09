@@ -509,6 +509,10 @@ class UniProtEntryCommentsConverter implements Serializable {
                             .collect(Collectors.toList());
             convertReactionInformation(doc, physiologicalReactionCrossReferences, field);
         }
+
+        if (reaction.hasEcNumber()) {
+            doc.ecNumbers.add(reaction.getEcNumber().getValue());
+        }
     }
 
     private void convertReactionInformation(
