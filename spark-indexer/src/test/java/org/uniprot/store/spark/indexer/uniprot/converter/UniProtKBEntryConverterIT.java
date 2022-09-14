@@ -199,8 +199,10 @@ class UniProtKBEntryConverterIT {
         assertTrue(doc.proteinNames.contains("Nasal embryonic LHRH factor"));
         assertEquals("NMDA receptor synaptonuclear s", doc.proteinsNamesSort);
 
-        assertEquals(1, doc.ecNumbers.size());
-        assertEquals(1, doc.ecNumbersExact.size());
+        assertEquals(2, doc.ecNumbers.size());
+        assertEquals(2, doc.ecNumbersExact.size());
+        assertTrue(doc.ecNumbers.containsAll(List.of("2.7.10.2", "1.13.12.7")));
+        assertTrue(doc.ecNumbersExact.containsAll(List.of("2.7.10.2", "1.13.12.7")));
 
         assertEquals("29-OCT-2014", dateFormat.format(doc.lastModified).toUpperCase());
         assertEquals("19-JUL-2005", dateFormat.format(doc.firstCreated).toUpperCase());
