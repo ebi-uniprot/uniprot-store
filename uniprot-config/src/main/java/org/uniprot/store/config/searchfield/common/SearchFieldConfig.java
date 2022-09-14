@@ -1,6 +1,7 @@
 package org.uniprot.store.config.searchfield.common;
 
 import java.util.List;
+import java.util.Set;
 
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldType;
@@ -13,6 +14,8 @@ public interface SearchFieldConfig {
 
     // Search fields related methods
     List<SearchFieldItem> getSearchFieldItems();
+
+    Set<String> getSearchFieldNames();
 
     SearchFieldItem getSearchFieldItemByName(String fieldName);
 
