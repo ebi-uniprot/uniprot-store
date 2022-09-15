@@ -3,6 +3,7 @@ package org.uniprot.store.config.searchfield.common;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +48,13 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
                             .collect(Collectors.toList());
         }
         return this.searchFieldItems;
+    }
+
+    @Override
+    public Set<String> getSearchFieldNames() {
+        return getSearchFieldItems().stream()
+                .map(SearchFieldItem::getFieldName)
+                .collect(Collectors.toSet());
     }
 
     public SearchFieldItem getSearchFieldItemByName(String fieldName) {

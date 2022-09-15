@@ -1,6 +1,7 @@
 package org.uniprot.store.config.searchfield.common;
 
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,6 +24,14 @@ public class AbstractSearchFieldConfigTest {
         Assertions.assertNotNull(fieldItems);
         Assertions.assertFalse(fieldItems.isEmpty());
         Assertions.assertEquals(420, fieldItems.size());
+    }
+
+    @Test
+    void testSearchFieldNames() {
+        Set<String> fieldNames = testFieldConfig.getSearchFieldNames();
+        Assertions.assertNotNull(fieldNames);
+        Assertions.assertFalse(fieldNames.isEmpty());
+        Assertions.assertEquals(305, fieldNames.size());
     }
 
     @Test
