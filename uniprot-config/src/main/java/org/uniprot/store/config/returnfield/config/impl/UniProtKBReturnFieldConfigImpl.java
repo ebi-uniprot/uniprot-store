@@ -30,6 +30,8 @@ public class UniProtKBReturnFieldConfigImpl extends AbstractReturnFieldConfig {
     private static final long serialVersionUID = 1163013837966442698L;
     private UniProtDatabaseTypes databaseTypes;
     private Map<String, UniProtDatabaseCategory> databaseCategoryMap;
+    public static final Map<String, String> DBNAMEPATH =
+            Map.of("dbsnp", "features[?(@.type=='Natural variant')]");
 
     public UniProtKBReturnFieldConfigImpl(String configFile) {
         super(configFile);
@@ -57,7 +59,12 @@ public class UniProtKBReturnFieldConfigImpl extends AbstractReturnFieldConfig {
         String databaseNameLowercase = dbName.toLowerCase();
         returnField.setName("xref_" + databaseNameLowercase);
         returnField.setLabel(dbName);
-        returnField.addPath("uniProtKBCrossReferences[?(@.database=='" + dbName + "')]");
+
+        if (isDBNotInUniProtKBCrossReferences(databaseNameLowercase)) {
+            returnField.addPath(getPathByDBName(databaseNameLowercase));
+        } else {
+            returnField.addPath("uniProtKBCrossReferences[?(@.database=='" + dbName + "')]");
+        }
         returnField.setId(parent.getId() + "/" + databaseNameLowercase);
         returnField.setIncludeInSwagger(true);
         return returnField;
@@ -92,5 +99,13 @@ public class UniProtKBReturnFieldConfigImpl extends AbstractReturnFieldConfig {
                 .filter(database -> !database.isImplicit())
                 .map(database -> databaseToReturnField(database, databaseGroup, childCounter))
                 .collect(Collectors.toList());
+    }
+
+    private boolean isDBNotInUniProtKBCrossReferences(String databaseNameLowercase) {
+        return DBNAMEPATH.containsKey(databaseNameLowercase);
+    }
+
+    private String getPathByDBName(String databaseNameLowercase) {
+        return DBNAMEPATH.get(databaseNameLowercase);
     }
 }
