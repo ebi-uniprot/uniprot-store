@@ -3,13 +3,16 @@ package org.uniprot.store.config.returnfield.config.impl;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.config.returnfield.config.impl.UniProtKBReturnFieldConfigImpl.DBNAMEPATH;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -77,6 +80,33 @@ class UniProtKBReturnFieldConfigImplIT {
             assertNotNull(mappedField.get(returnFieldName));
             assertFalse(mappedField.get(returnFieldName).isEmpty());
         }
+    }
+
+    @Test
+    void testDBSNPPath() {
+        Optional<ReturnField> dbSNP =
+                returnFieldConfig.getReturnFields().stream()
+                        .filter(rf -> "xref_dbsnp".equals(rf.getName()))
+                        .findAny();
+        assertTrue(dbSNP.isPresent());
+        assertEquals(1, dbSNP.get().getPaths().size());
+        assertEquals(DBNAMEPATH.get("dbsnp"), dbSNP.get().getPaths().get(0));
+    }
+
+    @Test
+    void testXRefPathMinusDBSNP() {
+        returnFieldConfig.getReturnFields().stream()
+                .filter(rf -> rf.getName().startsWith("xref"))
+                .filter(rf -> !"xref_proteomes".equals(rf.getName()))
+                .filter(rf -> !"xref_dbsnp".equals(rf.getName()))
+                .forEach(
+                        rf ->
+                                assertEquals(
+                                        "uniProtKBCrossReferences[?(@.database=='"
+                                                + rf.getLabel()
+                                                + "')]",
+                                        rf.getPaths().get(0),
+                                        "Path doesn't match for xref " + rf.getLabel()));
     }
 
     private static Stream<Arguments> provideSearchSortFields() {
