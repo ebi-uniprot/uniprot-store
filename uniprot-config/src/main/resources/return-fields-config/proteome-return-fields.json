@@ -28,7 +28,7 @@
     "sortField" : "organism_name",
     "label": "Organism",
     "name": "organism",
-    "paths" : ["taxonomy"],
+    "paths" : ["taxonomy", "strain"],
     "id": "names_&_taxonomy/organism"
   },
   {
