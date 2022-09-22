@@ -196,6 +196,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .map(
                                 doc -> {
                                     doc.dictionary = CHEBI.name();
+                                    doc.suggestId = CHEBI.name() + "_" + doc.id;
                                     return doc;
                                 })
                         .distinct();
