@@ -708,6 +708,23 @@ public class FullCISplitNumericAnalysisSearchIT {
                 .canBeFound(field);
     }
 
+    @ParameterizedTest
+    @EnumSource(FullCISplitNumericAnalysisSearchIT.FieldType.class)
+    void canFindQueryEndingWithNumber(FullCISplitNumericAnalysisSearchIT.FieldType field) {
+        String accession = newAccession();
+
+        String indexFieldValue =
+                "Human immunodeficiency virus type 1 group M subtype B (isolate BH10) (HIV-1)";
+        String queryFieldValue = "Human immunodeficiency virus 1";
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
+
+        new FullCISplitNumericAnalysisSearchIT.EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(indexFieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
     private static void ensureInitialEntriesWereSaved() {
         String query = QueryBuilder.query("accession_id", "*");
 
