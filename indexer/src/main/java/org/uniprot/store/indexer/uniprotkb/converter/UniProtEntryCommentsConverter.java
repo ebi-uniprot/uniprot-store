@@ -550,7 +550,7 @@ class UniProtEntryCommentsConverter {
                     reactionReferences.stream()
                             .filter(rr -> ReactionDatabase.RHEA.equals(rr.getDatabase()))
                             .map(CrossReference::getId)
-                            .filter(id -> !id.startsWith("RHEA-COMP"))
+                            .filter(id -> !id.toUpperCase().startsWith("RHEA-COMP"))
                             .collect(Collectors.toList());
             if (Utils.notNullNotEmpty(rheaIds)) {
                 doc.rheaIds.addAll(rheaIds);
