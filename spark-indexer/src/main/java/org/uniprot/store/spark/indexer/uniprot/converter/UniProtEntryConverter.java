@@ -145,17 +145,20 @@ public class UniProtEntryConverter
                         .map(Evidence::getEvidenceCrossReference)
                         .filter(Objects::nonNull)
                         .flatMap(this::getSourceValues)
+                        .filter(Objects::nonNull)
                         .map(String::toLowerCase)
                         .collect(Collectors.toSet());
     }
 
     private Stream<String> getSourceValues(CrossReference<EvidenceDatabase> xref) {
         List<String> sources = new ArrayList<>();
-        String dbName = xref.getDatabase().getName();
-        if (dbName.equalsIgnoreCase("HAMAP-rule")) {
-            dbName = "HAMAP";
+        if(xref.hasDatabase()) {
+            String dbName = xref.getDatabase().getName();
+            if (dbName.equalsIgnoreCase("HAMAP-rule")) {
+                dbName = "HAMAP";
+            }
+            sources.add(dbName);
         }
-        sources.add(dbName);
         if (xref.hasId()) {
             sources.add(xref.getId());
         }

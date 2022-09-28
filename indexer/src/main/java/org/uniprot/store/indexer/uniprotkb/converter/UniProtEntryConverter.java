@@ -160,6 +160,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
                         .map(Evidence::getEvidenceCrossReference)
                         .filter(Objects::nonNull)
                         .flatMap(this::getSourceValues)
+                        .filter(Objects::nonNull)
                         .map(String::toLowerCase)
                         .collect(Collectors.toSet());
     }
@@ -199,11 +200,13 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
         if (xref.hasId()) {
             sources.add(xref.getId());
         }
-        String databaseName = xref.getDatabase().getName();
-        if (databaseName.equalsIgnoreCase("HAMAP-rule")) {
-            databaseName = "HAMAP";
+        if(xref.hasDatabase()) {
+            if (xref.getDatabase().getName().equalsIgnoreCase("HAMAP-rule")) {
+                sources.add("HAMAP");
+            } else {
+                sources.add(xref.getDatabase().getName());
+            }
         }
-        sources.add(databaseName);
         return sources.stream();
     }
 
