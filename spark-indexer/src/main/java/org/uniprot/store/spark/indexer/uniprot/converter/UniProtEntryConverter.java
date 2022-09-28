@@ -18,7 +18,6 @@ import org.uniprot.core.uniprotkb.*;
 import org.uniprot.core.uniprotkb.comment.CommentType;
 import org.uniprot.core.uniprotkb.evidence.Evidence;
 import org.uniprot.core.uniprotkb.evidence.EvidenceDatabase;
-import org.uniprot.core.uniprotkb.evidence.EvidenceDatabaseCategory;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.indexer.util.DateUtils;
 import org.uniprot.store.search.document.DocumentConversionException;
@@ -145,16 +144,9 @@ public class UniProtEntryConverter
                 evidences.stream()
                         .map(Evidence::getEvidenceCrossReference)
                         .filter(Objects::nonNull)
-                        .filter(
-                                xref ->
-                                        xref.hasDatabase()
-                                                && xref.getDatabase()
-                                                                .getEvidenceDatabaseDetail()
-                                                                .getCategory()
-                                                        == EvidenceDatabaseCategory.A)
                         .flatMap(this::getSourceValues)
                         .map(String::toLowerCase)
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toSet());
     }
 
     private Stream<String> getSourceValues(CrossReference<EvidenceDatabase> xref) {
