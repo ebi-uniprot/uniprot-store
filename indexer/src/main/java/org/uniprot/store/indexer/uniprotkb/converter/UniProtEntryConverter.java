@@ -17,7 +17,6 @@ import org.uniprot.core.uniprotkb.*;
 import org.uniprot.core.uniprotkb.comment.CommentType;
 import org.uniprot.core.uniprotkb.evidence.Evidence;
 import org.uniprot.core.uniprotkb.evidence.EvidenceDatabase;
-import org.uniprot.core.uniprotkb.evidence.EvidenceDatabaseCategory;
 import org.uniprot.core.util.Utils;
 import org.uniprot.cv.chebi.ChebiRepo;
 import org.uniprot.cv.ec.ECRepo;
@@ -160,16 +159,10 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
                 evidences.stream()
                         .map(Evidence::getEvidenceCrossReference)
                         .filter(Objects::nonNull)
-                        .filter(
-                                xref ->
-                                        xref.hasDatabase()
-                                                && xref.getDatabase()
-                                                                .getEvidenceDatabaseDetail()
-                                                                .getCategory()
-                                                        == EvidenceDatabaseCategory.A)
                         .flatMap(this::getSourceValues)
+                        .filter(Objects::nonNull)
                         .map(String::toLowerCase)
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toSet());
     }
 
     private void convertEntryScore(UniProtKBEntry source, UniProtDocument document) {
@@ -207,11 +200,13 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
         if (xref.hasId()) {
             sources.add(xref.getId());
         }
-        String databaseName = xref.getDatabase().getName();
-        if (databaseName.equalsIgnoreCase("HAMAP-rule")) {
-            databaseName = "HAMAP";
+        if(xref.hasDatabase()) {
+            if (xref.getDatabase().getName().equalsIgnoreCase("HAMAP-rule")) {
+                sources.add("HAMAP");
+            } else {
+                sources.add(xref.getDatabase().getName());
+            }
         }
-        sources.add(databaseName);
         return sources.stream();
     }
 

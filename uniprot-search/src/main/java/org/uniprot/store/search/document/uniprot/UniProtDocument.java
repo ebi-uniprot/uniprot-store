@@ -343,7 +343,7 @@ public class UniProtDocument implements Document {
     public Set<String> inchikey = new HashSet<>();
 
     @Field("source")
-    public List<String> sources = new ArrayList<>();
+    public Set<String> sources = new HashSet<>();
 
     @Field("uniref_cluster_50")
     public String unirefCluster50;

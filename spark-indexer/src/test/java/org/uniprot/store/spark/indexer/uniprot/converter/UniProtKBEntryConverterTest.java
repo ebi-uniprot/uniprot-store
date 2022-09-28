@@ -335,12 +335,20 @@ class UniProtKBEntryConverterTest {
                         .databaseId("hamapId")
                         .build();
 
+        Evidence evidence2 =
+                new EvidenceBuilder()
+                        .evidenceCode(EvidenceCode.ECO_0000245)
+                        .databaseName("PDB")
+                        .databaseId("PDBId")
+                        .build();
+
         Gene gene =
                 new GeneBuilder()
                         .geneName(
                                 new GeneNameBuilder()
                                         .value("some Gene name")
                                         .evidencesAdd(evidence)
+                                        .evidencesAdd(evidence2)
                                         .build())
                         .build();
         UniProtKBEntry entry = getBasicEntryBuilder().genesAdd(gene).build();
@@ -351,8 +359,11 @@ class UniProtKBEntryConverterTest {
 
         // then
         assertEquals("P12345", document.accession);
+        assertEquals(4, document.sources.size());
         assertTrue(document.sources.contains("hamap"));
         assertTrue(document.sources.contains("hamapid"));
+        assertTrue(document.sources.contains("pdbid"));
+        assertTrue(document.sources.contains("pdb"));
     }
 
     private UniProtKBEntryBuilder getBasicEntryBuilder() {
