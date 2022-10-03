@@ -39,6 +39,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class UniProtEntryReferencesConverter implements Serializable {
 
     private static final long serialVersionUID = -6569918266610976310L;
+    private static final long HUMAN_ORGANISM_ID = 9606;
     private ObjectMapper objectMapper;
 
     public UniProtEntryReferencesConverter() {
@@ -48,19 +49,24 @@ public class UniProtEntryReferencesConverter implements Serializable {
     public List<PublicationDocument> convertToPublicationDocuments(UniProtKBEntry uniProtKBEntry) {
         String accession = uniProtKBEntry.getPrimaryAccession().getValue();
         List<UniProtKBReference> references = uniProtKBEntry.getReferences();
+        long organismId = uniProtKBEntry.getOrganism().getTaxonId();
         List<PublicationDocument> pubDocs = new ArrayList<>();
         for (int i = 0; i < references.size(); i++) {
             UniProtKBReference reference = references.get(i);
             PublicationDocument.Builder builder =
                     referenceToPublicationDocumentBuilder(
-                            accession, uniProtKBEntry.getEntryType(), reference, i);
+                            accession, uniProtKBEntry.getEntryType(), reference, organismId, i);
             pubDocs.add(builder.build());
         }
         return pubDocs;
     }
 
     public PublicationDocument.Builder referenceToPublicationDocumentBuilder(
-            String accession, UniProtKBEntryType entryType, UniProtKBReference reference, int i) {
+            String accession,
+            UniProtKBEntryType entryType,
+            UniProtKBReference reference,
+            long organismId,
+            int i) {
         Citation citation = reference.getCitation();
         if (isEntryTypeSupported(entryType)) {
             String citationId = citation.getId();
@@ -74,7 +80,12 @@ public class UniProtEntryReferencesConverter implements Serializable {
             // create MappedPublications to store binary
             UniProtKBMappedReference mappedReference =
                     createUniProtKBMappedReference(
-                            accession, entryType, reference, citationId, referenceNumber);
+                            accession,
+                            entryType,
+                            reference,
+                            citationId,
+                            organismId,
+                            referenceNumber);
             MappedPublications mappedPubs = createMappedPublications(mappedReference);
 
             String id = PublicationUtils.getDocumentId();
@@ -112,6 +123,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
             UniProtKBEntryType entryType,
             UniProtKBReference reference,
             String citationId,
+            long organismId,
             int referenceNumber) {
         String source = entryType.getDisplayName();
         UniProtKBMappedReferenceBuilder builder = new UniProtKBMappedReferenceBuilder();
@@ -121,7 +133,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
         builder.referenceNumber(referenceNumber);
         builder.referenceCommentsSet(reference.getReferenceComments());
         builder.referencePositionsSet(reference.getReferencePositions());
-        builder.sourceCategoriesSet(getCategoriesFromUniprotReference(reference));
+        builder.sourceCategoriesSet(getCategoriesFromUniprotReference(reference, organismId));
 
         return builder.build();
     }
@@ -220,20 +232,29 @@ public class UniProtEntryReferencesConverter implements Serializable {
         }
     }
 
-    private Set<String> getCategoriesFromUniprotReference(UniProtKBReference uniProtkbReference) {
+    private Set<String> getCategoriesFromUniprotReference(
+            UniProtKBReference uniProtkbReference, long organismId) {
         Set<String> result = new HashSet<>();
         if (uniProtkbReference.hasReferencePositions()) {
             for (String position : uniProtkbReference.getReferencePositions()) {
                 for (PublicationCategory category : PublicationCategory.values()) {
                     for (String categoryText : category.getFunctionTexts()) {
                         if (position.toUpperCase().contains(categoryText)) {
-                            result.add(category.getLabel());
+                            result.add(getCategoryLabel(category, organismId));
                         }
                     }
                 }
             }
         }
         return result;
+    }
+
+    private String getCategoryLabel(PublicationCategory category, long organismId) {
+        if (HUMAN_ORGANISM_ID == organismId && category == PublicationCategory.pathol) {
+            return category.getAlternativeLabel();
+        } else {
+            return category.getLabel();
+        }
     }
 
     private MappedPublications createMappedPublications(UniProtKBMappedReference mappedReference) {

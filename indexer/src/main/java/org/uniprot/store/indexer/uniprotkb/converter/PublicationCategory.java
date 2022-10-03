@@ -195,20 +195,22 @@ public enum PublicationCategory {
             "MODELING"),
 
     pathol(
-            "Pathology & Biotech",
-            "MUTAGENESIS",
-            "DISRUPTION PHENOTYPE",
-            "INVOLVEMENT",
-            "CHROMOSOMAL TRANSLOCATION",
-            "LETHAL DOSE",
-            "BIOTECHNOLOGY",
-            "DISEASE",
-            "ALLERGEN",
-            "MUTANT",
-            "MUTANTS",
-            "TOXIC DOSE",
-            "TOXIN TARGET",
-            "PARALYTIC DOSE"),
+            "Phenotypes & Variants",
+            "Disease & Variants",
+            List.of(
+                    "MUTAGENESIS",
+                    "DISRUPTION PHENOTYPE",
+                    "INVOLVEMENT",
+                    "CHROMOSOMAL TRANSLOCATION",
+                    "LETHAL DOSE",
+                    "BIOTECHNOLOGY",
+                    "DISEASE",
+                    "ALLERGEN",
+                    "MUTANT",
+                    "MUTANTS",
+                    "TOXIC DOSE",
+                    "TOXIN TARGET",
+                    "PARALYTIC DOSE")),
 
     names("Names", "GENE FAMILY", "NOMENCLATURE", "GENE NAME", "GENE FAMILY AND NOMENCLATURE"),
 
@@ -227,10 +229,17 @@ public enum PublicationCategory {
 
     private List<String> functionTexts;
     private String label;
+    private String alternativeLabel;
 
     private PublicationCategory(String label, String... functionTexts) {
         this.label = label;
         this.functionTexts = Arrays.stream(functionTexts).collect(Collectors.toList());
+    }
+
+    private PublicationCategory(String label, String alternativeLabel, List<String> functionTexts) {
+        this.label = label;
+        this.alternativeLabel = alternativeLabel;
+        this.functionTexts = functionTexts;
     }
 
     public List<String> getFunctionTexts() {
@@ -239,5 +248,9 @@ public enum PublicationCategory {
 
     public String getLabel() {
         return label;
+    }
+
+    public String getAlternativeLabel() {
+        return alternativeLabel;
     }
 }

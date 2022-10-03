@@ -9,6 +9,7 @@ import org.apache.spark.api.java.function.PairFlatMapFunction;
 import org.uniprot.core.flatfile.parser.UniprotKBLineParser;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniprotKBLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.ac.AcLineObject;
+import org.uniprot.core.flatfile.parser.impl.ox.OxLineObject;
 import org.uniprot.core.publication.MappedReference;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.uniprotkb.UniProtKBReference;
@@ -42,6 +43,7 @@ public class UniProtKBPublicationToMappedReference
 
         String accession = getAccession(lines);
         UniProtKBEntryType entryType = getEntryType(lines);
+        long organismId = getOrganismId(lines);
         List<UniProtKBReference> references = uniProtKBReferencesConverter.convert(lines);
 
         AtomicInteger refNumberCounter = new AtomicInteger();
@@ -52,6 +54,7 @@ public class UniProtKBPublicationToMappedReference
                                         accession,
                                         entryType,
                                         ref,
+                                        organismId,
                                         refNumberCounter.getAndIncrement()))
                 .map(
                         referenceInfo ->
@@ -81,6 +84,23 @@ public class UniProtKBPublicationToMappedReference
         return acParser.parse(sb.toString() + "\n").primaryAcc;
     }
 
+    long getOrganismId(String[] lines) {
+        final UniprotKBLineParser<OxLineObject> oxParser =
+                new DefaultUniprotKBLineParserFactory().createOxLineParser();
+        long organismId = 0L;
+
+        for (String line : lines) {
+            boolean lineStartsWithOx = line.startsWith("OX  ");
+            if (lineStartsWithOx) {
+                organismId = oxParser.parse(line + "\n").taxonomy_id;
+            }
+            if (organismId > 0) {
+                break;
+            }
+        }
+        return organismId;
+    }
+
     static class MappedReferenceInfo {
         MappedReference mappedReference;
         String citationId;
@@ -90,6 +110,7 @@ public class UniProtKBPublicationToMappedReference
             String accession,
             UniProtKBEntryType entryType,
             UniProtKBReference reference,
+            long organismId,
             int referenceNumber) {
 
         String citationId = reference.getCitation().getId();
@@ -97,7 +118,7 @@ public class UniProtKBPublicationToMappedReference
         MappedReferenceInfo mappedReferenceInfo = new MappedReferenceInfo();
         mappedReferenceInfo.mappedReference =
                 referencesConverter.createUniProtKBMappedReference(
-                        accession, entryType, reference, citationId, referenceNumber);
+                        accession, entryType, reference, citationId, organismId, referenceNumber);
         mappedReferenceInfo.citationId = citationId;
         return mappedReferenceInfo;
     }
