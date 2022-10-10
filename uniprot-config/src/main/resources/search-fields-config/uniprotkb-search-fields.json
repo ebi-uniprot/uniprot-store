@@ -2417,6 +2417,7 @@
     "itemType": "SINGLE",
     "fieldName": "fragment",
     "fieldType": "GENERAL",
+    "validRegex": "^true|false$",
     "dataType": "BOOLEAN",
     "values": [
       {
@@ -2491,6 +2492,7 @@
     "itemType": "SINGLE",
     "fieldName": "precursor",
     "fieldType": "GENERAL",
+    "validRegex": "^true|false$",
     "dataType": "BOOLEAN",
     "values": [
       {

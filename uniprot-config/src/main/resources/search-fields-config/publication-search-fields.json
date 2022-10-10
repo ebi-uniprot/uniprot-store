@@ -27,6 +27,7 @@
     "fieldName": "is_large_scale",
     "fieldType": "GENERAL",
     "dataType": "BOOLEAN",
+    "validRegex": "^true|false$",
     "description": "Search by is_large_scale"
   },
   {
