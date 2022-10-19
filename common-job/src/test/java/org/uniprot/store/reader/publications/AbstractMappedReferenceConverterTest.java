@@ -31,9 +31,9 @@ class AbstractMappedReferenceConverterTest {
         FakeMappedReference mappedReference =
                 mapper.convert(
                         ACC_PUBMED_ORCHID_LINE_PREFIX
-                                + "\t[Function][Pathology & Biotech]Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas.");
+                                + "\t[Function][Disease & Variants]Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas.");
         validateAccessionPubmedOrchidInfo(mappedReference);
-        assertThat(mappedReference.sourceCategories, hasItems("Function", "Pathology & Biotech"));
+        assertThat(mappedReference.sourceCategories, hasItems("Function", "Disease & Variants"));
     }
 
     private void validateAccessionPubmedOrchidInfo(FakeMappedReference mappedReference) {
@@ -51,7 +51,7 @@ class AbstractMappedReferenceConverterTest {
                 RawMappedReferenceException.class,
                 () ->
                         mapper.convert(
-                                "ORCID195971560000-0002-4251-0362\t[Function][Pathology & Biotech]Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas."));
+                                "ORCID195971560000-0002-4251-0362\t[Function][Disease & Variants]Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas."));
     }
 
     @Test
@@ -61,7 +61,7 @@ class AbstractMappedReferenceConverterTest {
                 RawMappedReferenceException.class,
                 () ->
                         mapper.convert(
-                                "\tORCID\t19597156\t0000-0002-4251-0362\t[Function][Pathology & Biotech]Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas."));
+                                "\tORCID\t19597156\t0000-0002-4251-0362\t[Function][Disease & Variants]Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas."));
     }
 
     @Test
@@ -71,7 +71,7 @@ class AbstractMappedReferenceConverterTest {
                 RawMappedReferenceException.class,
                 () ->
                         mapper.convert(
-                                "Q1MDE9\tORCID\t\t0000-0002-4251-0362\t[Function][Pathology & Biotech]Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas."));
+                                "Q1MDE9\tORCID\t\t0000-0002-4251-0362\t[Function][Disease & Variants]Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas."));
     }
 
     @Test
@@ -168,7 +168,7 @@ class AbstractMappedReferenceConverterTest {
                 "Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas.";
         String line =
                 ACC_PUBMED_ORCHID_LINE_PREFIX
-                        + "\t[Function][Pathology & Biotech][Something else][Names]"
+                        + "\t[Function][Disease & Variants][Something else][Names]"
                         + annotationPart;
 
         // when
@@ -178,7 +178,7 @@ class AbstractMappedReferenceConverterTest {
         validateAccessionPubmedOrchidInfo(mappedReference);
         assertThat(
                 mappedReference.getSourceCategories(),
-                containsInAnyOrder("Function", "Pathology & Biotech", "Names"));
+                containsInAnyOrder("Function", "Disease & Variants", "Names"));
         assertThat(mappedReference.getAnnotation(), is(annotationPart));
     }
 

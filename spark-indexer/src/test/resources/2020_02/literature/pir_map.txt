@@ -17,17 +17,17 @@ Q3V1I4	MGI	11203701	88177	[Expression][Sequences]
 Q6NV51	MGI	11203701	1343498	[Expression][Sequences]
 Q8BGZ9	MGI	11203701	96770	[Expression][Sequences]
 P21802	MGI	11203701	96770	[Expression][Sequences]
-B5U9V4	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
-F1DBF3	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
-P08397	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
-Q0G847	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
-Q16812	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
-Q68Y91	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
-Q6LER4	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
-V9GZN3	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
-P21802	GAD	1358782	126289	[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.
-B5U9V4	ORCID	1358782	0000-0003-2163-948X	[Function][Subcellular location][Pathology & Biotech][Interaction][Sequence]
-P21802	ORCID	1358782	0000-0003-2163-948X	[Function][Subcellular location][Pathology & Biotech][Interaction][Sequence]
+B5U9V4	GAD	1358782	126289	[Disease & Variants]Not Associated with PSYCH: schizophrenia.
+F1DBF3	GAD	1358782	126289	[Disease & Variants]Not Associated with PSYCH: schizophrenia.
+P08397	GAD	1358782	126289	[Disease & Variants]Not Associated with PSYCH: schizophrenia.
+Q0G847	GAD	1358782	126289	[Disease & Variants]Not Associated with PSYCH: schizophrenia.
+Q16812	GAD	1358782	126289	[Disease & Variants]Not Associated with PSYCH: schizophrenia.
+Q68Y91	GAD	1358782	126289	[Disease & Variants]Not Associated with PSYCH: schizophrenia.
+Q6LER4	GAD	1358782	126289	[Disease & Variants]Not Associated with PSYCH: schizophrenia.
+V9GZN3	GAD	1358782	126289	[Disease & Variants]Not Associated with PSYCH: schizophrenia.
+P21802	GAD	1358782	126289	[Disease & Variants]Not Associated with PSYCH: schizophrenia.
+B5U9V4	ORCID	1358782	0000-0003-2163-948X	[Function][Subcellular location][Disease & Variants][Interaction][Sequence]
+P21802	ORCID	1358782	0000-0003-2163-948X	[Function][Subcellular location][Disease & Variants][Interaction][Sequence]
 D3DQX7	GeneRif	22771314	6288	SAA levels measured by ELISA in 97 NSCLC patients treated with gefitinib correlated with the clinical outcome of the patients
 P0DJI8	GeneRif	22771314	6288	SAA levels measured by ELISA in 97 NSCLC patients treated with gefitinib correlated with the clinical outcome of the patients
 Q15423	GeneRif	22771314	6288	SAA levels measured by ELISA in 97 NSCLC patients treated with gefitinib correlated with the clinical outcome of the patients

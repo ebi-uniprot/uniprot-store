@@ -200,7 +200,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
         if (xref.hasId()) {
             sources.add(xref.getId());
         }
-        if(xref.hasDatabase()) {
+        if (xref.hasDatabase()) {
             if (xref.getDatabase().getName().equalsIgnoreCase("HAMAP-rule")) {
                 sources.add("HAMAP");
             } else {

@@ -122,7 +122,7 @@ class ComputationalPublicationJobIT {
                         "Increases in islet MTNR1B expression is associated with type 2 diabetes susceptibility."));
         assertThat(
                 reference.getSourceCategories(),
-                containsInAnyOrder("Sequences", "Pathology & Biotech"));
+                containsInAnyOrder("Sequences", "Disease & Variants"));
 
         verifyDuplicateAccessionAndCitationId();
     }
@@ -140,7 +140,7 @@ class ComputationalPublicationJobIT {
         assertThat(document.getCategories(), hasSize(3));
         assertThat(
                 document.getCategories(),
-                containsInAnyOrder("Sequences", "Pathology & Biotech", "Expression"));
+                containsInAnyOrder("Sequences", "Disease & Variants", "Expression"));
 
         MappedPublications publications = extractObject(document);
         List<ComputationallyMappedReference> references =

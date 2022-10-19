@@ -152,7 +152,7 @@ public class UniProtEntryConverter
 
     private Stream<String> getSourceValues(CrossReference<EvidenceDatabase> xref) {
         List<String> sources = new ArrayList<>();
-        if(xref.hasDatabase()) {
+        if (xref.hasDatabase()) {
             String dbName = xref.getDatabase().getName();
             if (dbName.equalsIgnoreCase("HAMAP-rule")) {
                 dbName = "HAMAP";
