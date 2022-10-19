@@ -355,7 +355,7 @@ class PublicationDocumentsToHDFSWriterTest {
         assertThat(comp00Doc.getCitationId(), is("10000000"));
         assertThat(
                 comp00Doc.getCategories(),
-                containsInAnyOrder("Pathology & Biotech", "Sequences", "Interaction"));
+                containsInAnyOrder("Disease & Variants", "Sequences", "Interaction"));
         assertThat(comp00Doc.getMainType(), is(COMPUTATIONAL.getIntValue()));
         assertThat(comp00Doc.getTypes(), contains(COMPUTATIONAL.getIntValue()));
 
@@ -369,7 +369,7 @@ class PublicationDocumentsToHDFSWriterTest {
                         mappedPubsForComp00Doc.getComputationallyMappedReferences(),
                         ComputationallyMappedReference::getAnnotation,
                         "A pathology & biotech.");
-        assertThat(ref0.getSourceCategories(), containsInAnyOrder("Pathology & Biotech"));
+        assertThat(ref0.getSourceCategories(), containsInAnyOrder("Disease & Variants"));
         assertThat(ref0.getSource().getName(), is("GAD"));
         assertThat(ref0.getSource().getId(), is("100000"));
 
