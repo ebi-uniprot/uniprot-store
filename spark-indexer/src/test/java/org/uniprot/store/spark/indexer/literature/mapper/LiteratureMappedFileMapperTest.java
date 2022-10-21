@@ -16,7 +16,7 @@ class LiteratureMappedFileMapperTest {
     @Test
     void mapLineWithAnnotationAndCategory() throws Exception {
         String entryText =
-                "X5FSX0\tGAD\t1358782\t126289\t[Pathology & Biotech]Not Associated with PSYCH: schizophrenia.";
+                "X5FSX0\tGAD\t1358782\t126289\t[Disease & Variants]Not Associated with PSYCH: schizophrenia.";
         LiteratureMappedFileMapper mapper = new LiteratureMappedFileMapper();
         Tuple2<String, LiteratureMappedReference> tuple = mapper.call(entryText);
 
@@ -40,7 +40,7 @@ class LiteratureMappedFileMapperTest {
 
         assertTrue(reference.hasSourceCategory());
         assertEquals(1, reference.getSourceCategories().size());
-        assertEquals("Pathology & Biotech", reference.getSourceCategories().get(0));
+        assertEquals("Disease & Variants", reference.getSourceCategories().get(0));
     }
 
     @Test

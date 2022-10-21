@@ -25,7 +25,8 @@ abstract class AbstractMappedReferenceConverter<T extends MappedReference>
         CATEGORIES.add("Function");
         CATEGORIES.add("Interaction");
         CATEGORIES.add("Names");
-        CATEGORIES.add("Pathology & Biotech");
+        CATEGORIES.add("Disease & Variants");
+        CATEGORIES.add("Phenotypes & Variants");
         CATEGORIES.add("PTM / Processing");
         CATEGORIES.add("Sequences");
         CATEGORIES.add("Subcellular Location");

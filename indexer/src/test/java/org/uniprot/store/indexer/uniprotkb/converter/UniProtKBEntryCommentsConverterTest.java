@@ -105,10 +105,8 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertEquals(1, document.proteinsWith.size());
         assertTrue(document.proteinsWith.contains(ProteinsWith.CATALYTIC_ACTIVITY.getValue()));
-        assertEquals(3, document.rheaIds.size());
-        assertTrue(
-                document.rheaIds.containsAll(
-                        List.of("RHEA-COMP:10136", "RHEA:10596", "RHEA-COMP:10137")));
+        assertEquals(1, document.rheaIds.size());
+        assertTrue(document.rheaIds.containsAll(List.of("RHEA:10596")));
 
         // check suggestions
         // lgonzales: should we add ECEntry to catalytic activity suggestions?

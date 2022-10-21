@@ -531,6 +531,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                 reactionReferences.stream()
                         .filter(rr -> ReactionDatabase.RHEA.equals(rr.getDatabase()))
                         .map(CrossReference::getId)
+                        .filter(id -> !id.toUpperCase().startsWith("RHEA-COMP"))
                         .collect(Collectors.toList());
 
         if (Utils.notNullNotEmpty(rheaIds)) {

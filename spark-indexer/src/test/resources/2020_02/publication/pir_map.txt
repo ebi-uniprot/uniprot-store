@@ -1,7 +1,7 @@
 COMP01	MGI	10000001	100001	[Expression][Sequences]
 COMP02	GAD	10000002	100002	[Function]Not Associated with PSYCH: schizophrenia.
 COMP03	GAD	10000003	100003	[Expression]
-COMP00	GAD	10000000	100000	[Pathology & Biotech]A pathology & biotech.
+COMP00	GAD	10000000	100000	[Disease & Variants]A pathology & biotech.
 COMP00	GAD	10000000	100001	[Interaction]An interaction.
 COMP00	GAD	10000000	100002	[Sequences]
 Q9EPI6	GAD	15018815	100002	[Interaction]An interaction again.

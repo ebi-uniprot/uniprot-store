@@ -22,14 +22,14 @@ class CommunityMappedReferenceConverterTest {
         CommunityMappedReferenceConverter mapper = new CommunityMappedReferenceConverter();
         CommunityMappedReference reference =
                 mapper.convert(
-                        "Q1MDE9\tORCID\t19597156\t0000-0002-4251-0362\t[Function][Pathology & Biotech]Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Disease: This is a disease. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas.");
+                        "Q1MDE9\tORCID\t19597156\t0000-0002-4251-0362\t[Function][Disease & Variants]Protein/gene_name: BraC3; RL3540. Function: BraC3 is an alternative substrate binding component of the ABC transporter braDEFGC. BraC3 supports the transport of leucine, isoleucine, valine, or alanine, but not glutamate or aspartate. Disease: This is a disease. Comments: Transport of branched amino acids by either BraC3 (with BraDEFG) or AapJQMP is required for symbiosis with peas.");
 
         assertThat(reference.getUniProtKBAccession().getValue(), is("Q1MDE9"));
         assertThat(
                 reference.getSource(),
                 is(new MappedSourceBuilder().name("ORCID").id("0000-0002-4251-0362").build()));
         assertThat(reference.getCitationId(), is("19597156"));
-        assertThat(reference.getSourceCategories(), contains("Function", "Pathology & Biotech"));
+        assertThat(reference.getSourceCategories(), contains("Function", "Disease & Variants"));
 
         CommunityAnnotation communityAnnotation = reference.getCommunityAnnotation();
         assertThat(communityAnnotation.getProteinOrGene(), is("BraC3; RL3540."));
@@ -49,14 +49,14 @@ class CommunityMappedReferenceConverterTest {
         CommunityMappedReferenceConverter mapper = new CommunityMappedReferenceConverter();
         CommunityMappedReference reference =
                 mapper.convert(
-                        "Q1MDE9\tORCID\t19597156\t0000-0002-4251-0362\t[Function][Pathology & Biotech]Protein/gene_name: RL3540. Function: BraC3. Comments: Peas Disease: This is a disease.");
+                        "Q1MDE9\tORCID\t19597156\t0000-0002-4251-0362\t[Function][Phenotypes & Variants]Protein/gene_name: RL3540. Function: BraC3. Comments: Peas Disease: This is a disease.");
 
         assertThat(reference.getUniProtKBAccession().getValue(), is("Q1MDE9"));
         assertThat(
                 reference.getSource(),
                 is(new MappedSourceBuilder().name("ORCID").id("0000-0002-4251-0362").build()));
         assertThat(reference.getCitationId(), is("19597156"));
-        assertThat(reference.getSourceCategories(), contains("Function", "Pathology & Biotech"));
+        assertThat(reference.getSourceCategories(), contains("Function", "Phenotypes & Variants"));
 
         CommunityAnnotation communityAnnotation = reference.getCommunityAnnotation();
         assertThat(communityAnnotation.getProteinOrGene(), is("RL3540"));
