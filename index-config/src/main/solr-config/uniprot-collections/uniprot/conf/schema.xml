@@ -365,7 +365,13 @@
 	<!-- lowercases the entire field value, keeping it as a single token. -->
 	<fieldType name="lowercase" class="solr.TextField"
 		positionIncrementGap="100">
-		<analyzer>
+		<analyzer type="index">
+			<tokenizer class="solr.KeywordTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+			<filter class="solr.ReversedWildcardFilterFactory" withOriginal="true"
+					maxPosAsterisk="2" maxPosQuestion="1" minTrailing="2" maxFractionAsterisk="0"/>
+		</analyzer>
+		<analyzer type="query">
 			<tokenizer class="solr.KeywordTokenizerFactory" />
 			<filter class="solr.LowerCaseFilterFactory" />
 		</analyzer>
@@ -393,6 +399,8 @@
 				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
 				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
 				catenateNumbers="0" catenateWords="1" catenateAll="1" />
+			<filter class="solr.ReversedWildcardFilterFactory" withOriginal="true"
+					maxPosAsterisk="2" maxPosQuestion="1" minTrailing="2" maxFractionAsterisk="0"/>
 			<filter class="solr.FlattenGraphFilterFactory" />
 		</analyzer>
 		<analyzer type="query">
@@ -423,6 +431,8 @@
 				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
 				splitOnNumerics="1" stemEnglishPossessive="1" generateWordParts="1"
 				catenateNumbers="0" catenateWords="1" catenateAll="1" />
+			<filter class="solr.ReversedWildcardFilterFactory" withOriginal="true"
+					maxPosAsterisk="2" maxPosQuestion="1" minTrailing="2" maxFractionAsterisk="0"/>
 			<filter class="solr.FlattenGraphFilterFactory" />
 		</analyzer>
 		<analyzer type="query">
@@ -447,6 +457,8 @@
 			<filter class="solr.StopFilterFactory" words="stopwords.txt"
 				ignoreCase="true" />
 			<filter class="solr.LowerCaseFilterFactory" />
+			<filter class="solr.ReversedWildcardFilterFactory" withOriginal="true"
+					maxPosAsterisk="2" maxPosQuestion="1" minTrailing="2" maxFractionAsterisk="0"/>
 		</analyzer>
 		<analyzer type="query">
 			<tokenizer class="solr.WhitespaceTokenizerFactory" />
