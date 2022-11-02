@@ -3,8 +3,13 @@ package org.uniprot.store.search;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /** @author lgonzales */
 class SolrQueryUtilTest {
@@ -210,5 +215,26 @@ class SolrQueryUtilTest {
         String inputQuery = "organism:Human OR accession:P21802";
         boolean result = SolrQueryUtil.hasNegativeTerm(inputQuery);
         assertFalse(result);
+    }
+
+    @ParameterizedTest
+    @MethodSource("getQueryWithExpectedResult")
+    void hasLeadingWildcardTermTrue(String query, boolean expectedResult) {
+        boolean actualResult =
+                SolrQueryUtil.ignoreLeadingWildcard(query, Set.of("gene", "protein_name"));
+        assertEquals(expectedResult, actualResult, query + " failed");
+    }
+
+    private static Stream<Arguments> getQueryWithExpectedResult() {
+        return Stream.of(
+                Arguments.of("*quick brown fox", true),
+                Arguments.of("quick brown fox*", false),
+                Arguments.of("quick * brown fox", false),
+                Arguments.of("qui*ck", false),
+                Arguments.of("otherfield:*quick brown fox", true),
+                Arguments.of("*brown fox AND otherfield:quick", true),
+                Arguments.of("brown fox AND otherfield:quick", false),
+                Arguments.of("gene:*brown", false),
+                Arguments.of("protein_name:*brown AND reviewed:*true", true));
     }
 }

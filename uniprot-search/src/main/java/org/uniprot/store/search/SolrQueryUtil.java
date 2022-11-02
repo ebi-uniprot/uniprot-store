@@ -3,6 +3,7 @@ package org.uniprot.store.search;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
@@ -174,5 +175,47 @@ public class SolrQueryUtil {
             }
         }
         return hasTerm;
+    }
+
+    public static boolean ignoreLeadingWildcard(
+            String inputQuery, Set<String> leadWildcardSupportedFields) {
+        boolean ignore = false;
+        try {
+            QueryParser qp = new QueryParser("", new StandardAnalyzer());
+            qp.setAllowLeadingWildcard(true);
+            Query query = qp.parse(inputQuery);
+            ignore = ignoreLeadingWildcard(query, leadWildcardSupportedFields);
+        } catch (Exception e) {
+            // ignore
+        }
+        return ignore;
+    }
+
+    public static boolean ignoreLeadingWildcard(
+            Query inputQuery, Set<String> leadWildcardSupportedFields) {
+        boolean ignore = false;
+        if (inputQuery instanceof WildcardQuery) {
+            WildcardQuery wildcardQuery = (WildcardQuery) inputQuery;
+            String text = wildcardQuery.getTerm().text();
+            String fieldName = wildcardQuery.getTerm().field();
+            if (ignoreLeadingWildcard(fieldName, text, leadWildcardSupportedFields)) {
+                ignore = true;
+            }
+        } else if (inputQuery instanceof BooleanQuery) {
+            BooleanQuery booleanQuery = (BooleanQuery) inputQuery;
+            for (BooleanClause clause : booleanQuery.clauses()) {
+                if (ignoreLeadingWildcard(clause.getQuery(), leadWildcardSupportedFields)) {
+                    ignore = true;
+                }
+            }
+        }
+        return ignore;
+    }
+
+    public static boolean ignoreLeadingWildcard(
+            String field, String text, Set<String> leadWildcardSupportedFields) {
+        return !leadWildcardSupportedFields.contains(field)
+                && text.length() > 1
+                && (text.startsWith("*") || text.startsWith("?"));
     }
 }
