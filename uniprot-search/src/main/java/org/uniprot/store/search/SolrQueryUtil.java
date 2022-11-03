@@ -206,6 +206,7 @@ public class SolrQueryUtil {
             for (BooleanClause clause : booleanQuery.clauses()) {
                 if (ignoreLeadingWildcard(clause.getQuery(), leadWildcardSupportedFields)) {
                     ignore = true;
+                    break;
                 }
             }
         }

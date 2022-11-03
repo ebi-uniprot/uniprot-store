@@ -235,6 +235,7 @@ class SolrQueryUtilTest {
                 Arguments.of("*brown fox AND otherfield:quick", true),
                 Arguments.of("brown fox AND otherfield:quick", false),
                 Arguments.of("gene:*brown", false),
-                Arguments.of("protein_name:*brown AND reviewed:*true", true));
+                Arguments.of("protein_name:*brown AND reviewed:*true", true),
+                Arguments.of("\"*quick brow fox\"", false));
     }
 }
