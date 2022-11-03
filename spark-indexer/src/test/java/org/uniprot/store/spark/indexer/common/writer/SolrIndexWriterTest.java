@@ -3,6 +3,7 @@ package org.uniprot.store.spark.indexer.common.writer;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -24,6 +25,8 @@ class SolrIndexWriterTest {
     void canCallWriter() {
         List<SolrInputDocument> docs = new ArrayList<>();
         docs.add(new SolrInputDocument());
+        docs.add(new SolrInputDocument());
+        docs.add(new SolrInputDocument());
         Iterator<SolrInputDocument> iterator = docs.iterator();
         SolrIndexParameter parameter =
                 SolrIndexParameter.builder()
@@ -31,11 +34,46 @@ class SolrIndexWriterTest {
                         .collectionName("collectionName")
                         .delay(1L)
                         .maxRetry(1)
+                        .batchSize(2)
                         .build();
         SolrIndexWriter writer = new FakeSolrIndexWriter(parameter, docs, false);
         assertDoesNotThrow(() -> writer.call(iterator));
     }
 
+    @Test
+    void canCallWriterWrongBatchSize() {
+        List<SolrInputDocument> docs = new ArrayList<>();
+        docs.add(new SolrInputDocument());
+        docs.add(new SolrInputDocument());
+        docs.add(new SolrInputDocument());
+        Iterator<SolrInputDocument> iterator = docs.iterator();
+        SolrIndexParameter parameter =
+                SolrIndexParameter.builder()
+                        .zkHost("zkHost")
+                        .collectionName("collectionName")
+                        .delay(1L)
+                        .maxRetry(1)
+                        .batchSize(0)
+                        .build();
+        SolrIndexWriter writer = new FakeSolrIndexWriter(parameter, docs, false);
+        assertThrows(SolrIndexException.class, () -> writer.call(iterator));
+    }
+
+
+    @Test
+    void canCallWriterEmptyList() {
+        Iterator<SolrInputDocument> iterator = Collections.emptyIterator();
+        SolrIndexParameter parameter =
+                SolrIndexParameter.builder()
+                        .zkHost("zkHost")
+                        .collectionName("collectionName")
+                        .delay(1L)
+                        .maxRetry(1)
+                        .batchSize(1)
+                        .build();
+        SolrIndexWriter writer = new FakeSolrIndexWriter(parameter, new ArrayList<>(), false);
+        assertDoesNotThrow(() -> writer.call(iterator));
+    }
     @Test
     void callWriterFail() throws Exception {
         List<SolrInputDocument> docs = new ArrayList<>();
