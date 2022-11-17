@@ -76,8 +76,9 @@ public class SolrIndexWriter implements VoidFunction<Iterator<SolrInputDocument>
         private final int batchSize;
 
         public BatchIterable(Iterator<SolrInputDocument> sourceIterator, int batchSize) {
-            if(batchSize <= 0){
-                throw new IllegalArgumentException("Batch size must be bigger than 1. Current value is:"+batchSize);
+            if (batchSize <= 0) {
+                throw new IllegalArgumentException(
+                        "Batch size must be bigger than 1. Current value is:" + batchSize);
             }
             this.batchSize = batchSize;
             this.sourceIterator = sourceIterator;

@@ -59,7 +59,6 @@ class SolrIndexWriterTest {
         assertThrows(SolrIndexException.class, () -> writer.call(iterator));
     }
 
-
     @Test
     void canCallWriterEmptyList() {
         Iterator<SolrInputDocument> iterator = Collections.emptyIterator();
@@ -74,6 +73,7 @@ class SolrIndexWriterTest {
         SolrIndexWriter writer = new FakeSolrIndexWriter(parameter, new ArrayList<>(), false);
         assertDoesNotThrow(() -> writer.call(iterator));
     }
+
     @Test
     void callWriterFail() throws Exception {
         List<SolrInputDocument> docs = new ArrayList<>();
