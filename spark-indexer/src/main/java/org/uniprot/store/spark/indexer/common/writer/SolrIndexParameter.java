@@ -18,4 +18,5 @@ public class SolrIndexParameter implements Serializable {
     private final String collectionName;
     private final long delay;
     private final int maxRetry;
+    private final int batchSize;
 }
