@@ -72,7 +72,7 @@ class UniProtEntryFeatureConverter {
                             - feature.getLocation().getStart().getValue()
                             + 1;
             Set<String> evidences =
-                    UniProtEntryConverterUtil.extractEvidence(feature.getEvidences());
+                    UniProtEntryConverterUtil.extractEvidence(feature.getEvidences(), false);
             Collection<Integer> lengthList =
                     document.featureLengthMap.computeIfAbsent(lengthField, k -> new HashSet<>());
             lengthList.add(length);
