@@ -58,15 +58,18 @@ class UniProtEntryCommentsConverter implements Serializable {
     void convertCommentToDocument(List<Comment> comments, UniProtDocument document) {
         for (Comment comment : comments) {
             FFLineBuilder<Comment> fbuilder = CCLineBuilderFactory.create(comment);
+            // TODO field is too generic, we can rename it to commentField
             String field = getCommentField(comment);
             String evField = getCommentEvField(comment);
+            // TODO value is too vague, commentValues will give more hint about the type values
+            // why are we using Collection type not List or Set
             Collection<String> value =
                     document.commentMap.computeIfAbsent(field, k -> new ArrayList<>());
 
             String commentVal = fbuilder.buildString(comment);
             value.add(commentVal);
             document.content.add(commentVal);
-
+            // TODO the name of the field evValue should be plural since this is a collection
             Collection<String> evValue =
                     document.commentEvMap.computeIfAbsent(evField, k -> new HashSet<>());
             Set<String> evidences = fetchEvidences(comment, document.reviewed);
@@ -74,6 +77,7 @@ class UniProtEntryCommentsConverter implements Serializable {
 
             if (hasExperimentalEvidence(evidences)) {
                 String experimentalField = field + EXPERIMENTAL;
+                //  TODO the name should be plural
                 Collection<String> experimentalComment =
                         document.commentMap.computeIfAbsent(
                                 experimentalField, k -> new ArrayList<>());
@@ -137,6 +141,7 @@ class UniProtEntryCommentsConverter implements Serializable {
 
     private void convertCommentAP(AlternativeProductsComment comment, UniProtDocument document) {
         List<String> values = new ArrayList<>();
+        //TODO name should be plural
         Set<String> evidence = new HashSet<>();
         if (comment.hasNote() && comment.getNote().hasTexts()) {
             values.addAll(getTextsValue(comment.getNote().getTexts()));
@@ -176,7 +181,7 @@ class UniProtEntryCommentsConverter implements Serializable {
         }
         document.ap.addAll(values);
         document.apEv.addAll(evidence);
-        if (hasExperimentalEvidence(evidence)) {
+        if (hasExperimentalEvidence(evidence)) { // TODO repeated code, we can take out in a method
             Collection<String> apExp =
                     document.commentMap.computeIfAbsent(
                             CC_AP_EXPERIMENTAL, k -> new HashSet<>());
@@ -187,7 +192,7 @@ class UniProtEntryCommentsConverter implements Serializable {
             if ("alternative promoter usage".equalsIgnoreCase(event)) {
                 document.apApu.addAll(values);
                 document.apApuEv.addAll(evidence);
-                if (hasExperimentalEvidence(evidence)) {
+                if (hasExperimentalEvidence(evidence)) {// TODO repeated code, we can take out in a method
                     document.commentMap
                             .computeIfAbsent(CC_AP_APU_EXPERIMENTAL, k -> new HashSet<>())
                             .addAll(values);
@@ -196,7 +201,7 @@ class UniProtEntryCommentsConverter implements Serializable {
             if ("alternative splicing".equalsIgnoreCase(event)) {
                 document.apAs.addAll(values);
                 document.apAsEv.addAll(evidence);
-                if (hasExperimentalEvidence(evidence)) {
+                if (hasExperimentalEvidence(evidence)) {// TODO repeated code, we can take out in a method
                     document.commentMap
                             .computeIfAbsent(CC_AP_AS_EXPERIMENTAL, k -> new HashSet<>())
                             .addAll(values);
@@ -205,7 +210,7 @@ class UniProtEntryCommentsConverter implements Serializable {
             if ("alternative initiation".equalsIgnoreCase(event)) {
                 document.apAi.addAll(values);
                 document.apAiEv.addAll(evidence);
-                if (hasExperimentalEvidence(evidence)) {
+                if (hasExperimentalEvidence(evidence)) {// TODO repeated code, we can take out in a method
                     document.commentMap
                             .computeIfAbsent(CC_AP_AI_EXPERIMENTAL, k -> new HashSet<>())
                             .addAll(values);
@@ -214,7 +219,7 @@ class UniProtEntryCommentsConverter implements Serializable {
             if ("ribosomal frameshifting".equalsIgnoreCase(event)) {
                 document.apRf.addAll(values);
                 document.apRfEv.addAll(evidence);
-                if (hasExperimentalEvidence(evidence)) {
+                if (hasExperimentalEvidence(evidence)) {// TODO repeated code, we can take out in a method
                     document.commentMap
                             .computeIfAbsent(CC_AP_RF_EXPERIMENTAL, k -> new HashSet<>())
                             .addAll(values);
