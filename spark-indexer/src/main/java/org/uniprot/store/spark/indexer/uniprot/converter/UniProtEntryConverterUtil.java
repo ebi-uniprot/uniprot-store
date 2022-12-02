@@ -13,6 +13,7 @@ import org.uniprot.core.uniprotkb.comment.AlternativeProductsComment;
 import org.uniprot.core.uniprotkb.comment.CommentType;
 import org.uniprot.core.uniprotkb.comment.IsoformSequenceStatus;
 import org.uniprot.core.uniprotkb.evidence.Evidence;
+import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 
@@ -26,10 +27,15 @@ public class UniProtEntryConverterUtil {
 
     private static final int SORT_FIELD_MAX_LENGTH = 30;
 
-    static Set<String> extractEvidence(List<Evidence> evidences) {
-        return evidences.stream()
-                .flatMap(UniProtEntryConverterUtil::addExtractedEvidenceItem)
-                .collect(Collectors.toSet());
+    static Set<String> extractEvidence(List<Evidence> evidences, Boolean addExperimental) {
+        Set<String> result =
+                evidences.stream()
+                        .flatMap(UniProtEntryConverterUtil::addExtractedEvidenceItem)
+                        .collect(Collectors.toSet());
+        if (result.isEmpty() && (addExperimental != null && addExperimental)) {
+            result.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+        }
+        return result;
     }
 
     private static Stream<String> addExtractedEvidenceItem(Evidence evidence) {

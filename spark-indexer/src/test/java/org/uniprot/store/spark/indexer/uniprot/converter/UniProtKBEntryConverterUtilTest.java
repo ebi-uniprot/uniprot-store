@@ -29,6 +29,26 @@ import org.uniprot.store.search.document.suggest.SuggestDictionary;
 class UniProtKBEntryConverterUtilTest {
 
     @Test
+    void emptyEvidenceAddExceptionalEvidence() {
+        List<Evidence> evidences = new ArrayList<>();
+
+        Set<String> extractedEvidences = UniProtEntryConverterUtil.extractEvidence(evidences, true);
+
+        assertEquals(1, extractedEvidences.size());
+        assertTrue(extractedEvidences.contains("experimental"));
+    }
+
+    @Test
+    void emptyEvidenceDoNotAddExceptionalEvidence() {
+        List<Evidence> evidences = new ArrayList<>();
+
+        Set<String> extractedEvidences =
+                UniProtEntryConverterUtil.extractEvidence(evidences, false);
+        assertNotNull(extractedEvidences);
+        assertTrue(extractedEvidences.isEmpty());
+    }
+
+    @Test
     void extractAutomaticEvidence() {
         List<Evidence> evidences = new ArrayList<>();
         evidences.add(
@@ -38,7 +58,8 @@ class UniProtKBEntryConverterUtilTest {
                         .evidenceCode(EvidenceCode.ECO_0000213)
                         .build());
 
-        Set<String> extractedEvidences = UniProtEntryConverterUtil.extractEvidence(evidences);
+        Set<String> extractedEvidences =
+                UniProtEntryConverterUtil.extractEvidence(evidences, false);
 
         assertEquals(2, extractedEvidences.size());
         assertTrue(extractedEvidences.contains(EvidenceCode.ECO_0000213.name()));
@@ -55,7 +76,8 @@ class UniProtKBEntryConverterUtilTest {
                         .evidenceCode(EvidenceCode.ECO_0000244)
                         .build());
 
-        Set<String> extractedEvidences = UniProtEntryConverterUtil.extractEvidence(evidences);
+        Set<String> extractedEvidences =
+                UniProtEntryConverterUtil.extractEvidence(evidences, false);
 
         assertEquals(2, extractedEvidences.size());
         assertTrue(extractedEvidences.contains(EvidenceCode.ECO_0000244.name()));
@@ -72,7 +94,8 @@ class UniProtKBEntryConverterUtilTest {
                         .evidenceCode(EvidenceCode.ECO_0000303)
                         .build());
 
-        Set<String> extractedEvidences = UniProtEntryConverterUtil.extractEvidence(evidences);
+        Set<String> extractedEvidences =
+                UniProtEntryConverterUtil.extractEvidence(evidences, false);
 
         assertEquals(3, extractedEvidences.size());
         assertTrue(extractedEvidences.contains(EvidenceCode.ECO_0000303.name()));

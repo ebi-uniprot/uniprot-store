@@ -1,7 +1,6 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
 
@@ -55,6 +54,7 @@ class UniProtKBEntryFeatureConverterTest {
         converter.convertFeature(features, document);
 
         assertTrue(document.featuresMap.containsKey("ft_chain"));
+        assertFalse(document.featuresMap.containsKey("ft_chain_exp"));
         List<String> chainValue =
                 Arrays.asList(
                         "CHAIN",
@@ -141,7 +141,56 @@ class UniProtKBEntryFeatureConverterTest {
         assertTrue(document.databases.isEmpty());
     }
 
+    @Test
+    void convertExperimentalFeature() {
+        UniProtDocument document = new UniProtDocument();
+
+        List<Evidence> evidences = new ArrayList<>();
+        evidences.add(createEvidence(EvidenceCode.ECO_0000269));
+        List<UniProtKBFeature> features = List.of(getFeature(evidences));
+        UniProtEntryFeatureConverter converter = new UniProtEntryFeatureConverter();
+
+        converter.convertFeature(features, document);
+
+        assertTrue(document.featuresMap.containsKey("ft_chain"));
+        assertTrue(document.featuresMap.containsKey("ft_chain_exp"));
+        Set<String> chainValue =
+                Set.of("CHAIN", "FT12345", "dbSNP-DBSNP-12345", "description value", "DBSNP-12345");
+        assertEquals(chainValue, document.featuresMap.get("ft_chain"));
+        assertEquals(chainValue, document.featuresMap.get("ft_chain_exp"));
+
+        assertTrue(document.featureEvidenceMap.containsKey("ftev_chain"));
+        List<String> chainEvidenceValue = Arrays.asList("experimental", "manual", "ECO_0000269");
+        assertEquals(
+                new HashSet<>(chainEvidenceValue), document.featureEvidenceMap.get("ftev_chain"));
+
+        assertTrue(document.featureLengthMap.containsKey("ftlen_chain"));
+        List<Integer> chainLengthValue = Collections.singletonList(7);
+        assertEquals(new HashSet<>(chainLengthValue), document.featureLengthMap.get("ftlen_chain"));
+
+        assertEquals(5, document.content.size());
+        assertEquals(
+                new HashSet<>(
+                        Arrays.asList(
+                                "CHAIN",
+                                "FT12345",
+                                "dbSNP-DBSNP-12345",
+                                "description value",
+                                "DBSNP-12345")),
+                document.content);
+
+        assertEquals(Collections.singletonList(14), document.proteinsWith);
+        assertEquals(Set.of("dbsnp"), document.databases);
+        assertEquals(Set.of("dbSNP-DBSNP-12345", "DBSNP-12345"), document.crossRefs);
+    }
+
     private static UniProtKBFeature getFeature() {
+        List<Evidence> evidences =
+                Collections.singletonList(createEvidence(EvidenceCode.ECO_0000255));
+        return getFeature(evidences);
+    }
+
+    private static UniProtKBFeature getFeature(List<Evidence> evidences) {
         AlternativeSequence alternativeSequence =
                 new AlternativeSequenceBuilder()
                         .original("original value")
@@ -155,7 +204,6 @@ class UniProtKBEntryFeatureConverterTest {
                         .build();
 
         FeatureLocation location = new FeatureLocation(2, 8);
-        List<Evidence> evidences = Collections.singletonList(createEvidence());
         return new UniProtKBFeatureBuilder()
                 .type(UniprotKBFeatureType.CHAIN)
                 .alternativeSequence(alternativeSequence)
@@ -186,7 +234,7 @@ class UniProtKBEntryFeatureConverterTest {
         return new UniProtKBFeatureBuilder()
                 .type(UniprotKBFeatureType.BINDING)
                 .location(new FeatureLocation(23, 34))
-                .evidencesAdd(createEvidence())
+                .evidencesAdd(createEvidence(EvidenceCode.ECO_0000255))
                 .ligand(ligand)
                 .ligandPart(ligandPart)
                 .featureCrossReferenceAdd(xref1)
@@ -202,9 +250,9 @@ class UniProtKBEntryFeatureConverterTest {
         return new LigandPartBuilder().name(name).id(id).label(label).note(note).build();
     }
 
-    private static Evidence createEvidence() {
+    private static Evidence createEvidence(EvidenceCode evidenceCode) {
         return new EvidenceBuilder()
-                .evidenceCode(EvidenceCode.ECO_0000255)
+                .evidenceCode(evidenceCode)
                 .databaseName("PROSITE-ProRule")
                 .databaseId("PRU10020")
                 .build();
