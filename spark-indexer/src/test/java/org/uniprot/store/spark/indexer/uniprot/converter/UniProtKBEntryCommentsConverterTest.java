@@ -819,8 +819,7 @@ class UniProtKBEntryCommentsConverterTest {
                 document.bpcpAbsorption.contains(
                         "Shoulder at 335 nm (at pH 7.5 and 30 degrees Celsius)."));
         assertEquals(
-                document.bpcpAbsorption,
-                document.commentMap.get(CC_BPCP_ABSORPTION_EXPERIMENTAL));
+                document.bpcpAbsorption, document.commentMap.get(CC_BPCP_ABSORPTION_EXPERIMENTAL));
         assertEquals(3, document.bpcpAbsorptionEv.size());
         assertTrue(document.bpcpAbsorptionEv.contains("experimental"));
 
@@ -828,16 +827,14 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(
                 document.bpcpKinetics.contains(
                         "kcat is 13 s(-1) for L-proline. kcat is 75 s(-1) for 3,4-dehydro-L-proline."));
-        assertEquals(
-                document.bpcpKinetics, document.commentMap.get(CC_BPCP_KINETICS_EXPERIMENTAL));
+        assertEquals(document.bpcpKinetics, document.commentMap.get(CC_BPCP_KINETICS_EXPERIMENTAL));
         assertEquals(3, document.bpcpKineticsEv.size());
         assertTrue(document.bpcpKineticsEv.contains("manual"));
 
         assertEquals(1, document.bpcpPhDependence.size());
         assertTrue(document.bpcpPhDependence.contains("Optimum pH is 5.0 for protease activity."));
         assertEquals(
-                document.bpcpPhDependence,
-                document.commentMap.get(CC_BPCP_PH_DEP_EXPERIMENTAL));
+                document.bpcpPhDependence, document.commentMap.get(CC_BPCP_PH_DEP_EXPERIMENTAL));
         assertEquals(3, document.bpcpPhDependenceEv.size());
         assertTrue(document.bpcpPhDependenceEv.contains("ECO_0000269"));
 
