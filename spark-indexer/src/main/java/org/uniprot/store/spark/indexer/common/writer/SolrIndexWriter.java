@@ -4,11 +4,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
 import java.time.Duration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.*;
 
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.Failsafe;
@@ -21,7 +17,6 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.common.SolrException;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.spark.api.java.function.VoidFunction;
-import org.uniprot.core.util.Utils;
 import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
 
 /**
@@ -41,19 +36,15 @@ public class SolrIndexWriter implements VoidFunction<Iterator<SolrInputDocument>
     @Override
     public void call(Iterator<SolrInputDocument> docs) throws Exception {
         RetryPolicy<Object> retryPolicy = getSolrRetryPolicy();
-
         try (SolrClient client = getSolrClient()) {
-            Iterable<SolrInputDocument> docsIterable = () -> docs;
-            List<SolrInputDocument> docList =
-                    StreamSupport.stream(docsIterable.spliterator(), false)
-                            .collect(Collectors.toList());
-            if (Utils.notNullNotEmpty(docList)) {
+            BatchIterable iterable = new BatchIterable(docs, parameter.getBatchSize());
+            for (Collection<SolrInputDocument> batch : iterable) {
                 Failsafe.with(retryPolicy)
                         .onFailure(
                                 throwable ->
                                         log.error(
                                                 "Failed to write to Solr", throwable.getFailure()))
-                        .run(() -> client.add(parameter.getCollectionName(), docList));
+                        .run(() -> client.add(parameter.getCollectionName(), batch));
             }
         } catch (Exception e) {
             String errorMessage =
@@ -78,5 +69,42 @@ public class SolrIndexWriter implements VoidFunction<Iterator<SolrInputDocument>
                 .withDelay(Duration.ofMillis(parameter.getDelay()))
                 .onFailedAttempt(e -> log.warn("Solr save attempt failed", e.getLastFailure()))
                 .withMaxRetries(parameter.getMaxRetry());
+    }
+
+    private static class BatchIterable implements Iterable<Collection<SolrInputDocument>> {
+        private final Iterator<SolrInputDocument> sourceIterator;
+        private final int batchSize;
+
+        public BatchIterable(Iterator<SolrInputDocument> sourceIterator, int batchSize) {
+            if (batchSize <= 0) {
+                throw new IllegalArgumentException(
+                        "Batch size must be bigger than 1. Current value is:" + batchSize);
+            }
+            this.batchSize = batchSize;
+            this.sourceIterator = sourceIterator;
+        }
+
+        @Override
+        public Iterator<Collection<SolrInputDocument>> iterator() {
+            return new Iterator<>() {
+                @Override
+                public boolean hasNext() {
+                    return sourceIterator.hasNext();
+                }
+
+                @Override
+                public List<SolrInputDocument> next() {
+                    List<SolrInputDocument> batch = new ArrayList<>(batchSize);
+                    for (int i = 0; i < batchSize; i++) {
+                        if (sourceIterator.hasNext()) {
+                            batch.add(sourceIterator.next());
+                        } else {
+                            break;
+                        }
+                    }
+                    return batch;
+                }
+            };
+        }
     }
 }

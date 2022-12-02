@@ -71,11 +71,13 @@ public class IndexHDFSDocumentsInSolrMain {
             SolrCollection collection, ResourceBundle config) {
         String delay = config.getString("solr.retry.delay");
         String maxRetry = config.getString("solr.max.retry");
+        String batchSize = config.getString("solr.index.batch.size");
         return SolrIndexParameter.builder()
                 .collectionName(collection.name())
                 .zkHost(config.getString("solr.zkhost"))
                 .delay(Long.parseLong(delay))
                 .maxRetry(Integer.parseInt(maxRetry))
+                .batchSize(Integer.parseInt(batchSize))
                 .build();
     }
 }
