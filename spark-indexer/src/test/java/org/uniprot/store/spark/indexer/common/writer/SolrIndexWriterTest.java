@@ -151,12 +151,13 @@ class SolrIndexWriterTest {
             return solrClient;
         }
 
-        int getNumberOfBatchIterations(){
+        int getNumberOfBatchIterations() {
             int addCall = 0;
-            Collection<Invocation> invocations = Mockito.mockingDetails(solrClient).getInvocations();
-            for (Invocation invocation: invocations) {
-                if(invocation.getMethod().getName().equals("add")){
-                    addCall ++;
+            Collection<Invocation> invocations =
+                    Mockito.mockingDetails(solrClient).getInvocations();
+            for (Invocation invocation : invocations) {
+                if (invocation.getMethod().getName().equals("add")) {
+                    addCall++;
                 }
             }
             return addCall;

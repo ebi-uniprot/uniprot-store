@@ -59,8 +59,8 @@
 
 	<!-- Protein name section -->
 	<!-- access protein name via protgene_default for default search -->
-	<field name="protein_name" type="full_ci_lead_wildcard" indexed="true"
-		stored="false" required="false" multiValued="true" />
+	<field name="protein_name" type="full_ci_lead_wildcard"
+		indexed="true" stored="false" required="false" multiValued="true" />
 	<field name="protein_name_sort" type="string" indexed="true"
 		stored="false" required="false" multiValued="false" docValues="true" />
 
@@ -111,8 +111,8 @@
 
 	<!-- Gene -->
 	<!-- access gene name via protgene_default for default search -->
-	<field name="gene" type="full_ci_lead_wildcard" indexed="true" stored="false"
-		required="false" multiValued="true" />
+	<field name="gene" type="full_ci_lead_wildcard" indexed="true"
+		stored="false" required="false" multiValued="true" />
 	<field name="gene_exact" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="gene_sort" type="string" indexed="true"
@@ -413,32 +413,34 @@
 		</analyzer>
 	</fieldType>
 
-	<fieldType name="full_ci_lead_wildcard" class="solr.TextField"
-			   sortMissingLast="true" omitNorms="false" positionIncrementGap="100">
+	<fieldType name="full_ci_lead_wildcard"
+		class="solr.TextField" sortMissingLast="true" omitNorms="false"
+		positionIncrementGap="100">
 		<analyzer type="index">
 			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
-					   pattern="[- /()]+" />
+				pattern="[- /()]+" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
-					preserveOriginal="false" />
+				preserveOriginal="false" />
 			<filter class="solr.LowerCaseFilterFactory" />
 			<filter class="solr.WordDelimiterGraphFilterFactory"
-					generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
-					splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
-					catenateNumbers="0" catenateWords="1" catenateAll="1" />
-			<filter class="solr.ReversedWildcardFilterFactory" withOriginal="true"
-					maxPosAsterisk="2" maxPosQuestion="1" minTrailing="2" maxFractionAsterisk="0"/>
+				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
+				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
+				catenateNumbers="0" catenateWords="1" catenateAll="1" />
+			<filter class="solr.ReversedWildcardFilterFactory"
+				withOriginal="true" maxPosAsterisk="2" maxPosQuestion="1"
+				minTrailing="2" maxFractionAsterisk="0" />
 			<filter class="solr.FlattenGraphFilterFactory" />
 		</analyzer>
 		<analyzer type="query">
 			<tokenizer class="solr.SimplePatternSplitTokenizerFactory"
-					   pattern="[- /()]+" />
+				pattern="[- /()]+" />
 			<filter class="solr.ASCIIFoldingFilterFactory"
-					preserveOriginal="false" />
+				preserveOriginal="false" />
 			<filter class="solr.LowerCaseFilterFactory" />
 			<filter class="solr.WordDelimiterGraphFilterFactory"
-					generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
-					splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
-					catenateNumbers="0" catenateWords="0" catenateAll="0" />
+				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
+				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
+				catenateNumbers="0" catenateWords="0" catenateAll="0" />
 
 		</analyzer>
 	</fieldType>
