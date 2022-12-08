@@ -160,7 +160,7 @@ class UniProtEntryCommentsConverter implements Serializable {
         }
 
         if (evidences.isEmpty() && (document.reviewed != null && document.reviewed)) {
-            evidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+            //evidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
         }
 
         List<String> events = new ArrayList<>();
@@ -387,7 +387,7 @@ class UniProtEntryCommentsConverter implements Serializable {
             absorptionEvidences.addAll(getTextsEvidence(absorption.getNote().getTexts(), false));
         }
         if (absorptionEvidences.isEmpty() && (document.reviewed != null && document.reviewed)) {
-            absorptionEvidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+            //absorptionEvidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
         }
         document.bpcpAbsorption.addAll(absorptionValues);
         document.bpcpAbsorptionEv.addAll(absorptionEvidences);
@@ -442,7 +442,7 @@ class UniProtEntryCommentsConverter implements Serializable {
         }
 
         if (kineticEvidenceValues.isEmpty() && (document.reviewed != null && document.reviewed)) {
-            kineticEvidenceValues.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+            //kineticEvidenceValues.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
         }
 
         document.bpcpKinetics.addAll(kineticValues);
@@ -676,7 +676,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                 break;
         }
         if (evidences.isEmpty() && (reviewed != null && reviewed)) {
-            evidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+            //evidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
         }
         return evidences;
     }

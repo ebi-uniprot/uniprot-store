@@ -33,7 +33,7 @@ public class UniProtEntryConverterUtil {
                         .flatMap(UniProtEntryConverterUtil::addExtractedEvidenceItem)
                         .collect(Collectors.toSet());
         if (result.isEmpty() && (addExperimental != null && addExperimental)) {
-            result.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+            //result.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
         }
         return result;
     }
