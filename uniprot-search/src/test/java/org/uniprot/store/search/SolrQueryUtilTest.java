@@ -1,14 +1,17 @@
 package org.uniprot.store.search;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /** @author lgonzales */
@@ -223,6 +226,22 @@ class SolrQueryUtilTest {
         boolean actualResult =
                 SolrQueryUtil.ignoreLeadingWildcard(query, Set.of("gene", "protein_name"));
         assertEquals(expectedResult, actualResult, query + " failed");
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "default query, a, a",
+        "single forward slash, a/b, a\\/b",
+        "single forward slash with numbers, 1/2, 1\\/2",
+        "field query with single forward slash with letters, field:a/b, field:a\\/b",
+        "field query with single forward slash with numbers, field:1/2, field:1\\/2",
+        "separated forward slashes, a/b/c, a\\/b\\/c",
+        "two adjacent forward slashes, a//b, a\\/\\/b",
+        "contiguous forward slashes, a///b, a\\/\\/\\/b"
+    })
+    void checkForwardSlashReplacements(String desc, String queryString, String expected) {
+        assertThat(
+                desc, SolrQueryUtil.replaceForwardSlashes(queryString), CoreMatchers.is(expected));
     }
 
     private static Stream<Arguments> getQueryWithExpectedResult() {
