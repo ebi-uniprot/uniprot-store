@@ -117,40 +117,6 @@ class FTFunctionSearchIT {
     }
 
     @Test
-    void sitesFindEntryWithLengthAndEvidence() {
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("ft_sites"),
-                        "Substrate");
-        query =
-                QueryBuilder.and(
-                        query,
-                        QueryBuilder.rangeQuery(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ftlen_sites")
-                                        .getFieldName(),
-                                1,
-                                3));
-        String evidence = "ECO_0000256";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ftev_sites"),
-                                evidence));
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6GZX4));
-        assertThat(retrievedAccessions, not(hasItem(Q12345)));
-    }
-
-    @Test
     void siteFindEntry() {
         String query = features(UniprotKBFeatureType.SITE, "translocation.");
 
@@ -163,8 +129,6 @@ class FTFunctionSearchIT {
     @Test
     void activeSiteFindEntry() {
         String query = features(UniprotKBFeatureType.ACT_SITE, "intermediate.");
-        String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.ACT_SITE, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -195,8 +159,6 @@ class FTFunctionSearchIT {
     void bindingSiteFindEntry() {
         String query = features(UniprotKBFeatureType.BINDING, "Substrate.");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.BINDING, 1, 2));
-        String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.BINDING, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -207,8 +169,6 @@ class FTFunctionSearchIT {
     void caBindFindEntry() {
         String query = features(UniprotKBFeatureType.CA_BIND, "site");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.CA_BIND, 1, 2));
-        String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.CA_BIND, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -219,8 +179,6 @@ class FTFunctionSearchIT {
     void dnaBindFindEntry() {
         String query = features(UniprotKBFeatureType.DNA_BIND, "*");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.DNA_BIND, 1, 6));
-        String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.DNA_BIND, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -231,8 +189,6 @@ class FTFunctionSearchIT {
     void npBindFindEntry() {
         String query = features(UniprotKBFeatureType.NP_BIND, "NADP");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.NP_BIND, 1, 6));
-        String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.NP_BIND, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

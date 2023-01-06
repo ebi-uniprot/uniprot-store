@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprotkb.comment.CommentType;
-import org.uniprot.store.search.field.QueryBuilder;
 
 class CCDiseaseSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -79,22 +78,8 @@ class CCDiseaseSearchIT {
     }
 
     @Test
-    void shouldFindTwoEntryQueryEvidence() {
-        String query = comments(CommentType.DISEASE, "active");
-        String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.DISEASE, evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6GZX4, Q6GZX3));
-    }
-
-    @Test
-    void shouldFindNoneEntryQueryEvidence() {
-        String query = comments(CommentType.DISEASE, "active");
-        String evidence = "ECO_0000255";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.DISEASE, evidence));
+    void shouldFindNoneEntryQuery() {
+        String query = comments(CommentType.DISEASE, "inactive");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

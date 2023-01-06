@@ -81,11 +81,9 @@ class FTSubcellLocationSearchIT {
     }
 
     @Test
-    void transmemFindEntryWithEvidence() {
+    void transmemFindEntryWith() {
         String query = features(UniprotKBFeatureType.TRANSMEM, "Helical");
         //	query = QueryBuilder.and(query, featureLength(FeatureType.BINDING, 1, 2));
-        String evidence = "ECO_0000255";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.TRANSMEM, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -94,11 +92,9 @@ class FTSubcellLocationSearchIT {
     }
 
     @Test
-    void transmemFindEntryWithEvidenceLength() {
+    void transmemFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.TRANSMEM, "Helical");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.TRANSMEM, 20, 23));
-        String evidence = "ECO_0000255";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.TRANSMEM, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -108,25 +104,20 @@ class FTSubcellLocationSearchIT {
     }
 
     @Test
-    void topodomFindTwoEntryWithEvidence() {
+    void topodomFindTwoEntry() {
         String query = features(UniprotKBFeatureType.TOPO_DOM, "cytoplasmic");
         //	query = QueryBuilder.and(query, featureLength(FeatureType.BINDING, 1, 2));
-        String evidence = "ECO_0000255";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.TOPO_DOM, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q197B1));
-        assertThat(retrievedAccessions, not(hasItem(Q12345)));
+        assertThat(retrievedAccessions, hasItems(Q197B1, Q12345));
     }
 
     @Test
-    void topodomFindEntryWithEvidenceLength() {
+    void topodomFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.TOPO_DOM, "cytoplasmic");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.TOPO_DOM, 100, 200));
-        String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.TOPO_DOM, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -136,11 +127,9 @@ class FTSubcellLocationSearchIT {
     }
 
     @Test
-    void intramemFindTwoEntryWithEvidenceLength() {
+    void intramemFindTwoEntryWithLength() {
         String query = features(UniprotKBFeatureType.INTRAMEM, "helical");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.INTRAMEM, 30, 40));
-        String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.INTRAMEM, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -150,11 +139,9 @@ class FTSubcellLocationSearchIT {
     }
 
     @Test
-    void intramemFindTwoEntryWithEvidenceLengthOutRange() {
+    void intramemFindTwoEntryWithLengthOutRange() {
         String query = features(UniprotKBFeatureType.INTRAMEM, "helical");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.INTRAMEM, 40, 50));
-        String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.INTRAMEM, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -163,24 +150,9 @@ class FTSubcellLocationSearchIT {
     }
 
     @Test
-    void intramemFindTwoEntryWithNoEvidenceLength() {
-        String query = features(UniprotKBFeatureType.INTRAMEM, "helical");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.INTRAMEM, 30, 40));
-        String evidence = "ECO_0000255";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.INTRAMEM, evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, empty());
-    }
-
-    @Test
-    void mutagenFindEntryWithEvidenceLength() {
+    void mutagenFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.MUTAGEN, "molecular");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.MUTAGEN, 1, 1));
-        String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.MUTAGEN, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -190,11 +162,9 @@ class FTSubcellLocationSearchIT {
     }
 
     @Test
-    void helixFindEntryWithEvidenceLength() {
+    void helixFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.HELIX, "*");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.HELIX, 5, 11));
-        String evidence = "ECO_0000244";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.HELIX, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

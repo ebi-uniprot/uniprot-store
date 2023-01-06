@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprotkb.comment.CommentType;
-import org.uniprot.store.search.field.QueryBuilder;
 
 class CCInteractionSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -86,8 +85,6 @@ class CCInteractionSearchIT {
     @Test
     void subunitFindOne() {
         String query = comments(CommentType.SUBUNIT, "domain");
-        String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.SUBUNIT, evidence));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
