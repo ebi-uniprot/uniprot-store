@@ -15,7 +15,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.QueryBuilder;
 
 class CCSeqCautionSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -124,67 +123,6 @@ class CCSeqCautionSearchIT {
     }
 
     @Test
-    void findSeqCautionWithEvidence() {
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_sc"),
-                        "Translated");
-        String evidence = "ECO_0000305";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_sc"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q6GZN7));
-        assertThat(retrievedAccessions, not(hasItem(Q197B6)));
-    }
-
-    @Test
-    void findSeqCautionWithManualEvidence() {
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_sc"),
-                        "Translated");
-        String evidence = "manual";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_sc"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q197B6));
-    }
-
-    @Test
-    void findSeqCautionWithAutomaticEvidence() {
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_sc"),
-                        "Translated");
-        String evidence = "automatic";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_sc"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, empty());
-    }
-
-    @Test
     void findAllSeqCautionFrameshift() {
         String query =
                 query(
@@ -250,45 +188,5 @@ class CCSeqCautionSearchIT {
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItems(Q6V4H0));
-    }
-
-    @Test
-    void findAllSeqCautionMiscWithEv() {
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_sc_misc"),
-                        "sequence");
-        String evidence = "ECO_0000305";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_sc_misc"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q6V4H0));
-    }
-
-    @Test
-    void findAllSeqCautionMiscWithEvEmptu() {
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_sc_misc"),
-                        "sequence");
-        String evidence = "ECO_0000268";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_sc_misc"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, empty());
     }
 }

@@ -23,7 +23,7 @@ public class AbstractSearchFieldConfigTest {
         List<SearchFieldItem> fieldItems = testFieldConfig.getAllFieldItems();
         Assertions.assertNotNull(fieldItems);
         Assertions.assertFalse(fieldItems.isEmpty());
-        Assertions.assertEquals(420, fieldItems.size());
+        Assertions.assertEquals(332, fieldItems.size());
     }
 
     @Test
@@ -31,7 +31,7 @@ public class AbstractSearchFieldConfigTest {
         Set<String> fieldNames = testFieldConfig.getSearchFieldNames();
         Assertions.assertNotNull(fieldNames);
         Assertions.assertFalse(fieldNames.isEmpty());
-        Assertions.assertEquals(305, fieldNames.size());
+        Assertions.assertEquals(217, fieldNames.size());
     }
 
     @Test
@@ -132,15 +132,8 @@ public class AbstractSearchFieldConfigTest {
     }
 
     @Test
-    void testGetFieldTypeByFieldNameOfEvidence() {
-        String fieldName = "ccev_webresource";
-        SearchFieldType fieldType = testFieldConfig.getFieldTypeBySearchFieldName(fieldName);
-        Assertions.assertEquals(SearchFieldType.GENERAL, fieldType);
-    }
-
-    @Test
     void testGetFieldTypeByFieldNameOfGeneral() {
-        String fieldName = "ccev_webresource";
+        String fieldName = "cc_webresource";
         SearchFieldType fieldType = testFieldConfig.getFieldTypeBySearchFieldName(fieldName);
         Assertions.assertEquals(SearchFieldType.GENERAL, fieldType);
     }

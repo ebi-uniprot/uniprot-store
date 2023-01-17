@@ -95,11 +95,9 @@ class FTFamilyDomainSearchIT {
     }
 
     @Test
-    void domainFindEntryWithEvidenceLength() {
+    void domainFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.DOMAIN, "phosphatase");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.DOMAIN, 10, 20));
-        String evidence = "ECO_0000259";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.DOMAIN, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -109,11 +107,9 @@ class FTFamilyDomainSearchIT {
     }
 
     @Test
-    void coiledFindEntryWithEvidenceLength() {
+    void coiledFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.COILED, "*");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.COILED, 10, 30));
-        String evidence = "ECO_0000255";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.COILED, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -123,11 +119,9 @@ class FTFamilyDomainSearchIT {
     }
 
     @Test
-    void compbiasFindEntryWithEvidenceLength() {
+    void compbiasFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.COMPBIAS, "glu-rich");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.COMPBIAS, 10, 30));
-        String evidence = "ECO_0000256";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.COMPBIAS, evidence));
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -138,11 +132,9 @@ class FTFamilyDomainSearchIT {
     }
 
     @Test
-    void motifFindEntryWithEvidenceLength() {
+    void motifFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.MOTIF, "motif");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.MOTIF, 2, 30));
-        String evidence = "ECO_0000256";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.MOTIF, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -152,11 +144,9 @@ class FTFamilyDomainSearchIT {
     }
 
     @Test
-    void repeatFindEntryWithEvidenceLength() {
+    void repeatFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.REPEAT, "motif");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.REPEAT, 2, 30));
-        String evidence = "ECO_0000256";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.REPEAT, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -166,11 +156,9 @@ class FTFamilyDomainSearchIT {
     }
 
     @Test
-    void regionFindEntryWithEvidenceLength() {
+    void regionFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.REGION, "motif");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.REGION, 2, 30));
-        String evidence = "ECO_0000256";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.REGION, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -180,11 +168,9 @@ class FTFamilyDomainSearchIT {
     }
 
     @Test
-    void znfingFindEntryWithEvidenceLength() {
+    void znfingFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.ZN_FING, "UBP");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.ZN_FING, 2, 70));
-        String evidence = "ECO_0000256";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.ZN_FING, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);

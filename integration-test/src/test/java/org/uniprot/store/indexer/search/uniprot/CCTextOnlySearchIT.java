@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprotkb.comment.CommentType;
-import org.uniprot.store.search.field.QueryBuilder;
 
 class CCTextOnlySearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -207,24 +206,8 @@ class CCTextOnlySearchIT {
     }
 
     @Test
-    void shouldFindOneFunctionEntryQueryWithEvidence() {
-        String query = comments(CommentType.FUNCTION, "activation");
-
-        String evidence = "ECO_0000256";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.FUNCTION, evidence));
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q6GZX3));
-    }
-
-    @Test
     void shouldFindNoneFunctionEntryQueryWithEvidence() {
-        String query = comments(CommentType.FUNCTION, "activation");
-
-        String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.FUNCTION, evidence));
+        String query = comments(CommentType.FUNCTION, "inactivation");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -243,17 +226,6 @@ class CCTextOnlySearchIT {
     }
 
     @Test
-    void shouldFindOneSimilarityEntryQueryEvidence() {
-        String query = comments(CommentType.SIMILARITY, "family");
-        String evidence = "ECO_0000305";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.SIMILARITY, evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q196W5));
-    }
-
-    @Test
     void shouldFindOneEnzymeRegEntryQuery() {
         String query = comments(CommentType.ACTIVITY_REGULATION, "phosphorylation");
         QueryResponse response = searchEngine.getQueryResponse(query);
@@ -263,21 +235,8 @@ class CCTextOnlySearchIT {
     }
 
     @Test
-    void shouldFindOneEnzymeRegEntryQueryEvidence() {
-        String query = comments(CommentType.ACTIVITY_REGULATION, "phosphorylation");
-        String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.ACTIVITY_REGULATION, evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q6GZY3));
-    }
-
-    @Test
     void shouldFindNoneEnzymeRegEntryQueryEvidence() {
-        String query = comments(CommentType.ACTIVITY_REGULATION, "phosphorylation");
-        String evidence = "ECO_0000305";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.ACTIVITY_REGULATION, evidence));
+        String query = comments(CommentType.ACTIVITY_REGULATION, "notphosphorylation");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -305,21 +264,9 @@ class CCTextOnlySearchIT {
     }
 
     @Test
-    void shouldFindOneSubunitEntryQueryEvidence() {
-        String query = comments(CommentType.SUBUNIT, "molecules");
-        String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.SUBUNIT, evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q6GZY3));
-    }
-
-    @Test
     void shouldFindNoneSubunitEntryQueryEvidence() {
-        String query = comments(CommentType.SUBUNIT, "molecules");
-        String evidence = "ECO_0000305";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.SUBUNIT, evidence));
+        String query = comments(CommentType.SUBUNIT, "nomolecules");
+
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -338,21 +285,8 @@ class CCTextOnlySearchIT {
     }
 
     @Test
-    void shouldFindOneTissueSpeEntryQueryEvidence() {
-        String query = comments(CommentType.TISSUE_SPECIFICITY, "expressed");
-        String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.TISSUE_SPECIFICITY, evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q12345, Q6V4H0));
-    }
-
-    @Test
     void shouldFindNoneTissueSpeEntryQueryEvidence() {
-        String query = comments(CommentType.TISSUE_SPECIFICITY, "expressed");
-        String evidence = "ECO_0000305";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.TISSUE_SPECIFICITY, evidence));
+        String query = comments(CommentType.TISSUE_SPECIFICITY, "noexpressed");
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -370,21 +304,9 @@ class CCTextOnlySearchIT {
     }
 
     @Test
-    void shouldFindOneDevStageEntryQueryEvidence() {
-        String query = comments(CommentType.DEVELOPMENTAL_STAGE, "senescence");
-        String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.DEVELOPMENTAL_STAGE, evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q12345));
-    }
-
-    @Test
     void shouldFindNoneDevStageEntryQueryEvidence() {
-        String query = comments(CommentType.DEVELOPMENTAL_STAGE, "senescence");
-        String evidence = "ECO_0000305";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.DEVELOPMENTAL_STAGE, evidence));
+        String query = comments(CommentType.DEVELOPMENTAL_STAGE, "nosenescence");
+
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -402,21 +324,8 @@ class CCTextOnlySearchIT {
     }
 
     @Test
-    void shouldFindOneInductionEntryQueryEvidence() {
-        String query = comments(CommentType.INDUCTION, "abscisic");
-        String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.INDUCTION, evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q12345));
-    }
-
-    @Test
     void shouldFindNoneInductionEntryQueryEvidence() {
-        String query = comments(CommentType.INDUCTION, "abscisic");
-        String evidence = "ECO_0000305";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.INDUCTION, evidence));
+        String query = comments(CommentType.INDUCTION, "noabscisic");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -435,25 +344,9 @@ class CCTextOnlySearchIT {
     }
 
     @Test
-    void shouldFindOneDisruptionEntryQueryEvidence() {
-        String query = comments(CommentType.DISRUPTION_PHENOTYPE, "biomass");
-        String evidence = "ECO_0000269";
-        query =
-                QueryBuilder.and(
-                        query, commentEvidence(CommentType.DISRUPTION_PHENOTYPE, evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q12345));
-    }
-
-    @Test
     void shouldFindNoneDisruptionEntryQueryEvidence() {
-        String query = comments(CommentType.DISRUPTION_PHENOTYPE, "biomass");
-        String evidence = "ECO_0000305";
-        query =
-                QueryBuilder.and(
-                        query, commentEvidence(CommentType.DISRUPTION_PHENOTYPE, evidence));
+        String query = comments(CommentType.DISRUPTION_PHENOTYPE, "nobiomass");
+
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -471,21 +364,9 @@ class CCTextOnlySearchIT {
     }
 
     @Test
-    void shouldFindOnePtmEntryQueryEvidence() {
-        String query = comments(CommentType.PTM, "tyrosine");
-        String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.PTM, evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(P48347));
-    }
-
-    @Test
     void shouldFindNonePtmEntryQueryEvidence() {
-        String query = comments(CommentType.PTM, "tyrosine");
-        String evidence = "ECO_0000305";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.PTM, evidence));
+        String query = comments(CommentType.PTM, "notyrosine");
+
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -523,22 +404,8 @@ class CCTextOnlySearchIT {
     }
 
     @Test
-    void shouldFindOneCataEntryQueryEvidence() {
-        String query = comments(CommentType.CATALYTIC_ACTIVITY, "O2");
-        String evidence = "ECO_0000255";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.CATALYTIC_ACTIVITY, evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, empty());
-    }
-
-    @Test
     void shouldFindNonCataEntryQueryEvidence() {
-        String query = comments(CommentType.CATALYTIC_ACTIVITY, "O2");
-        String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, commentEvidence(CommentType.CATALYTIC_ACTIVITY, evidence));
+        String query = comments(CommentType.CATALYTIC_ACTIVITY, "nonoO2");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 

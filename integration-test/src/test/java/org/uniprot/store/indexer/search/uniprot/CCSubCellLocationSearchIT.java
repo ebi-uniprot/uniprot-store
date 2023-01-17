@@ -1,7 +1,6 @@
 package org.uniprot.store.indexer.search.uniprot;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasItems;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
 import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
@@ -16,7 +15,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.QueryBuilder;
 
 class CCSubCellLocationSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -89,51 +87,6 @@ class CCSubCellLocationSearchIT {
     }
 
     @Test
-    void termEvidenceOne() {
-        String value = "membrane";
-        String evidence = "ECO_0000269";
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_scl_term"),
-                        value);
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_scl_term"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q197B6));
-    }
-
-    @Test
-    void termEvidenceNone() {
-        String value = "membrane";
-        String evidence = "ECO_0000250";
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_scl_term"),
-                        value);
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_scl_term"),
-                                evidence));
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, empty());
-    }
-
-    @Test
     void termTopologyThree() {
         String value = "protein";
         String query =
@@ -145,75 +98,6 @@ class CCSubCellLocationSearchIT {
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItems(Q197B6, Q6GZX3, Q6GZY3));
-    }
-
-    @Test
-    void termTopologyEvidenceOne() {
-        String value = "protein";
-        String evidence = "ECO_0000269";
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_scl_term"),
-                        value);
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_scl_term"),
-                                evidence));
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q197B6));
-    }
-
-    @Test
-    void termTopologyManualEvidenceOne() {
-        String value = "protein";
-        String evidence = "manual";
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_scl_term"),
-                        value);
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_scl_term"),
-                                evidence));
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q197B6));
-    }
-
-    @Test
-    void termTopologyExperimentalEvidenceOne() {
-        String value = "protein";
-        String evidence = "experimental";
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_scl_term"),
-                        value);
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_scl_term"),
-                                evidence));
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q197B6));
     }
 
     @Test
@@ -231,52 +115,6 @@ class CCSubCellLocationSearchIT {
     }
 
     @Test
-    void termOrientationEvidenceOne() {
-        String value = "top";
-        String evidence = "ECO_0000313";
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_scl_term"),
-                        value);
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_scl_term"),
-                                evidence));
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q197B6));
-    }
-
-    @Test
-    void termOrientationEvidenceNone() {
-        String value = "top";
-        String evidence = "ECO_0000305";
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_scl_term"),
-                        value);
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_scl_term"),
-                                evidence));
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, empty());
-    }
-
-    @Test
     void noteTwo() {
         String value = "endoplasmic";
         String query =
@@ -288,73 +126,5 @@ class CCSubCellLocationSearchIT {
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItems(Q197B6, Q6GZY3));
-    }
-
-    @Test
-    void noteEvidenceOne() {
-        String value = "endoplasmic";
-        String evidence = "ECO_0000256";
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_scl_note"),
-                        value);
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_scl_note"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q197B6));
-    }
-
-    @Test
-    void noteEvidenceNone() {
-        String value = "endoplasmic";
-        String evidence = "ECO_0000269";
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_scl_note"),
-                        value);
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_scl_note"),
-                                evidence));
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, empty());
-    }
-
-    @Test
-    void noteAAEvidenceOne() {
-        String value = "endoplasmic";
-        String evidence = "automatic";
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_scl_note"),
-                        value);
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_scl_note"),
-                                evidence));
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q197B6));
     }
 }
