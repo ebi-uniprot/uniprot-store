@@ -124,7 +124,8 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
 
     public SearchFieldType getFieldTypeBySearchFieldName(String fieldName) {
         SearchFieldItem fieldItem = getSearchFieldItemByName(fieldName);
-        if (fieldItem.getFieldType() == SearchFieldType.EVIDENCE) {
+        if (fieldItem.getFieldType() == SearchFieldType.EVIDENCE
+                || fieldItem.getFieldType() == SearchFieldType.EXPERIMENTAL_EVIDENCE) {
             return SearchFieldType.GENERAL;
         }
         return fieldItem.getFieldType();
