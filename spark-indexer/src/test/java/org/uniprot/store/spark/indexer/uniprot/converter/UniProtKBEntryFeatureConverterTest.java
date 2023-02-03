@@ -93,7 +93,9 @@ class UniProtKBEntryFeatureConverterTest {
     void convertBindingFeature() {
         UniProtDocument document = new UniProtDocument();
 
-        List<UniProtKBFeature> features = Collections.singletonList(createBindingFeature());
+        List<Evidence> evidences = List.of(createEvidence(EvidenceCode.ECO_0000255));
+        List<UniProtKBFeature> features =
+                Collections.singletonList(createBindingFeature("description", evidences));
         UniProtEntryFeatureConverter converter = new UniProtEntryFeatureConverter();
         converter.convertFeature(features, document);
 
@@ -106,9 +108,11 @@ class UniProtKBEntryFeatureConverterTest {
                         "ChEBI-CHEBI:29180",
                         "nucleotidyl-adenosine residue",
                         "ChEBI-CHEBI:83071",
+                        "description",
                         "BINDING",
                         "tRNA(Thr)");
         assertEquals(new HashSet<>(chainValue), document.featuresMap.get("ft_binding"));
+        assertFalse(document.featuresMap.containsKey("ft_binding_exp"));
 
         assertTrue(document.featureEvidenceMap.containsKey("ftev_binding"));
         List<String> chainEvidenceValue = Arrays.asList("manual", "ECO_0000255");
@@ -120,7 +124,7 @@ class UniProtKBEntryFeatureConverterTest {
         assertEquals(
                 new HashSet<>(bindingLengthValue), document.featureLengthMap.get("ftlen_binding"));
 
-        assertEquals(8, document.content.size());
+        assertEquals(9, document.content.size());
         assertEquals(
                 new HashSet<>(
                         List.of(
@@ -128,6 +132,119 @@ class UniProtKBEntryFeatureConverterTest {
                                 "CHEBI:29180",
                                 "CHEBI:83071",
                                 "ChEBI-CHEBI:29180",
+                                "nucleotidyl-adenosine residue",
+                                "ChEBI-CHEBI:83071",
+                                "description",
+                                "BINDING",
+                                "tRNA(Thr)")),
+                document.content);
+
+        assertEquals(
+                Collections.singletonList(ProteinsWith.BINDING_SITE.getValue()),
+                document.proteinsWith);
+        assertTrue(document.crossRefs.isEmpty());
+        assertTrue(document.databases.isEmpty());
+    }
+
+    @Test
+    void convertImplicitExperimentalFeature() {
+        UniProtDocument document = new UniProtDocument();
+        document.reviewed = true;
+
+        List<Evidence> evidences = new ArrayList<>();
+        List<UniProtKBFeature> features = List.of(createBindingFeature("description", evidences));
+        UniProtEntryFeatureConverter converter = new UniProtEntryFeatureConverter();
+
+        converter.convertFeature(features, document);
+
+        assertTrue(document.featuresMap.containsKey("ft_binding"));
+        List<String> chainValue =
+                List.of(
+                        "A1",
+                        "CHEBI:29180",
+                        "CHEBI:83071",
+                        "ChEBI-CHEBI:29180",
+                        "nucleotidyl-adenosine residue",
+                        "ChEBI-CHEBI:83071",
+                        "description",
+                        "BINDING",
+                        "tRNA(Thr)");
+        assertEquals(new HashSet<>(chainValue), document.featuresMap.get("ft_binding"));
+        assertEquals(new HashSet<>(chainValue), document.featuresMap.get("ft_binding_exp"));
+
+        assertTrue(document.featureEvidenceMap.containsKey("ftev_binding"));
+        assertEquals(Set.of("experimental"), document.featureEvidenceMap.get("ftev_binding"));
+
+        assertTrue(document.featureLengthMap.containsKey("ftlen_binding"));
+        List<Integer> bindingLengthValue = Collections.singletonList(12);
+        assertEquals(
+                new HashSet<>(bindingLengthValue), document.featureLengthMap.get("ftlen_binding"));
+
+        assertEquals(9, document.content.size());
+        assertEquals(
+                new HashSet<>(
+                        List.of(
+                                "A1",
+                                "CHEBI:29180",
+                                "CHEBI:83071",
+                                "ChEBI-CHEBI:29180",
+                                "nucleotidyl-adenosine residue",
+                                "ChEBI-CHEBI:83071",
+                                "description",
+                                "BINDING",
+                                "tRNA(Thr)")),
+                document.content);
+
+        assertEquals(
+                Collections.singletonList(ProteinsWith.BINDING_SITE.getValue()),
+                document.proteinsWith);
+        assertTrue(document.crossRefs.isEmpty());
+        assertTrue(document.databases.isEmpty());
+    }
+
+    @Test
+    void convertWithoutImplicitExperimentalFeatureByDescription() {
+        UniProtDocument document = new UniProtDocument();
+        document.reviewed = true;
+
+        List<Evidence> evidences = new ArrayList<>();
+        List<UniProtKBFeature> features = List.of(createBindingFeature("(Probable).", evidences));
+        UniProtEntryFeatureConverter converter = new UniProtEntryFeatureConverter();
+
+        converter.convertFeature(features, document);
+
+        assertTrue(document.featuresMap.containsKey("ft_binding"));
+        List<String> chainValue =
+                List.of(
+                        "A1",
+                        "CHEBI:29180",
+                        "CHEBI:83071",
+                        "ChEBI-CHEBI:29180",
+                        "(Probable).",
+                        "nucleotidyl-adenosine residue",
+                        "ChEBI-CHEBI:83071",
+                        "BINDING",
+                        "tRNA(Thr)");
+        assertEquals(new HashSet<>(chainValue), document.featuresMap.get("ft_binding"));
+        assertFalse(document.featuresMap.containsKey("ft_binding_exp"));
+
+        assertTrue(document.featureEvidenceMap.containsKey("ftev_binding"));
+        assertTrue(document.featureEvidenceMap.get("ftev_binding").isEmpty());
+
+        assertTrue(document.featureLengthMap.containsKey("ftlen_binding"));
+        List<Integer> bindingLengthValue = Collections.singletonList(12);
+        assertEquals(
+                new HashSet<>(bindingLengthValue), document.featureLengthMap.get("ftlen_binding"));
+
+        assertEquals(9, document.content.size());
+        assertEquals(
+                new HashSet<>(
+                        List.of(
+                                "A1",
+                                "CHEBI:29180",
+                                "CHEBI:83071",
+                                "ChEBI-CHEBI:29180",
+                                "(Probable).",
                                 "nucleotidyl-adenosine residue",
                                 "ChEBI-CHEBI:83071",
                                 "BINDING",
@@ -215,7 +332,7 @@ class UniProtKBEntryFeatureConverterTest {
                 .build();
     }
 
-    private UniProtKBFeature createBindingFeature() {
+    private UniProtKBFeature createBindingFeature(String description, List<Evidence> evidences) {
         LigandPart ligandPart =
                 createLigandPart("nucleotidyl-adenosine residue", "ChEBI:CHEBI:83071", null, null);
 
@@ -233,8 +350,9 @@ class UniProtKBEntryFeatureConverterTest {
 
         return new UniProtKBFeatureBuilder()
                 .type(UniprotKBFeatureType.BINDING)
+                .description(description)
                 .location(new FeatureLocation(23, 34))
-                .evidencesAdd(createEvidence(EvidenceCode.ECO_0000255))
+                .evidencesSet(evidences)
                 .ligand(ligand)
                 .ligandPart(ligandPart)
                 .featureCrossReferenceAdd(xref1)

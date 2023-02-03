@@ -264,7 +264,7 @@ class UniProtKBEntryConverterIT {
         assertEquals(18, doc.proteinsWith.size());
         assertTrue(doc.proteinsWith.contains(ProteinsWith.CHAIN.getValue()));
 
-        assertEquals(16, doc.commentMap.keySet().size());
+        assertEquals(20, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey("cc_function" + EXPERIMENTAL));
         assertTrue(doc.commentMap.containsKey(CC_CATALYTIC_ACTIVITY + EXPERIMENTAL));
         assertTrue(doc.commentMap.containsKey("cc_subunit" + EXPERIMENTAL));
@@ -287,7 +287,7 @@ class UniProtKBEntryConverterIT {
         assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("ECO_0000305"));
         assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("manual"));
 
-        assertEquals(13, doc.featuresMap.size());
+        assertEquals(14, doc.featuresMap.size());
         assertTrue(doc.featuresMap.containsKey(FT_CONFLICT_FIELD));
         assertTrue(doc.featuresMap.get(FT_CONFLICT_FIELD).contains("in Ref. 3; AAH87719"));
 
@@ -312,7 +312,7 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(26, doc.subcellLocationTerm.size());
         assertTrue(doc.subcellLocationTerm.contains("Nucleus envelope"));
-        assertEquals(0, doc.subcellLocationTermEv.size());
+        assertEquals(1, doc.subcellLocationTermEv.size());
         assertEquals(1, doc.subcellLocationNote.size());
         assertEquals(2, doc.subcellLocationNoteEv.size());
         assertTrue(doc.subcellLocationNoteEv.contains("ECO_0000250"));
@@ -452,8 +452,8 @@ class UniProtKBEntryConverterIT {
         assertEquals(1, doc.proteinsWith.size());
         assertTrue(doc.proteinsWith.contains(ProteinsWith.ALTERNATIVE_PRODUCTS.getValue()));
 
-        assertEquals(1, doc.commentMap.keySet().size());
-        assertEquals(1, doc.commentMap.size());
+        assertEquals(4, doc.commentMap.keySet().size());
+        assertEquals(4, doc.commentMap.size());
         assertTrue(doc.commentMap.containsKey(CC_ALTERNATIVE_PRODUCTS_FIELD));
 
         assertEquals(1, doc.commentEvMap.size());

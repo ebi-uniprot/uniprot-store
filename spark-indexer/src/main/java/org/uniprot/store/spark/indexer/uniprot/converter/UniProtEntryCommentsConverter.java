@@ -1,5 +1,8 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.canAddExperimentalByAnnotationText;
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.hasExperimentalEvidence;
+
 import java.io.Serializable;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -68,16 +71,18 @@ class UniProtEntryCommentsConverter implements Serializable {
             document.content.add(commentVal);
             Collection<String> evValues =
                     document.commentEvMap.computeIfAbsent(evField, k -> new HashSet<>());
-            Set<String> evidences = fetchEvidences(comment, document.reviewed);
-            evValues.addAll(evidences);
+            Set<String> evidences = fetchEvidences(comment);
 
-            if (hasExperimentalEvidence(evidences)) {
+            if (canAddExperimental(
+                    comment.getCommentType(), commentVal, document.reviewed, evidences)) {
                 String experimentalField = commentField + EXPERIMENTAL;
                 Collection<String> experimentalComments =
                         document.commentMap.computeIfAbsent(
                                 experimentalField, k -> new ArrayList<>());
                 experimentalComments.add(commentVal);
+                evidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
             }
+            evValues.addAll(evidences);
 
             ProteinsWith.from(comment.getCommentType())
                     .map(ProteinsWith::getValue)
@@ -89,10 +94,11 @@ class UniProtEntryCommentsConverter implements Serializable {
 
             switch (comment.getCommentType()) {
                 case CATALYTIC_ACTIVITY:
-                    convertCatalyticActivity((CatalyticActivityComment) comment, document);
+                    convertCatalyticActivity(
+                            (CatalyticActivityComment) comment, document, commentVal);
                     break;
                 case COFACTOR:
-                    convertFactor((CofactorComment) comment, document);
+                    convertFactor((CofactorComment) comment, document, commentVal);
                     break;
                 case BIOPHYSICOCHEMICAL_PROPERTIES:
                     convertCommentBPCP((BPCPComment) comment, document);
@@ -107,7 +113,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                     convertCommentSL((SubcellularLocationComment) comment, document);
                     break;
                 case ALTERNATIVE_PRODUCTS:
-                    convertCommentAP((AlternativeProductsComment) comment, document);
+                    convertCommentAP((AlternativeProductsComment) comment, document, commentVal);
                     break;
                 case SIMILARITY:
                     convertCommentFamily((FreeTextComment) comment, document);
@@ -116,7 +122,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                     convertCommentSC((SequenceCautionComment) comment, document);
                     break;
                 case DISEASE:
-                    convertDiseaseComment((DiseaseComment) comment, document, evidences);
+                    convertDiseaseComment((DiseaseComment) comment, document);
                     break;
                 default:
                     break;
@@ -134,12 +140,14 @@ class UniProtEntryCommentsConverter implements Serializable {
         return field.replace(' ', '_');
     }
 
-    private void convertCommentAP(AlternativeProductsComment comment, UniProtDocument document) {
+    private void convertCommentAP(
+            AlternativeProductsComment comment, UniProtDocument document, String commentVal) {
+
         List<String> values = new ArrayList<>();
         Set<String> evidences = new HashSet<>();
         if (comment.hasNote() && comment.getNote().hasTexts()) {
             values.addAll(getTextsValue(comment.getNote().getTexts()));
-            evidences.addAll(getTextsEvidence(comment.getNote().getTexts(), false));
+            evidences.addAll(getTextsEvidence(comment.getNote().getTexts()));
         }
         if (comment.hasIsoforms()) {
             comment.getIsoforms().stream()
@@ -149,7 +157,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                     .forEach(
                             note -> {
                                 values.addAll(getTextsValue(note.getTexts()));
-                                evidences.addAll(getTextsEvidence(note.getTexts(), false));
+                                evidences.addAll(getTextsEvidence(note.getTexts()));
                             });
 
             comment.getIsoforms().stream()
@@ -158,11 +166,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                     .map(IsoformSequenceStatus::getName)
                     .forEach(values::add);
         }
-
-        if (evidences.isEmpty() && (document.reviewed != null && document.reviewed)) {
-            evidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
-        }
-
+        CommentType commentType = CommentType.ALTERNATIVE_PRODUCTS;
         List<String> events = new ArrayList<>();
         if (comment.hasEvents()) {
             comment.getEvents().stream().map(APEventType::getName).forEach(events::add);
@@ -175,79 +179,92 @@ class UniProtEntryCommentsConverter implements Serializable {
         }
         document.ap.addAll(values);
         document.apEv.addAll(evidences);
-        if (hasExperimentalEvidence(evidences)) {
+        if (canAddExperimental(commentType, commentVal, document.reviewed, evidences)) {
             Collection<String> apExp =
                     document.commentMap.computeIfAbsent(CC_AP_EXPERIMENTAL, k -> new HashSet<>());
             apExp.addAll(values);
             apExp.addAll(events);
+            document.apEv.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
         }
         for (String event : events) {
             if ("alternative promoter usage".equalsIgnoreCase(event)) {
                 document.apApu.addAll(values);
+                addExperimentalEvidence(
+                        commentType, document, values, evidences, CC_AP_APU_EXPERIMENTAL);
                 document.apApuEv.addAll(evidences);
-                addExperimentalEvidence(document, values, evidences, CC_AP_APU_EXPERIMENTAL);
             }
             if ("alternative splicing".equalsIgnoreCase(event)) {
                 document.apAs.addAll(values);
+                addExperimentalEvidence(
+                        commentType, document, values, evidences, CC_AP_AS_EXPERIMENTAL);
                 document.apAsEv.addAll(evidences);
-                addExperimentalEvidence(document, values, evidences, CC_AP_AS_EXPERIMENTAL);
             }
             if ("alternative initiation".equalsIgnoreCase(event)) {
                 document.apAi.addAll(values);
+                addExperimentalEvidence(
+                        commentType, document, values, evidences, CC_AP_AI_EXPERIMENTAL);
                 document.apAiEv.addAll(evidences);
-                addExperimentalEvidence(document, values, evidences, CC_AP_AI_EXPERIMENTAL);
             }
             if ("ribosomal frameshifting".equalsIgnoreCase(event)) {
                 document.apRf.addAll(values);
+                addExperimentalEvidence(
+                        commentType, document, values, evidences, CC_AP_RF_EXPERIMENTAL);
                 document.apRfEv.addAll(evidences);
-                addExperimentalEvidence(document, values, evidences, CC_AP_RF_EXPERIMENTAL);
             }
         }
     }
 
     private void addExperimentalEvidence(
+            CommentType commentType,
             UniProtDocument document,
             Collection<String> values,
             Set<String> evidences,
             String experimentalField) {
-        if (hasExperimentalEvidence(evidences)) {
+        String commentVal = String.join(" ", values);
+        if (canAddExperimental(commentType, commentVal, document.reviewed, evidences)) {
             document.commentMap
                     .computeIfAbsent(experimentalField, k -> new HashSet<>())
                     .addAll(values);
+            evidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
         }
     }
 
-    private void convertFactor(CofactorComment comment, UniProtDocument document) {
+    private void convertFactor(
+            CofactorComment comment, UniProtDocument document, String commentVal) {
         if (comment.hasCofactors()) {
-            comment.getCofactors().forEach(cofactor -> convertCofactor(document, cofactor));
+            comment.getCofactors()
+                    .forEach(cofactor -> convertCofactor(document, commentVal, cofactor));
         }
 
         if ((comment.hasNote()) && (comment.getNote().hasTexts())) {
             List<String> noteValues = getTextsValue(comment.getNote().getTexts());
             document.cofactorNote.addAll(noteValues);
-            Set<String> textEvidences =
-                    getTextsEvidence(comment.getNote().getTexts(), document.reviewed);
-            document.cofactorNoteEv.addAll(textEvidences);
+            Set<String> textEvidences = getTextsEvidence(comment.getNote().getTexts());
             addExperimentalEvidence(
-                    document, noteValues, textEvidences, CC_COFACTOR_NOTE_EXPERIMENTAL);
+                    CommentType.COFACTOR,
+                    document,
+                    noteValues,
+                    textEvidences,
+                    CC_COFACTOR_NOTE_EXPERIMENTAL);
+            document.cofactorNoteEv.addAll(textEvidences);
         }
     }
 
-    private void convertCofactor(UniProtDocument document, Cofactor cofactor) {
+    private void convertCofactor(UniProtDocument document, String commentVal, Cofactor cofactor) {
         List<String> cofactorValues = new ArrayList<>();
         cofactorValues.add(cofactor.getName());
         if (cofactor.getCofactorCrossReference().getDatabase() == CofactorDatabase.CHEBI) {
             cofactorValues.add(cofactor.getCofactorCrossReference().getId());
         }
         document.cofactorChebi.addAll(cofactorValues);
-        if (hasExperimentalEvidence(cofactor.getEvidences())) {
+        Set<String> evidences = UniProtEntryConverterUtil.extractEvidence(cofactor.getEvidences());
+        if (canAddExperimental(CommentType.COFACTOR, commentVal, document.reviewed, evidences)) {
             document.commentMap
-                    .computeIfAbsent(CC_COFACTOR_CHEBI_EXPERIMENTAL, k -> new ArrayList<>())
+                    .computeIfAbsent(CC_COFACTOR_CHEBI_EXPERIMENTAL, k -> new HashSet<>())
                     .addAll(cofactorValues);
+            document.cofactorChebiEv.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
         }
-        document.cofactorChebiEv.addAll(
-                UniProtEntryConverterUtil.extractEvidence(
-                        cofactor.getEvidences(), document.reviewed));
+        document.cofactorChebiEv.addAll(evidences);
     }
 
     private void convertCommentSC(SequenceCautionComment comment, UniProtDocument document) {
@@ -262,11 +279,10 @@ class UniProtEntryCommentsConverter implements Serializable {
         }
 
         document.seqCaution.addAll(cautionValues);
-        Set<String> evidence =
-                UniProtEntryConverterUtil.extractEvidence(
-                        comment.getEvidences(), document.reviewed);
+        Set<String> evidence = UniProtEntryConverterUtil.extractEvidence(comment.getEvidences());
+        CommentType commentType = CommentType.SEQUENCE_CAUTION;
+        addExperimentalEvidence(commentType, document, cautionValues, evidence, CC_SC_EXPERIMENTAL);
         document.seqCautionEv.addAll(evidence);
-        addExperimentalEvidence(document, cautionValues, evidence, CC_SC_EXPERIMENTAL);
         switch (comment.getSequenceCautionType()) {
             case FRAMESHIFT:
                 document.seqCautionFrameshift.add(val);
@@ -285,21 +301,32 @@ class UniProtEntryCommentsConverter implements Serializable {
                 break;
             case MISCELLANEOUS_DISCREPANCY:
                 document.seqCautionMisc.add(val);
+                addExperimentalEvidence(
+                        commentType, document, Set.of(val), evidence, CC_SC_MISC_EXPERIMENTAL);
                 document.seqCautionMiscEv.addAll(evidence);
-                addExperimentalEvidence(document, Set.of(val), evidence, CC_SC_MISC_EXPERIMENTAL);
                 break;
             default:
         }
     }
 
-    private void convertDiseaseComment(
-            DiseaseComment comment, UniProtDocument document, Set<String> evidences) {
+    private void convertDiseaseComment(DiseaseComment comment, UniProtDocument document) {
         if (comment.hasDefinedDisease()) {
+            Disease disease = comment.getDisease();
+            Set<String> evidences =
+                    UniProtEntryConverterUtil.extractEvidence(disease.getEvidences());
+            if (comment.hasNote() && comment.getNote().hasTexts()) {
+                evidences.addAll(getTextsEvidence(comment.getNote().getTexts()));
+            }
             String field = getCommentField(comment);
             String accession = comment.getDisease().getDiseaseAccession();
             document.content.add(accession);
             document.commentMap.get(field).add(accession);
-            addExperimentalEvidence(document, Set.of(accession), evidences, field + EXPERIMENTAL);
+            addExperimentalEvidence(
+                    CommentType.DISEASE,
+                    document,
+                    Set.of(accession),
+                    evidences,
+                    field + EXPERIMENTAL);
         }
     }
 
@@ -324,56 +351,73 @@ class UniProtEntryCommentsConverter implements Serializable {
     private void convertTemperatureDependence(
             UniProtDocument document, TemperatureDependence temperatureDependence) {
         Set<String> temperatureDependenceEvidences =
-                getTextsEvidence(temperatureDependence.getTexts(), document.reviewed);
+                getTextsEvidence(temperatureDependence.getTexts());
         List<String> temperatureDependenceValues = getTextsValue(temperatureDependence.getTexts());
         document.bpcpTempDependence.addAll(temperatureDependenceValues);
-        document.bpcpTempDependenceEv.addAll(temperatureDependenceEvidences);
         document.bpcp.addAll(temperatureDependenceValues);
-        document.bpcpEv.addAll(temperatureDependenceEvidences);
-        if (hasExperimentalEvidence(temperatureDependenceEvidences)) {
+        String commentVal = String.join(" ", temperatureDependenceValues);
+        if (canAddExperimental(
+                CommentType.BIOPHYSICOCHEMICAL_PROPERTIES,
+                commentVal,
+                document.reviewed,
+                temperatureDependenceEvidences)) {
             document.commentMap
                     .computeIfAbsent(CC_BPCP_TEMP_DEP_EXPERIMENTAL, k -> new HashSet<>())
                     .addAll(temperatureDependenceValues);
             document.commentMap
                     .computeIfAbsent(CC_BPCP_EXPERIMENTAL, k -> new HashSet<>())
                     .addAll(temperatureDependenceValues);
+            temperatureDependenceEvidences.add(
+                    EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
         }
+        document.bpcpEv.addAll(temperatureDependenceEvidences);
+        document.bpcpTempDependenceEv.addAll(temperatureDependenceEvidences);
     }
 
     private void convertRedoxPotential(UniProtDocument document, RedoxPotential redoxPotential) {
-        Set<String> redoxPotentialEvidences =
-                getTextsEvidence(redoxPotential.getTexts(), document.reviewed);
+        Set<String> redoxPotentialEvidences = getTextsEvidence(redoxPotential.getTexts());
         List<String> redoxPotentialValues = getTextsValue(redoxPotential.getTexts());
         document.bpcpRedoxPotential.addAll(redoxPotentialValues);
-        document.bpcpRedoxPotentialEv.addAll(redoxPotentialEvidences);
         document.bpcp.addAll(redoxPotentialValues);
-        document.bpcpEv.addAll(redoxPotentialEvidences);
-        if (hasExperimentalEvidence(redoxPotentialEvidences)) {
+        String commentVal = String.join(" ", redoxPotentialValues);
+        if (canAddExperimental(
+                CommentType.BIOPHYSICOCHEMICAL_PROPERTIES,
+                commentVal,
+                document.reviewed,
+                redoxPotentialEvidences)) {
             document.commentMap
                     .computeIfAbsent(CC_BPCP_REDOX_POT_EXPERIMENTAL, k -> new HashSet<>())
                     .addAll(redoxPotentialValues);
             document.commentMap
                     .computeIfAbsent(CC_BPCP_EXPERIMENTAL, k -> new HashSet<>())
                     .addAll(redoxPotentialValues);
+            redoxPotentialEvidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
         }
+        document.bpcpEv.addAll(redoxPotentialEvidences);
+        document.bpcpRedoxPotentialEv.addAll(redoxPotentialEvidences);
     }
 
     private void convertPhDependence(UniProtDocument document, PhDependence phDependence) {
-        Set<String> phDependenceEvidences =
-                getTextsEvidence(phDependence.getTexts(), document.reviewed);
+        Set<String> phDependenceEvidences = getTextsEvidence(phDependence.getTexts());
         List<String> phDependenceValues = getTextsValue(phDependence.getTexts());
         document.bpcpPhDependence.addAll(phDependenceValues);
-        document.bpcpPhDependenceEv.addAll(phDependenceEvidences);
         document.bpcp.addAll(phDependenceValues);
-        document.bpcpEv.addAll(phDependenceEvidences);
-        if (hasExperimentalEvidence(phDependenceEvidences)) {
+        String commentVal = String.join(" ", phDependenceValues);
+        if (canAddExperimental(
+                CommentType.BIOPHYSICOCHEMICAL_PROPERTIES,
+                commentVal,
+                document.reviewed,
+                phDependenceEvidences)) {
             document.commentMap
                     .computeIfAbsent(CC_BPCP_PH_DEP_EXPERIMENTAL, k -> new HashSet<>())
                     .addAll(phDependenceValues);
             document.commentMap
                     .computeIfAbsent(CC_BPCP_EXPERIMENTAL, k -> new HashSet<>())
                     .addAll(phDependenceValues);
+            phDependenceEvidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
         }
+        document.bpcpPhDependenceEv.addAll(phDependenceEvidences);
+        document.bpcpEv.addAll(phDependenceEvidences);
     }
 
     private void convertAbsorption(UniProtDocument document, Absorption absorption) {
@@ -381,31 +425,34 @@ class UniProtEntryCommentsConverter implements Serializable {
         Set<String> absorptionEvidences = new HashSet<>();
         absorptionValues.add("" + absorption.getMax());
         absorptionEvidences.addAll(
-                UniProtEntryConverterUtil.extractEvidence(absorption.getEvidences(), false));
+                UniProtEntryConverterUtil.extractEvidence(absorption.getEvidences()));
         if (absorption.hasNote() && absorption.getNote().hasTexts()) {
             absorptionValues.addAll(getTextsValue(absorption.getNote().getTexts()));
-            absorptionEvidences.addAll(getTextsEvidence(absorption.getNote().getTexts(), false));
-        }
-        if (absorptionEvidences.isEmpty() && (document.reviewed != null && document.reviewed)) {
-            absorptionEvidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+            absorptionEvidences.addAll(getTextsEvidence(absorption.getNote().getTexts()));
         }
         document.bpcpAbsorption.addAll(absorptionValues);
-        document.bpcpAbsorptionEv.addAll(absorptionEvidences);
         document.bpcp.addAll(absorptionValues);
-        document.bpcpEv.addAll(absorptionEvidences);
-        if (hasExperimentalEvidence(absorptionEvidences)) {
+        String commentVal = String.join(" ", absorptionValues);
+        if (canAddExperimental(
+                CommentType.BIOPHYSICOCHEMICAL_PROPERTIES,
+                commentVal,
+                document.reviewed,
+                absorptionEvidences)) {
             document.commentMap
                     .computeIfAbsent(CC_BPCP_ABSORPTION_EXPERIMENTAL, k -> new HashSet<>())
                     .addAll(absorptionValues);
             document.commentMap
                     .computeIfAbsent(CC_BPCP_EXPERIMENTAL, k -> new HashSet<>())
                     .addAll(absorptionValues);
+            absorptionEvidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
         }
+        document.bpcpAbsorptionEv.addAll(absorptionEvidences);
+        document.bpcpEv.addAll(absorptionEvidences);
     }
 
     private void convertKineticParameters(UniProtDocument document, KineticParameters kp) {
         List<String> kineticValues = new ArrayList<>();
-        List<String> kineticEvidenceValues = new ArrayList<>();
+        Set<String> kineticEvidenceValues = new HashSet<>();
         if (kp.hasMaximumVelocities()) {
             for (MaximumVelocity maximumVelocity : kp.getMaximumVelocities()) {
                 if (maximumVelocity.hasEnzyme()) {
@@ -417,7 +464,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                 if (maximumVelocity.hasEvidences()) {
                     kineticEvidenceValues.addAll(
                             UniProtEntryConverterUtil.extractEvidence(
-                                    maximumVelocity.getEvidences(), false));
+                                    maximumVelocity.getEvidences()));
                 }
             }
         }
@@ -432,33 +479,34 @@ class UniProtEntryCommentsConverter implements Serializable {
                 if (michaelisConstant.hasEvidences()) {
                     kineticEvidenceValues.addAll(
                             UniProtEntryConverterUtil.extractEvidence(
-                                    michaelisConstant.getEvidences(), false));
+                                    michaelisConstant.getEvidences()));
                 }
             }
         }
         if (kp.hasNote() && kp.getNote().hasTexts()) {
             kineticValues.addAll(getTextsValue(kp.getNote().getTexts()));
-            kineticEvidenceValues.addAll(getTextsEvidence(kp.getNote().getTexts(), false));
-        }
-
-        if (kineticEvidenceValues.isEmpty() && (document.reviewed != null && document.reviewed)) {
-            kineticEvidenceValues.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+            kineticEvidenceValues.addAll(getTextsEvidence(kp.getNote().getTexts()));
         }
 
         document.bpcpKinetics.addAll(kineticValues);
-        document.bpcpKineticsEv.addAll(kineticEvidenceValues);
-
         document.bpcp.addAll(kineticValues);
-        document.bpcpEv.addAll(kineticEvidenceValues);
 
-        if (hasExperimentalEvidence(kineticEvidenceValues)) {
+        String commentVal = String.join(" ", kineticValues);
+        if (canAddExperimental(
+                CommentType.BIOPHYSICOCHEMICAL_PROPERTIES,
+                commentVal,
+                document.reviewed,
+                kineticEvidenceValues)) {
             document.commentMap
                     .computeIfAbsent(CC_BPCP_KINETICS_EXPERIMENTAL, k -> new HashSet<>())
                     .addAll(kineticValues);
             document.commentMap
                     .computeIfAbsent(CC_BPCP_EXPERIMENTAL, k -> new HashSet<>())
                     .addAll(kineticValues);
+            kineticEvidenceValues.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
         }
+        document.bpcpKineticsEv.addAll(kineticEvidenceValues);
+        document.bpcpEv.addAll(kineticEvidenceValues);
     }
 
     private List<String> getTextsValue(List<EvidencedValue> texts) {
@@ -469,7 +517,7 @@ class UniProtEntryCommentsConverter implements Serializable {
         return result;
     }
 
-    private Set<String> getTextsEvidence(List<EvidencedValue> texts, Boolean addExperimental) {
+    private Set<String> getTextsEvidence(List<EvidencedValue> texts) {
         Set<String> result = new HashSet<>();
         if (Utils.notNullNotEmpty(texts)) {
             List<Evidence> evidences =
@@ -477,7 +525,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                             .flatMap(text -> text.getEvidences().stream())
                             .collect(Collectors.toList());
 
-            result.addAll(UniProtEntryConverterUtil.extractEvidence(evidences, addExperimental));
+            result.addAll(UniProtEntryConverterUtil.extractEvidence(evidences));
         }
         return result;
     }
@@ -508,10 +556,15 @@ class UniProtEntryCommentsConverter implements Serializable {
             List<String> noteValues = getTextsValue(comment.getNote().getTexts());
             // Current legacy does not apply default experimental when we do not have any evidence
             // for subcellular location
-            Set<String> noteEv = getTextsEvidence(comment.getNote().getTexts(), false);
+            Set<String> noteEv = getTextsEvidence(comment.getNote().getTexts());
             document.subcellLocationNote.addAll(noteValues);
+            addExperimentalEvidence(
+                    CommentType.SUBCELLULAR_LOCATION,
+                    document,
+                    noteValues,
+                    noteEv,
+                    CC_SCL_NOTE_EXPERIMENTAL);
             document.subcellLocationNoteEv.addAll(noteEv);
-            addExperimentalEvidence(document, noteValues, noteEv, CC_SCL_NOTE_EXPERIMENTAL);
         }
     }
 
@@ -519,13 +572,15 @@ class UniProtEntryCommentsConverter implements Serializable {
             UniProtDocument document, SubcellularLocationValue location) {
         Set<String> locationTerm = Set.of(location.getId(), location.getValue());
         document.subcellLocationTerm.addAll(locationTerm);
-        // Current legacy does not apply default experimental when we do not have any evidence for
-        // subcellular location
-        Set<String> locationEv =
-                UniProtEntryConverterUtil.extractEvidence(location.getEvidences(), false);
-        document.subcellLocationTermEv.addAll(locationEv);
+        Set<String> locationEv = UniProtEntryConverterUtil.extractEvidence(location.getEvidences());
         document.content.add(location.getId());
-        addExperimentalEvidence(document, locationTerm, locationEv, CC_SCL_TERM_EXPERIMENTAL);
+        addExperimentalEvidence(
+                CommentType.SUBCELLULAR_LOCATION,
+                document,
+                locationTerm,
+                locationEv,
+                CC_SCL_TERM_EXPERIMENTAL);
+        document.subcellLocationTermEv.addAll(locationEv);
     }
 
     private void updateFamily(String val, UniProtDocument document) {
@@ -552,21 +607,16 @@ class UniProtEntryCommentsConverter implements Serializable {
             if (Utils.notNull(unipathwayAccession)) {
                 document.pathway.add(unipathwayAccession);
                 document.content.add(unipathwayAccession);
-                if (hasExperimentalEvidence(text.getEvidences())) {
-                    document.commentMap
-                            .computeIfAbsent(CC_PATHWAY_EXPERIMENTAL, k -> new ArrayList<>())
-                            .add(unipathwayAccession);
-                }
             }
         }
     }
 
-    private Set<String> fetchEvidences(Comment comment, Boolean reviewed) {
+    private Set<String> fetchEvidences(Comment comment) {
         Set<String> evidences = new HashSet<>();
         if (comment instanceof FreeTextComment) {
             FreeTextComment toComment = (FreeTextComment) comment;
             if (toComment.hasTexts()) {
-                evidences.addAll(getTextsEvidence(toComment.getTexts(), false));
+                evidences.addAll(getTextsEvidence(toComment.getTexts()));
             }
         }
         CommentType type = comment.getCommentType();
@@ -576,10 +626,9 @@ class UniProtEntryCommentsConverter implements Serializable {
                 if (diseaseComment.hasDefinedDisease()) {
                     evidences.addAll(
                             UniProtEntryConverterUtil.extractEvidence(
-                                    diseaseComment.getDisease().getEvidences(), false));
+                                    diseaseComment.getDisease().getEvidences()));
                     if (diseaseComment.hasNote() && diseaseComment.getNote().hasTexts()) {
-                        evidences.addAll(
-                                getTextsEvidence(diseaseComment.getNote().getTexts(), false));
+                        evidences.addAll(getTextsEvidence(diseaseComment.getNote().getTexts()));
                     }
                 }
                 break;
@@ -590,24 +639,39 @@ class UniProtEntryCommentsConverter implements Serializable {
                             UniProtEntryConverterUtil.extractEvidence(
                                     reComment.getPositions().stream()
                                             .flatMap(val -> val.getEvidences().stream())
-                                            .collect(Collectors.toList()),
-                                    false));
+                                            .collect(Collectors.toList())));
                 }
                 if (reComment.hasNote() && reComment.getNote().hasTexts()) {
-                    evidences.addAll(getTextsEvidence(reComment.getNote().getTexts(), false));
+                    evidences.addAll(getTextsEvidence(reComment.getNote().getTexts()));
+                }
+                break;
+            case COFACTOR:
+                CofactorComment cofactorComment = (CofactorComment) comment;
+                if (cofactorComment.hasCofactors()) {
+                    cofactorComment.getCofactors().stream()
+                            .flatMap(
+                                    cofactor ->
+                                            UniProtEntryConverterUtil.extractEvidence(
+                                                    cofactor.getEvidences())
+                                                    .stream())
+                            .forEach(evidences::add);
+                }
+
+                if ((cofactorComment.hasNote()) && (cofactorComment.getNote().hasTexts())) {
+                    evidences.addAll(getTextsEvidence(cofactorComment.getNote().getTexts()));
                 }
                 break;
             case MASS_SPECTROMETRY:
                 MassSpectrometryComment msComment = (MassSpectrometryComment) comment;
                 evidences.addAll(
-                        UniProtEntryConverterUtil.extractEvidence(msComment.getEvidences(), false));
+                        UniProtEntryConverterUtil.extractEvidence(msComment.getEvidences()));
                 break;
             case CATALYTIC_ACTIVITY:
                 CatalyticActivityComment caComment = (CatalyticActivityComment) comment;
                 if (caComment.hasReaction()) {
                     evidences.addAll(
                             UniProtEntryConverterUtil.extractEvidence(
-                                    caComment.getReaction().getEvidences(), false));
+                                    caComment.getReaction().getEvidences()));
                 }
                 if (caComment.hasPhysiologicalReactions()) {
                     List<Evidence> physiologicalEvidences =
@@ -616,8 +680,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                                     .flatMap(reaction -> reaction.getEvidences().stream())
                                     .collect(Collectors.toList());
                     evidences.addAll(
-                            UniProtEntryConverterUtil.extractEvidence(
-                                    physiologicalEvidences, false));
+                            UniProtEntryConverterUtil.extractEvidence(physiologicalEvidences));
                 }
                 break;
             case BIOPHYSICOCHEMICAL_PROPERTIES:
@@ -625,7 +688,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                 if (bpcpComment.hasAbsorption() && bpcpComment.getAbsorption().hasEvidences()) {
                     evidences.addAll(
                             UniProtEntryConverterUtil.extractEvidence(
-                                    bpcpComment.getAbsorption().getEvidences(), false));
+                                    bpcpComment.getAbsorption().getEvidences()));
                 }
                 if (bpcpComment.hasKineticParameters()) {
                     KineticParameters kinetics = bpcpComment.getKineticParameters();
@@ -634,10 +697,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                                 kinetics.getMaximumVelocities().stream()
                                         .filter(MaximumVelocity::hasEvidences)
                                         .map(MaximumVelocity::getEvidences)
-                                        .map(
-                                                ev ->
-                                                        UniProtEntryConverterUtil.extractEvidence(
-                                                                ev, false))
+                                        .map(UniProtEntryConverterUtil::extractEvidence)
                                         .flatMap(Collection::stream)
                                         .collect(Collectors.toSet()));
                     }
@@ -646,37 +706,28 @@ class UniProtEntryCommentsConverter implements Serializable {
                                 kinetics.getMichaelisConstants().stream()
                                         .filter(MichaelisConstant::hasEvidences)
                                         .map(MichaelisConstant::getEvidences)
-                                        .map(
-                                                ev ->
-                                                        UniProtEntryConverterUtil.extractEvidence(
-                                                                ev, false))
+                                        .map(UniProtEntryConverterUtil::extractEvidence)
                                         .flatMap(Collection::stream)
                                         .collect(Collectors.toSet()));
                     }
                     if (kinetics.hasNote() && kinetics.getNote().hasTexts()) {
-                        evidences.addAll(getTextsEvidence(kinetics.getNote().getTexts(), false));
+                        evidences.addAll(getTextsEvidence(kinetics.getNote().getTexts()));
                     }
                 }
                 if (bpcpComment.hasPhDependence() && bpcpComment.getPhDependence().hasTexts()) {
-                    evidences.addAll(
-                            getTextsEvidence(bpcpComment.getPhDependence().getTexts(), false));
+                    evidences.addAll(getTextsEvidence(bpcpComment.getPhDependence().getTexts()));
                 }
                 if (bpcpComment.hasRedoxPotential() && bpcpComment.getRedoxPotential().hasTexts()) {
-                    evidences.addAll(
-                            getTextsEvidence(bpcpComment.getRedoxPotential().getTexts(), false));
+                    evidences.addAll(getTextsEvidence(bpcpComment.getRedoxPotential().getTexts()));
                 }
                 if (bpcpComment.hasTemperatureDependence()
                         && bpcpComment.getTemperatureDependence().hasTexts()) {
                     evidences.addAll(
-                            getTextsEvidence(
-                                    bpcpComment.getTemperatureDependence().getTexts(), false));
+                            getTextsEvidence(bpcpComment.getTemperatureDependence().getTexts()));
                 }
                 break;
             default:
                 break;
-        }
-        if (evidences.isEmpty() && (reviewed != null && reviewed)) {
-            evidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
         }
         return evidences;
     }
@@ -698,11 +749,16 @@ class UniProtEntryCommentsConverter implements Serializable {
                         });
     }
 
-    private void convertCatalyticActivity(CatalyticActivityComment comment, UniProtDocument doc) {
+    private void convertCatalyticActivity(
+            CatalyticActivityComment comment, UniProtDocument doc, String commentVal) {
         Reaction reaction = comment.getReaction();
         String field = this.getCommentField(comment);
         if (reaction.hasReactionCrossReferences()) {
-            boolean experimental = hasExperimentalEvidence(reaction.getEvidences());
+            Set<String> evidences =
+                    UniProtEntryConverterUtil.extractEvidence(reaction.getEvidences());
+            boolean experimental =
+                    canAddExperimental(
+                            CommentType.CATALYTIC_ACTIVITY, commentVal, doc.reviewed, evidences);
             convertReactionInformation(
                     doc, reaction.getReactionCrossReferences(), field, experimental);
         }
@@ -713,7 +769,10 @@ class UniProtEntryCommentsConverter implements Serializable {
                             .filter(PhysiologicalReaction::hasEvidences)
                             .flatMap(phyReaction -> phyReaction.getEvidences().stream())
                             .collect(Collectors.toList());
-            boolean experimental = hasExperimentalEvidence(evidences);
+            Set<String> evidenceSet = UniProtEntryConverterUtil.extractEvidence(evidences);
+            boolean experimental =
+                    canAddExperimental(
+                            CommentType.CATALYTIC_ACTIVITY, commentVal, doc.reviewed, evidenceSet);
 
             var physiologicalReactionCrossReferences =
                     comment.getPhysiologicalReactions().stream()
@@ -762,19 +821,12 @@ class UniProtEntryCommentsConverter implements Serializable {
                 .forEach(val -> updateFamily(val, document));
     }
 
-    private boolean hasExperimentalEvidence(List<Evidence> evidences) {
-        boolean experimental = false;
-        if (Utils.notNullNotEmpty(evidences)) {
-            experimental =
-                    evidences.stream()
-                            .map(Evidence::getEvidenceCode)
-                            .filter(Objects::nonNull)
-                            .anyMatch(code -> code == EvidenceCode.ECO_0000269);
-        }
-        return experimental;
-    }
-
-    private boolean hasExperimentalEvidence(Collection<String> evidences) {
-        return evidences.contains(EvidenceCode.ECO_0000269.name());
+    private boolean canAddExperimental(
+            CommentType commentType, String commentVal, Boolean reviewed, Set<String> evidences) {
+        return hasExperimentalEvidence(evidences)
+                || (evidences.isEmpty()
+                        && commentType.getDefaultEvidenceCode() == EvidenceCode.ECO_0000269
+                        && (reviewed != null && reviewed)
+                        && canAddExperimentalByAnnotationText(commentVal));
     }
 }

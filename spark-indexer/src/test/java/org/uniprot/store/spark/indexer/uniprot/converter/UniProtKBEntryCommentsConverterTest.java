@@ -141,7 +141,10 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentMap.get("cc_catalytic_activity").contains("RHEA:47005"));
         assertTrue(document.commentMap.get("cc_catalytic_activity").contains("CHEBI:456216"));
 
-        assertFalse(document.commentMap.containsKey("cc_catalytic_activity_exp"));
+        assertTrue(document.commentMap.containsKey("cc_catalytic_activity_exp"));
+        assertEquals(
+                document.commentMap.get("cc_catalytic_activity"),
+                document.commentMap.get("cc_catalytic_activity_exp"));
         assertTrue(document.content.contains(expectedIndexed));
 
         assertTrue(document.commentEvMap.containsKey(CCEV_CATALYTIC_ACTIVITY));
@@ -187,9 +190,8 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertTrue(document.commentMap.containsKey(CC_PATHWAY_EXPERIMENTAL));
         Collection<String> pathwayExpList = document.commentMap.get(CC_PATHWAY_EXPERIMENTAL);
-        assertEquals(2, pathwayExpList.size());
+        assertEquals(1, pathwayExpList.size());
         assertTrue(pathwayExpList.contains("PATHWAY: Lipid metabolism; glycerolipid metabolism."));
-        assertTrue(pathwayExpList.contains("PW-1233"));
 
         assertEquals(1, document.commentEvMap.size());
         assertTrue(document.commentEvMap.containsKey("ccev_pathway"));
@@ -238,7 +240,8 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(pathwayList.contains("PATHWAY: Protein modification; protein glycosylation."));
         assertTrue(pathwayList.contains("PATHWAY: Sphingolipid metabolism."));
 
-        assertFalse(document.commentMap.containsKey(CC_PATHWAY_EXPERIMENTAL));
+        assertTrue(document.commentMap.containsKey(CC_PATHWAY_EXPERIMENTAL));
+        assertEquals(pathwayList, document.commentMap.get(CC_PATHWAY_EXPERIMENTAL));
 
         assertEquals(1, document.commentEvMap.size());
         assertTrue(document.commentEvMap.containsKey("ccev_pathway"));
@@ -335,8 +338,9 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.content.contains(similarityIndexedString));
 
         assertTrue(document.commentMap.containsKey("cc_similarity" + EXPERIMENTAL));
-        Collection<String> ccSimilarity = document.commentMap.get("cc_similarity" + EXPERIMENTAL);
-        assertEquals(document.commentMap.get("cc_similarity"), ccSimilarity);
+        Collection<String> ccSimilarityExp =
+                document.commentMap.get("cc_similarity" + EXPERIMENTAL);
+        assertEquals(document.commentMap.get("cc_similarity"), ccSimilarityExp);
     }
 
     @Test
@@ -370,8 +374,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentMap.get("cc_similarity").contains(similarityIndexedString));
 
         assertEquals(1, document.commentEvMap.size());
-        assertEquals(1, document.commentEvMap.get("ccev_similarity").size());
-        assertTrue(document.commentEvMap.get("ccev_similarity").contains("experimental"));
+        assertEquals(0, document.commentEvMap.get("ccev_similarity").size());
 
         assertTrue(document.content.contains(similarityIndexedString));
         assertFalse(document.commentMap.containsKey("cc_similarity" + EXPERIMENTAL));
@@ -506,8 +509,13 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertTrue(document.content.contains(alternativeProductsLine));
 
-        assertFalse(document.commentMap.containsKey(CC_AP_EXPERIMENTAL));
-        assertFalse(document.commentMap.containsKey(CC_AP_APU_EXPERIMENTAL));
+        assertTrue(document.commentMap.containsKey(CC_AP_EXPERIMENTAL));
+        Collection<String> ccApExp = document.commentMap.get(CC_AP_EXPERIMENTAL);
+        assertEquals(document.ap, ccApExp);
+
+        assertTrue(document.commentMap.containsKey(CC_AP_APU_EXPERIMENTAL));
+        Collection<String> ccApuExp = document.commentMap.get(CC_AP_APU_EXPERIMENTAL);
+        assertEquals(document.apApu, ccApuExp);
     }
 
     @Test
@@ -609,7 +617,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentMap.get(CC_COFACTOR_FIELD).contains(cofactorLineValue));
         assertEquals(1, document.commentEvMap.size());
         assertTrue(document.commentEvMap.containsKey(CCEV_COFACTOR_FIELD));
-        assertEquals(0, document.commentEvMap.get(CCEV_COFACTOR_FIELD).size());
+        assertEquals(2, document.commentEvMap.get(CCEV_COFACTOR_FIELD).size());
 
         assertEquals(2, document.cofactorChebi.size());
         assertTrue(document.cofactorChebi.contains("Mg(2+)"));
@@ -626,6 +634,9 @@ class UniProtKBEntryCommentsConverterTest {
                         "COFACTOR: [RNA-directed RNA polymerase]:\n"
                                 + "Name=Mg(2+); Xref=ChEBI:CHEBI:18420;\n"
                                 + "Note=Requires the presence of 3CDpro or 3CPro.;"));
+
+        assertFalse(document.commentMap.containsKey(CC_COFACTOR_NOTE_EXPERIMENTAL));
+        assertFalse(document.commentMap.containsKey(CC_COFACTOR_CHEBI_EXPERIMENTAL));
     }
 
     @Test
@@ -645,19 +656,26 @@ class UniProtKBEntryCommentsConverterTest {
         UniProtEntryCommentsConverter converter =
                 new UniProtEntryCommentsConverter(new HashMap<>());
         UniProtDocument document = new UniProtDocument();
+        document.reviewed = true;
         converter.convertCommentToDocument(entry.getComments(), document);
         assertNotNull(document);
 
         assertEquals(1, document.proteinsWith.size());
         assertTrue(document.proteinsWith.contains(ProteinsWith.COFACTORS.getValue()));
 
-        assertEquals(3, document.commentMap.keySet().size());
+        assertEquals(4, document.commentMap.keySet().size());
 
         assertTrue(document.commentMap.containsKey(CC_COFACTOR_FIELD));
         assertTrue(document.commentMap.get(CC_COFACTOR_FIELD).contains(cofactorLineValue));
+        assertTrue(document.commentMap.containsKey(CC_COFACTOR_FIELD + EXPERIMENTAL));
+        assertTrue(
+                document.commentMap
+                        .get(CC_COFACTOR_FIELD + EXPERIMENTAL)
+                        .contains(cofactorLineValue));
         assertEquals(1, document.commentEvMap.size());
         assertTrue(document.commentEvMap.containsKey(CCEV_COFACTOR_FIELD));
-        assertEquals(0, document.commentEvMap.get(CCEV_COFACTOR_FIELD).size());
+        assertEquals(3, document.commentEvMap.get(CCEV_COFACTOR_FIELD).size());
+        assertTrue(document.commentEvMap.get(CCEV_COFACTOR_FIELD).contains("experimental"));
 
         assertEquals(2, document.cofactorChebi.size());
         assertTrue(document.cofactorChebi.contains("Mg(2+)"));
@@ -676,20 +694,15 @@ class UniProtKBEntryCommentsConverterTest {
                                 + "Note=Requires the presence of 3CDpro or 3CPro.;"));
 
         assertTrue(document.commentMap.containsKey(CC_COFACTOR_CHEBI_EXPERIMENTAL));
-        assertTrue(
-                document.commentMap
-                        .get(CC_COFACTOR_CHEBI_EXPERIMENTAL)
-                        .containsAll(document.cofactorChebi));
+        assertEquals(
+                document.cofactorChebi, document.commentMap.get(CC_COFACTOR_CHEBI_EXPERIMENTAL));
 
         assertTrue(document.commentMap.containsKey(CC_COFACTOR_NOTE_EXPERIMENTAL));
-        assertTrue(
-                document.commentMap
-                        .get(CC_COFACTOR_NOTE_EXPERIMENTAL)
-                        .containsAll(document.cofactorNote));
+        assertEquals(document.cofactorNote, document.commentMap.get(CC_COFACTOR_NOTE_EXPERIMENTAL));
     }
 
     @Test
-    void testCofactorWithoutEvidenceCommentConvertProperlyToDocument() {
+    void testCofactorWithoutEvidenceCommentAddImplicitEvidence() {
         String cofactorLine =
                 "CC   -!- COFACTOR: [RNA-directed RNA polymerase]:\n"
                         + "CC       Name=Mg(2+); Xref=ChEBI:CHEBI:18420;\n"
@@ -710,10 +723,17 @@ class UniProtKBEntryCommentsConverterTest {
         assertEquals(1, document.proteinsWith.size());
         assertTrue(document.proteinsWith.contains(ProteinsWith.COFACTORS.getValue()));
 
-        assertEquals(1, document.commentMap.keySet().size());
+        assertEquals(4, document.commentMap.keySet().size());
 
         assertTrue(document.commentMap.containsKey(CC_COFACTOR_FIELD));
         assertTrue(document.commentMap.get(CC_COFACTOR_FIELD).contains(cofactorLineValue));
+
+        assertTrue(document.commentMap.containsKey(CC_COFACTOR_FIELD + EXPERIMENTAL));
+        assertTrue(
+                document.commentMap
+                        .get(CC_COFACTOR_FIELD + EXPERIMENTAL)
+                        .contains(cofactorLineValue));
+
         assertEquals(1, document.commentEvMap.size());
         assertTrue(document.commentEvMap.containsKey(CCEV_COFACTOR_FIELD));
         assertEquals(1, document.commentEvMap.get(CCEV_COFACTOR_FIELD).size());
@@ -723,12 +743,16 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.cofactorChebi.contains("Mg(2+)"));
         assertEquals(1, document.cofactorChebiEv.size());
         assertTrue(document.cofactorChebiEv.contains("experimental"));
+        assertTrue(document.commentMap.containsKey(CC_COFACTOR_CHEBI_EXPERIMENTAL));
+        assertEquals(
+                document.cofactorChebi, document.commentMap.get(CC_COFACTOR_CHEBI_EXPERIMENTAL));
 
         assertEquals(1, document.cofactorNote.size());
         assertTrue(document.cofactorNote.contains("Requires the presence of 3CDpro or 3CPro."));
         assertEquals(1, document.cofactorNoteEv.size());
         assertTrue(document.cofactorNoteEv.contains("experimental"));
-
+        assertTrue(document.commentMap.containsKey(CC_COFACTOR_NOTE_EXPERIMENTAL));
+        assertEquals(document.cofactorNote, document.commentMap.get(CC_COFACTOR_NOTE_EXPERIMENTAL));
         assertTrue(
                 document.content.contains(
                         "COFACTOR: [RNA-directed RNA polymerase]:\n"
@@ -811,6 +835,10 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertEquals(19, document.bpcp.size());
         assertTrue(document.bpcp.contains("550"));
+
+        assertTrue(document.commentMap.containsKey("cc_bpcp" + EXPERIMENTAL));
+        assertEquals(document.bpcp, document.commentMap.get("cc_bpcp" + EXPERIMENTAL));
+
         assertEquals(3, document.bpcpEv.size());
         assertTrue(document.bpcpEv.contains("ECO_0000269"));
 
@@ -925,6 +953,9 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertEquals(19, document.bpcp.size());
         assertTrue(document.bpcp.contains("550"));
+        assertTrue(document.commentMap.containsKey("cc_bpcp" + EXPERIMENTAL));
+        assertEquals(document.bpcp, document.commentMap.get("cc_bpcp" + EXPERIMENTAL));
+
         assertEquals(1, document.bpcpEv.size());
         assertTrue(document.bpcpEv.contains("experimental"));
 
@@ -932,6 +963,8 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(
                 document.bpcpAbsorption.contains(
                         "Shoulder at 335 nm (at pH 7.5 and 30 degrees Celsius)."));
+        assertEquals(
+                document.bpcpAbsorption, document.commentMap.get(CC_BPCP_ABSORPTION_EXPERIMENTAL));
         assertEquals(1, document.bpcpAbsorptionEv.size());
         assertTrue(document.bpcpAbsorptionEv.contains("experimental"));
 
@@ -939,16 +972,22 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(
                 document.bpcpKinetics.contains(
                         "kcat is 13 s(-1) for L-proline. kcat is 75 s(-1) for 3,4-dehydro-L-proline."));
+        assertEquals(document.bpcpKinetics, document.commentMap.get(CC_BPCP_KINETICS_EXPERIMENTAL));
         assertEquals(1, document.bpcpKineticsEv.size());
         assertTrue(document.bpcpKineticsEv.contains("experimental"));
 
         assertEquals(1, document.bpcpPhDependence.size());
         assertTrue(document.bpcpPhDependence.contains("Optimum pH is 5.0 for protease activity."));
+        assertEquals(
+                document.bpcpPhDependence, document.commentMap.get(CC_BPCP_PH_DEP_EXPERIMENTAL));
         assertEquals(1, document.bpcpPhDependenceEv.size());
         assertTrue(document.bpcpPhDependenceEv.contains("experimental"));
 
         assertEquals(1, document.bpcpRedoxPotential.size());
         assertTrue(document.bpcpRedoxPotential.contains("E(0) is -75 mV."));
+        assertEquals(
+                document.bpcpRedoxPotential,
+                document.commentMap.get(CC_BPCP_REDOX_POT_EXPERIMENTAL));
         assertEquals(1, document.bpcpRedoxPotentialEv.size());
         assertTrue(document.bpcpRedoxPotentialEv.contains("experimental"));
 
@@ -956,6 +995,9 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(
                 document.bpcpTempDependence.contains(
                         "Highly thermostable. Exhibits over 85% or 60% of activity after."));
+        assertEquals(
+                document.bpcpTempDependence,
+                document.commentMap.get(CC_BPCP_TEMP_DEP_EXPERIMENTAL));
         assertEquals(1, document.bpcpTempDependenceEv.size());
         assertTrue(document.bpcpTempDependenceEv.contains("experimental"));
 
@@ -964,7 +1006,7 @@ class UniProtKBEntryCommentsConverterTest {
     }
 
     @Test
-    void testBPCPCommentConvertProperlyToDocument() {
+    void testBPCPNotExperimentalEvidencesCommentConvertProperlyToDocument() {
         String bpcpLine =
                 "CC   -!- BIOPHYSICOCHEMICAL PROPERTIES:\n"
                         + "CC       pH dependence:\n"
@@ -1009,6 +1051,7 @@ class UniProtKBEntryCommentsConverterTest {
         UniProtEntryCommentsConverter converter =
                 new UniProtEntryCommentsConverter(new HashMap<>());
         UniProtDocument document = new UniProtDocument();
+        document.reviewed = true;
         converter.convertCommentToDocument(entry.getComments(), document);
         assertNotNull(document);
         assertEquals(3, document.commentMap.get(CC_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD).size());
@@ -1039,6 +1082,7 @@ class UniProtKBEntryCommentsConverterTest {
                         "Shoulder at 335 nm (at pH 7.5 and 30 degrees Celsius)."));
         assertEquals(2, document.bpcpAbsorptionEv.size());
         assertTrue(document.bpcpAbsorptionEv.contains("manual"));
+        assertFalse(document.commentMap.containsKey(CC_BPCP_ABSORPTION_EXPERIMENTAL));
 
         assertEquals(14, document.bpcpKinetics.size());
         assertTrue(
@@ -1046,16 +1090,19 @@ class UniProtKBEntryCommentsConverterTest {
                         "kcat is 13 s(-1) for L-proline. kcat is 75 s(-1) for 3,4-dehydro-L-proline."));
         assertEquals(2, document.bpcpKineticsEv.size());
         assertTrue(document.bpcpKineticsEv.contains("manual"));
+        assertFalse(document.commentMap.containsKey(CC_BPCP_KINETICS_EXPERIMENTAL));
 
         assertEquals(1, document.bpcpPhDependence.size());
         assertTrue(document.bpcpPhDependence.contains("Optimum pH is 5.0 for protease activity."));
         assertEquals(2, document.bpcpPhDependenceEv.size());
         assertTrue(document.bpcpPhDependenceEv.contains("ECO_0000250"));
+        assertFalse(document.commentMap.containsKey(CC_BPCP_PH_DEP_EXPERIMENTAL));
 
         assertEquals(1, document.bpcpRedoxPotential.size());
         assertTrue(document.bpcpRedoxPotential.contains("E(0) is -75 mV."));
         assertEquals(2, document.bpcpRedoxPotentialEv.size());
         assertTrue(document.bpcpRedoxPotentialEv.contains("ECO_0000250"));
+        assertFalse(document.commentMap.containsKey(CC_BPCP_REDOX_POT_EXPERIMENTAL));
 
         assertEquals(1, document.bpcpTempDependence.size());
         assertTrue(
@@ -1063,6 +1110,7 @@ class UniProtKBEntryCommentsConverterTest {
                         "Highly thermostable. Exhibits over 85% or 60% of activity after."));
         assertEquals(2, document.bpcpTempDependenceEv.size());
         assertTrue(document.bpcpTempDependenceEv.contains("manual"));
+        assertFalse(document.commentMap.containsKey(CC_BPCP_TEMP_DEP_EXPERIMENTAL));
 
         assertEquals(3, document.content.size());
         assertTrue(document.content.contains(phdependenceLineValue));
@@ -1190,15 +1238,14 @@ class UniProtKBEntryCommentsConverterTest {
                         .contains(sequenceCautionLineValue));
         assertEquals(1, document.commentEvMap.size());
         assertTrue(document.commentEvMap.containsKey(CCEV_SEQUENCE_CAUTION_FIELD));
-        assertEquals(1, document.commentEvMap.get(CCEV_SEQUENCE_CAUTION_FIELD).size());
+        assertEquals(0, document.commentEvMap.get(CCEV_SEQUENCE_CAUTION_FIELD).size());
 
         assertEquals(9, document.seqCaution.size());
         assertTrue(document.seqCaution.contains("Translated as Trp."));
         assertTrue(document.seqCaution.contains("Frameshift"));
         assertTrue(document.seqCaution.contains("Erroneous initiation"));
 
-        assertEquals(1, document.seqCautionEv.size());
-        assertTrue(document.seqCautionEv.contains("experimental"));
+        assertEquals(0, document.seqCautionEv.size());
 
         assertEquals(1, document.seqCautionErInit.size());
         assertTrue(document.seqCautionErInit.contains("true"));
@@ -1220,8 +1267,7 @@ class UniProtKBEntryCommentsConverterTest {
                 document.seqCautionMisc.contains(
                         "Chimeric cDNA. It is a chimera between Dox-A3 and PPO2."));
 
-        assertEquals(1, document.seqCautionMiscEv.size());
-        assertTrue(document.seqCautionMiscEv.contains("experimental"));
+        assertEquals(0, document.seqCautionMiscEv.size());
 
         assertEquals(6, document.content.size());
         assertTrue(document.content.contains(sequenceCautionLineValue));
@@ -1387,7 +1433,9 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertTrue(document.content.contains(indexedDiseaseComment));
         assertTrue(document.content.contains("DI-00602"));
-        assertFalse(document.commentMap.containsKey("cc_disease_exp"));
+        assertTrue(document.commentMap.containsKey("cc_disease_exp"));
+        assertEquals(
+                document.commentMap.get("cc_disease"), document.commentMap.get("cc_disease_exp"));
     }
 
     @Test
@@ -1445,14 +1493,14 @@ class UniProtKBEntryCommentsConverterTest {
                         + "CC       intestine and is found in chylomicrons. Apo B-48 is a shortened\n"
                         + "CC       form of apo B-100 which lacks the LDL-receptor region. The\n"
                         + "CC       unedited version (apo B-100) is produced by the liver and is found\n"
-                        + "CC       in the VLDL and LDL (By similarity).;";
+                        + "CC       in the VLDL and LDL.;";
 
         String indexedRnaEditingComment =
                 "RNA EDITING: Modified_positions=2179; Note=The stop codon (UAA) at "
                         + "position 2179 is created by RNA editing. Apo B-48, derived from the fully edited RNA, is produced "
                         + "only in the intestine and is found in chylomicrons. Apo B-48 is a shortened form of apo B-100 which "
                         + "lacks the LDL-receptor region. The unedited version (apo B-100) is produced by the liver and "
-                        + "is found in the VLDL and LDL (By similarity).;";
+                        + "is found in the VLDL and LDL.;";
 
         UniProtKBEntry entry = createUniProtEntryFromCommentLine(rnaEditingCommentLine);
 
@@ -1475,7 +1523,10 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentEvMap.get("ccev_rna_editing").contains("experimental"));
 
         assertTrue(document.content.contains(indexedRnaEditingComment));
-        assertFalse(document.commentMap.containsKey("cc_rna_editing_exp"));
+        assertTrue(document.commentMap.containsKey("cc_rna_editing_exp"));
+        assertEquals(
+                document.commentMap.get("cc_rna_editing"),
+                document.commentMap.get("cc_rna_editing_exp"));
     }
 
     @Test
@@ -1556,7 +1607,122 @@ class UniProtKBEntryCommentsConverterTest {
     }
 
     @Test
-    void freeTextCommentWihoutEvidenceToDocument() {
+    void freeTextWithoutImplicitExperimentalEvidenceForCommentTypeDomain() {
+        String comment =
+                "CC   -!- DOMAIN: The C-terminal region is essential for structural folding and\n"
+                        + "CC       for interaction with SpxH/YjbH. A conformational\n"
+                        + "CC       change during oxidation of Spx to the disulfide form likely alters the\n"
+                        + "CC       structure of Spx alpha helix alpha4, which contains residues that\n"
+                        + "CC       function in transcriptional activation and Spx/RNAP-promoter\n"
+                        + "CC       interaction.";
+
+        String indexedComment =
+                "DOMAIN: The C-terminal region is essential for structural folding and for interaction with SpxH/YjbH. A conformational change during oxidation of Spx to the disulfide form likely alters the structure of Spx alpha helix alpha4, which contains residues that function in transcriptional activation and Spx/RNAP-promoter interaction.";
+
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(comment);
+
+        UniProtEntryCommentsConverter converter =
+                new UniProtEntryCommentsConverter(new HashMap<>());
+        UniProtDocument document = new UniProtDocument();
+        document.reviewed = true;
+        converter.convertCommentToDocument(entry.getComments(), document);
+        assertNotNull(document);
+
+        assertTrue(document.commentMap.containsKey("cc_domain"));
+        assertEquals(1, document.commentMap.get("cc_domain").size());
+        assertTrue(document.commentMap.get("cc_domain").contains(indexedComment));
+        assertEquals(1, document.commentEvMap.size());
+        assertTrue(document.commentEvMap.containsKey("ccev_domain"));
+        assertEquals(0, document.commentEvMap.get("ccev_domain").size());
+        assertFalse(document.commentMap.containsKey("cc_domain_exp"));
+    }
+
+    @Test
+    void freeTextWithoutImplicitExperimentalEvidenceBySimilarity() {
+        String comment =
+                "CC   -!- FUNCTION: The C-terminal region is essential for structural folding and\n"
+                        + "CC       for interaction with SpxH/YjbH. A conformational\n"
+                        + "CC       interaction (By similarity).";
+
+        String indexedComment =
+                "FUNCTION: The C-terminal region is essential for structural folding and for interaction with SpxH/YjbH. A conformational interaction (By similarity).";
+
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(comment);
+
+        UniProtEntryCommentsConverter converter =
+                new UniProtEntryCommentsConverter(new HashMap<>());
+        UniProtDocument document = new UniProtDocument();
+        document.reviewed = true;
+        converter.convertCommentToDocument(entry.getComments(), document);
+        assertNotNull(document);
+
+        assertTrue(document.commentMap.containsKey("cc_function"));
+        assertEquals(1, document.commentMap.get("cc_function").size());
+        assertTrue(document.commentMap.get("cc_function").contains(indexedComment));
+        assertEquals(1, document.commentEvMap.size());
+        assertTrue(document.commentEvMap.containsKey("ccev_function"));
+        assertEquals(0, document.commentEvMap.get("ccev_function").size());
+        assertFalse(document.commentMap.containsKey("cc_function_exp"));
+    }
+
+    @Test
+    void freeTextWithoutImplicitExperimentalEvidenceProbable() {
+        String comment =
+                "CC   -!- FUNCTION: The C-terminal region is essential for structural folding and\n"
+                        + "CC       for interaction with SpxH/YjbH. A conformational\n"
+                        + "CC       interaction (Probable).";
+
+        String indexedComment =
+                "FUNCTION: The C-terminal region is essential for structural folding and for interaction with SpxH/YjbH. A conformational interaction (Probable).";
+
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(comment);
+
+        UniProtEntryCommentsConverter converter =
+                new UniProtEntryCommentsConverter(new HashMap<>());
+        UniProtDocument document = new UniProtDocument();
+        document.reviewed = true;
+        converter.convertCommentToDocument(entry.getComments(), document);
+        assertNotNull(document);
+
+        assertTrue(document.commentMap.containsKey("cc_function"));
+        assertEquals(1, document.commentMap.get("cc_function").size());
+        assertTrue(document.commentMap.get("cc_function").contains(indexedComment));
+        assertEquals(1, document.commentEvMap.size());
+        assertTrue(document.commentEvMap.containsKey("ccev_function"));
+        assertEquals(0, document.commentEvMap.get("ccev_function").size());
+        assertFalse(document.commentMap.containsKey("cc_function_exp"));
+    }
+
+    @Test
+    void freeTextWithoutImplicitExperimentalEvidencePotential() {
+        String comment =
+                "CC   -!- FUNCTION: The C-terminal region is essential for structural folding and\n"
+                        + "CC       for interaction with SpxH/YjbH. A conformational\n"
+                        + "CC       interaction (Potential).";
+
+        String indexedComment =
+                "FUNCTION: The C-terminal region is essential for structural folding and for interaction with SpxH/YjbH. A conformational interaction (Potential).";
+
+        UniProtKBEntry entry = createUniProtEntryFromCommentLine(comment);
+
+        UniProtEntryCommentsConverter converter =
+                new UniProtEntryCommentsConverter(new HashMap<>());
+        UniProtDocument document = new UniProtDocument();
+        document.reviewed = true;
+        converter.convertCommentToDocument(entry.getComments(), document);
+        assertNotNull(document);
+
+        assertTrue(document.commentMap.containsKey("cc_function"));
+        assertEquals(1, document.commentMap.get("cc_function").size());
+        assertTrue(document.commentMap.get("cc_function").contains(indexedComment));
+        assertEquals(1, document.commentEvMap.size());
+        assertTrue(document.commentEvMap.containsKey("ccev_function"));
+        assertEquals(0, document.commentEvMap.get("ccev_function").size());
+        assertFalse(document.commentMap.containsKey("cc_function_exp"));
+    }
+
+    @Test
+    void freeTextCommentWithoutEvidenceAddImplicitToDocument() {
         String comment =
                 "CC   -!- TISSUE SPECIFICITY: Expressed strongly in testis and brain and weakly\n"
                         + "CC       in prostate, spleen, pancreas and uterus.\n";
@@ -1584,7 +1750,8 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentEvMap.get("ccev_tissue_specificity").contains("experimental"));
 
         assertTrue(document.content.contains(indexedComment));
-        assertFalse(document.commentMap.containsKey("cc_tissue_specificity_exp"));
+        assertTrue(document.commentMap.containsKey("cc_tissue_specificity_exp"));
+        assertTrue(document.commentMap.get("cc_tissue_specificity_exp").contains(indexedComment));
     }
 
     private UniProtKBEntry createUniProtEntryFromCommentLine(String commentLine) {
