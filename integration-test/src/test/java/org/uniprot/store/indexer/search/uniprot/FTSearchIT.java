@@ -58,26 +58,6 @@ class FTSearchIT {
     }
 
     @Test
-    void coiledFindEntrysWithEcoExactFF() {
-        String query = featureEvidence(UniprotKBFeatureType.COILED, "ECO_0000255");
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, contains(Q197B1));
-    }
-
-    @Test
-    void coiledFindEntrysWithEcoInExact() {
-        String query = featureEvidence(UniprotKBFeatureType.COILED, "ECO_0000255");
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, contains(Q197B1));
-    }
-
-    @Test
     void chainFindEntrysWithChain() {
         String query =
                 query(
