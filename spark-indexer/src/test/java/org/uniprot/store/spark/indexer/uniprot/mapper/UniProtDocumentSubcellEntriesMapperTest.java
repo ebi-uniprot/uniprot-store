@@ -1,11 +1,6 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.JavaSparkContext;
@@ -24,6 +19,8 @@ import org.uniprot.store.spark.indexer.uniprot.UniProtKBDocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
 import scala.Tuple2;
+
+import static org.uniprot.store.spark.indexer.uniprot.mapper.UniProtDocumentSubcellEntriesMapper.*;
 
 /**
  * @author sahmad
@@ -53,7 +50,6 @@ class UniProtDocumentSubcellEntriesMapperTest {
 
     @Test
     void testMergeAncestorsSubcellularLocation() throws Exception {
-        UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
         UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
         UniProtDocument uniProtDocument =
                 reader.load()
@@ -69,7 +65,7 @@ class UniProtDocumentSubcellEntriesMapperTest {
         SubcellularLocationRDDReader slReader = new SubcellularLocationRDDReader(parameter);
         Map<String, SubcellularLocationEntry> slIdEntryMap = slReader.load().collectAsMap();
         List<SubcellularLocationEntry> slEntries =
-                slIds.stream().map(slId -> slIdEntryMap.get(slId)).collect(Collectors.toList());
+                slIds.stream().map(slIdEntryMap::get).collect(Collectors.toList());
 
         UniProtDocumentSubcellEntriesMapper mapper = new UniProtDocumentSubcellEntriesMapper();
         var tuple =
@@ -86,6 +82,59 @@ class UniProtDocumentSubcellEntriesMapperTest {
         Assertions.assertTrue(newSlIds.size() > slIds.size());
         Assertions.assertTrue(docWithAncestorsSl.subcellLocationTerm.size() > slTerms.size());
         Assertions.assertTrue(docWithAncestorsSl.subcellLocationTerm.containsAll(slTerms));
+        Assertions.assertTrue(docWithAncestorsSl.commentMap.containsKey(CC_SUBCELL_EXP));
+        Assertions.assertEquals(docWithAncestorsSl.subcellLocationTerm, docWithAncestorsSl.commentMap.get(CC_SUBCELL_EXP));
+    }
+
+    @Test
+    void testMergeAncestorsSubcellularLocationWithLessExperimental() throws Exception {
+        UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
+        UniProtDocument uniProtDocument =
+                reader.load()
+                        .mapValues(new UniProtEntryToSolrDocument(new HashMap<>()))
+                        .values()
+                        .first();
+
+        Set<String> oldContent = new HashSet<>(uniProtDocument.content);
+        List<String> slIds =
+                uniProtDocument.content.stream()
+                        .filter(str -> str.startsWith("SL-"))
+                        .collect(Collectors.toList());
+        //Override Experimental to mock less value
+        uniProtDocument.commentMap.get(CC_SUBCELL_EXP).clear();
+        uniProtDocument.commentMap.get(CC_SUBCELL_EXP).add("SL-0181");
+        uniProtDocument.commentMap.get(CC_SUBCELL_EXP).add("SL-0182");
+
+        Set<String> slTerms = new HashSet<>(uniProtDocument.subcellLocationTerm);
+        SubcellularLocationRDDReader slReader = new SubcellularLocationRDDReader(parameter);
+        Map<String, SubcellularLocationEntry> slIdEntryMap = slReader.load().collectAsMap();
+        List<SubcellularLocationEntry> slEntries =
+                slIds.stream().map(slIdEntryMap::get).collect(Collectors.toList());
+
+        UniProtDocumentSubcellEntriesMapper mapper = new UniProtDocumentSubcellEntriesMapper();
+        var tuple =
+                new Tuple2<UniProtDocument, Optional<Iterable<SubcellularLocationEntry>>>(
+                        uniProtDocument, Optional.of(slEntries));
+        UniProtDocument docWithAncestorsSl = mapper.call(tuple);
+        Assertions.assertNotNull(docWithAncestorsSl);
+        Assertions.assertTrue(docWithAncestorsSl.content.size() > oldContent.size());
+        List<String> newSlIds =
+                docWithAncestorsSl.content.stream()
+                        .filter(str -> str.startsWith("SL-"))
+                        .collect(Collectors.toList());
+        Assertions.assertTrue(docWithAncestorsSl.content.containsAll(slIds));
+        Assertions.assertTrue(newSlIds.size() > slIds.size());
+        Assertions.assertTrue(docWithAncestorsSl.subcellLocationTerm.size() > slTerms.size());
+        Assertions.assertTrue(docWithAncestorsSl.subcellLocationTerm.containsAll(slTerms));
+        Assertions.assertTrue(docWithAncestorsSl.commentMap.containsKey(CC_SUBCELL_EXP));
+        Collection<String> subcellExp = docWithAncestorsSl.commentMap.get(CC_SUBCELL_EXP);
+        Assertions.assertEquals(12, subcellExp.size());
+        Assertions.assertTrue(subcellExp.contains("SL-0181"));
+        Assertions.assertTrue(subcellExp.contains("SL-0182"));
+        Assertions.assertTrue(subcellExp.contains("SL-0162"));
+        Assertions.assertTrue(subcellExp.contains("SL-0147"));
+        Assertions.assertTrue(subcellExp.contains("SL-0191"));
+        Assertions.assertTrue(subcellExp.contains("SL-0178"));
     }
 
     @Test
