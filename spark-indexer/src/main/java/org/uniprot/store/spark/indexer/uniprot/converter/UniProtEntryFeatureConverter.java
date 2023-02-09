@@ -141,7 +141,7 @@ class UniProtEntryFeatureConverter {
             Set<String> evidences) {
         return hasExperimentalEvidence(evidences)
                 || (evidences.isEmpty()
-                        && featureType.getDefaultEvidenceCode() == EvidenceCode.ECO_0000269
+                        && featureType.isAddExperimental()
                         && (reviewed != null && reviewed)
                         && canAddExperimentalByAnnotationText(featureVal));
     }

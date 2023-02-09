@@ -71,7 +71,8 @@ public class ChebiToUniProtDocument
         return doc;
     }
 
-    private void addBindingChebi(UniProtDocument doc, Map<String, ChebiEntry> mappedChebi, String fieldName) {
+    private void addBindingChebi(
+            UniProtDocument doc, Map<String, ChebiEntry> mappedChebi, String fieldName) {
         Collection<String> bindings = doc.featuresMap.get(fieldName);
         addChebi(bindings, doc, mappedChebi);
     }

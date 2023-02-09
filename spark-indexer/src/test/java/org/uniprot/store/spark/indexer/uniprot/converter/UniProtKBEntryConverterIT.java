@@ -264,7 +264,7 @@ class UniProtKBEntryConverterIT {
         assertEquals(18, doc.proteinsWith.size());
         assertTrue(doc.proteinsWith.contains(ProteinsWith.CHAIN.getValue()));
 
-        assertEquals(20, doc.commentMap.keySet().size());
+        assertEquals(17, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey("cc_function" + EXPERIMENTAL));
         assertTrue(doc.commentMap.containsKey(CC_CATALYTIC_ACTIVITY + EXPERIMENTAL));
         assertTrue(doc.commentMap.containsKey("cc_subunit" + EXPERIMENTAL));
@@ -452,8 +452,8 @@ class UniProtKBEntryConverterIT {
         assertEquals(1, doc.proteinsWith.size());
         assertTrue(doc.proteinsWith.contains(ProteinsWith.ALTERNATIVE_PRODUCTS.getValue()));
 
-        assertEquals(4, doc.commentMap.keySet().size());
-        assertEquals(4, doc.commentMap.size());
+        assertEquals(1, doc.commentMap.keySet().size());
+        assertEquals(1, doc.commentMap.size());
         assertTrue(doc.commentMap.containsKey(CC_ALTERNATIVE_PRODUCTS_FIELD));
 
         assertEquals(1, doc.commentEvMap.size());
@@ -500,14 +500,10 @@ class UniProtKBEntryConverterIT {
         assertEquals(50, doc.goes.size());
         assertTrue(doc.goes.contains("0030863"));
 
-        //        assertEquals(50, doc.defaultGo.size());
-        //        assertTrue(doc.defaultGo.contains("membrane"));
-
         assertEquals(4, doc.goWithEvidenceMaps.size());
         assertTrue(doc.goWithEvidenceMaps.containsKey("go_ida"));
 
         assertEquals(5, doc.score);
-        //        assertNotNull(doc.avro_binary);
     }
 
     @Test

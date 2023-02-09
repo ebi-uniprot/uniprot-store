@@ -494,28 +494,20 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertEquals(1, document.commentEvMap.size());
         assertTrue(document.commentEvMap.containsKey(CCEV_ALTERNATIVE_PRODUCTS_FIELD));
-        assertEquals(1, document.commentEvMap.get(CCEV_ALTERNATIVE_PRODUCTS_FIELD).size());
+        assertEquals(0, document.commentEvMap.get(CCEV_ALTERNATIVE_PRODUCTS_FIELD).size());
 
         assertEquals(4, document.ap.size());
         assertTrue(document.ap.contains("Alternative promoter usage"));
-        assertEquals(1, document.apEv.size());
-        assertTrue(document.apEv.contains("experimental"));
+        assertEquals(0, document.apEv.size());
 
         assertEquals(2, document.apApu.size());
         assertTrue(document.apApu.contains("Produced from the genomic RNA."));
         assertTrue(document.apApu.contains("displayed"));
-        assertEquals(1, document.apApuEv.size());
-        assertTrue(document.apApuEv.contains("experimental"));
+        assertEquals(0, document.apApuEv.size());
 
         assertTrue(document.content.contains(alternativeProductsLine));
-
-        assertTrue(document.commentMap.containsKey(CC_AP_EXPERIMENTAL));
-        Collection<String> ccApExp = document.commentMap.get(CC_AP_EXPERIMENTAL);
-        assertEquals(document.ap, ccApExp);
-
-        assertTrue(document.commentMap.containsKey(CC_AP_APU_EXPERIMENTAL));
-        Collection<String> ccApuExp = document.commentMap.get(CC_AP_APU_EXPERIMENTAL);
-        assertEquals(document.apApu, ccApuExp);
+        assertFalse(document.commentMap.containsKey(CC_AP_EXPERIMENTAL));
+        assertFalse(document.commentMap.containsKey(CC_AP_APU_EXPERIMENTAL));
     }
 
     @Test

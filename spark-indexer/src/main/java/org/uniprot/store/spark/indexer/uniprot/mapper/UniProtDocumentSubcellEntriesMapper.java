@@ -39,10 +39,12 @@ public class UniProtDocumentSubcellEntriesMapper
         return document;
     }
 
-    private Set<SubcellularIdValue> populateRelatedSubcells(List<SubcellularLocationEntry> currentSubcellEntries) {
+    private Set<SubcellularIdValue> populateRelatedSubcells(
+            List<SubcellularLocationEntry> currentSubcellEntries) {
         Set<SubcellularIdValue> relatedSubCells = new HashSet<>();
         for (SubcellularLocationEntry currentSubcellEntry : currentSubcellEntries) {
-            SubcellularIdValue currentSubcellIdVal = convertToSubcellularIdValue(currentSubcellEntry);
+            SubcellularIdValue currentSubcellIdVal =
+                    convertToSubcellularIdValue(currentSubcellEntry);
             relatedSubCells.add(currentSubcellIdVal);
             relatedSubCells.addAll(populateRelatedSubcells(currentSubcellEntry.getIsA()));
             relatedSubCells.addAll(populateRelatedSubcells(currentSubcellEntry.getPartOf()));
@@ -61,7 +63,8 @@ public class UniProtDocumentSubcellEntriesMapper
     private void updateUniProtDocumentWithSubcell(
             UniProtDocument document, Map<String, Set<SubcellularIdValue>> relatedMap) {
         Set<String> terms =
-                relatedMap.values().stream().flatMap(Collection::stream)
+                relatedMap.values().stream()
+                        .flatMap(Collection::stream)
                         .flatMap(idValue -> Stream.of(idValue.getId(), idValue.getValue()))
                         .collect(Collectors.toSet());
 

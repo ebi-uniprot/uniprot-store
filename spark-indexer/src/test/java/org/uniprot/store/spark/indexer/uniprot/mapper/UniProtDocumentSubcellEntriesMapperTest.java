@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
+import static org.uniprot.store.spark.indexer.uniprot.mapper.UniProtDocumentSubcellEntriesMapper.*;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -15,12 +17,9 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.subcell.SubcellularLocationRDDReader;
-import org.uniprot.store.spark.indexer.uniprot.UniProtKBDocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
 import scala.Tuple2;
-
-import static org.uniprot.store.spark.indexer.uniprot.mapper.UniProtDocumentSubcellEntriesMapper.*;
 
 /**
  * @author sahmad
@@ -83,7 +82,9 @@ class UniProtDocumentSubcellEntriesMapperTest {
         Assertions.assertTrue(docWithAncestorsSl.subcellLocationTerm.size() > slTerms.size());
         Assertions.assertTrue(docWithAncestorsSl.subcellLocationTerm.containsAll(slTerms));
         Assertions.assertTrue(docWithAncestorsSl.commentMap.containsKey(CC_SUBCELL_EXP));
-        Assertions.assertEquals(docWithAncestorsSl.subcellLocationTerm, docWithAncestorsSl.commentMap.get(CC_SUBCELL_EXP));
+        Assertions.assertEquals(
+                docWithAncestorsSl.subcellLocationTerm,
+                docWithAncestorsSl.commentMap.get(CC_SUBCELL_EXP));
     }
 
     @Test
@@ -100,7 +101,7 @@ class UniProtDocumentSubcellEntriesMapperTest {
                 uniProtDocument.content.stream()
                         .filter(str -> str.startsWith("SL-"))
                         .collect(Collectors.toList());
-        //Override Experimental to mock less value
+        // Override Experimental to mock less value
         uniProtDocument.commentMap.get(CC_SUBCELL_EXP).clear();
         uniProtDocument.commentMap.get(CC_SUBCELL_EXP).add("SL-0181");
         uniProtDocument.commentMap.get(CC_SUBCELL_EXP).add("SL-0182");

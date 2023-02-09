@@ -825,7 +825,7 @@ class UniProtEntryCommentsConverter implements Serializable {
             CommentType commentType, String commentVal, Boolean reviewed, Set<String> evidences) {
         return hasExperimentalEvidence(evidences)
                 || (evidences.isEmpty()
-                        && commentType.getDefaultEvidenceCode() == EvidenceCode.ECO_0000269
+                        && commentType.isAddExperimental()
                         && (reviewed != null && reviewed)
                         && canAddExperimentalByAnnotationText(commentVal));
     }
