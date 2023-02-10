@@ -79,7 +79,6 @@ final class TestUtils {
     }
 
     private static final String COMMENT_DYNAMIC_PREFIX = "cc_";
-    private static final String CC_EVIDENCE_DYNAMIC_PREFIX = "ccev_";
 
     public static String query(SearchFieldItem field, String fieldValue) {
         return QueryBuilder.query(field.getFieldName(), fieldValue);
@@ -91,14 +90,7 @@ final class TestUtils {
         return QueryBuilder.query(field, value);
     }
 
-    public static String commentEvidence(CommentType commentType, String evidence) {
-        String field =
-                CC_EVIDENCE_DYNAMIC_PREFIX + commentType.name().toLowerCase().replaceAll(" ", "_");
-        return QueryBuilder.query(field, evidence);
-    }
-
     private static final String FEATURE_DYNAMIC_PREFIX = "ft_";
-    private static final String FT_EV_DYNAMIC_PREFIX = "ftev_";
     private static final String FT_LENGTH_DYNAMIC_PREFIX = "ftlen_";
 
     public static String features(UniprotKBFeatureType featureType, String value) {
@@ -111,11 +103,5 @@ final class TestUtils {
         String field =
                 FT_LENGTH_DYNAMIC_PREFIX + featureType.getName().toLowerCase().replaceAll(" ", "_");
         return QueryBuilder.rangeQuery(field, start, end);
-    }
-
-    public static String featureEvidence(UniprotKBFeatureType featureType, String value) {
-        String field =
-                FT_EV_DYNAMIC_PREFIX + featureType.getName().toLowerCase().replaceAll(" ", "_");
-        return QueryBuilder.query(field, value);
     }
 }

@@ -419,7 +419,7 @@ class SuggestDocumentsToHDFSWriterTest {
         assertNotNull(suggestRdd);
         var suggests = suggestRdd.collect();
 
-        var totalEntriesInXmlFile = 1;
+        var totalEntriesInXmlFile = 2;
         var totalNumbersOfDefaultTaxonSynonyms = 35;
         var alreadyPresentInSynonymsFile = 1;
         var extraLineageFromTaxonomyRDDReaderFake = 3;

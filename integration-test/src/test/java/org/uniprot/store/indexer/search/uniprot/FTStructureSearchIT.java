@@ -101,11 +101,9 @@ class FTStructureSearchIT {
     }
 
     @Test
-    void strandFindEntryWithEvidenceLength() {
+    void strandFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.STRAND, "*");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.STRAND, 1, 25));
-        String evidence = "ECO_0000244";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.STRAND, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -115,11 +113,9 @@ class FTStructureSearchIT {
     }
 
     @Test
-    void turnFindEntryWithEvidenceLength() {
+    void turnFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.TURN, "*");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.TURN, 1, 25));
-        String evidence = "ECO_0000244";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.TURN, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -129,11 +125,9 @@ class FTStructureSearchIT {
     }
 
     @Test
-    void helixFindEntryWithEvidenceLength() {
+    void helixFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.HELIX, "*");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.HELIX, 9, 25));
-        String evidence = "ECO_0000244";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.HELIX, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -143,49 +137,13 @@ class FTStructureSearchIT {
     }
 
     @Test
-    void helixFindTwoEntriesWithEvidenceLength() {
+    void helixFindTwoEntriesWithLength() {
         String query = features(UniprotKBFeatureType.HELIX, "*");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.HELIX, 1, 25));
-        String evidence = "ECO_0000244";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.HELIX, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         System.out.println(retrievedAccessions);
         assertThat(retrievedAccessions, hasItems(Q12345, Q6GZX4));
-    }
-
-    @Test
-    void secstructFindTwoEntriesWithEvidenceLength() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("ft_secstruct"),
-                        "*");
-        query =
-                QueryBuilder.and(
-                        query,
-                        QueryBuilder.rangeQuery(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ftlen_secstruct")
-                                        .getFieldName(),
-                                1,
-                                25));
-        String evidence = "ECO_0000244";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ftev_secstruct"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q12345, Q6GZX4, Q197B1));
     }
 }
