@@ -32,7 +32,7 @@ class SearchFieldConfigImplTest {
     void testSize() {
         List<SearchFieldItem> items = searchFieldConfig.getSearchFieldItems();
         Assertions.assertNotNull(items);
-        assertEquals(509, items.size());
+        assertEquals(508, items.size());
     }
 
     @Test
