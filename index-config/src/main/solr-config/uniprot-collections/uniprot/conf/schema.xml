@@ -220,6 +220,7 @@
 	<copyField source="ft_act_site" dest="ft_sites" />
 	<copyField source="ft_binding" dest="ft_sites" />
 
+	<!-- Copying site experimental data to  "Sites Any experimental" -->
 	<copyField source="ft_site_exp" dest="ft_sites_exp" />
 	<copyField source="ft_metal_exp" dest="ft_sites_exp" />
 	<copyField source="ft_act_site_exp" dest="ft_sites_exp" />
@@ -242,6 +243,7 @@
 	<copyField source="ft_propep" dest="ft_molecule_processing" />
 	<copyField source="ft_transit" dest="ft_molecule_processing" />
 
+	<!-- Copying chain experimental data to  "Chain Any experimental" -->
 	<copyField source="ft_chain_exp"
 		dest="ft_molecule_processing_exp" />
 	<copyField source="ft_init_met_exp"
@@ -283,6 +285,7 @@
 	<copyField source="ft_variant" dest="ft_variants" />
 	<copyField source="ft_var_seq" dest="ft_variants" />
 
+	<!-- Copying variant experimental data to  "Variants Any experimental" -->
 	<copyField source="ft_variant_exp" dest="ft_variants_exp" />
 	<copyField source="ft_var_seq_exp" dest="ft_variants_exp" />
 
@@ -299,6 +302,7 @@
 	<copyField source="ft_conflict" dest="ft_positional" />
 	<copyField source="ft_unsure" dest="ft_positional" />
 
+	<!-- Copying positional experimental data to  "Positional Any experimental" -->
 	<copyField source="ft_variant_exp" dest="ft_positional_exp" />
 	<copyField source="ft_var_seq_exp" dest="ft_positional_exp" />
 	<copyField source="ft_non_std_exp" dest="ft_positional_exp" />
@@ -327,6 +331,7 @@
 	<copyField source="ft_turn" dest="ft_secstruct" />
 	<copyField source="ft_strand" dest="ft_secstruct" />
 
+	<!-- Copying Sec Struct experimental data to  "Sec Struct Any experimental" -->
 	<copyField source="ft_helix_exp" dest="ft_secstruct_exp" />
 	<copyField source="ft_turn_exp" dest="ft_secstruct_exp" />
 	<copyField source="ft_strand_exp" dest="ft_secstruct_exp" />
