@@ -43,12 +43,15 @@ class UniParcDocumentsToHDFSWriterTest {
             writer.writeIndexDocumentsToHDFS();
             List<UniParcDocument> savedDocuments = writer.getSavedDocuments();
             assertNotNull(savedDocuments);
-            assertEquals(1, savedDocuments.size());
-            UniParcDocument uniref50 = savedDocuments.get(0);
-            assertEquals("UPI00000E8551", uniref50.getUpi());
-            assertEquals("01AEF4B6A09EB753", uniref50.getSequenceChecksum());
-            assertTrue(uniref50.getTaxLineageIds().contains(100));
-            assertTrue(uniref50.getOrganismTaxons().contains("lineageSC"));
+            assertEquals(2, savedDocuments.size());
+            UniParcDocument uniParcDocument = savedDocuments.get(0);
+            assertEquals("UPI00000E8551", uniParcDocument.getUpi());
+            assertEquals("01AEF4B6A09EB753", uniParcDocument.getSequenceChecksum());
+            assertTrue(uniParcDocument.getTaxLineageIds().contains(100));
+            assertTrue(uniParcDocument.getOrganismTaxons().contains("lineageSC"));
+
+            uniParcDocument = savedDocuments.get(1);
+            assertEquals("UPI000000017F", uniParcDocument.getUpi());
         }
     }
 
