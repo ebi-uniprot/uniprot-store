@@ -70,6 +70,8 @@
 		stored="false" required="false" multiValued="false" />
 	<field name="structure_3d" type="boolean" indexed="true"
 		stored="false" required="false" multiValued="false" />
+	<field name="evidence_exp" type="boolean" indexed="true"
+		stored="false" required="false" multiValued="false" />
 	<field name="proteins_with" type="int" indexed="true"
 		stored="false" required="false" multiValued="true" docValues="true" />
 

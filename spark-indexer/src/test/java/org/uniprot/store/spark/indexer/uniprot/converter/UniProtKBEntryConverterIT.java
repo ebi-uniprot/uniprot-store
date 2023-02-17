@@ -263,7 +263,7 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(18, doc.proteinsWith.size());
         assertTrue(doc.proteinsWith.contains(ProteinsWith.CHAIN.getValue()));
-
+        assertTrue(doc.evidenceExperimental);
         assertEquals(17, doc.commentMap.keySet().size());
         assertTrue(doc.commentMap.containsKey("cc_function" + EXPERIMENTAL));
         assertTrue(doc.commentMap.containsKey(CC_CATALYTIC_ACTIVITY + EXPERIMENTAL));
@@ -504,6 +504,7 @@ class UniProtKBEntryConverterIT {
         assertTrue(doc.goWithEvidenceMaps.containsKey("go_ida"));
 
         assertEquals(5, doc.score);
+        assertFalse(doc.evidenceExperimental);
     }
 
     @Test

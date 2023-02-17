@@ -81,6 +81,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                                 experimentalField, k -> new ArrayList<>());
                 experimentalComments.add(commentVal);
                 evidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+                document.evidenceExperimental = true;
             }
             evValues.addAll(evidences);
 
@@ -185,6 +186,7 @@ class UniProtEntryCommentsConverter implements Serializable {
             apExp.addAll(values);
             apExp.addAll(events);
             document.apEv.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+            document.evidenceExperimental = true;
         }
         for (String event : events) {
             if ("alternative promoter usage".equalsIgnoreCase(event)) {
@@ -226,6 +228,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                     .computeIfAbsent(experimentalField, k -> new HashSet<>())
                     .addAll(values);
             evidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+            document.evidenceExperimental = true;
         }
     }
 
@@ -263,6 +266,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                     .computeIfAbsent(CC_COFACTOR_CHEBI_EXPERIMENTAL, k -> new HashSet<>())
                     .addAll(cofactorValues);
             document.cofactorChebiEv.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+            document.evidenceExperimental = true;
         }
         document.cofactorChebiEv.addAll(evidences);
     }
@@ -369,6 +373,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                     .addAll(temperatureDependenceValues);
             temperatureDependenceEvidences.add(
                     EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+            document.evidenceExperimental = true;
         }
         document.bpcpEv.addAll(temperatureDependenceEvidences);
         document.bpcpTempDependenceEv.addAll(temperatureDependenceEvidences);
@@ -392,6 +397,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                     .computeIfAbsent(CC_BPCP_EXPERIMENTAL, k -> new HashSet<>())
                     .addAll(redoxPotentialValues);
             redoxPotentialEvidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+            document.evidenceExperimental = true;
         }
         document.bpcpEv.addAll(redoxPotentialEvidences);
         document.bpcpRedoxPotentialEv.addAll(redoxPotentialEvidences);
@@ -415,6 +421,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                     .computeIfAbsent(CC_BPCP_EXPERIMENTAL, k -> new HashSet<>())
                     .addAll(phDependenceValues);
             phDependenceEvidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+            document.evidenceExperimental = true;
         }
         document.bpcpPhDependenceEv.addAll(phDependenceEvidences);
         document.bpcpEv.addAll(phDependenceEvidences);
@@ -445,6 +452,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                     .computeIfAbsent(CC_BPCP_EXPERIMENTAL, k -> new HashSet<>())
                     .addAll(absorptionValues);
             absorptionEvidences.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+            document.evidenceExperimental = true;
         }
         document.bpcpAbsorptionEv.addAll(absorptionEvidences);
         document.bpcpEv.addAll(absorptionEvidences);
@@ -504,6 +512,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                     .computeIfAbsent(CC_BPCP_EXPERIMENTAL, k -> new HashSet<>())
                     .addAll(kineticValues);
             kineticEvidenceValues.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+            document.evidenceExperimental = true;
         }
         document.bpcpKineticsEv.addAll(kineticEvidenceValues);
         document.bpcpEv.addAll(kineticEvidenceValues);
@@ -800,6 +809,7 @@ class UniProtEntryCommentsConverter implements Serializable {
             doc.commentMap
                     .computeIfAbsent(field + EXPERIMENTAL, k -> new ArrayList<>())
                     .addAll(reactionIds);
+            doc.evidenceExperimental = true;
         }
 
         // add rhea ids

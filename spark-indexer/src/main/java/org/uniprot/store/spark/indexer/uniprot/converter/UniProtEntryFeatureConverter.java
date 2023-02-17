@@ -95,6 +95,7 @@ class UniProtEntryFeatureConverter {
                         .computeIfAbsent(experimentalField, k -> new HashSet<>())
                         .addAll(featureValueList);
                 evidenceList.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+                document.evidenceExperimental = true;
             }
         }
     }

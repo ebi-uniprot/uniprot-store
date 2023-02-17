@@ -86,6 +86,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentMap.get("cc_catalytic_activity_exp").contains("CHEBI:456216"));
         assertFalse(document.commentMap.get("cc_catalytic_activity_exp").contains("RHEA:42321"));
         assertFalse(document.commentMap.get("cc_catalytic_activity_exp").contains("RHEA:47005"));
+        assertTrue(document.evidenceExperimental);
 
         assertTrue(document.content.contains(expectedIndexed));
 
@@ -145,6 +146,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertEquals(
                 document.commentMap.get("cc_catalytic_activity"),
                 document.commentMap.get("cc_catalytic_activity_exp"));
+        assertTrue(document.evidenceExperimental);
         assertTrue(document.content.contains(expectedIndexed));
 
         assertTrue(document.commentEvMap.containsKey(CCEV_CATALYTIC_ACTIVITY));
@@ -189,6 +191,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(pathwayList.contains("PATHWAY: Sphingolipid metabolism."));
 
         assertTrue(document.commentMap.containsKey(CC_PATHWAY_EXPERIMENTAL));
+        assertTrue(document.evidenceExperimental);
         Collection<String> pathwayExpList = document.commentMap.get(CC_PATHWAY_EXPERIMENTAL);
         assertEquals(1, pathwayExpList.size());
         assertTrue(pathwayExpList.contains("PATHWAY: Lipid metabolism; glycerolipid metabolism."));
@@ -242,6 +245,7 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertTrue(document.commentMap.containsKey(CC_PATHWAY_EXPERIMENTAL));
         assertEquals(pathwayList, document.commentMap.get(CC_PATHWAY_EXPERIMENTAL));
+        assertTrue(document.evidenceExperimental);
 
         assertEquals(1, document.commentEvMap.size());
         assertTrue(document.commentEvMap.containsKey("ccev_pathway"));
@@ -289,6 +293,7 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertTrue(document.commentMap.containsKey("cc_interaction"));
         assertFalse(document.commentMap.containsKey("cc_interaction" + EXPERIMENTAL));
+        assertFalse(document.evidenceExperimental);
         assertEquals(1, document.commentMap.get("cc_interaction").size());
         assertTrue(document.commentMap.get("cc_interaction").contains(interactionIndexedString));
         assertEquals(1, document.commentEvMap.size());
@@ -341,6 +346,7 @@ class UniProtKBEntryCommentsConverterTest {
         Collection<String> ccSimilarityExp =
                 document.commentMap.get("cc_similarity" + EXPERIMENTAL);
         assertEquals(document.commentMap.get("cc_similarity"), ccSimilarityExp);
+        assertTrue(document.evidenceExperimental);
     }
 
     @Test
@@ -378,6 +384,7 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertTrue(document.content.contains(similarityIndexedString));
         assertFalse(document.commentMap.containsKey("cc_similarity" + EXPERIMENTAL));
+        assertFalse(document.evidenceExperimental);
     }
 
     @Test
@@ -446,6 +453,7 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertTrue(document.content.contains(alternativeProductsLine));
 
+        assertTrue(document.evidenceExperimental);
         assertTrue(document.commentMap.containsKey(CC_AP_EXPERIMENTAL));
         Collection<String> ccApExp = document.commentMap.get(CC_AP_EXPERIMENTAL);
         assertEquals(document.ap, ccApExp);
@@ -508,6 +516,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.content.contains(alternativeProductsLine));
         assertFalse(document.commentMap.containsKey(CC_AP_EXPERIMENTAL));
         assertFalse(document.commentMap.containsKey(CC_AP_APU_EXPERIMENTAL));
+        assertFalse(document.evidenceExperimental);
     }
 
     @Test
@@ -571,6 +580,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.apRfEv.contains("ECO_0000269"));
 
         assertTrue(document.content.contains(alternativeProductsLine));
+        assertTrue(document.evidenceExperimental);
         assertTrue(document.commentMap.containsKey(CC_AP_EXPERIMENTAL));
         Collection<String> ccApExp = document.commentMap.get(CC_AP_EXPERIMENTAL);
         assertEquals(document.ap, ccApExp);
@@ -629,6 +639,7 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertFalse(document.commentMap.containsKey(CC_COFACTOR_NOTE_EXPERIMENTAL));
         assertFalse(document.commentMap.containsKey(CC_COFACTOR_CHEBI_EXPERIMENTAL));
+        assertFalse(document.evidenceExperimental);
     }
 
     @Test
@@ -685,6 +696,7 @@ class UniProtKBEntryCommentsConverterTest {
                                 + "Name=Mg(2+); Xref=ChEBI:CHEBI:18420;\n"
                                 + "Note=Requires the presence of 3CDpro or 3CPro.;"));
 
+        assertTrue(document.evidenceExperimental);
         assertTrue(document.commentMap.containsKey(CC_COFACTOR_CHEBI_EXPERIMENTAL));
         assertEquals(
                 document.cofactorChebi, document.commentMap.get(CC_COFACTOR_CHEBI_EXPERIMENTAL));
@@ -734,6 +746,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertEquals(2, document.cofactorChebi.size());
         assertTrue(document.cofactorChebi.contains("Mg(2+)"));
         assertEquals(1, document.cofactorChebiEv.size());
+        assertTrue(document.evidenceExperimental);
         assertTrue(document.cofactorChebiEv.contains("experimental"));
         assertTrue(document.commentMap.containsKey(CC_COFACTOR_CHEBI_EXPERIMENTAL));
         assertEquals(
@@ -838,6 +851,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(
                 document.bpcpAbsorption.contains(
                         "Shoulder at 335 nm (at pH 7.5 and 30 degrees Celsius)."));
+        assertTrue(document.evidenceExperimental);
         assertEquals(
                 document.bpcpAbsorption, document.commentMap.get(CC_BPCP_ABSORPTION_EXPERIMENTAL));
         assertEquals(3, document.bpcpAbsorptionEv.size());
@@ -955,6 +969,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(
                 document.bpcpAbsorption.contains(
                         "Shoulder at 335 nm (at pH 7.5 and 30 degrees Celsius)."));
+        assertTrue(document.evidenceExperimental);
         assertEquals(
                 document.bpcpAbsorption, document.commentMap.get(CC_BPCP_ABSORPTION_EXPERIMENTAL));
         assertEquals(1, document.bpcpAbsorptionEv.size());
@@ -1074,6 +1089,7 @@ class UniProtKBEntryCommentsConverterTest {
                         "Shoulder at 335 nm (at pH 7.5 and 30 degrees Celsius)."));
         assertEquals(2, document.bpcpAbsorptionEv.size());
         assertTrue(document.bpcpAbsorptionEv.contains("manual"));
+        assertFalse(document.evidenceExperimental);
         assertFalse(document.commentMap.containsKey(CC_BPCP_ABSORPTION_EXPERIMENTAL));
 
         assertEquals(14, document.bpcpKinetics.size());
@@ -1183,6 +1199,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertEquals(6, document.content.size());
         assertTrue(document.content.contains(sequenceCautionLineValue));
 
+        assertTrue(document.evidenceExperimental);
         assertTrue(document.commentMap.containsKey(CC_SC_EXPERIMENTAL));
         Collection<String> sequenceCautionExp = document.commentMap.get(CC_SC_EXPERIMENTAL);
         assertEquals(2, sequenceCautionExp.size());
@@ -1264,6 +1281,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertEquals(6, document.content.size());
         assertTrue(document.content.contains(sequenceCautionLineValue));
 
+        assertFalse(document.evidenceExperimental);
         assertFalse(document.commentMap.containsKey(CC_SC_EXPERIMENTAL));
     }
 
@@ -1313,6 +1331,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.subcellLocationTerm.contains("Host cytoplasm"));
         assertTrue(document.subcellLocationTerm.contains("SL-0381"));
 
+        assertTrue(document.evidenceExperimental);
         Collection<String> experimentalTerm = document.commentMap.get(CC_SCL_TERM_EXPERIMENTAL);
         assertEquals(4, experimentalTerm.size());
         assertTrue(document.subcellLocationTerm.contains("Virion membrane"));
@@ -1382,6 +1401,7 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertTrue(document.content.contains(indexedDiseaseComment));
         assertTrue(document.content.contains("DI-00602"));
+        assertTrue(document.evidenceExperimental);
         assertEquals(
                 document.commentMap.get("cc_disease"), document.commentMap.get("cc_disease_exp"));
     }
@@ -1425,6 +1445,7 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertTrue(document.content.contains(indexedDiseaseComment));
         assertTrue(document.content.contains("DI-00602"));
+        assertTrue(document.evidenceExperimental);
         assertTrue(document.commentMap.containsKey("cc_disease_exp"));
         assertEquals(
                 document.commentMap.get("cc_disease"), document.commentMap.get("cc_disease_exp"));
@@ -1471,6 +1492,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentEvMap.get("ccev_rna_editing").contains("experimental"));
 
         assertTrue(document.content.contains(indexedRnaEditingComment));
+        assertTrue(document.evidenceExperimental);
         assertEquals(
                 document.commentMap.get("cc_rna_editing"),
                 document.commentMap.get("cc_rna_editing_exp"));
@@ -1515,6 +1537,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentEvMap.get("ccev_rna_editing").contains("experimental"));
 
         assertTrue(document.content.contains(indexedRnaEditingComment));
+        assertTrue(document.evidenceExperimental);
         assertTrue(document.commentMap.containsKey("cc_rna_editing_exp"));
         assertEquals(
                 document.commentMap.get("cc_rna_editing"),
@@ -1557,6 +1580,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentEvMap.get("ccev_mass_spectrometry").contains("experimental"));
 
         assertTrue(document.content.contains(indexedMassSpectrometryComment));
+        assertTrue(document.evidenceExperimental);
         assertEquals(
                 document.commentMap.get("cc_mass_spectrometry"),
                 document.commentMap.get("cc_mass_spectrometry_exp"));
@@ -1593,6 +1617,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentEvMap.get("ccev_tissue_specificity").contains("experimental"));
 
         assertTrue(document.content.contains(indexedComment));
+        assertTrue(document.evidenceExperimental);
         assertEquals(
                 document.commentMap.get("cc_tissue_specificity"),
                 document.commentMap.get("cc_tissue_specificity_exp"));
@@ -1627,6 +1652,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentEvMap.containsKey("ccev_domain"));
         assertEquals(0, document.commentEvMap.get("ccev_domain").size());
         assertFalse(document.commentMap.containsKey("cc_domain_exp"));
+        assertFalse(document.evidenceExperimental);
     }
 
     @Test
@@ -1655,6 +1681,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentEvMap.containsKey("ccev_function"));
         assertEquals(0, document.commentEvMap.get("ccev_function").size());
         assertFalse(document.commentMap.containsKey("cc_function_exp"));
+        assertFalse(document.evidenceExperimental);
     }
 
     @Test
@@ -1683,6 +1710,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentEvMap.containsKey("ccev_function"));
         assertEquals(0, document.commentEvMap.get("ccev_function").size());
         assertFalse(document.commentMap.containsKey("cc_function_exp"));
+        assertFalse(document.evidenceExperimental);
     }
 
     @Test
@@ -1711,6 +1739,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentEvMap.containsKey("ccev_function"));
         assertEquals(0, document.commentEvMap.get("ccev_function").size());
         assertFalse(document.commentMap.containsKey("cc_function_exp"));
+        assertFalse(document.evidenceExperimental);
     }
 
     @Test
@@ -1744,6 +1773,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.content.contains(indexedComment));
         assertTrue(document.commentMap.containsKey("cc_tissue_specificity_exp"));
         assertTrue(document.commentMap.get("cc_tissue_specificity_exp").contains(indexedComment));
+        assertTrue(document.evidenceExperimental);
     }
 
     private UniProtKBEntry createUniProtEntryFromCommentLine(String commentLine) {

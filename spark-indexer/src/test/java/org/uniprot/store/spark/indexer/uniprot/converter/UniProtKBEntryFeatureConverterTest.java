@@ -55,6 +55,7 @@ class UniProtKBEntryFeatureConverterTest {
 
         assertTrue(document.featuresMap.containsKey("ft_chain"));
         assertFalse(document.featuresMap.containsKey("ft_chain_exp"));
+        assertFalse(document.evidenceExperimental);
         List<String> chainValue =
                 Arrays.asList(
                         "CHAIN",
@@ -113,6 +114,7 @@ class UniProtKBEntryFeatureConverterTest {
                         "tRNA(Thr)");
         assertEquals(new HashSet<>(chainValue), document.featuresMap.get("ft_binding"));
         assertFalse(document.featuresMap.containsKey("ft_binding_exp"));
+        assertFalse(document.evidenceExperimental);
 
         assertTrue(document.featureEvidenceMap.containsKey("ftev_binding"));
         List<String> chainEvidenceValue = Arrays.asList("manual", "ECO_0000255");
@@ -171,6 +173,7 @@ class UniProtKBEntryFeatureConverterTest {
                         "tRNA(Thr)");
         assertEquals(new HashSet<>(chainValue), document.featuresMap.get("ft_binding"));
         assertEquals(new HashSet<>(chainValue), document.featuresMap.get("ft_binding_exp"));
+        assertTrue(document.evidenceExperimental);
 
         assertTrue(document.featureEvidenceMap.containsKey("ftev_binding"));
         assertEquals(Set.of("experimental"), document.featureEvidenceMap.get("ftev_binding"));
@@ -227,6 +230,7 @@ class UniProtKBEntryFeatureConverterTest {
                         "tRNA(Thr)");
         assertEquals(new HashSet<>(chainValue), document.featuresMap.get("ft_binding"));
         assertFalse(document.featuresMap.containsKey("ft_binding_exp"));
+        assertFalse(document.evidenceExperimental);
 
         assertTrue(document.featureEvidenceMap.containsKey("ftev_binding"));
         assertTrue(document.featureEvidenceMap.get("ftev_binding").isEmpty());
@@ -271,6 +275,7 @@ class UniProtKBEntryFeatureConverterTest {
 
         assertTrue(document.featuresMap.containsKey("ft_chain"));
         assertTrue(document.featuresMap.containsKey("ft_chain_exp"));
+        assertTrue(document.evidenceExperimental);
         Set<String> chainValue =
                 Set.of("CHAIN", "FT12345", "dbSNP-DBSNP-12345", "description value", "DBSNP-12345");
         assertEquals(chainValue, document.featuresMap.get("ft_chain"));
