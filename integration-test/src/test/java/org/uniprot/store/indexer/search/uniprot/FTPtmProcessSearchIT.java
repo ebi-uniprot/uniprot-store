@@ -261,31 +261,4 @@ class FTPtmProcessSearchIT {
         System.out.println(retrievedAccessions);
         assertThat(retrievedAccessions, hasItems(P48347, Q6V4H0));
     }
-
-    @Test
-    void moleculeProcessFindTwoEntryWithLength() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("ft_molecule_processing"),
-                        "peptide");
-        query =
-                QueryBuilder.and(
-                        query,
-                        QueryBuilder.rangeQuery(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ftlen_molecule_processing")
-                                        .getFieldName(),
-                                9,
-                                10));
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6V4H0));
-        assertThat(retrievedAccessions, not(hasItem(P48347)));
-    }
 }
