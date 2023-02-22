@@ -1,15 +1,17 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.*;
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.canAddExperimentalByAnnotationText;
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.hasExperimentalEvidence;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.uniprot.core.CrossReference;
-import org.uniprot.core.uniprotkb.feature.Ligand;
-import org.uniprot.core.uniprotkb.feature.LigandPart;
-import org.uniprot.core.uniprotkb.feature.UniProtKBFeature;
-import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureDatabase;
+import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
+import org.uniprot.core.uniprotkb.feature.*;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniprot.ProteinsWith;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -72,7 +74,7 @@ class UniProtEntryFeatureConverter {
                             - feature.getLocation().getStart().getValue()
                             + 1;
             Set<String> evidences =
-                    UniProtEntryConverterUtil.extractEvidence(feature.getEvidences(), false);
+                    extractEvidence(feature.getEvidences());
             Collection<Integer> lengthList =
                     document.featureLengthMap.computeIfAbsent(lengthField, k -> new HashSet<>());
             lengthList.add(length);
@@ -86,11 +88,15 @@ class UniProtEntryFeatureConverter {
                     .addAll(featureValueList);
             document.content.addAll(featureValueList);
 
-            if (evidences.contains("experimental")) {
+            String featureValues = String.join(" ", featureValueList);
+            if (canAddExperimental(
+                    feature.getType().isAddExperimental(), featureValues, document.reviewed, evidences)) {
                 String experimentalField = field + "_exp";
                 document.featuresMap
                         .computeIfAbsent(experimentalField, k -> new HashSet<>())
                         .addAll(featureValueList);
+                evidenceList.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+                document.evidenceExperimental = true;
             }
         }
     }
@@ -121,7 +127,7 @@ class UniProtEntryFeatureConverter {
         UniprotKBFeatureDatabase dbType = xref.getDatabase();
         String dbname = dbType.getName();
 
-        List<String> xrefIds = UniProtEntryConverterUtil.getXrefId(xrefId, dbname);
+        List<String> xrefIds = getXrefId(xrefId, dbname);
         if (!dbType.equals(UniprotKBFeatureDatabase.CHEBI)) {
             document.crossRefs.addAll(xrefIds);
             document.databases.add(dbname.toLowerCase());

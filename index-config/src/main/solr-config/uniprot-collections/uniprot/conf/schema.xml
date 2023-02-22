@@ -70,6 +70,8 @@
 		stored="false" required="false" multiValued="false" />
 	<field name="structure_3d" type="boolean" indexed="true"
 		stored="false" required="false" multiValued="false" />
+	<field name="evidence_exp" type="boolean" indexed="true"
+		stored="false" required="false" multiValued="false" />
 	<field name="proteins_with" type="int" indexed="true"
 		stored="false" required="false" multiValued="true" docValues="true" />
 
@@ -220,6 +222,12 @@
 	<copyField source="ft_act_site" dest="ft_sites" />
 	<copyField source="ft_binding" dest="ft_sites" />
 
+	<!-- Copying site experimental data to "Sites Any experimental" -->
+	<copyField source="ft_site_exp" dest="ft_sites_exp" />
+	<copyField source="ft_metal_exp" dest="ft_sites_exp" />
+	<copyField source="ft_act_site_exp" dest="ft_sites_exp" />
+	<copyField source="ft_binding_exp" dest="ft_sites_exp" />
+
 	<copyField source="ftev_site" dest="ftev_sites" />
 	<copyField source="ftev_metal" dest="ftev_sites" />
 	<copyField source="ftev_site" dest="ftev_sites" />
@@ -236,6 +244,21 @@
 	<copyField source="ft_signal" dest="ft_molecule_processing" />
 	<copyField source="ft_propep" dest="ft_molecule_processing" />
 	<copyField source="ft_transit" dest="ft_molecule_processing" />
+
+	<!-- Copying chain experimental data to "Chain Any experimental" -->
+	<copyField source="ft_chain_exp"
+		dest="ft_molecule_processing_exp" />
+	<copyField source="ft_init_met_exp"
+		dest="ft_molecule_processing_exp" />
+	<copyField source="ft_peptide_exp"
+		dest="ft_molecule_processing_exp" />
+	<copyField source="ft_signal_exp"
+		dest="ft_molecule_processing_exp" />
+	<copyField source="ft_propep_exp"
+		dest="ft_molecule_processing_exp" />
+	<copyField source="ft_transit_exp"
+		dest="ft_molecule_processing_exp" />
+
 	<copyField source="ftev_chain"
 		dest="ftev_molecule_processing" />
 	<copyField source="ftev_init_met"
@@ -263,6 +286,11 @@
 
 	<copyField source="ft_variant" dest="ft_variants" />
 	<copyField source="ft_var_seq" dest="ft_variants" />
+
+	<!-- Copying variant experimental data to "Variants Any experimental" -->
+	<copyField source="ft_variant_exp" dest="ft_variants_exp" />
+	<copyField source="ft_var_seq_exp" dest="ft_variants_exp" />
+
 	<copyField source="ftev_variant" dest="ftev_variants" />
 	<copyField source="ftev_var_seq" dest="ftev_variants" />
 	<copyField source="ftlen_variant" dest="ftlen_variants" />
@@ -275,6 +303,16 @@
 	<copyField source="ft_non_cons" dest="ft_positional" />
 	<copyField source="ft_conflict" dest="ft_positional" />
 	<copyField source="ft_unsure" dest="ft_positional" />
+
+	<!-- Copying positional experimental data to "Positional Any experimental" -->
+	<copyField source="ft_variant_exp" dest="ft_positional_exp" />
+	<copyField source="ft_var_seq_exp" dest="ft_positional_exp" />
+	<copyField source="ft_non_std_exp" dest="ft_positional_exp" />
+	<copyField source="ft_non_ter_exp" dest="ft_positional_exp" />
+	<copyField source="ft_non_cons_exp" dest="ft_positional_exp" />
+	<copyField source="ft_conflict_exp" dest="ft_positional_exp" />
+	<copyField source="ft_unsure_exp" dest="ft_positional_exp" />
+
 	<copyField source="ftev_variant" dest="ftev_positional" />
 	<copyField source="ftev_var_seq" dest="ftev_positional" />
 	<copyField source="ftev_non_std" dest="ftev_positional" />
@@ -282,6 +320,7 @@
 	<copyField source="ftev_non_cons" dest="ftev_positional" />
 	<copyField source="ftev_conflict" dest="ftev_positional" />
 	<copyField source="ftev_unsure" dest="ftev_positional" />
+
 	<copyField source="ftlen_variant" dest="ftlen_positional" />
 	<copyField source="ftlen_var_seq" dest="ftlen_positional" />
 	<copyField source="ftlen_non_std" dest="ftlen_positional" />
@@ -293,9 +332,16 @@
 	<copyField source="ft_helix" dest="ft_secstruct" />
 	<copyField source="ft_turn" dest="ft_secstruct" />
 	<copyField source="ft_strand" dest="ft_secstruct" />
+
+	<!-- Copying Sec Struct experimental data to "Sec Struct Any experimental" -->
+	<copyField source="ft_helix_exp" dest="ft_secstruct_exp" />
+	<copyField source="ft_turn_exp" dest="ft_secstruct_exp" />
+	<copyField source="ft_strand_exp" dest="ft_secstruct_exp" />
+
 	<copyField source="ftev_helix" dest="ftev_secstruct" />
 	<copyField source="ftev_turn" dest="ftev_secstruct" />
 	<copyField source="ftev_strand" dest="ftev_secstruct" />
+
 	<copyField source="ftlen_helix" dest="ftlen_secstruct" />
 	<copyField source="ftlen_turn" dest="ftlen_secstruct" />
 	<copyField source="ftlen_strand" dest="ftlen_secstruct" />

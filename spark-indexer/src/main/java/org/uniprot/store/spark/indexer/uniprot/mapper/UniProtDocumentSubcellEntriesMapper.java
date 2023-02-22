@@ -1,10 +1,8 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
@@ -21,6 +19,9 @@ public class UniProtDocumentSubcellEntriesMapper
         implements Function<
                 Tuple2<UniProtDocument, Optional<Iterable<SubcellularLocationEntry>>>,
                 UniProtDocument> {
+    static final String CC_SUBCELL_EXP = "cc_scl_term_exp";
+    private static final String SUBCELL_PREFIX = "SL-";
+
     @Override
     public UniProtDocument call(
             Tuple2<UniProtDocument, Optional<Iterable<SubcellularLocationEntry>>> tuple)
@@ -28,30 +29,27 @@ public class UniProtDocumentSubcellEntriesMapper
         UniProtDocument document = tuple._1;
         if (tuple._2.isPresent()) {
             Iterable<SubcellularLocationEntry> subcellEntries = tuple._2.get();
-            Set<SubcellularIdValue> relatedSubcells = new HashSet<>();
+            Map<String, Set<SubcellularIdValue>> subcellMap = new HashMap<>();
             for (SubcellularLocationEntry subcellEntry : subcellEntries) {
-                populateRelatedSubcells(subcellEntry, relatedSubcells);
+                Set<SubcellularIdValue> relatedIds = populateRelatedSubcells(List.of(subcellEntry));
+                subcellMap.put(subcellEntry.getId(), relatedIds);
             }
-            updateUniProtDocumentWithSubcell(document, relatedSubcells);
+            updateUniProtDocumentWithSubcell(document, subcellMap);
         }
         return document;
     }
 
-    private void populateRelatedSubcells(
-            SubcellularLocationEntry currentSubcellEntry,
-            Set<SubcellularIdValue> allRelatedSubcells) {
-
-        SubcellularIdValue currentSubcellIdVal = convertToSubcellularIdValue(currentSubcellEntry);
-        if (!allRelatedSubcells.contains(currentSubcellIdVal)) {
-            allRelatedSubcells.add(currentSubcellIdVal);
-            List<SubcellularLocationEntry> isAs = currentSubcellEntry.getIsA();
-            List<SubcellularLocationEntry> partOfs = currentSubcellEntry.getPartOf();
-            List<SubcellularLocationEntry> currentSubcellRelatedEntries = new ArrayList<>(isAs);
-            currentSubcellRelatedEntries.addAll(partOfs);
-            for (SubcellularLocationEntry relatedEntry : currentSubcellRelatedEntries) {
-                populateRelatedSubcells(relatedEntry, allRelatedSubcells);
-            }
+    private Set<SubcellularIdValue> populateRelatedSubcells(
+            List<SubcellularLocationEntry> currentSubcellEntries) {
+        Set<SubcellularIdValue> relatedSubCells = new HashSet<>();
+        for (SubcellularLocationEntry currentSubcellEntry : currentSubcellEntries) {
+            SubcellularIdValue currentSubcellIdVal =
+                    convertToSubcellularIdValue(currentSubcellEntry);
+            relatedSubCells.add(currentSubcellIdVal);
+            relatedSubCells.addAll(populateRelatedSubcells(currentSubcellEntry.getIsA()));
+            relatedSubCells.addAll(populateRelatedSubcells(currentSubcellEntry.getPartOf()));
         }
+        return relatedSubCells;
     }
 
     private SubcellularIdValue convertToSubcellularIdValue(
@@ -63,13 +61,27 @@ public class UniProtDocumentSubcellEntriesMapper
     }
 
     private void updateUniProtDocumentWithSubcell(
-            UniProtDocument document, Set<SubcellularIdValue> related) {
-        Set<String> ids =
-                related.stream().map(SubcellularIdValue::getId).collect(Collectors.toSet());
-        Set<String> values =
-                related.stream().map(SubcellularIdValue::getValue).collect(Collectors.toSet());
-        document.content.addAll(ids);
-        document.subcellLocationTerm.addAll(ids);
-        document.subcellLocationTerm.addAll(values);
+            UniProtDocument document, Map<String, Set<SubcellularIdValue>> relatedMap) {
+        Set<String> terms =
+                relatedMap.values().stream()
+                        .flatMap(Collection::stream)
+                        .flatMap(idValue -> Stream.of(idValue.getId(), idValue.getValue()))
+                        .collect(Collectors.toSet());
+
+        document.content.addAll(terms);
+        document.subcellLocationTerm.addAll(terms);
+        document.subcellLocationTerm.addAll(terms);
+        if (document.commentMap.containsKey(CC_SUBCELL_EXP)) {
+            Collection<String> expSubCells = document.commentMap.get(CC_SUBCELL_EXP);
+            Set<String> experimentalTerms =
+                    expSubCells.stream()
+                            .filter(id -> id.startsWith(SUBCELL_PREFIX))
+                            .map(relatedMap::get)
+                            .filter(Objects::nonNull)
+                            .flatMap(Collection::stream)
+                            .flatMap(idValue -> Stream.of(idValue.getId(), idValue.getValue()))
+                            .collect(Collectors.toSet());
+            expSubCells.addAll(experimentalTerms);
+        }
     }
 }

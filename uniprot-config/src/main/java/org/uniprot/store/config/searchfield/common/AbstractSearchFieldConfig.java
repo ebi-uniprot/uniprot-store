@@ -1,9 +1,6 @@
 package org.uniprot.store.config.searchfield.common;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
@@ -124,7 +121,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
 
     public SearchFieldType getFieldTypeBySearchFieldName(String fieldName) {
         SearchFieldItem fieldItem = getSearchFieldItemByName(fieldName);
-        if (fieldItem.getFieldType() == SearchFieldType.EVIDENCE) {
+        if (isAnEvidenceType(fieldItem)) {
             return SearchFieldType.GENERAL;
         }
         return fieldItem.getFieldType();
@@ -148,5 +145,10 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
 
     private boolean isSortFieldItem(SearchFieldItem fieldItem) {
         return SearchFieldType.SORT.equals(fieldItem.getFieldType());
+    }
+
+    private boolean isAnEvidenceType(SearchFieldItem fieldItem) {
+        return EnumSet.of(SearchFieldType.EVIDENCE, SearchFieldType.EXPERIMENTAL_EVIDENCE)
+                .contains(fieldItem.getFieldType());
     }
 }
