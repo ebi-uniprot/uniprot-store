@@ -94,29 +94,6 @@ class FTFunctionSearchIT {
     }
 
     @Test
-    void sitesFindTwoEntryWithLength() {
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("ft_sites"),
-                        "Substrate");
-        query =
-                QueryBuilder.and(
-                        query,
-                        QueryBuilder.rangeQuery(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ftlen_sites")
-                                        .getFieldName(),
-                                1,
-                                3));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q12345, Q6GZX4));
-    }
-
-    @Test
     void siteFindEntry() {
         String query = features(UniprotKBFeatureType.SITE, "translocation.");
 

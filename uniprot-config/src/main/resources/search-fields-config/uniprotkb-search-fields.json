@@ -1400,17 +1400,6 @@
   {
     "parentId": "sites_any",
     "childNumber": 1,
-    "id": "ftlen_sites",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_sites",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature sites within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sites_any",
-    "childNumber": 2,
     "id": "ft_sites_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_sites_exp",
@@ -1440,17 +1429,6 @@
   {
     "parentId": "sites_active_site",
     "childNumber": 1,
-    "id": "ftlen_act_site",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_act_site",
-    "dataType": "INTEGER",
-    "fieldType": "RANGE",
-    "description": "Search feature  active site within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sites_active_site",
-    "childNumber": 2,
     "id": "ft_act_site_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_act_site_exp",
@@ -1482,17 +1460,6 @@
   {
     "parentId": "sites_binding_site",
     "childNumber": 1,
-    "id": "ftlen_binding",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_binding",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature binding site within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sites_binding_site",
-    "childNumber": 2,
     "id": "ft_binding_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_binding_exp",
@@ -1522,17 +1489,6 @@
   {
     "parentId": "sites_other",
     "childNumber": 1,
-    "id": "ftlen_site",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_site",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature other site within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sites_other",
-    "childNumber": 2,
     "id": "ft_site_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_site_exp",
@@ -1562,17 +1518,6 @@
   {
     "parentId": "dna_binding",
     "childNumber": 1,
-    "id": "ftlen_dna_bind",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_dna_bind",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature DNA binding within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "dna_binding",
-    "childNumber": 2,
     "id": "ft_dna_bind_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_dna_bind_exp",
@@ -1834,12 +1779,12 @@
     "id": "seq_caution"
   },
   {
-  "parentId": "seq_caution",
-  "childNumber": 0,
-  "label": "Any",
-  "id": "seq_caution_any",
-  "itemType": "SIBLING_GROUP"
-},
+    "parentId": "seq_caution",
+    "childNumber": 0,
+    "label": "Any",
+    "id": "seq_caution_any",
+    "itemType": "SIBLING_GROUP"
+  },
   {
     "parentId": "seq_caution_any",
     "childNumber": 0,
@@ -2070,17 +2015,6 @@
   {
     "parentId": "natural_variations_any",
     "childNumber": 1,
-    "id": "ftlen_variants",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_variants",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature natural variations within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "natural_variations_any",
-    "childNumber": 2,
     "id": "ft_variants_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_variants_exp",
@@ -2110,17 +2044,6 @@
   {
     "parentId": "natural_variations_natural_variant",
     "childNumber": 1,
-    "id": "ftlen_variant",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_variant",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature natural variant within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "natural_variations_natural_variant",
-    "childNumber": 2,
     "id": "ft_variant_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_variant_exp",
@@ -2150,17 +2073,6 @@
   {
     "parentId": "natural_variations_alternative_sequence",
     "childNumber": 1,
-    "id": "ftlen_var_seq",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_var_seq",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature alternative sequence within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "natural_variations_alternative_sequence",
-    "childNumber": 2,
     "id": "ft_var_seq_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_var_seq_exp",
@@ -2190,17 +2102,6 @@
   {
     "parentId": "non_standard_residue",
     "childNumber": 1,
-    "id": "ftlen_non_std",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_non_std",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature non-standard residue within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "non_standard_residue",
-    "childNumber": 2,
     "id": "ft_non_std_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_non_std_exp",
@@ -2230,17 +2131,6 @@
   {
     "parentId": "non_terminal_residue",
     "childNumber": 1,
-    "id": "ftlen_non_ter",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_non_ter",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature non-terminal residue within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "non_terminal_residue",
-    "childNumber": 2,
     "id": "ft_non_ter_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_non_ter_exp",
@@ -2270,17 +2160,6 @@
   {
     "parentId": "non_adjacent_residue",
     "childNumber": 1,
-    "id": "ftlen_non_cons",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_non_cons",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature non-adjacent residue within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "non_adjacent_residue",
-    "childNumber": 2,
     "id": "ft_non_cons_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_non_cons_exp",
@@ -2310,17 +2189,6 @@
   {
     "parentId": "sequence_conflict",
     "childNumber": 1,
-    "id": "ftlen_conflict",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_conflict",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature Sequence conflict within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sequence_conflict",
-    "childNumber": 2,
     "id": "ft_conflict_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_conflict_exp",
@@ -2350,17 +2218,6 @@
   {
     "parentId": "sequence_uncertainty",
     "childNumber": 1,
-    "id": "ftlen_unsure",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_unsure",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature Sequence uncertainty within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sequence_uncertainty",
-    "childNumber": 2,
     "id": "ft_unsure_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_unsure_exp",
@@ -2390,17 +2247,6 @@
   {
     "parentId": "sequence_features_ft",
     "childNumber": 1,
-    "id": "ftlen_positional",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_positional",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search sequence positional features within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sequence_features_ft",
-    "childNumber": 2,
     "id": "ft_positional_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_positional_exp",
@@ -2620,17 +2466,6 @@
   {
     "parentId": "modified_residue_ft",
     "childNumber": 1,
-    "id": "ftlen_mod_res",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_mod_res",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Modified residue within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "modified_residue_ft",
-    "childNumber": 2,
     "id": "ft_mod_res_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_mod_res_exp",
@@ -2660,17 +2495,6 @@
   {
     "parentId": "lipidation_ft",
     "childNumber": 1,
-    "id": "ftlen_lipid",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_lipid",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Lipidation within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "lipidation_ft",
-    "childNumber": 2,
     "id": "ft_lipid_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_lipid_exp",
@@ -2700,17 +2524,6 @@
   {
     "parentId": "glycosylation_ft",
     "childNumber": 1,
-    "id": "ftlen_carbohyd",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_carbohyd",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Glycosylation within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "glycosylation_ft",
-    "childNumber": 2,
     "id": "ft_carbohyd_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_carbohyd_exp",
@@ -2740,17 +2553,6 @@
   {
     "parentId": "disulfide_bond_ft",
     "childNumber": 1,
-    "id": "ftlen_disulfid",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_disulfid",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Disulfide bond within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "disulfide_bond_ft",
-    "childNumber": 2,
     "id": "ft_disulfid_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_disulfid_exp",
@@ -2780,17 +2582,6 @@
   {
     "parentId": "cross_link_ft",
     "childNumber": 1,
-    "id": "ftlen_crosslnk",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_crosslnk",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Cross-link within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "cross_link_ft",
-    "childNumber": 2,
     "id": "ft_crosslnk_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_crosslnk_exp",
@@ -2827,17 +2618,6 @@
   {
     "parentId": "any_molecule_processing",
     "childNumber": 1,
-    "id": "ftlen_molecule_processing",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_molecule_processing",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Molecule Processing within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "any_molecule_processing",
-    "childNumber": 2,
     "id": "ft_molecule_processing_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_molecule_processing_exp",
@@ -2867,17 +2647,6 @@
   {
     "parentId": "chain",
     "childNumber": 1,
-    "id": "ftlen_chain",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_chain",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature chain within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "chain",
-    "childNumber": 2,
     "id": "ft_chain_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_chain_exp",
@@ -2907,17 +2676,6 @@
   {
     "parentId": "initiator_methionine",
     "childNumber": 1,
-    "id": "ftlen_init_met",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_init_met",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature initiator methionine within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "initiator_methionine",
-    "childNumber": 2,
     "id": "ft_init_met_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_init_met_exp",
@@ -2947,17 +2705,6 @@
   {
     "parentId": "peptide",
     "childNumber": 1,
-    "id": "ftlen_peptide",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_peptide",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature peptide within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "peptide",
-    "childNumber": 2,
     "id": "ft_peptide_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_peptide_exp",
@@ -2987,17 +2734,6 @@
   {
     "parentId": "signal_peptide",
     "childNumber": 1,
-    "id": "ftlen_signal",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_signal",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature signal peptide within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "signal_peptide",
-    "childNumber": 2,
     "id": "ft_signal_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_signal_exp",
@@ -3027,17 +2763,6 @@
   {
     "parentId": "propeptide",
     "childNumber": 1,
-    "id": "ftlen_propep",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_propep",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature signal peptide within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "propeptide",
-    "childNumber": 2,
     "id": "ft_propep_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_propep_exp",
@@ -3067,17 +2792,6 @@
   {
     "parentId": "transit_peptide",
     "childNumber": 1,
-    "id": "ftlen_transit",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_transit",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature signal peptide within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "transit_peptide",
-    "childNumber": 2,
     "id": "ft_transit_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_transit_exp",
@@ -3161,17 +2875,6 @@
   {
     "parentId": "domain_ft",
     "childNumber": 1,
-    "id": "ftlen_domain",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_domain",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature domain within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "domain_ft",
-    "childNumber": 2,
     "id": "ft_domain_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_domain_exp",
@@ -3244,17 +2947,6 @@
   {
     "parentId": "coiled_coil",
     "childNumber": 1,
-    "id": "ftlen_coiled",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_coiled",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature coiled coil within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "coiled_coil",
-    "childNumber": 2,
     "id": "ft_coiled_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_coiled_exp",
@@ -3284,17 +2976,6 @@
   {
     "parentId": "compositional_bias",
     "childNumber": 1,
-    "id": "ftlen_compbias",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_compbias",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature compositional bias within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "compositional_bias",
-    "childNumber": 2,
     "id": "ft_compbias_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_compbias_exp",
@@ -3324,17 +3005,6 @@
   {
     "parentId": "motif",
     "childNumber": 1,
-    "id": "ftlen_motif",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_motif",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature motif within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "motif",
-    "childNumber": 2,
     "id": "ft_motif_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_motif_exp",
@@ -3364,17 +3034,6 @@
   {
     "parentId": "region",
     "childNumber": 1,
-    "id": "ftlen_region",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_region",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature region within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "region",
-    "childNumber": 2,
     "id": "ft_region_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_region_exp",
@@ -3404,17 +3063,6 @@
   {
     "parentId": "repeat",
     "childNumber": 1,
-    "id": "ftlen_repeat",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_repeat",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature repeat within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "repeat",
-    "childNumber": 2,
     "id": "ft_repeat_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_repeat_exp",
@@ -3474,17 +3122,6 @@
   {
     "parentId": "zinc_finger",
     "childNumber": 1,
-    "id": "ftlen_zn_fing",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_zn_fing",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature zinc finger within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "zinc_finger",
-    "childNumber": 2,
     "id": "ft_zn_fing_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_zn_fing_exp",
@@ -3679,17 +3316,6 @@
   },
   {
     "parentId": "secondary_structure_any",
-    "childNumber": 1,
-    "id": "ftlen_secstruct",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_secstruct",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Any secondary structure within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "secondary_structure_any",
     "childNumber": 0,
     "id": "ft_secstruct",
     "itemType": "SINGLE",
@@ -3701,7 +3327,7 @@
   },
   {
     "parentId": "secondary_structure_any",
-    "childNumber": 2,
+    "childNumber": 1,
     "id": "ft_secstruct_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_secstruct_exp",
@@ -3731,17 +3357,6 @@
   {
     "parentId": "secondary_structure_helix",
     "childNumber": 1,
-    "id": "ftlen_helix",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_helix",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature helix within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "secondary_structure_helix",
-    "childNumber": 2,
     "id": "ft_helix_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_helix_exp",
@@ -3771,17 +3386,6 @@
   {
     "parentId": "secondary_structure_turn",
     "childNumber": 1,
-    "id": "ftlen_turn",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_turn",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature turn within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "secondary_structure_turn",
-    "childNumber": 2,
     "id": "ft_turn_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_turn_exp",
@@ -3811,17 +3415,6 @@
   {
     "parentId": "secondary_structure_beta_strand",
     "childNumber": 1,
-    "id": "ftlen_strand",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_strand",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Beta strand within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "secondary_structure_beta_strand",
-    "childNumber": 2,
     "id": "ft_strand_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_strand_exp",
@@ -3924,17 +3517,6 @@
   {
     "parentId": "transmembrane",
     "childNumber": 1,
-    "id": "ftlen_transmem",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_transmem",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Transmembrane within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "transmembrane",
-    "childNumber": 2,
     "id": "ft_transmem_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_transmem_exp",
@@ -3964,17 +3546,6 @@
   {
     "parentId": "topological_domain",
     "childNumber": 1,
-    "id": "ftlen_topo_dom",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_topo_dom",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Topological domain with evidence type",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "topological_domain",
-    "childNumber": 2,
     "id": "ft_topo_dom_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_topo_dom_exp",
@@ -4004,17 +3575,6 @@
   {
     "parentId": "intramembrane",
     "childNumber": 1,
-    "id": "ftlen_intramem",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_intramem",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Intramembrane within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "intramembrane",
-    "childNumber": 2,
     "id": "ft_intramem_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_intramem_exp",
@@ -4231,17 +3791,6 @@
   {
     "parentId" : "mutagenesis",
     "childNumber": 1,
-    "id": "ftlen_mutagen",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_mutagen",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Mutagenesis within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId" : "mutagenesis",
-    "childNumber": 2,
     "id": "ft_mutagen_exp",
     "itemType": "SINGLE",
     "fieldName": "ft_mutagen_exp",
