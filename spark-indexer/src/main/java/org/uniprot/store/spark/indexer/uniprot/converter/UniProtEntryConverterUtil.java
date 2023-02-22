@@ -27,14 +27,11 @@ public class UniProtEntryConverterUtil {
 
     private static final int SORT_FIELD_MAX_LENGTH = 30;
 
-    static Set<String> extractEvidence(List<Evidence> evidences, Boolean addExperimental) {
+    static Set<String> extractEvidence(List<Evidence> evidences) {
         Set<String> result =
                 evidences.stream()
                         .flatMap(UniProtEntryConverterUtil::addExtractedEvidenceItem)
                         .collect(Collectors.toSet());
-        if (result.isEmpty() && (addExperimental != null && addExperimental)) {
-            result.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
-        }
         return result;
     }
 
@@ -48,6 +45,26 @@ public class UniProtEntryConverterUtil {
                         .collect(Collectors.toList()));
 
         return result.stream();
+    }
+
+    static boolean canAddExperimental(
+            boolean typeAddExperimental, String commentVal, Boolean reviewed, Set<String> evidences) {
+        return hasExperimentalEvidence(evidences)
+                || (evidences.isEmpty()
+                && typeAddExperimental
+                && (reviewed != null && reviewed)
+                && canAddExperimentalByAnnotationText(commentVal));
+    }
+
+    static boolean canAddExperimentalByAnnotationText(String textValue) {
+        String lowerCaseTextValue = textValue.toLowerCase();
+        return !lowerCaseTextValue.contains("(by similarity).")
+                && !lowerCaseTextValue.contains("(probable).")
+                && !lowerCaseTextValue.contains("(potential).");
+    }
+
+    static boolean hasExperimentalEvidence(Collection<String> evidences) {
+        return evidences.contains(EvidenceCode.ECO_0000269.name());
     }
 
     static String createSuggestionMapKey(SuggestDictionary dict, String id) {
