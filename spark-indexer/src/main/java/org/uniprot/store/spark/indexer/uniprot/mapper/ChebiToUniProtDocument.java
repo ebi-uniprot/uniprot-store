@@ -1,11 +1,6 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.Optional;
@@ -34,6 +29,10 @@ public class ChebiToUniProtDocument
             "ft_" + UniprotKBFeatureType.BINDING.name().toLowerCase(Locale.ROOT) + "_exp";
     public static final String CC_COFACTOR_CHEBI_EXP = "cc_cofactor_chebi_exp";
 
+    private static final Collection<String> CHEBI_COMMENT_FIELDS = List.of(CC_CATALYTIC_ACTIVITY, CC_CATALYTIC_ACTIVITY_EXP, CC_COFACTOR_CHEBI_EXP);
+
+    private static final Collection<String> CHEBI_FEATURE_FIELDS = List.of(FT_BINDING, FT_BINDING_EXP);
+
     @Override
     public UniProtDocument call(Tuple2<UniProtDocument, Optional<Iterable<ChebiEntry>>> tuple2)
             throws Exception {
@@ -46,22 +45,17 @@ public class ChebiToUniProtDocument
                 if (Utils.notNullNotEmpty(doc.cofactorChebi)) {
                     addCofactorChebi(doc, mappedChebi);
                 }
-                if (doc.commentMap.containsKey(CC_COFACTOR_CHEBI_EXP)) {
-                    addCommentMapChebi(doc, mappedChebi, CC_COFACTOR_CHEBI_EXP);
+
+                for(String commentFieldName: CHEBI_COMMENT_FIELDS) {
+                    if (doc.commentMap.containsKey(commentFieldName)) {
+                        addCommentMapChebi(doc, mappedChebi, commentFieldName);
+                    }
                 }
 
-                if (doc.commentMap.containsKey(CC_CATALYTIC_ACTIVITY)) {
-                    addCommentMapChebi(doc, mappedChebi, CC_CATALYTIC_ACTIVITY);
-                }
-                if (doc.commentMap.containsKey(CC_CATALYTIC_ACTIVITY_EXP)) {
-                    addCommentMapChebi(doc, mappedChebi, CC_CATALYTIC_ACTIVITY_EXP);
-                }
-
-                if (doc.featuresMap.containsKey(FT_BINDING)) {
-                    addBindingChebi(doc, mappedChebi, FT_BINDING);
-                }
-                if (doc.featuresMap.containsKey(FT_BINDING_EXP)) {
-                    addBindingChebi(doc, mappedChebi, FT_BINDING_EXP);
+                for(String featureFieldName: CHEBI_FEATURE_FIELDS) {
+                    if (doc.featuresMap.containsKey(featureFieldName)) {
+                        addBindingChebi(doc, mappedChebi, featureFieldName);
+                    }
                 }
             }
         } catch (Exception e) {

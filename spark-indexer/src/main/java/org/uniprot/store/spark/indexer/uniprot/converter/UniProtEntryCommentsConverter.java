@@ -1,8 +1,5 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
-import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.canAddExperimentalByAnnotationText;
-import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.hasExperimentalEvidence;
-
 import java.io.Serializable;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -20,6 +17,8 @@ import org.uniprot.core.uniprotkb.evidence.EvidencedValue;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniprot.ProteinsWith;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.*;
 
 /**
  * @author lgonzales
@@ -74,7 +73,7 @@ class UniProtEntryCommentsConverter implements Serializable {
             Set<String> evidences = fetchEvidences(comment);
 
             if (canAddExperimental(
-                    comment.getCommentType(), commentVal, document.reviewed, evidences)) {
+                    comment.getCommentType().isAddExperimental(), commentVal, document.reviewed, evidences)) {
                 String experimentalField = commentField + EXPERIMENTAL;
                 Collection<String> experimentalComments =
                         document.commentMap.computeIfAbsent(
@@ -180,7 +179,7 @@ class UniProtEntryCommentsConverter implements Serializable {
         }
         document.ap.addAll(values);
         document.apEv.addAll(evidences);
-        if (canAddExperimental(commentType, commentVal, document.reviewed, evidences)) {
+        if (canAddExperimental(commentType.isAddExperimental(), commentVal, document.reviewed, evidences)) {
             Collection<String> apExp =
                     document.commentMap.computeIfAbsent(CC_AP_EXPERIMENTAL, k -> new HashSet<>());
             apExp.addAll(values);
@@ -223,7 +222,7 @@ class UniProtEntryCommentsConverter implements Serializable {
             Set<String> evidences,
             String experimentalField) {
         String commentVal = String.join(" ", values);
-        if (canAddExperimental(commentType, commentVal, document.reviewed, evidences)) {
+        if (canAddExperimental(commentType.isAddExperimental(), commentVal, document.reviewed, evidences)) {
             document.commentMap
                     .computeIfAbsent(experimentalField, k -> new HashSet<>())
                     .addAll(values);
@@ -261,7 +260,7 @@ class UniProtEntryCommentsConverter implements Serializable {
         }
         document.cofactorChebi.addAll(cofactorValues);
         Set<String> evidences = UniProtEntryConverterUtil.extractEvidence(cofactor.getEvidences());
-        if (canAddExperimental(CommentType.COFACTOR, commentVal, document.reviewed, evidences)) {
+        if (canAddExperimental(CommentType.COFACTOR.isAddExperimental(), commentVal, document.reviewed, evidences)) {
             document.commentMap
                     .computeIfAbsent(CC_COFACTOR_CHEBI_EXPERIMENTAL, k -> new HashSet<>())
                     .addAll(cofactorValues);
@@ -361,7 +360,7 @@ class UniProtEntryCommentsConverter implements Serializable {
         document.bpcp.addAll(temperatureDependenceValues);
         String commentVal = String.join(" ", temperatureDependenceValues);
         if (canAddExperimental(
-                CommentType.BIOPHYSICOCHEMICAL_PROPERTIES,
+                CommentType.BIOPHYSICOCHEMICAL_PROPERTIES.isAddExperimental(),
                 commentVal,
                 document.reviewed,
                 temperatureDependenceEvidences)) {
@@ -386,7 +385,7 @@ class UniProtEntryCommentsConverter implements Serializable {
         document.bpcp.addAll(redoxPotentialValues);
         String commentVal = String.join(" ", redoxPotentialValues);
         if (canAddExperimental(
-                CommentType.BIOPHYSICOCHEMICAL_PROPERTIES,
+                CommentType.BIOPHYSICOCHEMICAL_PROPERTIES.isAddExperimental(),
                 commentVal,
                 document.reviewed,
                 redoxPotentialEvidences)) {
@@ -410,7 +409,7 @@ class UniProtEntryCommentsConverter implements Serializable {
         document.bpcp.addAll(phDependenceValues);
         String commentVal = String.join(" ", phDependenceValues);
         if (canAddExperimental(
-                CommentType.BIOPHYSICOCHEMICAL_PROPERTIES,
+                CommentType.BIOPHYSICOCHEMICAL_PROPERTIES.isAddExperimental(),
                 commentVal,
                 document.reviewed,
                 phDependenceEvidences)) {
@@ -441,7 +440,7 @@ class UniProtEntryCommentsConverter implements Serializable {
         document.bpcp.addAll(absorptionValues);
         String commentVal = String.join(" ", absorptionValues);
         if (canAddExperimental(
-                CommentType.BIOPHYSICOCHEMICAL_PROPERTIES,
+                CommentType.BIOPHYSICOCHEMICAL_PROPERTIES.isAddExperimental(),
                 commentVal,
                 document.reviewed,
                 absorptionEvidences)) {
@@ -501,7 +500,7 @@ class UniProtEntryCommentsConverter implements Serializable {
 
         String commentVal = String.join(" ", kineticValues);
         if (canAddExperimental(
-                CommentType.BIOPHYSICOCHEMICAL_PROPERTIES,
+                CommentType.BIOPHYSICOCHEMICAL_PROPERTIES.isAddExperimental(),
                 commentVal,
                 document.reviewed,
                 kineticEvidenceValues)) {
@@ -767,7 +766,7 @@ class UniProtEntryCommentsConverter implements Serializable {
                     UniProtEntryConverterUtil.extractEvidence(reaction.getEvidences());
             boolean experimental =
                     canAddExperimental(
-                            CommentType.CATALYTIC_ACTIVITY, commentVal, doc.reviewed, evidences);
+                            CommentType.CATALYTIC_ACTIVITY.isAddExperimental(), commentVal, doc.reviewed, evidences);
             convertReactionInformation(
                     doc, reaction.getReactionCrossReferences(), field, experimental);
         }
@@ -781,7 +780,7 @@ class UniProtEntryCommentsConverter implements Serializable {
             Set<String> evidenceSet = UniProtEntryConverterUtil.extractEvidence(evidences);
             boolean experimental =
                     canAddExperimental(
-                            CommentType.CATALYTIC_ACTIVITY, commentVal, doc.reviewed, evidenceSet);
+                            CommentType.CATALYTIC_ACTIVITY.isAddExperimental(), commentVal, doc.reviewed, evidenceSet);
 
             var physiologicalReactionCrossReferences =
                     comment.getPhysiologicalReactions().stream()
@@ -829,14 +828,5 @@ class UniProtEntryCommentsConverter implements Serializable {
         comment.getTexts().stream()
                 .map(Value::getValue)
                 .forEach(val -> updateFamily(val, document));
-    }
-
-    private boolean canAddExperimental(
-            CommentType commentType, String commentVal, Boolean reviewed, Set<String> evidences) {
-        return hasExperimentalEvidence(evidences)
-                || (evidences.isEmpty()
-                        && commentType.isAddExperimental()
-                        && (reviewed != null && reviewed)
-                        && canAddExperimentalByAnnotationText(commentVal));
     }
 }

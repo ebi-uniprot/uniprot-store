@@ -47,11 +47,20 @@ public class UniProtEntryConverterUtil {
         return result.stream();
     }
 
-    static boolean canAddExperimentalByAnnotationText(String commentVal) {
-        String lowerCaseCommentVal = commentVal.toLowerCase();
-        return !lowerCaseCommentVal.contains("(by similarity).")
-                && !lowerCaseCommentVal.contains("(probable).")
-                && !lowerCaseCommentVal.contains("(potential).");
+    static boolean canAddExperimental(
+            boolean typeAddExperimental, String commentVal, Boolean reviewed, Set<String> evidences) {
+        return hasExperimentalEvidence(evidences)
+                || (evidences.isEmpty()
+                && typeAddExperimental
+                && (reviewed != null && reviewed)
+                && canAddExperimentalByAnnotationText(commentVal));
+    }
+
+    static boolean canAddExperimentalByAnnotationText(String textValue) {
+        String lowerCaseTextValue = textValue.toLowerCase();
+        return !lowerCaseTextValue.contains("(by similarity).")
+                && !lowerCaseTextValue.contains("(probable).")
+                && !lowerCaseTextValue.contains("(potential).");
     }
 
     static boolean hasExperimentalEvidence(Collection<String> evidences) {

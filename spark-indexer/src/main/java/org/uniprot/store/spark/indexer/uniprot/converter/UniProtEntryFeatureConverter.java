@@ -1,5 +1,6 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.*;
 import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.canAddExperimentalByAnnotationText;
 import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.hasExperimentalEvidence;
 
@@ -73,7 +74,7 @@ class UniProtEntryFeatureConverter {
                             - feature.getLocation().getStart().getValue()
                             + 1;
             Set<String> evidences =
-                    UniProtEntryConverterUtil.extractEvidence(feature.getEvidences());
+                    extractEvidence(feature.getEvidences());
             Collection<Integer> lengthList =
                     document.featureLengthMap.computeIfAbsent(lengthField, k -> new HashSet<>());
             lengthList.add(length);
@@ -89,7 +90,7 @@ class UniProtEntryFeatureConverter {
 
             String featureValues = String.join(" ", featureValueList);
             if (canAddExperimental(
-                    feature.getType(), featureValues, document.reviewed, evidences)) {
+                    feature.getType().isAddExperimental(), featureValues, document.reviewed, evidences)) {
                 String experimentalField = field + "_exp";
                 document.featuresMap
                         .computeIfAbsent(experimentalField, k -> new HashSet<>())
@@ -126,24 +127,12 @@ class UniProtEntryFeatureConverter {
         UniprotKBFeatureDatabase dbType = xref.getDatabase();
         String dbname = dbType.getName();
 
-        List<String> xrefIds = UniProtEntryConverterUtil.getXrefId(xrefId, dbname);
+        List<String> xrefIds = getXrefId(xrefId, dbname);
         if (!dbType.equals(UniprotKBFeatureDatabase.CHEBI)) {
             document.crossRefs.addAll(xrefIds);
             document.databases.add(dbname.toLowerCase());
         }
         document.content.addAll(xrefIds);
         featuresOfTypeList.addAll(xrefIds);
-    }
-
-    private boolean canAddExperimental(
-            UniprotKBFeatureType featureType,
-            String featureVal,
-            Boolean reviewed,
-            Set<String> evidences) {
-        return hasExperimentalEvidence(evidences)
-                || (evidences.isEmpty()
-                        && featureType.isAddExperimental()
-                        && (reviewed != null && reviewed)
-                        && canAddExperimentalByAnnotationText(featureVal));
     }
 }

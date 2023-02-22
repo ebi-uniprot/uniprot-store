@@ -3,6 +3,7 @@ package org.uniprot.store.spark.indexer.uniprot.converter;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -217,4 +218,30 @@ class UniProtKBEntryConverterUtilTest {
     void hasExperimentalEvidenceWithExperimental() {
         assertTrue(UniProtEntryConverterUtil.hasExperimentalEvidence(List.of("ECO_0000269")));
     }
+
+    @Test
+    void canAddExperimentalWithExperimental() {
+        assertTrue(UniProtEntryConverterUtil.canAddExperimental(false, "test (Potential).", false, Set.of("ECO_0000269")));
+    }
+
+    @Test
+    void canAddExperimentalWithoutExperimentalButValidImplicitEvidence() {
+        assertTrue(UniProtEntryConverterUtil.canAddExperimental(true, "Valid Text", true, Collections.emptySet()));
+    }
+
+    @Test
+    void canNotAddExperimentalWithoutExperimentalAndNotExperimentalType() {
+        assertFalse(UniProtEntryConverterUtil.canAddExperimental(false, "Valid Text", true, Collections.emptySet()));
+    }
+
+    @Test
+    void canNotAddExperimentalWithoutExperimentalAndNotValidText() {
+        assertFalse(UniProtEntryConverterUtil.canAddExperimental(true, "test (Potential).", true, Collections.emptySet()));
+    }
+
+    @Test
+    void canNotAddExperimentalWithoutExperimentalAndNotReviewed() {
+        assertFalse(UniProtEntryConverterUtil.canAddExperimental(true, "Valid Text", false, Collections.emptySet()));
+    }
+
 }
