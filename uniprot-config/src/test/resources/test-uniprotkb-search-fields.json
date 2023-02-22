@@ -654,6 +654,17 @@
     "example": "lck"
   },
   {
+    "childNumber": 1,
+    "id": "cc_webresource_exp",
+    "parentId": "web_resources",
+    "fieldName": "cc_webresource_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
+    "dataType": "BOOLEAN",
+    "itemType": "SINGLE",
+    "description": "Search by comment Web resources",
+    "example": "lck"
+  },
+  {
     "seqNumber": 9,
     "label": "Gene Ontology [GO]",
     "id": "gene_ontology",

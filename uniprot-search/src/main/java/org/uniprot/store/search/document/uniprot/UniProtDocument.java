@@ -155,6 +155,9 @@ public class UniProtDocument implements Document {
     @Field("structure_3d")
     public boolean d3structure = false;
 
+    @Field("evidence_exp")
+    public boolean evidenceExperimental = false;
+
     @Field("proteins_with")
     public List<Integer> proteinsWith = new ArrayList<>();
 

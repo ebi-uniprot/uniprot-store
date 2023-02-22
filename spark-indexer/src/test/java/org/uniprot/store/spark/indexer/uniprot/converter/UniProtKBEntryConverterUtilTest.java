@@ -3,6 +3,7 @@ package org.uniprot.store.spark.indexer.uniprot.converter;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -29,21 +30,10 @@ import org.uniprot.store.search.document.suggest.SuggestDictionary;
 class UniProtKBEntryConverterUtilTest {
 
     @Test
-    void emptyEvidenceAddExceptionalEvidence() {
-        List<Evidence> evidences = new ArrayList<>();
-
-        Set<String> extractedEvidences = UniProtEntryConverterUtil.extractEvidence(evidences, true);
-
-        assertEquals(1, extractedEvidences.size());
-        assertTrue(extractedEvidences.contains("experimental"));
-    }
-
-    @Test
     void emptyEvidenceDoNotAddExceptionalEvidence() {
         List<Evidence> evidences = new ArrayList<>();
 
-        Set<String> extractedEvidences =
-                UniProtEntryConverterUtil.extractEvidence(evidences, false);
+        Set<String> extractedEvidences = UniProtEntryConverterUtil.extractEvidence(evidences);
         assertNotNull(extractedEvidences);
         assertTrue(extractedEvidences.isEmpty());
     }
@@ -58,8 +48,7 @@ class UniProtKBEntryConverterUtilTest {
                         .evidenceCode(EvidenceCode.ECO_0000213)
                         .build());
 
-        Set<String> extractedEvidences =
-                UniProtEntryConverterUtil.extractEvidence(evidences, false);
+        Set<String> extractedEvidences = UniProtEntryConverterUtil.extractEvidence(evidences);
 
         assertEquals(2, extractedEvidences.size());
         assertTrue(extractedEvidences.contains(EvidenceCode.ECO_0000213.name()));
@@ -76,8 +65,7 @@ class UniProtKBEntryConverterUtilTest {
                         .evidenceCode(EvidenceCode.ECO_0000244)
                         .build());
 
-        Set<String> extractedEvidences =
-                UniProtEntryConverterUtil.extractEvidence(evidences, false);
+        Set<String> extractedEvidences = UniProtEntryConverterUtil.extractEvidence(evidences);
 
         assertEquals(2, extractedEvidences.size());
         assertTrue(extractedEvidences.contains(EvidenceCode.ECO_0000244.name()));
@@ -94,8 +82,7 @@ class UniProtKBEntryConverterUtilTest {
                         .evidenceCode(EvidenceCode.ECO_0000303)
                         .build());
 
-        Set<String> extractedEvidences =
-                UniProtEntryConverterUtil.extractEvidence(evidences, false);
+        Set<String> extractedEvidences = UniProtEntryConverterUtil.extractEvidence(evidences);
 
         assertEquals(3, extractedEvidences.size());
         assertTrue(extractedEvidences.contains(EvidenceCode.ECO_0000303.name()));
@@ -197,4 +184,64 @@ class UniProtKBEntryConverterUtilTest {
         boolean isCanonical = UniProtEntryConverterUtil.isCanonicalIsoform(entry);
         assertTrue(isCanonical);
     }
+
+    @Test
+    void canAddExperimentalByAnnotationText() {
+        assertTrue(UniProtEntryConverterUtil.canAddExperimentalByAnnotationText("test value."));
+    }
+
+    @Test
+    void canAddExperimentalByAnnotationTextBySimilarity() {
+        assertFalse(
+                UniProtEntryConverterUtil.canAddExperimentalByAnnotationText(
+                        "test (By Similarity)."));
+    }
+
+    @Test
+    void canAddExperimentalByAnnotationTextProbable() {
+        assertFalse(
+                UniProtEntryConverterUtil.canAddExperimentalByAnnotationText("test (Probable)."));
+    }
+
+    @Test
+    void canAddExperimentalByAnnotationTextPotential() {
+        assertFalse(
+                UniProtEntryConverterUtil.canAddExperimentalByAnnotationText("test (Potential)."));
+    }
+
+    @Test
+    void hasExperimentalEvidenceWithoutExperimental() {
+        assertFalse(UniProtEntryConverterUtil.hasExperimentalEvidence(List.of("ECO_0000305")));
+    }
+
+    @Test
+    void hasExperimentalEvidenceWithExperimental() {
+        assertTrue(UniProtEntryConverterUtil.hasExperimentalEvidence(List.of("ECO_0000269")));
+    }
+
+    @Test
+    void canAddExperimentalWithExperimental() {
+        assertTrue(UniProtEntryConverterUtil.canAddExperimental(false, "test (Potential).", false, Set.of("ECO_0000269")));
+    }
+
+    @Test
+    void canAddExperimentalWithoutExperimentalButValidImplicitEvidence() {
+        assertTrue(UniProtEntryConverterUtil.canAddExperimental(true, "Valid Text", true, Collections.emptySet()));
+    }
+
+    @Test
+    void canNotAddExperimentalWithoutExperimentalAndNotExperimentalType() {
+        assertFalse(UniProtEntryConverterUtil.canAddExperimental(false, "Valid Text", true, Collections.emptySet()));
+    }
+
+    @Test
+    void canNotAddExperimentalWithoutExperimentalAndNotValidText() {
+        assertFalse(UniProtEntryConverterUtil.canAddExperimental(true, "test (Potential).", true, Collections.emptySet()));
+    }
+
+    @Test
+    void canNotAddExperimentalWithoutExperimentalAndNotReviewed() {
+        assertFalse(UniProtEntryConverterUtil.canAddExperimental(true, "Valid Text", false, Collections.emptySet()));
+    }
+
 }

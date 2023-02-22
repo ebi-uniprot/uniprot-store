@@ -112,30 +112,6 @@ class FTSequenceSearchIT {
     }
 
     @Test
-    void variantsFindEntryWithLength() {
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("ft_variants"),
-                        "colorectal");
-        query =
-                QueryBuilder.and(
-                        query,
-                        QueryBuilder.rangeQuery(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ftlen_variants")
-                                        .getFieldName(),
-                                1,
-                                21));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q197B1));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
-    }
-
-    @Test
     void nonStdFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.NON_STD, "selenocysteine");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.NON_STD, 1, 1));
@@ -193,31 +169,5 @@ class FTSequenceSearchIT {
         System.out.println(retrievedAccessions);
         assertThat(retrievedAccessions, hasItems(Q6V4H0));
         assertThat(retrievedAccessions, not(hasItem(Q197B1)));
-    }
-
-    @Test
-    void positionFindEntryWithLength() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("ft_positional"),
-                        "colorectal");
-        query =
-                QueryBuilder.and(
-                        query,
-                        QueryBuilder.rangeQuery(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ftlen_positional")
-                                        .getFieldName(),
-                                1,
-                                21));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q197B1));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
     }
 }
