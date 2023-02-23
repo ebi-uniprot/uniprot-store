@@ -587,6 +587,29 @@
   },
   {
     "seqNumber": 7,
+    "id": "evidence_exp",
+    "label": "Experimental Evidence",
+    "fieldName": "evidence_exp",
+    "fieldType": "GENERAL",
+    "validRegex": "^true|false$",
+    "dataType": "BOOLEAN",
+    "itemType": "SINGLE",
+    "values": [
+      {
+        "name": "Yes",
+        "value": "true"
+      },
+      {
+        "name": "No",
+        "value": "false"
+      }
+    ],
+    "description": "Search by experimental evidence",
+    "example": "true",
+    "includeInSwagger": true
+  },
+  {
+    "seqNumber": 8,
     "id": "existence",
     "label": "Protein Existence [PE]",
     "fieldName": "existence",
@@ -621,7 +644,7 @@
   },
   {
     "label": "Web Resources",
-    "seqNumber": 18,
+    "seqNumber": 19,
     "itemType": "SIBLING_GROUP",
     "id": "web_resources"
   },
@@ -649,7 +672,7 @@
     "example": "lck"
   },
   {
-    "seqNumber": 20,
+    "seqNumber": 21,
     "label": "Gene Ontology [GO]",
     "id": "gene_ontology",
     "itemType": "SIBLING_GROUP"
@@ -680,7 +703,7 @@
     "includeInSwagger": true
   },
   {
-    "seqNumber": 21,
+    "seqNumber": 22,
     "label": "Small molecule",
     "id": "small_molecule",
     "itemType": "GROUP"
@@ -712,7 +735,7 @@
     "example": "XLYOFNOQVPJJNP-UHFFFAOYSA-N"
   },
   {
-    "seqNumber": 22,
+    "seqNumber": 23,
     "id": "keyword_field",
     "label": "Keyword [KW]",
     "fieldName": "keyword",
@@ -726,7 +749,7 @@
     "includeInSwagger": true
   },
   {
-    "seqNumber": 23,
+    "seqNumber": 24,
     "id": "literature_citation",
     "label": "Literature Citation",
     "itemType": "GROUP"
@@ -834,7 +857,7 @@
     "includeInSwagger": true
   },
   {
-    "seqNumber": 24,
+    "seqNumber": 25,
     "id": "proteomes",
     "label": "Proteomes",
     "itemType": "GROUP"
@@ -866,7 +889,7 @@
     "example": "chromosome"
   },
   {
-    "seqNumber": 25,
+    "seqNumber": 26,
     "id": "cited_for",
     "label": "Cited for",
     "fieldName": "scope",
@@ -877,7 +900,7 @@
     "example": "microtubule"
   },
   {
-    "seqNumber": 26,
+    "seqNumber": 27,
     "id": "reviewed",
     "label": "Reviewed",
     "fieldName": "reviewed",
@@ -900,7 +923,7 @@
     "includeInSwagger": true
   },
   {
-    "seqNumber": 27,
+    "seqNumber": 28,
     "id": "active",
     "label": "Active",
     "fieldName": "active",
@@ -922,7 +945,7 @@
     "example": "true"
   },
   {
-    "seqNumber": 28,
+    "seqNumber": 29,
     "label": "UniRef ID",
     "id": "uniref_group",
     "itemType": "GROUP"
@@ -967,7 +990,7 @@
     "example": "UniRef100_P05067"
   },
   {
-    "seqNumber": 29,
+    "seqNumber": 30,
     "label": "UniParc ID",
     "id":"uniparc",
     "itemType": "SINGLE",
@@ -982,7 +1005,7 @@
     "label": "Function",
     "itemType": "GROUP",
     "id": "function",
-    "seqNumber": 8
+    "seqNumber": 9
   },
   {
     "parentId": "function",
@@ -1589,7 +1612,7 @@
     "label": "Sequence",
     "itemType": "GROUP",
     "id": "sequence",
-    "seqNumber": 15
+    "seqNumber": 16
   },
   {
     "parentId": "sequence",
@@ -2413,7 +2436,7 @@
     "label": "PTM/Processing",
     "itemType": "GROUP",
     "id": "ptm_processing",
-    "seqNumber": 11
+    "seqNumber": 12
   },
   {
     "parentId": "ptm_processing",
@@ -2804,7 +2827,7 @@
     "label": "Interaction",
     "itemType": "GROUP",
     "id": "interaction",
-    "seqNumber": 13
+    "seqNumber": 14
   },
   {
     "parentId": "interaction",
@@ -2852,7 +2875,7 @@
     "label": "Family and Domains",
     "itemType": "GROUP",
     "id": "family_domains",
-    "seqNumber": 16
+    "seqNumber": 17
   },
   {
     "parentId": "family_domains",
@@ -3134,7 +3157,7 @@
     "label": "Expression",
     "itemType": "GROUP",
     "id": "expression",
-    "seqNumber": 12
+    "seqNumber": 13
   },
   {
     "parentId": "expression",
@@ -3230,7 +3253,7 @@
     "label": "Date Of",
     "itemType": "GROUP",
     "id": "date_of",
-    "seqNumber": 19
+    "seqNumber": 20
   },
   {
     "parentId": "date_of",
@@ -3274,7 +3297,7 @@
     "label": "Structure",
     "itemType": "GROUP",
     "id": "structure",
-    "seqNumber": 14
+    "seqNumber": 15
   },
   {
     "parentId": "structure",
@@ -3427,7 +3450,7 @@
     "label": "Subcellular location",
     "itemType": "GROUP",
     "id": "subcellular",
-    "seqNumber": 9
+    "seqNumber": 10
   },
   {
     "parentId": "subcellular",
@@ -3587,7 +3610,7 @@
     "label": "Pathology & Biotech",
     "itemType": "GROUP",
     "id": "pathology_biotech",
-    "seqNumber": 10
+    "seqNumber": 11
   },
   {
     "parentId": "pathology_biotech",
@@ -3803,7 +3826,7 @@
     "label": "Cross-references",
     "id": "cross_references",
     "itemType": "GROUP",
-    "seqNumber": 17
+    "seqNumber": 18
   },
   {
     "parentId" : "cross_references",
