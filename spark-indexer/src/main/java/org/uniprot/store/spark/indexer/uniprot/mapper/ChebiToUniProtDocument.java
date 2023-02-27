@@ -29,9 +29,11 @@ public class ChebiToUniProtDocument
             "ft_" + UniprotKBFeatureType.BINDING.name().toLowerCase(Locale.ROOT) + "_exp";
     public static final String CC_COFACTOR_CHEBI_EXP = "cc_cofactor_chebi_exp";
 
-    private static final Collection<String> CHEBI_COMMENT_FIELDS = List.of(CC_CATALYTIC_ACTIVITY, CC_CATALYTIC_ACTIVITY_EXP, CC_COFACTOR_CHEBI_EXP);
+    private static final Collection<String> CHEBI_COMMENT_FIELDS =
+            List.of(CC_CATALYTIC_ACTIVITY, CC_CATALYTIC_ACTIVITY_EXP, CC_COFACTOR_CHEBI_EXP);
 
-    private static final Collection<String> CHEBI_FEATURE_FIELDS = List.of(FT_BINDING, FT_BINDING_EXP);
+    private static final Collection<String> CHEBI_FEATURE_FIELDS =
+            List.of(FT_BINDING, FT_BINDING_EXP);
 
     @Override
     public UniProtDocument call(Tuple2<UniProtDocument, Optional<Iterable<ChebiEntry>>> tuple2)
@@ -46,13 +48,13 @@ public class ChebiToUniProtDocument
                     addCofactorChebi(doc, mappedChebi);
                 }
 
-                for(String commentFieldName: CHEBI_COMMENT_FIELDS) {
+                for (String commentFieldName : CHEBI_COMMENT_FIELDS) {
                     if (doc.commentMap.containsKey(commentFieldName)) {
                         addCommentMapChebi(doc, mappedChebi, commentFieldName);
                     }
                 }
 
-                for(String featureFieldName: CHEBI_FEATURE_FIELDS) {
+                for (String featureFieldName : CHEBI_FEATURE_FIELDS) {
                     if (doc.featuresMap.containsKey(featureFieldName)) {
                         addBindingChebi(doc, mappedChebi, featureFieldName);
                     }

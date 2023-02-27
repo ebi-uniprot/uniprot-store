@@ -1,8 +1,6 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
 import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.*;
-import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.canAddExperimentalByAnnotationText;
-import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.hasExperimentalEvidence;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -73,8 +71,7 @@ class UniProtEntryFeatureConverter {
                     feature.getLocation().getEnd().getValue()
                             - feature.getLocation().getStart().getValue()
                             + 1;
-            Set<String> evidences =
-                    extractEvidence(feature.getEvidences());
+            Set<String> evidences = extractEvidence(feature.getEvidences());
             Collection<Integer> lengthList =
                     document.featureLengthMap.computeIfAbsent(lengthField, k -> new HashSet<>());
             lengthList.add(length);
@@ -90,7 +87,10 @@ class UniProtEntryFeatureConverter {
 
             String featureValues = String.join(" ", featureValueList);
             if (canAddExperimental(
-                    feature.getType().isAddExperimental(), featureValues, document.reviewed, evidences)) {
+                    feature.getType().isAddExperimental(),
+                    featureValues,
+                    document.reviewed,
+                    evidences)) {
                 String experimentalField = field + "_exp";
                 document.featuresMap
                         .computeIfAbsent(experimentalField, k -> new HashSet<>())

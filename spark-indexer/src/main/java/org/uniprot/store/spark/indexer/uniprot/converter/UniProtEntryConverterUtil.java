@@ -48,12 +48,15 @@ public class UniProtEntryConverterUtil {
     }
 
     static boolean canAddExperimental(
-            boolean typeAddExperimental, String commentVal, Boolean reviewed, Set<String> evidences) {
+            boolean typeAddExperimental,
+            String commentVal,
+            Boolean reviewed,
+            Set<String> evidences) {
         return hasExperimentalEvidence(evidences)
                 || (evidences.isEmpty()
-                && typeAddExperimental
-                && (reviewed != null && reviewed)
-                && canAddExperimentalByAnnotationText(commentVal));
+                        && typeAddExperimental
+                        && (reviewed != null && reviewed)
+                        && canAddExperimentalByAnnotationText(commentVal));
     }
 
     static boolean canAddExperimentalByAnnotationText(String textValue) {
