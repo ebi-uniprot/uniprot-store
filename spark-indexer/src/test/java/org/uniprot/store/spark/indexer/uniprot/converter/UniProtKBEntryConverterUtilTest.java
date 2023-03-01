@@ -221,27 +221,36 @@ class UniProtKBEntryConverterUtilTest {
 
     @Test
     void canAddExperimentalWithExperimental() {
-        assertTrue(UniProtEntryConverterUtil.canAddExperimental(false, "test (Potential).", false, Set.of("ECO_0000269")));
+        assertTrue(
+                UniProtEntryConverterUtil.canAddExperimental(
+                        false, "test (Potential).", false, Set.of("ECO_0000269")));
     }
 
     @Test
     void canAddExperimentalWithoutExperimentalButValidImplicitEvidence() {
-        assertTrue(UniProtEntryConverterUtil.canAddExperimental(true, "Valid Text", true, Collections.emptySet()));
+        assertTrue(
+                UniProtEntryConverterUtil.canAddExperimental(
+                        true, "Valid Text", true, Collections.emptySet()));
     }
 
     @Test
     void canNotAddExperimentalWithoutExperimentalAndNotExperimentalType() {
-        assertFalse(UniProtEntryConverterUtil.canAddExperimental(false, "Valid Text", true, Collections.emptySet()));
+        assertFalse(
+                UniProtEntryConverterUtil.canAddExperimental(
+                        false, "Valid Text", true, Collections.emptySet()));
     }
 
     @Test
     void canNotAddExperimentalWithoutExperimentalAndNotValidText() {
-        assertFalse(UniProtEntryConverterUtil.canAddExperimental(true, "test (Potential).", true, Collections.emptySet()));
+        assertFalse(
+                UniProtEntryConverterUtil.canAddExperimental(
+                        true, "test (Potential).", true, Collections.emptySet()));
     }
 
     @Test
     void canNotAddExperimentalWithoutExperimentalAndNotReviewed() {
-        assertFalse(UniProtEntryConverterUtil.canAddExperimental(true, "Valid Text", false, Collections.emptySet()));
+        assertFalse(
+                UniProtEntryConverterUtil.canAddExperimental(
+                        true, "Valid Text", false, Collections.emptySet()));
     }
-
 }
