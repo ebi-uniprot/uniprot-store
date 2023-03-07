@@ -436,7 +436,7 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertEquals(1, document.commentEvMap.size());
         assertTrue(document.commentEvMap.containsKey(CCEV_ALTERNATIVE_PRODUCTS_FIELD));
-        assertEquals(0, document.commentEvMap.get(CCEV_ALTERNATIVE_PRODUCTS_FIELD).size());
+        assertEquals(3, document.commentEvMap.get(CCEV_ALTERNATIVE_PRODUCTS_FIELD).size());
 
         assertEquals(8, document.ap.size());
         assertTrue(document.ap.contains("Alternative promoter usage"));
@@ -562,7 +562,7 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertEquals(1, document.commentEvMap.size());
         assertTrue(document.commentEvMap.containsKey(CCEV_ALTERNATIVE_PRODUCTS_FIELD));
-        assertEquals(0, document.commentEvMap.get(CCEV_ALTERNATIVE_PRODUCTS_FIELD).size());
+        assertEquals(3, document.commentEvMap.get(CCEV_ALTERNATIVE_PRODUCTS_FIELD).size());
 
         assertEquals(5, document.ap.size());
         assertTrue(document.ap.contains("Ribosomal frameshifting"));
@@ -1314,6 +1314,8 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertNotNull(document);
         assertEquals(3, document.commentMap.get(CC_SUBCELLULAR_LOCATION_FIELD).size());
+        assertEquals(
+                1, document.commentMap.get(CC_SUBCELLULAR_LOCATION_FIELD + EXPERIMENTAL).size());
 
         assertEquals(1, document.proteinsWith.size());
         assertTrue(document.proteinsWith.contains(ProteinsWith.SUBCELLULAR_LOCATION.getValue()));
@@ -1325,7 +1327,7 @@ class UniProtKBEntryCommentsConverterTest {
                         .contains(subcellularLocationLineValue));
         assertEquals(1, document.commentEvMap.size());
         assertTrue(document.commentEvMap.containsKey(CCEV_SUBCELLULAR_LOCATION_FIELD));
-        assertEquals(0, document.commentEvMap.get(CCEV_SUBCELLULAR_LOCATION_FIELD).size());
+        assertEquals(6, document.commentEvMap.get(CCEV_SUBCELLULAR_LOCATION_FIELD).size());
 
         assertEquals(18, document.subcellLocationTerm.size());
         assertTrue(document.subcellLocationTerm.contains("Host cytoplasm"));

@@ -638,45 +638,22 @@ class UniProtEntryCommentsConverter implements Serializable {
         }
         CommentType type = comment.getCommentType();
         switch (type) {
+            case ALTERNATIVE_PRODUCTS:
+                evidences.addAll(
+                        fetchAlternativeProductsEvidences((AlternativeProductsComment) comment));
+                break;
+            case SUBCELLULAR_LOCATION:
+                evidences.addAll(
+                        fetchSubcellularLocationEvidences((SubcellularLocationComment) comment));
+                break;
             case DISEASE:
-                DiseaseComment diseaseComment = (DiseaseComment) comment;
-                if (diseaseComment.hasDefinedDisease()) {
-                    evidences.addAll(
-                            UniProtEntryConverterUtil.extractEvidence(
-                                    diseaseComment.getDisease().getEvidences()));
-                    if (diseaseComment.hasNote() && diseaseComment.getNote().hasTexts()) {
-                        evidences.addAll(getTextsEvidence(diseaseComment.getNote().getTexts()));
-                    }
-                }
+                evidences.addAll(fetchDiseaseEvidences((DiseaseComment) comment));
                 break;
             case RNA_EDITING:
-                RnaEditingComment reComment = (RnaEditingComment) comment;
-                if (reComment.hasPositions()) {
-                    evidences.addAll(
-                            UniProtEntryConverterUtil.extractEvidence(
-                                    reComment.getPositions().stream()
-                                            .flatMap(val -> val.getEvidences().stream())
-                                            .collect(Collectors.toList())));
-                }
-                if (reComment.hasNote() && reComment.getNote().hasTexts()) {
-                    evidences.addAll(getTextsEvidence(reComment.getNote().getTexts()));
-                }
+                evidences.addAll(fetchRNAEditingEvidences((RnaEditingComment) comment));
                 break;
             case COFACTOR:
-                CofactorComment cofactorComment = (CofactorComment) comment;
-                if (cofactorComment.hasCofactors()) {
-                    cofactorComment.getCofactors().stream()
-                            .flatMap(
-                                    cofactor ->
-                                            UniProtEntryConverterUtil.extractEvidence(
-                                                    cofactor.getEvidences())
-                                                    .stream())
-                            .forEach(evidences::add);
-                }
-
-                if ((cofactorComment.hasNote()) && (cofactorComment.getNote().hasTexts())) {
-                    evidences.addAll(getTextsEvidence(cofactorComment.getNote().getTexts()));
-                }
+                evidences.addAll(fetchCofactorEvidences((CofactorComment) comment));
                 break;
             case MASS_SPECTROMETRY:
                 MassSpectrometryComment msComment = (MassSpectrometryComment) comment;
@@ -684,67 +661,166 @@ class UniProtEntryCommentsConverter implements Serializable {
                         UniProtEntryConverterUtil.extractEvidence(msComment.getEvidences()));
                 break;
             case CATALYTIC_ACTIVITY:
-                CatalyticActivityComment caComment = (CatalyticActivityComment) comment;
-                if (caComment.hasReaction()) {
-                    evidences.addAll(
-                            UniProtEntryConverterUtil.extractEvidence(
-                                    caComment.getReaction().getEvidences()));
-                }
-                if (caComment.hasPhysiologicalReactions()) {
-                    List<Evidence> physiologicalEvidences =
-                            caComment.getPhysiologicalReactions().stream()
-                                    .filter(PhysiologicalReaction::hasEvidences)
-                                    .flatMap(reaction -> reaction.getEvidences().stream())
-                                    .collect(Collectors.toList());
-                    evidences.addAll(
-                            UniProtEntryConverterUtil.extractEvidence(physiologicalEvidences));
-                }
+                evidences.addAll(fetchCatalyticActivity((CatalyticActivityComment) comment));
                 break;
             case BIOPHYSICOCHEMICAL_PROPERTIES:
-                BPCPComment bpcpComment = (BPCPComment) comment;
-                if (bpcpComment.hasAbsorption() && bpcpComment.getAbsorption().hasEvidences()) {
-                    evidences.addAll(
-                            UniProtEntryConverterUtil.extractEvidence(
-                                    bpcpComment.getAbsorption().getEvidences()));
-                }
-                if (bpcpComment.hasKineticParameters()) {
-                    KineticParameters kinetics = bpcpComment.getKineticParameters();
-                    if (kinetics.hasMaximumVelocities()) {
-                        evidences.addAll(
-                                kinetics.getMaximumVelocities().stream()
-                                        .filter(MaximumVelocity::hasEvidences)
-                                        .map(MaximumVelocity::getEvidences)
-                                        .map(UniProtEntryConverterUtil::extractEvidence)
-                                        .flatMap(Collection::stream)
-                                        .collect(Collectors.toSet()));
-                    }
-                    if (kinetics.hasMichaelisConstants()) {
-                        evidences.addAll(
-                                kinetics.getMichaelisConstants().stream()
-                                        .filter(MichaelisConstant::hasEvidences)
-                                        .map(MichaelisConstant::getEvidences)
-                                        .map(UniProtEntryConverterUtil::extractEvidence)
-                                        .flatMap(Collection::stream)
-                                        .collect(Collectors.toSet()));
-                    }
-                    if (kinetics.hasNote() && kinetics.getNote().hasTexts()) {
-                        evidences.addAll(getTextsEvidence(kinetics.getNote().getTexts()));
-                    }
-                }
-                if (bpcpComment.hasPhDependence() && bpcpComment.getPhDependence().hasTexts()) {
-                    evidences.addAll(getTextsEvidence(bpcpComment.getPhDependence().getTexts()));
-                }
-                if (bpcpComment.hasRedoxPotential() && bpcpComment.getRedoxPotential().hasTexts()) {
-                    evidences.addAll(getTextsEvidence(bpcpComment.getRedoxPotential().getTexts()));
-                }
-                if (bpcpComment.hasTemperatureDependence()
-                        && bpcpComment.getTemperatureDependence().hasTexts()) {
-                    evidences.addAll(
-                            getTextsEvidence(bpcpComment.getTemperatureDependence().getTexts()));
-                }
+                evidences.addAll(fetchBiophysicochemicalProperties((BPCPComment) comment));
                 break;
             default:
                 break;
+        }
+        return evidences;
+    }
+
+    private Set<String> fetchSubcellularLocationEvidences(SubcellularLocationComment comment) {
+        Set<String> evidences = new HashSet<>();
+        if (comment.hasSubcellularLocations()) {
+            for (SubcellularLocation subcellularLocation : comment.getSubcellularLocations()) {
+                if (subcellularLocation.hasLocation()) {
+                    evidences.addAll(
+                            UniProtEntryConverterUtil.extractEvidence(
+                                    subcellularLocation.getLocation().getEvidences()));
+                }
+                if (subcellularLocation.hasOrientation()) {
+                    evidences.addAll(
+                            UniProtEntryConverterUtil.extractEvidence(
+                                    subcellularLocation.getOrientation().getEvidences()));
+                }
+                if (subcellularLocation.hasTopology()) {
+                    evidences.addAll(
+                            UniProtEntryConverterUtil.extractEvidence(
+                                    subcellularLocation.getTopology().getEvidences()));
+                }
+            }
+        }
+        if (comment.hasNote() && comment.getNote().hasTexts()) {
+            evidences.addAll(getTextsEvidence(comment.getNote().getTexts()));
+        }
+        return evidences;
+    }
+
+    private Set<String> fetchAlternativeProductsEvidences(AlternativeProductsComment comment) {
+        Set<String> evidences = new HashSet<>();
+        if (comment.hasNote() && comment.getNote().hasTexts()) {
+            evidences.addAll(getTextsEvidence(comment.getNote().getTexts()));
+        }
+        if (comment.hasIsoforms()) {
+            comment.getIsoforms().stream()
+                    .filter(APIsoform::hasNote)
+                    .map(APIsoform::getNote)
+                    .filter(Note::hasTexts)
+                    .forEach(
+                            note -> {
+                                evidences.addAll(getTextsEvidence(note.getTexts()));
+                            });
+        }
+        return evidences;
+    }
+
+    private Set<String> fetchBiophysicochemicalProperties(BPCPComment bpcpComment) {
+        Set<String> evidences = new HashSet<>();
+        if (bpcpComment.hasAbsorption() && bpcpComment.getAbsorption().hasEvidences()) {
+            evidences.addAll(
+                    UniProtEntryConverterUtil.extractEvidence(
+                            bpcpComment.getAbsorption().getEvidences()));
+        }
+        if (bpcpComment.hasKineticParameters()) {
+            KineticParameters kinetics = bpcpComment.getKineticParameters();
+            if (kinetics.hasMaximumVelocities()) {
+                evidences.addAll(
+                        kinetics.getMaximumVelocities().stream()
+                                .filter(MaximumVelocity::hasEvidences)
+                                .map(MaximumVelocity::getEvidences)
+                                .map(UniProtEntryConverterUtil::extractEvidence)
+                                .flatMap(Collection::stream)
+                                .collect(Collectors.toSet()));
+            }
+            if (kinetics.hasMichaelisConstants()) {
+                evidences.addAll(
+                        kinetics.getMichaelisConstants().stream()
+                                .filter(MichaelisConstant::hasEvidences)
+                                .map(MichaelisConstant::getEvidences)
+                                .map(UniProtEntryConverterUtil::extractEvidence)
+                                .flatMap(Collection::stream)
+                                .collect(Collectors.toSet()));
+            }
+            if (kinetics.hasNote() && kinetics.getNote().hasTexts()) {
+                evidences.addAll(getTextsEvidence(kinetics.getNote().getTexts()));
+            }
+        }
+        if (bpcpComment.hasPhDependence() && bpcpComment.getPhDependence().hasTexts()) {
+            evidences.addAll(getTextsEvidence(bpcpComment.getPhDependence().getTexts()));
+        }
+        if (bpcpComment.hasRedoxPotential() && bpcpComment.getRedoxPotential().hasTexts()) {
+            evidences.addAll(getTextsEvidence(bpcpComment.getRedoxPotential().getTexts()));
+        }
+        if (bpcpComment.hasTemperatureDependence()
+                && bpcpComment.getTemperatureDependence().hasTexts()) {
+            evidences.addAll(getTextsEvidence(bpcpComment.getTemperatureDependence().getTexts()));
+        }
+        return evidences;
+    }
+
+    private Set<String> fetchCatalyticActivity(CatalyticActivityComment caComment) {
+        Set<String> evidences = new HashSet<>();
+        if (caComment.hasReaction()) {
+            evidences.addAll(
+                    UniProtEntryConverterUtil.extractEvidence(
+                            caComment.getReaction().getEvidences()));
+        }
+        if (caComment.hasPhysiologicalReactions()) {
+            List<Evidence> physiologicalEvidences =
+                    caComment.getPhysiologicalReactions().stream()
+                            .filter(PhysiologicalReaction::hasEvidences)
+                            .flatMap(reaction -> reaction.getEvidences().stream())
+                            .collect(Collectors.toList());
+            evidences.addAll(UniProtEntryConverterUtil.extractEvidence(physiologicalEvidences));
+        }
+        return evidences;
+    }
+
+    private Set<String> fetchCofactorEvidences(CofactorComment cofactorComment) {
+        Set<String> evidences = new HashSet<>();
+        if (cofactorComment.hasCofactors()) {
+            cofactorComment.getCofactors().stream()
+                    .flatMap(
+                            cofactor ->
+                                    UniProtEntryConverterUtil.extractEvidence(
+                                            cofactor.getEvidences())
+                                            .stream())
+                    .forEach(evidences::add);
+        }
+
+        if ((cofactorComment.hasNote()) && (cofactorComment.getNote().hasTexts())) {
+            evidences.addAll(getTextsEvidence(cofactorComment.getNote().getTexts()));
+        }
+        return evidences;
+    }
+
+    private Set<String> fetchRNAEditingEvidences(RnaEditingComment reComment) {
+        Set<String> evidences = new HashSet<>();
+        if (reComment.hasPositions()) {
+            evidences.addAll(
+                    UniProtEntryConverterUtil.extractEvidence(
+                            reComment.getPositions().stream()
+                                    .flatMap(val -> val.getEvidences().stream())
+                                    .collect(Collectors.toList())));
+        }
+        if (reComment.hasNote() && reComment.getNote().hasTexts()) {
+            evidences.addAll(getTextsEvidence(reComment.getNote().getTexts()));
+        }
+        return evidences;
+    }
+
+    private Set<String> fetchDiseaseEvidences(DiseaseComment diseaseComment) {
+        Set<String> evidences = new HashSet<>();
+        if (diseaseComment.hasDefinedDisease()) {
+            evidences.addAll(
+                    UniProtEntryConverterUtil.extractEvidence(
+                            diseaseComment.getDisease().getEvidences()));
+            if (diseaseComment.hasNote() && diseaseComment.getNote().hasTexts()) {
+                evidences.addAll(getTextsEvidence(diseaseComment.getNote().getTexts()));
+            }
         }
         return evidences;
     }
