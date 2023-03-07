@@ -33,9 +33,7 @@ public class UniProtEntryMocker {
         SP_ISOFORM("P21802-2.dat"),
         SP_CANONICAL_ISOFORM("P21802-1.dat"),
         WITH_DEMERGED_SEC_ACCESSION("P63150.dat"),
-
         ACC("B3GAT1.dat"),
-
         ACCANDGENE("Q9P2W7.dat");
 
         private final String fileName;
