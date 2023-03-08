@@ -13,7 +13,8 @@ package org.uniprot.store.search.field.validator;
 public class FieldRegexConstants {
     public static final String UNIPROTKB_ACCESSION_REGEX =
             "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])(-[0-9]+)?";
-
+    public static final String UNIPROTKB_ACCESSION_REGEX_ISOFORM =
+            "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*";
     public static final String UNIPROTKB_ACCESSION_OR_ID =
             "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])((-[0-9]{1,3})|(\\.[0-9]{1,3})|(_[A-Z0-9]{2,5}))?|[A-Z0-9]{2,5}_[A-Z0-9]{2,5}";
 
@@ -23,6 +24,7 @@ public class FieldRegexConstants {
             "(UniRef100|UniRef90|UniRef50)_\\w+(-[0-9]+)?";
     public static final String SEQUENCE_REGEX = "^[A-Z]+$|^NULL$";
     public static final String COMMA_SEPARATED_REGEX = "\\s*,\\s*";
+    public static final String CLEAN_QUERY_REGEX = "(?:^\\()|(?:\\)$)";
 
     private FieldRegexConstants() {}
 }
