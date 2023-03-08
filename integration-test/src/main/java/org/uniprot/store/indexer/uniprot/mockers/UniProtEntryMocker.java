@@ -43,7 +43,7 @@ public class UniProtEntryMocker {
         }
     }
 
-    private static Map<Type, UniProtKBEntry> entryMap = new HashMap<>();
+    private static final Map<Type, UniProtKBEntry> entryMap = new HashMap<>();
 
     static {
         for (Type type : Type.values()) {
