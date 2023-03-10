@@ -119,7 +119,7 @@ public class IdMappingFieldConfig {
                         UNIPROTKB_STR,
                         UNIPROTKB_STR,
                         category,
-                        "https://www.uniprot.org/uniprot/%id",
+                        "https://www.uniprot.org/uniprot/%id/entry",
                         null,
                         false,
                         null,
@@ -129,7 +129,7 @@ public class IdMappingFieldConfig {
                         UNIPROTKB_AC_ID_STR,
                         UNIPROTKB_AC_ID_STR,
                         category,
-                        "https://www.uniprot.org/uniprot/%id",
+                        "https://www.uniprot.org/uniprot/%id/entry",
                         null,
                         false,
                         null,
@@ -140,7 +140,7 @@ public class IdMappingFieldConfig {
                         UNIPROTKB_SWISS_STR,
                         UNIPROTKB_SWISS_STR,
                         category,
-                        "https://www.uniprot.org/uniprot/%id",
+                        "https://www.uniprot.org/uniprot/%id/entry",
                         null,
                         false,
                         null,
@@ -148,7 +148,14 @@ public class IdMappingFieldConfig {
 
         UniProtDatabaseDetail uniParc =
                 new UniProtDatabaseDetail(
-                        UNIPARC_STR, UNIPARC_STR, category, null, null, false, null, PIR_UPARC_STR);
+                        UNIPARC_STR,
+                        UNIPARC_STR,
+                        category,
+                        "https://www.uniprot.org/uniparc/%id/entry",
+                        null,
+                        false,
+                        null,
+                        PIR_UPARC_STR);
         UniProtDatabaseDetail uniRef50 =
                 new UniProtDatabaseDetail(
                         UNIREF_50_STR,
@@ -184,7 +191,7 @@ public class IdMappingFieldConfig {
                         GENE_NAME_STR,
                         GENE_NAME_STR,
                         category,
-                        "https://proteininformationresource.org/cgi-bin/nbrfget?uid=%id",
+                        null,
                         null,
                         false,
                         null,
