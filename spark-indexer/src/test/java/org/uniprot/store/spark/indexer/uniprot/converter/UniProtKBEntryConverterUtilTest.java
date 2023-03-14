@@ -2,10 +2,7 @@ package org.uniprot.store.spark.indexer.uniprot.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.citation.Author;
@@ -22,6 +19,7 @@ import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
 import org.uniprot.core.uniprotkb.evidence.impl.EvidenceBuilder;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
@@ -252,5 +250,29 @@ class UniProtKBEntryConverterUtilTest {
         assertFalse(
                 UniProtEntryConverterUtil.canAddExperimental(
                         true, "Valid Text", false, Collections.emptySet()));
+    }
+
+    @Test
+    void canAddSuggestion() {
+        UniProtDocument doc = new UniProtDocument();
+
+        Collection<String> values = Set.of("value1", "value2");
+        UniProtEntryConverterUtil.populateSuggestions(values, doc);
+
+        assertNotNull(doc.suggests);
+        assertEquals(2, doc.suggests.size());
+        assertEquals(values, doc.suggests);
+    }
+
+    @Test
+    void canAddSuggestionFilterSmallValues() {
+        UniProtDocument doc = new UniProtDocument();
+
+        Collection<String> values = Set.of("val", "value2");
+        UniProtEntryConverterUtil.populateSuggestions(values, doc);
+
+        assertNotNull(doc.suggests);
+        assertEquals(1, doc.suggests.size());
+        assertTrue(doc.suggests.contains("value2"));
     }
 }
