@@ -268,11 +268,23 @@ class UniProtKBEntryConverterUtilTest {
     void canAddSuggestionFilterSmallValues() {
         UniProtDocument doc = new UniProtDocument();
 
-        Collection<String> values = Set.of("val", "value2");
+        Collection<String> values = Set.of("val", "value2", "");
         UniProtEntryConverterUtil.populateSuggestions(values, doc);
 
         assertNotNull(doc.suggests);
         assertEquals(1, doc.suggests.size());
         assertTrue(doc.suggests.contains("value2"));
+    }
+
+    @Test
+    void doNotAddNullValueSuggestion() {
+        UniProtDocument doc = new UniProtDocument();
+
+        Collection<String> values = new HashSet<>();
+        values.add(null);
+        UniProtEntryConverterUtil.populateSuggestions(values, doc);
+
+        assertNotNull(doc.suggests);
+        assertEquals(0, doc.suggests.size());
     }
 }

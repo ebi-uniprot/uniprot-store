@@ -1,9 +1,6 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -99,6 +96,7 @@ public class UniProtEntryConverterUtil {
     public static void populateSuggestions(Collection<String> values, UniProtDocument document) {
         Set<String> length4orMore =
                 values.stream()
+                        .filter(Objects::nonNull)
                         .filter(val -> val.length() >= SPELLCHECK_MIN_LENGTH)
                         .collect(Collectors.toSet());
         document.suggests.addAll(length4orMore);
