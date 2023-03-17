@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.*;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -11,7 +13,6 @@ import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-import org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil;
 
 import scala.Tuple2;
 
@@ -128,8 +129,7 @@ public class TaxonomyEntryToUniProtDocument
     private void updateOrganismFields(UniProtDocument doc, TaxonomyEntry organism) {
         List<String> organismNames = getOrganismNames(organism);
         doc.organismName.addAll(organismNames);
-        doc.organismSort =
-                UniProtEntryConverterUtil.truncatedSortValue(String.join(" ", organismNames));
+        doc.organismSort = truncatedSortValue(String.join(" ", organismNames));
         doc.taxLineageIds.add(Math.toIntExact(organism.getTaxonId()));
         doc.organismTaxon.addAll(organismNames);
         if (organism.hasLineage()) {
@@ -148,6 +148,7 @@ public class TaxonomyEntryToUniProtDocument
         } else {
             doc.otherOrganism = organism.getScientificName();
         }
+        populateSuggestions(doc.organismTaxon, doc);
     }
 
     private void updateLineageTaxonomy(UniProtDocument doc, TaxonomyLineage lineage) {

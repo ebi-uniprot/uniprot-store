@@ -81,6 +81,8 @@ class TaxonomyEntryToUniProtDocumentTest {
         assertTrue(result.organismTaxon.contains("organism scientific name"));
         assertTrue(result.organismTaxon.contains("organism common name"));
         assertTrue(result.organismTaxon.contains("organism synonym"));
+        assertEquals(7, result.suggests.size());
+        assertTrue(result.suggests.containsAll(result.organismTaxon));
 
         assertEquals(3, result.taxLineageIds.size());
         assertTrue(result.taxLineageIds.contains(9606));
