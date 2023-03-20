@@ -109,8 +109,7 @@ public class UniProtEntryConverter
             convertSequence(source.getSequence(), document);
             convertEntryScore(source, document);
             convertEvidenceSources(source, document);
-            org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter
-                    .populateSpellcheckSuggestions(document);
+            populateSpellcheckSuggestions(document);
             return document;
         } catch (Exception e) {
             String message = "Error converting UniProt entry";
@@ -242,5 +241,14 @@ public class UniProtEntryConverter
         if (Utils.notNull(proteinExistence)) {
             document.proteinExistence = proteinExistence.getId();
         }
+    }
+
+    private void populateSpellcheckSuggestions(UniProtDocument document) {
+        // populate fields used in spellcheck
+        populateSuggestions(document.proteinNames, document);
+        populateSuggestions(document.geneNamesExact, document);
+        Collection<String> diseases = document.commentMap.getOrDefault("cc_disease", List.of());
+        populateSuggestions(diseases, document);
+        populateSuggestions(document.rcStrain, document);
     }
 }
