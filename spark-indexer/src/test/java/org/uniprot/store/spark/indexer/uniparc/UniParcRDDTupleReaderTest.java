@@ -2,7 +2,9 @@ package org.uniprot.store.spark.indexer.uniparc;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -31,11 +33,15 @@ class UniParcRDDTupleReaderTest {
             UniParcRDDTupleReader reader = new UniParcRDDTupleReader(parameter, true);
             JavaRDD<UniParcEntry> uniParcRdd = reader.load();
             assertNotNull(uniParcRdd);
-            long count = uniParcRdd.count();
-            assertEquals(1L, count);
-            UniParcEntry entry = uniParcRdd.first();
-            assertNotNull(entry);
-            assertEquals("UPI00000E8551", entry.getUniParcId().getValue());
+            List<UniParcEntry> entries = uniParcRdd.collect();
+            assertNotNull(entries);
+            assertEquals(2, entries.size());
+            List<String> ids =
+                    entries.stream()
+                            .map(entry -> entry.getUniParcId().getValue())
+                            .collect(Collectors.toList());
+            assertTrue(ids.contains("UPI00000E8551"));
+            assertTrue(ids.contains("UPI000000017F"));
         }
     }
 }

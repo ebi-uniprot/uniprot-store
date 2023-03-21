@@ -2,9 +2,7 @@ package org.uniprot.store.spark.indexer.uniprot.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.citation.Author;
@@ -21,12 +19,22 @@ import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
 import org.uniprot.core.uniprotkb.evidence.impl.EvidenceBuilder;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * @author lgonzales
  * @since 2019-09-09
  */
 class UniProtKBEntryConverterUtilTest {
+
+    @Test
+    void emptyEvidenceDoNotAddExceptionalEvidence() {
+        List<Evidence> evidences = new ArrayList<>();
+
+        Set<String> extractedEvidences = UniProtEntryConverterUtil.extractEvidence(evidences);
+        assertNotNull(extractedEvidences);
+        assertTrue(extractedEvidences.isEmpty());
+    }
 
     @Test
     void extractAutomaticEvidence() {
@@ -173,5 +181,110 @@ class UniProtKBEntryConverterUtilTest {
 
         boolean isCanonical = UniProtEntryConverterUtil.isCanonicalIsoform(entry);
         assertTrue(isCanonical);
+    }
+
+    @Test
+    void canAddExperimentalByAnnotationText() {
+        assertTrue(UniProtEntryConverterUtil.canAddExperimentalByAnnotationText("test value."));
+    }
+
+    @Test
+    void canAddExperimentalByAnnotationTextBySimilarity() {
+        assertFalse(
+                UniProtEntryConverterUtil.canAddExperimentalByAnnotationText(
+                        "test (By Similarity)."));
+    }
+
+    @Test
+    void canAddExperimentalByAnnotationTextProbable() {
+        assertFalse(
+                UniProtEntryConverterUtil.canAddExperimentalByAnnotationText("test (Probable)."));
+    }
+
+    @Test
+    void canAddExperimentalByAnnotationTextPotential() {
+        assertFalse(
+                UniProtEntryConverterUtil.canAddExperimentalByAnnotationText("test (Potential)."));
+    }
+
+    @Test
+    void hasExperimentalEvidenceWithoutExperimental() {
+        assertFalse(UniProtEntryConverterUtil.hasExperimentalEvidence(List.of("ECO_0000305")));
+    }
+
+    @Test
+    void hasExperimentalEvidenceWithExperimental() {
+        assertTrue(UniProtEntryConverterUtil.hasExperimentalEvidence(List.of("ECO_0000269")));
+    }
+
+    @Test
+    void canAddExperimentalWithExperimental() {
+        assertTrue(
+                UniProtEntryConverterUtil.canAddExperimental(
+                        false, "test (Potential).", false, Set.of("ECO_0000269")));
+    }
+
+    @Test
+    void canAddExperimentalWithoutExperimentalButValidImplicitEvidence() {
+        assertTrue(
+                UniProtEntryConverterUtil.canAddExperimental(
+                        true, "Valid Text", true, Collections.emptySet()));
+    }
+
+    @Test
+    void canNotAddExperimentalWithoutExperimentalAndNotExperimentalType() {
+        assertFalse(
+                UniProtEntryConverterUtil.canAddExperimental(
+                        false, "Valid Text", true, Collections.emptySet()));
+    }
+
+    @Test
+    void canNotAddExperimentalWithoutExperimentalAndNotValidText() {
+        assertFalse(
+                UniProtEntryConverterUtil.canAddExperimental(
+                        true, "test (Potential).", true, Collections.emptySet()));
+    }
+
+    @Test
+    void canNotAddExperimentalWithoutExperimentalAndNotReviewed() {
+        assertFalse(
+                UniProtEntryConverterUtil.canAddExperimental(
+                        true, "Valid Text", false, Collections.emptySet()));
+    }
+
+    @Test
+    void canAddSuggestion() {
+        UniProtDocument doc = new UniProtDocument();
+
+        Collection<String> values = Set.of("value1", "value2");
+        UniProtEntryConverterUtil.populateSuggestions(values, doc);
+
+        assertNotNull(doc.suggests);
+        assertEquals(2, doc.suggests.size());
+        assertEquals(values, doc.suggests);
+    }
+
+    @Test
+    void canAddSuggestionFilterSmallValues() {
+        UniProtDocument doc = new UniProtDocument();
+
+        Collection<String> values = Set.of("val", "value2", "");
+        UniProtEntryConverterUtil.populateSuggestions(values, doc);
+
+        assertNotNull(doc.suggests);
+        assertEquals(1, doc.suggests.size());
+        assertTrue(doc.suggests.contains("value2"));
+    }
+
+    @Test
+    void doNotAddNullValueSuggestion() {
+        UniProtDocument doc = new UniProtDocument();
+
+        Collection<String> values = new HashSet<>();
+        values.add(null);
+        UniProtEntryConverterUtil.populateSuggestions(values, doc);
+
+        assertNotNull(doc.suggests);
+        assertEquals(0, doc.suggests.size());
     }
 }

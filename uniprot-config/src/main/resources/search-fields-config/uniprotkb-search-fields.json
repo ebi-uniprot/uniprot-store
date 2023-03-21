@@ -54,6 +54,14 @@
     "description" : "Search proteins with certain attribute"
   },
   {
+    "id": "evidence_exp",
+    "fieldName": "evidence_exp",
+    "fieldType": "GENERAL",
+    "validRegex": "^true|false$",
+    "dataType": "BOOLEAN",
+    "description": "Search by experimental evidence"
+  },
+  {
     "id":"annotation_score_field",
     "fieldName": "annotation_score",
     "dataType": "STRING",
@@ -161,8 +169,8 @@
     "description" : "Search by protein sequence caution or error"
   },
   {
-    "id":"ccev_sc",
-    "fieldName": "ccev_sc",
+    "id":"cc_sc_exp",
+    "fieldName": "cc_sc_exp",
     "dataType": "STRING",
     "fieldType": "GENERAL"
   },
@@ -176,8 +184,8 @@
     "includeInSwagger": true
   },
   {
-    "id":"ccev_cofactor",
-    "fieldName": "ccev_cofactor",
+    "id":"cc_cofactor_exp",
+    "fieldName": "cc_cofactor_exp",
     "fieldType": "GENERAL",
     "dataType": "STRING"
   },
@@ -191,8 +199,8 @@
     "includeInSwagger": true
   },
   {
-    "id":"ccev_biophysicochemical_properties",
-    "fieldName": "ccev_biophysicochemical_properties",
+    "id":"cc_biophysicochemical_properties_exp",
+    "fieldName": "cc_biophysicochemical_properties_exp",
     "dataType": "STRING",
     "fieldType": "GENERAL"
   },
@@ -206,8 +214,8 @@
     "includeInSwagger": true
   },
   {
-    "id":"ccev_interaction",
-    "fieldName": "ccev_interaction",
+    "id":"cc_interaction_exp",
+    "fieldName": "cc_interaction_exp",
     "dataType": "STRING",
     "fieldType": "GENERAL"
   },
@@ -221,8 +229,8 @@
     "includeInSwagger": true
   },
   {
-    "id":"ccev_subcellular_location",
-    "fieldName": "ccev_subcellular_location",
+    "id":"cc_subcellular_location_exp",
+    "fieldName": "cc_subcellular_location_exp",
     "dataType": "STRING",
     "fieldType": "GENERAL"
   },
@@ -236,8 +244,8 @@
     "includeInSwagger": true
   },
   {
-    "id":"ccev_alternative_products",
-    "fieldName": "ccev_alternative_products",
+    "id":"cc_alternative_products_exp",
+    "fieldName": "cc_alternative_products_exp",
     "dataType": "STRING",
     "fieldType": "GENERAL"
   },
@@ -248,9 +256,9 @@
     "fieldType": "GENERAL"
   },
   {
-    "id":"ccev_unknown",
+    "id":"cc_unknown_exp",
     "fieldType": "GENERAL",
-    "fieldName": "ccev_unknown",
+    "fieldName": "cc_unknown_exp",
     "dataType": "STRING"
   },
   {
@@ -639,14 +647,14 @@
   },
   {
     "childNumber": 1,
-    "id": "ccev_webresource",
+    "id": "cc_webresource_exp",
     "parentId": "web_resources",
-    "fieldName": "ccev_webresource",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_webresource_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
     "itemType": "SINGLE",
-    "description": "Search by comment Web resources",
-    "example": "manual"
+    "description": "Search by experimental comment Web resources",
+    "example": "lck"
   },
   {
     "seqNumber": 20,
@@ -1022,7 +1030,7 @@
     "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
-    "description": "Search by cofactor chebi ",
+    "description": "Search by cofactor chebi",
     "autoComplete": "{CONTEXT_PATH}/suggester?dict=cofactor&query=?",
     "autoCompleteQueryField": "cc_cofactor_chebi",
     "example": "29105"
@@ -1030,13 +1038,13 @@
   {
     "parentId": "chebi_term",
     "childNumber": 1,
-    "id": "ccev_cofactor_chebi",
-    "fieldName": "ccev_cofactor_chebi",
+    "id": "cc_cofactor_chebi_exp",
+    "fieldName": "cc_cofactor_chebi_exp",
     "itemType": "SINGLE",
-    "fieldType": "EVIDENCE",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search chebi term with evidence type",
-    "example": "manual"
+    "description": "Search by experimental cofactor chebi",
+    "example": "29105"
   },
   {
     "parentId": "cofactors",
@@ -1059,13 +1067,13 @@
   {
     "parentId": "note",
     "childNumber": 1,
-    "id": "ccev_cofactor_note",
-    "fieldName": "ccev_cofactor_note",
+    "id": "cc_cofactor_note_exp",
+    "fieldName": "cc_cofactor_note_exp",
     "itemType": "SINGLE",
-    "fieldType": "EVIDENCE",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search cofactor note with evidence type",
-    "example": "ECO_0000269"
+    "description": "Search by experimental cofactor note",
+    "example": "subunit"
   },
   {
     "parentId": "function",
@@ -1090,18 +1098,18 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by biophysicochemical properties",
-    "example": "\"some value\""
+    "example": "prosthetic"
   },
   {
     "parentId": "biophysicochemical_any",
     "childNumber": 1,
-    "id": "ccev_bpcp",
-    "fieldName": "ccev_bpcp",
-    "fieldType": "EVIDENCE",
-    "itemType": "SINGLE",
+    "id": "cc_bpcp_exp",
+    "fieldName": "cc_bpcp_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search biophysicochemical properties with evidence type",
-    "example": "automatic"
+    "itemType": "SINGLE",
+    "description": "Search by experimental biophysicochemical properties",
+    "example": "prosthetic"
   },
   {
     "parentId": "biophysicochemical_properties",
@@ -1124,13 +1132,13 @@
   {
     "parentId": "biophysicochemical_absorption",
     "childNumber": 1,
-    "id": "ccev_bpcp_absorption",
-    "fieldName": "ccev_bpcp_absorption",
+    "id": "cc_bpcp_absorption_exp",
+    "fieldName": "cc_bpcp_absorption_exp",
     "itemType": "SINGLE",
-    "fieldType": "EVIDENCE",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search biophysicochemical properties: absorption with evidence type",
-    "example": "ECO_0000213"
+    "description": "Search by experimental biophysicochemical properties: absorption",
+    "example": "prosthetic"
   },
   {
     "parentId": "biophysicochemical_properties",
@@ -1153,13 +1161,13 @@
   {
     "parentId": "biophysicochemical_kinetics",
     "childNumber": 1,
-    "id": "ccev_bpcp_kinetics",
+    "id": "cc_bpcp_kinetics_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_bpcp_kinetics",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_bpcp_kinetics_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search biophysicochemical properties: kinetic parameters with evidence type",
-    "example": "experimental"
+    "description": "Search by experimental biophysicochemical properties: kinetic parameters",
+    "example": "aspartate"
   },
   {
     "parentId": "biophysicochemical_properties",
@@ -1182,13 +1190,13 @@
   {
     "parentId": "biophysicochemical_ph_dependence",
     "childNumber": 1,
-    "id": "ccev_bpcp_ph_dependence",
-    "fieldName": "ccev_bpcp_ph_dependence",
+    "id": "cc_bpcp_ph_dependence_exp",
+    "fieldName": "cc_bpcp_ph_dependence_exp",
     "itemType": "SINGLE",
-    "fieldType": "EVIDENCE",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search biophysicochemical properties: pH dependence with evidence type",
-    "example": "ECO_0000305"
+    "description": "Search by experimental biophysicochemical properties: pH dependence",
+    "example": "optimum"
   },
   {
     "parentId": "biophysicochemical_properties",
@@ -1211,13 +1219,13 @@
   {
     "parentId": "biophysicochemical_redox_potential",
     "childNumber": 1,
-    "id": "ccev_bpcp_redox_potential",
+    "id": "cc_bpcp_redox_potential_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_bpcp_redox_potential",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_bpcp_redox_potential_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search biophysicochemical properties: redox potential with evidence type",
-    "example": "manual"
+    "description": "Search by experimental biophysicochemical properties: redox potential",
+    "example": "siroheme"
   },
   {
     "parentId": "biophysicochemical_properties",
@@ -1240,13 +1248,13 @@
   {
     "parentId": "biophysicochemical_temperature_dependence",
     "childNumber": 1,
-    "id": "ccev_bpcp_temp_dependence",
-    "fieldName": "ccev_bpcp_temp_dependence",
+    "id": "cc_bpcp_temp_dependence_exp",
+    "fieldName": "cc_bpcp_temp_dependence_exp",
     "itemType": "SINGLE",
-    "fieldType": "EVIDENCE",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search biophysicochemical properties: temperature dependence with evidence type",
-    "example": "manual"
+    "description": "Search by experimental biophysicochemical properties: temperature dependence",
+    "example": "*"
   },
   {
     "parentId": "function",
@@ -1273,13 +1281,13 @@
   {
     "parentId": "catalytic_activity",
     "childNumber": 1,
-    "id": "ccev_catalytic_activity",
+    "id": "cc_catalytic_activity_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_catalytic_activity",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_catalytic_activity_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search comment catalytic activity with evidence type",
-    "example": "manual"
+    "description": "Search by experimental comment catalytic activity",
+    "example": "tyrosine"
   },
   {
     "parentId": "function",
@@ -1303,13 +1311,13 @@
   {
     "parentId": "activity_regulation",
     "childNumber": 1,
-    "id": "ccev_activity_regulation",
+    "id": "cc_activity_regulation_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_activity_regulation",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_activity_regulation_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search comment activity regulation with evidence type",
-    "example": "manual",
+    "description": "Search by experimental comment activity regulation",
+    "example": "inhibited",
     "includeInSwagger": true
   },
   {
@@ -1334,13 +1342,13 @@
   {
     "parentId": "function_cc",
     "childNumber": 1,
-    "id": "ccev_function",
+    "id": "cc_function_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_function",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_function_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search comment function with evidence type",
-    "example": "experimental"
+    "description": "Search by experimental comment function",
+    "example": "enzyme"
   },
   {
     "parentId": "function",
@@ -1364,13 +1372,13 @@
   {
     "parentId": "caution",
     "childNumber": 1,
-    "id": "ccev_caution",
+    "id": "cc_caution_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_caution",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_caution_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search caution comment with evidence type",
-    "example": "manual"
+    "description": "Search by experimental caution comment",
+    "example": "kinase"
   },
   {
     "parentId": "function",
@@ -1400,24 +1408,13 @@
   {
     "parentId": "sites_any",
     "childNumber": 1,
-    "id": "ftlen_sites",
+    "id": "ft_sites_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_sites",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature sites within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sites_any",
-    "childNumber": 2,
-    "id": "ftev_sites",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_sites",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_sites_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search feature sites with evidence type",
-    "example": "manual"
+    "description": "Search by experimental feature sites",
+    "example": "translocation"
   },
   {
     "parentId": "sites",
@@ -1440,24 +1437,13 @@
   {
     "parentId": "sites_active_site",
     "childNumber": 1,
-    "id": "ftlen_act_site",
+    "id": "ft_act_site_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_act_site",
-    "dataType": "INTEGER",
-    "fieldType": "RANGE",
-    "description": "Search feature  active site within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sites_active_site",
-    "childNumber": 2,
-    "id": "ftev_act_site",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_act_site",
+    "fieldName": "ft_act_site_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "fieldType": "EVIDENCE",
-    "description": "Search feature  active site with evidence type",
-    "example": "manual"
+    "description": "Search by experimental feature active site",
+    "example": "phosphocysteine"
   },
   {
     "parentId": "sites",
@@ -1482,24 +1468,13 @@
   {
     "parentId": "sites_binding_site",
     "childNumber": 1,
-    "id": "ftlen_binding",
+    "id": "ft_binding_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_binding",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature binding site within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sites_binding_site",
-    "childNumber": 2,
-    "id": "ftev_binding",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_binding",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_binding_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search feature binding site with evidence type",
-    "example": "any"
+    "description": "Search by experimental feature binding site",
+    "example": "phosphocysteine"
   },
   {
     "parentId": "sites",
@@ -1522,24 +1497,13 @@
   {
     "parentId": "sites_other",
     "childNumber": 1,
-    "id": "ftlen_site",
+    "id": "ft_site_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_site",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature other site within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sites_other",
-    "childNumber": 2,
-    "id": "ftev_site",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_site",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_site_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search feature other site with evidence type",
-    "example": "any"
+    "description": "Search by experimental feature other site",
+    "example": "phosphocysteine"
   },
   {
     "parentId": "function",
@@ -1562,24 +1526,13 @@
   {
     "parentId": "dna_binding",
     "childNumber": 1,
-    "id": "ftlen_dna_bind",
+    "id": "ft_dna_bind_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_dna_bind",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature DNA binding within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "dna_binding",
-    "childNumber": 2,
-    "id": "ftev_dna_bind",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_dna_bind",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_dna_bind_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search feature DNA binding with evidence",
-    "example": "any"
+    "description": "Search by experimental feature DNA binding",
+    "example": "*"
   },
   {
     "parentId": "function",
@@ -1603,13 +1556,13 @@
   {
     "parentId": "pathway",
     "childNumber": 1,
-    "id": "ccev_pathway",
+    "id": "cc_pathway_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_pathway",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_pathway_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search comment pathway with evidence type",
-    "example": "any"
+    "description": "Search by experimental comment pathway",
+    "example": "metabolism"
   },
   {
     "parentId": "function",
@@ -1632,13 +1585,13 @@
   {
     "parentId": "miscellaneous_cc",
     "childNumber": 1,
-    "fieldType": "EVIDENCE",
-    "id": "ccev_miscellaneous",
+    "id": "cc_miscellaneous_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_miscellaneous",
+    "fieldName": "cc_miscellaneous_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search comment Miscellaneous with evidence type",
-    "example": "any"
+    "description": "Search by experimental comment Miscellaneous",
+    "example": "abscisic"
   },
   {
     "label": "Sequence",
@@ -1702,13 +1655,13 @@
   {
     "parentId": "sequence_any",
     "childNumber": 1,
-    "id": "ccev_ap",
-    "fieldName": "ccev_ap",
+    "id": "cc_ap_exp",
+    "fieldName": "cc_ap_exp",
     "itemType": "SINGLE",
-    "fieldType": "EVIDENCE",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment alternative Products with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Comment alternative Products",
+    "example": "tissues"
   },
   {
     "parentId": "alt_product_isoform",
@@ -1731,13 +1684,13 @@
   {
     "parentId": "alternative_promoter_usage",
     "childNumber": 1,
-    "id": "ccev_ap_apu",
+    "id": "cc_ap_apu_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_ap_apu",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_ap_apu_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment alternative Products: alternative promoter usage with evidence type",
-    "example": "any"
+    "description": "Search by experimental Comment alternative Products: alternative promoter usage",
+    "example": "*"
   },
   {
     "parentId": "alt_product_isoform",
@@ -1760,12 +1713,12 @@
   {
     "parentId": "alternative_splicing",
     "childNumber": 1,
-    "id": "ccev_ap_as",
+    "id": "cc_ap_as_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_ap_as",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_ap_as_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment alternative Products: alternative splicing with evidence type",
+    "description": "Search by experimental Comment alternative Products: alternative splicing",
     "example": "experimental"
   },
   {
@@ -1789,13 +1742,13 @@
   {
     "parentId": "alternative_initiation",
     "childNumber": 1,
-    "id": "ccev_ap_ai",
+    "id": "cc_ap_ai_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_ap_ai",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_ap_ai_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search by Comment alternative Products: alternative initiation with evidence type",
-    "example": "any"
+    "description": "Search by experimental Comment alternative Products: alternative initiation",
+    "example": "acetylalanine"
   },
   {
     "parentId": "alt_product_isoform",
@@ -1818,13 +1771,13 @@
   {
     "parentId": "ribosomal_frameshifting",
     "childNumber": 1,
-    "id": "ccev_ap_rf",
+    "id": "cc_ap_rf_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_ap_rf",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_ap_rf_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment alternative Products: ribosomal frameshifting with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Comment alternative Products: ribosomal frameshifting",
+    "example": "translation"
   },
   {
     "parentId": "sequence",
@@ -1834,12 +1787,12 @@
     "id": "seq_caution"
   },
   {
-  "parentId": "seq_caution",
-  "childNumber": 0,
-  "label": "Any",
-  "id": "seq_caution_any",
-  "itemType": "SIBLING_GROUP"
-},
+    "parentId": "seq_caution",
+    "childNumber": 0,
+    "label": "Any",
+    "id": "seq_caution_any",
+    "itemType": "SIBLING_GROUP"
+  },
   {
     "parentId": "seq_caution_any",
     "childNumber": 0,
@@ -1855,13 +1808,13 @@
   {
     "parentId": "seq_caution_any",
     "childNumber": 1,
-    "id": "ccev_sequence_caution",
+    "id": "cc_sequence_caution_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_sequence_caution",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_sequence_caution_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment Sequence caution with evidence typee",
-    "example": "any"
+    "description": "Search by experimental Comment Sequence caution or error",
+    "example": "translated"
   },
   {
     "parentId": "seq_caution",
@@ -1944,13 +1897,13 @@
   {
     "parentId": "miscellaneous_discrepancy",
     "childNumber": 1,
-    "id": "ccev_sc_misc",
+    "id": "cc_sc_misc_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_sc_misc",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_sc_misc_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment Sequence caution: miscellaneous discrepancy with evidence",
-    "example": "any"
+    "description": "Search by experimental Comment Sequence caution: miscellaneous discrepancy",
+    "example": "sequence"
   },
   {
     "parentId": "sequence",
@@ -1974,13 +1927,13 @@
   {
     "parentId": "mass_spectrometry",
     "childNumber": 1,
-    "id": "ccev_mass_spectrometry",
+    "id": "cc_mass_spectrometry_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_mass_spectrometry",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_mass_spectrometry_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment Spectrometry with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Comment Spectrometry",
+    "example": "electrospray"
   },
   {
     "parentId": "sequence",
@@ -2004,13 +1957,13 @@
   {
     "parentId": "polymorphism",
     "childNumber": 1,
-    "id": "ccev_polymorphism",
+    "id": "cc_polymorphism_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_polymorphism",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_polymorphism_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment Polymorphism with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Comment Polymorphism",
+    "example": "transcript"
   },
   {
     "parentId": "sequence",
@@ -2034,13 +1987,13 @@
   {
     "parentId": "rna_editing",
     "childNumber": 1,
-    "id": "ccev_rna_editing",
+    "id": "cc_rna_editing_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_rna_editing",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_rna_editing_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment RNA editing with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Comment RNA editing",
+    "example": "target"
   },
   {
     "parentId": "sequence",
@@ -2070,24 +2023,13 @@
   {
     "parentId": "natural_variations_any",
     "childNumber": 1,
-    "id": "ftlen_variants",
+    "id": "ft_variants_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_variants",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature natural variations within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "natural_variations_any",
-    "childNumber": 2,
-    "id": "ftev_variants",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_variants",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_variants_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature natural variations with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature natural variations",
+    "example": "colorectal"
   },
   {
     "parentId": "natural_variations",
@@ -2110,24 +2052,13 @@
   {
     "parentId": "natural_variations_natural_variant",
     "childNumber": 1,
-    "id": "ftlen_variant",
+    "id": "ft_variant_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_variant",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature natural variant within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "natural_variations_natural_variant",
-    "childNumber": 2,
-    "id": "ftev_variant",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_variant",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_variant_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature natural variant with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature natural variant",
+    "example": "colorectal"
   },
   {
     "parentId": "natural_variations",
@@ -2150,24 +2081,13 @@
   {
     "parentId": "natural_variations_alternative_sequence",
     "childNumber": 1,
-    "id": "ftlen_var_seq",
+    "id": "ft_var_seq_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_var_seq",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature alternative sequence within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "natural_variations_alternative_sequence",
-    "childNumber": 2,
-    "id": "ftev_var_seq",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_var_seq",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_var_seq_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature alternative sequence with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature alternative sequence",
+    "example": "isoform"
   },
   {
     "parentId": "sequence",
@@ -2190,24 +2110,13 @@
   {
     "parentId": "non_standard_residue",
     "childNumber": 1,
-    "id": "ftlen_non_std",
+    "id": "ft_non_std_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_non_std",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature non-standard residue within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "non_standard_residue",
-    "childNumber": 2,
-    "id": "ftev_non_std",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_non_std",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_non_std_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search feature non-standard residue with evidence type",
-    "example": "manual"
+    "description": "Search by experimental feature non-standard residue",
+    "example": "selenocysteine"
   },
   {
     "parentId": "sequence",
@@ -2230,24 +2139,13 @@
   {
     "parentId": "non_terminal_residue",
     "childNumber": 1,
-    "id": "ftlen_non_ter",
+    "id": "ft_non_ter_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_non_ter",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature non-terminal residue within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "non_terminal_residue",
-    "childNumber": 2,
-    "id": "ftev_non_ter",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_non_ter",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_non_ter_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search feature non-terminal residue with evidence type",
-    "example": "manual"
+    "description": "Search by experimental feature non-terminal residue",
+    "example": "*"
   },
   {
     "parentId": "sequence",
@@ -2270,24 +2168,13 @@
   {
     "parentId": "non_adjacent_residue",
     "childNumber": 1,
-    "id": "ftlen_non_cons",
+    "id": "ft_non_cons_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_non_cons",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature non-adjacent residue within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "non_adjacent_residue",
-    "childNumber": 2,
-    "id": "ftev_non_cons",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_non_cons",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_non_cons_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search feature non-adjacent residue with evidence type",
-    "example": "manual"
+    "description": "Search by experimental feature non-adjacent residue",
+    "example": "*"
   },
   {
     "parentId": "sequence",
@@ -2310,24 +2197,13 @@
   {
     "parentId": "sequence_conflict",
     "childNumber": 1,
-    "id": "ftlen_conflict",
+    "id": "ft_conflict_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_conflict",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature Sequence conflict within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sequence_conflict",
-    "childNumber": 2,
-    "id": "ftev_conflict",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_conflict",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_conflict_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search feature Sequence conflict with evidence type",
-    "example": "manual"
+    "description": "Search by experimental feature Sequence conflict",
+    "example": "*"
   },
   {
     "parentId": "sequence",
@@ -2350,24 +2226,13 @@
   {
     "parentId": "sequence_uncertainty",
     "childNumber": 1,
-    "id": "ftlen_unsure",
+    "id": "ft_unsure_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_unsure",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature Sequence uncertainty within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sequence_uncertainty",
-    "childNumber": 2,
-    "id": "ftev_unsure",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_unsure",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_unsure_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search feature Sequence uncertainty with evidence type",
-    "example": "manual"
+    "description": "Search by experimental feature Sequence uncertainty",
+    "example": "*"
   },
   {
     "parentId": "sequence",
@@ -2390,24 +2255,13 @@
   {
     "parentId": "sequence_features_ft",
     "childNumber": 1,
-    "id": "ftlen_positional",
+    "id": "ft_positional_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_positional",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search sequence positional features within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "sequence_features_ft",
-    "childNumber": 2,
-    "id": "ftev_positional",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_positional",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_positional_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search sequence positional features with evidence type",
-    "example": "manual"
+    "description": "Search by experimental sequence positional features",
+    "example": "colorectal"
   },
   {
     "parentId": "sequence",
@@ -2591,13 +2445,13 @@
   {
     "parentId": "post_translational_modification_cc",
     "childNumber": 1,
-    "id": "ccev_ptm",
+    "id": "cc_ptm_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_ptm",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_ptm_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment Post-translational modification with evidence type",
-    "example": "any"
+    "description": "Search by experimental Comment Post-translational modification",
+    "example": "mitosis"
   },
   {
     "parentId": "ptm_processing",
@@ -2620,24 +2474,13 @@
   {
     "parentId": "modified_residue_ft",
     "childNumber": 1,
-    "id": "ftlen_mod_res",
+    "id": "ft_mod_res_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_mod_res",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Modified residue within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "modified_residue_ft",
-    "childNumber": 2,
-    "id": "ftev_mod_res",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_mod_res",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_mod_res_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature Modified residue with eevidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature Modified residue",
+    "example": "phosphoserine"
   },
   {
     "parentId": "ptm_processing",
@@ -2660,24 +2503,13 @@
   {
     "parentId": "lipidation_ft",
     "childNumber": 1,
-    "id": "ftlen_lipid",
+    "id": "ft_lipid_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_lipid",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Lipidation within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "lipidation_ft",
-    "childNumber": 2,
-    "id": "ftev_lipid",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_lipid",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_lipid_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature Lipidation with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature Lipidation",
+    "example": "cysteine"
   },
   {
     "parentId": "ptm_processing",
@@ -2700,24 +2532,13 @@
   {
     "parentId": "glycosylation_ft",
     "childNumber": 1,
-    "id": "ftlen_carbohyd",
+    "id": "ft_carbohyd_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_carbohyd",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Glycosylation within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "glycosylation_ft",
-    "childNumber": 2,
-    "id": "ftev_carbohyd",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_carbohyd",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_carbohyd_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature Glycosylation with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature Glycosylation",
+    "example": "cysteine"
   },
   {
     "parentId": "ptm_processing",
@@ -2740,24 +2561,13 @@
   {
     "parentId": "disulfide_bond_ft",
     "childNumber": 1,
-    "id": "ftlen_disulfid",
+    "id": "ft_disulfid_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_disulfid",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Disulfide bond within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "disulfide_bond_ft",
-    "childNumber": 2,
-    "id": "ftev_disulfid",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_disulfid",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_disulfid_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature Disulfide bond with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature Disulfide bond",
+    "example": "reversible"
   },
   {
     "parentId": "ptm_processing",
@@ -2780,24 +2590,13 @@
   {
     "parentId": "cross_link_ft",
     "childNumber": 1,
-    "id": "ftlen_crosslnk",
+    "id": "ft_crosslnk_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_crosslnk",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Cross-link within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "cross_link_ft",
-    "childNumber": 2,
-    "id": "ftev_crosslnk",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_crosslnk",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_crosslnk_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature Cross-link with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature Cross-link",
+    "example": "lysine"
   },
   {
     "parentId": "ptm_processing",
@@ -2827,24 +2626,13 @@
   {
     "parentId": "any_molecule_processing",
     "childNumber": 1,
-    "id": "ftlen_molecule_processing",
+    "id": "ft_molecule_processing_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_molecule_processing",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Molecule Processing within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "any_molecule_processing",
-    "childNumber": 2,
-    "id": "ftev_molecule_processing",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_molecule_processing",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_molecule_processing_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature Molecule Processing with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature Molecule Processing",
+    "example": "disulfide"
   },
   {
     "parentId": "molecule_processing",
@@ -2867,24 +2655,13 @@
   {
     "parentId": "chain",
     "childNumber": 1,
-    "id": "ftlen_chain",
+    "id": "ft_chain_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_chain",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature chain within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "chain",
-    "childNumber": 2,
-    "id": "ftev_chain",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_chain",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_chain_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature chain with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature chain",
+    "example": "kinase"
   },
   {
     "parentId": "molecule_processing",
@@ -2907,24 +2684,13 @@
   {
     "parentId": "initiator_methionine",
     "childNumber": 1,
-    "id": "ftlen_init_met",
+    "id": "ft_init_met_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_init_met",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature initiator methionine within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "initiator_methionine",
-    "childNumber": 2,
-    "id": "ftev_init_met",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_init_met",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_init_met_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature initiator methionine with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature initiator methionine",
+    "example": "Removed"
   },
   {
     "parentId": "molecule_processing",
@@ -2947,24 +2713,13 @@
   {
     "parentId": "peptide",
     "childNumber": 1,
-    "id": "ftlen_peptide",
+    "id": "ft_peptide_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_peptide",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature peptide within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "peptide",
-    "childNumber": 2,
-    "id": "ftev_peptide",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_peptide",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_peptide_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature peptide with evidence type",
-    "example": "any"
+    "description": "Search by experimental Feature peptide",
+    "example": "Removed"
   },
   {
     "parentId": "molecule_processing",
@@ -2987,24 +2742,13 @@
   {
     "parentId": "signal_peptide",
     "childNumber": 1,
-    "id": "ftlen_signal",
+    "id": "ft_signal_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_signal",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature signal peptide within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "signal_peptide",
-    "childNumber": 2,
-    "id": "ftev_signal",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_signal",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_signal_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature signal peptide with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature signal peptide",
+    "example": "cleaved"
   },
   {
     "parentId": "molecule_processing",
@@ -3027,24 +2771,13 @@
   {
     "parentId": "propeptide",
     "childNumber": 1,
-    "id": "ftlen_propep",
+    "id": "ft_propep_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_propep",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature signal peptide within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "propeptide",
-    "childNumber": 2,
-    "id": "ftev_propep",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_propep",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_propep_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature signal peptide with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature signal peptide",
+    "example": "Activation peptide"
   },
   {
     "parentId": "molecule_processing",
@@ -3067,24 +2800,13 @@
   {
     "parentId": "transit_peptide",
     "childNumber": 1,
-    "id": "ftlen_transit",
+    "id": "ft_transit_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_transit",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature signal peptide within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "transit_peptide",
-    "childNumber": 2,
-    "id": "ftev_transit",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_transit",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_transit_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature signal peptide with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature signal peptide",
+    "example": "Mitochondrion"
   },
   {
     "label": "Interaction",
@@ -3126,13 +2848,13 @@
   {
     "parentId": "subunit_structure",
     "childNumber": 1,
-    "id": "ccev_subunit",
+    "id": "cc_subunit_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_subunit",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_subunit_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Subunit structure with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Subunit structure",
+    "example": "homodimer"
   },
   {
     "label": "Family and Domains",
@@ -3161,24 +2883,13 @@
   {
     "parentId": "domain_ft",
     "childNumber": 1,
-    "id": "ftlen_domain",
+    "id": "ft_domain_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_domain",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature domain within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "domain_ft",
-    "childNumber": 2,
-    "id": "ftev_domain",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_domain",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_domain_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search feature domain with evidence type",
-    "example": "manual"
+    "description": "Search by experimental feature domain",
+    "example": "phosphatase"
   },
   {
     "parentId": "family_domains",
@@ -3202,13 +2913,13 @@
   {
     "parentId": "domain_comments_cc",
     "childNumber": 1,
-    "id": "ccev_domain",
+    "id": "cc_domain_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_domain",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_domain_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search comment domain with evidence type",
-    "example": "any"
+    "description": "Search by experimental comment domain",
+    "example": "conformation"
   },
   {
     "parentId": "family_domains",
@@ -3244,24 +2955,13 @@
   {
     "parentId": "coiled_coil",
     "childNumber": 1,
-    "id": "ftlen_coiled",
+    "id": "ft_coiled_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_coiled",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature coiled coil within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "coiled_coil",
-    "childNumber": 2,
-    "id": "ftev_coiled",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_coiled",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_coiled_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search feature coiled coil with evidence type",
-    "example": "manual"
+    "description": "Search by experimental feature coiled coil",
+    "example": "*"
   },
   {
     "parentId": "family_domains",
@@ -3284,24 +2984,13 @@
   {
     "parentId": "compositional_bias",
     "childNumber": 1,
-    "id": "ftlen_compbias",
+    "id": "ft_compbias_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_compbias",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature compositional bias within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "compositional_bias",
-    "childNumber": 2,
-    "id": "ftev_compbias",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_compbias",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_compbias_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search feature compositional bias with evidence type",
-    "example": "manual"
+    "description": "Search by experimental feature compositional bias",
+    "example": "glu-rich"
   },
   {
     "parentId": "family_domains",
@@ -3324,24 +3013,13 @@
   {
     "parentId": "motif",
     "childNumber": 1,
-    "id": "ftlen_motif",
+    "id": "ft_motif_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_motif",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature motif within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "motif",
-    "childNumber": 2,
-    "id": "ftev_motif",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_motif",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_motif_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search feature motif with evidence type",
-    "example": "manual"
+    "description": "Search by experimental feature motif",
+    "example": "motif"
   },
   {
     "parentId": "family_domains",
@@ -3364,24 +3042,13 @@
   {
     "parentId": "region",
     "childNumber": 1,
-    "id": "ftlen_region",
+    "id": "ft_region_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_region",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature region within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "region",
-    "childNumber": 2,
-    "id": "ftev_region",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_region",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_region_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search feature region with evidence type",
-    "example": "manual"
+    "description": "Search by experimental feature region",
+    "example": "motif"
   },
   {
     "parentId": "family_domains",
@@ -3404,24 +3071,13 @@
   {
     "parentId": "repeat",
     "childNumber": 1,
-    "id": "ftlen_repeat",
+    "id": "ft_repeat_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_repeat",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature repeat within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "repeat",
-    "childNumber": 2,
-    "id": "ftev_repeat",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_repeat",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_repeat_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search feature repeat with evidence type",
-    "example": "manual"
+    "description": "Search by experimental feature repeat",
+    "example": "motif"
   },
   {
     "parentId": "family_domains",
@@ -3445,13 +3101,13 @@
   {
     "parentId": "sequence_similarity",
     "childNumber": 1,
-    "id": "ccev_similarity",
+    "id": "cc_similarity_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_similarity",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_similarity_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search comment similarity with evidence type",
-    "example": "manual"
+    "description": "Search by experimental comment similarity",
+    "example": "phosphatase"
   },
   {
     "parentId": "family_domains",
@@ -3474,24 +3130,13 @@
   {
     "parentId": "zinc_finger",
     "childNumber": 1,
-    "id": "ftlen_zn_fing",
+    "id": "ft_zn_fing_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_zn_fing",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search feature zinc finger within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "zinc_finger",
-    "childNumber": 2,
-    "id": "ftev_zn_fing",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_zn_fing",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_zn_fing_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search feature zinc finger with evidence type",
-    "example": "manual"
+    "description": "Search by experimental feature zinc finger",
+    "example": "UBP"
   },
   {
     "label": "Expression",
@@ -3521,13 +3166,13 @@
   {
     "parentId": "developmental_stage",
     "childNumber": 1,
-    "id": "ccev_developmental_stage",
+    "id": "cc_developmental_stage_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_developmental_stage",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_developmental_stage_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment Developmental stage with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Comment Developmental stage",
+    "example": "brain"
   },
   {
     "parentId": "expression",
@@ -3551,13 +3196,13 @@
   {
     "parentId": "induction",
     "childNumber": 1,
-    "id": "ccev_induction",
+    "id": "cc_induction_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_induction",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_induction_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment Induction with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Comment Induction",
+    "example": "calcium"
   },
   {
     "parentId": "expression",
@@ -3581,13 +3226,13 @@
   {
     "parentId": "tissue_specificity",
     "childNumber": 1,
-    "dataType": "STRING",
-    "id": "ccev_tissue_specificity",
+    "id": "cc_tissue_specificity_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_tissue_specificity",
-    "fieldType": "EVIDENCE",
-    "description": "Search Comment Tissue specificity with evidence type",
-    "example": "manual"
+    "fieldName": "cc_tissue_specificity_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
+    "dataType": "STRING",
+    "description": "Search by experimental Comment Tissue specificity",
+    "example": "pancreas"
   },
   {
     "label": "Date Of",
@@ -3679,17 +3324,6 @@
   },
   {
     "parentId": "secondary_structure_any",
-    "childNumber": 1,
-    "id": "ftlen_secstruct",
-    "itemType": "SINGLE",
-    "fieldName": "ftlen_secstruct",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Any secondary structure within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "secondary_structure_any",
     "childNumber": 0,
     "id": "ft_secstruct",
     "itemType": "SINGLE",
@@ -3701,14 +3335,14 @@
   },
   {
     "parentId": "secondary_structure_any",
-    "childNumber": 2,
-    "id": "ftev_secstruct",
+    "childNumber": 1,
+    "id": "ft_secstruct_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftev_secstruct",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_secstruct_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature Any secondary structure with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature Any secondary structure",
+    "example": "*"
   },
   {
     "parentId": "secondary_structure",
@@ -3731,24 +3365,13 @@
   {
     "parentId": "secondary_structure_helix",
     "childNumber": 1,
-    "id": "ftlen_helix",
+    "id": "ft_helix_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_helix",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature helix within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "secondary_structure_helix",
-    "childNumber": 2,
-    "id": "ftev_helix",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_helix",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_helix_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature helix with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature helix",
+    "example": "*"
   },
   {
     "parentId": "secondary_structure",
@@ -3771,24 +3394,13 @@
   {
     "parentId": "secondary_structure_turn",
     "childNumber": 1,
-    "id": "ftlen_turn",
+    "id": "ft_turn_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_turn",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature turn within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "secondary_structure_turn",
-    "childNumber": 2,
-    "id": "ftev_turn",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_turn",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_turn_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature turn with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature turn",
+    "example": "*"
   },
   {
     "parentId": "secondary_structure",
@@ -3811,24 +3423,13 @@
   {
     "parentId": "secondary_structure_beta_strand",
     "childNumber": 1,
-    "id": "ftlen_strand",
+    "id": "ft_strand_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_strand",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Beta strand within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "secondary_structure_beta_strand",
-    "childNumber": 2,
-    "id": "ftev_strand",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_strand",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_strand_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature Beta strand with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature Beta strand",
+    "example": "*"
   },
   {
     "label": "Subcellular location",
@@ -3866,13 +3467,13 @@
   {
     "parentId": "subcellular_location_term",
     "childNumber": 1,
-    "id": "ccev_scl_term",
+    "id": "cc_scl_term_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_scl_term",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_scl_term_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search comment subcellular location term with evidence type",
-    "example": "manual"
+    "description": "Search by experimental comment subcellular location term",
+    "example": "membrane"
   },
   {
     "parentId": "cc_subcellular",
@@ -3895,13 +3496,13 @@
   {
     "parentId": "subcellular_location_note",
     "childNumber": 1,
-    "id": "ccev_scl_note",
+    "id": "cc_scl_note_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_scl_note",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_scl_note_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search comment subcellular location note with evidence type",
-    "example": "manual"
+    "description": "Search by experimental comment subcellular location note",
+    "example": "membrane"
   },
   {
     "parentId": "subcellular",
@@ -3924,24 +3525,13 @@
   {
     "parentId": "transmembrane",
     "childNumber": 1,
-    "id": "ftlen_transmem",
+    "id": "ft_transmem_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_transmem",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Transmembrane within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "transmembrane",
-    "childNumber": 2,
-    "id": "ftev_transmem",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_transmem",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_transmem_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Transmembrane with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Transmembrane",
+    "example": "forming"
   },
   {
     "parentId": "subcellular",
@@ -3964,24 +3554,13 @@
   {
     "parentId": "topological_domain",
     "childNumber": 1,
-    "id": "ftlen_topo_dom",
+    "id": "ft_topo_dom_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_topo_dom",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Topological domain with evidence type",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "topological_domain",
-    "childNumber": 2,
-    "id": "ftev_topo_dom",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_topo_dom",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_topo_dom_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Topological domain with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Topological domain",
+    "example": "forming"
   },
   {
     "parentId": "subcellular",
@@ -4004,24 +3583,13 @@
   {
     "parentId": "intramembrane",
     "childNumber": 1,
-    "id": "ftlen_intramem",
+    "id": "ft_intramem_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_intramem",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Intramembrane within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId": "intramembrane",
-    "childNumber": 2,
-    "id": "ftev_intramem",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_intramem",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_intramem_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Intramembrane with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Intramembrane",
+    "example": "forming"
   },
   {
     "label": "Pathology & Biotech",
@@ -4051,13 +3619,13 @@
   {
     "parentId" : "disease",
     "childNumber": 1,
-    "id": "ccev_disease",
+    "id": "cc_disease_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_disease",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_disease_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment disease with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Comment disease",
+    "example": "nephrotic"
   },
   {
     "parentId": "pathology_biotech",
@@ -4081,13 +3649,13 @@
   {
     "parentId" : "alergenic_properties",
     "childNumber": 1,
-    "id": "ccev_allergen",
+    "id": "cc_allergen_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_allergen",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_allergen_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment allergenic properties with evidence type",
-    "example": "manual",
+    "description": "Search by experimental Comment allergenic properties",
+    "example": "allergic",
     "includeInSwagger": true
   },
   {
@@ -4112,13 +3680,13 @@
   {
     "parentId" : "toxic_dose",
     "childNumber": 1,
-    "id": "ccev_toxic_dose",
+    "id": "cc_toxic_dose_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_toxic_dose",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_toxic_dose_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment Toxic dose with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Comment Toxic dose",
+    "example": "intracistenal"
   },
   {
     "parentId": "pathology_biotech",
@@ -4142,13 +3710,13 @@
   {
     "parentId" : "biotechnological_use",
     "childNumber": 1,
-    "id": "ccev_biotechnology",
+    "id": "cc_biotechnology_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_biotechnology",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_biotechnology_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment Biotechnological use with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Comment Biotechnological use",
+    "example": "vaccine"
   },
   {
     "parentId": "pathology_biotech",
@@ -4172,13 +3740,13 @@
   {
     "parentId" : "pharmaceutical_use",
     "childNumber": 1,
-    "id": "ccev_pharmaceutical",
+    "id": "cc_pharmaceutical_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_pharmaceutical",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_pharmaceutical_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment Pharmaceutical use with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Comment Pharmaceutical use",
+    "example": "peptide"
   },
   {
     "parentId": "pathology_biotech",
@@ -4202,13 +3770,13 @@
   {
     "parentId" : "disruption_phenotype",
     "childNumber": 1,
-    "id": "ccev_disruption_phenotype",
+    "id": "cc_disruption_phenotype_exp",
     "itemType": "SINGLE",
-    "fieldName": "ccev_disruption_phenotype",
-    "fieldType": "EVIDENCE",
+    "fieldName": "cc_disruption_phenotype_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Comment Disruption phenotype with evidence type",
-    "example": "any"
+    "description": "Search by experimental Comment Disruption phenotype",
+    "example": "infected"
   },
   {
     "parentId": "pathology_biotech",
@@ -4231,24 +3799,13 @@
   {
     "parentId" : "mutagenesis",
     "childNumber": 1,
-    "id": "ftlen_mutagen",
+    "id": "ft_mutagen_exp",
     "itemType": "SINGLE",
-    "fieldName": "ftlen_mutagen",
-    "fieldType": "RANGE",
-    "dataType": "INTEGER",
-    "description": "Search Feature Mutagenesis within range",
-    "example": "[0 TO 100]"
-  },
-  {
-    "parentId" : "mutagenesis",
-    "childNumber": 2,
-    "id": "ftev_mutagen",
-    "itemType": "SINGLE",
-    "fieldName": "ftev_mutagen",
-    "fieldType": "EVIDENCE",
+    "fieldName": "ft_mutagen_exp",
+    "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
-    "description": "Search Feature Mutagenesis with evidence type",
-    "example": "manual"
+    "description": "Search by experimental Feature Mutagenesis",
+    "example": "phosphatase"
   },
   {
     "label": "Cross-references",

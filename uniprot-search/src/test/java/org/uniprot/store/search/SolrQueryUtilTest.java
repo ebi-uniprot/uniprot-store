@@ -1,10 +1,18 @@
 package org.uniprot.store.search;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /** @author lgonzales */
 class SolrQueryUtilTest {
@@ -210,5 +218,43 @@ class SolrQueryUtilTest {
         String inputQuery = "organism:Human OR accession:P21802";
         boolean result = SolrQueryUtil.hasNegativeTerm(inputQuery);
         assertFalse(result);
+    }
+
+    @ParameterizedTest
+    @MethodSource("getQueryWithExpectedResult")
+    void hasLeadingWildcardTermTrue(String query, boolean expectedResult) {
+        boolean actualResult =
+                SolrQueryUtil.ignoreLeadingWildcard(query, Set.of("gene", "protein_name"));
+        assertEquals(expectedResult, actualResult, query + " failed");
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "default query, a, a",
+        "single forward slash, a/b, a\\/b",
+        "single forward slash with numbers, 1/2, 1\\/2",
+        "field query with single forward slash with letters, field:a/b, field:a\\/b",
+        "field query with single forward slash with numbers, field:1/2, field:1\\/2",
+        "separated forward slashes, a/b/c, a\\/b\\/c",
+        "two adjacent forward slashes, a//b, a\\/\\/b",
+        "contiguous forward slashes, a///b, a\\/\\/\\/b"
+    })
+    void checkForwardSlashReplacements(String desc, String queryString, String expected) {
+        assertThat(
+                desc, SolrQueryUtil.replaceForwardSlashes(queryString), CoreMatchers.is(expected));
+    }
+
+    private static Stream<Arguments> getQueryWithExpectedResult() {
+        return Stream.of(
+                Arguments.of("*quick brown fox", true),
+                Arguments.of("quick brown fox*", false),
+                Arguments.of("quick * brown fox", false),
+                Arguments.of("qui*ck", false),
+                Arguments.of("otherfield:*quick brown fox", true),
+                Arguments.of("*brown fox AND otherfield:quick", true),
+                Arguments.of("brown fox AND otherfield:quick", false),
+                Arguments.of("gene:*brown", false),
+                Arguments.of("protein_name:*brown AND reviewed:*true", true),
+                Arguments.of("\"*quick brow fox\"", false));
     }
 }

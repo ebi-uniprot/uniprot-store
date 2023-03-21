@@ -3,6 +3,7 @@ package org.uniprot.store.search;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
@@ -174,5 +175,73 @@ public class SolrQueryUtil {
             }
         }
         return hasTerm;
+    }
+
+    public static boolean ignoreLeadingWildcard(
+            String inputQuery, Set<String> leadWildcardSupportedFields) {
+        boolean ignore = false;
+        try {
+            QueryParser qp = new QueryParser("", new StandardAnalyzer());
+            qp.setAllowLeadingWildcard(true);
+            Query query = qp.parse(inputQuery);
+            ignore = ignoreLeadingWildcard(query, leadWildcardSupportedFields);
+        } catch (Exception e) {
+            // ignore
+        }
+        return ignore;
+    }
+
+    public static boolean ignoreLeadingWildcard(
+            Query inputQuery, Set<String> leadWildcardSupportedFields) {
+        boolean ignore = false;
+        if (inputQuery instanceof WildcardQuery) {
+            WildcardQuery wildcardQuery = (WildcardQuery) inputQuery;
+            String text = wildcardQuery.getTerm().text();
+            String fieldName = wildcardQuery.getTerm().field();
+            if (ignoreLeadingWildcard(fieldName, text, leadWildcardSupportedFields)) {
+                ignore = true;
+            }
+        } else if (inputQuery instanceof BooleanQuery) {
+            BooleanQuery booleanQuery = (BooleanQuery) inputQuery;
+            for (BooleanClause clause : booleanQuery.clauses()) {
+                if (ignoreLeadingWildcard(clause.getQuery(), leadWildcardSupportedFields)) {
+                    ignore = true;
+                    break;
+                }
+            }
+        }
+        return ignore;
+    }
+
+    public static boolean ignoreLeadingWildcard(
+            String field, String text, Set<String> leadWildcardSupportedFields) {
+        return !leadWildcardSupportedFields.contains(field)
+                && text.length() > 1
+                && (text.startsWith("*") || text.startsWith("?"));
+    }
+
+    /**
+     * Although '/' is a special lucene character, the old uniprot website allows users to *not*
+     * escape it. That is, they allow queries like, "hello/world", to pass unescaped through to
+     * lucene. Therefore, in order to allow it, we should escape it here, allowing validation to
+     * "ignore" the forward slash.
+     *
+     * @param queryString the query string from the client
+     * @return the query string with forward slashes appropriately escaped
+     */
+    public static String replaceForwardSlashes(String queryString) {
+        StringBuilder sb = new StringBuilder();
+        char prev = '\u00A0'; // an unprintable character very unlikely to be input
+        for (int i = 0; i < queryString.length(); i++) {
+            char curr = queryString.charAt(i);
+            if (curr == '/' && prev != '\\') {
+                sb.append("\\/");
+            } else {
+                sb.append(curr);
+            }
+            prev = curr;
+        }
+
+        return sb.toString();
     }
 }

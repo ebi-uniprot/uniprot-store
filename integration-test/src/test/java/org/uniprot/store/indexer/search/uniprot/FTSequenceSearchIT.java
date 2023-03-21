@@ -88,11 +88,9 @@ class FTSequenceSearchIT {
     }
 
     @Test
-    void varSeqFindEntryWithEvidenceLength() {
+    void varSeqFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.VAR_SEQ, "isoform");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.VAR_SEQ, 10, 20));
-        String evidence = "ECO_0000305";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.VAR_SEQ, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -102,11 +100,9 @@ class FTSequenceSearchIT {
     }
 
     @Test
-    void variantFindEntryWithEvidenceLength() {
+    void variantFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.VARIANT, "colorectal");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.VARIANT, 1, 1));
-        String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.VARIANT, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -116,44 +112,9 @@ class FTSequenceSearchIT {
     }
 
     @Test
-    void variantsFindEntryWithLengthAndEvidence() {
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("ft_variants"),
-                        "colorectal");
-        query =
-                QueryBuilder.and(
-                        query,
-                        QueryBuilder.rangeQuery(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ftlen_variants")
-                                        .getFieldName(),
-                                1,
-                                21));
-        String evidence = "ECO_0000269";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ftev_variants"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q197B1));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
-    }
-
-    @Test
-    void nonStdFindEntryWithEvidenceLength() {
+    void nonStdFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.NON_STD, "selenocysteine");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.NON_STD, 1, 1));
-        String evidence = "ECO_0000250";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.NON_STD, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -163,11 +124,9 @@ class FTSequenceSearchIT {
     }
 
     @Test
-    void nonTerFindEntryWithEvidenceLength() {
+    void nonTerFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.NON_TER, "*");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.NON_TER, 1, 1));
-        String evidence = "ECO_0000303";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.NON_TER, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -177,11 +136,9 @@ class FTSequenceSearchIT {
     }
 
     @Test
-    void nonConsFindEntryWithEvidenceLength() {
+    void nonConsFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.NON_CONS, "*");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.NON_CONS, 1, 2));
-        String evidence = "ECO_0000305";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.NON_CONS, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -191,11 +148,9 @@ class FTSequenceSearchIT {
     }
 
     @Test
-    void conflictFindEntryWithEvidenceLength() {
+    void conflictFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.CONFLICT, "*");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.CONFLICT, 1, 2));
-        String evidence = "ECO_0000305";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.CONFLICT, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
@@ -205,51 +160,14 @@ class FTSequenceSearchIT {
     }
 
     @Test
-    void unsureFindEntryWithEvidenceLength() {
+    void unsureFindEntryWithLength() {
         String query = features(UniprotKBFeatureType.UNSURE, "*");
         query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.UNSURE, 1, 2));
-        String evidence = "ECO_0000269";
-        query = QueryBuilder.and(query, featureEvidence(UniprotKBFeatureType.UNSURE, evidence));
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         System.out.println(retrievedAccessions);
         assertThat(retrievedAccessions, hasItems(Q6V4H0));
         assertThat(retrievedAccessions, not(hasItem(Q197B1)));
-    }
-
-    @Test
-    void positionFindEntryWithLengthAndEvidence() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("ft_positional"),
-                        "colorectal");
-        query =
-                QueryBuilder.and(
-                        query,
-                        QueryBuilder.rangeQuery(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ftlen_positional")
-                                        .getFieldName(),
-                                1,
-                                21));
-        String evidence = "ECO_0000269";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ftev_positional"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q197B1));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
     }
 }

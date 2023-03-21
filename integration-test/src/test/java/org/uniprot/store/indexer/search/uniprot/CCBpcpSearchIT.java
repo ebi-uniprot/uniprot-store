@@ -128,63 +128,6 @@ class CCBpcpSearchIT {
     }
 
     @Test
-    void findBPCWithEvidence() {
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_bpcp"),
-                        "protein");
-        String evidence = "ECO_0000269";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_bpcp"),
-                                evidence));
-        System.out.println(query);
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q6GZX4));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZX3)));
-    }
-
-    @Test
-    void findOnlyEvidence() {
-        String evidence = "ECO_0000269";
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("ccev_bpcp"),
-                        evidence);
-        System.out.println(query);
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6GZX4, Q6GZY3, Q197B6, Q12345));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZX3)));
-    }
-
-    @Test
-    void findBPCWithManualEvidence() {
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_bpcp"),
-                        "protein");
-        String evidence = "manual";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_bpcp"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q6GZX4, Q6GZX3));
-    }
-
-    @Test
     void findBPCPWithAbsorption() {
         String query =
                 query(
@@ -195,50 +138,6 @@ class CCBpcpSearchIT {
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(Q6GZX4));
-    }
-
-    @Test
-    void findBPCPWithAbsorptionWithEvidence() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("cc_bpcp_absorption"),
-                        "spectrum");
-        String evidence = "ECO_0000269";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_bpcp_absorption"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, contains(Q6GZX4));
-    }
-
-    @Test
-    void findBPCPWithAbsorptionWithEvidenceNo() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("cc_bpcp_absorption"),
-                        "spectrum");
-        String evidence = "ECO_0000250";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_bpcp_absorption"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, empty());
     }
 
     @Test
@@ -268,75 +167,6 @@ class CCBpcpSearchIT {
     }
 
     @Test
-    void findBPCPWithKinetics2Evidenece() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("cc_bpcp_kinetics"),
-                        "carboxyspermidine");
-        String evidence = "ECO_0000269";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_bpcp_kinetics"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, empty());
-    }
-
-    @Test
-    void findBPCPWithKineticEvid() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("cc_bpcp_kinetics"),
-                        "*");
-
-        String evidence = "ECO_0000269";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_bpcp_kinetics"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q6GZY3, Q197B6, Q12345));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZX3)));
-    }
-
-    @Test
-    void findBPCPWithKineticEvidManual() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("cc_bpcp_kinetics"),
-                        "*");
-
-        String evidence = "manual";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_bpcp_kinetics"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q6GZX3, Q6GZY3, Q197B6, Q12345));
-    }
-
-    @Test
     void findBPCPWithPhDependence() {
         String query =
                 query(
@@ -347,29 +177,6 @@ class CCBpcpSearchIT {
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItems(Q197B6, Q12345));
-    }
-
-    @Test
-    void findBPCPWithPhDependenceEvidence() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("cc_bpcp_ph_dependence"),
-                        "optimum");
-        String evidence = "ECO_0000269";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_bpcp_ph_dependence"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q197B6));
-        assertThat(retrievedAccessions, not(hasItem(Q12345)));
     }
 
     @Test
@@ -386,29 +193,6 @@ class CCBpcpSearchIT {
     }
 
     @Test
-    void findBPCPWithTempDependenceEvidence() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("cc_bpcp_temp_dependence"),
-                        "temperature");
-        String evidence = "ECO_0000305";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_bpcp_temp_dependence"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q197B6));
-        assertThat(retrievedAccessions, not(hasItem(Q12345)));
-    }
-
-    @Test
     void findBPCPWithRedox() {
         String query =
                 query(
@@ -419,51 +203,6 @@ class CCBpcpSearchIT {
         QueryResponse response = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItems(Q6GZY3));
-    }
-
-    @Test
-    void findBPCPWithRedoxEvidence() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("cc_bpcp_redox_potential"),
-                        "heme");
-        String evidence = "ECO_0000269";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_bpcp_redox_potential"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-
-        assertThat(retrievedAccessions, hasItems(Q6GZY3));
-    }
-
-    @Test
-    void findBPCPWithRedoxEvidenceNone() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("cc_bpcp_redox_potential"),
-                        "heme");
-        String evidence = "ECO_0000305";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_bpcp_redox_potential"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, empty());
     }
 
     private String query(SearchFieldItem field, String fieldValue) {

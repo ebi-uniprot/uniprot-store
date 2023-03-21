@@ -134,67 +134,6 @@ class CCAPSearchIT {
     }
 
     @Test
-    void testAPEv() {
-        String evidence = "ECO_0000269";
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_ap"),
-                        "splicing");
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_ap"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6V4H0));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZN7)));
-    }
-
-    @Test
-    void testAPOnlyEv() {
-        String evidence = "ECO_0000269";
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("ccev_ap"),
-                        evidence);
-        //	query =
-        // query.and(UniProtQueryBuilder.query(searchEngine.getSearchFieldConfig().getSearchFieldItemByName("ccev_ap"),
-        // evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6V4H0));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZN7)));
-    }
-
-    @Test
-    void testAPManualEv() {
-        String evidence = "manual";
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_ap"),
-                        "splicing");
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_ap"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6GZN7, Q6V4H0));
-        assertThat(retrievedAccessions, not(hasItem(P48347)));
-    }
-
-    @Test
     void testApApu() {
         String query =
                 query(
@@ -205,50 +144,6 @@ class CCAPSearchIT {
         System.out.println(retrievedAccessions);
         assertThat(retrievedAccessions, hasItems(Q6V4H0));
         assertThat(retrievedAccessions, not(hasItem(Q6GZN7)));
-    }
-
-    @Test
-    void testApApuEvidenceOne() {
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_ap_apu"),
-                        "insulin");
-        String evidence = "ECO_0000269";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_ap_apu"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6V4H0));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZN7)));
-    }
-
-    @Test
-    void testApApuEvidenceNone() {
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_ap_apu"),
-                        "insulin");
-        String evidence = "ECO_0000303";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_ap_apu"),
-                                evidence));
-        System.out.println(query);
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, empty());
     }
 
     @Test
@@ -265,28 +160,6 @@ class CCAPSearchIT {
     }
 
     @Test
-    void testApAsEvidenceOne() {
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_ap_as"),
-                        "transcription");
-        String evidence = "ECO_0000303";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_ap_as"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6GZN7));
-        assertThat(retrievedAccessions, not(hasItem(Q6V4H0)));
-    }
-
-    @Test
     void testApAi() {
         String query =
                 query(
@@ -300,49 +173,6 @@ class CCAPSearchIT {
     }
 
     @Test
-    void testApAiEvidence() {
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_ap_ai"),
-                        "transcription");
-        String evidence = "ECO_0000303";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_ap_ai"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6GZN7));
-        assertThat(retrievedAccessions, not(hasItem(Q6V4H0)));
-    }
-
-    @Test
-    void testApAiEvidenceNone() {
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_ap_ai"),
-                        "transcription");
-        String evidence = "ECO_0000269";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_ap_ai"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, empty());
-    }
-
-    @Test
     void testApRf() {
         String query =
                 query(
@@ -353,24 +183,6 @@ class CCAPSearchIT {
         System.out.println(retrievedAccessions);
         assertThat(retrievedAccessions, hasItems(Q12345));
         assertThat(retrievedAccessions, not(hasItem(Q6GZN7)));
-    }
-
-    @Test
-    void testApRfEvidence() {
-        String query =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("cc_ap_rf"),
-                        "*");
-        String evidence = "ECO_0000269";
-        String query2 =
-                query(
-                        searchEngine.getSearchFieldConfig().getSearchFieldItemByName("ccev_ap_rf"),
-                        evidence);
-        query = QueryBuilder.and(query, query2);
-        QueryResponse response = searchEngine.getQueryResponse(query);
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, empty());
     }
 
     private String query(SearchFieldItem field, String fieldValue) {

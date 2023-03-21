@@ -1,15 +1,15 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.*;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.uniprot.core.CrossReference;
-import org.uniprot.core.uniprotkb.feature.Ligand;
-import org.uniprot.core.uniprotkb.feature.LigandPart;
-import org.uniprot.core.uniprotkb.feature.UniProtKBFeature;
-import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureDatabase;
+import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
+import org.uniprot.core.uniprotkb.feature.*;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniprot.ProteinsWith;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -28,19 +28,15 @@ class UniProtEntryFeatureConverter {
             String field = getFeatureField(feature, FEATURE);
             String lengthField = getFeatureField(feature, FT_LENGTH);
             String evField = getFeatureField(feature, FT_EV);
-            Collection<String> featuresOfTypeList =
-                    document.featuresMap.computeIfAbsent(field, k -> new HashSet<>());
+            Collection<String> featureValueList = new HashSet<>();
 
-            featuresOfTypeList.add(feature.getType().getName());
-            document.content.add(feature.getType().getName());
+            featureValueList.add(feature.getType().getName());
 
             if (feature.hasFeatureId()) {
-                featuresOfTypeList.add(feature.getFeatureId().getValue());
-                document.content.add(feature.getFeatureId().getValue());
+                featureValueList.add(feature.getFeatureId().getValue());
             }
             if (feature.hasDescription()) {
-                featuresOfTypeList.add(feature.getDescription().getValue());
-                document.content.add(feature.getDescription().getValue());
+                featureValueList.add(feature.getDescription().getValue());
             }
 
             ProteinsWith.from(feature.getType())
@@ -48,31 +44,25 @@ class UniProtEntryFeatureConverter {
                     .filter(value -> !document.proteinsWith.contains(value)) // avoid duplicated
                     .ifPresent(value -> document.proteinsWith.add(value));
 
-            addFeatureCrossReferences(feature, document, featuresOfTypeList);
+            addFeatureCrossReferences(feature, document, featureValueList);
             if (feature.hasLigand()) {
                 Ligand ligand = feature.getLigand();
-                featuresOfTypeList.add(ligand.getName());
-                document.content.add(ligand.getName());
+                featureValueList.add(ligand.getName());
                 if (Utils.notNullNotEmpty(ligand.getLabel())) {
-                    featuresOfTypeList.add(ligand.getLabel());
-                    document.content.add(ligand.getLabel());
+                    featureValueList.add(ligand.getLabel());
                 }
                 if (Utils.notNullNotEmpty(ligand.getNote())) {
-                    featuresOfTypeList.add(ligand.getNote());
-                    document.content.add(ligand.getNote());
+                    featureValueList.add(ligand.getNote());
                 }
             }
             if (feature.hasLigandPart()) {
                 LigandPart ligandPart = feature.getLigandPart();
-                featuresOfTypeList.add(ligandPart.getName());
-                document.content.add(ligandPart.getName());
+                featureValueList.add(ligandPart.getName());
                 if (Utils.notNullNotEmpty(ligandPart.getLabel())) {
-                    featuresOfTypeList.add(ligandPart.getLabel());
-                    document.content.add(ligandPart.getLabel());
+                    featureValueList.add(ligandPart.getLabel());
                 }
                 if (Utils.notNullNotEmpty(ligandPart.getNote())) {
-                    featuresOfTypeList.add(ligandPart.getNote());
-                    document.content.add(ligandPart.getNote());
+                    featureValueList.add(ligandPart.getNote());
                 }
             }
 
@@ -81,8 +71,7 @@ class UniProtEntryFeatureConverter {
                     feature.getLocation().getEnd().getValue()
                             - feature.getLocation().getStart().getValue()
                             + 1;
-            Set<String> evidences =
-                    UniProtEntryConverterUtil.extractEvidence(feature.getEvidences());
+            Set<String> evidences = extractEvidence(feature.getEvidences());
             Collection<Integer> lengthList =
                     document.featureLengthMap.computeIfAbsent(lengthField, k -> new HashSet<>());
             lengthList.add(length);
@@ -90,6 +79,25 @@ class UniProtEntryFeatureConverter {
             Collection<String> evidenceList =
                     document.featureEvidenceMap.computeIfAbsent(evField, k -> new HashSet<>());
             evidenceList.addAll(evidences);
+
+            document.featuresMap
+                    .computeIfAbsent(field, k -> new HashSet<>())
+                    .addAll(featureValueList);
+            document.content.addAll(featureValueList);
+
+            String featureValues = String.join(" ", featureValueList);
+            if (canAddExperimental(
+                    feature.getType().isAddExperimental(),
+                    featureValues,
+                    document.reviewed,
+                    evidences)) {
+                String experimentalField = field + "_exp";
+                document.featuresMap
+                        .computeIfAbsent(experimentalField, k -> new HashSet<>())
+                        .addAll(featureValueList);
+                evidenceList.add(EvidenceCode.Category.EXPERIMENTAL.name().toLowerCase());
+                document.evidenceExperimental = true;
+            }
         }
     }
 
@@ -119,7 +127,7 @@ class UniProtEntryFeatureConverter {
         UniprotKBFeatureDatabase dbType = xref.getDatabase();
         String dbname = dbType.getName();
 
-        List<String> xrefIds = UniProtEntryConverterUtil.getXrefId(xrefId, dbname);
+        List<String> xrefIds = getXrefId(xrefId, dbname);
         if (!dbType.equals(UniprotKBFeatureDatabase.CHEBI)) {
             document.crossRefs.addAll(xrefIds);
             document.databases.add(dbname.toLowerCase());

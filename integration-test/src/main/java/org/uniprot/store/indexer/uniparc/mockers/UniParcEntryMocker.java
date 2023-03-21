@@ -105,7 +105,18 @@ public class UniParcEntryMocker {
                         .component("chromosome")
                         .build();
 
-        return Arrays.asList(xref, xref2);
+        UniParcCrossReference xref3 =
+                new UniParcCrossReferenceBuilder()
+                        .versionI(1)
+                        .database(UniParcDatabase.REFSEQ)
+                        .id(getName("WP_1688932", i))
+                        .version(7)
+                        .active(true)
+                        .created(LocalDate.of(2017, 2, 12))
+                        .lastUpdated(LocalDate.of(2017, 4, 23))
+                        .build();
+
+        return Arrays.asList(xref, xref2, xref3);
     }
 
     public static UniParcEntry createEntry(

@@ -15,7 +15,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.store.search.field.QueryBuilder;
 
 class CCCofactorSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -129,31 +128,6 @@ class CCCofactorSearchIT {
     }
 
     @Test
-    void findCofactorWithChebiNameEvidence() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("cc_cofactor_chebi"),
-                        "phosphate");
-        String evidence = "ECO_0000256";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_cofactor_chebi"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6GZY3));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZX3)));
-    }
-
-    @Test
     void findCofactorWithNote() {
         String query =
                 query(
@@ -165,78 +139,5 @@ class CCCofactorSearchIT {
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, hasItems(Q196W5, Q6GZY3));
-    }
-
-    @Test
-    void findCofactorWithNoteEvidence() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("cc_cofactor_note"),
-                        "binds");
-        String evidence = "ECO_0000250";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_cofactor_note"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q196W5));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZY3)));
-    }
-
-    @Test
-    void findCofactorWithNoteAAEvidence() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("cc_cofactor_note"),
-                        "binds");
-        String evidence = "automatic";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_cofactor_note"),
-                                evidence));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q6GZY3));
-        assertThat(retrievedAccessions, not(hasItem(Q196W5)));
-    }
-
-    @Test
-    void findCofactorWithNoteManualEvidence() {
-        String query =
-                query(
-                        searchEngine
-                                .getSearchFieldConfig()
-                                .getSearchFieldItemByName("cc_cofactor_note"),
-                        "binds");
-        String evidence = "manual";
-        query =
-                QueryBuilder.and(
-                        query,
-                        query(
-                                searchEngine
-                                        .getSearchFieldConfig()
-                                        .getSearchFieldItemByName("ccev_cofactor_note"),
-                                evidence));
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q196W5));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZY3)));
     }
 }

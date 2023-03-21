@@ -1,11 +1,6 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.Optional;
@@ -26,8 +21,19 @@ public class ChebiToUniProtDocument
     public static final String CHEBI_PREFIX = "CHEBI:";
     public static final String CC_CATALYTIC_ACTIVITY =
             "cc_" + CommentType.CATALYTIC_ACTIVITY.name().toLowerCase(Locale.ROOT);
+    public static final String CC_CATALYTIC_ACTIVITY_EXP =
+            "cc_" + CommentType.CATALYTIC_ACTIVITY.name().toLowerCase(Locale.ROOT) + "_exp";
     public static final String FT_BINDING =
             "ft_" + UniprotKBFeatureType.BINDING.name().toLowerCase(Locale.ROOT);
+    public static final String FT_BINDING_EXP =
+            "ft_" + UniprotKBFeatureType.BINDING.name().toLowerCase(Locale.ROOT) + "_exp";
+    public static final String CC_COFACTOR_CHEBI_EXP = "cc_cofactor_chebi_exp";
+
+    private static final Collection<String> CHEBI_COMMENT_FIELDS =
+            List.of(CC_CATALYTIC_ACTIVITY, CC_CATALYTIC_ACTIVITY_EXP, CC_COFACTOR_CHEBI_EXP);
+
+    private static final Collection<String> CHEBI_FEATURE_FIELDS =
+            List.of(FT_BINDING, FT_BINDING_EXP);
 
     @Override
     public UniProtDocument call(Tuple2<UniProtDocument, Optional<Iterable<ChebiEntry>>> tuple2)
@@ -42,11 +48,16 @@ public class ChebiToUniProtDocument
                     addCofactorChebi(doc, mappedChebi);
                 }
 
-                if (doc.commentMap.containsKey(CC_CATALYTIC_ACTIVITY)) {
-                    addCatalyticActivityChebi(doc, mappedChebi);
+                for (String commentFieldName : CHEBI_COMMENT_FIELDS) {
+                    if (doc.commentMap.containsKey(commentFieldName)) {
+                        addCommentMapChebi(doc, mappedChebi, commentFieldName);
+                    }
                 }
-                if (doc.featuresMap.containsKey(FT_BINDING)) {
-                    addBindingChebi(doc, mappedChebi);
+
+                for (String featureFieldName : CHEBI_FEATURE_FIELDS) {
+                    if (doc.featuresMap.containsKey(featureFieldName)) {
+                        addBindingChebi(doc, mappedChebi, featureFieldName);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -56,22 +67,23 @@ public class ChebiToUniProtDocument
         return doc;
     }
 
-    private void addBindingChebi(UniProtDocument doc, Map<String, ChebiEntry> mappedChebi) {
-        Collection<String> bindings = doc.featuresMap.get(FT_BINDING);
+    private void addBindingChebi(
+            UniProtDocument doc, Map<String, ChebiEntry> mappedChebi, String fieldName) {
+        Collection<String> bindings = doc.featuresMap.get(fieldName);
         addChebi(bindings, doc, mappedChebi);
     }
 
-    private void addCatalyticActivityChebi(
-            UniProtDocument doc, Map<String, ChebiEntry> mappedChebi) {
-        Collection<String> catalytic = doc.commentMap.get(CC_CATALYTIC_ACTIVITY);
-        addChebi(catalytic, doc, mappedChebi);
+    private void addCommentMapChebi(
+            UniProtDocument doc, Map<String, ChebiEntry> mappedChebi, String fieldName) {
+        Collection<String> commentValues = doc.commentMap.get(fieldName);
+        addChebi(commentValues, doc, mappedChebi);
     }
 
     private void addChebi(
             Collection<String> chebiRelatedItem,
             UniProtDocument doc,
             Map<String, ChebiEntry> mappedChebi) {
-        Set<String> relatedCatalytic =
+        Set<String> relatedChebi =
                 chebiRelatedItem.stream()
                         .filter(id -> Objects.nonNull(id) && id.startsWith(CHEBI_PREFIX))
                         .map(mappedChebi::get)
@@ -80,7 +92,7 @@ public class ChebiToUniProtDocument
                         .map(entry -> CHEBI_PREFIX + entry.getId())
                         .collect(Collectors.toSet());
 
-        Set<String> catalyticInchiKey =
+        Set<String> chebiInchiKey =
                 chebiRelatedItem.stream()
                         .filter(id -> Objects.nonNull(id) && id.startsWith(CHEBI_PREFIX))
                         .map(mappedChebi::get)
@@ -88,9 +100,9 @@ public class ChebiToUniProtDocument
                         .map(ChebiEntry::getInchiKey)
                         .filter(Objects::nonNull)
                         .collect(Collectors.toSet());
-        doc.inchikey.addAll(catalyticInchiKey);
+        doc.inchikey.addAll(chebiInchiKey);
 
-        Set<String> catalyticRelatedInchiKey =
+        Set<String> chebiRelatedInchiKey =
                 chebiRelatedItem.stream()
                         .filter(id -> Objects.nonNull(id) && id.startsWith(CHEBI_PREFIX))
                         .map(mappedChebi::get)
@@ -100,17 +112,17 @@ public class ChebiToUniProtDocument
                         .map(ChebiEntry::getInchiKey)
                         .filter(Objects::nonNull)
                         .collect(Collectors.toSet());
-        doc.inchikey.addAll(catalyticRelatedInchiKey);
+        doc.inchikey.addAll(chebiRelatedInchiKey);
 
-        chebiRelatedItem.addAll(relatedCatalytic);
+        chebiRelatedItem.addAll(relatedChebi);
 
         doc.chebi.addAll(
                 chebiRelatedItem.stream()
                         .filter(id -> Objects.nonNull(id) && id.startsWith(CHEBI_PREFIX))
                         .collect(Collectors.toSet()));
 
-        chebiRelatedItem.addAll(catalyticInchiKey);
-        chebiRelatedItem.addAll(catalyticRelatedInchiKey);
+        chebiRelatedItem.addAll(chebiInchiKey);
+        chebiRelatedItem.addAll(chebiRelatedInchiKey);
     }
 
     private void addCofactorChebi(UniProtDocument doc, Map<String, ChebiEntry> mappedChebi) {

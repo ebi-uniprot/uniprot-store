@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<uniparc xmlns="http://uniprot.org/uniparc"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:schemaLocation="http://uniprot.org/uniprot http://www.pir.uniprot.org/support/docs/uniparc.xsd"  checkpoint="22898">
+<entry dataset="uniparc">
+    <accession>UPI000000017F</accession>
+    <dbReference type="UniProtKB/Swiss-Prot" id="O68891" version_i="1" active="Y" version="1" created="1998-12-15" last="2022-05-25">
+        <property type="NCBI_GI" value="3914279"/>
+        <property type="NCBI_taxonomy_id" value="28141"/>
+        <property type="protein_name" value="DNA topoisomerase 4 subunit A (Fragment)"/>
+        <property type="gene_name" value="parC"/>
+    </dbReference>
+    <dbReference type="UniProtKB/TrEMBL" id="Q71US8" version_i="1" active="Y" version="1" created="2004-07-05" last="2022-05-25">
+        <property type="NCBI_taxonomy_id" value="28141"/>
+        <property type="protein_name" value="DNA topoisomerase (ATP-hydrolyzing) (Fragment)"/>
+        <property type="gene_name" value="parC"/>
+    </dbReference>
+    <dbReference type="UniProtKB/TrEMBL" id="O68891" version_i="1" active="N" version="1" created="1998-08-01" last="1998-08-01">
+        <property type="NCBI_GI" value="3914279"/>
+    </dbReference>
+    <dbReference type="EMBL" id="AAC13493" version_i="1" active="Y" version="1" created="2003-03-12" last="2022-01-26">
+        <property type="NCBI_GI" value="3046560"/>
+        <property type="NCBI_taxonomy_id" value="28141"/>
+        <property type="protein_name" value="DNA topoisomerase IV subunit C"/>
+        <property type="gene_name" value="parC"/>
+    </dbReference>
+    <dbReference type="EMBL" id="AAC13494" version_i="1" active="Y" version="1" created="2003-03-12" last="2022-01-26">
+        <property type="NCBI_GI" value="3046562"/>
+        <property type="NCBI_taxonomy_id" value="28141"/>
+        <property type="protein_name" value="DNA topoisomerase IV subunit C"/>
+        <property type="gene_name" value="parC"/>
+    </dbReference>
+    <dbReference type="JPO" id="DJ891176" version_i="1" active="Y" created="2013-01-07" last="2022-02-24">
+        <property type="NCBI_taxonomy_id" value="28141"/>
+    </dbReference>
+    <dbReference type="TREMBLNEW" id="AAC13493" version_i="1" active="N" created="2003-03-29" last="2004-06-11"/>
+    <signatureSequenceMatch database="Gene3D" id="G3DSA:3.90.199.10">
+        <ipr name="DNA topoisomerase, type IIA, domain A, alpha-beta" id="IPR013758"/>
+        <lcn start="7" end="109"/>
+    </signatureSequenceMatch>
+    <signatureSequenceMatch database="Pfam" id="PF00521">
+        <ipr name="DNA topoisomerase, type IIA,  domain A" id="IPR002205"/>
+        <lcn start="7" end="109"/>
+    </signatureSequenceMatch>
+    <signatureSequenceMatch database="SMART" id="SM00434">
+        <ipr name="DNA topoisomerase, type IIA,  domain A" id="IPR002205"/>
+        <lcn start="1" end="110"/>
+    </signatureSequenceMatch>
+    <signatureSequenceMatch database="SUPFAM" id="SSF56719">
+        <ipr name="DNA topoisomerase, type IIA-like domain superfamily" id="IPR013760"/>
+        <lcn start="6" end="109"/>
+    </signatureSequenceMatch>
+    <sequence length="110" checksum="EFD87D7ED5ECBA35">MYVIMDRALPFIGDGLKPVQRRIVYAMSELGLNASAKFKKSARTVGDVLGKYHPHGDSACYEAMVLMAQPFSYRYPLVDGQGNWGAPDDPKSFAAMRYTESRLSKYSELL</sequence>
+</entry>
+</uniparc>
