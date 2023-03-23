@@ -229,7 +229,7 @@ public class VerifyAndAddMissingDocumentsMain {
                 BatchIterable iterable = new BatchIterable(docs, solrParameter.getBatchSize());
                 for (Collection<SolrInputDocument> batch : iterable) {
                     Map<String,SolrInputDocument> mapped = batch.stream()
-                            .collect(Collectors.toMap(this::getAccessionId, Function.identity()));
+                            .collect(Collectors.toMap(this::getAccessionId, Function.identity(), (s, a) -> s));
                     List<String> foundIds = getByIds(client, mapped.keySet());
                     mapped.forEach((key, value) -> {
                         boolean found = false;
