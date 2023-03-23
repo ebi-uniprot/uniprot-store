@@ -10,8 +10,10 @@ import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.Function;
+import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.VoidFunction;
+import org.uniprot.core.util.Pair;
+import org.uniprot.core.util.PairImpl;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
@@ -21,6 +23,7 @@ import org.uniprot.store.spark.indexer.common.writer.SolrIndexParameter;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.Collections.singletonList;
@@ -56,10 +59,10 @@ public class VerifyAndAddMissingDocumentsMain {
                     getCollectionOutputReleaseDirPath(applicationConfig, "2023_01_MISS", SolrCollection.uniprot);
             sparkContext.objectFile(hdfsFilePath)
                     .map(obj -> (SolrInputDocument) obj)
-                    .filter(new FilterAlreadyIndexed(solrParameter))
+                    .mapPartitions(new CheckAlreadyIndexed(solrParameter))
+                    .filter(pair -> !pair.getValue()) // filter not found in Solr
+                    .map(Pair::getKey)
                     .rdd().saveAsObjectFile(hdfsPath);
-
-
         } catch (Exception e) {
             throw new IndexDataStoreException("Unexpected error during DataStore index", e);
         } finally {
@@ -178,7 +181,7 @@ public class VerifyAndAddMissingDocumentsMain {
         }
     }
 
-    private static class FilterAlreadyIndexed implements Function<SolrInputDocument, Boolean> {
+/*    private static class FilterAlreadyIndexed implements Function<SolrInputDocument, Boolean> {
 
         private static final long serialVersionUID = 2446516293443278831L;
         private final SolrIndexParameter solrParameter;
@@ -209,5 +212,60 @@ public class VerifyAndAddMissingDocumentsMain {
                     .build();
         }
 
+    }*/
+
+    private static class CheckAlreadyIndexed implements FlatMapFunction<Iterator<SolrInputDocument>, Pair<SolrInputDocument, Boolean>> {
+        private static final long serialVersionUID = -5666617634106291869L;
+        private final SolrIndexParameter solrParameter;
+
+        public CheckAlreadyIndexed(SolrIndexParameter solrParameter) {
+            this.solrParameter = solrParameter;
+        }
+
+        @Override
+        public Iterator<Pair<SolrInputDocument, Boolean>> call(Iterator<SolrInputDocument> docs) throws Exception {
+            List<Pair<SolrInputDocument, Boolean>> result = new ArrayList<>();
+            try (SolrClient client = getSolrClient()) {
+                BatchIterable iterable = new BatchIterable(docs, solrParameter.getBatchSize());
+                for (Collection<SolrInputDocument> batch : iterable) {
+                    Map<String,SolrInputDocument> mapped = batch.stream()
+                            .collect(Collectors.toMap(this::getAccessionId, Function.identity()));
+                    List<String> foundIds = getByIds(client, mapped.keySet());
+                    mapped.forEach((key, value) -> {
+                        boolean found = false;
+                        if (foundIds.contains(key)) {
+                            found = true;
+                        }
+                        result.add(new PairImpl<>(value, found));
+                    });
+                }
+            } catch (Exception e) {
+                String errorMessage =
+                        "Exception indexing data to Solr, for collection "
+                                + solrParameter.getCollectionName();
+                throw new SolrIndexException(errorMessage, e);
+            }
+            return result.iterator();
+        }
+
+
+
+        private List<String> getByIds(SolrClient client, Collection<String> ids) throws SolrServerException, IOException {
+            ModifiableSolrParams param = new ModifiableSolrParams();
+            param.set("fl", "accession_id");
+            SolrDocumentList foundDocs = client.getById(solrParameter.getCollectionName(), ids, param);
+            return foundDocs.stream()
+                    .map(doc -> doc.get("accession_id").toString())
+                    .collect(Collectors.toList());
+        }
+
+        private String getAccessionId(SolrInputDocument doc) {
+            return doc.get("accession_id").getFirstValue().toString();
+        }
+
+        protected SolrClient getSolrClient() {
+            return new CloudSolrClient.Builder(singletonList(solrParameter.getZkHost()), Optional.empty())
+                    .build();
+        }
     }
 }
