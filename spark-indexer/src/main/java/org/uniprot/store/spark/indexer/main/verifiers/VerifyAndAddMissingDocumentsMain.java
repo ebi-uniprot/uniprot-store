@@ -81,9 +81,13 @@ public class VerifyAndAddMissingDocumentsMain {
         public void call(Iterator<SolrInputDocument> docs) throws Exception {
             try (SolrClient client = getSolrClient()) {
                 BatchIterable iterable = new BatchIterable(docs, parameter.getBatchSize());
+                int idCount = 0;
+                int foundIdCount = 0;
                 for (Collection<SolrInputDocument> batch : iterable) {
                     Collection<String> ids = batch.stream().map(this::getAccessionId).collect(Collectors.toList());
+                    idCount += ids.size();
                     List<String> foundIds = getByIds(client, ids);
+                    foundIdCount += foundIds.size();
                     ids.removeAll(foundIds);
                     if(!ids.isEmpty()) {
                         Collection<SolrInputDocument> needAdd = batch.stream()
@@ -96,6 +100,7 @@ public class VerifyAndAddMissingDocumentsMain {
                         client.commit(parameter.getCollectionName());
                     }
                 }
+                System.out.println("IDS:FOUND:"+ (idCount == foundIdCount) +" : " + idCount + " "+ foundIdCount);
             } catch (Exception e) {
                 String errorMessage =
                         "Exception indexing data to Solr, for collection "
