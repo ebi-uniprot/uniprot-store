@@ -4,14 +4,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.ModifiableSolrParams;
+import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
+import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.common.writer.SolrIndexParameter;
 
@@ -44,9 +48,18 @@ public class VerifyAndAddMissingDocumentsMain {
 
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(applicationConfig)) {
             SolrIndexParameter solrParameter = getSolrIndexParameter(collection, applicationConfig);
+/*            sparkContext.objectFile(hdfsFilePath)
+                    .map(obj -> (SolrInputDocument) obj)
+                    .foreachPartition(new VerifySolrIndexWriter(solrParameter));*/
+
+            String hdfsPath =
+                    getCollectionOutputReleaseDirPath(applicationConfig, "2023_01_MISS", SolrCollection.uniprot);
             sparkContext.objectFile(hdfsFilePath)
                     .map(obj -> (SolrInputDocument) obj)
-                    .foreachPartition(new VerifySolrIndexWriter(solrParameter));
+                    .filter(new FilterAlreadyIndexed(solrParameter))
+                    .rdd().saveAsObjectFile(hdfsPath);
+
+
         } catch (Exception e) {
             throw new IndexDataStoreException("Unexpected error during DataStore index", e);
         } finally {
@@ -163,5 +176,38 @@ public class VerifyAndAddMissingDocumentsMain {
                 }
             };
         }
+    }
+
+    private static class FilterAlreadyIndexed implements Function<SolrInputDocument, Boolean> {
+
+        private static final long serialVersionUID = 2446516293443278831L;
+        private final SolrIndexParameter solrParameter;
+
+        public FilterAlreadyIndexed(SolrIndexParameter solrParameter) {
+            this.solrParameter = solrParameter;
+        }
+
+        @Override
+        public Boolean call(SolrInputDocument solrInputFields) throws Exception {
+            boolean result = false;
+            String accessionId = getAccessionId(solrInputFields);
+            try (SolrClient client = getSolrClient();) {
+                SolrDocument doc = client.getById(solrParameter.getCollectionName(), accessionId);
+                if (doc != null && doc.containsKey("accession_id")) {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+        private String getAccessionId(SolrInputDocument doc) {
+            return doc.get("accession_id").getFirstValue().toString();
+        }
+
+        protected SolrClient getSolrClient() {
+            return new CloudSolrClient.Builder(singletonList(solrParameter.getZkHost()), Optional.empty())
+                    .build();
+        }
+
     }
 }
