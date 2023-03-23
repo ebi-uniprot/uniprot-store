@@ -100,7 +100,7 @@ public class VerifyAndAddMissingDocumentsMain {
                         client.commit(parameter.getCollectionName());
                     }
                 }
-                System.out.println("IDS:FOUND:"+ (idCount == foundIdCount) +" : " + idCount + " "+ foundIdCount);
+                log.warn("IDS:FOUND:"+ (idCount == foundIdCount) +" : " + idCount + " "+ foundIdCount);
             } catch (Exception e) {
                 String errorMessage =
                         "Exception indexing data to Solr, for collection "
