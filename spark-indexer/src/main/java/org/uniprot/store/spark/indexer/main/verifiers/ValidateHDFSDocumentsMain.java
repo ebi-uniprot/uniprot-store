@@ -27,6 +27,7 @@ public class ValidateHDFSDocumentsMain {
         ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
         JavaSparkContext sparkContext = SparkUtils.loadSparkContext(applicationConfig);
 
+
         SolrCollection collection = getSolrCollection(args[1]).get(0);
         String hdfsFilePath =
                 getCollectionOutputReleaseDirPath(applicationConfig, args[0], collection);
@@ -34,18 +35,13 @@ public class ValidateHDFSDocumentsMain {
         JavaRDD<SolrInputDocument> solrInputDocumentRDD =
                 sparkContext.objectFile(hdfsFilePath).map(obj -> (SolrInputDocument) obj);
 
-        log.info("Documents Count: {}", solrInputDocumentRDD.count());
-        solrInputDocumentRDD
-                .take(200)
-                .forEach(
-                        solrInputFields -> {
-                            log.info(
-                                    "----------------------------------------------------------------------");
-                            solrInputFields.forEach(
-                                    (key, value) ->
-                                            log.info(
-                                                    "FIELD:" + key + " VALUE:" + value.toString()));
-                        });
+        log.info("Total Documents Entries Count: {}", solrInputDocumentRDD.count());
+        if(args.length > 2) {
+            String idField = args[2];
+            long distinctIds = solrInputDocumentRDD
+                    .map(doc -> doc.get(idField).toString()).distinct().count();
+            log.info("Total distinct Documents Count: {}", distinctIds);
+        }
         sparkContext.close();
     }
 }
