@@ -133,8 +133,14 @@ class UniProtKBDocumentsToHDFSWriterTest {
         UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
 
         List<Tuple2<String, UniProtDocument>> tuples = new ArrayList<>();
-        tuples.add(new Tuple2<>("Q9EPI6", new UniProtDocument()));
-        tuples.add(new Tuple2<>("P21802", new UniProtDocument()));
+        String accession1 = "Q9EPI6";
+        String accession2 = "P21802";
+        UniProtDocument doc1 = new UniProtDocument();
+        doc1.accession = accession1;
+        UniProtDocument doc2 = new UniProtDocument();
+        doc2.accession = accession2;
+        tuples.add(new Tuple2<>(accession1, doc1));
+        tuples.add(new Tuple2<>(accession2, doc2));
 
         JavaPairRDD<String, UniProtDocument> uniprotDocRDD =
                 parameter.getSparkContext().parallelizePairs(tuples);
@@ -142,16 +148,22 @@ class UniProtKBDocumentsToHDFSWriterTest {
         List<UniProtDocument> result = uniprotDocRDD.values().take(10);
         assertNotNull(result);
         assertEquals(2, result.size());
+        Optional<UniProtDocument> joinedDoc1 =
+                result.stream().filter(doc -> accession1.equals(doc.accession)).findFirst();
+        Optional<UniProtDocument> joinedDoc2 =
+                result.stream().filter(doc -> accession2.equals(doc.accession)).findFirst();
+        assertTrue(joinedDoc1.isPresent());
+        assertTrue(joinedDoc2.isPresent());
 
-        assertEquals(8, result.get(0).goIds.size());
-        assertTrue(result.get(0).goIds.contains("0016765"));
-        assertTrue(result.get(0).goIds.contains("0007005"));
-        assertEquals(14, result.get(0).goes.size());
-        assertTrue(result.get(0).goes.contains("mitochondrion organization"));
-        assertTrue(result.get(0).goes.contains("0030863"));
+        assertEquals(8, joinedDoc1.get().goIds.size());
+        assertTrue(joinedDoc1.get().goIds.contains("0016765"));
+        assertTrue(joinedDoc1.get().goIds.contains("0007005"));
+        assertEquals(14, joinedDoc1.get().goes.size());
+        assertTrue(joinedDoc1.get().goes.contains("mitochondrion organization"));
+        assertTrue(joinedDoc1.get().goes.contains("0030863"));
 
-        assertEquals(0, result.get(1).goIds.size());
-        assertEquals(0, result.get(1).goes.size());
+        assertEquals(0, joinedDoc2.get().goIds.size());
+        assertEquals(0, joinedDoc2.get().goes.size());
     }
 
     @Test
@@ -175,8 +187,15 @@ class UniProtKBDocumentsToHDFSWriterTest {
         UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
 
         List<Tuple2<String, UniProtDocument>> tuples = new ArrayList<>();
-        tuples.add(new Tuple2<>("P21802", new UniProtDocument()));
-        tuples.add(new Tuple2<>("B5U9V4", new UniProtDocument()));
+
+        String accession1 = "P21802";
+        String accession2 = "B5U9V4";
+        UniProtDocument doc1 = new UniProtDocument();
+        doc1.accession = accession1;
+        UniProtDocument doc2 = new UniProtDocument();
+        doc2.accession = accession2;
+        tuples.add(new Tuple2<>(accession1, doc1));
+        tuples.add(new Tuple2<>(accession2, doc2));
 
         JavaPairRDD<String, UniProtDocument> uniprotDocRDD =
                 parameter.getSparkContext().parallelizePairs(tuples);
@@ -184,21 +203,27 @@ class UniProtKBDocumentsToHDFSWriterTest {
         List<UniProtDocument> result = uniprotDocRDD.values().take(10);
         assertNotNull(result);
         assertEquals(2, result.size());
+        Optional<UniProtDocument> optJoinedDoc1 =
+                result.stream().filter(doc -> accession1.equals(doc.accession)).findFirst();
+        Optional<UniProtDocument> optJoinedDoc2 =
+                result.stream().filter(doc -> accession2.equals(doc.accession)).findFirst();
+        assertTrue(optJoinedDoc1.isPresent());
+        assertTrue(optJoinedDoc2.isPresent());
 
-        assertEquals(1, result.get(0).computationalPubmedIds.size());
-        assertEquals("1358782", result.get(0).computationalPubmedIds.get(0));
+        assertEquals(1, optJoinedDoc2.get().computationalPubmedIds.size());
+        assertEquals("1358782", optJoinedDoc2.get().computationalPubmedIds.get(0));
 
-        assertEquals(2, result.get(0).communityPubmedIds.size());
-        assertEquals("1358782", result.get(0).communityPubmedIds.get(0));
-        assertEquals("5312045", result.get(0).communityPubmedIds.get(1));
+        assertEquals(2, optJoinedDoc2.get().communityPubmedIds.size());
+        assertEquals("1358782", optJoinedDoc2.get().communityPubmedIds.get(0));
+        assertEquals("5312045", optJoinedDoc2.get().communityPubmedIds.get(1));
 
-        assertEquals(3, result.get(1).computationalPubmedIds.size());
-        assertEquals("11203701", result.get(1).computationalPubmedIds.get(0));
-        assertEquals("1358782", result.get(1).computationalPubmedIds.get(1));
-        assertEquals("5312045", result.get(1).computationalPubmedIds.get(2));
+        assertEquals(3, optJoinedDoc1.get().computationalPubmedIds.size());
+        assertEquals("11203701", optJoinedDoc1.get().computationalPubmedIds.get(0));
+        assertEquals("1358782", optJoinedDoc1.get().computationalPubmedIds.get(1));
+        assertEquals("5312045", optJoinedDoc1.get().computationalPubmedIds.get(2));
 
-        assertEquals(1, result.get(1).communityPubmedIds.size());
-        assertEquals("1358782", result.get(0).communityPubmedIds.get(0));
+        assertEquals(1, optJoinedDoc1.get().communityPubmedIds.size());
+        assertEquals("1358782", optJoinedDoc1.get().communityPubmedIds.get(0));
     }
 
     @Test
