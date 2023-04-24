@@ -197,9 +197,7 @@ class LiteratureConverterTest {
 
     @Test
     void mapLineWithEmptyRGLine() {
-        String entryText = "RX   PubMed=1;\n"
-                + "RG   \n"
-                + "RL   Biochem Med. 13:117-126(1975).";
+        String entryText = "RX   PubMed=1;\n" + "RG   \n" + "RL   Biochem Med. 13:117-126(1975).";
 
         LiteratureConverter mapper = new LiteratureConverter();
         Literature literature = mapper.convert(entryText);

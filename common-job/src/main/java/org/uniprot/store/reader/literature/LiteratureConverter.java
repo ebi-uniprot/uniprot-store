@@ -60,7 +60,7 @@ public class LiteratureConverter {
                     fileEntry.rlLines.add(tokens[1]);
                     break;
                 case RG_LINE:
-                    if(canAddLine(tokens)) {
+                    if (canAddLine(tokens)) {
                         fileEntry.rgLines.add(tokens[1]);
                     }
                     break;
