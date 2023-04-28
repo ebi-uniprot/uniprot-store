@@ -1,28 +1,39 @@
 package org.uniprot.store.spark.indexer.main.verifiers;
 
+import static java.util.Collections.singletonList;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.uniprot.core.flatfile.parser.impl.cc.CcLineTransformer;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntryType;
+import org.uniprot.core.uniprotkb.comment.Comment;
+import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexHDFSDocumentsException;
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
+import org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil;
 
-import java.io.IOException;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
-import static java.util.Collections.singletonList;
 /**
- * This class is used to validate UniProtKB Index.
- * It counts and compare number of Swiss-Prot, Trembl and Isoforms (except canonical isoforms)
- * In order to compare, it queries solr and compare the result with count retrieved from uniprot-release.dat.
+ * This class is used to validate UniProtKB Index. It counts and compare number of Swiss-Prot,
+ * Trembl and Isoforms (except canonical isoforms) In order to compare, it queries solr and compare
+ * the result with count retrieved from uniprot-release.dat.
  */
 @Slf4j
 public class ValidateUniProtKBSolrIndexMain {
@@ -55,15 +66,15 @@ public class ValidateUniProtKBSolrIndexMain {
             long reviewedIsoform = 0;
             long unReviewed = 0;
             try (CloudSolrClient client =
-                         new CloudSolrClient.Builder(singletonList(zkHost), Optional.empty()).build()) {
+                    new CloudSolrClient.Builder(singletonList(zkHost), Optional.empty()).build()) {
                 reviewed = getSolrCount(client, REVIEWED_QUERY);
-                log.info("reviewed Solr COUNT: "+reviewed);
+                log.info("reviewed Solr COUNT: " + reviewed);
 
                 reviewedIsoform = getSolrCount(client, ISOFORM_QUERY);
-                log.info("reviewed isoform Solr COUNT: "+reviewedIsoform);
+                log.info("reviewed isoform Solr COUNT: " + reviewedIsoform);
 
                 unReviewed = getSolrCount(client, UNREVIEWED_QUERY);
-                log.info("unReviewed Solr COUNT: "+unReviewed);
+                log.info("unReviewed Solr COUNT: " + unReviewed);
             } catch (Exception e) {
                 log.error("Error executing uniprotkb Validation: ", e);
             }
@@ -72,22 +83,37 @@ public class ValidateUniProtKBSolrIndexMain {
             JavaRDD<String> flatFileRDD = reader.loadFlatFileToRDD();
 
             long rddReviewed = getRDDReviewedCount(flatFileRDD);
-            log.info("reviewed RDD COUNT: "+rddReviewed);
-
             long rddReviewedIsoform = getRDDReviewedIsoformCount(flatFileRDD);
-            log.info("reviewed isoform RDD COUNT: "+rddReviewedIsoform);
-
             long rddUnReviewed = getRDDUnreviewedCount(flatFileRDD);
-            log.info("unReviewed RDD COUNT: "+rddUnReviewed);
 
-            if(reviewed != rddReviewed){
-                throw new SparkIndexException("reviewed does not match. solr count: " + reviewed + " RDD count "+ rddReviewed);
+            log.info(
+                    "reviewed isoform RDD COUNT: "
+                            + rddReviewedIsoform
+                            + ", Solr COUNT: "
+                            + reviewedIsoform);
+            log.info("reviewed RDD COUNT: " + rddReviewed + ", Solr COUNT: " + reviewed);
+            log.info("unReviewed RDD COUNT: " + rddUnReviewed + ", Solr COUNT: " + unReviewed);
+
+            if (reviewed != rddReviewed) {
+                throw new SparkIndexException(
+                        "reviewed does not match. solr count: "
+                                + reviewed
+                                + " RDD count "
+                                + rddReviewed);
             }
-            if(reviewedIsoform != rddReviewedIsoform){
-                throw new SparkIndexException("reviewed isoform does not match. solr count: " + reviewedIsoform + " RDD count "+ rddReviewedIsoform);
+            if (reviewedIsoform != rddReviewedIsoform) {
+                throw new SparkIndexException(
+                        "reviewed isoform does not match. solr count: "
+                                + reviewedIsoform
+                                + " RDD count "
+                                + rddReviewedIsoform);
             }
-            if(unReviewed != rddUnReviewed){
-                throw new SparkIndexException("unReviewed does not match. solr count: " + unReviewed + " RDD count "+ rddUnReviewed);
+            if (unReviewed != rddUnReviewed) {
+                throw new SparkIndexException(
+                        "unReviewed does not match. solr count: "
+                                + unReviewed
+                                + " RDD count "
+                                + rddUnReviewed);
             }
         } catch (SparkIndexException e) {
             throw e;
@@ -108,27 +134,31 @@ public class ValidateUniProtKBSolrIndexMain {
 
     long getRDDReviewedIsoformCount(JavaRDD<String> flatFileRDD) {
         return flatFileRDD
-                .filter(entryStr -> {
-                    String[] linesArray = entryStr.split("\n");
-                    String idLine = linesArray[0];
-                    String acc = linesArray[1].split(";")[0];
-                    return idLine.contains("Reviewed;") && acc.contains("-") && !acc.contains("-1");
-                })
+                .filter(
+                        entryStr -> {
+                            String[] linesArray = entryStr.split("\n");
+                            String idLine = linesArray[0];
+                            String acc = linesArray[1].split(";")[0];
+                            return idLine.contains("Reviewed;") && acc.contains("-");
+                        })
+                .filter(ValidateUniProtKBSolrIndexMain::filterCanonicalIsoform)
                 .count();
     }
 
     long getRDDReviewedCount(JavaRDD<String> flatFileRDD) {
         return flatFileRDD
-                .filter(entryStr -> {
-                    String[] linesArray = entryStr.split("\n");
-                    String idLine = linesArray[0];
-                    String acLine = linesArray[1];
-                    return idLine.contains("Reviewed;") && !acLine.split(";")[0].contains("-");
-                })
+                .filter(
+                        entryStr -> {
+                            String[] linesArray = entryStr.split("\n");
+                            String idLine = linesArray[0];
+                            String acc = linesArray[1].split(";")[0];
+                            return idLine.contains("Reviewed;") && !acc.contains("-");
+                        })
                 .count();
     }
 
-    long getSolrCount(CloudSolrClient client, String query) throws SolrServerException, IOException {
+    long getSolrCount(CloudSolrClient client, String query)
+            throws SolrServerException, IOException {
         ModifiableSolrParams queryParams = new ModifiableSolrParams();
         queryParams.set("q", query);
         queryParams.set("fl", "accession_id");
@@ -136,4 +166,19 @@ public class ValidateUniProtKBSolrIndexMain {
         return result.getResults().getNumFound();
     }
 
+    private static boolean filterCanonicalIsoform(String entryStr) {
+        String[] entryLineArray = entryStr.split("\n");
+        String ccLines =
+                Arrays.stream(entryLineArray)
+                        .filter(line -> line.startsWith("CC   "))
+                        .collect(Collectors.joining("\n"));
+        String accession = entryLineArray[1].split(" {3}")[1].split(";")[0].strip();
+        CcLineTransformer transformer = new CcLineTransformer();
+        List<Comment> comments = transformer.transformNoHeader(ccLines);
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder(accession, accession, UniProtKBEntryType.SWISSPROT)
+                        .commentsSet(comments)
+                        .build();
+        return UniProtEntryConverterUtil.isCanonicalIsoform(entry);
+    }
 }
