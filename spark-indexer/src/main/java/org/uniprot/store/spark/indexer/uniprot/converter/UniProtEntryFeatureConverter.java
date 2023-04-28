@@ -25,8 +25,6 @@ class UniProtEntryFeatureConverter {
     void convertFeature(List<UniProtKBFeature> features, UniProtDocument document) {
         for (UniProtKBFeature feature : features) {
             String field = getFeatureField(feature, FEATURE);
-            String lengthField = getFeatureField(feature, FT_LENGTH);
-            String evField = getFeatureField(feature, FT_EV);
             Collection<String> featureValueList = new HashSet<>();
 
             featureValueList.add(feature.getType().getName());

@@ -61,7 +61,6 @@ class UniProtEntryCommentsConverter implements Serializable {
         for (Comment comment : comments) {
             FFLineBuilder<Comment> fbuilder = CCLineBuilderFactory.create(comment);
             String commentField = getCommentField(comment);
-            String evField = getCommentEvField(comment);
             Collection<String> commentValues =
                     document.commentMap.computeIfAbsent(commentField, k -> new ArrayList<>());
 
@@ -132,11 +131,6 @@ class UniProtEntryCommentsConverter implements Serializable {
 
     private String getCommentField(Comment c) {
         String field = COMMENT + c.getCommentType().name().toLowerCase();
-        return field.replace(' ', '_');
-    }
-
-    private String getCommentEvField(Comment c) {
-        String field = CC_EV + c.getCommentType().name().toLowerCase();
         return field.replace(' ', '_');
     }
 
