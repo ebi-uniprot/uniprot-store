@@ -17,9 +17,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.uniprot.core.flatfile.parser.UniprotKBLineParser;
-import org.uniprot.core.flatfile.parser.impl.DefaultUniprotKBLineParserFactory;
-import org.uniprot.core.flatfile.parser.impl.ac.AcLineObject;
 import org.uniprot.core.flatfile.parser.impl.cc.CcLineTransformer;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
@@ -171,28 +168,21 @@ public class ValidateUniProtKBSolrIndexMain {
 
     private static boolean filterCanonicalIsoform(String entryStr) {
         String[] entryLineArray = entryStr.split("\n");
-
-        final UniprotKBLineParser<AcLineObject> acParser =
-                new DefaultUniprotKBLineParserFactory().createAcLineParser();
         String ccLines =
                 Arrays.stream(entryLineArray)
                         .filter(line -> line.startsWith("CC       ") ||
                                 line.startsWith("CC   -!"))
                         .collect(Collectors.joining("\n"));
-        String acLines = Arrays.stream(entryLineArray)
-                        .filter(line -> line.startsWith("AC  "))
-                        .collect(Collectors.joining("\n"));
-        String accession = acParser.parse(acLines + "\n").primaryAcc;
+        String accession = entryLineArray[1]
+                .split(" {3}")[1]
+                .split(";")[0]
+                .strip();
         final CcLineTransformer transformer = new CcLineTransformer();
         List<Comment> comments = transformer.transformNoHeader(ccLines);
         UniProtKBEntry entry =
                 new UniProtKBEntryBuilder(accession, accession, UniProtKBEntryType.SWISSPROT)
                         .commentsSet(comments)
                         .build();
-        boolean isCanonical = UniProtEntryConverterUtil.isCanonicalIsoform(entry);
-        if(!isCanonical){
-            System.out.println("NOT CANONICAL: "+accession);
-        }
-        return isCanonical;
+        return !UniProtEntryConverterUtil.isCanonicalIsoform(entry);
     }
 }
