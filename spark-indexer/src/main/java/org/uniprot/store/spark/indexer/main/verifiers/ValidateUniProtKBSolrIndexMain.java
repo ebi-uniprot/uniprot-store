@@ -3,10 +3,7 @@ package org.uniprot.store.spark.indexer.main.verifiers;
 import static java.util.Collections.singletonList;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
@@ -166,7 +163,7 @@ public class ValidateUniProtKBSolrIndexMain {
         return result.getResults().getNumFound();
     }
 
-    private static boolean filterCanonicalIsoform(String entryStr) {
+    static boolean filterCanonicalIsoform(String entryStr) {
         String[] entryLineArray = entryStr.split("\n");
         String ccLines =
                 Arrays.stream(entryLineArray)
@@ -177,8 +174,11 @@ public class ValidateUniProtKBSolrIndexMain {
                 .split(" {3}")[1]
                 .split(";")[0]
                 .strip();
-        final CcLineTransformer transformer = new CcLineTransformer();
-        List<Comment> comments = transformer.transformNoHeader(ccLines);
+        List<Comment> comments = new ArrayList<>();
+        if (!ccLines.isEmpty()){
+            final CcLineTransformer transformer = new CcLineTransformer();
+            comments = transformer.transformNoHeader(ccLines);
+        }
         UniProtKBEntry entry =
                 new UniProtKBEntryBuilder(accession, accession, UniProtKBEntryType.SWISSPROT)
                         .commentsSet(comments)
