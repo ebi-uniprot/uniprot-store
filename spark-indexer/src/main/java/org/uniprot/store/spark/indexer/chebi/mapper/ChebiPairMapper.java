@@ -3,6 +3,7 @@ package org.uniprot.store.spark.indexer.chebi.mapper;
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.cv.chebi.ChebiEntry;
 
+import org.uniprot.core.cv.chebi.impl.ChebiEntryImpl;
 import scala.Tuple2;
 
 public class ChebiPairMapper
@@ -11,6 +12,9 @@ public class ChebiPairMapper
 
     @Override
     public Tuple2<String, ChebiEntry> call(Tuple2<Object, ChebiEntry> tuple2) throws Exception {
-        return new Tuple2<>(tuple2._2.getId(), tuple2._2);
+        if(tuple2._2 != null)
+            return new Tuple2<>(tuple2._2.getId(), tuple2._2);
+        else
+            return new Tuple2<>("", tuple2._2);
     }
 }

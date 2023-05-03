@@ -161,10 +161,10 @@ class SuggestDocumentsToHDFSWriterTest {
         JavaRDD<SuggestDocument> suggestRdd = writer.getChebi(flatFileRDD);
         assertNotNull(suggestRdd);
         long count = suggestRdd.count();
-        assertEquals(36L, count);
+        assertEquals(14L, count);
         List<SuggestDocument> catalyticDocs =
                 suggestRdd.filter(c -> c.dictionary.equals(CATALYTIC_ACTIVITY.name())).collect();
-        assertEquals(10, catalyticDocs.size());
+        assertEquals(2, catalyticDocs.size());
         assertNotNull(catalyticDocs);
         SuggestDocument document =
                 catalyticDocs.stream()
@@ -173,7 +173,7 @@ class SuggestDocumentsToHDFSWriterTest {
                         .orElseThrow(AssertionFailedError::new);
 
         assertEquals(CATALYTIC_ACTIVITY.name(), document.dictionary);
-        assertEquals("CHEBI:23367", document.id);
+        assertEquals("23367", document.id);
         assertEquals("molecular entity", document.value);
         assertEquals("medium", document.importance);
 

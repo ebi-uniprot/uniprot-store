@@ -1,5 +1,8 @@
 package org.uniprot.store.spark.indexer.go.evidence;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
@@ -7,10 +10,8 @@ import org.uniprot.core.uniprotkb.evidence.Evidence;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
 import org.uniprot.core.uniprotkb.xdb.impl.UniProtCrossReferenceBuilder;
-import scala.Tuple2;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import scala.Tuple2;
 
 /**
  * This class is responsible to map an Iterable of GOEvidence to an UniProtKBEntry
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  */
 public class GOEvidenceMapper
         implements Function<
-        Tuple2<UniProtKBEntry, Optional<Iterable<GOEvidence>>>, UniProtKBEntry> {
+                Tuple2<UniProtKBEntry, Optional<Iterable<GOEvidence>>>, UniProtKBEntry> {
 
     private static final long serialVersionUID = 7478726902589041984L;
 
@@ -69,16 +70,16 @@ public class GOEvidenceMapper
     }
 
     private Map<String, List<Evidence>> getGoEvidenceMap(Iterable<GOEvidence> goEvidences) {
-        Map<String, Set<Evidence>> goEvidenceMap = new HashMap<>();
+        Map<String, List<Evidence>> goEvidenceMap = new HashMap<>();
 
         goEvidences.forEach(
                 goEvidence -> {
-                    Set<Evidence> values =
+                    List<Evidence> values =
                             goEvidenceMap.computeIfAbsent(
-                                    goEvidence.getGoId(), goId -> new LinkedHashSet<>());
+                                    goEvidence.getGoId(), goId -> new ArrayList<>());
                     values.add(goEvidence.getEvidence());
                 });
 
-        return goEvidenceMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> new ArrayList<>(entry.getValue())));
+        return goEvidenceMap;
     }
 }

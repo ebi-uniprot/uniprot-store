@@ -1,0 +1,1430 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://purl.uniprot.org/core/" xmlns:chebi="http://purl.obolibrary.org/obo/CHEBI_" xmlns:chebihash="http://purl.obolibrary.org/obo/chebi#" xmlns:chebislash="http://purl.obolibrary.org/obo/chebi/" xmlns:obo="http://purl.obolibrary.org/obo/" xmlns:oboInOwl="http://www.geneontology.org/formats/oboInOwl#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+<owl:Ontology rdf:about="">
+</owl:Ontology>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000051">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+<owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000050"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000050">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+<owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/BFO_0000051"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/RO_0000087">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi#has_parent_hydride">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi#has_functional_parent">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi#is_conjugate_acid_of">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+<owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/chebi#is_conjugate_base_of"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi#is_conjugate_base_of">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+<owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/chebi#is_conjugate_acid_of"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi#is_enantiomer_of">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi#is_substituent_group_from">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi#is_tautomer_of">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/IAO_0000115">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/IAO_0000231">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/IAO_0100001">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi/charge">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi/formula">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi/inchi">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi/inchikey">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi/mass">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi/monoisotopicmass">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi/smiles">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.geneontology.org/formats/oboInOwl#hasDbXref">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.geneontology.org/formats/oboInOwl#hasId">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AnnotationProperty"/>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_1000 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_1000">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name1"/>
+<oboInOwl:hasId>1000</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1100"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name1">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>1000-fluoroethyl methanesulfonate</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_1100 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_1100">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name2"/>
+<oboInOwl:hasId>1100</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1200"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name2">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>1100-fluoroethyl methanesulfonate</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_1200 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_1200">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name3"/>
+<oboInOwl:hasId>1200</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1300"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name3">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>1200-fluoroethyl methanesulfonate</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_1300 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_1300">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name4"/>
+<oboInOwl:hasId>1300</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1400"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name4">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>1300-fluoroethyl methanesulfonate</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_138675 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_138675">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name5"/>
+<chebiStructuredName rdf:nodeID="name6"/>
+<chebiStructuredName rdf:nodeID="name7"/>
+<chebiStructuredName rdf:nodeID="name8"/>
+<oboInOwl:hasId>138675</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<oboInOwl:hasDbXref rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Wikipedia:https://en.wikipedia.org/wiki/Gas</oboInOwl:hasDbXref>
+<obo:IAO_0000115 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Any main group molecular entity that is gaseous at standard temperature and pressure (STP; 0degreeC and 100 kPa).</obo:IAO_0000115>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1000"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_2200"/>
+<rdfs:subClassOf rdf:nodeID="subclass1"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name5">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>gas molecular entity</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name6">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>gas molecular entities</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name7">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>gaseous molecular entities</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name8">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>gaseous molecular entity</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:nodeID="subclass1">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/chebi#has_major_microspecies_at_pH_7_3"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_4200"/>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_1400 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_1400">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name9"/>
+<oboInOwl:hasId>1400</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1500"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name9">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>1400-fluoroethyl methanesulfonate</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_1500 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_1500">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name10"/>
+<oboInOwl:hasId>1500</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name10">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>1500-fluoroethyl methanesulfonate</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_15379 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_15379">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name21424"/>
+<chebiStructuredName rdf:nodeID="name21422"/>
+<chebiStructuredName rdf:nodeID="name21423"/>
+<chebiStructuredName rdf:nodeID="name21414"/>
+<chebiStructuredName rdf:nodeID="name21417"/>
+<chebiStructuredName rdf:nodeID="name21415"/>
+<chebiStructuredName rdf:nodeID="name21416"/>
+<chebiStructuredName rdf:nodeID="name21425"/>
+<chebiStructuredName rdf:nodeID="name21418"/>
+<chebiStructuredName rdf:nodeID="name21419"/>
+<chebiStructuredName rdf:nodeID="name21421"/>
+<chebiStructuredName rdf:nodeID="name21420"/>
+<chebislash:formula>O2</chebislash:formula>
+<chebislash:smiles>O=O</chebislash:smiles>
+<chebislash:inchi>InChI=1S/O2/c1-2</chebislash:inchi>
+<chebislash:inchikey>MYMOFIZGZYHOMD-UHFFFAOYSA-N</chebislash:inchikey>
+<chebislash:charge>0</chebislash:charge>
+<oboInOwl:hasId>15379</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<oboInOwl:hasDbXref>CAS:7782-44-7</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>Gmelin:485</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>HMDB:HMDB0001377</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>KEGG:C00007</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>KEGG:D00003</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>MetaCyc:OXYGEN-MOLECULE</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>MolBase:750</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PDBeChem:OXY</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:10906528</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:16977326</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:18210929</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:18638417</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:19840863</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:7710549</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:9463773</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>Wikipedia:Oxygen</oboInOwl:hasDbXref>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_25362"/>
+<rdfs:subClassOf rdf:nodeID="bn15379t11f27027"/>
+<rdfs:subClassOf rdf:nodeID="bn15379t5f29793"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_33263"/>
+<rdfs:subClassOf rdf:nodeID="bn15379t11f33284"/>
+<rdfs:subClassOf rdf:nodeID="bn15379t11f33893"/>
+<rdfs:subClassOf rdf:nodeID="bn15379t11f35472"/>
+<rdfs:subClassOf rdf:nodeID="bn15379t11f63248"/>
+<rdfs:subClassOf rdf:nodeID="bn15379t11f75772"/>
+<rdfs:subClassOf rdf:nodeID="bn15379t11f77746"/>
+<rdfs:subClassOf rdf:nodeID="bn15379t11f77974"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_138675"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name21424">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>dioxygen</rdfs:label>
+<htmlName>dioxygen</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name21422">
+<rdfs:label>[OO]</rdfs:label>
+<htmlName>[OO]</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name21423">
+<rdfs:label>dioxygene</rdfs:label>
+<htmlName>dioxyg&amp;#232;ne</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name21414">
+<rdfs:label>Disauerstoff</rdfs:label>
+<htmlName>Disauerstoff</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name21417">
+<rdfs:label>E948</rdfs:label>
+<htmlName>E948</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name21415">
+<rdfs:label>E 948</rdfs:label>
+<htmlName>E 948</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name21416">
+<rdfs:label>E-948</rdfs:label>
+<htmlName>E-948</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name21425">
+<rdfs:label>molecular oxygen</rdfs:label>
+<htmlName>molecular oxygen</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name21418">
+<rdfs:label>O2</rdfs:label>
+<htmlName>O2</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name21419">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_UniProt_Name"/>
+<rdfs:label>O2</rdfs:label>
+<htmlName>O&lt;small>&lt;sub>2&lt;/sub>&lt;/small></htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name21421">
+<rdfs:label>Oxygen</rdfs:label>
+<htmlName>Oxygen</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name21420">
+<rdfs:label>OXYGEN MOLECULE</rdfs:label>
+<htmlName>OXYGEN MOLECULE</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn15379t11f27027">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_27027"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn15379t11f33284">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_33284"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn15379t11f33893">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_33893"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn15379t11f35472">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_35472"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn15379t11f63248">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_63248"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn15379t11f75772">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_75772"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn15379t11f77746">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_77746"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn15379t11f77974">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_77974"/>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_16526 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_16526">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name32548"/>
+<chebiStructuredName rdf:nodeID="name32549"/>
+<chebiStructuredName rdf:nodeID="name32543"/>
+<chebiStructuredName rdf:nodeID="name32540"/>
+<chebiStructuredName rdf:nodeID="name32550"/>
+<chebiStructuredName rdf:nodeID="name32541"/>
+<chebiStructuredName rdf:nodeID="name32542"/>
+<chebiStructuredName rdf:nodeID="name32551"/>
+<chebiStructuredName rdf:nodeID="name32546"/>
+<chebiStructuredName rdf:nodeID="name32544"/>
+<chebiStructuredName rdf:nodeID="name32545"/>
+<chebiStructuredName rdf:nodeID="name32552"/>
+<chebiStructuredName rdf:nodeID="name32547"/>
+<chebislash:formula>CO2</chebislash:formula>
+<chebislash:smiles>O=C=O</chebislash:smiles>
+<chebislash:inchi>InChI=1S/CO2/c2-1-3</chebislash:inchi>
+<chebislash:inchikey>CURLTUGMZLYLDI-UHFFFAOYSA-N</chebislash:inchikey>
+<obo:IAO_0000115>A one-carbon compound with formula CO2 in which the carbon is attached to each oxygen atom by a double bond. A colourless, odourless gas under normal conditions, it is produced during respiration by all animals, fungi and microorganisms that depend directly or indirectly on living or decaying plants for food.</obo:IAO_0000115>
+<chebislash:charge>0</chebislash:charge>
+<oboInOwl:hasId>16526</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<oboInOwl:hasDbXref>Beilstein:1900390</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>CAS:124-38-9</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>Drug_Central:4256</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>Gmelin:989</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>HMDB:HMDB0001967</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>KEGG:C00011</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>KEGG:D00004</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>MetaCyc:CARBON-DIOXIDE</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>MolBase:752</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PDBeChem:CO2</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:10826146</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:11094503</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:11584085</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:11802652</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:14639145</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:15050588</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:16591971</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:16656478</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:16659660</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:17190796</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:17448243</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:17878298</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:17884085</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:19043767</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:19259576</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:19854893</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:23384758</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:23828359</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:24258718</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:8482095</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:8818713</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:8869828</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:9611769</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PMID:9730350</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>PPDB:119</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>Reaxys:1900390</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>UM-BBD_compID:c0131</oboInOwl:hasDbXref>
+<oboInOwl:hasDbXref>Wikipedia:Carbon_dioxide</oboInOwl:hasDbXref>
+<rdfs:subClassOf rdf:nodeID="bn16526t11f35620"/>
+<rdfs:subClassOf rdf:nodeID="bn16526t11f38867"/>
+<rdfs:subClassOf rdf:nodeID="bn16526t11f46787"/>
+<rdfs:subClassOf rdf:nodeID="bn16526t11f48706"/>
+<rdfs:subClassOf rdf:nodeID="bn16526t11f75771"/>
+<rdfs:subClassOf rdf:nodeID="bn16526t11f75772"/>
+<rdfs:subClassOf rdf:nodeID="bn16526t11f76413"/>
+<rdfs:subClassOf rdf:nodeID="bn16526t11f76971"/>
+<rdfs:subClassOf rdf:nodeID="bn16526t11f77746"/>
+<rdfs:subClassOf rdf:nodeID="bn16526t11f77974"/>
+<rdfs:subClassOf rdf:nodeID="bn16526t11f78017"/>
+<rdfs:subClassOf rdf:nodeID="bn16526t11f78433"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_138675"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name32548">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>carbon dioxide</rdfs:label>
+<htmlName>carbon dioxide</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name32549">
+<rdfs:label>[CO2]</rdfs:label>
+<htmlName>[CO&lt;small>&lt;sub>2&lt;/sub>&lt;/small>]</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name32543">
+<rdfs:label>Carbon dioxide</rdfs:label>
+<htmlName>Carbon dioxide</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name32540">
+<rdfs:label>CARBON DIOXIDE</rdfs:label>
+<htmlName>CARBON DIOXIDE</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name32550">
+<rdfs:label>carbonic anhydride</rdfs:label>
+<htmlName>carbonic anhydride</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name32541">
+<rdfs:label>CO2</rdfs:label>
+<htmlName>CO2</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name32542">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_UniProt_Name"/>
+<rdfs:label>CO2</rdfs:label>
+<htmlName>CO&lt;small>&lt;sub>2&lt;/sub>&lt;/small></htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name32551">
+<rdfs:label>dioxidocarbon</rdfs:label>
+<htmlName>dioxidocarbon</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name32546">
+<rdfs:label>E290</rdfs:label>
+<htmlName>E290</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name32544">
+<rdfs:label>E 290</rdfs:label>
+<htmlName>E 290</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name32545">
+<rdfs:label>E-290</rdfs:label>
+<htmlName>E-290</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name32552">
+<rdfs:label>methanedione</rdfs:label>
+<htmlName>methanedione</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name32547">
+<rdfs:label>R-744</rdfs:label>
+<htmlName>R-744</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn16526t11f35620">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_35620"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn16526t11f38867">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_38867"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn16526t11f46787">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_46787"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn16526t11f48706">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_48706"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn16526t11f75771">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_75771"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn16526t11f75772">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_75772"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn16526t11f76413">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_76413"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn16526t11f76971">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_76971"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn16526t11f77746">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_77746"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn16526t11f77974">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_77974"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn16526t11f78017">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_78017"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="bn16526t11f78433">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0000087"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_78433"/>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_2200 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_2200">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name11"/>
+<oboInOwl:hasId>2200</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_2300"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name11">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>2200-fluoroethyl methanesulfonate</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_2300 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_2300">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name12"/>
+<oboInOwl:hasId>2300</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_2400"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name12">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>2300-fluoroethyl methanesulfonate</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_23367 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_23367">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name35234"/>
+<chebiStructuredName rdf:nodeID="name35230"/>
+<chebiStructuredName rdf:nodeID="name35232"/>
+<chebiStructuredName rdf:nodeID="name35233"/>
+<chebiStructuredName rdf:nodeID="name35231"/>
+<chebiStructuredName rdf:nodeID="name35235"/>
+<obo:IAO_0000115>Any constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex, conformer etc., identifiable as a separately distinguishable entity.</obo:IAO_0000115>
+<oboInOwl:hasId>23367</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_24431"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name35234">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>molecular entity</rdfs:label>
+<htmlName>molecular entity</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name35231">
+<rdfs:label>entidades moleculares</rdfs:label>
+<htmlName>entidades moleculares</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name35230">
+<rdfs:label>entidad molecular</rdfs:label>
+<htmlName>entidad molecular</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name35232">
+<rdfs:label>entite moleculaire</rdfs:label>
+<htmlName>entit&amp;#233; mol&amp;#233;culaire</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name35233">
+<rdfs:label>molecular entities</rdfs:label>
+<htmlName>molecular entities</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name35235">
+<rdfs:label>molekulare Entitaet</rdfs:label>
+<htmlName>molekulare Entit&amp;#228;t</htmlName>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_2400 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_2400">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name13"/>
+<oboInOwl:hasId>2400</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_2500"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name13">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>2400-fluoroethyl methanesulfonate</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_24431 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_24431">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name46751"/>
+<chebiStructuredName rdf:nodeID="name46752"/>
+<obo:IAO_0000115>A chemical entity is a physical entity of interest in chemistry including molecular entities, parts thereof, and chemical substances.</obo:IAO_0000115>
+<oboInOwl:hasId>24431</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name46751">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_UniProt_Name"/>
+<rdfs:label>chemical entity</rdfs:label>
+<htmlName>chemical entity</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name46752">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_UniProt_Name"/>
+<rdfs:label>chemical entity</rdfs:label>
+<htmlName>chemical entity</htmlName>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_24867 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_24867">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name49002"/>
+<chebiStructuredName rdf:nodeID="name49003"/>
+<oboInOwl:hasId>24867</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1000"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_24870"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name49002">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>monoatomic ion</rdfs:label>
+<htmlName>monoatomic ion</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name49003">
+<rdfs:label>monoatomic ions</rdfs:label>
+<htmlName>monoatomic ions</htmlName>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_24870 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_24870">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name49011"/>
+<chebiStructuredName rdf:nodeID="name49009"/>
+<chebiStructuredName rdf:nodeID="name49010"/>
+<chebiStructuredName rdf:nodeID="name49012"/>
+<chebiStructuredName rdf:nodeID="name49013"/>
+<chebiStructuredName rdf:nodeID="name49014"/>
+<obo:IAO_0000115>A molecular entity having a net electric charge.</obo:IAO_0000115>
+<oboInOwl:hasId>24870</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_23367"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name49011">
+<rdfs:label>ion</rdfs:label>
+<htmlName>i&amp;#243;n</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name49009">
+<rdfs:label>Ion</rdfs:label>
+<htmlName>Ion</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name49010">
+<rdfs:label>Ionen</rdfs:label>
+<htmlName>Ionen</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name49012">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>ion</rdfs:label>
+<htmlName>ion</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name49013">
+<rdfs:label>iones</rdfs:label>
+<htmlName>iones</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name49014">
+<rdfs:label>ions</rdfs:label>
+<htmlName>ions</htmlName>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_2500 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_2500">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name1889"/>
+<chebiStructuredName rdf:nodeID="name1890"/>
+<chebislash:inchikey>AABBBCCCDD-IIHHHHGGGFFFF-N</chebislash:inchikey>
+<oboInOwl:hasId>2500</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name1889">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>2500-fluoroethyl methanesulfonate</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name1890">
+<rdfs:label>2500-synonym</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_27027 -->
+<!-- <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_27027">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name47572"/>
+<chebiStructuredName rdf:nodeID="name47573"/>
+<chebiStructuredName rdf:nodeID="name47574"/>
+<obo:IAO_0000115>Any nutrient required in small quantities by organisms throughout their life in order to orchestrate a range of physiological functions.</obo:IAO_0000115>
+<oboInOwl:hasId>27027</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<oboInOwl:hasDbXref>Wikipedia:Micronutrient</oboInOwl:hasDbXref>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_33284"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name47572">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>micronutrient</rdfs:label>
+<htmlName>micronutrient</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name47573">
+<rdfs:label>micronutrients</rdfs:label>
+<htmlName>micronutrients</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name47574">
+<rdfs:label>trace elements</rdfs:label>
+<htmlName>trace elements</htmlName>
+</rdf:Description> -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_27027">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_3200 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_3200">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name14"/>
+<oboInOwl:hasId>3200</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_3300"/>
+<rdfs:subClassOf rdf:nodeID="subclass2"/>
+</rdf:Description>
+
+<rdf:Description rdf:nodeID="name14">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>3200-conjugate-base-relation</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:nodeID="subclass2">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/chebi#is_conjugate_base_of"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_6500"/>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_3300 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_3300">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name15"/>
+<oboInOwl:hasId>3300</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name15">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>3300-conjugate-base-relation</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_33284 -->
+<!-- <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_33284">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name79172"/>
+<chebiStructuredName rdf:nodeID="name79173"/>
+<obo:IAO_0000115>A nutrient is a food component that an organism uses to survive and grow.</obo:IAO_0000115>
+<oboInOwl:hasId>33284</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_78295"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name79172">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>nutrient</rdfs:label>
+<htmlName>nutrient</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name79173">
+<rdfs:label>nutrients</rdfs:label>
+<htmlName>nutrients</htmlName>
+</rdf:Description> -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_33284">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_33893 -->
+<!-- <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_33893">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name75550"/>
+<chebiStructuredName rdf:nodeID="name75551"/>
+<chebiStructuredName rdf:nodeID="name75552"/>
+<chebiStructuredName rdf:nodeID="name75553"/>
+<obo:IAO_0000115>A substance used in a chemical reaction to detect, measure, examine, or produce other substances.</obo:IAO_0000115>
+<oboInOwl:hasId>33893</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_33232"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name75550">
+<rdfs:label>reactif</rdfs:label>
+<htmlName>r&amp;#233;actif</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name75551">
+<rdfs:label>reactivo</rdfs:label>
+<htmlName>reactivo</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name75552">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>reagent</rdfs:label>
+<htmlName>reagent</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name75553">
+<rdfs:label>reagents</rdfs:label>
+<htmlName>reagents</htmlName>
+</rdf:Description> -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_33893">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_3400 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_3400">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name16"/>
+<oboInOwl:hasId>3400</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_3500"/>
+</rdf:Description>
+
+<rdf:Description rdf:nodeID="name16">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>3400-conjugate-base-relation-chain</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_3500 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_3500">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name17"/>
+<oboInOwl:hasId>3500</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+</rdf:Description>
+
+<rdf:Description rdf:nodeID="name17">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>3500-conjugate-base-relation-chain</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_35472 -->
+<!-- <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_35472">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name72878"/>
+<chebiStructuredName rdf:nodeID="name72879"/>
+<chebiStructuredName rdf:nodeID="name72876"/>
+<chebiStructuredName rdf:nodeID="name72880"/>
+<chebiStructuredName rdf:nodeID="name72877"/>
+<obo:IAO_0000115>A substance that reduces or suppresses inflammation.</obo:IAO_0000115>
+<oboInOwl:hasId>35472</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_23888"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_67079"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name72878">
+<rdfs:label>antiinflammatory agent</rdfs:label>
+<htmlName>antiinflammatory agent</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name72879">
+<rdfs:label>antiinflammatory drug</rdfs:label>
+<htmlName>antiinflammatory drug</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name72876">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>anti-inflammatory drug</rdfs:label>
+<htmlName>anti-inflammatory drug</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name72880">
+<rdfs:label>antiinflammatory drugs</rdfs:label>
+<htmlName>antiinflammatory drugs</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name72877">
+<rdfs:label>anti-inflammatory drugs</rdfs:label>
+<htmlName>anti-inflammatory drugs</htmlName>
+</rdf:Description> -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_35472">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_35620 -->
+<!-- <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_35620">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name70208"/>
+<chebiStructuredName rdf:nodeID="name70209"/>
+<chebiStructuredName rdf:nodeID="name70210"/>
+<obo:IAO_0000115>A drug used to cause dilation of the blood vessels.</obo:IAO_0000115>
+<oboInOwl:hasId>35620</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_35554"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name70208">
+<rdfs:label>vasodilator</rdfs:label>
+<htmlName>vasodilator</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name70209">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>vasodilator agent</rdfs:label>
+<htmlName>vasodilator agent</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name70210">
+<rdfs:label>vasodilator agents</rdfs:label>
+<htmlName>vasodilator agents</htmlName>
+</rdf:Description>     -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_35620">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_38867 -->
+<!-- <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_38867">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name95410"/>
+<chebiStructuredName rdf:nodeID="name95411"/>
+<chebiStructuredName rdf:nodeID="name95408"/>
+<chebiStructuredName rdf:nodeID="name95409"/>
+<chebiStructuredName rdf:nodeID="name95412"/>
+<chebiStructuredName rdf:nodeID="name95413"/>
+<chebiStructuredName rdf:nodeID="name95414"/>
+<obo:IAO_0000115>Substance which produces loss of feeling or sensation.</obo:IAO_0000115>
+<oboInOwl:hasId>38867</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_23888"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name95410">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>anaesthetic</rdfs:label>
+<htmlName>anaesthetic</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name95411">
+<rdfs:label>anaesthetics</rdfs:label>
+<htmlName>anaesthetics</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name95408">
+<rdfs:label>Anaesthetika</rdfs:label>
+<htmlName>An&amp;#228;sthetika</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name95409">
+<rdfs:label>Anaesthetikum</rdfs:label>
+<htmlName>An&amp;#228;sthetikum</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name95412">
+<rdfs:label>anesthetic agent</rdfs:label>
+<htmlName>anesthetic agent</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name95413">
+<rdfs:label>anesthetic drug</rdfs:label>
+<htmlName>anesthetic drug</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name95414">
+<rdfs:label>anesthetics</rdfs:label>
+<htmlName>anesthetics</htmlName>
+</rdf:Description>     -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_38867">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_4200 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_4200">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name18"/>
+<chebislash:inchikey rdf:datatype="http://www.w3.org/2001/XMLSchema#string">IIHHHHGGGFFFF-AABBBCCCDD-N</chebislash:inchikey>
+<oboInOwl:hasId>4200</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_4300"/>
+</rdf:Description>
+
+<rdf:Description rdf:nodeID="name18">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>4200-major microspecies relation</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_4300 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_4300">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name19"/>
+<oboInOwl:hasId>4300</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_4400"/>
+</rdf:Description>
+
+<rdf:Description rdf:nodeID="name19">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>4300-major microspecies relation-chain</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_4400 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_4400">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name20"/>
+<oboInOwl:hasId>4400</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_4500"/>
+</rdf:Description>
+
+<rdf:Description rdf:nodeID="name20">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>4400-major microspecies relation-chain</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_4500 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_4500">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name21"/>
+<oboInOwl:hasId>4500</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name21">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>4500-major microspecies relation-chain</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_46787 -->
+<!-- <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_46787">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name103016"/>
+<chebiStructuredName rdf:nodeID="name103017"/>
+<chebiStructuredName rdf:nodeID="name103018"/>
+<chebiStructuredName rdf:nodeID="name103019"/>
+<obo:IAO_0000115>A liquid that can dissolve other substances (solutes) without any change in their chemical composition.</obo:IAO_0000115>
+<oboInOwl:hasId>46787</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<oboInOwl:hasDbXref>Wikipedia:Solvent</oboInOwl:hasDbXref>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_33232"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_51086"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name103016">
+<rdfs:label>Loesungsmittel</rdfs:label>
+<htmlName>L&amp;#246;sungsmittel</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name103017">
+<rdfs:label>solvant</rdfs:label>
+<htmlName>solvant</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name103018">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>solvent</rdfs:label>
+<htmlName>solvent</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name103019">
+<rdfs:label>solvents</rdfs:label>
+<htmlName>solvents</htmlName>
+</rdf:Description>     -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_46787">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_48706 -->
+<!-- <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_48706">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name109834"/>
+<chebiStructuredName rdf:nodeID="name109835"/>
+<chebiStructuredName rdf:nodeID="name109999"/>
+<chebiStructuredName rdf:nodeID="name110000"/>
+<obo:IAO_0000115>Substance that attaches to and blocks cell receptors that normally bind naturally occurring substances.</obo:IAO_0000115>
+<oboInOwl:hasId>48706</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_52210"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name109834">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>antagonist</rdfs:label>
+<htmlName>antagonist</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name109835">
+<rdfs:label>antagonista</rdfs:label>
+<htmlName>antagonista</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name109999">
+<rdfs:label>antagoniste</rdfs:label>
+<htmlName>antagoniste</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name110000">
+<rdfs:label>antagonists</rdfs:label>
+<htmlName>antagonists</htmlName> -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_48706">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_63248 -->
+<!-- <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_63248">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name154611"/>
+<chebiStructuredName rdf:nodeID="name154612"/>
+<chebiStructuredName rdf:nodeID="name154613"/>
+<chebiStructuredName rdf:nodeID="name154614"/>
+<chebiStructuredName rdf:nodeID="name154615"/>
+<chebiStructuredName rdf:nodeID="name154616"/>
+<chebiStructuredName rdf:nodeID="name154617"/>
+<chebiStructuredName rdf:nodeID="name154618"/>
+<chebiStructuredName rdf:nodeID="name154619"/>
+<chebiStructuredName rdf:nodeID="name154620"/>
+<obo:IAO_0000115>A substance that removes electrons from another reactant in a redox reaction.</obo:IAO_0000115>
+<oboInOwl:hasId>63248</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_51086"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name154611">
+<rdfs:label>oxidant</rdfs:label>
+<htmlName>oxidant</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name154612">
+<rdfs:label>oxidants</rdfs:label>
+<htmlName>oxidants</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name154613">
+<rdfs:label>oxidiser</rdfs:label>
+<htmlName>oxidiser</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name154614">
+<rdfs:label>oxidisers</rdfs:label>
+<htmlName>oxidisers</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name154615">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>oxidising agent</rdfs:label>
+<htmlName>oxidising agent</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name154616">
+<rdfs:label>oxidising agents</rdfs:label>
+<htmlName>oxidising agents</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name154617">
+<rdfs:label>oxidizer</rdfs:label>
+<htmlName>oxidizer</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name154618">
+<rdfs:label>oxidizers</rdfs:label>
+<htmlName>oxidizers</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name154619">
+<rdfs:label>oxidizing agent</rdfs:label>
+<htmlName>oxidizing agent</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name154620">
+<rdfs:label>oxidizing agents</rdfs:label>
+<htmlName>oxidizing agents</htmlName> -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_63248">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_6500 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_6500">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name22"/>
+<rdfs:subClassOf rdf:nodeID="subclass3"/>
+<oboInOwl:hasId>6500</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_6600"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name22">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>6500-conjugate-acid-relation-chain</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:nodeID="subclass3">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+<owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/chebi#is_conjugate_acid_of"/>
+<owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_3200"/>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_6600 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_6600">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name23"/>
+<oboInOwl:hasId>6600</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_6700"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name23">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>6600-conjugate-acid-relation-chain</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_6700 -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_6700">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name24"/>
+<oboInOwl:hasId>6700</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name24">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>6700-conjugate-acid-relation-chain</rdfs:label>
+</rdf:Description>
+    <!-- http://purl.obolibrary.org/obo/CHEBI_75771 -->
+<!-- <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_75771">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name207243"/>
+<chebiStructuredName rdf:nodeID="name207244"/>
+<chebiStructuredName rdf:nodeID="name207241"/>
+<chebiStructuredName rdf:nodeID="name207242"/>
+<obo:IAO_0000115>Any mammalian metabolite produced during a metabolic reaction in a mouse (Mus musculus).</obo:IAO_0000115>
+<oboInOwl:hasId>75771</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_75768"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name207243">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>mouse metabolite</rdfs:label>
+<htmlName>mouse metabolite</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name207244">
+<rdfs:label>mouse metabolites</rdfs:label>
+<htmlName>mouse metabolites</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name207241">
+<rdfs:label>Mus musculus metabolite</rdfs:label>
+<htmlName>&lt;i>Mus musculus&lt;/i> metabolite</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name207242">
+<rdfs:label>Mus musculus metabolites</rdfs:label>
+<htmlName>&lt;i>Mus musculus&lt;/i> metabolites</htmlName> -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_75771">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+</rdf:Description>    
+
+
+    <!-- http://purl.obolibrary.org/obo/CHEBI_75772 -->
+
+<!-- <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_75772">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name207252"/>
+<chebiStructuredName rdf:nodeID="name207253"/>
+<chebiStructuredName rdf:nodeID="name207254"/>
+<chebiStructuredName rdf:nodeID="name207255"/>
+<chebiStructuredName rdf:nodeID="name207245"/>
+<chebiStructuredName rdf:nodeID="name207246"/>
+<chebiStructuredName rdf:nodeID="name207247"/>
+<chebiStructuredName rdf:nodeID="name207248"/>
+<chebiStructuredName rdf:nodeID="name207249"/>
+<chebiStructuredName rdf:nodeID="name207250"/>
+<chebiStructuredName rdf:nodeID="name207251"/>
+<obo:IAO_0000115>Any  fungal metabolite produced during a metabolic reaction in Baker's yeast (Saccharomyces cerevisiae).</obo:IAO_0000115>
+<oboInOwl:hasId>75772</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_76946"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name207252">
+<rdfs:label>baker's yeast metabolite</rdfs:label>
+<htmlName>baker's yeast metabolite</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name207253">
+<rdfs:label>baker's yeast metabolites</rdfs:label>
+<htmlName>baker's yeast metabolites</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name207254">
+<rdfs:label>baker's yeast secondary metabolite</rdfs:label>
+<htmlName>baker's yeast secondary metabolite</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name207255">
+<rdfs:label>baker's yeast secondary metabolites</rdfs:label>
+<htmlName>baker's yeast secondary metabolites</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name207245">
+<rdfs:label>S. cerevisiae metabolite</rdfs:label>
+<htmlName>&lt;i>S. cerevisiae&lt;/i> metabolite</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name207246">
+<rdfs:label>S. cerevisiae metabolites</rdfs:label>
+<htmlName>&lt;i>S. cerevisiae&lt;/i> metabolites</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name207247">
+<rdfs:label>S. cerevisiae secondary metabolite</rdfs:label>
+<htmlName>&lt;i>S. cerevisiae&lt;/i> secondary metabolite</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name207248">
+<rdfs:label>S. cerevisiae secondary metabolites</rdfs:label>
+<htmlName>&lt;i>S. cerevisiae&lt;/i> secondary metabolites</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name207249">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>Saccharomyces cerevisiae metabolite</rdfs:label>
+<htmlName>&lt;i>Saccharomyces cerevisiae&lt;/i> metabolite</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name207250">
+<rdfs:label>Saccharomyces cerevisiae metabolites</rdfs:label>
+<htmlName>&lt;i>Saccharomyces cerevisiae&lt;/i> metabolites</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name207251">
+<rdfs:label>Saccharomyces cerevisiae secondary metabolites</rdfs:label>
+<htmlName>&lt;i>Saccharomyces cerevisiae&lt;/i> secondary metabolites</htmlName> -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_75772">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+</rdf:Description>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/CHEBI_76413 -->
+
+<!-- <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_76413">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name205054"/>
+<chebiStructuredName rdf:nodeID="name205055"/>
+<obo:IAO_0000115>A gas in an atmosphere that absorbs and emits radiation within the thermal infrared range, so contributing to the 'greenhouse effect'.</obo:IAO_0000115>
+<oboInOwl:hasId>76413</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<oboInOwl:hasDbXref>Wikipedia:Greenhouse_gas</oboInOwl:hasDbXref>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_51086"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name205054">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>greenhouse gas</rdfs:label>
+<htmlName>greenhouse gas</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name205055">
+<rdfs:label>greenhouse gases</rdfs:label>
+<htmlName>greenhouse gases</htmlName> -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_76413">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+</rdf:Description>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/CHEBI_76971 -->
+
+<!-- <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_76971">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name211917"/>
+<chebiStructuredName rdf:nodeID="name211918"/>
+<chebiStructuredName rdf:nodeID="name211919"/>
+<chebiStructuredName rdf:nodeID="name211920"/>
+<obo:IAO_0000115>Any bacterial metabolite produced during a metabolic reaction in Escherichia coli.</obo:IAO_0000115>
+<oboInOwl:hasId>76971</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_76969"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name211917">
+<rdfs:label>E.coli metabolite</rdfs:label>
+<htmlName>&lt;i>E.coli&lt;/i> metabolite</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name211918">
+<rdfs:label>E.coli metabolites</rdfs:label>
+<htmlName>&lt;i>E.coli&lt;/i> metabolites</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name211919">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>Escherichia coli metabolite</rdfs:label>
+<htmlName>&lt;i>Escherichia coli&lt;/i> metabolite</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name211920">
+<rdfs:label>Escherichia coli metabolites</rdfs:label>
+<htmlName>&lt;i>Escherichia coli&lt;/i> metabolites</htmlName> -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_76971">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+</rdf:Description>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/CHEBI_77746 -->
+
+<!-- <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_77746">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name208026"/>
+<chebiStructuredName rdf:nodeID="name208027"/>
+<chebiStructuredName rdf:nodeID="name208028"/>
+<chebiStructuredName rdf:nodeID="name208029"/>
+<chebiStructuredName rdf:nodeID="name208030"/>
+<obo:IAO_0000115>Any mammalian metabolite  produced during a metabolic reaction in humans (Homo sapiens).</obo:IAO_0000115>
+<oboInOwl:hasId>77746</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_75768"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name208026">
+<rdfs:label>H. sapiens metabolite</rdfs:label>
+<htmlName>&lt;i>H. sapiens&lt;/i> metabolite</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name208027">
+<rdfs:label>H. sapiens metabolites</rdfs:label>
+<htmlName>&lt;i>H. sapiens&lt;/i> metabolites</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name208028">
+<rdfs:label>Homo sapiens metabolite</rdfs:label>
+<htmlName>&lt;i>Homo sapiens&lt;/i> metabolite</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name208029">
+<rdfs:label>Homo sapiens metabolites</rdfs:label>
+<htmlName>&lt;i>Homo sapiens&lt;/i> metabolites</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name208030">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>human metabolite</rdfs:label>
+<htmlName>human metabolite</htmlName> -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_77746">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+</rdf:Description>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/CHEBI_77974 -->
+
+<!-- <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_77974">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name209123"/>
+<chebiStructuredName rdf:nodeID="name209124"/>
+<obo:IAO_0000115>A food additive that is a (generally inert) gas which is used to envelop foodstuffs during packing and so protect them from unwanted chemical reactions such as food spoilage or oxidation during subsequent transport and storage. The term includes propellant gases, used to expel foods from a container.</obo:IAO_0000115>
+<oboInOwl:hasId>77974</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<oboInOwl:hasDbXref>Wikipedia:Packaging_gas</oboInOwl:hasDbXref>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_64047"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name209123">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>food packaging gas</rdfs:label>
+<htmlName>food packaging gas</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name209124">
+<rdfs:label>food packaging gases</rdfs:label>
+<htmlName>food packaging gases</htmlName> -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_77974">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+</rdf:Description>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/CHEBI_78017 -->
+
+<!-- <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_78017">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name209327"/>
+<chebiStructuredName rdf:nodeID="name209328"/>
+<obo:IAO_0000115>A propellant that is used to expel foods from an aerosol container.</obo:IAO_0000115>
+<oboInOwl:hasId>78017</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_64047"/>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_76414"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name209327">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>food propellant</rdfs:label>
+<htmlName>food propellant</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name209328">
+<rdfs:label>food propellants</rdfs:label>
+<htmlName>food propellants</htmlName> -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_78017">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+</rdf:Description>
+    
+
+
+    <!-- http://purl.obolibrary.org/obo/CHEBI_78433 -->
+
+<!-- <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_78433">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+<chebiStructuredName rdf:nodeID="name218023"/>
+<chebiStructuredName rdf:nodeID="name218024"/>
+<obo:IAO_0000115>A substance used in a thermodynamic heat pump cycle or refrigeration cycle that undergoes a phase change from a gas to a liquid and back. Refrigerants are used in air-conditioning systems and freezers or refrigerators and are assigned a "R" number (by ASHRAE - formerly the American Society of Heating, Refrigerating and Air Conditioning Engineers), which is determined systematically according to their molecular structure.</obo:IAO_0000115>
+<oboInOwl:hasId>78433</oboInOwl:hasId>
+<oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
+<oboInOwl:hasDbXref>Wikipedia:Refrigerant</oboInOwl:hasDbXref>
+<rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_33232"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name218023">
+<rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
+<rdfs:label>refrigerant</rdfs:label>
+<htmlName>refrigerant</htmlName>
+</rdf:Description>
+<rdf:Description rdf:nodeID="name218024">
+<rdfs:label>refrigerants</rdfs:label>
+<htmlName>refrigerants</htmlName> -->
+<rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_78433">
+<rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+</rdf:Description>
+</rdf:RDF>

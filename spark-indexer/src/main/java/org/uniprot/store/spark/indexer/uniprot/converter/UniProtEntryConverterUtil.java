@@ -116,7 +116,7 @@ public class UniProtEntryConverterUtil {
         }
     }
 
-    public static boolean isCanonicalIsoform(UniProtKBEntry uniProtkbEntry) {
+    static boolean isCanonicalIsoform(UniProtKBEntry uniProtkbEntry) {
         return uniProtkbEntry.getCommentsByType(CommentType.ALTERNATIVE_PRODUCTS).stream()
                         .map(comment -> (AlternativeProductsComment) comment)
                         .flatMap(comment -> comment.getIsoforms().stream())
