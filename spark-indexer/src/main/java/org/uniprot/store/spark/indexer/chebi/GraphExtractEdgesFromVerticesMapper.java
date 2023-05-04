@@ -24,7 +24,7 @@ class GraphExtractEdgesFromVerticesMapper
             throws Exception {
         try {
             List<Edge<String>> result = new ArrayList<>();
-            if(tuple._2 != null) {
+            if (tuple._2 != null) {
                 ChebiEntry entry = tuple._2;
                 long fromId = Long.parseLong(entry.getId());
                 for (ChebiEntry related : entry.getRelatedIds()) {
