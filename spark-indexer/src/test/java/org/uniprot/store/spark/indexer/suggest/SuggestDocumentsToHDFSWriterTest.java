@@ -161,10 +161,10 @@ class SuggestDocumentsToHDFSWriterTest {
         JavaRDD<SuggestDocument> suggestRdd = writer.getChebi(flatFileRDD);
         assertNotNull(suggestRdd);
         long count = suggestRdd.count();
-        assertEquals(14L, count);
+        assertEquals(33L, count);
         List<SuggestDocument> catalyticDocs =
                 suggestRdd.filter(c -> c.dictionary.equals(CATALYTIC_ACTIVITY.name())).collect();
-        assertEquals(2, catalyticDocs.size());
+        assertEquals(9, catalyticDocs.size());
         assertNotNull(catalyticDocs);
         SuggestDocument document =
                 catalyticDocs.stream()
@@ -173,7 +173,7 @@ class SuggestDocumentsToHDFSWriterTest {
                         .orElseThrow(AssertionFailedError::new);
 
         assertEquals(CATALYTIC_ACTIVITY.name(), document.dictionary);
-        assertEquals("23367", document.id);
+        assertEquals("CHEBI:23367", document.id);
         assertEquals("molecular entity", document.value);
         assertEquals("medium", document.importance);
 
@@ -187,7 +187,7 @@ class SuggestDocumentsToHDFSWriterTest {
         // Make sure we add relatedIds to suggest as well
         List<SuggestDocument> cofactorDocs =
                 suggestRdd.filter(c -> c.dictionary.equals(COFACTOR.name())).collect();
-        assertEquals(7, cofactorDocs.size());
+        assertEquals(6, cofactorDocs.size());
         assertNotNull(cofactorDocs);
         document =
                 cofactorDocs.stream()
@@ -207,7 +207,7 @@ class SuggestDocumentsToHDFSWriterTest {
         List<SuggestDocument> chebiDocs =
                 suggestRdd.filter(c -> c.dictionary.equals(CHEBI.name())).collect();
         assertNotNull(chebiDocs);
-        assertEquals(15, chebiDocs.size());
+        assertEquals(14, chebiDocs.size());
         document =
                 chebiDocs.stream()
                         .filter(c -> c.id.equals("CHEBI:2500"))

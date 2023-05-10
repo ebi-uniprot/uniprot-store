@@ -38,36 +38,11 @@ class ChebiRDDReaderTest {
 
             ChebiOwlReader chebiOwlReader = new ChebiOwlReader(parameter);
             JavaPairRDD<Long, ChebiEntry> chebiRDD = chebiOwlReader.load();
-            List<Tuple2<Long, ChebiEntry>> sampleRows = chebiRDD.take(50);
-//            sampleRows.forEach(
-//                    entry -> {
-//                        System.out.println(entry._1());
-//                        System.out.println("Name:" + entry._2().getName());
-//                        System.out.println("InchiKey:" + entry._2().getInchiKey());
-//                        System.out.println("Synonyms:" + entry._2().getSynonyms());
-//                        int relatedIdSize = entry._2().getRelatedIds().size();
-//                        int majorMicroSize = entry._2().getMajorMicrospecies().size();
-//                        for (int i = 0; i < relatedIdSize; i++) {
-//                            if (i == 0) System.out.print("RelatedIds:");
-//                            System.out.print((entry._2().getRelatedIds().get(i).getId() + ","));
-//                        }
-//                        System.out.println();
-//                        for (int j = 0; j < majorMicroSize; j++) {
-//                            if (j == 0) System.out.print("MajorMicrospecies:");
-//                            System.out.print(
-//                                    (entry._2().getMajorMicrospecies().get(j).getId() + ","));
-//                        }
-//                        System.out.println();
-//                        System.out.println(
-//                                "--------------------------------------------------------");
-//                    });
             assertNotNull(chebiRDD);
             long count = chebiRDD.count();
-            System.out.print("-----------------------" + count + "-----------------------------");
-            assertEquals(40L, count);
-//             validateChebiWithMultiplesIsARelations(chebiRDD);
-//             validateChebiWithMajorMicroespecies(chebiRDD);
-            chebiOwlReader.stopSparkSession();
+            assertEquals(28L, count);
+            validateChebiWithMultiplesIsARelations(chebiRDD);
+            validateChebiWithMajorMicroespecies(chebiRDD);
         }
     }
 
@@ -109,34 +84,14 @@ class ChebiRDDReaderTest {
         assertTrue(entry.getSynonyms().contains("carbonic anhydride"));
 
         assertNotNull(entry.getRelatedIds());
-        assertEquals(0, entry.getRelatedIds().size());
+        assertEquals(1, entry.getRelatedIds().size());
         List<String> relatedIds =
                 entry.getRelatedIds().stream().map(ChebiEntry::getId).collect(Collectors.toList());
         assertTrue(relatedIds.contains("138675"));
-        // Can Load is_a
-        assertTrue(relatedIds.contains("1000"));
-        assertTrue(relatedIds.contains("1100"));
-        assertTrue(relatedIds.contains("1200"));
-        assertTrue(relatedIds.contains("1300"));
-        assertTrue(relatedIds.contains("1400"));
-        assertTrue(relatedIds.contains("1500"));
-
-        // Can Load is_a
-        assertTrue(relatedIds.contains("2200"));
-        assertTrue(relatedIds.contains("2300"));
-        assertTrue(relatedIds.contains("2400"));
-        assertTrue(relatedIds.contains("2500"));
-
-        // Can Load has_major_microspecies_at_pH_7_3
-        assertTrue(relatedIds.contains("4200"));
-        assertTrue(relatedIds.contains("4300"));
-        assertTrue(relatedIds.contains("4400"));
-        assertTrue(relatedIds.contains("4500"));
     }
 
     private void validateChebiWithMajorMicroespecies(JavaPairRDD<Long, ChebiEntry> chebiRdd) {
-        Tuple2<Long, ChebiEntry> tuple =
-                chebiRdd.filter(tuple2 -> tuple2._1.equals(4200L)).first();
+        Tuple2<Long, ChebiEntry> tuple = chebiRdd.filter(tuple2 -> tuple2._1.equals(4200L)).first();
 
         assertNotNull(tuple);
         assertEquals(4200L, tuple._1);
@@ -148,29 +103,10 @@ class ChebiRDDReaderTest {
         assertTrue(entry.getSynonyms().isEmpty());
 
         assertNotNull(entry.getRelatedIds());
-        assertEquals(14, entry.getRelatedIds().size());
+        assertEquals(1, entry.getRelatedIds().size());
         List<String> relatedIds =
                 entry.getRelatedIds().stream().map(ChebiEntry::getId).collect(Collectors.toList());
-        assertTrue(relatedIds.contains("138675"));
-
-        // Can Load is_a
         assertTrue(relatedIds.contains("4300"));
-        assertTrue(relatedIds.contains("4400"));
-        assertTrue(relatedIds.contains("4500"));
-
-        // Can Load has_major_microspecies_at_pH_7_3
-        assertTrue(relatedIds.contains("1000"));
-        assertTrue(relatedIds.contains("1100"));
-        assertTrue(relatedIds.contains("1200"));
-        assertTrue(relatedIds.contains("1300"));
-        assertTrue(relatedIds.contains("1400"));
-        assertTrue(relatedIds.contains("1500"));
-
-        // Can Load has_major_microspecies_at_pH_7_3
-        assertTrue(relatedIds.contains("2200"));
-        assertTrue(relatedIds.contains("2300"));
-        assertTrue(relatedIds.contains("2400"));
-        assertTrue(relatedIds.contains("2500"));
     }
 
     private static JavaRDD<Tuple2<Object, ChebiEntry>> loadVertices(JobParameter parameter) {

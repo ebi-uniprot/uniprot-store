@@ -48,27 +48,14 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
                                                         .asJava()));
         String id = row.getAs("subject").toString().split("/obo/CHEBI_")[1];
         chebiBuilder.id(id);
-        //        chebiBuilder.name(map.get("chebiStructuredName") != null ?
-        // map.get("chebiStructuredName").get(0) : "");
+        chebiBuilder.name(map.get("name").get(0));
         chebiBuilder.inchiKey(
                 map.get("chebislash:inchikey") != null
                         ? map.get("chebislash:inchikey").get(0)
                         : "");
-
-        //        if (map.get("chebiStructuredName") != null &&
-        // map.get("chebiStructuredName").size() > 1) {
-        //            for (int i = 1; i < map.get("chebiStructuredName").size(); i++) {
-        //                chebiBuilder.synonymsAdd(map.get("chebiStructuredName").get(i));
-        //            }
-        //        }
         if (map.get("rdfs:label") != null && map.get("rdfs:label").size() > 0) {
             for (int i = 0; i < map.get("rdfs:label").size(); i++) {
-                //                chebiBuilder.labelsAdd(map.get("rdfs:label").get(i));
-                if (i == 0) {
-                    chebiBuilder.name(map.get("rdfs:label").get(i));
-                } else {
-                    chebiBuilder.synonymsAdd(map.get("rdfs:label").get(i));
-                }
+                chebiBuilder.synonymsAdd(map.get("rdfs:label").get(i));
             }
         }
         if (map.get("obo:IAO_0000115") != null) {
@@ -77,7 +64,7 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
                 String idString = relatedIdString.substring(RELATED_PREFIX.length()).strip();
                 String[] ids = idString.split(RELATED_PREFIX);
                 for (String idValue : ids) {
-                    String cleanValue = idValue.strip();
+                    String cleanValue = idValue.strip().split(" ")[0];
                     if (!containsId(relatedIds, cleanValue)) {
                         relatedIds.add(cleanValue);
                         chebiBuilder.relatedIdsAdd(new ChebiEntryBuilder().id(cleanValue).build());
@@ -109,7 +96,6 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
                 }
             }
         }
-
         return new Tuple2<>(Long.valueOf(id), chebiBuilder.build());
     }
 

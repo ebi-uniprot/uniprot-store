@@ -198,8 +198,7 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
     private static int countRelatedId(Tuple2<Object, ChebiEntry> tuple) {
         if (tuple._2 != null) {
             return tuple._2.getRelatedIds().size() + 1;
-        }
-        else {
+        } else {
             return 0;
         }
     }

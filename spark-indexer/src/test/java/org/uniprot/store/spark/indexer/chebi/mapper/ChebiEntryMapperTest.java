@@ -38,6 +38,9 @@ class ChebiEntryMapperTest {
         String subject = "http://purl.obolibrary.org/obo/CHEBI_12345";
         java.util.Map<Object, Object> rawJavaMap = new HashMap<>();
         rawJavaMap.put(
+                "name",
+                JavaConverters.asScalaBufferConverter(Arrays.asList("label1")).asScala().toList());
+        rawJavaMap.put(
                 "chebiStructuredName",
                 JavaConverters.asScalaBufferConverter(Arrays.asList("name1", "name2"))
                         .asScala()
@@ -49,9 +52,7 @@ class ChebiEntryMapperTest {
                         .toList());
         rawJavaMap.put(
                 "rdfs:label",
-                JavaConverters.asScalaBufferConverter(Arrays.asList("label1", "label2"))
-                        .asScala()
-                        .toList());
+                JavaConverters.asScalaBufferConverter(Arrays.asList("label2")).asScala().toList());
         rawJavaMap.put(
                 "obo:IAO_0000115",
                 JavaConverters.asScalaBufferConverter(Arrays.asList("is_a CHEBI:67890"))
@@ -92,6 +93,9 @@ class ChebiEntryMapperTest {
         String subject = "http://purl.obolibrary.org/obo/CHEBI_74245";
         java.util.Map<Object, Object> rawJavaMap = new HashMap<>();
         rawJavaMap.put(
+                "name",
+                JavaConverters.asScalaBufferConverter(Arrays.asList("name1")).asScala().toList());
+        rawJavaMap.put(
                 "obo:IAO_0000115",
                 JavaConverters.asScalaBufferConverter(
                                 Arrays.asList("is_a CHEBI:65055 is_a CHEBI:74241"))
@@ -116,8 +120,11 @@ class ChebiEntryMapperTest {
         String subject = "http://purl.obolibrary.org/obo/CHEBI_74245";
         java.util.Map<Object, Object> rawJavaMap = new HashMap<>();
         rawJavaMap.put(
+                "name",
+                JavaConverters.asScalaBufferConverter(Arrays.asList("name1")).asScala().toList());
+        rawJavaMap.put(
                 "rdfs:label",
-                JavaConverters.asScalaBufferConverter(Arrays.asList("name1", "name2"))
+                JavaConverters.asScalaBufferConverter(Arrays.asList("name2", "name3"))
                         .asScala()
                         .toList());
         scala.collection.Map<Object, Object> scalaMap =
@@ -130,13 +137,16 @@ class ChebiEntryMapperTest {
         assertNotNull(result);
         ChebiEntry entry = result._2;
         assertEquals("name1", entry.getName());
-        assertEquals(Arrays.asList("name2"), entry.getSynonyms());
+        assertEquals(Arrays.asList("name2", "name3"), entry.getSynonyms());
     }
 
     @Test
     void validateChebiWithMajorMicrospecies() throws Exception {
         String subject = "http://purl.obolibrary.org/obo/CHEBI_77814";
         java.util.Map<Object, Object> rawJavaMap = new HashMap<>();
+        rawJavaMap.put(
+                "name",
+                JavaConverters.asScalaBufferConverter(Arrays.asList("name1")).asScala().toList());
         rawJavaMap.put(
                 "owl:onProperty",
                 JavaConverters.asScalaBufferConverter(

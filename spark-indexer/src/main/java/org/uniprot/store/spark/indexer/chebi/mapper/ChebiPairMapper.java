@@ -13,8 +13,7 @@ public class ChebiPairMapper
     public Tuple2<String, ChebiEntry> call(Tuple2<Object, ChebiEntry> tuple2) throws Exception {
         if (tuple2._2 != null) {
             return new Tuple2<>(tuple2._2.getId(), tuple2._2);
-        }
-        else {
+        } else {
             return new Tuple2<>("", tuple2._2);
         }
     }
