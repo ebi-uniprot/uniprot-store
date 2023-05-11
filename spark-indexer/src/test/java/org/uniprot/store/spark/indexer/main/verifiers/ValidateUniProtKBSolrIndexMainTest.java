@@ -100,58 +100,59 @@ class ValidateUniProtKBSolrIndexMainTest {
 
     @Test
     void canFilterOutCanonicalIsoforms() {
-        String entryStr = "ID   NSMF_RAT_1                Reviewed;         532 AA.\n" +
-                "AC   Q9EPI6-1; Q5PPF6; Q7TSC6; Q7TSC8; Q9EPI4; Q9EPI5;\n" +
-                "CC   -!- ALTERNATIVE PRODUCTS:\n" +
-                "CC       Event=Alternative splicing; Named isoforms=5;\n" +
-                "CC         Comment=Additional isoforms seem to exist.;\n" +
-                "CC       Name=1;\n" +
-                "CC         IsoId=Q9EPI6-1; Sequence=Displayed;\n" +
-                "CC       Name=2;\n" +
-                "CC         IsoId=Q9EPI6-2; Sequence=VSP_014771;\n" +
-                "CC       Name=3;\n" +
-                "CC         IsoId=Q9EPI6-3; Sequence=VSP_014770;\n" +
-                "CC         Note=No experimental confirmation available.;\n" +
-                "CC       Name=4;\n" +
-                "CC         IsoId=Q9EPI6-4; Sequence=VSP_014771, VSP_014772;\n" +
-                "CC         Note=No experimental confirmation available.;\n" +
-                "CC       Name=5;\n" +
-                "CC         IsoId=Q9EPI6-5; Sequence=VSP_014773, VSP_014774;\n" +
-                "CC         Note=No experimental confirmation available.;";
+        String entryStr =
+                "ID   NSMF_RAT_1                Reviewed;         532 AA.\n"
+                        + "AC   Q9EPI6-1; Q5PPF6; Q7TSC6; Q7TSC8; Q9EPI4; Q9EPI5;\n"
+                        + "CC   -!- ALTERNATIVE PRODUCTS:\n"
+                        + "CC       Event=Alternative splicing; Named isoforms=5;\n"
+                        + "CC         Comment=Additional isoforms seem to exist.;\n"
+                        + "CC       Name=1;\n"
+                        + "CC         IsoId=Q9EPI6-1; Sequence=Displayed;\n"
+                        + "CC       Name=2;\n"
+                        + "CC         IsoId=Q9EPI6-2; Sequence=VSP_014771;\n"
+                        + "CC       Name=3;\n"
+                        + "CC         IsoId=Q9EPI6-3; Sequence=VSP_014770;\n"
+                        + "CC         Note=No experimental confirmation available.;\n"
+                        + "CC       Name=4;\n"
+                        + "CC         IsoId=Q9EPI6-4; Sequence=VSP_014771, VSP_014772;\n"
+                        + "CC         Note=No experimental confirmation available.;\n"
+                        + "CC       Name=5;\n"
+                        + "CC         IsoId=Q9EPI6-5; Sequence=VSP_014773, VSP_014774;\n"
+                        + "CC         Note=No experimental confirmation available.;";
         boolean result = ValidateUniProtKBSolrIndexMain.filterCanonicalIsoform(entryStr);
         assertFalse(result);
     }
 
     @Test
     void canAllowNormalIsoforms() {
-        String entryStr = "ID   NSMF-2_RAT              Reviewed;         509 AA.\n" +
-                "AC   Q9EPI6-2;\n" +
-                "CC   -!- ALTERNATIVE PRODUCTS:\n" +
-                "CC       Event=Alternative splicing; Named isoforms=5;\n" +
-                "CC         Comment=Additional isoforms seem to exist.;\n" +
-                "CC       Name=1;\n" +
-                "CC         IsoId=Q9EPI6-1; Sequence=Displayed;\n" +
-                "CC       Name=2;\n" +
-                "CC         IsoId=Q9EPI6-2; Sequence=VSP_014771;\n" +
-                "CC       Name=3;\n" +
-                "CC         IsoId=Q9EPI6-3; Sequence=VSP_014770;\n" +
-                "CC         Note=No experimental confirmation available.;\n" +
-                "CC       Name=4;\n" +
-                "CC         IsoId=Q9EPI6-4; Sequence=VSP_014771, VSP_014772;\n" +
-                "CC         Note=No experimental confirmation available.;\n" +
-                "CC       Name=5;\n" +
-                "CC         IsoId=Q9EPI6-5; Sequence=VSP_014773, VSP_014774;\n" +
-                "CC         Note=No experimental confirmation available.;";
+        String entryStr =
+                "ID   NSMF-2_RAT              Reviewed;         509 AA.\n"
+                        + "AC   Q9EPI6-2;\n"
+                        + "CC   -!- ALTERNATIVE PRODUCTS:\n"
+                        + "CC       Event=Alternative splicing; Named isoforms=5;\n"
+                        + "CC         Comment=Additional isoforms seem to exist.;\n"
+                        + "CC       Name=1;\n"
+                        + "CC         IsoId=Q9EPI6-1; Sequence=Displayed;\n"
+                        + "CC       Name=2;\n"
+                        + "CC         IsoId=Q9EPI6-2; Sequence=VSP_014771;\n"
+                        + "CC       Name=3;\n"
+                        + "CC         IsoId=Q9EPI6-3; Sequence=VSP_014770;\n"
+                        + "CC         Note=No experimental confirmation available.;\n"
+                        + "CC       Name=4;\n"
+                        + "CC         IsoId=Q9EPI6-4; Sequence=VSP_014771, VSP_014772;\n"
+                        + "CC         Note=No experimental confirmation available.;\n"
+                        + "CC       Name=5;\n"
+                        + "CC         IsoId=Q9EPI6-5; Sequence=VSP_014773, VSP_014774;\n"
+                        + "CC         Note=No experimental confirmation available.;";
         boolean result = ValidateUniProtKBSolrIndexMain.filterCanonicalIsoform(entryStr);
         assertTrue(result);
     }
 
     @Test
     void canAllowNormalEntries() {
-        String entryStr = "ID   A0PHU1_9CICH            Unreviewed;       378 AA.\n" +
-                "AC   A0PHU1;";
+        String entryStr =
+                "ID   A0PHU1_9CICH            Unreviewed;       378 AA.\n" + "AC   A0PHU1;";
         boolean result = ValidateUniProtKBSolrIndexMain.filterCanonicalIsoform(entryStr);
         assertTrue(result);
     }
-
 }

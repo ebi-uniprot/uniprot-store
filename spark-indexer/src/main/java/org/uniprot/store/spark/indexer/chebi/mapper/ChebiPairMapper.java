@@ -11,6 +11,10 @@ public class ChebiPairMapper
 
     @Override
     public Tuple2<String, ChebiEntry> call(Tuple2<Object, ChebiEntry> tuple2) throws Exception {
-        return new Tuple2<>(tuple2._2.getId(), tuple2._2);
+        if (tuple2._2 != null) {
+            return new Tuple2<>(tuple2._2.getId(), tuple2._2);
+        } else {
+            return new Tuple2<>("", tuple2._2);
+        }
     }
 }

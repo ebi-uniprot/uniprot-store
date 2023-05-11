@@ -24,10 +24,12 @@ class GraphExtractEdgesFromVerticesMapper
             throws Exception {
         try {
             List<Edge<String>> result = new ArrayList<>();
-            ChebiEntry entry = tuple._2;
-            long fromId = Long.parseLong(entry.getId());
-            for (ChebiEntry related : entry.getRelatedIds()) {
-                result.add(new Edge<>(fromId, Long.parseLong(related.getId()), "isA"));
+            if (tuple._2 != null) {
+                ChebiEntry entry = tuple._2;
+                long fromId = Long.parseLong(entry.getId());
+                for (ChebiEntry related : entry.getRelatedIds()) {
+                    result.add(new Edge<>(fromId, Long.parseLong(related.getId()), "isA"));
+                }
             }
             return result.iterator();
         } catch (Exception e) {
