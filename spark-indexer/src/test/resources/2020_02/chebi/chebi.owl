@@ -159,7 +159,7 @@
         <chebiStructuredName rdf:nodeID="name9"/>
         <oboInOwl:hasId>1400</oboInOwl:hasId>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
-        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1500"/>
+        <obo:IAO_0000115>is_a CHEBI:1500 ! 1500-fluoroethyl methanesulfonate</obo:IAO_0000115>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name9">
         <rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
