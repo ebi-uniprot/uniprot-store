@@ -167,15 +167,11 @@ public class ValidateUniProtKBSolrIndexMain {
         String[] entryLineArray = entryStr.split("\n");
         String ccLines =
                 Arrays.stream(entryLineArray)
-                        .filter(line -> line.startsWith("CC       ") ||
-                                line.startsWith("CC   -!"))
+                        .filter(line -> line.startsWith("CC       ") || line.startsWith("CC   -!"))
                         .collect(Collectors.joining("\n"));
-        String accession = entryLineArray[1]
-                .split(" {3}")[1]
-                .split(";")[0]
-                .strip();
+        String accession = entryLineArray[1].split(" {3}")[1].split(";")[0].strip();
         List<Comment> comments = new ArrayList<>();
-        if (!ccLines.isEmpty()){
+        if (!ccLines.isEmpty()) {
             final CcLineTransformer transformer = new CcLineTransformer();
             comments = transformer.transformNoHeader(ccLines);
         }
