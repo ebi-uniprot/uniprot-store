@@ -90,15 +90,7 @@ public class SparkUtils {
                         .getCodeSource()
                         .getLocation();
         System.out.println("resourceURL is " + resourceURL.toString());
-        try (URLClassLoader urlLoader = new URLClassLoader(new java.net.URL[] {resourceURL})) {
-            System.out.println("Inside try block");
-            // try to load from the directory that the application is being executed
-            return ResourceBundle.getBundle(baseName, Locale.getDefault(), urlLoader);
-        } catch (MissingResourceException | IOException e) {
-            // load from the classpath
-            System.out.println("Inside catch block");
-            return ResourceBundle.getBundle(baseName);
-        }
+        return ResourceBundle.getBundle(baseName);
     }
 
     public static JavaSparkContext loadSparkContext(ResourceBundle applicationConfig) {
