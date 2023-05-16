@@ -90,7 +90,8 @@ public class SparkUtils {
                         .getCodeSource()
                         .getLocation();
         System.out.println("resourceURL is " + resourceURL.toString());
-        return ResourceBundle.getBundle(baseName);
+        System.out.println("Locale.getDefault() " + Locale.getDefault());
+        return ResourceBundle.getBundle(baseName, Locale.getDefault());
     }
 
     public static JavaSparkContext loadSparkContext(ResourceBundle applicationConfig) {
