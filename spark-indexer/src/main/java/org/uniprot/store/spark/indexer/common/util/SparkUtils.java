@@ -11,7 +11,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.spark.SparkConf;
-import org.apache.spark.SparkFiles;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.store.DataStore;
@@ -92,8 +91,19 @@ public class SparkUtils {
                         .getLocation();
         System.out.println("resourceURL is " + resourceURL.toString());
         System.out.println("Locale.getDefault() " + Locale.getDefault());
-        String fileName = SparkFiles.get("application.properties");
-        System.out.println("filename is " + fileName);
+        Properties properties = new Properties();
+        try (InputStream is = WriteIndexDocumentsToHDFSMain.class.getClassLoader().getResourceAsStream("application.properties")) {
+            System.out.println("trying to load application.properties file");
+            properties.load(is);
+            Enumeration enuKeys = properties.keys();
+            while (enuKeys.hasMoreElements()) {
+                String key = (String) enuKeys.nextElement();
+                String value = properties.getProperty(key);
+                System.out.println(key + ": " + value);
+            }
+        } catch (IOException ioe){
+            System.out.println("Unable to load props " + ioe.getMessage());
+        }
         try (URLClassLoader urlLoader = new URLClassLoader(new java.net.URL[] {resourceURL})) {
             System.out.println("Inside try block");
             // try to load from the directory that the application is being executed
