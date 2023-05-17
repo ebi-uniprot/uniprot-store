@@ -91,6 +91,19 @@ public class SparkUtils {
                         .getLocation();
         System.out.println("resourceURL is " + resourceURL.toString());
         System.out.println("Locale.getDefault() " + Locale.getDefault());
+        Properties properties = new Properties();
+        try (InputStream is = WriteIndexDocumentsToHDFSMain.class.getResourceAsStream("application.properties")) {
+            System.out.println("trying to load application.properties file");
+            properties.load(is);
+            Enumeration enuKeys = properties.keys();
+            while (enuKeys.hasMoreElements()) {
+                String key = (String) enuKeys.nextElement();
+                String value = properties.getProperty(key);
+                System.out.println(key + ": " + value);
+            }
+        } catch (IOException ioe){
+            System.out.println("Unable to load props " + ioe.getMessage());
+        }
         try (URLClassLoader urlLoader = new URLClassLoader(new java.net.URL[] {resourceURL})) {
             System.out.println("Inside try block");
             // try to load from the directory that the application is being executed
