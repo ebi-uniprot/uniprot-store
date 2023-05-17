@@ -131,7 +131,8 @@ public class SparkUtils {
                         .setAppName(applicationName)
                         .setMaster(sparkMaster)
                         .set("spark.scheduler.mode", "FAIR");
-//                        .set("spark.scheduler.allocation.file", "uniprot-fair-scheduler.xml");
+        //                        .set("spark.scheduler.allocation.file",
+        // "uniprot-fair-scheduler.xml");
         JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
         sparkContext.setLocalProperty("spark.scheduler.pool", "uniprotPool");
         return sparkContext;
