@@ -31,20 +31,16 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
         if (rawScalaMap == null) {
             return null;
         }
-        Map<String, scala.collection.Seq<String>> scalaMap =
+        Map<String, List<String>> map =
                 JavaConverters.mapAsJavaMapConverter(rawScalaMap).asJava().entrySet().stream()
                         .filter(e -> e.getKey() != null && e.getValue() != null)
                         .collect(
                                 Collectors.toMap(
                                         e -> (String) e.getKey(),
-                                        e -> (scala.collection.Seq<String>) e.getValue()));
-        Map<String, List<String>> map =
-                scalaMap.entrySet().stream()
-                        .collect(
-                                Collectors.toMap(
-                                        Map.Entry::getKey,
                                         e ->
-                                                JavaConverters.seqAsJavaListConverter(e.getValue())
+                                                JavaConverters.seqAsJavaListConverter(
+                                                                (scala.collection.Seq<String>)
+                                                                        e.getValue())
                                                         .asJava()));
         String id = row.getAs("subject").toString().split("/obo/CHEBI_")[1];
         chebiBuilder.id(id);
