@@ -82,4 +82,14 @@ public class Constants {
 
     public static final String HELP_PAGE_INDEX_JOB_NAME = "Help page index job";
     public static final String HELP_PAGE_INDEX_STEP = "Help page index step";
+
+    public static final String CHEBI_RDF_NODE_ID_ATTRIBBUTE = "_rdf:nodeID";
+    public static final String CHEBI_RDF_ABOUT_ATTRIBUTE = "_rdf:about";
+    public static final String CHEBI_RDF_TYPE_ATTRIBUTE = "rdf:type";
+    public static final String CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE = "chebiStructuredName";
+    public static final String CHEBI_RDFS_SUBCLASS_ATTRIBUTE = "rdfs:subClassOf";
+    public static final String CHEBI_RDFS_LABEL_ATTRIBUTE = "rdfs:label";
+    public static final String CHEBI_OWL_PROPERTY_ATTRIBUTE = "owl:onProperty";
+    public static final String CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE = "owl:someValuesFrom";
+    public static final String CHEBI_RDF_RESOURCE_ATTRIBUTE = "_rdf:resource";
 }

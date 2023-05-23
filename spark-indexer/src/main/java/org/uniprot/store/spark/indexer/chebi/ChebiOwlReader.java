@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.chebi;
 
 import static org.apache.spark.sql.functions.*;
+import static org.uniprot.store.indexer.common.utils.Constants.*;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
 import java.util.*;
@@ -32,43 +33,43 @@ public class ChebiOwlReader {
     public static StructType getSchema() {
         StructType schema =
                 new StructType()
-                        .add("_rdf:about", DataTypes.StringType, true)
-                        .add("_rdf:nodeID", DataTypes.StringType, true)
+                        .add(CHEBI_RDF_ABOUT_ATTRIBUTE, DataTypes.StringType, true)
+                        .add(CHEBI_RDF_NODE_ID_ATTRIBBUTE, DataTypes.StringType, true)
                         .add("name", DataTypes.StringType, true)
                         .add(
-                                "rdf:type",
+                                CHEBI_RDF_TYPE_ATTRIBUTE,
                                 DataTypes.createArrayType(
                                         new StructType()
-                                                .add("_rdf:resource", DataTypes.StringType, true)),
+                                                .add(CHEBI_RDF_RESOURCE_ATTRIBUTE, DataTypes.StringType, true)),
                                 true)
                         .add(
-                                "chebiStructuredName",
+                                CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE,
                                 DataTypes.createArrayType(
                                         new StructType()
-                                                .add("_rdf:nodeID", DataTypes.StringType, true)),
+                                                .add(CHEBI_RDF_NODE_ID_ATTRIBBUTE, DataTypes.StringType, true)),
                                 true)
                         .add("chebislash:inchikey", DataTypes.StringType, true)
                         .add("obo:IAO_0000115", DataTypes.StringType, true)
                         .add("oboInOwl:hasId", DataTypes.StringType, true)
                         .add(
-                                "rdfs:subClassOf",
+                                CHEBI_RDFS_SUBCLASS_ATTRIBUTE,
                                 DataTypes.createArrayType(
                                         new StructType()
-                                                .add("_rdf:resource", DataTypes.StringType, true)
-                                                .add("_rdf:nodeID", DataTypes.StringType, true)),
+                                                .add(CHEBI_RDF_RESOURCE_ATTRIBUTE, DataTypes.StringType, true)
+                                                .add(CHEBI_RDF_NODE_ID_ATTRIBBUTE, DataTypes.StringType, true)),
                                 true)
-                        .add("rdfs:label", DataTypes.createArrayType(DataTypes.StringType), true)
+                        .add(CHEBI_RDFS_LABEL_ATTRIBUTE, DataTypes.createArrayType(DataTypes.StringType), true)
                         .add(
-                                "owl:onProperty",
+                                CHEBI_OWL_PROPERTY_ATTRIBUTE,
                                 DataTypes.createArrayType(
                                         new StructType()
-                                                .add("_rdf:resource", DataTypes.StringType, true)),
+                                                .add(CHEBI_RDF_RESOURCE_ATTRIBUTE, DataTypes.StringType, true)),
                                 true)
                         .add(
-                                "owl:someValuesFrom",
+                                CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE,
                                 DataTypes.createArrayType(
                                         new StructType()
-                                                .add("_rdf:resource", DataTypes.StringType, true)),
+                                                .add(CHEBI_RDF_RESOURCE_ATTRIBUTE, DataTypes.StringType, true)),
                                 true);
         return schema;
     }
@@ -89,8 +90,8 @@ public class ChebiOwlReader {
         StructType explodedSchema =
                 new StructType()
                         .add("about_subject", DataTypes.StringType)
-                        .add("chebiStructuredName", DataTypes.StringType)
-                        .add("rdfs:subClassOf", DataTypes.StringType);
+                        .add(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE, DataTypes.StringType)
+                        .add(CHEBI_RDFS_SUBCLASS_ATTRIBUTE, DataTypes.StringType);
         return explodedSchema;
     }
 
@@ -129,8 +130,8 @@ public class ChebiOwlReader {
                 explodedAboutDF
                         .groupBy("about_subject")
                         .agg(
-                                collect_set("chebiStructuredName").alias("chebiStructuredName"),
-                                collect_set("rdfs:subClassOf").alias("subClassOf"));
+                                collect_set(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE).alias(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE),
+                                collect_set(CHEBI_RDFS_SUBCLASS_ATTRIBUTE).alias("subClassOf"));
         JavaRDD<Row> joinedNodeRDD =
                 joinAndExtractLabelAndClassRelatedNodesFromNodeIdDF(
                         processedNodeIdDF, groupedExplodedAboutDF);

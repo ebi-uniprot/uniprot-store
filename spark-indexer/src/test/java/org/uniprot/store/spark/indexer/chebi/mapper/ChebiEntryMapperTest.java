@@ -2,6 +2,7 @@ package org.uniprot.store.spark.indexer.chebi.mapper;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.uniprot.store.indexer.common.utils.Constants.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -41,7 +42,7 @@ class ChebiEntryMapperTest {
                 "name",
                 JavaConverters.asScalaBufferConverter(Arrays.asList("label1")).asScala().toList());
         rawJavaMap.put(
-                "chebiStructuredName",
+                CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE,
                 JavaConverters.asScalaBufferConverter(Arrays.asList("name1", "name2"))
                         .asScala()
                         .toList());
@@ -51,7 +52,7 @@ class ChebiEntryMapperTest {
                         .asScala()
                         .toList());
         rawJavaMap.put(
-                "rdfs:label",
+                CHEBI_RDFS_LABEL_ATTRIBUTE,
                 JavaConverters.asScalaBufferConverter(Arrays.asList("label2")).asScala().toList());
         rawJavaMap.put(
                 "obo:IAO_0000115",
@@ -59,12 +60,12 @@ class ChebiEntryMapperTest {
                         .asScala()
                         .toList());
         rawJavaMap.put(
-                "owl:onProperty",
+                CHEBI_OWL_PROPERTY_ATTRIBUTE,
                 JavaConverters.asScalaBufferConverter(Arrays.asList("is_conjugate_acid_of"))
                         .asScala()
                         .toList());
         rawJavaMap.put(
-                "owl:someValuesFrom",
+                CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE,
                 JavaConverters.asScalaBufferConverter(
                                 Arrays.asList("http://purl.obolibrary.org/obo/CHEBI_98765"))
                         .asScala()
@@ -123,7 +124,7 @@ class ChebiEntryMapperTest {
                 "name",
                 JavaConverters.asScalaBufferConverter(Arrays.asList("name1")).asScala().toList());
         rawJavaMap.put(
-                "rdfs:label",
+                CHEBI_RDFS_LABEL_ATTRIBUTE,
                 JavaConverters.asScalaBufferConverter(Arrays.asList("name2", "name3"))
                         .asScala()
                         .toList());
@@ -148,13 +149,13 @@ class ChebiEntryMapperTest {
                 "name",
                 JavaConverters.asScalaBufferConverter(Arrays.asList("name1")).asScala().toList());
         rawJavaMap.put(
-                "owl:onProperty",
+                CHEBI_OWL_PROPERTY_ATTRIBUTE,
                 JavaConverters.asScalaBufferConverter(
                                 Arrays.asList("has_major_microspecies_at_pH_7_3"))
                         .asScala()
                         .toList());
         rawJavaMap.put(
-                "owl:someValuesFrom",
+                CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE,
                 JavaConverters.asScalaBufferConverter(
                                 Arrays.asList("http://purl.obolibrary.org/obo/CHEBI_77793"))
                         .asScala()

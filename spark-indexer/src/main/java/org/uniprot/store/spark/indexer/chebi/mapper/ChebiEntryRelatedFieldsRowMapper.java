@@ -11,6 +11,9 @@ import org.apache.spark.sql.RowFactory;
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
 
+import static org.uniprot.store.indexer.common.utils.Constants.CHEBI_RDFS_SUBCLASS_ATTRIBUTE;
+import static org.uniprot.store.indexer.common.utils.Constants.CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE;
+
 public class ChebiEntryRelatedFieldsRowMapper implements FlatMapFunction<Row, Row> {
     @Override
     public Iterator<Row> call(Row row) throws Exception {
@@ -18,15 +21,15 @@ public class ChebiEntryRelatedFieldsRowMapper implements FlatMapFunction<Row, Ro
         String subject = row.getAs("about_subject");
         scala.collection.Map<Object, Object> objectRow = row.getMap(1);
         List<String> chebiStructuredNames =
-                objectRow.contains("chebiStructuredName")
+                objectRow.contains(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE)
                         ? JavaConverters.seqAsJavaListConverter(
-                                        (Seq<String>) objectRow.get("chebiStructuredName").get())
+                                        (Seq<String>) objectRow.get(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE).get())
                                 .asJava()
                         : null;
         List<String> subClassOfs =
-                objectRow.contains("rdfs:subClassOf")
+                objectRow.contains(CHEBI_RDFS_SUBCLASS_ATTRIBUTE)
                         ? JavaConverters.seqAsJavaListConverter(
-                                        (Seq<String>) objectRow.get("rdfs:subClassOf").get())
+                                        (Seq<String>) objectRow.get(CHEBI_RDFS_SUBCLASS_ATTRIBUTE).get())
                                 .asJava()
                         : null;
         if (chebiStructuredNames != null) {

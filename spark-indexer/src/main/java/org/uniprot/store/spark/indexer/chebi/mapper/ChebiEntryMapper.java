@@ -14,6 +14,8 @@ import org.uniprot.core.cv.chebi.impl.ChebiEntryBuilder;
 import scala.Tuple2;
 import scala.collection.JavaConverters;
 
+import static org.uniprot.store.indexer.common.utils.Constants.*;
+
 public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Serializable {
 
     private final String RELATED_PREFIX = "is_a CHEBI:";
@@ -49,9 +51,9 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
                 map.get("chebislash:inchikey") != null
                         ? map.get("chebislash:inchikey").get(0)
                         : "");
-        if (map.get("rdfs:label") != null && map.get("rdfs:label").size() > 0) {
-            for (int i = 0; i < map.get("rdfs:label").size(); i++) {
-                chebiBuilder.synonymsAdd(map.get("rdfs:label").get(i));
+        if (map.get(CHEBI_RDFS_LABEL_ATTRIBUTE) != null && map.get(CHEBI_RDFS_LABEL_ATTRIBUTE).size() > 0) {
+            for (int i = 0; i < map.get(CHEBI_RDFS_LABEL_ATTRIBUTE).size(); i++) {
+                chebiBuilder.synonymsAdd(map.get(CHEBI_RDFS_LABEL_ATTRIBUTE).get(i));
             }
         }
         if (map.get("obo:IAO_0000115") != null) {
@@ -68,13 +70,13 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
                 }
             }
         }
-        if (map.get("owl:onProperty") != null) {
-            for (int i = 0; i < map.get("owl:onProperty").size(); i++) {
-                String prop = map.get("owl:onProperty").get(i);
+        if (map.get(CHEBI_OWL_PROPERTY_ATTRIBUTE) != null) {
+            for (int i = 0; i < map.get(CHEBI_OWL_PROPERTY_ATTRIBUTE).size(); i++) {
+                String prop = map.get(CHEBI_OWL_PROPERTY_ATTRIBUTE).get(i);
                 if (prop.contains(RELATED_CONJUGATE_BASE_PREFIX)
                         || prop.contains(RELATED_CONJUGATE_ACID_PREFIX)) {
                     String owlSomeValuesFrom =
-                            (map.get("owl:someValuesFrom").get(i).split("/obo/CHEBI_")[1]).strip();
+                            (map.get(CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE).get(i).split("/obo/CHEBI_")[1]).strip();
                     if (!containsId(relatedIds, owlSomeValuesFrom)) {
                         relatedIds.add(owlSomeValuesFrom);
                         chebiBuilder.relatedIdsAdd(
@@ -83,7 +85,7 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
                 }
                 if (prop.contains(RELATED_MICROSPECIES_PREFIX)) {
                     String owlSomeValuesFrom =
-                            (map.get("owl:someValuesFrom").get(i).split("/obo/CHEBI_")[1]).strip();
+                            (map.get(CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE).get(i).split("/obo/CHEBI_")[1]).strip();
                     if (!containsId(majorMicrospecies, owlSomeValuesFrom)) {
                         majorMicrospecies.add(owlSomeValuesFrom);
                         chebiBuilder.majorMicrospeciesAdd(

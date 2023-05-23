@@ -12,6 +12,8 @@ import scala.collection.AbstractSeq;
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
 
+import static org.uniprot.store.indexer.common.utils.Constants.*;
+
 public class ChebiEntryRowMapper implements FlatMapFunction<Row, Row> {
 
     private final Set<String> unwantedAboutValues =
@@ -43,15 +45,15 @@ public class ChebiEntryRowMapper implements FlatMapFunction<Row, Row> {
     public Iterator<Row> call(Row row) throws Exception {
         String currentSubject = null;
         Map<String, Seq<String>> processedAttributes = new LinkedHashMap<>();
-        String aboutValue = row.getString(row.fieldIndex("_rdf:about"));
+        String aboutValue = row.getString(row.fieldIndex(CHEBI_RDF_ABOUT_ATTRIBUTE));
         if (!unwantedAboutValues.contains(aboutValue)) {
             currentSubject = aboutValue;
         }
         if (currentSubject != null) {
             for (String key : ChebiOwlReader.getSchema().fieldNames()) {
-                if (!key.equals("_rdf:about") && !key.equals("_rdf:nodeID")) {
+                if (!key.equals(CHEBI_RDF_ABOUT_ATTRIBUTE) && !key.equals(CHEBI_RDF_NODE_ID_ATTRIBBUTE)) {
                     List<String> values = null;
-                    if (key.equals("chebiStructuredName") || key.equals("rdfs:subClassOf")) {
+                    if (key.equals(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE) || key.equals(CHEBI_RDFS_SUBCLASS_ATTRIBUTE)) {
                         Object resourceObj = row.get(row.fieldIndex(key));
                         if (resourceObj instanceof AbstractSeq) {
                             values =
@@ -97,11 +99,11 @@ public class ChebiEntryRowMapper implements FlatMapFunction<Row, Row> {
         List<String> values;
         String resourceId = null;
         String nodeId = null;
-        if (Arrays.asList(row.schema().fieldNames()).contains("_rdf:resource")) {
-            resourceId = row.getString(row.fieldIndex("_rdf:resource"));
+        if (Arrays.asList(row.schema().fieldNames()).contains(CHEBI_RDF_RESOURCE_ATTRIBUTE)) {
+            resourceId = row.getString(row.fieldIndex(CHEBI_RDF_RESOURCE_ATTRIBUTE));
         }
-        if (Arrays.asList(row.schema().fieldNames()).contains("_rdf:nodeID")) {
-            nodeId = row.getString(row.fieldIndex("_rdf:nodeID"));
+        if (Arrays.asList(row.schema().fieldNames()).contains(CHEBI_RDF_NODE_ID_ATTRIBBUTE)) {
+            nodeId = row.getString(row.fieldIndex(CHEBI_RDF_NODE_ID_ATTRIBBUTE));
         }
         String value = resourceId != null ? resourceId : nodeId;
         values = Collections.singletonList(value);
@@ -120,16 +122,16 @@ public class ChebiEntryRowMapper implements FlatMapFunction<Row, Row> {
                                     String resourceId = null;
                                     String nodeId = null;
                                     if (Arrays.asList(resourceRow.schema().fieldNames())
-                                            .contains("_rdf:resource")) {
+                                            .contains(CHEBI_RDF_RESOURCE_ATTRIBUTE)) {
                                         resourceId =
                                                 resourceRow.getString(
-                                                        resourceRow.fieldIndex("_rdf:resource"));
+                                                        resourceRow.fieldIndex(CHEBI_RDF_RESOURCE_ATTRIBUTE));
                                     }
                                     if (Arrays.asList(resourceRow.schema().fieldNames())
-                                            .contains("_rdf:nodeID")) {
+                                            .contains(CHEBI_RDF_NODE_ID_ATTRIBBUTE)) {
                                         nodeId =
                                                 resourceRow.getString(
-                                                        resourceRow.fieldIndex("_rdf:nodeID"));
+                                                        resourceRow.fieldIndex(CHEBI_RDF_NODE_ID_ATTRIBBUTE));
                                     }
                                     return resourceId != null ? resourceId : nodeId;
                                 })
