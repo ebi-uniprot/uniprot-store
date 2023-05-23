@@ -1,7 +1,5 @@
 package org.uniprot.store.spark.indexer.chebi.mapper;
 
-import static org.uniprot.store.spark.indexer.chebi.ChebiOwlReader.unwantedAboutValues;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -16,6 +14,31 @@ import scala.collection.Seq;
 
 public class ChebiEntryRowMapper implements FlatMapFunction<Row, Row> {
 
+    private final Set<String> unwantedAboutValues =
+            new HashSet<>(
+                    Arrays.asList(
+                            "http://purl.obolibrary.org/obo/BFO_0000051",
+                            "http://purl.obolibrary.org/obo/BFO_0000050",
+                            "http://purl.obolibrary.org/obo/RO_0000087",
+                            "http://purl.obolibrary.org/obo/chebi#has_parent_hydride",
+                            "http://purl.obolibrary.org/obo/chebi#has_functional_parent",
+                            "http://purl.obolibrary.org/obo/chebi#is_conjugate_acid_of",
+                            "http://purl.obolibrary.org/obo/chebi#is_conjugate_base_of",
+                            "http://purl.obolibrary.org/obo/chebi#is_enantiomer_of",
+                            "http://purl.obolibrary.org/obo/chebi#is_substituent_group_from",
+                            "http://purl.obolibrary.org/obo/chebi#is_tautomer_of",
+                            "http://purl.obolibrary.org/obo/IAO_0000115",
+                            "http://purl.obolibrary.org/obo/IAO_0000231",
+                            "http://purl.obolibrary.org/obo/IAO_0100001",
+                            "http://purl.obolibrary.org/obo/chebi/charge",
+                            "http://purl.obolibrary.org/obo/chebi/formula",
+                            "http://purl.obolibrary.org/obo/chebi/inchi",
+                            "http://purl.obolibrary.org/obo/chebi/inchikey",
+                            "http://purl.obolibrary.org/obo/chebi/mass",
+                            "http://purl.obolibrary.org/obo/chebi/monoisotopicmass",
+                            "http://purl.obolibrary.org/obo/chebi/smiles",
+                            "http://www.geneontology.org/formats/oboInOwl#hasDbXref",
+                            "http://www.geneontology.org/formats/oboInOwl#hasId"));
     @Override
     public Iterator<Row> call(Row row) throws Exception {
         String currentSubject = null;

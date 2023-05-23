@@ -8,7 +8,6 @@ import java.util.*;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.sql.*;
 import org.apache.spark.sql.catalyst.encoders.RowEncoder;
 import org.apache.spark.sql.types.DataTypes;
@@ -16,11 +15,9 @@ import org.apache.spark.sql.types.StructType;
 import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.store.spark.indexer.chebi.mapper.*;
 import org.uniprot.store.spark.indexer.common.JobParameter;
-import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import scala.collection.JavaConverters;
-import scala.collection.Seq;
-
+import org.uniprot.store.spark.indexer.chebi.mapper.ChebiEntryRowAggregator;
 public class ChebiOwlReader {
 
     private final SparkSession spark;
@@ -31,32 +28,6 @@ public class ChebiOwlReader {
         JavaSparkContext jsc = this.jobParameter.getSparkContext();
         this.spark = SparkSession.builder().config(jsc.getConf()).getOrCreate();
     }
-
-    public static final Set<String> unwantedAboutValues =
-            new HashSet<>(
-                    Arrays.asList(
-                            "http://purl.obolibrary.org/obo/BFO_0000051",
-                            "http://purl.obolibrary.org/obo/BFO_0000050",
-                            "http://purl.obolibrary.org/obo/RO_0000087",
-                            "http://purl.obolibrary.org/obo/chebi#has_parent_hydride",
-                            "http://purl.obolibrary.org/obo/chebi#has_functional_parent",
-                            "http://purl.obolibrary.org/obo/chebi#is_conjugate_acid_of",
-                            "http://purl.obolibrary.org/obo/chebi#is_conjugate_base_of",
-                            "http://purl.obolibrary.org/obo/chebi#is_enantiomer_of",
-                            "http://purl.obolibrary.org/obo/chebi#is_substituent_group_from",
-                            "http://purl.obolibrary.org/obo/chebi#is_tautomer_of",
-                            "http://purl.obolibrary.org/obo/IAO_0000115",
-                            "http://purl.obolibrary.org/obo/IAO_0000231",
-                            "http://purl.obolibrary.org/obo/IAO_0100001",
-                            "http://purl.obolibrary.org/obo/chebi/charge",
-                            "http://purl.obolibrary.org/obo/chebi/formula",
-                            "http://purl.obolibrary.org/obo/chebi/inchi",
-                            "http://purl.obolibrary.org/obo/chebi/inchikey",
-                            "http://purl.obolibrary.org/obo/chebi/mass",
-                            "http://purl.obolibrary.org/obo/chebi/monoisotopicmass",
-                            "http://purl.obolibrary.org/obo/chebi/smiles",
-                            "http://www.geneontology.org/formats/oboInOwl#hasDbXref",
-                            "http://www.geneontology.org/formats/oboInOwl#hasId"));
 
     public static StructType getSchema() {
         StructType schema =
@@ -178,21 +149,21 @@ public class ChebiOwlReader {
         return chebiEntryPairRDD;
     }
 
-    protected static JavaRDD<Row> getAboutJavaRDDFromDescription(
+    private static JavaRDD<Row> getAboutJavaRDDFromDescription(
             StructType schema, JavaRDD<Row> rdfDescriptionsRDD) {
         JavaRDD<Row> processedAboutRDFDescriptionsRDD =
                 rdfDescriptionsRDD.flatMap(new ChebiEntryRowMapper()).filter(Objects::nonNull);
         return processedAboutRDFDescriptionsRDD;
     }
 
-    protected static JavaRDD<Row> getNodeIdJavaRDDFromDescription(
+    private static JavaRDD<Row> getNodeIdJavaRDDFromDescription(
             StructType schema, JavaRDD<Row> rdfDescriptionsRDD) {
         JavaRDD<Row> processedNodeIdRDFDescriptionsRDD =
                 rdfDescriptionsRDD.flatMap(new ChebiNodeEntryRowMapper()).filter(Objects::nonNull);
         return processedNodeIdRDFDescriptionsRDD;
     }
 
-    protected static Dataset<Row> getLabelAndClassColumnsFromAboutRDD(
+    private static Dataset<Row> getLabelAndClassColumnsFromAboutRDD(
             StructType explodedSchema, Dataset<Row> processedAboutDF) {
         Dataset<Row> explodedAboutDF =
                 processedAboutDF
@@ -203,7 +174,7 @@ public class ChebiOwlReader {
         return explodedAboutDF;
     }
 
-    protected static JavaRDD<Row> joinAndExtractLabelAndClassRelatedNodesFromNodeIdDF(
+    private static JavaRDD<Row> joinAndExtractLabelAndClassRelatedNodesFromNodeIdDF(
             Dataset<Row> processedNodeIdDF, Dataset<Row> groupedAboutDF) {
         JavaRDD<Row> joinedNodeRDD =
                 groupedAboutDF
@@ -216,35 +187,11 @@ public class ChebiOwlReader {
                         .select(col("a.about_subject"), col("b.subject"), col("b.object"))
                         .toJavaRDD()
                         .flatMapToPair(new ChebiNodeEntryRelatedFieldsRowMapper())
-                        .aggregateByKey(null, aggregate(), aggregate())
+                        .aggregateByKey(null, new ChebiEntryRowAggregator(), new ChebiEntryRowAggregator())
                         .map(
                                 row ->
                                         RowFactory.create(
                                                 row._1, JavaConverters.mapAsScalaMap(row._2)));
         return joinedNodeRDD;
-    }
-
-    private static Function2<
-                    Map<String, Seq<String>>, Map<String, Seq<String>>, Map<String, Seq<String>>>
-            aggregate() {
-        return (map1, map2) -> {
-            if (SparkUtils.isThereAnyNullEntry(map1, map2)) {
-                map1 = SparkUtils.getNotNullEntry(map1, map2);
-            } else {
-                for (Map.Entry<String, Seq<String>> entry : map2.entrySet()) {
-                    String key = entry.getKey();
-                    Seq<String> value = entry.getValue();
-                    if (map1.containsKey(key)) {
-                        List<String> combinedValue =
-                                new ArrayList<>(JavaConverters.seqAsJavaList(map1.get(key)));
-                        combinedValue.addAll(JavaConverters.seqAsJavaList(value));
-                        map1.put(key, JavaConverters.asScalaBuffer(combinedValue).toSeq());
-                    } else {
-                        map1.put(key, value);
-                    }
-                }
-            }
-            return map1;
-        };
     }
 }
