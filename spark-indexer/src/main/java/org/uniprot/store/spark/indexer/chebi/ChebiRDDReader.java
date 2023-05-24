@@ -10,6 +10,8 @@ import org.apache.spark.graphx.Edge;
 import org.apache.spark.graphx.EdgeDirection;
 import org.apache.spark.graphx.Graph;
 import org.apache.spark.storage.StorageLevel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.store.spark.indexer.chebi.mapper.*;
 import org.uniprot.store.spark.indexer.common.JobParameter;
@@ -39,6 +41,8 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
     private static final int MIN_GRAPH_CYCLE =
             4; // from tests, we know that currently we have 6 cycles
     private final JobParameter jobParameter;
+
+    private static final Logger logger = LoggerFactory.getLogger(ChebiRDDReader.class);
 
     public ChebiRDDReader(JobParameter jobParameter) {
         this.jobParameter = jobParameter;
@@ -98,6 +102,9 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
     private JavaPairRDD<Long, ChebiEntry> loadChebiRDD(String filePath) {
         ChebiOwlReader chebiOwlReader = new ChebiOwlReader(jobParameter);
         JavaPairRDD<Long, ChebiEntry> chebiRDD = chebiOwlReader.load();
+        logger.info("Chebi RDD Count: " + chebiRDD.count());
+        logger.info("Chebi RDD Related Ids sum: " + chebiRDD.values().map(entry -> entry.getRelatedIds().size()).reduce( (value1, value2) -> value1 + value2));
+        logger.info("Chebi RDD Major Microspecies sum: " + chebiRDD.values().map(entry -> entry.getMajorMicrospecies().size()).reduce( (value1, value2) -> value1 + value2));
         return chebiRDD;
     }
 
