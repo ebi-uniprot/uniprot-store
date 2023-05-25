@@ -119,7 +119,8 @@ public class SparkUtils {
                         .setAppName(applicationName)
                         .setMaster(sparkMaster)
                         .set("spark.driver.allowMultipleContexts", "true")
-                        .set("spark.driver.host", "localhost");
+                        .set("spark.driver.host", "localhost")
+                        .set("spark.sql.caseSensitive", "true");
         return new JavaSparkContext(sparkConf);
     }
 
@@ -130,7 +131,8 @@ public class SparkUtils {
                 new SparkConf()
                         .setAppName(applicationName)
                         .setMaster(sparkMaster)
-                        .set("spark.scheduler.mode", "FAIR");
+                        .set("spark.scheduler.mode", "FAIR")
+                        .set("spark.sql.caseSensitive", "true");
         //                        .set("spark.scheduler.allocation.file",
         // "uniprot-fair-scheduler.xml");
         JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
