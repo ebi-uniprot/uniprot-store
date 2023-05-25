@@ -78,7 +78,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name1"/>
         <oboInOwl:hasId>1000</oboInOwl:hasId>
-        <obo:IAO_0000115>is_a CHEBI:1100</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1100"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name1">
@@ -91,7 +91,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name2"/>
         <oboInOwl:hasId>1100</oboInOwl:hasId>
-        <obo:IAO_0000115>is_a CHEBI:1200</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1200"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name2">
@@ -103,7 +103,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name3"/>
         <oboInOwl:hasId>1200</oboInOwl:hasId>
-        <obo:IAO_0000115>is_a CHEBI:1300</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1300"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name3">
@@ -115,7 +115,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name4"/>
         <oboInOwl:hasId>1300</oboInOwl:hasId>
-        <obo:IAO_0000115>is_a CHEBI:1400</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1400"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name4">
@@ -132,7 +132,8 @@
         <oboInOwl:hasId>138675</oboInOwl:hasId>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
         <oboInOwl:hasDbXref rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Wikipedia:https://en.wikipedia.org/wiki/Gas</oboInOwl:hasDbXref>
-        <obo:IAO_0000115>is_a CHEBI:1000 is_a CHEBI:2200 Any main group molecular entity that is gaseous at standard temperature and pressure (STP; 0degreeC and 100 kPa).</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1000"/>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_2200"/>
         <rdfs:subClassOf rdf:nodeID="subclass1"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name5">
@@ -159,7 +160,7 @@
         <chebiStructuredName rdf:nodeID="name9"/>
         <oboInOwl:hasId>1400</oboInOwl:hasId>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
-        <obo:IAO_0000115>is_a CHEBI:1500 ! 1500-fluoroethyl methanesulfonate</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1500"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name9">
         <rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
@@ -225,7 +226,7 @@
         <rdfs:subClassOf rdf:nodeID="bn15379t11f75772"/>
         <rdfs:subClassOf rdf:nodeID="bn15379t11f77746"/>
         <rdfs:subClassOf rdf:nodeID="bn15379t11f77974"/>
-        <obo:IAO_0000115>is_a CHEBI:138675</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_138675"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name21424">
         <rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
@@ -337,7 +338,7 @@
         <chebislash:smiles>O=C=O</chebislash:smiles>
         <chebislash:inchi>InChI=1S/CO2/c2-1-3</chebislash:inchi>
         <chebislash:inchikey>CURLTUGMZLYLDI-UHFFFAOYSA-N</chebislash:inchikey>
-        <obo:IAO_0000115>is_a CHEBI:138675 ! gas molecular entity. A one-carbon compound with formula CO2 in which the carbon is attached to each oxygen atom by a double bond. A colourless, odourless gas under normal conditions, it is produced during respiration by all animals, fungi and microorganisms that depend directly or indirectly on living or decaying plants for food.</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_138675"/>
         <chebislash:charge>0</chebislash:charge>
         <oboInOwl:hasId>16526</oboInOwl:hasId>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
@@ -511,7 +512,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name11"/>
         <oboInOwl:hasId>2200</oboInOwl:hasId>
-        <obo:IAO_0000115>is_a CHEBI:2300</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_2300"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name11">
@@ -523,7 +524,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name12"/>
         <oboInOwl:hasId>2300</oboInOwl:hasId>
-        <obo:IAO_0000115>is_a CHEBI:2400</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_2400"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name12">
@@ -539,7 +540,7 @@
         <chebiStructuredName rdf:nodeID="name35233"/>
         <chebiStructuredName rdf:nodeID="name35231"/>
         <chebiStructuredName rdf:nodeID="name35235"/>
-        <obo:IAO_0000115>is_a CHEBI:24431 ! chemical entity. Any constitutionally or isotopically distinct atom, molecule, ion, ion pair, radical, radical ion, complex, conformer etc., identifiable as a separately distinguishable entity.</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_24431"/>
         <oboInOwl:hasId>23367</oboInOwl:hasId>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
     </rdf:Description>
@@ -573,7 +574,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name13"/>
         <oboInOwl:hasId>2400</oboInOwl:hasId>
-        <obo:IAO_0000115>is_a CHEBI:2500</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_2500"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name13">
@@ -585,7 +586,6 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name46751"/>
         <chebiStructuredName rdf:nodeID="name46752"/>
-        <obo:IAO_0000115>A chemical entity is a physical entity of interest in chemistry including molecular entities, parts thereof, and chemical substances.</obo:IAO_0000115>
         <oboInOwl:hasId>24431</oboInOwl:hasId>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
     </rdf:Description>
@@ -605,7 +605,8 @@
         <chebiStructuredName rdf:nodeID="name49002"/>
         <chebiStructuredName rdf:nodeID="name49003"/>
         <oboInOwl:hasId>24867</oboInOwl:hasId>
-        <obo:IAO_0000115>is_a CHEBI:24870 is_a CHEBI:1000</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1000"/>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_24870"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name49002">
@@ -626,7 +627,7 @@
         <chebiStructuredName rdf:nodeID="name49012"/>
         <chebiStructuredName rdf:nodeID="name49013"/>
         <chebiStructuredName rdf:nodeID="name49014"/>
-        <obo:IAO_0000115>is_a CHEBI:23367 ! molecular entity. A molecular entity having a net electric charge.</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_23367"/>
         <oboInOwl:hasId>24870</oboInOwl:hasId>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
     </rdf:Description>
@@ -671,16 +672,12 @@
     <rdf:Description rdf:nodeID="name1890">
         <rdfs:label>2500-synonym</rdfs:label>
     </rdf:Description>
-    <!-- http://purl.obolibrary.org/obo/CHEBI_27027 -->
-    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_27027">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    </rdf:Description>
     <!-- http://purl.obolibrary.org/obo/CHEBI_3200 -->
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_3200">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name14"/>
         <oboInOwl:hasId>3200</oboInOwl:hasId>
-        <obo:IAO_0000115>is_a CHEBI:3300</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_3300"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
         <rdfs:subClassOf rdf:nodeID="subclass2"/>
     </rdf:Description>
@@ -698,27 +695,19 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name15"/>
         <oboInOwl:hasId>3300</oboInOwl:hasId>
-        <obo:IAO_0000115>is_a CHEBI:3400</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_3400"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name15">
         <rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
         <rdfs:label>3300-conjugate-base-relation</rdfs:label>
     </rdf:Description>
-    <!-- http://purl.obolibrary.org/obo/CHEBI_33284 -->
-    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_33284">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    </rdf:Description>
-    <!-- http://purl.obolibrary.org/obo/CHEBI_33893 -->
-    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_33893">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    </rdf:Description>
     <!-- http://purl.obolibrary.org/obo/CHEBI_3400 -->
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_3400">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name16"/>
         <oboInOwl:hasId>3400</oboInOwl:hasId>
-        <obo:IAO_0000115>is_a CHEBI:3500</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_3500"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name16">
@@ -736,25 +725,13 @@
         <rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
         <rdfs:label>3500-conjugate-base-relation-chain</rdfs:label>
     </rdf:Description>
-    <!-- http://purl.obolibrary.org/obo/CHEBI_35472 -->
-    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_35472">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    </rdf:Description>
-    <!-- http://purl.obolibrary.org/obo/CHEBI_35620 -->
-    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_35620">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    </rdf:Description>
-    <!-- http://purl.obolibrary.org/obo/CHEBI_38867 -->
-    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_38867">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    </rdf:Description>
     <!-- http://purl.obolibrary.org/obo/CHEBI_4200 -->
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_4200">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name18"/>
         <chebislash:inchikey rdf:datatype="http://www.w3.org/2001/XMLSchema#string">IIHHHHGGGFFFF-AABBBCCCDD-N</chebislash:inchikey>
         <oboInOwl:hasId>4200</oboInOwl:hasId>
-        <obo:IAO_0000115>is_a CHEBI:4300</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_4300"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name18">
@@ -766,7 +743,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name19"/>
         <oboInOwl:hasId>4300</oboInOwl:hasId>
-        <obo:IAO_0000115>is_a CHEBI:4400</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_4400"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name19">
@@ -778,7 +755,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name20"/>
         <oboInOwl:hasId>4400</oboInOwl:hasId>
-        <obo:IAO_0000115>is_a CHEBI:4500</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_4500"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name20">
@@ -796,25 +773,13 @@
         <rdf:type rdf:resource="http://purl.uniprot.org/core/ChEBI_Common_Name"/>
         <rdfs:label>4500-major microspecies relation-chain</rdfs:label>
     </rdf:Description>
-    <!-- http://purl.obolibrary.org/obo/CHEBI_46787 -->
-    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_46787">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    </rdf:Description>
-    <!-- http://purl.obolibrary.org/obo/CHEBI_48706 -->
-    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_48706">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    </rdf:Description>
-    <!-- http://purl.obolibrary.org/obo/CHEBI_63248 -->
-    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_63248">
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-    </rdf:Description>
     <!-- http://purl.obolibrary.org/obo/CHEBI_6500 -->
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_6500">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name22"/>
         <rdfs:subClassOf rdf:nodeID="subclass3"/>
         <oboInOwl:hasId>6500</oboInOwl:hasId>
-        <obo:IAO_0000115>is_a CHEBI:6600</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_6600"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name22">
@@ -831,7 +796,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name23"/>
         <oboInOwl:hasId>6600</oboInOwl:hasId>
-        <obo:IAO_0000115>is_a CHEBI:6700</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_6700"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name23">

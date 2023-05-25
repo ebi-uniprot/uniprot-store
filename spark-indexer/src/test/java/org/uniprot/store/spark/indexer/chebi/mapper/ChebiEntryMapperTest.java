@@ -55,8 +55,8 @@ class ChebiEntryMapperTest {
                 CHEBI_RDFS_LABEL_ATTRIBUTE,
                 JavaConverters.asScalaBufferConverter(Arrays.asList("label2")).asScala().toList());
         rawJavaMap.put(
-                "obo:IAO_0000115",
-                JavaConverters.asScalaBufferConverter(Arrays.asList("is_a CHEBI:67890"))
+                "rdfs:subClassOf",
+                JavaConverters.asScalaBufferConverter(Arrays.asList("http://purl.obolibrary.org/obo/CHEBI_3300","http://purl.obolibrary.org/obo/CHEBI_3400"))
                         .asScala()
                         .toList());
         rawJavaMap.put(
@@ -83,9 +83,10 @@ class ChebiEntryMapperTest {
         assertEquals("label1", entry.getName());
         assertEquals("inchikey1", entry.getInchiKey());
         assertEquals(Arrays.asList("label2"), entry.getSynonyms());
-        assertEquals(2, entry.getRelatedIds().size());
-        assertEquals("67890", entry.getRelatedIds().get(0).getId());
-        assertEquals("98765", entry.getRelatedIds().get(1).getId());
+        assertEquals(3, entry.getRelatedIds().size());
+        assertEquals("3300", entry.getRelatedIds().get(0).getId());
+        assertEquals("3400", entry.getRelatedIds().get(1).getId());
+        assertEquals("98765", entry.getRelatedIds().get(2).getId());
         assertEquals(0, entry.getMajorMicrospecies().size());
     }
 
@@ -97,9 +98,9 @@ class ChebiEntryMapperTest {
                 "name",
                 JavaConverters.asScalaBufferConverter(Arrays.asList("name1")).asScala().toList());
         rawJavaMap.put(
-                "obo:IAO_0000115",
+                "rdfs:subClassOf",
                 JavaConverters.asScalaBufferConverter(
-                                Arrays.asList("is_a CHEBI:65055 is_a CHEBI:74241"))
+                                Arrays.asList("http://purl.obolibrary.org/obo/CHEBI_3300","http://purl.obolibrary.org/obo/CHEBI_3400"))
                         .asScala()
                         .toList());
         scala.collection.Map<Object, Object> scalaMap =
@@ -112,8 +113,8 @@ class ChebiEntryMapperTest {
         assertNotNull(result);
         ChebiEntry entry = result._2;
         assertEquals(2, entry.getRelatedIds().size());
-        assertEquals("65055", entry.getRelatedIds().get(0).getId());
-        assertEquals("74241", entry.getRelatedIds().get(1).getId());
+        assertEquals("3300", entry.getRelatedIds().get(0).getId());
+        assertEquals("3400", entry.getRelatedIds().get(1).getId());
     }
 
     @Test

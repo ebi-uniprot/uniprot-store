@@ -56,16 +56,15 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
                 chebiBuilder.synonymsAdd(map.get(CHEBI_RDFS_LABEL_ATTRIBUTE).get(i));
             }
         }
-        if (map.get("obo:IAO_0000115") != null) {
-            relatedIdString = map.get("obo:IAO_0000115").get(0);
-            if (relatedIdString.startsWith(RELATED_PREFIX)) {
-                String idString = relatedIdString.substring(RELATED_PREFIX.length()).strip();
-                String[] ids = idString.split(RELATED_PREFIX);
-                for (String idValue : ids) {
-                    String cleanValue = idValue.strip().split(" ")[0];
-                    if (!containsId(relatedIds, cleanValue)) {
-                        relatedIds.add(cleanValue);
-                        chebiBuilder.relatedIdsAdd(new ChebiEntryBuilder().id(cleanValue).build());
+        if (map.get(CHEBI_RDFS_SUBCLASS_ATTRIBUTE) != null) {
+            for (int i = 0; i < map.get(CHEBI_RDFS_SUBCLASS_ATTRIBUTE).size(); i++) {
+                String rdfsSubClassValue = map.get(CHEBI_RDFS_SUBCLASS_ATTRIBUTE).get(i);
+                if(rdfsSubClassValue.contains("CHEBI_")) {
+                    String chebiId = rdfsSubClassValue.split("/obo/CHEBI_")[1].strip();;
+                    if (!containsId(relatedIds, chebiId)) {
+                        relatedIds.add(chebiId);
+                        chebiBuilder.relatedIdsAdd(
+                                new ChebiEntryBuilder().id(chebiId).build());
                     }
                 }
             }
