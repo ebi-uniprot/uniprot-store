@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.main.verifiers;
 
 import static java.util.Collections.singletonList;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
 import java.io.IOException;
 import java.util.*;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -83,34 +85,69 @@ public class ValidateUniProtKBSolrIndexMain {
             long rddReviewedIsoform = getRDDReviewedIsoformCount(flatFileRDD);
             long rddUnReviewed = getRDDUnreviewedCount(flatFileRDD);
 
+            String hdfsOutputFilePath =
+                    getCollectionOutputReleaseDirPath(
+                            applicationConfig, releaseName, SolrCollection.uniprot);
+            JavaRDD<SolrInputDocument> outputDocuments =
+                    sparkContext.objectFile(hdfsOutputFilePath).map(obj -> (SolrInputDocument) obj);
+
+            long outputReviewed = getOutputReviewedCount(outputDocuments);
+            long outputReviewedIsoform = getOutputReviewedIsoformCount(outputDocuments);
+            long outputUnReviewed = getOutputUnreviewedCount(outputDocuments);
+
             log.info(
-                    "reviewed isoform RDD COUNT: "
+                    "reviewed isoform DocumentOutput COUNT: "
+                            + outputReviewedIsoform
+                            + ", RDD COUNT: "
                             + rddReviewedIsoform
                             + ", Solr COUNT: "
                             + reviewedIsoform);
-            log.info("reviewed RDD COUNT: " + rddReviewed + ", Solr COUNT: " + reviewed);
-            log.info("unReviewed RDD COUNT: " + rddUnReviewed + ", Solr COUNT: " + unReviewed);
 
-            if (reviewed != rddReviewed) {
+            log.info(
+                    "reviewed DocumentOutput COUNT: "
+                            + outputReviewed
+                            + ", RDD COUNT: "
+                            + rddReviewed
+                            + ", Solr COUNT: "
+                            + reviewed);
+
+            log.info(
+                    "unReviewed DocumentOutput COUNT: "
+                            + outputUnReviewed
+                            + ", RDD COUNT: "
+                            + rddUnReviewed
+                            + ", Solr COUNT: "
+                            + unReviewed);
+
+            if (reviewed != rddReviewed || reviewed != outputReviewed) {
                 throw new SparkIndexException(
-                        "reviewed does not match. solr count: "
-                                + reviewed
-                                + " RDD count "
-                                + rddReviewed);
+                        "reviewed does not match. "
+                                + "DocumentOutput COUNT: "
+                                + outputReviewed
+                                + ", RDD COUNT: "
+                                + rddReviewed
+                                + ", Solr COUNT: "
+                                + reviewed);
             }
-            if (reviewedIsoform != rddReviewedIsoform) {
+            if (reviewedIsoform != rddReviewedIsoform || reviewedIsoform != outputReviewedIsoform) {
                 throw new SparkIndexException(
-                        "reviewed isoform does not match. solr count: "
-                                + reviewedIsoform
-                                + " RDD count "
-                                + rddReviewedIsoform);
+                        "reviewed isoform does not match. "
+                                + "DocumentOutput COUNT: "
+                                + outputReviewedIsoform
+                                + ", RDD COUNT: "
+                                + rddReviewedIsoform
+                                + ", Solr COUNT: "
+                                + reviewedIsoform);
             }
-            if (unReviewed != rddUnReviewed) {
+            if (unReviewed != rddUnReviewed || unReviewed != outputUnReviewed) {
                 throw new SparkIndexException(
-                        "unReviewed does not match. solr count: "
-                                + unReviewed
-                                + " RDD count "
-                                + rddUnReviewed);
+                        "unReviewed does not match. "
+                                + "DocumentOutput COUNT: "
+                                + outputUnReviewed
+                                + ", RDD COUNT: "
+                                + rddUnReviewed
+                                + ", Solr COUNT: "
+                                + unReviewed);
             }
         } catch (SparkIndexException e) {
             throw e;
@@ -120,6 +157,47 @@ public class ValidateUniProtKBSolrIndexMain {
             log.info("Finished all Jobs!!!");
         }
         return true;
+    }
+
+    private long getOutputUnreviewedCount(JavaRDD<SolrInputDocument> outputDocuments) {
+        return outputDocuments
+                .map(doc -> doc.getFieldValue("reviewed"))
+                .filter(Objects::nonNull)
+                .filter(reviewed -> Boolean.valueOf(reviewed.toString()).equals(Boolean.FALSE))
+                .count();
+    }
+
+    private long getOutputReviewedIsoformCount(JavaRDD<SolrInputDocument> outputDocuments) {
+        return outputDocuments.filter(this::filterIsoform).count();
+    }
+
+    private boolean filterIsoform(SolrInputDocument doc) {
+        boolean isIsoform = false;
+        Object reviewed = doc.getFieldValue("reviewed");
+        if (reviewed != null && Boolean.valueOf(reviewed.toString()).equals(Boolean.TRUE)) {
+            String accession = doc.getFieldValue("accession_id").toString();
+            Object canonical = doc.getFieldValue("canonical_acc");
+            if (accession.contains("-") && canonical != null) {
+                isIsoform = true;
+            }
+        }
+        return isIsoform;
+    }
+
+    private long getOutputReviewedCount(JavaRDD<SolrInputDocument> outputDocuments) {
+        return outputDocuments.filter(this::filterReviewed).count();
+    }
+
+    private boolean filterReviewed(SolrInputDocument doc) {
+        boolean isReviewed = false;
+        Object reviewed = doc.getFieldValue("reviewed");
+        if (reviewed != null && Boolean.valueOf(reviewed.toString()).equals(Boolean.TRUE)) {
+            String accession = doc.getFieldValue("accession_id").toString();
+            if (!accession.contains("-")) {
+                isReviewed = true;
+            }
+        }
+        return isReviewed;
     }
 
     long getRDDUnreviewedCount(JavaRDD<String> flatFileRDD) {
