@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.FlatMapFunction;
+import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.RowFactory;
 import org.uniprot.store.spark.indexer.chebi.ChebiOwlReader;
@@ -14,7 +15,7 @@ import scala.collection.Seq;
 
 import static org.uniprot.store.indexer.common.utils.Constants.*;
 
-public class ChebiEntryRowMapper implements FlatMapFunction<Row, Row> {
+public class ChebiEntryRowMapper implements MapFunction<Row, Row> {
 
     private final Set<String> unwantedAboutValues =
             new HashSet<>(
@@ -41,9 +42,11 @@ public class ChebiEntryRowMapper implements FlatMapFunction<Row, Row> {
                             "http://purl.obolibrary.org/obo/chebi/smiles",
                             "http://www.geneontology.org/formats/oboInOwl#hasDbXref",
                             "http://www.geneontology.org/formats/oboInOwl#hasId"));
+
     @Override
-    public Iterator<Row> call(Row row) throws Exception {
+    public Row call(Row row) throws Exception {
         String currentSubject = null;
+        Row respRow = null;
         Map<String, Seq<String>> processedAttributes = new LinkedHashMap<>();
         String aboutValue = row.getString(row.fieldIndex(CHEBI_RDF_ABOUT_ATTRIBUTE));
         if (!unwantedAboutValues.contains(aboutValue)) {
@@ -71,12 +74,11 @@ public class ChebiEntryRowMapper implements FlatMapFunction<Row, Row> {
                     }
                 }
             }
-            Row newRow =
+            respRow =
                     RowFactory.create(
                             currentSubject, JavaConverters.mapAsScalaMap(processedAttributes));
-            return Collections.singletonList(newRow).iterator();
         }
-        return Collections.emptyIterator();
+        return respRow;
     }
 
     private List<String> getChebiValuesForNonRelatedResourceObj(Object resourceObj) {

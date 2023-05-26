@@ -152,15 +152,17 @@ public class ChebiOwlReader {
 
     private static JavaRDD<Row> getAboutJavaRDDFromDescription(
             StructType schema, JavaRDD<Row> rdfDescriptionsRDD) {
+        ChebiEntryRowMapper chebiEntryRowMapper = new ChebiEntryRowMapper();
         JavaRDD<Row> processedAboutRDFDescriptionsRDD =
-                rdfDescriptionsRDD.flatMap(new ChebiEntryRowMapper()).filter(Objects::nonNull);
+                rdfDescriptionsRDD.map(chebiEntryRowMapper::call).filter(Objects::nonNull);
         return processedAboutRDFDescriptionsRDD;
     }
 
     private static JavaRDD<Row> getNodeIdJavaRDDFromDescription(
             StructType schema, JavaRDD<Row> rdfDescriptionsRDD) {
+        ChebiNodeEntryRowMapper chebiNodeEntryRowMapper = new ChebiNodeEntryRowMapper();
         JavaRDD<Row> processedNodeIdRDFDescriptionsRDD =
-                rdfDescriptionsRDD.flatMap(new ChebiNodeEntryRowMapper()).filter(Objects::nonNull);
+                rdfDescriptionsRDD.map(chebiNodeEntryRowMapper::call).filter(Objects::nonNull);
         return processedNodeIdRDFDescriptionsRDD;
     }
 

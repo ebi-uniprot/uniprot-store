@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.FlatMapFunction;
+import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.RowFactory;
 import org.uniprot.store.spark.indexer.chebi.ChebiOwlReader;
@@ -14,10 +15,11 @@ import scala.collection.Seq;
 
 import static org.uniprot.store.indexer.common.utils.Constants.*;
 
-public class ChebiNodeEntryRowMapper implements FlatMapFunction<Row, Row> {
+public class ChebiNodeEntryRowMapper implements MapFunction<Row, Row> {
     @Override
-    public Iterator<Row> call(Row row) throws Exception {
+    public Row call(Row row) throws Exception {
         List<String> commonTypeValue = new ArrayList<>();
+        Row respRow = null;
         String currentSubject = row.getString(row.fieldIndex(CHEBI_RDF_NODE_ID_ATTRIBBUTE));
         if (currentSubject != null) {
             Map<String, Seq<String>> processedAttributes = new LinkedHashMap<>();
@@ -52,12 +54,11 @@ public class ChebiNodeEntryRowMapper implements FlatMapFunction<Row, Row> {
                     }
                 }
             }
-            Row newRow =
+            respRow =
                     RowFactory.create(
                             currentSubject, JavaConverters.mapAsScalaMap(processedAttributes));
-            return Collections.singletonList(newRow).iterator();
         }
-        return Collections.emptyIterator();
+        return respRow;
     }
 
     private List<String> getNodeKeyValuesForRelatedAbstractSeqResourceObj(
