@@ -2,9 +2,17 @@ package org.uniprot.store.spark.indexer.main.verifiers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+import java.util.ResourceBundle;
+
+import org.apache.solr.common.SolrInputDocument;
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 class ValidateUniProtKBSolrIndexMainTest {
 
@@ -17,8 +25,19 @@ class ValidateUniProtKBSolrIndexMainTest {
 
     @Test
     void canRunValidation() throws Exception {
+        ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
+        JavaSparkContext context = SparkUtils.loadSparkContext(applicationConfig);
         ValidateUniProtKBSolrIndexMain validator =
                 Mockito.spy(new ValidateUniProtKBSolrIndexMain());
+        Mockito.doReturn(context).when(validator).getSparkContext(Mockito.any());
+
+        SolrInputDocument uniprotDoc = getUniprotDoc();
+
+        JavaRDD<SolrInputDocument> outputDocs = context.parallelize(List.of(uniprotDoc));
+        Mockito.doReturn(outputDocs)
+                .when(validator)
+                .getOutputUniProtKBDocuments(Mockito.any(), Mockito.any());
+
         Mockito.doReturn(1L)
                 .when(validator)
                 .getSolrCount(
@@ -36,8 +55,19 @@ class ValidateUniProtKBSolrIndexMainTest {
 
     @Test
     void canRunInvalidReviewedValidation() throws Exception {
+        ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
+        JavaSparkContext context = SparkUtils.loadSparkContext(applicationConfig);
         ValidateUniProtKBSolrIndexMain validator =
                 Mockito.spy(new ValidateUniProtKBSolrIndexMain());
+        Mockito.doReturn(context).when(validator).getSparkContext(Mockito.any());
+
+        SolrInputDocument uniprotDoc = getUniprotDoc();
+
+        JavaRDD<SolrInputDocument> outputDocs = context.parallelize(List.of(uniprotDoc));
+        Mockito.doReturn(outputDocs)
+                .when(validator)
+                .getOutputUniProtKBDocuments(Mockito.any(), Mockito.any());
+
         Mockito.doReturn(5L)
                 .when(validator)
                 .getSolrCount(
@@ -52,13 +82,26 @@ class ValidateUniProtKBSolrIndexMainTest {
                         Mockito.any(), Mockito.eq(ValidateUniProtKBSolrIndexMain.ISOFORM_QUERY));
         SparkIndexException error =
                 assertThrows(SparkIndexException.class, () -> validator.runValidation("2020_02"));
-        assertEquals("reviewed does not match. solr count: 5 RDD count 1", error.getMessage());
+        assertEquals(
+                "reviewed does not match. DocumentOutput COUNT: 1, RDD COUNT: 1, Solr COUNT: 5",
+                error.getMessage());
     }
 
     @Test
     void canRunInvalidUnreviewedValidation() throws Exception {
+        ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
+        JavaSparkContext context = SparkUtils.loadSparkContext(applicationConfig);
         ValidateUniProtKBSolrIndexMain validator =
                 Mockito.spy(new ValidateUniProtKBSolrIndexMain());
+        Mockito.doReturn(context).when(validator).getSparkContext(Mockito.any());
+
+        SolrInputDocument uniprotDoc = getUniprotDoc();
+
+        JavaRDD<SolrInputDocument> outputDocs = context.parallelize(List.of(uniprotDoc));
+        Mockito.doReturn(outputDocs)
+                .when(validator)
+                .getOutputUniProtKBDocuments(Mockito.any(), Mockito.any());
+
         Mockito.doReturn(1L)
                 .when(validator)
                 .getSolrCount(
@@ -73,13 +116,26 @@ class ValidateUniProtKBSolrIndexMainTest {
                         Mockito.any(), Mockito.eq(ValidateUniProtKBSolrIndexMain.ISOFORM_QUERY));
         SparkIndexException error =
                 assertThrows(SparkIndexException.class, () -> validator.runValidation("2020_02"));
-        assertEquals("unReviewed does not match. solr count: 5 RDD count 0", error.getMessage());
+        assertEquals(
+                "unReviewed does not match. DocumentOutput COUNT: 0, RDD COUNT: 0, Solr COUNT: 5",
+                error.getMessage());
     }
 
     @Test
     void canRunInvalidIsoformValidation() throws Exception {
+        ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
+        JavaSparkContext context = SparkUtils.loadSparkContext(applicationConfig);
         ValidateUniProtKBSolrIndexMain validator =
                 Mockito.spy(new ValidateUniProtKBSolrIndexMain());
+        Mockito.doReturn(context).when(validator).getSparkContext(Mockito.any());
+
+        SolrInputDocument uniprotDoc = getUniprotDoc();
+
+        JavaRDD<SolrInputDocument> outputDocs = context.parallelize(List.of(uniprotDoc));
+        Mockito.doReturn(outputDocs)
+                .when(validator)
+                .getOutputUniProtKBDocuments(Mockito.any(), Mockito.any());
+
         Mockito.doReturn(1L)
                 .when(validator)
                 .getSolrCount(
@@ -95,7 +151,8 @@ class ValidateUniProtKBSolrIndexMainTest {
         SparkIndexException error =
                 assertThrows(SparkIndexException.class, () -> validator.runValidation("2020_02"));
         assertEquals(
-                "reviewed isoform does not match. solr count: 5 RDD count 0", error.getMessage());
+                "reviewed isoform does not match. DocumentOutput COUNT: 0, RDD COUNT: 0, Solr COUNT: 5",
+                error.getMessage());
     }
 
     @Test
@@ -154,5 +211,14 @@ class ValidateUniProtKBSolrIndexMainTest {
                 "ID   A0PHU1_9CICH            Unreviewed;       378 AA.\n" + "AC   A0PHU1;";
         boolean result = ValidateUniProtKBSolrIndexMain.filterCanonicalIsoform(entryStr);
         assertTrue(result);
+    }
+
+    @NotNull
+    private SolrInputDocument getUniprotDoc() {
+        SolrInputDocument uniprotDoc = new SolrInputDocument();
+        uniprotDoc.addField("reviewed", Boolean.TRUE);
+        uniprotDoc.addField("accession_id", "Q9EPI6");
+        uniprotDoc.addField("canonical_acc", null);
+        return uniprotDoc;
     }
 }

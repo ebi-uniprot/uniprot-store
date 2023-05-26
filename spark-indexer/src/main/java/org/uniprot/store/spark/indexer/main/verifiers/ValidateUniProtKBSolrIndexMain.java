@@ -54,7 +54,7 @@ public class ValidateUniProtKBSolrIndexMain {
     boolean runValidation(String releaseName) {
         ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
         String zkHost = applicationConfig.getString("solr.zkhost");
-        try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(applicationConfig)) {
+        try (JavaSparkContext sparkContext = getSparkContext(applicationConfig)) {
             JobParameter jobParameter =
                     JobParameter.builder()
                             .applicationConfig(applicationConfig)
@@ -89,7 +89,7 @@ public class ValidateUniProtKBSolrIndexMain {
                     getCollectionOutputReleaseDirPath(
                             applicationConfig, releaseName, SolrCollection.uniprot);
             JavaRDD<SolrInputDocument> outputDocuments =
-                    sparkContext.objectFile(hdfsOutputFilePath).map(obj -> (SolrInputDocument) obj);
+                    getOutputUniProtKBDocuments(sparkContext, hdfsOutputFilePath);
 
             long outputReviewed = getOutputReviewedCount(outputDocuments);
             long outputReviewedIsoform = getOutputReviewedIsoformCount(outputDocuments);
@@ -159,6 +159,15 @@ public class ValidateUniProtKBSolrIndexMain {
         return true;
     }
 
+    JavaSparkContext getSparkContext(ResourceBundle applicationConfig) {
+        return SparkUtils.loadSparkContext(applicationConfig);
+    }
+
+    JavaRDD<SolrInputDocument> getOutputUniProtKBDocuments(
+            JavaSparkContext sparkContext, String hdfsOutputFilePath) {
+        return sparkContext.objectFile(hdfsOutputFilePath).map(obj -> (SolrInputDocument) obj);
+    }
+
     private long getOutputUnreviewedCount(JavaRDD<SolrInputDocument> outputDocuments) {
         return outputDocuments
                 .map(doc -> doc.getFieldValue("reviewed"))
@@ -168,10 +177,10 @@ public class ValidateUniProtKBSolrIndexMain {
     }
 
     private long getOutputReviewedIsoformCount(JavaRDD<SolrInputDocument> outputDocuments) {
-        return outputDocuments.filter(this::filterIsoform).count();
+        return outputDocuments.filter(ValidateUniProtKBSolrIndexMain::filterIsoform).count();
     }
 
-    private boolean filterIsoform(SolrInputDocument doc) {
+    private static boolean filterIsoform(SolrInputDocument doc) {
         boolean isIsoform = false;
         Object reviewed = doc.getFieldValue("reviewed");
         if (reviewed != null && Boolean.valueOf(reviewed.toString()).equals(Boolean.TRUE)) {
@@ -185,10 +194,10 @@ public class ValidateUniProtKBSolrIndexMain {
     }
 
     private long getOutputReviewedCount(JavaRDD<SolrInputDocument> outputDocuments) {
-        return outputDocuments.filter(this::filterReviewed).count();
+        return outputDocuments.filter(ValidateUniProtKBSolrIndexMain::filterReviewed).count();
     }
 
-    private boolean filterReviewed(SolrInputDocument doc) {
+    private static boolean filterReviewed(SolrInputDocument doc) {
         boolean isReviewed = false;
         Object reviewed = doc.getFieldValue("reviewed");
         if (reviewed != null && Boolean.valueOf(reviewed.toString()).equals(Boolean.TRUE)) {
