@@ -11,6 +11,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.spark.SparkConf;
+import org.apache.spark.SparkFiles;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.store.DataStore;
@@ -89,6 +90,14 @@ public class SparkUtils {
                         .getProtectionDomain()
                         .getCodeSource()
                         .getLocation();
+        try {
+            String path = SparkFiles.get("application.properties");
+            System.out.println("the path is " + path);
+            System.out.println("the value is");
+            readLines(path, null).stream().forEach(System.out::println);
+        } catch (Exception ex){
+            System.out.println(ex);
+        }
         System.out.println("resourceURL is " + resourceURL.toString());
         System.out.println("Locale.getDefault() " + Locale.getDefault());
         try (URLClassLoader urlLoader = new URLClassLoader(new java.net.URL[] {resourceURL})) {
