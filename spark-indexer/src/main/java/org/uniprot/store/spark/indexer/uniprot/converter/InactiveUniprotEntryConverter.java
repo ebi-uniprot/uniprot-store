@@ -22,7 +22,7 @@ public class InactiveUniprotEntryConverter
 
         document.accession = source.getPrimaryAccession().getValue();
         if (Utils.notNull(source.getUniProtkbId())) {
-            document.id = source.getUniProtkbId().getValue();
+            document.id.add(source.getUniProtkbId().getValue());
             if (!type.equals(InactiveReasonType.DEMERGED)) {
                 document.idInactive = source.getUniProtkbId().getValue();
             }

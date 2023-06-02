@@ -31,11 +31,11 @@
 		stored="true" required="false" multiValued="false" />
 
 	<field name="id" type="basic_ci" indexed="true" stored="true"
-		required="false" multiValued="false" />
+		required="false" multiValued="true" />
 	<field name="id_sort" type="string" indexed="true" stored="false"
 		required="false" multiValued="false" docValues="true" />
 	<field name="id_default" type="full_ci_split_numeric"
-		indexed="true" stored="false" required="false" multiValued="false" />
+		indexed="true" stored="false" required="false" multiValued="true" />
 	<field name="id_inactive" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" omitNorms="false" />
 	<copyField source="id" dest="id_sort" />

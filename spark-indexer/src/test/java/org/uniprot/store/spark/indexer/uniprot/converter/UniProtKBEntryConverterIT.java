@@ -57,7 +57,8 @@ class UniProtKBEntryConverterIT {
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
         assertEquals("A0PHU1", doc.accession);
-        assertEquals("A0PHU1_9CICH", doc.id);
+        assertEquals(1, doc.id.size());
+        assertTrue(doc.id.contains("A0PHU1_9CICH"));
         assertFalse(doc.reviewed);
         assertEquals(1, doc.proteinNames.size());
         assertEquals("Cytochrome b", doc.proteinNames.get(0));
@@ -172,7 +173,8 @@ class UniProtKBEntryConverterIT {
         assertEquals(5, doc.secacc.size());
         assertEquals("Q7TSC6", doc.secacc.get(1));
         assertNull(doc.canonicalAccession);
-        assertEquals("NSMF_RAT", doc.id);
+        assertEquals(1, doc.id.size());
+        assertTrue(doc.id.contains("NSMF_RAT"));
         assertTrue(doc.reviewed);
 
         assertEquals(5, doc.proteinNames.size());
@@ -348,7 +350,8 @@ class UniProtKBEntryConverterIT {
 
         assertEquals("Q9EPI6-2", doc.accession);
         assertEquals("Q9EPI6", doc.canonicalAccession);
-        assertEquals("NSMF-2_RAT", doc.id);
+        assertEquals(1, doc.id.size());
+        assertTrue(doc.id.contains("NSMF-2_RAT"));
         assertTrue(doc.isIsoform);
         assertTrue(doc.reviewed);
 

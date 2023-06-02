@@ -222,7 +222,7 @@ class BasicCIAnalysisSearchIT {
     enum FieldType {
         accession_id(STRING_FUNCTION),
         gene_exact(STRING_LIST_FUNCTION),
-        id(STRING_FUNCTION),
+        id(STRING_LIST_FUNCTION),
         sec_acc(STRING_LIST_FUNCTION);
 
         private Function<String, ?> field;

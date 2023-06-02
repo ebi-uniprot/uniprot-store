@@ -5,6 +5,7 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.*;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
@@ -79,6 +80,8 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                 convertToUniProtDocument(uniProtEntryRDD);
 
         uniProtDocumentRDD = joinGoRelations(uniProtDocumentRDD);
+
+        uniProtDocumentRDD = joinUniProtOldIdTracker(uniProtDocumentRDD);
 
         uniProtDocumentRDD = joinChebiRelations(uniProtDocumentRDD);
 
@@ -319,5 +322,14 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         return uniProtDocumentRDD
                 .leftOuterJoin(accessionSubcellLocationsRDD)
                 .mapValues(new UniProtDocumentSubcellEntriesMapper());
+    }
+
+    JavaPairRDD<String, UniProtDocument> joinUniProtOldIdTracker(
+            JavaPairRDD<String, UniProtDocument> uniProtDocumentRDD) {
+        UniProtIdTrackerRDDReader idTrackerRDDReader = new UniProtIdTrackerRDDReader(parameter);
+        JavaPairRDD<String, Set<String>> idTrackerRDDD = idTrackerRDDReader.load();
+        return uniProtDocumentRDD
+                .leftOuterJoin(idTrackerRDDD)
+                .mapValues(new UniProtIdTrackerJoinMapper());
     }
 }
