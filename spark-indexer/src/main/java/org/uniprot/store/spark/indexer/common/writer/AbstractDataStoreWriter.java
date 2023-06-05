@@ -35,6 +35,7 @@ public abstract class AbstractDataStoreWriter<T> implements VoidFunction<Iterato
         RetryPolicy<Object> retryPolicy = getVoldemortRetryPolicy();
         while (entryIterator.hasNext()) {
             final T entry = entryIterator.next();
+            Thread.sleep(100);
             Failsafe.with(retryPolicy).run(() -> client.saveEntry(entry));
         }
     }
