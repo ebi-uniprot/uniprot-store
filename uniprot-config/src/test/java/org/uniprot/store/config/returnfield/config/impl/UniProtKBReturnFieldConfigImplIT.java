@@ -76,7 +76,8 @@ class UniProtKBReturnFieldConfigImplIT {
         UniProtKBEntryValueMapper entityValueMapper = new UniProtKBEntryValueMapper();
         Map<String, String> mappedField =
                 entityValueMapper.mapEntity(entry, Collections.singletonList(returnFieldName));
-        if (!returnFieldName.equals("tools")) { // Tools is the only one not supported by TSV
+        // fields not supported by TSV
+        if (!returnFieldName.equals("tools") && !returnFieldName.equals("inactiveReason")) {
             assertNotNull(mappedField.get(returnFieldName));
             assertFalse(mappedField.get(returnFieldName).isEmpty());
         }

@@ -8,6 +8,7 @@ import static org.hamcrest.Matchers.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.config.UniProtDataType;
@@ -37,6 +38,7 @@ class ReturnFieldConfigFactoryTest {
         Map<String, List<ReturnField>> groupToSingleFieldMap =
                 config.getAllFields().stream()
                         .filter(field -> field.getItemType().equals(ReturnFieldItemType.SINGLE))
+                        .filter(field -> Objects.nonNull(field.getParentId()))
                         .collect(groupingBy(ReturnField::getParentId));
 
         // check the defined groups are the same as the union of all children's parents
