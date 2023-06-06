@@ -7,6 +7,7 @@ import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.RowFactory;
+import org.apache.spark.sql.catalyst.expressions.GenericRow;
 import org.uniprot.store.spark.indexer.chebi.ChebiOwlReader;
 
 import scala.collection.AbstractSeq;
@@ -30,6 +31,14 @@ public class ChebiNodeEntryRowMapper implements MapFunction<Row, Row> {
                         Object resourceObj = row.get(row.fieldIndex(key));
                         if (resourceObj instanceof AbstractSeq) {
                             commonTypeValue = getNodeTypeValueForChebiEntryName(resourceObj);
+                        } else if (resourceObj instanceof List) {
+                            List<Row> valueList = (List<Row>) resourceObj;
+                            if (!valueList.isEmpty()) {
+                                GenericRow genericRow = (GenericRow) valueList.get(0);
+                                if(genericRow.get(0).toString().equals("_rdf:resource") && genericRow.get(1).toString().contains("ChEBI_Common_Name") ) {
+                                    commonTypeValue.add(genericRow.get(1).toString());
+                                }
+                            }
                         }
                     }
                     if (key.equals(CHEBI_RDFS_LABEL_ATTRIBUTE)) {
@@ -47,6 +56,15 @@ public class ChebiNodeEntryRowMapper implements MapFunction<Row, Row> {
                             values =
                                     getNodeKeyValuesForRelatedAbstractSeqResourceObj(
                                             (AbstractSeq<Row>) resourceObj);
+                        } else if (resourceObj instanceof List) {
+                            List<Row> valueList = (List<Row>) resourceObj;
+                            if (!valueList.isEmpty()) {
+                                GenericRow genericRow = (GenericRow) valueList.get(0);
+                                if(genericRow.get(0).toString().equals("_rdf:resource")) {
+                                    values = new ArrayList<>();
+                                    values.add(genericRow.get(1).toString());
+                                }
+                            }
                         }
                     }
                     if (values != null) {
