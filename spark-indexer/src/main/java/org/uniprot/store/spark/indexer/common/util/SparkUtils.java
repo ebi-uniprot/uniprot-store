@@ -129,7 +129,8 @@ public class SparkUtils {
                         .setMaster(sparkMaster)
                         .set("spark.driver.allowMultipleContexts", "true")
                         .set("spark.driver.host", "localhost")
-                        .set("spark.sql.caseSensitive", "true");
+                        .set("spark.sql.caseSensitive", "true")
+                        .set("spark.shuffle.useOldFetchProtocol", "true");
         return new JavaSparkContext(sparkConf);
     }
 
