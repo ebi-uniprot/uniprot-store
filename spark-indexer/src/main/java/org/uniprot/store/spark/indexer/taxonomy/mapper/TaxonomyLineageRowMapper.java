@@ -2,6 +2,7 @@ package org.uniprot.store.spark.indexer.taxonomy.mapper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.spark.api.java.function.PairFunction;
@@ -65,7 +66,7 @@ public class TaxonomyLineageRowMapper
             }
             lineageList.add(builder.build());
         }
-
+        Collections.reverse(lineageList);
         return new Tuple2<>(taxId, lineageList);
     }
 
