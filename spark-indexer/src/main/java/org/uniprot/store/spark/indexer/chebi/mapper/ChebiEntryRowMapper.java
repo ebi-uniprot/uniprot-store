@@ -100,12 +100,8 @@ public class ChebiEntryRowMapper implements Function<Row, Row> {
         List<String> values;
         String resourceId = null;
         String nodeId = null;
-        if (Arrays.asList(row.schema().fieldNames()).contains(CHEBI_RDF_RESOURCE_ATTRIBUTE)) {
-            resourceId = row.getString(row.fieldIndex(CHEBI_RDF_RESOURCE_ATTRIBUTE));
-        }
-        if (Arrays.asList(row.schema().fieldNames()).contains(CHEBI_RDF_NODE_ID_ATTRIBBUTE)) {
-            nodeId = row.getString(row.fieldIndex(CHEBI_RDF_NODE_ID_ATTRIBBUTE));
-        }
+        resourceId = getAttributeValue(row, CHEBI_RDF_RESOURCE_ATTRIBUTE);
+        nodeId = getAttributeValue(row, CHEBI_RDF_NODE_ID_ATTRIBBUTE);
         String value = resourceId != null ? resourceId : nodeId;
         values = Collections.singletonList(value);
         return values;
@@ -122,21 +118,27 @@ public class ChebiEntryRowMapper implements Function<Row, Row> {
                                 resourceRow -> {
                                     String resourceId = null;
                                     String nodeId = null;
-                                    if (Arrays.asList(resourceRow.schema().fieldNames())
-                                            .contains(CHEBI_RDF_RESOURCE_ATTRIBUTE)) {
-                                        resourceId =
-                                                resourceRow.getString(
-                                                        resourceRow.fieldIndex(CHEBI_RDF_RESOURCE_ATTRIBUTE));
-                                    }
-                                    if (Arrays.asList(resourceRow.schema().fieldNames())
-                                            .contains(CHEBI_RDF_NODE_ID_ATTRIBBUTE)) {
-                                        nodeId =
-                                                resourceRow.getString(
-                                                        resourceRow.fieldIndex(CHEBI_RDF_NODE_ID_ATTRIBBUTE));
+                                    if (resourceRow.schema() != null) {
+                                        resourceId = getAttributeValue(resourceRow, CHEBI_RDF_RESOURCE_ATTRIBUTE);
+                                        nodeId = getAttributeValue(resourceRow, CHEBI_RDF_NODE_ID_ATTRIBBUTE);
+                                    } else {
+                                        resourceId = resourceRow.get(0).toString().contains(CHEBI_RDF_RESOURCE_ATTRIBUTE) ? resourceRow.get(1).toString() : null;
+                                        nodeId = resourceRow.get(0).toString().contains(CHEBI_RDF_NODE_ID_ATTRIBBUTE) ? resourceRow.get(1).toString() : null;
                                     }
                                     return resourceId != null ? resourceId : nodeId;
                                 })
                         .collect(Collectors.toList());
         return values;
+    }
+
+    public static String getAttributeValue(Row resourceRow, String attribute) {
+        String value = null;
+        if (Arrays.asList(resourceRow.schema().fieldNames())
+                .contains(attribute)) {
+            value =
+                    resourceRow.getString(
+                            resourceRow.fieldIndex(attribute));
+        }
+        return value;
     }
 }

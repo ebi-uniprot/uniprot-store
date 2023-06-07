@@ -12,8 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.indexer.common.utils.Constants.CHEBI_RDFS_LABEL_ATTRIBUTE;
 import static org.uniprot.store.indexer.common.utils.Constants.CHEBI_RDF_RESOURCE_ATTRIBUTE;
 import static org.uniprot.store.spark.indexer.chebi.ChebiOwlReader.getSchema;
 import static org.uniprot.store.spark.indexer.chebi.mapper.ChebiEntryRowMapperTest.*;
@@ -26,9 +26,8 @@ public class ChebiNodeEntryRowMapperTest {
         Row row = getRowArrayListForNames();
         Row result = mapper.call(row);
         assertNotNull(result);
-        Map<String, String> map = getRowMap(result);
         assertEquals("name189730", result.get(0));
-        assertEquals("2-hydroxybehenoyl-CoA", map.get("name"));
+        assertTrue(result.get(1).toString().contains("2-hydroxybehenoyl-CoA"));
     }
 
     @Test
@@ -62,14 +61,16 @@ public class ChebiNodeEntryRowMapperTest {
         List<Row> rdfType = Arrays.asList(
                 RowFactory.create(CHEBI_RDF_RESOURCE_ATTRIBUTE, "http://purl.uniprot.org/core/ChEBI_Common_Name")
         );  // rdf:type
-        values.add(rdfType);
+        values.add(JavaConverters.asScalaIteratorConverter(rdfType.iterator()).asScala().toSeq());
         values.add(null);  // chebiStructuredName
         values.add(null);  // chebislash:inchikey
         values.add(null);  // obo:IAO_0000115
         values.add(null);  // oboInOwl:hasId
         values.add(null);  // rdfs:subClassOf
-        values.add(JavaConverters.collectionAsScalaIterableConverter(Arrays.asList(
-                "2-hydroxybehenoyl-CoA")).asScala().toSeq()); // rdfs:label
+        List<Row> rdfsLabel = Arrays.asList(
+                RowFactory.create(CHEBI_RDFS_LABEL_ATTRIBUTE, "2-hydroxybehenoyl-CoA")
+        );
+        values.add(JavaConverters.asScalaIteratorConverter(rdfsLabel.iterator()).asScala().toSeq());  // rdfs:label
         values.add(null);  // owl:onProperty
         values.add(null);  // owl:someValuesFrom
 
@@ -108,7 +109,7 @@ public class ChebiNodeEntryRowMapperTest {
         List<Row> rdfType = Arrays.asList(
                 RowFactory.create(CHEBI_RDF_RESOURCE_ATTRIBUTE, "http://www.w3.org/2002/07/owl#Restriction")
         );  // rdf:type
-        values.add(rdfType);
+        values.add(JavaConverters.asScalaIteratorConverter(rdfType.iterator()).asScala().toSeq());
         values.add(null);  // chebiStructuredName
         values.add(null);  // chebislash:inchikey
         values.add(null);  // obo:IAO_0000115
@@ -118,11 +119,11 @@ public class ChebiNodeEntryRowMapperTest {
         List<Row> someProperty = Arrays.asList(
                 RowFactory.create(CHEBI_RDF_RESOURCE_ATTRIBUTE, "http://purl.obolibrary.org/obo/chebi#has_major_microspecies_at_pH_7_3")
         );
-        values.add(someProperty);   // owl:someProperty
+        values.add(JavaConverters.asScalaIteratorConverter(someProperty.iterator()).asScala().toSeq());   // owl:someProperty
         List<Row> someValuesFrom = Arrays.asList(
                 RowFactory.create(CHEBI_RDF_RESOURCE_ATTRIBUTE, "http://purl.obolibrary.org/obo/CHEBI_74117")
         );
-        values.add(someValuesFrom); // owl:someValuesFrom
+        values.add(JavaConverters.asScalaIteratorConverter(someValuesFrom.iterator()).asScala().toSeq()); // owl:someValuesFrom
 
         Object[] rowValues = values.toArray();
         StructType schema = getSchema();

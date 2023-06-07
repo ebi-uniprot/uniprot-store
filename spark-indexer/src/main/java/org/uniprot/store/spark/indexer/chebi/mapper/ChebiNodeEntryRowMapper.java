@@ -15,6 +15,7 @@ import scala.collection.JavaConverters;
 import scala.collection.Seq;
 
 import static org.uniprot.store.indexer.common.utils.Constants.*;
+import static org.uniprot.store.spark.indexer.chebi.mapper.ChebiEntryRowMapper.getAttributeValue;
 
 public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
     @Override
@@ -31,14 +32,6 @@ public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
                         Object resourceObj = row.get(row.fieldIndex(key));
                         if (resourceObj instanceof AbstractSeq) {
                             commonTypeValue = getNodeTypeValueForChebiEntryName(resourceObj);
-                        } else if (resourceObj instanceof List) {
-                            List<Row> valueList = (List<Row>) resourceObj;
-                            if (!valueList.isEmpty()) {
-                                GenericRow genericRow = (GenericRow) valueList.get(0);
-                                if(genericRow.get(0).toString().equals(CHEBI_RDF_RESOURCE_ATTRIBUTE) && genericRow.get(1).toString().contains(CHEBI_COMMON_NAME) ) {
-                                    commonTypeValue.add(genericRow.get(1).toString());
-                                }
-                            }
                         }
                     }
                     if (key.equals(CHEBI_RDFS_LABEL_ATTRIBUTE)) {
@@ -56,15 +49,6 @@ public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
                             values =
                                     getNodeKeyValuesForRelatedAbstractSeqResourceObj(
                                             (AbstractSeq<Row>) resourceObj);
-                        } else if (resourceObj instanceof List) {
-                            List<Row> valueList = (List<Row>) resourceObj;
-                            if (!valueList.isEmpty()) {
-                                GenericRow genericRow = (GenericRow) valueList.get(0);
-                                if(genericRow.get(0).toString().equals(CHEBI_RDF_RESOURCE_ATTRIBUTE)) {
-                                    values = new ArrayList<>();
-                                    values.add(genericRow.get(1).toString());
-                                }
-                            }
                         }
                     }
                     if (values != null) {
@@ -89,11 +73,10 @@ public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
                         .map(
                                 resourceRow -> {
                                     String resourceId = null;
-                                    if (Arrays.asList(resourceRow.schema().fieldNames())
-                                            .contains(CHEBI_RDF_RESOURCE_ATTRIBUTE)) {
-                                        resourceId =
-                                                resourceRow.getString(
-                                                        resourceRow.fieldIndex(CHEBI_RDF_RESOURCE_ATTRIBUTE));
+                                    if (resourceRow.schema() != null) {
+                                        resourceId = getAttributeValue(resourceRow, CHEBI_RDF_RESOURCE_ATTRIBUTE);
+                                    } else {
+                                        resourceId = resourceRow.get(0).toString().contains(CHEBI_RDF_RESOURCE_ATTRIBUTE) ? resourceRow.get(1).toString() : null;
                                     }
                                     return resourceId;
                                 })
@@ -110,22 +93,32 @@ public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
                         .map(
                                 resourceRow -> {
                                     String commonType = "";
-                                    if (Arrays.asList(resourceRow.schema().fieldNames())
-                                            .contains(CHEBI_RDF_RESOURCE_ATTRIBUTE)) {
-                                        String type =
-                                                resourceRow.getString(
-                                                        resourceRow.fieldIndex(CHEBI_RDF_RESOURCE_ATTRIBUTE));
-                                        if (type.contains(CHEBI_COMMON_NAME)) {
-                                            commonType =
-                                                    resourceRow.getString(
-                                                            resourceRow.fieldIndex(
-                                                                    CHEBI_RDF_RESOURCE_ATTRIBUTE));
-                                        }
+                                    if (resourceRow.schema() != null) {
+                                        commonType = getNodeTypeAttributeValue(resourceRow);
+                                    } else {
+                                        commonType = resourceRow.get(0).toString().contains(CHEBI_RDF_RESOURCE_ATTRIBUTE) && resourceRow.get(1).toString().contains(CHEBI_COMMON_NAME) ? resourceRow.get(1).toString() : "";
                                     }
                                     return commonType;
                                 })
                         .filter(Utils::notNullNotEmpty)
                         .collect(Collectors.toList());
         return commonTypeValue;
+    }
+
+    private static String getNodeTypeAttributeValue(Row resourceRow) {
+        String commonType = "";
+        if (Arrays.asList(resourceRow.schema().fieldNames())
+                .contains(CHEBI_RDF_RESOURCE_ATTRIBUTE)) {
+            String type =
+                    resourceRow.getString(
+                            resourceRow.fieldIndex(CHEBI_RDF_RESOURCE_ATTRIBUTE));
+            if (type.contains(CHEBI_COMMON_NAME)) {
+                commonType =
+                        resourceRow.getString(
+                                resourceRow.fieldIndex(
+                                        CHEBI_RDF_RESOURCE_ATTRIBUTE));
+            }
+        }
+        return commonType;
     }
 }
