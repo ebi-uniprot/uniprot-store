@@ -35,7 +35,7 @@ public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
                             List<Row> valueList = (List<Row>) resourceObj;
                             if (!valueList.isEmpty()) {
                                 GenericRow genericRow = (GenericRow) valueList.get(0);
-                                if(genericRow.get(0).toString().equals("_rdf:resource") && genericRow.get(1).toString().contains("ChEBI_Common_Name") ) {
+                                if(genericRow.get(0).toString().equals(CHEBI_RDF_RESOURCE_ATTRIBUTE) && genericRow.get(1).toString().contains("ChEBI_Common_Name") ) {
                                     commonTypeValue.add(genericRow.get(1).toString());
                                 }
                             }
@@ -60,7 +60,7 @@ public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
                             List<Row> valueList = (List<Row>) resourceObj;
                             if (!valueList.isEmpty()) {
                                 GenericRow genericRow = (GenericRow) valueList.get(0);
-                                if(genericRow.get(0).toString().equals("_rdf:resource")) {
+                                if(genericRow.get(0).toString().equals(CHEBI_RDF_RESOURCE_ATTRIBUTE)) {
                                     values = new ArrayList<>();
                                     values.add(genericRow.get(1).toString());
                                 }
