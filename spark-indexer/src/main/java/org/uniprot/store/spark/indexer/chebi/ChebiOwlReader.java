@@ -110,14 +110,13 @@ public class ChebiOwlReader {
     }
 
     public JavaPairRDD<Long, ChebiEntry> load() {
-        StructType schema = getSchema();
         StructType processedSchema = getProcessedSchema();
         StructType explodedSchema = getExplodedSchema();
         JavaRDD<Row> rdfDescriptionsRDD = readChebiFile();
         JavaRDD<Row> processedAboutRDFDescriptionsRDD =
-                getAboutJavaRDDFromDescription(schema, rdfDescriptionsRDD);
+                getAboutJavaRDDFromDescription(rdfDescriptionsRDD);
         JavaRDD<Row> processedNodeIdRDFDescriptionsRDD =
-                getNodeIdJavaRDDFromDescription(schema, rdfDescriptionsRDD);
+                getNodeIdJavaRDDFromDescription(rdfDescriptionsRDD);
         Dataset<Row> processedAboutDF =
                 spark.createDataFrame(processedAboutRDFDescriptionsRDD, processedSchema)
                         .filter(Objects::nonNull);
@@ -150,19 +149,15 @@ public class ChebiOwlReader {
         return chebiEntryPairRDD;
     }
 
-    private static JavaRDD<Row> getAboutJavaRDDFromDescription(
-            StructType schema, JavaRDD<Row> rdfDescriptionsRDD) {
-        ChebiEntryRowMapper chebiEntryRowMapper = new ChebiEntryRowMapper();
+    private static JavaRDD<Row> getAboutJavaRDDFromDescription(JavaRDD<Row> rdfDescriptionsRDD) {
         JavaRDD<Row> processedAboutRDFDescriptionsRDD =
-                rdfDescriptionsRDD.map(chebiEntryRowMapper::call).filter(Objects::nonNull);
+                rdfDescriptionsRDD.map(new ChebiEntryRowMapper()).filter(Objects::nonNull);
         return processedAboutRDFDescriptionsRDD;
     }
 
-    private static JavaRDD<Row> getNodeIdJavaRDDFromDescription(
-            StructType schema, JavaRDD<Row> rdfDescriptionsRDD) {
-        ChebiNodeEntryRowMapper chebiNodeEntryRowMapper = new ChebiNodeEntryRowMapper();
+    private static JavaRDD<Row> getNodeIdJavaRDDFromDescription(JavaRDD<Row> rdfDescriptionsRDD) {
         JavaRDD<Row> processedNodeIdRDFDescriptionsRDD =
-                rdfDescriptionsRDD.map(chebiNodeEntryRowMapper::call).filter(Objects::nonNull);
+                rdfDescriptionsRDD.map(new ChebiNodeEntryRowMapper()).filter(Objects::nonNull);
         return processedNodeIdRDFDescriptionsRDD;
     }
 

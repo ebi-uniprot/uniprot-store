@@ -18,14 +18,12 @@ import static org.uniprot.store.indexer.common.utils.Constants.*;
 
 public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Serializable {
 
-    private final String RELATED_PREFIX = "is_a CHEBI:";
     private static final String RELATED_CONJUGATE_BASE_PREFIX = "is_conjugate_base_of";
     private static final String RELATED_CONJUGATE_ACID_PREFIX = "is_conjugate_acid_of";
     private static final String RELATED_MICROSPECIES_PREFIX = "has_major_microspecies_at_pH_7_3";
 
     @Override
     public Tuple2<Long, ChebiEntry> call(Row row) throws Exception {
-        String relatedIdString = "";
         List<String> relatedIds = new ArrayList<>();
         List<String> majorMicrospecies = new ArrayList<>();
         ChebiEntryBuilder chebiBuilder = new ChebiEntryBuilder();

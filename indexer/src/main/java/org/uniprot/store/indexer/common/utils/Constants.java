@@ -4,8 +4,6 @@ public class Constants {
 
     private Constants() {}
 
-    public static final String SUPPORTING_DATA_INDEX_JOB = "Supporting data indexing job";
-
     public static final String UNIPROTKB_INDEX_JOB = "UniProtKB_Indexing_Job";
     public static final String UNIPROTKB_INDEX_STEP = "UniProtKB_Indexing_Step";
 

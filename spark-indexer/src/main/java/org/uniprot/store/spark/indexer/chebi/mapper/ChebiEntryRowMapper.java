@@ -3,8 +3,7 @@ package org.uniprot.store.spark.indexer.chebi.mapper;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import org.apache.spark.api.java.function.FlatMapFunction;
-import org.apache.spark.api.java.function.MapFunction;
+import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.RowFactory;
 import org.uniprot.store.spark.indexer.chebi.ChebiOwlReader;
@@ -15,7 +14,7 @@ import scala.collection.Seq;
 
 import static org.uniprot.store.indexer.common.utils.Constants.*;
 
-public class ChebiEntryRowMapper implements MapFunction<Row, Row> {
+public class ChebiEntryRowMapper implements Function<Row, Row> {
 
     private final Set<String> unwantedAboutValues =
             new HashSet<>(

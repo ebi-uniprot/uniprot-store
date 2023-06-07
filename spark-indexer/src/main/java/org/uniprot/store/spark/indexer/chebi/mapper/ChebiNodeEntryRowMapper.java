@@ -3,11 +3,11 @@ package org.uniprot.store.spark.indexer.chebi.mapper;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import org.apache.spark.api.java.function.FlatMapFunction;
-import org.apache.spark.api.java.function.MapFunction;
+import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.RowFactory;
 import org.apache.spark.sql.catalyst.expressions.GenericRow;
+import org.uniprot.core.util.Utils;
 import org.uniprot.store.spark.indexer.chebi.ChebiOwlReader;
 
 import scala.collection.AbstractSeq;
@@ -16,7 +16,7 @@ import scala.collection.Seq;
 
 import static org.uniprot.store.indexer.common.utils.Constants.*;
 
-public class ChebiNodeEntryRowMapper implements MapFunction<Row, Row> {
+public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
     @Override
     public Row call(Row row) throws Exception {
         List<String> commonTypeValue = new ArrayList<>();
@@ -124,8 +124,8 @@ public class ChebiNodeEntryRowMapper implements MapFunction<Row, Row> {
                                     }
                                     return commonType;
                                 })
+                        .filter(Utils::notNullNotEmpty)
                         .collect(Collectors.toList());
-        commonTypeValue.removeIf(String::isEmpty);
         return commonTypeValue;
     }
 }
