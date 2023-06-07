@@ -14,6 +14,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.uniprot.store.indexer.common.utils.Constants.CHEBI_RDF_RESOURCE_ATTRIBUTE;
 import static org.uniprot.store.spark.indexer.chebi.ChebiOwlReader.getSchema;
 import static org.uniprot.store.spark.indexer.chebi.mapper.ChebiEntryRowMapperTest.*;
 
@@ -59,7 +60,7 @@ public class ChebiNodeEntryRowMapperTest {
         values.add("name189730");  // _rdf:nodeID
         values.add(null);  // name
         List<Row> rdfType = Arrays.asList(
-                RowFactory.create("_rdf:resource", "http://purl.uniprot.org/core/ChEBI_Common_Name")
+                RowFactory.create(CHEBI_RDF_RESOURCE_ATTRIBUTE, "http://purl.uniprot.org/core/ChEBI_Common_Name")
         );  // rdf:type
         values.add(rdfType);
         values.add(null);  // chebiStructuredName
@@ -105,7 +106,7 @@ public class ChebiNodeEntryRowMapperTest {
         values.add("bn74148tmms73f74117");  // _rdf:nodeID
         values.add(null);  // name
         List<Row> rdfType = Arrays.asList(
-                RowFactory.create("_rdf:resource", "http://www.w3.org/2002/07/owl#Restriction")
+                RowFactory.create(CHEBI_RDF_RESOURCE_ATTRIBUTE, "http://www.w3.org/2002/07/owl#Restriction")
         );  // rdf:type
         values.add(rdfType);
         values.add(null);  // chebiStructuredName
@@ -115,11 +116,11 @@ public class ChebiNodeEntryRowMapperTest {
         values.add(null);  // rdfs:subClassOf
         values.add(null);  // rdfs:label
         List<Row> someProperty = Arrays.asList(
-                RowFactory.create("_rdf:resource", "http://purl.obolibrary.org/obo/chebi#has_major_microspecies_at_pH_7_3")
+                RowFactory.create(CHEBI_RDF_RESOURCE_ATTRIBUTE, "http://purl.obolibrary.org/obo/chebi#has_major_microspecies_at_pH_7_3")
         );
         values.add(someProperty);   // owl:someProperty
         List<Row> someValuesFrom = Arrays.asList(
-                RowFactory.create("_rdf:resource", "http://purl.obolibrary.org/obo/CHEBI_74117")
+                RowFactory.create(CHEBI_RDF_RESOURCE_ATTRIBUTE, "http://purl.obolibrary.org/obo/CHEBI_74117")
         );
         values.add(someValuesFrom); // owl:someValuesFrom
 

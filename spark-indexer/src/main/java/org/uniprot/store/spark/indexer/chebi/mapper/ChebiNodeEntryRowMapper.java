@@ -35,7 +35,7 @@ public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
                             List<Row> valueList = (List<Row>) resourceObj;
                             if (!valueList.isEmpty()) {
                                 GenericRow genericRow = (GenericRow) valueList.get(0);
-                                if(genericRow.get(0).toString().equals(CHEBI_RDF_RESOURCE_ATTRIBUTE) && genericRow.get(1).toString().contains("ChEBI_Common_Name") ) {
+                                if(genericRow.get(0).toString().equals(CHEBI_RDF_RESOURCE_ATTRIBUTE) && genericRow.get(1).toString().contains(CHEBI_COMMON_NAME) ) {
                                     commonTypeValue.add(genericRow.get(1).toString());
                                 }
                             }
@@ -44,7 +44,7 @@ public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
                     if (key.equals(CHEBI_RDFS_LABEL_ATTRIBUTE)) {
                         if (commonTypeValue.size() > 0) {
                             values = row.getList(row.fieldIndex(key));
-                            processedAttributes.put("name", JavaConverters.asScalaBuffer(values));
+                            processedAttributes.put(NAME, JavaConverters.asScalaBuffer(values));
                             values = null;
                             commonTypeValue = new ArrayList<>();
                         } else {
@@ -115,7 +115,7 @@ public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
                                         String type =
                                                 resourceRow.getString(
                                                         resourceRow.fieldIndex(CHEBI_RDF_RESOURCE_ATTRIBUTE));
-                                        if (type.contains("ChEBI_Common_Name")) {
+                                        if (type.contains(CHEBI_COMMON_NAME)) {
                                             commonType =
                                                     resourceRow.getString(
                                                             resourceRow.fieldIndex(

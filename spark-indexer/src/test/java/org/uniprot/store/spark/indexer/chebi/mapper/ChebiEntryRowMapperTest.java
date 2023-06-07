@@ -13,6 +13,7 @@ import scala.collection.convert.Wrappers;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.indexer.common.utils.Constants.CHEBI_RDF_RESOURCE_ATTRIBUTE;
 import static org.uniprot.store.spark.indexer.chebi.ChebiOwlReader.getSchema;
 
 public class ChebiEntryRowMapperTest {
@@ -35,7 +36,7 @@ public class ChebiEntryRowMapperTest {
         values.add("http://purl.obolibrary.org/obo/CHEBI_74148");  // _rdf:about
         values.add(null);  // _rdf:nodeID
         values.add(null);  // name
-        values.add(Arrays.asList("_rdf:resource", "http://www.w3.org/2002/07/owl#Class"));  // rdf:type
+        values.add(Arrays.asList(CHEBI_RDF_RESOURCE_ATTRIBUTE, "http://www.w3.org/2002/07/owl#Class"));  // rdf:type
         List<Row> structuredNames = Arrays.asList(
                 RowFactory.create("_rdf:nodeID", "name189730"),
                 RowFactory.create("_rdf:nodeID", "name189731")
@@ -45,8 +46,8 @@ public class ChebiEntryRowMapperTest {
         values.add("A hydroxy fatty-acyl-CoA that results from the formal condensation of the thiol group of coenzyme A with the carboxy group of 2-hydroxybehenic acid.");  // obo:IAO_0000115
         values.add("74148");  // oboInOwl:hasId
         List<Row> subClassOf = Arrays.asList(
-                RowFactory.create("_rdf:resource", null, "_rdf:nodeID", "bn74148tmms73f74117"),
-                RowFactory.create("_rdf:resource", "http://purl.obolibrary.org/obo/CHEBI_33184", "_rdf:nodeID", null)
+                RowFactory.create(CHEBI_RDF_RESOURCE_ATTRIBUTE, null, "_rdf:nodeID", "bn74148tmms73f74117"),
+                RowFactory.create(CHEBI_RDF_RESOURCE_ATTRIBUTE, "http://purl.obolibrary.org/obo/CHEBI_33184", "_rdf:nodeID", null)
         );
         values.add(subClassOf);  // rdfs:subClassOf
         values.add(null);  // rdfs:label

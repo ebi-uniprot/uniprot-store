@@ -90,4 +90,6 @@ public class Constants {
     public static final String CHEBI_OWL_PROPERTY_ATTRIBUTE = "owl:onProperty";
     public static final String CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE = "owl:someValuesFrom";
     public static final String CHEBI_RDF_RESOURCE_ATTRIBUTE = "_rdf:resource";
+    public static final String CHEBI_COMMON_NAME = "ChEBI_Common_Name";
+    public static final String NAME = "name";
 }
