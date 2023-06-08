@@ -1,17 +1,21 @@
 package org.uniprot.store.spark.indexer.chebi.mapper;
 
-import org.apache.spark.api.java.function.Function2;
-import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import scala.collection.JavaConverters;
-import scala.collection.Seq;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ChebiEntryRowAggregator implements Function2<Map<String, Seq<String>>, Map<String, Seq<String>>, Map<String, Seq<String>>> {
+import org.apache.spark.api.java.function.Function2;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+
+import scala.collection.JavaConverters;
+import scala.collection.Seq;
+
+public class ChebiEntryRowAggregator
+        implements Function2<
+                Map<String, Seq<String>>, Map<String, Seq<String>>, Map<String, Seq<String>>> {
     @Override
-    public Map<String, Seq<String>> call(Map<String, Seq<String>> map1, Map<String, Seq<String>> map2) throws Exception {
+    public Map<String, Seq<String>> call(
+            Map<String, Seq<String>> map1, Map<String, Seq<String>> map2) throws Exception {
         if (SparkUtils.isThereAnyNullEntry(map1, map2)) {
             map1 = SparkUtils.getNotNullEntry(map1, map2);
         } else {

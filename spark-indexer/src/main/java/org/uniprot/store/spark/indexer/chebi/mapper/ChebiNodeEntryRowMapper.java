@@ -1,21 +1,20 @@
 package org.uniprot.store.spark.indexer.chebi.mapper;
 
+import static org.uniprot.store.indexer.common.utils.Constants.*;
+import static org.uniprot.store.spark.indexer.chebi.mapper.ChebiEntryRowMapper.getAttributeValue;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.RowFactory;
-import org.apache.spark.sql.catalyst.expressions.GenericRow;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.spark.indexer.chebi.ChebiOwlReader;
 
 import scala.collection.AbstractSeq;
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
-
-import static org.uniprot.store.indexer.common.utils.Constants.*;
-import static org.uniprot.store.spark.indexer.chebi.mapper.ChebiEntryRowMapper.getAttributeValue;
 
 public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
     @Override
@@ -26,7 +25,8 @@ public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
         if (currentSubject != null) {
             Map<String, Seq<String>> processedAttributes = new LinkedHashMap<>();
             for (String key : ChebiOwlReader.getSchema().fieldNames()) {
-                if (!key.equals(CHEBI_RDF_ABOUT_ATTRIBUTE) && !key.equals(CHEBI_RDF_NODE_ID_ATTRIBBUTE)) {
+                if (!key.equals(CHEBI_RDF_ABOUT_ATTRIBUTE)
+                        && !key.equals(CHEBI_RDF_NODE_ID_ATTRIBBUTE)) {
                     List<String> values = null;
                     if (key.equals(CHEBI_RDF_TYPE_ATTRIBUTE)) {
                         Object resourceObj = row.get(row.fieldIndex(key));
@@ -43,7 +43,8 @@ public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
                         } else {
                             values = row.getList(row.fieldIndex(key));
                         }
-                    } else if (key.equals(CHEBI_OWL_PROPERTY_ATTRIBUTE) || key.equals(CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE)) {
+                    } else if (key.equals(CHEBI_OWL_PROPERTY_ATTRIBUTE)
+                            || key.equals(CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE)) {
                         Object resourceObj = row.get(row.fieldIndex(key));
                         if (resourceObj instanceof AbstractSeq) {
                             values =
@@ -74,9 +75,18 @@ public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
                                 resourceRow -> {
                                     String resourceId = null;
                                     if (resourceRow.schema() != null) {
-                                        resourceId = getAttributeValue(resourceRow, CHEBI_RDF_RESOURCE_ATTRIBUTE);
+                                        resourceId =
+                                                getAttributeValue(
+                                                        resourceRow, CHEBI_RDF_RESOURCE_ATTRIBUTE);
                                     } else {
-                                        resourceId = resourceRow.get(0).toString().contains(CHEBI_RDF_RESOURCE_ATTRIBUTE) ? resourceRow.get(1).toString() : null;
+                                        resourceId =
+                                                resourceRow
+                                                                .get(0)
+                                                                .toString()
+                                                                .contains(
+                                                                        CHEBI_RDF_RESOURCE_ATTRIBUTE)
+                                                        ? resourceRow.get(1).toString()
+                                                        : null;
                                     }
                                     return resourceId;
                                 })
@@ -96,7 +106,18 @@ public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
                                     if (resourceRow.schema() != null) {
                                         commonType = getNodeTypeAttributeValue(resourceRow);
                                     } else {
-                                        commonType = resourceRow.get(0).toString().contains(CHEBI_RDF_RESOURCE_ATTRIBUTE) && resourceRow.get(1).toString().contains(CHEBI_COMMON_NAME) ? resourceRow.get(1).toString() : "";
+                                        commonType =
+                                                resourceRow
+                                                                        .get(0)
+                                                                        .toString()
+                                                                        .contains(
+                                                                                CHEBI_RDF_RESOURCE_ATTRIBUTE)
+                                                                && resourceRow
+                                                                        .get(1)
+                                                                        .toString()
+                                                                        .contains(CHEBI_COMMON_NAME)
+                                                        ? resourceRow.get(1).toString()
+                                                        : "";
                                     }
                                     return commonType;
                                 })
@@ -110,13 +131,10 @@ public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
         if (Arrays.asList(resourceRow.schema().fieldNames())
                 .contains(CHEBI_RDF_RESOURCE_ATTRIBUTE)) {
             String type =
-                    resourceRow.getString(
-                            resourceRow.fieldIndex(CHEBI_RDF_RESOURCE_ATTRIBUTE));
+                    resourceRow.getString(resourceRow.fieldIndex(CHEBI_RDF_RESOURCE_ATTRIBUTE));
             if (type.contains(CHEBI_COMMON_NAME)) {
                 commonType =
-                        resourceRow.getString(
-                                resourceRow.fieldIndex(
-                                        CHEBI_RDF_RESOURCE_ATTRIBUTE));
+                        resourceRow.getString(resourceRow.fieldIndex(CHEBI_RDF_RESOURCE_ATTRIBUTE));
             }
         }
         return commonType;

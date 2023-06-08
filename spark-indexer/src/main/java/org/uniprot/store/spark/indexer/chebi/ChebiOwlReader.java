@@ -15,10 +15,11 @@ import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructType;
 import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.store.spark.indexer.chebi.mapper.*;
+import org.uniprot.store.spark.indexer.chebi.mapper.ChebiEntryRowAggregator;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 
 import scala.collection.JavaConverters;
-import org.uniprot.store.spark.indexer.chebi.mapper.ChebiEntryRowAggregator;
+
 public class ChebiOwlReader {
 
     private final SparkSession spark;
@@ -40,13 +41,19 @@ public class ChebiOwlReader {
                                 CHEBI_RDF_TYPE_ATTRIBUTE,
                                 DataTypes.createArrayType(
                                         new StructType()
-                                                .add(CHEBI_RDF_RESOURCE_ATTRIBUTE, DataTypes.StringType, true)),
+                                                .add(
+                                                        CHEBI_RDF_RESOURCE_ATTRIBUTE,
+                                                        DataTypes.StringType,
+                                                        true)),
                                 true)
                         .add(
                                 CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE,
                                 DataTypes.createArrayType(
                                         new StructType()
-                                                .add(CHEBI_RDF_NODE_ID_ATTRIBBUTE, DataTypes.StringType, true)),
+                                                .add(
+                                                        CHEBI_RDF_NODE_ID_ATTRIBBUTE,
+                                                        DataTypes.StringType,
+                                                        true)),
                                 true)
                         .add("chebislash:inchikey", DataTypes.StringType, true)
                         .add("obo:IAO_0000115", DataTypes.StringType, true)
@@ -55,21 +62,36 @@ public class ChebiOwlReader {
                                 CHEBI_RDFS_SUBCLASS_ATTRIBUTE,
                                 DataTypes.createArrayType(
                                         new StructType()
-                                                .add(CHEBI_RDF_RESOURCE_ATTRIBUTE, DataTypes.StringType, true)
-                                                .add(CHEBI_RDF_NODE_ID_ATTRIBBUTE, DataTypes.StringType, true)),
+                                                .add(
+                                                        CHEBI_RDF_RESOURCE_ATTRIBUTE,
+                                                        DataTypes.StringType,
+                                                        true)
+                                                .add(
+                                                        CHEBI_RDF_NODE_ID_ATTRIBBUTE,
+                                                        DataTypes.StringType,
+                                                        true)),
                                 true)
-                        .add(CHEBI_RDFS_LABEL_ATTRIBUTE, DataTypes.createArrayType(DataTypes.StringType), true)
+                        .add(
+                                CHEBI_RDFS_LABEL_ATTRIBUTE,
+                                DataTypes.createArrayType(DataTypes.StringType),
+                                true)
                         .add(
                                 CHEBI_OWL_PROPERTY_ATTRIBUTE,
                                 DataTypes.createArrayType(
                                         new StructType()
-                                                .add(CHEBI_RDF_RESOURCE_ATTRIBUTE, DataTypes.StringType, true)),
+                                                .add(
+                                                        CHEBI_RDF_RESOURCE_ATTRIBUTE,
+                                                        DataTypes.StringType,
+                                                        true)),
                                 true)
                         .add(
                                 CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE,
                                 DataTypes.createArrayType(
                                         new StructType()
-                                                .add(CHEBI_RDF_RESOURCE_ATTRIBUTE, DataTypes.StringType, true)),
+                                                .add(
+                                                        CHEBI_RDF_RESOURCE_ATTRIBUTE,
+                                                        DataTypes.StringType,
+                                                        true)),
                                 true);
         return schema;
     }
@@ -129,7 +151,8 @@ public class ChebiOwlReader {
                 explodedAboutDF
                         .groupBy("about_subject")
                         .agg(
-                                collect_set(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE).alias(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE),
+                                collect_set(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE)
+                                        .alias(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE),
                                 collect_set(CHEBI_RDFS_SUBCLASS_ATTRIBUTE).alias("subClassOf"));
         JavaRDD<Row> joinedNodeRDD =
                 joinAndExtractLabelAndClassRelatedNodesFromNodeIdDF(
@@ -185,7 +208,8 @@ public class ChebiOwlReader {
                         .select(col("a.about_subject"), col("b.subject"), col("b.object"))
                         .toJavaRDD()
                         .flatMapToPair(new ChebiNodeEntryRelatedFieldsRowMapper())
-                        .aggregateByKey(null, new ChebiEntryRowAggregator(), new ChebiEntryRowAggregator())
+                        .aggregateByKey(
+                                null, new ChebiEntryRowAggregator(), new ChebiEntryRowAggregator())
                         .map(
                                 row ->
                                         RowFactory.create(

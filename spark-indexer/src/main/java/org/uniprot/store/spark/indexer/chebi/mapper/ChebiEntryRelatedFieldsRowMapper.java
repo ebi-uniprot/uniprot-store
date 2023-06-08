@@ -1,5 +1,8 @@
 package org.uniprot.store.spark.indexer.chebi.mapper;
 
+import static org.uniprot.store.indexer.common.utils.Constants.CHEBI_RDFS_SUBCLASS_ATTRIBUTE;
+import static org.uniprot.store.indexer.common.utils.Constants.CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -11,9 +14,6 @@ import org.apache.spark.sql.RowFactory;
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
 
-import static org.uniprot.store.indexer.common.utils.Constants.CHEBI_RDFS_SUBCLASS_ATTRIBUTE;
-import static org.uniprot.store.indexer.common.utils.Constants.CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE;
-
 public class ChebiEntryRelatedFieldsRowMapper implements FlatMapFunction<Row, Row> {
     @Override
     public Iterator<Row> call(Row row) throws Exception {
@@ -23,13 +23,17 @@ public class ChebiEntryRelatedFieldsRowMapper implements FlatMapFunction<Row, Ro
         List<String> chebiStructuredNames =
                 objectRow.contains(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE)
                         ? JavaConverters.seqAsJavaListConverter(
-                                        (Seq<String>) objectRow.get(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE).get())
+                                        (Seq<String>)
+                                                objectRow
+                                                        .get(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE)
+                                                        .get())
                                 .asJava()
                         : null;
         List<String> subClassOfs =
                 objectRow.contains(CHEBI_RDFS_SUBCLASS_ATTRIBUTE)
                         ? JavaConverters.seqAsJavaListConverter(
-                                        (Seq<String>) objectRow.get(CHEBI_RDFS_SUBCLASS_ATTRIBUTE).get())
+                                        (Seq<String>)
+                                                objectRow.get(CHEBI_RDFS_SUBCLASS_ATTRIBUTE).get())
                                 .asJava()
                         : null;
         if (chebiStructuredNames != null) {

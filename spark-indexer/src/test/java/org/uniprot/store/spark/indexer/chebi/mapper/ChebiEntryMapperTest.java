@@ -56,7 +56,10 @@ class ChebiEntryMapperTest {
                 JavaConverters.asScalaBufferConverter(Arrays.asList("label2")).asScala().toList());
         rawJavaMap.put(
                 "rdfs:subClassOf",
-                JavaConverters.asScalaBufferConverter(Arrays.asList("http://purl.obolibrary.org/obo/CHEBI_3300","http://purl.obolibrary.org/obo/CHEBI_3400"))
+                JavaConverters.asScalaBufferConverter(
+                                Arrays.asList(
+                                        "http://purl.obolibrary.org/obo/CHEBI_3300",
+                                        "http://purl.obolibrary.org/obo/CHEBI_3400"))
                         .asScala()
                         .toList());
         rawJavaMap.put(
@@ -100,7 +103,9 @@ class ChebiEntryMapperTest {
         rawJavaMap.put(
                 "rdfs:subClassOf",
                 JavaConverters.asScalaBufferConverter(
-                                Arrays.asList("http://purl.obolibrary.org/obo/CHEBI_3300","http://purl.obolibrary.org/obo/CHEBI_3400"))
+                                Arrays.asList(
+                                        "http://purl.obolibrary.org/obo/CHEBI_3300",
+                                        "http://purl.obolibrary.org/obo/CHEBI_3400"))
                         .asScala()
                         .toList());
         scala.collection.Map<Object, Object> scalaMap =

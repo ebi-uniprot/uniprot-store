@@ -1,15 +1,17 @@
 package org.uniprot.store.spark.indexer.chebi.mapper;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.*;
+
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructType;
 import org.junit.jupiter.api.Test;
-import scala.collection.JavaConverters;
-import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import scala.collection.JavaConverters;
 
 public class ChebiEntryRelatedFieldsRowMapperTest {
 
@@ -39,18 +41,31 @@ public class ChebiEntryRelatedFieldsRowMapperTest {
     private Row getRowWithSchema() {
         String subject = "http://purl.obolibrary.org/obo/CHEBI_74148";
         java.util.Map<String, Object> objectMap = new java.util.HashMap<>();
-        objectMap.put("chebiStructuredName", JavaConverters.collectionAsScalaIterableConverter(Arrays.asList(
-                "name189730", "name189731")).asScala().toSeq());
+        objectMap.put(
+                "chebiStructuredName",
+                JavaConverters.collectionAsScalaIterableConverter(
+                                Arrays.asList("name189730", "name189731"))
+                        .asScala()
+                        .toSeq());
         objectMap.put("chebislash:inchikey", Arrays.asList("TXHBQUJRFDOFJT-FBLBILBLSA-N"));
-        objectMap.put("obo:IAO_0000115", Arrays.asList(
-                "A hydroxy fatty-acyl-CoA that results from the formal condensation of the thiol group of coenzyme A with the carboxy group of 2-hydroxybehenic acid."));
+        objectMap.put(
+                "obo:IAO_0000115",
+                Arrays.asList(
+                        "A hydroxy fatty-acyl-CoA that results from the formal condensation of the thiol group of coenzyme A with the carboxy group of 2-hydroxybehenic acid."));
         objectMap.put("oboInOwl:hasId", Arrays.asList("74148"));
-        objectMap.put("rdfs:subClassOf", JavaConverters.collectionAsScalaIterableConverter(Arrays.asList(
-                "bn74148tmms73f74117", "http://purl.obolibrary.org/obo/CHEBI_33184")).asScala().toSeq());
+        objectMap.put(
+                "rdfs:subClassOf",
+                JavaConverters.collectionAsScalaIterableConverter(
+                                Arrays.asList(
+                                        "bn74148tmms73f74117",
+                                        "http://purl.obolibrary.org/obo/CHEBI_33184"))
+                        .asScala()
+                        .toSeq());
         // Convert the objectMap to a Scala Map
         scala.collection.immutable.Map<String, Object> objectScalaMap =
-                JavaConverters.mapAsScalaMapConverter(objectMap).asScala().toMap(
-                        scala.Predef.conforms());
+                JavaConverters.mapAsScalaMapConverter(objectMap)
+                        .asScala()
+                        .toMap(scala.Predef.conforms());
         // Create values list for the Row
         List<Object> values = new ArrayList<>();
         values.add(subject);
@@ -71,5 +86,4 @@ public class ChebiEntryRelatedFieldsRowMapperTest {
                                         DataTypes.createArrayType(DataTypes.StringType)));
         return processedSchema;
     }
-
 }

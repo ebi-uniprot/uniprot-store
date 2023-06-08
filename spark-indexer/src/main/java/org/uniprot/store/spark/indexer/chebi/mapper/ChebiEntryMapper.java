@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.chebi.mapper;
 
+import static org.uniprot.store.indexer.common.utils.Constants.*;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +15,6 @@ import org.uniprot.core.cv.chebi.impl.ChebiEntryBuilder;
 
 import scala.Tuple2;
 import scala.collection.JavaConverters;
-
-import static org.uniprot.store.indexer.common.utils.Constants.*;
 
 public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Serializable {
 
@@ -49,7 +49,8 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
                 map.get("chebislash:inchikey") != null
                         ? map.get("chebislash:inchikey").get(0)
                         : "");
-        if (map.get(CHEBI_RDFS_LABEL_ATTRIBUTE) != null && map.get(CHEBI_RDFS_LABEL_ATTRIBUTE).size() > 0) {
+        if (map.get(CHEBI_RDFS_LABEL_ATTRIBUTE) != null
+                && map.get(CHEBI_RDFS_LABEL_ATTRIBUTE).size() > 0) {
             for (int i = 0; i < map.get(CHEBI_RDFS_LABEL_ATTRIBUTE).size(); i++) {
                 chebiBuilder.synonymsAdd(map.get(CHEBI_RDFS_LABEL_ATTRIBUTE).get(i));
             }
@@ -57,12 +58,12 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
         if (map.get(CHEBI_RDFS_SUBCLASS_ATTRIBUTE) != null) {
             for (int i = 0; i < map.get(CHEBI_RDFS_SUBCLASS_ATTRIBUTE).size(); i++) {
                 String rdfsSubClassValue = map.get(CHEBI_RDFS_SUBCLASS_ATTRIBUTE).get(i);
-                if(rdfsSubClassValue.contains("CHEBI_")) {
-                    String chebiId = rdfsSubClassValue.split("/obo/CHEBI_")[1].strip();;
+                if (rdfsSubClassValue.contains("CHEBI_")) {
+                    String chebiId = rdfsSubClassValue.split("/obo/CHEBI_")[1].strip();
+                    ;
                     if (!containsId(relatedIds, chebiId)) {
                         relatedIds.add(chebiId);
-                        chebiBuilder.relatedIdsAdd(
-                                new ChebiEntryBuilder().id(chebiId).build());
+                        chebiBuilder.relatedIdsAdd(new ChebiEntryBuilder().id(chebiId).build());
                     }
                 }
             }
@@ -73,7 +74,10 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
                 if (prop.contains(RELATED_CONJUGATE_BASE_PREFIX)
                         || prop.contains(RELATED_CONJUGATE_ACID_PREFIX)) {
                     String owlSomeValuesFrom =
-                            (map.get(CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE).get(i).split("/obo/CHEBI_")[1]).strip();
+                            (map.get(CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE)
+                                            .get(i)
+                                            .split("/obo/CHEBI_")[1])
+                                    .strip();
                     if (!containsId(relatedIds, owlSomeValuesFrom)) {
                         relatedIds.add(owlSomeValuesFrom);
                         chebiBuilder.relatedIdsAdd(
@@ -82,7 +86,10 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
                 }
                 if (prop.contains(RELATED_MICROSPECIES_PREFIX)) {
                     String owlSomeValuesFrom =
-                            (map.get(CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE).get(i).split("/obo/CHEBI_")[1]).strip();
+                            (map.get(CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE)
+                                            .get(i)
+                                            .split("/obo/CHEBI_")[1])
+                                    .strip();
                     if (!containsId(majorMicrospecies, owlSomeValuesFrom)) {
                         majorMicrospecies.add(owlSomeValuesFrom);
                         chebiBuilder.majorMicrospeciesAdd(

@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.chebi.mapper;
 
+import static org.uniprot.store.indexer.common.utils.Constants.*;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -11,8 +13,6 @@ import org.uniprot.store.spark.indexer.chebi.ChebiOwlReader;
 import scala.collection.AbstractSeq;
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
-
-import static org.uniprot.store.indexer.common.utils.Constants.*;
 
 public class ChebiEntryRowMapper implements Function<Row, Row> {
 
@@ -53,9 +53,11 @@ public class ChebiEntryRowMapper implements Function<Row, Row> {
         }
         if (currentSubject != null) {
             for (String key : ChebiOwlReader.getSchema().fieldNames()) {
-                if (!key.equals(CHEBI_RDF_ABOUT_ATTRIBUTE) && !key.equals(CHEBI_RDF_NODE_ID_ATTRIBBUTE)) {
+                if (!key.equals(CHEBI_RDF_ABOUT_ATTRIBUTE)
+                        && !key.equals(CHEBI_RDF_NODE_ID_ATTRIBBUTE)) {
                     List<String> values = null;
-                    if (key.equals(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE) || key.equals(CHEBI_RDFS_SUBCLASS_ATTRIBUTE)) {
+                    if (key.equals(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE)
+                            || key.equals(CHEBI_RDFS_SUBCLASS_ATTRIBUTE)) {
                         Object resourceObj = row.get(row.fieldIndex(key));
                         if (resourceObj instanceof AbstractSeq) {
                             values =
@@ -119,11 +121,29 @@ public class ChebiEntryRowMapper implements Function<Row, Row> {
                                     String resourceId = null;
                                     String nodeId = null;
                                     if (resourceRow.schema() != null) {
-                                        resourceId = getAttributeValue(resourceRow, CHEBI_RDF_RESOURCE_ATTRIBUTE);
-                                        nodeId = getAttributeValue(resourceRow, CHEBI_RDF_NODE_ID_ATTRIBBUTE);
+                                        resourceId =
+                                                getAttributeValue(
+                                                        resourceRow, CHEBI_RDF_RESOURCE_ATTRIBUTE);
+                                        nodeId =
+                                                getAttributeValue(
+                                                        resourceRow, CHEBI_RDF_NODE_ID_ATTRIBBUTE);
                                     } else {
-                                        resourceId = resourceRow.get(0).toString().contains(CHEBI_RDF_RESOURCE_ATTRIBUTE) ? resourceRow.get(1).toString() : null;
-                                        nodeId = resourceRow.get(0).toString().contains(CHEBI_RDF_NODE_ID_ATTRIBBUTE) ? resourceRow.get(1).toString() : null;
+                                        resourceId =
+                                                resourceRow
+                                                                .get(0)
+                                                                .toString()
+                                                                .contains(
+                                                                        CHEBI_RDF_RESOURCE_ATTRIBUTE)
+                                                        ? resourceRow.get(1).toString()
+                                                        : null;
+                                        nodeId =
+                                                resourceRow
+                                                                .get(0)
+                                                                .toString()
+                                                                .contains(
+                                                                        CHEBI_RDF_NODE_ID_ATTRIBBUTE)
+                                                        ? resourceRow.get(1).toString()
+                                                        : null;
                                     }
                                     return resourceId != null ? resourceId : nodeId;
                                 })
@@ -133,11 +153,8 @@ public class ChebiEntryRowMapper implements Function<Row, Row> {
 
     public static String getAttributeValue(Row resourceRow, String attribute) {
         String value = null;
-        if (Arrays.asList(resourceRow.schema().fieldNames())
-                .contains(attribute)) {
-            value =
-                    resourceRow.getString(
-                            resourceRow.fieldIndex(attribute));
+        if (Arrays.asList(resourceRow.schema().fieldNames()).contains(attribute)) {
+            value = resourceRow.getString(resourceRow.fieldIndex(attribute));
         }
         return value;
     }

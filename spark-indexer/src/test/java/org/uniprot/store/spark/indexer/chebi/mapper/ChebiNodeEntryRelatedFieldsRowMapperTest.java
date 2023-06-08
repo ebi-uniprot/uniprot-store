@@ -1,20 +1,18 @@
 package org.uniprot.store.spark.indexer.chebi.mapper;
 
-import org.apache.spark.sql.Row;
-import org.apache.spark.sql.RowFactory;
-import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
-import org.apache.spark.sql.types.DataTypes;
-import org.apache.spark.sql.types.Metadata;
-import org.apache.spark.sql.types.StructField;
-import org.apache.spark.sql.types.StructType;
-import org.junit.jupiter.api.Test;
-import scala.Tuple2;
-import scala.collection.JavaConverters;
-import scala.collection.Seq;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
+import org.apache.spark.sql.types.DataTypes;
+import org.apache.spark.sql.types.StructType;
+import org.junit.jupiter.api.Test;
+
+import scala.Tuple2;
+import scala.collection.JavaConverters;
+import scala.collection.Seq;
 
 public class ChebiNodeEntryRelatedFieldsRowMapperTest {
     @Test
@@ -32,18 +30,26 @@ public class ChebiNodeEntryRelatedFieldsRowMapperTest {
         String aboutSubject = "http://purl.obolibrary.org/obo/CHEBI_74148";
         String subject = "name189730";
         Map<String, Object> object = new HashMap<>();
-        object.put("name", JavaConverters.asScalaBufferConverter(Arrays.asList("2-hydroxybehenoyl-CoA")).asScala().toList());
+        object.put(
+                "name",
+                JavaConverters.asScalaBufferConverter(Arrays.asList("2-hydroxybehenoyl-CoA"))
+                        .asScala()
+                        .toList());
 
-        Object[] rowValues = { aboutSubject, subject, JavaConverters.mapAsScalaMap(object) };
+        Object[] rowValues = {aboutSubject, subject, JavaConverters.mapAsScalaMap(object)};
         return new GenericRowWithSchema(rowValues, getSchema());
     }
 
     public static StructType getSchema() {
-        StructType schema = new StructType()
-                .add("about_subject", DataTypes.StringType)
-                .add("subject", DataTypes.StringType)
-                .add("object", DataTypes.createMapType(DataTypes.StringType, DataTypes.createArrayType(DataTypes.StringType)));
+        StructType schema =
+                new StructType()
+                        .add("about_subject", DataTypes.StringType)
+                        .add("subject", DataTypes.StringType)
+                        .add(
+                                "object",
+                                DataTypes.createMapType(
+                                        DataTypes.StringType,
+                                        DataTypes.createArrayType(DataTypes.StringType)));
         return schema;
     }
-
 }
