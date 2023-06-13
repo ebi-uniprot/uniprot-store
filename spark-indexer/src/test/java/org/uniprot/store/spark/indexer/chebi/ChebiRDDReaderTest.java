@@ -27,7 +27,6 @@ class ChebiRDDReaderTest {
 
     @Test
     void testLoadChebi() {
-        // CHEBI:156068
         ResourceBundle application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
             JobParameter parameter =
@@ -82,7 +81,7 @@ class ChebiRDDReaderTest {
         assertEquals("CURLTUGMZLYLDI-UHFFFAOYSA-N", entry.getInchiKey());
 
         assertNotNull(entry.getSynonyms());
-        assertEquals(11, entry.getSynonyms().size());
+        assertEquals(12, entry.getSynonyms().size());
         assertTrue(entry.getSynonyms().contains("[CO2]"));
         assertTrue(entry.getSynonyms().contains("CARBON DIOXIDE"));
         assertTrue(entry.getSynonyms().contains("carbonic anhydride"));
