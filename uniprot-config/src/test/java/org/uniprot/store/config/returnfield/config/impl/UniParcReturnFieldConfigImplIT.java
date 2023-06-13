@@ -5,11 +5,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -73,6 +76,30 @@ class UniParcReturnFieldConfigImplIT {
         System.out.println(returnFieldName + " : " + mappedField.get(returnFieldName));
         assertNotNull(mappedField.get(returnFieldName));
         assertFalse(mappedField.get(returnFieldName).isEmpty());
+    }
+
+    @Test
+    void testInternalReturnFields() {
+        List<String> expectedInternalNames =
+                List.of(
+                        "database",
+                        "ncbiGi",
+                        "active",
+                        "timeline",
+                        "version",
+                        "version_uniparc",
+                        "oldestCrossRefCreated",
+                        "mostRecentCrossRefUpdated");
+        List<ReturnField> internal =
+                returnFieldConfig.getReturnFields().stream()
+                        .filter(rf -> Objects.isNull(rf.getParentId()))
+                        .collect(Collectors.toList());
+        assertNotNull(internal);
+        assertEquals(8, internal.size());
+        List<String> internalNames =
+                internal.stream().map(ReturnField::getName).collect(Collectors.toList());
+
+        assertEquals(expectedInternalNames, internalNames);
     }
 
     private static Stream<Arguments> provideSearchSortFields() {
