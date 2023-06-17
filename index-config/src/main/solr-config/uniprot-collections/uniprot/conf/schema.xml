@@ -38,7 +38,6 @@
 		indexed="true" stored="false" required="false" multiValued="true" />
 	<field name="id_inactive" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" omitNorms="false" />
-	<copyField source="id" dest="id_sort" />
 
 	<field name="active" type="boolean" indexed="true" stored="true"
 		required="false" multiValued="false" />

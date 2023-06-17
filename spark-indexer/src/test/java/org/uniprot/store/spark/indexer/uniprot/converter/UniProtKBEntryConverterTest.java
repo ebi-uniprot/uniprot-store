@@ -57,6 +57,7 @@ class UniProtKBEntryConverterTest {
         assertEquals("P12345-1", document.canonicalAccession);
         assertEquals(1, document.id.size());
         assertTrue(document.id.contains("UNIPROT_ENTRYID"));
+        assertEquals("UNIPROT_ENTRYID", document.idSort);
         assertFalse(document.isIsoform);
         assertTrue(document.active);
         assertTrue(document.secacc.isEmpty());
@@ -83,6 +84,7 @@ class UniProtKBEntryConverterTest {
         assertNull(document.canonicalAccession);
         assertEquals(1, document.id.size());
         assertTrue(document.id.contains("UNIPROT_ENTRYID"));
+        assertEquals("UNIPROT_ENTRYID", document.idSort);
         assertFalse(document.isIsoform);
         assertTrue(document.active);
         assertTrue(document.secacc.contains("P21803"));
@@ -107,6 +109,7 @@ class UniProtKBEntryConverterTest {
         assertEquals("P12345", document.canonicalAccession);
         assertEquals(1, document.id.size());
         assertTrue(document.id.contains("UNIPROT_ENTRYID"));
+        assertEquals("UNIPROT_ENTRYID", document.idSort);
     }
 
     @Test
@@ -278,6 +281,7 @@ class UniProtKBEntryConverterTest {
         assertEquals(Arrays.asList("plastid", "cyanelle"), document.organelles);
         assertEquals(1, document.id.size());
         assertTrue(document.id.contains("UNIPROT_ENTRYID"));
+        assertEquals("UNIPROT_ENTRYID", document.idSort);
     }
 
     @Test

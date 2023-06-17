@@ -8,8 +8,8 @@ import java.util.Set;
 import org.apache.spark.api.java.Optional;
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
+
 import scala.Tuple2;
 
 class UniProtIdTrackerJoinMapperTest {
@@ -72,5 +72,4 @@ class UniProtIdTrackerJoinMapperTest {
 
         assertThrows(SparkIndexException.class, () -> mapper.call(tuple2));
     }
-
 }

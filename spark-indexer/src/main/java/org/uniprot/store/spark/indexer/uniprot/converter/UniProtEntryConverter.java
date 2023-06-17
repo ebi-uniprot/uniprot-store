@@ -166,6 +166,7 @@ public class UniProtEntryConverter
 
     private void convertUniprotId(UniProtKBId uniProtkbId, UniProtDocument document) {
         document.id.add(uniProtkbId.getValue());
+        document.idSort = uniProtkbId.getValue();
         String[] idParts = uniProtkbId.getValue().split("_");
         if (idParts.length == 2) {
             if (document.reviewed) {

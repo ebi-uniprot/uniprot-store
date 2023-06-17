@@ -1,13 +1,12 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
+
 import scala.Tuple2;
 
 public class UniProtIdTrackerJoinMapper
@@ -18,7 +17,8 @@ public class UniProtIdTrackerJoinMapper
         UniProtDocument doc = tuple2._1;
         if (tuple2._2.isPresent()) {
             if (!doc.reviewed) {
-                throw new SparkIndexException("Only Swiss-Prot entries are expected in UniProtIdTrackerJoinMapper");
+                throw new SparkIndexException(
+                        "Only Swiss-Prot entries are expected in UniProtIdTrackerJoinMapper");
             }
             Set<String> trackedIds = tuple2._2.get();
             doc.id.addAll(trackedIds);
