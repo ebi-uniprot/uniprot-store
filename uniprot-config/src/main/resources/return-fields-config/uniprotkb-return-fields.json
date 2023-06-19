@@ -700,6 +700,7 @@
     "childNumber": 6,
     "itemType": "SINGLE",
     "includeInSwagger": true,
+    "isRequiredForJson": true,
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 2,
     "name": "reviewed",
@@ -1548,5 +1549,12 @@
     "groupName": "Family and domain",
     "isDatabaseGroup": true,
     "id": "family_and_domain"
+  },
+  {
+    "itemType": "SINGLE",
+    "id": "inactive_reason",
+    "isRequiredForJson": true,
+    "name": "inactiveReason",
+    "paths": ["inactiveReason"]
   }
 ]
