@@ -35,6 +35,7 @@ public class LiteratureMappedToUniProtDocument
                 } else {
                     doc.computationalPubmedIds.add(srcPubMedIds._2);
                 }
+                doc.referenceCitationIds.add(srcPubMedIds._2);
             }
         }
         return doc;
