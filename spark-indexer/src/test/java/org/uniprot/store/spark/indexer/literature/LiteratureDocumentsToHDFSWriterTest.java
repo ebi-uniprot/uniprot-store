@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -18,6 +17,8 @@ import org.uniprot.store.search.document.literature.LiteratureDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
+import com.typesafe.config.Config;
+
 /**
  * @author lgonzales
  * @since 31/03/2021
@@ -26,7 +27,7 @@ class LiteratureDocumentsToHDFSWriterTest {
 
     @Test
     void writeIndexDocumentsToHDFS() throws IOException {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
+        Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
             JobParameter parameter =
                     JobParameter.builder()

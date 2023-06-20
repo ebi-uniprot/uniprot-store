@@ -2,8 +2,6 @@ package org.uniprot.store.spark.indexer.uniref;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ResourceBundle;
-
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.Test;
@@ -11,6 +9,8 @@ import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+
+import com.typesafe.config.Config;
 
 /**
  * @author lgonzales
@@ -20,7 +20,7 @@ class UniRefRDDTupleReaderTest {
 
     @Test
     void testLoadUniRef50WithPartition() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
+        Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
             JobParameter parameter =
                     JobParameter.builder()
@@ -45,7 +45,7 @@ class UniRefRDDTupleReaderTest {
 
     @Test
     void testLoadUniRef100WithWithoutPartition() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
+        Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
             JobParameter parameter =
                     JobParameter.builder()

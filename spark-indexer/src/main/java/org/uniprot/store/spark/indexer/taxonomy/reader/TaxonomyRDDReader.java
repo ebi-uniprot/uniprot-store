@@ -1,7 +1,6 @@
 package org.uniprot.store.spark.indexer.taxonomy.reader;
 
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -14,6 +13,8 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyJoinMapper;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyRowMapper;
+
+import com.typesafe.config.Config;
 
 /**
  * This class is Responsible to load JavaPairRDD{key=taxId, value=TaxonomyEntry}
@@ -51,7 +52,7 @@ public class TaxonomyRDDReader implements PairRDDReader<String, TaxonomyEntry> {
 
     private Dataset<Row> loadTaxonomyNodeRow() {
         JavaSparkContext sparkContext = jobParameter.getSparkContext();
-        ResourceBundle applicationConfig = jobParameter.getApplicationConfig();
+        Config applicationConfig = jobParameter.getApplicationConfig();
         long maxTaxId = TaxonomyUtil.getMaxTaxId(sparkContext, applicationConfig);
         int numberPartition =
                 Integer.parseInt(applicationConfig.getString("database.taxonomy.partition"));

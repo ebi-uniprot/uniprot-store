@@ -8,7 +8,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -19,6 +18,8 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import scala.Tuple2;
 
+import com.typesafe.config.Config;
+
 /**
  * @author lgonzales
  * @since 24/05/2020
@@ -27,7 +28,7 @@ import scala.Tuple2;
 class TaxonomyRDDReaderTest {
 
     private Connection dbConnection;
-    private ResourceBundle application;
+    private Config application;
 
     @BeforeAll
     public void setupTests() throws SQLException, IOException {

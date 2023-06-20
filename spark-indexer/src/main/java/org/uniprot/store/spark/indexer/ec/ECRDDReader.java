@@ -5,7 +5,6 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputRel
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -15,6 +14,8 @@ import org.uniprot.cv.ec.ECFileReader;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+
+import com.typesafe.config.Config;
 
 /**
  * @author lgonzales
@@ -31,7 +32,7 @@ public class ECRDDReader implements PairRDDReader<String, ECEntry> {
     /** @return JavaPairRDD{key=ecId, value={@link ECEntry}} */
     @Override
     public JavaPairRDD<String, ECEntry> load() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
 
         String releaseInputDir =

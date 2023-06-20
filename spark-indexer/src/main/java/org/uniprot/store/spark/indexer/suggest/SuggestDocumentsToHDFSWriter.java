@@ -5,7 +5,6 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollecti
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +51,8 @@ import org.uniprot.store.spark.indexer.uniprot.mapper.GoRelationsJoinMapper;
 
 import scala.Tuple2;
 
+import com.typesafe.config.Config;
+
 /**
  * This class is responsible to load all the data for SuggestDocument and write it into HDFS
  *
@@ -62,7 +63,7 @@ import scala.Tuple2;
 public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     private final JavaSparkContext sparkContext;
-    private final ResourceBundle config;
+    private final Config config;
     private final JobParameter jobParameter;
 
     public SuggestDocumentsToHDFSWriter(JobParameter jobParameter) {

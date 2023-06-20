@@ -36,10 +36,10 @@ public abstract class AbstractDataStoreWriter<T> implements VoidFunction<Iterato
         long i = 0;
         while (entryIterator.hasNext()) {
             final T entry = entryIterator.next();
-//            if(i%10000 == 0) {
-//                Thread.sleep(100);
-//            }
-//            i++;
+            //            if(i%10000 == 0) {
+            //                Thread.sleep(100);
+            //            }
+            //            i++;
             Failsafe.with(retryPolicy).run(() -> client.saveEntry(entry));
         }
     }

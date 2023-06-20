@@ -1,7 +1,6 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
 import java.util.Iterator;
-import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +19,8 @@ import org.uniprot.store.spark.indexer.uniprot.mapper.UniParcMapper;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniProtKBAnnotationScoreMapper;
 import org.uniprot.store.spark.indexer.uniprot.writer.UniProtKBDataStoreWriter;
 
+import com.typesafe.config.Config;
+
 /**
  * @author lgonzales
  * @since 2020-03-06
@@ -35,7 +36,7 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
 
     @Override
     public void indexInDataStore() {
-        ResourceBundle config = parameter.getApplicationConfig();
+        Config config = parameter.getApplicationConfig();
         UniProtKBRDDTupleReader uniprotkbReader = new UniProtKBRDDTupleReader(parameter, false);
         JavaPairRDD<String, UniProtKBEntry> uniprotRDD = uniprotkbReader.load();
 
@@ -70,7 +71,7 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
         return uniprotRDD;
     }
 
-    private DataStoreParameter getDataStoreParameter(ResourceBundle config) {
+    private DataStoreParameter getDataStoreParameter(Config config) {
         String numberOfConnections = config.getString("store.uniprot.numberOfConnections");
         String maxRetry = config.getString("store.uniprot.retry");
         String delay = config.getString("store.uniprot.delay");

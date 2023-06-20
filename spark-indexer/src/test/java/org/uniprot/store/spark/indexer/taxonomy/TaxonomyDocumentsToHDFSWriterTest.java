@@ -10,7 +10,6 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -31,6 +30,7 @@ import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReaderFake;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.typesafe.config.Config;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TaxonomyDocumentsToHDFSWriterTest {
@@ -40,7 +40,7 @@ class TaxonomyDocumentsToHDFSWriterTest {
 
     @BeforeAll
     void setUpWriter() throws SQLException, IOException {
-        ResourceBundle application = SparkUtils.loadApplicationProperty("application-taxonomy");
+        Config application = SparkUtils.loadApplicationProperty("application-taxonomy");
         JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application);
         parameter =
                 JobParameter.builder()

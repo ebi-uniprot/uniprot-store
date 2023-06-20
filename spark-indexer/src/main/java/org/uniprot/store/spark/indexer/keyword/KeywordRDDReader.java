@@ -3,7 +3,6 @@ package org.uniprot.store.spark.indexer.keyword;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseMainThreadDirPath;
 
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -12,6 +11,8 @@ import org.uniprot.cv.keyword.KeywordFileReader;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+
+import com.typesafe.config.Config;
 
 /**
  * This class load Keywords to a JavaPairRDD{key=keywordId, value={@link KeywordEntry}}
@@ -30,7 +31,7 @@ public class KeywordRDDReader implements PairRDDReader<String, KeywordEntry> {
     /** @return JavaPairRDD{key=keywordId, value={@link KeywordEntry}} */
     @Override
     public JavaPairRDD<String, KeywordEntry> load() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
 
         String releaseInputDir =

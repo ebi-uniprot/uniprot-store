@@ -23,6 +23,8 @@ import org.uniprot.store.spark.indexer.uniprot.mapper.UniProtEntryToSolrDocument
 
 import scala.Tuple2;
 
+import com.typesafe.config.Config;
+
 /**
  * @author lgonzales
  * @since 17/05/2020
@@ -34,7 +36,7 @@ class UniProtKBDocumentsToHDFSWriterTest {
 
     @BeforeAll
     void setUpWriter() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
+        Config application = SparkUtils.loadApplicationProperty();
         JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application);
         parameter =
                 JobParameter.builder()

@@ -2,8 +2,6 @@ package org.uniprot.store.spark.indexer.uniparc;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
-import java.util.ResourceBundle;
-
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaPairRDD;
@@ -20,6 +18,8 @@ import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcDocTaxonomyJoin;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryToDocument;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyMapper;
 
+import com.typesafe.config.Config;
+
 /**
  * This class is responsible to load all the data for UniParcDocument and save it into HDFS
  *
@@ -30,7 +30,7 @@ import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyMapper;
 public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     private final JobParameter parameter;
-    private final ResourceBundle config;
+    private final Config config;
     private final String releaseName;
 
     public UniParcDocumentsToHDFSWriter(JobParameter parameter) {

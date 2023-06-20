@@ -3,7 +3,6 @@ package org.uniprot.store.spark.indexer.uniref;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Iterator;
-import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.VoidFunction;
@@ -15,6 +14,8 @@ import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
+import com.typesafe.config.Config;
+
 /**
  * @author sahmad
  * @since 21/07/2020
@@ -23,7 +24,7 @@ class UniRefMemberDataStoreIndexerTest {
 
     @Test
     void indexInDataStore() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
+        Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
             JobParameter parameter =
                     JobParameter.builder()

@@ -1,8 +1,6 @@
 package org.uniprot.store.spark.indexer.common.util;
 
 import java.io.*;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.*;
 
 import lombok.extern.slf4j.Slf4j;
@@ -11,11 +9,12 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.spark.SparkConf;
-import org.apache.spark.SparkFiles;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.store.DataStore;
-import org.uniprot.store.spark.indexer.main.WriteIndexDocumentsToHDFSMain;
+
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 
 /**
  * @author lgonzales
@@ -29,26 +28,24 @@ public class SparkUtils {
 
     private SparkUtils() {}
 
-    public static String getInputReleaseDirPath(
-            ResourceBundle applicationConfig, String releaseName) {
+    public static String getInputReleaseDirPath(Config applicationConfig, String releaseName) {
         String inputDir = applicationConfig.getString("input.directory.path");
         return inputDir + releaseName + File.separator;
     }
 
     public static String getInputReleaseMainThreadDirPath(
-            ResourceBundle applicationConfig, String releaseName) {
+            Config applicationConfig, String releaseName) {
         String inputDir = applicationConfig.getString("input.directory.main.thread.path");
         return inputDir + releaseName + File.separator;
     }
 
-    public static String getOutputReleaseDirPath(
-            ResourceBundle applicationConfig, String releaseName) {
+    public static String getOutputReleaseDirPath(Config applicationConfig, String releaseName) {
         String inputDir = applicationConfig.getString("output.directory.path");
         return inputDir + releaseName + File.separator;
     }
 
     public static String getCollectionOutputReleaseDirPath(
-            ResourceBundle config, String releaseName, SolrCollection collection) {
+            Config config, String releaseName, SolrCollection collection) {
         return getOutputReleaseDirPath(config, releaseName) + collection.toString();
     }
 
@@ -80,38 +77,18 @@ public class SparkUtils {
         return inputStream;
     }
 
-    public static ResourceBundle loadApplicationProperty() {
+    public static Config loadApplicationProperty() {
         return loadApplicationProperty("application");
     }
 
-    public static ResourceBundle loadApplicationProperty(String baseName) {
-        URL resourceURL =
-                WriteIndexDocumentsToHDFSMain.class
-                        .getProtectionDomain()
-                        .getCodeSource()
-                        .getLocation();
-        try {
-            String path = SparkFiles.get("application.properties");
-            System.out.println("the path is " + path);
-            System.out.println("the value is");
-            readLines(path, null).stream().forEach(System.out::println);
-        } catch (Exception ex){
-            System.out.println(ex);
-        }
-        System.out.println("resourceURL is " + resourceURL.toString());
-        System.out.println("Locale.getDefault() " + Locale.getDefault());
-        try (URLClassLoader urlLoader = new URLClassLoader(new java.net.URL[] {resourceURL})) {
-            System.out.println("Inside try block");
-            // try to load from the directory that the application is being executed
-            return ResourceBundle.getBundle(baseName, Locale.getDefault(), urlLoader);
-        } catch (MissingResourceException | IOException e) {
-            // load from the classpath
-            System.out.println("Inside catch block");
-            return ResourceBundle.getBundle(baseName);
-        }
+    public static Config loadApplicationProperty(String baseName) {
+        Config config = ConfigFactory.load(baseName);
+        config.entrySet()
+                .forEach(e -> System.out.println(e.getKey() + "=" + config.getString(e.getKey())));
+        return config;
     }
 
-    public static JavaSparkContext loadSparkContext(ResourceBundle applicationConfig) {
+    public static JavaSparkContext loadSparkContext(Config applicationConfig) {
         String sparkMaster = applicationConfig.getString(SPARK_MASTER);
         if (sparkMaster.startsWith("local")) {
             return getLocalSparkContext(applicationConfig);
@@ -120,7 +97,7 @@ public class SparkUtils {
         }
     }
 
-    private static JavaSparkContext getLocalSparkContext(ResourceBundle applicationConfig) {
+    private static JavaSparkContext getLocalSparkContext(Config applicationConfig) {
         String applicationName = applicationConfig.getString("spark.application.name");
         String sparkMaster = applicationConfig.getString(SPARK_MASTER);
         SparkConf sparkConf =
@@ -134,7 +111,7 @@ public class SparkUtils {
         return new JavaSparkContext(sparkConf);
     }
 
-    private static JavaSparkContext getRemoteSparkContext(ResourceBundle applicationConfig) {
+    private static JavaSparkContext getRemoteSparkContext(Config applicationConfig) {
         String applicationName = applicationConfig.getString("spark.application.name");
         String sparkMaster = applicationConfig.getString(SPARK_MASTER);
         SparkConf sparkConf =

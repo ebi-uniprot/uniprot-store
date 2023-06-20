@@ -2,8 +2,6 @@ package org.uniprot.store.spark.indexer.genecentric;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
-import java.util.ResourceBundle;
-
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaPairRDD;
@@ -17,6 +15,8 @@ import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.genecentric.mapper.GeneCentricJoin;
 import org.uniprot.store.spark.indexer.genecentric.mapper.GeneCentricToDocument;
 
+import com.typesafe.config.Config;
+
 /**
  * @author lgonzales
  * @since 21/10/2020
@@ -25,7 +25,7 @@ import org.uniprot.store.spark.indexer.genecentric.mapper.GeneCentricToDocument;
 public class GeneCentricDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     private final JobParameter parameter;
-    private final ResourceBundle config;
+    private final Config config;
     private final String releaseName;
 
     public GeneCentricDocumentsToHDFSWriter(JobParameter parameter) {

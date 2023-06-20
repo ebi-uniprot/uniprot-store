@@ -2,8 +2,6 @@ package org.uniprot.store.spark.indexer.chebi;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
-import java.util.ResourceBundle;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.graphx.Edge;
@@ -18,6 +16,8 @@ import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 
 import scala.Tuple2;
 import scala.reflect.ClassTag;
+
+import com.typesafe.config.Config;
 
 /**
  * ChebiRDDReader loads CHEBI data and also its related ids "is_a","is_conjugate_base_of" and
@@ -47,7 +47,7 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
     /** @return JavaPairRDD{key=chebiId, value={@link ChebiEntry}} */
     @Override
     public JavaPairRDD<String, ChebiEntry> load() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
         String filePath = releaseInputDir + config.getString("chebi.file.path");
 

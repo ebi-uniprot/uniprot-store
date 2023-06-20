@@ -3,8 +3,6 @@ package org.uniprot.store.spark.indexer.uniprot;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseMainThreadDirPath;
 
-import java.util.ResourceBundle;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -14,6 +12,8 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.uniprot.converter.SupportingDataMapHDSFImpl;
 import org.uniprot.store.spark.indexer.uniprot.mapper.FlatFileToUniprotEntry;
+
+import com.typesafe.config.Config;
 
 /**
  * This class load an JavaPairRDD with <accession, UniProtKBEntry>
@@ -36,7 +36,7 @@ public class UniProtKBRDDTupleReader implements PairRDDReader<String, UniProtKBE
     /** @return an JavaPairRDD with <accession, UniProtKBEntry> */
     @Override
     public JavaPairRDD<String, UniProtKBEntry> load() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
 
         String releaseInputDir =
@@ -66,7 +66,7 @@ public class UniProtKBRDDTupleReader implements PairRDDReader<String, UniProtKBE
 
     /** @return Return an RDD with the entry in String format */
     public JavaRDD<String> loadFlatFileToRDD() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
         String filePath = releaseInputDir + config.getString("uniprot.flat.file");

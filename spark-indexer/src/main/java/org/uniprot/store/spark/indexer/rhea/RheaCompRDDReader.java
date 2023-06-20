@@ -2,13 +2,13 @@ package org.uniprot.store.spark.indexer.rhea;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
-import java.util.ResourceBundle;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.sql.SparkSession;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.rhea.model.RheaComp;
+
+import com.typesafe.config.Config;
 
 public class RheaCompRDDReader implements PairRDDReader<String, RheaComp> {
 
@@ -20,7 +20,7 @@ public class RheaCompRDDReader implements PairRDDReader<String, RheaComp> {
 
     @Override
     public JavaPairRDD<String, RheaComp> load() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
         String filePath = releaseInputDir + config.getString("rhea.comp.file.path");
 

@@ -3,7 +3,6 @@ package org.uniprot.store.spark.indexer.subcellularlocation;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
 import java.util.HashSet;
-import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +26,8 @@ import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SubcellularLoc
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SubcellularLocationJoinMapper;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
+import com.typesafe.config.Config;
+
 /**
  * @author sahmad
  * @created 31/01/2022
@@ -35,7 +36,7 @@ import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 public class SubcellularLocationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     private final JobParameter jobParameter;
-    private final ResourceBundle appConfig;
+    private final Config appConfig;
     private final String releaseName;
     private final UniProtKBRDDTupleReader uniProtKBReader;
 

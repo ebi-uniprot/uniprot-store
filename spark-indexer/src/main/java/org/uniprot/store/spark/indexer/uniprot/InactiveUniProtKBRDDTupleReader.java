@@ -3,7 +3,6 @@ package org.uniprot.store.spark.indexer.uniprot;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
 import java.util.Collections;
-import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.sql.SparkSession;
@@ -12,6 +11,8 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.uniprot.mapper.InactiveEntryAggregationMapper;
 import org.uniprot.store.spark.indexer.uniprot.mapper.InactiveFileToInactiveEntry;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniProtEntryToSolrDocument;
+
+import com.typesafe.config.Config;
 
 /**
  * This class load a JavaPairRDD with <accession, UniProtDocument> for Inactive UniProt Entries.
@@ -25,7 +26,7 @@ public class InactiveUniProtKBRDDTupleReader {
 
     /** @return an JavaPairRDD with <accession, UniProtDocument> for Inactive UniProt Entries. */
     public static JavaPairRDD<String, UniProtDocument> load(JobParameter jobParameter) {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
 
         SparkSession spark =
                 SparkSession.builder()

@@ -2,8 +2,6 @@ package org.uniprot.store.spark.indexer.go.evidence;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
-import java.util.ResourceBundle;
-
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaPairRDD;
@@ -11,6 +9,8 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
+
+import com.typesafe.config.Config;
 
 /**
  * This class load extended GO Evidences into an JavaPairRDD of {key=uniprot accession,
@@ -30,7 +30,7 @@ public class GOEvidencesRDDReader implements PairRDDReader<String, Iterable<GOEv
 
     /** @return JavaPairRDD of {key=uniprot accession, value=Iterable of GoEvidence} */
     public JavaPairRDD<String, Iterable<GOEvidence>> load() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
 
         SparkSession spark = SparkSession.builder().sparkContext(jsc.sc()).getOrCreate();
