@@ -85,6 +85,8 @@ public class SparkUtils {
 
     public static Config loadApplicationProperty(String baseName) {
         Config baseConfig = ConfigFactory.load(baseName);
+        baseConfig.entrySet().forEach(e -> log.info(e.getKey() + "=" + baseConfig.getString(e.getKey())));
+        log.info("###########");
         if (baseConfig.hasPath("config.location")) {
             String externalConfigFile = baseConfig.getString("config.location");
             log.info("externalConfigFile" + externalConfigFile);
