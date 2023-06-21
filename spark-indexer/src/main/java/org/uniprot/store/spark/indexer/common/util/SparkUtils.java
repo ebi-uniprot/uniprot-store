@@ -82,11 +82,18 @@ public class SparkUtils {
     }
 
     public static Config loadApplicationProperty(String baseName) {
-        Config config = ConfigFactory.load();
+        try {
+            log.info("******** starting to read file ********");
+            Config config = ConfigFactory.load();
+            config.entrySet()
+                    .forEach(e -> log.info(e.getKey() + "=" + config.getString(e.getKey())));
+            return config;
+        } catch (Exception e){
+            log.info("************ values failed ************");
+            log.info(e.getMessage());
+        }
         log.info("************ logging values ************");
-        config.entrySet()
-                .forEach(e -> log.info(e.getKey() + "=" + config.getString(e.getKey())));
-        return config;
+        return null;
     }
 
     public static JavaSparkContext loadSparkContext(Config applicationConfig) {
