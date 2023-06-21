@@ -83,9 +83,9 @@ public class SparkUtils {
 
     public static Config loadApplicationProperty(String baseName) {
         Config config = ConfigFactory.load();
-        System.out.println("************ logging values ************");
+        log.info("************ logging values ************");
         config.entrySet()
-                .forEach(e -> System.out.println(e.getKey() + "=" + config.getString(e.getKey())));
+                .forEach(e -> log.info(e.getKey() + "=" + config.getString(e.getKey())));
         return config;
     }
 
