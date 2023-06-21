@@ -2,6 +2,7 @@ package org.uniprot.store.spark.indexer.common.util;
 
 import java.io.*;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.*;
 
 import lombok.extern.slf4j.Slf4j;
@@ -84,26 +85,27 @@ public class SparkUtils {
     }
 
     public static Config loadApplicationProperty(String baseName) {
-        try {
-            log.info("******** starting to read file ********");
             Config baseConfig = ConfigFactory.load(baseName);
-            String externalFile = baseConfig.getString("spark.files");
-            log.info("externalFile" + externalFile);
+
+            String externalFile = null;
+            if(baseConfig.hasPath("spark.files")) {
+                externalFile = baseConfig.getString("spark.files");
+            }
+            log.info("External file is " + externalFile);
+
             if(Utils.notNullNotEmpty(externalFile)){
-                log.info("##### inside if block #######");
-                URI fileURI=new URI(externalFile);
-                Config config = ConfigFactory.parseFile(new File(fileURI)).withFallback(baseConfig);
+                URI uri;
+                try {
+                    uri = new URI(externalFile);
+                } catch (URISyntaxException e) {
+                    throw new IllegalArgumentException("Unable to convert path to URI " + externalFile);
+                }
+                Config config = ConfigFactory.parseFile(new File(uri)).withFallback(baseConfig);
                 config.entrySet()
                         .forEach(e -> log.info(e.getKey() + "=" + config.getString(e.getKey())));
                 return config;
             }
             return baseConfig;
-        } catch (Exception e){
-            log.info("************ values failed ************");
-            log.info(e.getMessage());
-        }
-        log.info("************ logging values ************");
-        return null;
     }
 
     public static JavaSparkContext loadSparkContext(Config applicationConfig) {
