@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.common.util;
 
 import java.io.*;
+import java.net.URI;
 import java.util.*;
 
 import lombok.extern.slf4j.Slf4j;
@@ -87,9 +88,11 @@ public class SparkUtils {
             log.info("******** starting to read file ********");
             Config baseConfig = ConfigFactory.load(baseName);
             String externalFile = baseConfig.getString("spark.files");
+            log.info("externalFile" + externalFile);
             if(Utils.notNullNotEmpty(externalFile)){
                 log.info("##### inside if block #######");
-                Config config = ConfigFactory.parseFile(new File(externalFile)).withFallback(baseConfig);
+                URI fileURI=new URI(externalFile);
+                Config config = ConfigFactory.parseFile(new File(fileURI)).withFallback(baseConfig);
                 config.entrySet()
                         .forEach(e -> log.info(e.getKey() + "=" + config.getString(e.getKey())));
                 return config;
