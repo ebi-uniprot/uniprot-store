@@ -33,6 +33,10 @@ public class IndexDataStoreMain {
         Config applicationConfig = SparkUtils.loadApplicationProperty();
         log.info("After read config");
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(applicationConfig)) {
+            log.info("################# config ####################");
+            applicationConfig.entrySet()
+                    .forEach(e -> log.info(e.getKey() + "=" + applicationConfig.getString(e.getKey())));
+            log.info("################# config done ####################");
             log.info("After creating context");
             JobParameter jobParameter =
                     JobParameter.builder()
