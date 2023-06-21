@@ -29,8 +29,9 @@ public class IndexDataStoreMain {
                             + "args[0]= release name"
                             + "args[1]= collection names (for example: uniprot,uniparc,uniref)");
         }
-
+        log.info("Starting to read config");
         Config applicationConfig = SparkUtils.loadApplicationProperty();
+        log.info("After read config");
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(applicationConfig)) {
             JobParameter jobParameter =
                     JobParameter.builder()
