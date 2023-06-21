@@ -85,8 +85,9 @@ public class SparkUtils {
 
     public static Config loadApplicationProperty(String baseName) {
         Config baseConfig = ConfigFactory.load(baseName);
-        if (baseConfig.hasPath("spark.files")) {
-            String externalConfigFile = baseConfig.getString("spark.files");
+        if (baseConfig.hasPath("config.location")) {
+            String externalConfigFile = baseConfig.getString("config.location");
+            log.info("externalConfigFile" + externalConfigFile);
             URI uri;
             try {
                 uri = new URI(externalConfigFile);
