@@ -84,7 +84,7 @@ public class SparkUtils {
     public static Config loadApplicationProperty(String baseName) {
         try {
             log.info("******** starting to read file ********");
-            Config config = ConfigFactory.load();
+            Config config = ConfigFactory.parseFile(new File("/homes/uni_adm/slurm-test/indexer/conf/application.properties"));
             config.entrySet()
                     .forEach(e -> log.info(e.getKey() + "=" + config.getString(e.getKey())));
             return config;
