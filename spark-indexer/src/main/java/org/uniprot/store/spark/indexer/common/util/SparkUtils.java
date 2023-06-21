@@ -10,6 +10,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.store.DataStore;
 
@@ -84,12 +85,16 @@ public class SparkUtils {
     public static Config loadApplicationProperty(String baseName) {
         try {
             log.info("******** starting to read file ********");
-            Config config = ConfigFactory.load(baseName);
-//            Config config = ConfigFactory.parseFile(new File("/homes/uni_adm/slurm-test/indexer/conf/application.properties"))
-//                    .withFallback(baseConfig);
-            config.entrySet()
-                    .forEach(e -> log.info(e.getKey() + "=" + config.getString(e.getKey())));
-            return config;
+            Config baseConfig = ConfigFactory.load(baseName);
+            String externalFile = baseConfig.getString("spark.files");
+            if(Utils.notNullNotEmpty(externalFile)){
+                log.info("##### inside if block #######");
+                Config config = ConfigFactory.parseFile(new File(externalFile)).withFallback(baseConfig);
+                config.entrySet()
+                        .forEach(e -> log.info(e.getKey() + "=" + config.getString(e.getKey())));
+                return config;
+            }
+            return baseConfig;
         } catch (Exception e){
             log.info("************ values failed ************");
             log.info(e.getMessage());
