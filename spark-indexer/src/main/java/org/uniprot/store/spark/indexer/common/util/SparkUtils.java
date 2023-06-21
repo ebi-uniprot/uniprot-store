@@ -12,7 +12,6 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.store.DataStore;
 
@@ -85,27 +84,19 @@ public class SparkUtils {
     }
 
     public static Config loadApplicationProperty(String baseName) {
-            Config baseConfig = ConfigFactory.load(baseName);
-
-            String externalFile = null;
-            if(baseConfig.hasPath("spark.files")) {
-                externalFile = baseConfig.getString("spark.files");
+        Config baseConfig = ConfigFactory.load(baseName);
+        if (baseConfig.hasPath("spark.files")) {
+            String externalConfigFile = baseConfig.getString("spark.files");
+            URI uri;
+            try {
+                uri = new URI(externalConfigFile);
+            } catch (URISyntaxException e) {
+                throw new IllegalArgumentException(
+                        "Unable to convert path to URI " + externalConfigFile);
             }
-            log.info("External file is " + externalFile);
-
-            if(Utils.notNullNotEmpty(externalFile)){
-                URI uri;
-                try {
-                    uri = new URI(externalFile);
-                } catch (URISyntaxException e) {
-                    throw new IllegalArgumentException("Unable to convert path to URI " + externalFile);
-                }
-                Config config = ConfigFactory.parseFile(new File(uri)).withFallback(baseConfig);
-                config.entrySet()
-                        .forEach(e -> log.info(e.getKey() + "=" + config.getString(e.getKey())));
-                return config;
-            }
-            return baseConfig;
+            return ConfigFactory.parseFile(new File(uri)).withFallback(baseConfig);
+        }
+        return baseConfig;
     }
 
     public static JavaSparkContext loadSparkContext(Config applicationConfig) {
