@@ -8,6 +8,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 import org.uniprot.store.spark.indexer.common.store.DataStore;
+import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexerFactory;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
@@ -42,9 +43,9 @@ public class IndexDataStoreMain {
             List<DataStore> dataStores = SparkUtils.getDataStores(args[1]);
             for (DataStore dataStore : dataStores) {
                 log.info("Indexing data store: " + dataStore.getName());
-                //                DataStoreIndexer dataStoreIndexer =
-                //                        factory.createDataStoreIndexer(dataStore, jobParameter);
-                //                dataStoreIndexer.indexInDataStore();
+                DataStoreIndexer dataStoreIndexer =
+                        factory.createDataStoreIndexer(dataStore, jobParameter);
+                dataStoreIndexer.indexInDataStore();
             }
         } catch (Exception e) {
             throw new IndexDataStoreException("Unexpected error during DataStore index", e);

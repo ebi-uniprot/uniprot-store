@@ -1,9 +1,9 @@
 package org.uniprot.store.spark.indexer.common.util;
 
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -84,23 +84,7 @@ public class SparkUtils {
     }
 
     public static Config loadApplicationProperty(String baseName) {
-        log.info("########### Config started to write ###############");
-        Config baseConfig = ConfigFactory.load(baseName);
-        baseConfig.entrySet().forEach(e -> log.info(e.getKey() + "=" + baseConfig.getString(e.getKey())));
-        log.info("########### Config end to write ###############");
-        if (baseConfig.hasPath("config.location")) {
-            String externalConfigFile = baseConfig.getString("config.location");
-            log.info("externalConfigFile" + externalConfigFile);
-            URI uri;
-            try {
-                uri = new URI(externalConfigFile);
-            } catch (URISyntaxException e) {
-                throw new IllegalArgumentException(
-                        "Unable to convert path to URI " + externalConfigFile);
-            }
-            return ConfigFactory.parseFile(new File(uri)).withFallback(baseConfig);
-        }
-        return baseConfig;
+        return ConfigFactory.load(baseName);
     }
 
     public static JavaSparkContext loadSparkContext(Config applicationConfig) {
