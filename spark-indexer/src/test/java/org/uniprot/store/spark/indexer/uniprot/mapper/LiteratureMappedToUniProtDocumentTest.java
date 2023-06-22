@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,11 @@ class LiteratureMappedToUniProtDocumentTest {
 
         assertNotNull(result);
         assertNotNull(result.computationalPubmedIds);
+        assertNotNull(result.communityPubmedIds);
+        assertNotNull(result.referenceCitationIds);
         assertEquals(0, result.computationalPubmedIds.size());
+        assertEquals(0, result.communityPubmedIds.size());
+        assertEquals(0, result.referenceCitationIds.size());
     }
 
     @Test
@@ -54,5 +59,11 @@ class LiteratureMappedToUniProtDocumentTest {
         assertEquals(2, result.communityPubmedIds.size());
         assertEquals("678", result.communityPubmedIds.get(0));
         assertEquals("123", result.communityPubmedIds.get(1));
+        assertNotNull(result.referenceCitationIds);
+        assertEquals(4, result.referenceCitationIds.size());
+        assertEquals("123", result.referenceCitationIds.get(0));
+        assertEquals("678", result.referenceCitationIds.get(1));
+        assertEquals("456", result.referenceCitationIds.get(2));
+        assertEquals("123", result.referenceCitationIds.get(3));
     }
 }
