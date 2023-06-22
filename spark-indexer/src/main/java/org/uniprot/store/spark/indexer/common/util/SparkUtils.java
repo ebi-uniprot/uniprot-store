@@ -119,9 +119,8 @@ public class SparkUtils {
                         .setMaster(sparkMaster)
                         .set("spark.scheduler.mode", "FAIR")
                         .set("spark.sql.caseSensitive", "true")
-                        .set("spark.shuffle.useOldFetchProtocol", "true");
-        //                        .set("spark.scheduler.allocation.file",
-        // "uniprot-fair-scheduler.xml");
+                        .set("spark.shuffle.useOldFetchProtocol", "true")
+                        .set("spark.scheduler.allocation.file", "uniprot-fair-scheduler.xml");
         JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
         sparkContext.setLocalProperty("spark.scheduler.pool", "uniprotPool");
         return sparkContext;
