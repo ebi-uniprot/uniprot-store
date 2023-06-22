@@ -1,15 +1,16 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
-import org.apache.spark.api.java.Optional;
-import org.junit.jupiter.api.Test;
-import org.uniprot.store.search.document.uniprot.UniProtDocument;
-import scala.Tuple2;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.apache.spark.api.java.Optional;
+import org.junit.jupiter.api.Test;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
+
+import scala.Tuple2;
 
 /**
  * @author lgonzales
