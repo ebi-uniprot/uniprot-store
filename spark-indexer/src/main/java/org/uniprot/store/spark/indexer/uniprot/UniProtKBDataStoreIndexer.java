@@ -39,8 +39,8 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
         UniProtKBRDDTupleReader uniprotkbReader = new UniProtKBRDDTupleReader(parameter, false);
         JavaPairRDD<String, UniProtKBEntry> uniprotRDD = uniprotkbReader.load();
 
-        uniprotRDD = joinGoEvidences(uniprotRDD);
-        uniprotRDD = joinUniParcId(uniprotRDD);
+//        uniprotRDD = joinGoEvidences(uniprotRDD);
+//        uniprotRDD = joinUniParcId(uniprotRDD);
 
         DataStoreParameter dataStoreParameter = getDataStoreParameter(config);
 
