@@ -57,7 +57,7 @@ public class UniProtKBRDDTupleReader implements PairRDDReader<String, UniProtKBE
             // in the end when I save the document, it generate 3 times
             // the number of partition, By doing it at the beginning it
             // run the process faster when uses join.
-            splittedFileRDD = splittedFileRDD.repartition(splittedFileRDD.getNumPartitions() * 3);
+            splittedFileRDD = splittedFileRDD.repartition(splittedFileRDD.getNumPartitions() * 2);
         }
         PairFunction<String, String, UniProtKBEntry> mapper =
                 new FlatFileToUniprotEntry(supportingDataMap);
