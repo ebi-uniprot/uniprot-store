@@ -5,10 +5,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.store.config.returnfield.config.impl.UniProtKBReturnFieldConfigImpl.DBNAMEPATH;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -76,7 +74,8 @@ class UniProtKBReturnFieldConfigImplIT {
         UniProtKBEntryValueMapper entityValueMapper = new UniProtKBEntryValueMapper();
         Map<String, String> mappedField =
                 entityValueMapper.mapEntity(entry, Collections.singletonList(returnFieldName));
-        if (!returnFieldName.equals("tools")) { // Tools is the only one not supported by TSV
+        // fields not supported by TSV
+        if (!returnFieldName.equals("tools") && !returnFieldName.equals("inactiveReason")) {
             assertNotNull(mappedField.get(returnFieldName));
             assertFalse(mappedField.get(returnFieldName).isEmpty());
         }
@@ -91,6 +90,19 @@ class UniProtKBReturnFieldConfigImplIT {
         assertTrue(dbSNP.isPresent());
         assertEquals(1, dbSNP.get().getPaths().size());
         assertEquals(DBNAMEPATH.get("dbsnp"), dbSNP.get().getPaths().get(0));
+    }
+
+    @Test
+    void testInternalReturnFields() {
+        List<ReturnField> internal =
+                returnFieldConfig.getReturnFields().stream()
+                        .filter(rf -> Objects.isNull(rf.getParentId()))
+                        .collect(Collectors.toList());
+        assertNotNull(internal);
+        assertEquals(1, internal.size());
+        ReturnField inactiveField = internal.get(0);
+        assertEquals("inactiveReason", inactiveField.getName());
+        assertTrue(inactiveField.getIsRequiredForJson());
     }
 
     @Test

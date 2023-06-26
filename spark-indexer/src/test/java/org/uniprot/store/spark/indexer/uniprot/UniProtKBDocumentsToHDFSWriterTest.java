@@ -217,6 +217,11 @@ class UniProtKBDocumentsToHDFSWriterTest {
         assertEquals("1358782", optJoinedDoc2.get().communityPubmedIds.get(0));
         assertEquals("5312045", optJoinedDoc2.get().communityPubmedIds.get(1));
 
+        assertEquals(3, optJoinedDoc2.get().referenceCitationIds.size());
+        assertEquals("1358782", optJoinedDoc2.get().referenceCitationIds.get(0));
+        assertEquals("1358782", optJoinedDoc2.get().referenceCitationIds.get(1));
+        assertEquals("5312045", optJoinedDoc2.get().referenceCitationIds.get(2));
+
         assertEquals(3, optJoinedDoc1.get().computationalPubmedIds.size());
         assertEquals("11203701", optJoinedDoc1.get().computationalPubmedIds.get(0));
         assertEquals("1358782", optJoinedDoc1.get().computationalPubmedIds.get(1));
@@ -224,6 +229,12 @@ class UniProtKBDocumentsToHDFSWriterTest {
 
         assertEquals(1, optJoinedDoc1.get().communityPubmedIds.size());
         assertEquals("1358782", optJoinedDoc1.get().communityPubmedIds.get(0));
+
+        assertEquals(4, optJoinedDoc1.get().referenceCitationIds.size());
+        assertEquals("11203701", optJoinedDoc1.get().referenceCitationIds.get(0));
+        assertEquals("1358782", optJoinedDoc1.get().referenceCitationIds.get(1));
+        assertEquals("1358782", optJoinedDoc1.get().referenceCitationIds.get(2));
+        assertEquals("5312045", optJoinedDoc1.get().referenceCitationIds.get(3));
     }
 
     @Test
