@@ -36,7 +36,7 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
     @Override
     public void indexInDataStore() {
         ResourceBundle config = parameter.getApplicationConfig();
-        UniProtKBRDDTupleReader uniprotkbReader = new UniProtKBRDDTupleReader(parameter, true);
+        UniProtKBRDDTupleReader uniprotkbReader = new UniProtKBRDDTupleReader(parameter, false);
         JavaPairRDD<String, UniProtKBEntry> uniprotRDD = uniprotkbReader.load();
 
         //        uniprotRDD = joinGoEvidences(uniprotRDD);
