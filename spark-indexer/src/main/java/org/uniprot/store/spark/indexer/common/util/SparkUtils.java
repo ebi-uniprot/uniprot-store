@@ -95,7 +95,7 @@ public class SparkUtils {
             System.out.println("the path is " + path);
             System.out.println("the value is");
             readLines(path, null).stream().forEach(System.out::println);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex);
         }
         System.out.println("resourceURL is " + resourceURL.toString());
