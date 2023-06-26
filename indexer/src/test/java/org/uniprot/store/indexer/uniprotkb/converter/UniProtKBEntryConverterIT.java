@@ -344,7 +344,7 @@ class UniProtKBEntryConverterIT {
         assertTrue(doc.referenceAuthors.contains("The MGC Project Team"));
 
         assertEquals(7, doc.referenceCitationIds.size());
-        assertTrue(doc.referenceCitationIds.contains("CI-73HJSSOHL8LGA"));
+        assertTrue(doc.referenceCitationIds.contains("CI-SUB-73HJSSOHL8LGA"));
         assertTrue(doc.referenceCitationIds.contains("15489334"));
 
         assertEquals(5, doc.referencePubmeds.size());
@@ -557,7 +557,7 @@ class UniProtKBEntryConverterIT {
         assertTrue(doc.referenceAuthors.contains("The MGC Project Team"));
 
         assertEquals(8, doc.referenceCitationIds.size());
-        assertTrue(doc.referenceCitationIds.contains("CI-ASPSN3R5FFN1I"));
+        assertTrue(doc.referenceCitationIds.contains("CI-SUB-ASPSN3R5FFN1I"));
         assertTrue(doc.referenceCitationIds.contains("15489334"));
 
         assertEquals(6, doc.referencePubmeds.size());

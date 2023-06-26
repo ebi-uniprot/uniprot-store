@@ -24,5 +24,8 @@ public class FieldRegexConstants {
     public static final String COMMA_SEPARATED_REGEX = "\\s*,\\s*";
     public static final String CLEAN_QUERY_REGEX = "(?:^\\()|(?:\\)$)";
 
+    public static final String LITERATURE_ID_REGEX =
+            "^[0-9]+$|CI-[A-Z]{3}-[0-9A-Z]{13}$|IND[0-9]+$";
+
     private FieldRegexConstants() {}
 }

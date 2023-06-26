@@ -62,7 +62,7 @@ class UniProtKBReferencesConverterTest {
         assertNotNull(refSubmission.getCitation());
         assertEquals(CitationType.SUBMISSION, refSubmission.getCitation().getCitationType());
         Submission submission = (Submission) refSubmission.getCitation();
-        assertEquals("CI-1NC25OS575QBF", submission.getId());
+        assertEquals("CI-SUB-1NC25OS575QBF", submission.getId());
         assertEquals("Functional and molecular diversity of parkin.", submission.getTitle());
         assertEquals(SubmissionDatabase.EMBL_GENBANK_DDBJ, submission.getSubmissionDatabase());
         assertNotNull(submission.getAuthors());

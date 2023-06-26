@@ -81,14 +81,14 @@ class LiteratureEntryUniProtKBMapperTest {
         assertTrue(result.hasNext());
         Tuple2<String, LiteratureEntry> tuple = result.next();
         assertNotNull(tuple._1);
-        assertEquals("CI-1NC25OS575QBF", tuple._1);
+        assertEquals("CI-SUB-1NC25OS575QBF", tuple._1);
 
         assertNotNull(tuple._2);
         LiteratureEntry entry = tuple._2;
         assertNotNull(entry.getCitation());
         assertEquals(CitationType.SUBMISSION, entry.getCitation().getCitationType());
         Submission submission = (Submission) entry.getCitation();
-        assertEquals("CI-1NC25OS575QBF", submission.getId());
+        assertEquals("CI-SUB-1NC25OS575QBF", submission.getId());
         assertEquals(SubmissionDatabase.EMBL_GENBANK_DDBJ, submission.getSubmissionDatabase());
         assertEquals("Functional and molecular diversity of parkin.", submission.getTitle());
         assertTrue(submission.getCitationCrossReferences().isEmpty());
@@ -118,14 +118,14 @@ class LiteratureEntryUniProtKBMapperTest {
         assertTrue(result.hasNext());
         Tuple2<String, LiteratureEntry> tuple = result.next();
         assertNotNull(tuple._1);
-        assertEquals("CI-1NC25OS575QBF", tuple._1);
+        assertEquals("CI-SUB-1NC25OS575QBF", tuple._1);
 
         assertNotNull(tuple._2);
         LiteratureEntry entry = tuple._2;
         assertNotNull(entry.getCitation());
         assertEquals(CitationType.SUBMISSION, entry.getCitation().getCitationType());
         Submission submission = (Submission) entry.getCitation();
-        assertEquals("CI-1NC25OS575QBF", submission.getId());
+        assertEquals("CI-SUB-1NC25OS575QBF", submission.getId());
         assertEquals(SubmissionDatabase.EMBL_GENBANK_DDBJ, submission.getSubmissionDatabase());
         assertEquals("Functional and molecular diversity of parkin.", submission.getTitle());
         assertTrue(submission.getCitationCrossReferences().isEmpty());

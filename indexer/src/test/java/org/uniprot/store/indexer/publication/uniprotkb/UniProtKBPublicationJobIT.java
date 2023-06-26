@@ -140,14 +140,14 @@ class UniProtKBPublicationJobIT {
 
         // without pubmedid
         accDoc = accDocs.get(1);
-        assertThat(accDoc.getCitationId(), is("CI-1B6S67MVMT3EM"));
+        assertThat(accDoc.getCitationId(), is("CI-SUB-1B6S67MVMT3EM"));
         assertThat(accDoc.isLargeScale(), is(false));
         mappedPubs = extractObject(accDocs.get(1));
         assertThat(mappedPubs.getCommunityMappedReferences(), is(emptyIterable()));
         assertThat(mappedPubs.getComputationallyMappedReferences(), is(emptyIterable()));
         assertThat(mappedPubs.getUniProtKBMappedReference(), is(notNullValue()));
         reference = mappedPubs.getUniProtKBMappedReference();
-        assertThat(reference.getCitationId(), is("CI-1B6S67MVMT3EM"));
+        assertThat(reference.getCitationId(), is("CI-SUB-1B6S67MVMT3EM"));
         assertThat(reference.getUniProtKBAccession(), is(notNullValue()));
         assertThat(reference.getUniProtKBAccession().getValue(), is("A0A2Z5SLI5"));
         assertThat(reference.getReferenceComments(), is(not(emptyIterable())));

@@ -53,8 +53,8 @@ class LiteratureDocumentConverterTest {
         LiteratureDocument result = converter.convert(entry);
         assertNotNull(result);
 
-        assertEquals("CI-AMEL3F1FP836", result.getId());
-        assertEquals("CI-AMEL3F1FP836", result.getDocumentId());
+        assertEquals("CI-LIT-AMEL3F1FP836", result.getId());
+        assertEquals("CI-LIT-AMEL3F1FP836", result.getDocumentId());
         assertEquals("doiIdValue", result.getDoi());
 
         assertEquals("titleValue", result.getTitle());
@@ -95,8 +95,8 @@ class LiteratureDocumentConverterTest {
         LiteratureDocument result = converter.convert(entry);
         assertNotNull(result);
 
-        assertEquals("CI-5P836CF6C0000", result.getId());
-        assertEquals("CI-5P836CF6C0000", result.getDocumentId());
+        assertEquals("CI-SUB-5P836CF6C0000", result.getId());
+        assertEquals("CI-SUB-5P836CF6C0000", result.getDocumentId());
         assertEquals("doiId", result.getDoi());
 
         assertEquals("title", result.getTitle());

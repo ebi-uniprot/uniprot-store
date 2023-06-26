@@ -53,8 +53,8 @@ class LiteratureEntryToDocumentMapperTest {
         LiteratureDocument result = mapper.call(entry);
         assertNotNull(result);
 
-        assertEquals("CI-AMEL3F1FP836", result.getId());
-        assertEquals("CI-AMEL3F1FP836", result.getDocumentId());
+        assertEquals("CI-LIT-AMEL3F1FP836", result.getId());
+        assertEquals("CI-LIT-AMEL3F1FP836", result.getDocumentId());
         assertEquals("doiIdValue", result.getDoi());
 
         assertEquals("titleValue", result.getTitle());
