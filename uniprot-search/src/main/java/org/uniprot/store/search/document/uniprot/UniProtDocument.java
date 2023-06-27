@@ -20,13 +20,16 @@ public class UniProtDocument implements Document {
     public String canonicalAccession;
 
     @Field("id")
-    public String id;
+    public List<String> id = new ArrayList<>();
 
     @Field("id_default")
-    public String idDefault;
+    public List<String> idDefault = new ArrayList<>();
 
     @Field("id_inactive")
     public String idInactive;
+
+    @Field("id_sort")
+    public String idSort;
 
     @Field("reviewed")
     public Boolean reviewed;
