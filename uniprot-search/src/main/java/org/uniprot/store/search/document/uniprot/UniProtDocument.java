@@ -6,6 +6,7 @@ import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
 
 /** Document used for indexing uniprot entries into Solr */
+@SuppressWarnings("squid:S1948")
 public class UniProtDocument implements Document {
 
     private static final long serialVersionUID = 6487942504460456915L;
