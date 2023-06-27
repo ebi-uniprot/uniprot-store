@@ -185,7 +185,7 @@ class UniProtKBDocumentsToHDFSWriterTest {
     @Test
     void canJoinUniProtOldIdTracker() {
         List<String> mappedResult =
-                List.of("NSMF_RAT", "NSMFOLD1_RAT", "NSMFOLD3_RAT", "NSMFOLD2_RAT");
+                Arrays.asList("NSMF_RAT", "NSMFOLD1_RAT", "NSMFOLD3_RAT", "NSMFOLD2_RAT");
         UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
 
         UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
@@ -201,7 +201,7 @@ class UniProtKBDocumentsToHDFSWriterTest {
         assertEquals(4, doc.id.size());
         assertEquals(mappedResult, doc.id);
         assertEquals(4, doc.idDefault.size());
-        assertEquals(mappedResult, doc.id);
+        assertEquals(mappedResult, doc.idDefault);
         assertFalse(doc.content.containsAll(mappedResult));
     }
 

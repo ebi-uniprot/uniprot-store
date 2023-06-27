@@ -158,7 +158,7 @@ class UniProtKBEntryConverterTest {
         UniProtDocument document = converter.convert(entry);
 
         // then
-        assertEquals(List.of(species), document.idDefault);
+        assertEquals(Arrays.asList(species), document.idDefault);
     }
 
     @Test
@@ -175,7 +175,7 @@ class UniProtKBEntryConverterTest {
         UniProtDocument document = converter.convert(entry);
 
         // then
-        assertEquals(List.of(id), document.idDefault);
+        assertEquals(Arrays.asList(id), document.idDefault);
     }
 
     @Test
