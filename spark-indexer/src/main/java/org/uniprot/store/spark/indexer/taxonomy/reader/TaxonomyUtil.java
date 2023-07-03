@@ -1,11 +1,11 @@
 package org.uniprot.store.spark.indexer.taxonomy.reader;
 
-import java.util.ResourceBundle;
-
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+
+import com.typesafe.config.Config;
 
 /**
  * @author lgonzales
@@ -15,7 +15,7 @@ class TaxonomyUtil {
 
     private TaxonomyUtil() {}
 
-    static int getMaxTaxId(JavaSparkContext sparkContext, ResourceBundle applicationConfig) {
+    static int getMaxTaxId(JavaSparkContext sparkContext, Config applicationConfig) {
         SparkSession spark = SparkSession.builder().sparkContext(sparkContext.sc()).getOrCreate();
 
         Dataset<Row> max =

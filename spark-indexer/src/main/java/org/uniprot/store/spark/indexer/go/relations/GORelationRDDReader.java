@@ -15,6 +15,8 @@ import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 
 import scala.Tuple2;
 
+import com.typesafe.config.Config;
+
 /**
  * This class load GoRelation to a JavaPairRDD{key=goTermId, value={@link GeneOntologyEntry with
  * Ancestors(Relations)}}
@@ -38,7 +40,7 @@ public class GORelationRDDReader implements PairRDDReader<String, GeneOntologyEn
      */
     @Override
     public JavaPairRDD<String, GeneOntologyEntry> load() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         JavaSparkContext sparkContext = jobParameter.getSparkContext();
 
         String releaseInputDir =

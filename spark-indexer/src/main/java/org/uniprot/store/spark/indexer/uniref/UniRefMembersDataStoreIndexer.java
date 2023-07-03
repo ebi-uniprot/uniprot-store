@@ -1,7 +1,6 @@
 package org.uniprot.store.spark.indexer.uniref;
 
 import java.util.Iterator;
-import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,6 +18,8 @@ import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.uniref.mapper.UniRefMemberMerger;
 import org.uniprot.store.spark.indexer.uniref.mapper.UniRefToMembers;
 import org.uniprot.store.spark.indexer.uniref.writer.UniRefMemberDataStoreWriter;
+
+import com.typesafe.config.Config;
 
 /**
  * This class stores the members including representative member from UniRef100, UniRef90 and
@@ -46,7 +47,7 @@ public class UniRefMembersDataStoreIndexer implements DataStoreIndexer {
     @Override
     public void indexInDataStore() {
         try {
-            ResourceBundle config = jobParameter.getApplicationConfig();
+            Config config = jobParameter.getApplicationConfig();
             DataStoreParameter parameter = getDataStoreParameter(config);
             // load the uniref100
             UniRefRDDTupleReader uniref100Reader =
@@ -92,7 +93,7 @@ public class UniRefMembersDataStoreIndexer implements DataStoreIndexer {
         }
     }
 
-    private DataStoreParameter getDataStoreParameter(ResourceBundle config) {
+    private DataStoreParameter getDataStoreParameter(Config config) {
         String numberOfConnections = config.getString("store.uniref.members.numberOfConnections");
         String maxRetry = config.getString("store.uniref.members.retry");
         String delay = config.getString("store.uniref.members.delay");

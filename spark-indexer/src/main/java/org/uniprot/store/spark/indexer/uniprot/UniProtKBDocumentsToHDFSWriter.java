@@ -4,7 +4,6 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +45,8 @@ import org.uniprot.store.spark.indexer.uniref.UniRefRDDTupleReader;
 
 import scala.Tuple2;
 
+import com.typesafe.config.Config;
+
 /**
  * This class is responsible to load all the data for UniProtDocument and save it into HDFS
  *
@@ -57,7 +58,7 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     private final JavaSparkContext sparkContext;
     private final String releaseName;
-    private final ResourceBundle config;
+    private final Config config;
     private final JobParameter parameter;
     private final UniProtKBRDDTupleReader reader;
 

@@ -3,8 +3,6 @@ package org.uniprot.store.spark.indexer.publication;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 import static org.uniprot.store.spark.indexer.publication.MappedReferenceRDDReader.*;
 
-import java.util.ResourceBundle;
-
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaPairRDD;
@@ -17,6 +15,8 @@ import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.publication.mapper.*;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
+
+import com.typesafe.config.Config;
 
 /**
  * The purpose of this class is to load all publication sources (UniProtKB references, PIR
@@ -31,7 +31,7 @@ import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     private static final String NO_PUBMED_PREFIX = "NO-PUBMED-";
     private final JobParameter parameter;
-    private final ResourceBundle config;
+    private final Config config;
     private final String releaseName;
 
     public PublicationDocumentsToHDFSWriter(JobParameter parameter) {

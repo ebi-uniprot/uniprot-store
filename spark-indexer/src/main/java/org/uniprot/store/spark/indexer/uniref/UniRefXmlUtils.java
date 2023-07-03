@@ -5,7 +5,6 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputRel
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
@@ -19,6 +18,8 @@ import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
 import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
+
+import com.typesafe.config.Config;
 
 /**
  * @author lgonzales
@@ -57,7 +58,7 @@ public class UniRefXmlUtils {
     private UniRefXmlUtils() {}
 
     static Dataset<Row> loadRawXml(UniRefType uniRefType, JobParameter jobParameter) {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
         String propertyPrefix = uniRefType.toString().toLowerCase();

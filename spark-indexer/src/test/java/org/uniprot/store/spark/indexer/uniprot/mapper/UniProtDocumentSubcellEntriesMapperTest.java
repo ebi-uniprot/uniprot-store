@@ -21,6 +21,8 @@ import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
 import scala.Tuple2;
 
+import com.typesafe.config.Config;
+
 /**
  * @author sahmad
  * @created 09/02/2022
@@ -32,7 +34,7 @@ class UniProtDocumentSubcellEntriesMapperTest {
 
     @BeforeAll
     void setUpWriter() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
+        Config application = SparkUtils.loadApplicationProperty();
         JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application);
         parameter =
                 JobParameter.builder()

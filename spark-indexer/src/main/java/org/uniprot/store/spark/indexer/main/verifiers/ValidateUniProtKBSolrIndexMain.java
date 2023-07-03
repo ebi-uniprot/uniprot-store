@@ -29,6 +29,8 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil;
 
+import com.typesafe.config.Config;
+
 /**
  * This class is used to validate UniProtKB Index. It counts and compare number of Swiss-Prot,
  * Trembl and Isoforms (except canonical isoforms) In order to compare, it queries solr and compare
@@ -52,7 +54,7 @@ public class ValidateUniProtKBSolrIndexMain {
     }
 
     boolean runValidation(String releaseName) {
-        ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
+        Config applicationConfig = SparkUtils.loadApplicationProperty();
         String zkHost = applicationConfig.getString("solr.zkhost");
         try (JavaSparkContext sparkContext = getSparkContext(applicationConfig)) {
             JobParameter jobParameter =
@@ -159,7 +161,7 @@ public class ValidateUniProtKBSolrIndexMain {
         return true;
     }
 
-    JavaSparkContext getSparkContext(ResourceBundle applicationConfig) {
+    JavaSparkContext getSparkContext(Config applicationConfig) {
         return SparkUtils.loadSparkContext(applicationConfig);
     }
 

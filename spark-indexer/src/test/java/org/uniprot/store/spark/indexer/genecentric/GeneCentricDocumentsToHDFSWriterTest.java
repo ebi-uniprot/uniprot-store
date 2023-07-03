@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.JavaRDD;
@@ -21,6 +20,7 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.typesafe.config.Config;
 
 /**
  * @author lgonzales
@@ -32,7 +32,7 @@ class GeneCentricDocumentsToHDFSWriterTest {
     void writeIndexDocumentsToHDFS() throws IOException {
         ObjectMapper objectMapper = GeneCentricJsonConfig.getInstance().getFullObjectMapper();
         GeneCentricDocumentConverter converter = new GeneCentricDocumentConverter(objectMapper);
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
+        Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
             JobParameter parameter =
                     JobParameter.builder()

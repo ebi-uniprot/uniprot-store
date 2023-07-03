@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.VoidFunction;
@@ -18,6 +17,8 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
+import com.typesafe.config.Config;
+
 /**
  * @author lgonzales
  * @since 30/07/2020
@@ -26,7 +27,7 @@ class UniProtKBDataStoreIndexerTest {
 
     @Test
     void indexInDataStore() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
+        Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
             JobParameter parameter =
                     JobParameter.builder()

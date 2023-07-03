@@ -1,11 +1,11 @@
 package org.uniprot.store.spark.indexer.common;
 
-import java.util.ResourceBundle;
-
 import lombok.Builder;
 import lombok.Getter;
 
 import org.apache.spark.api.java.JavaSparkContext;
+
+import com.typesafe.config.Config;
 
 /**
  * @author lgonzales
@@ -19,5 +19,5 @@ public class JobParameter {
 
     private final String releaseName;
 
-    private final ResourceBundle applicationConfig;
+    private final Config applicationConfig;
 }

@@ -1,7 +1,6 @@
 package org.uniprot.store.spark.indexer.main;
 
 import java.util.List;
-import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,6 +11,8 @@ import org.uniprot.store.spark.indexer.common.exception.IndexHDFSDocumentsExcept
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriterFactory;
+
+import com.typesafe.config.Config;
 
 /**
  * @author lgonzales
@@ -28,7 +29,7 @@ public class WriteIndexDocumentsToHDFSMain {
                             + "args[1]= collection name (for example: uniprot, uniparc, uniref or suggest)");
         }
 
-        ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
+        Config applicationConfig = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(applicationConfig)) {
             JobParameter jobParameter =
                     JobParameter.builder()

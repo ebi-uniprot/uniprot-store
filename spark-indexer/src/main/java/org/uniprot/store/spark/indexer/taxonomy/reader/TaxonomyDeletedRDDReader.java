@@ -1,7 +1,5 @@
 package org.uniprot.store.spark.indexer.taxonomy.reader;
 
-import java.util.ResourceBundle;
-
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
@@ -11,6 +9,8 @@ import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.RDDReader;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyDeletedRowMapper;
+
+import com.typesafe.config.Config;
 
 public class TaxonomyDeletedRDDReader implements RDDReader<TaxonomyDocument> {
 
@@ -27,7 +27,7 @@ public class TaxonomyDeletedRDDReader implements RDDReader<TaxonomyDocument> {
 
     private Dataset<Row> loadNodeRow() {
         JavaSparkContext sparkContext = jobParameter.getSparkContext();
-        ResourceBundle applicationConfig = jobParameter.getApplicationConfig();
+        Config applicationConfig = jobParameter.getApplicationConfig();
         SparkSession spark = SparkSession.builder().sparkContext(sparkContext.sc()).getOrCreate();
         return spark.read()
                 .format("jdbc")

@@ -19,6 +19,8 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import scala.Tuple2;
 
+import com.typesafe.config.Config;
+
 /**
  * @author lgonzales
  * @since 03/12/2020
@@ -27,7 +29,7 @@ class UniParcDataStoreIndexerTest {
 
     @Test
     void indexInDataStore() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
+        Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
             JobParameter parameter =
                     JobParameter.builder()

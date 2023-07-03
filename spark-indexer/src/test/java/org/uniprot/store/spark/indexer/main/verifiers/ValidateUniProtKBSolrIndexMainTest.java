@@ -3,7 +3,6 @@ package org.uniprot.store.spark.indexer.main.verifiers;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.spark.api.java.JavaRDD;
@@ -13,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+
+import com.typesafe.config.Config;
 
 class ValidateUniProtKBSolrIndexMainTest {
 
@@ -25,7 +26,7 @@ class ValidateUniProtKBSolrIndexMainTest {
 
     @Test
     void canRunValidation() throws Exception {
-        ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
+        Config applicationConfig = SparkUtils.loadApplicationProperty();
         JavaSparkContext context = SparkUtils.loadSparkContext(applicationConfig);
         ValidateUniProtKBSolrIndexMain validator =
                 Mockito.spy(new ValidateUniProtKBSolrIndexMain());
@@ -55,7 +56,7 @@ class ValidateUniProtKBSolrIndexMainTest {
 
     @Test
     void canRunInvalidReviewedValidation() throws Exception {
-        ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
+        Config applicationConfig = SparkUtils.loadApplicationProperty();
         JavaSparkContext context = SparkUtils.loadSparkContext(applicationConfig);
         ValidateUniProtKBSolrIndexMain validator =
                 Mockito.spy(new ValidateUniProtKBSolrIndexMain());
@@ -89,7 +90,7 @@ class ValidateUniProtKBSolrIndexMainTest {
 
     @Test
     void canRunInvalidUnreviewedValidation() throws Exception {
-        ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
+        Config applicationConfig = SparkUtils.loadApplicationProperty();
         JavaSparkContext context = SparkUtils.loadSparkContext(applicationConfig);
         ValidateUniProtKBSolrIndexMain validator =
                 Mockito.spy(new ValidateUniProtKBSolrIndexMain());
@@ -123,7 +124,7 @@ class ValidateUniProtKBSolrIndexMainTest {
 
     @Test
     void canRunInvalidIsoformValidation() throws Exception {
-        ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
+        Config applicationConfig = SparkUtils.loadApplicationProperty();
         JavaSparkContext context = SparkUtils.loadSparkContext(applicationConfig);
         ValidateUniProtKBSolrIndexMain validator =
                 Mockito.spy(new ValidateUniProtKBSolrIndexMain());

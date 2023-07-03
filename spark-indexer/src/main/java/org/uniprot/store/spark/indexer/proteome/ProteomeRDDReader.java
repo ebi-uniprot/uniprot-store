@@ -2,8 +2,6 @@ package org.uniprot.store.spark.indexer.proteome;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
-import java.util.ResourceBundle;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.sql.Dataset;
@@ -16,6 +14,8 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.proteome.converter.DatasetProteomeEntryConverter;
 import org.uniprot.store.spark.indexer.proteome.mapper.ProteomEntryToPair;
+
+import com.typesafe.config.Config;
 
 /**
  * @author sahmad
@@ -33,7 +33,7 @@ public class ProteomeRDDReader implements PairRDDReader<String, ProteomeEntry> {
 
     @Override
     public JavaPairRDD<String, ProteomeEntry> load() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         int repartition = Integer.parseInt(config.getString("proteome.repartition"));
 
         JavaRDD<Row> proteomeEntryDataset = loadRawXml().toJavaRDD();
@@ -47,7 +47,7 @@ public class ProteomeRDDReader implements PairRDDReader<String, ProteomeEntry> {
     }
 
     private Dataset<Row> loadRawXml() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         SparkSession spark =
                 SparkSession.builder()
                         .config(jobParameter.getSparkContext().getConf())

@@ -1,7 +1,6 @@
 package org.uniprot.store.spark.indexer.main.experimental;
 
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +14,8 @@ import org.uniprot.store.spark.indexer.common.store.DataStore;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexerFactory;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+
+import com.typesafe.config.Config;
 
 /**
  * @author lgonzales
@@ -31,7 +32,7 @@ public class IndexDataStoreMainMultiThread {
                             + "args[1]= collection names (for example: uniprot,uniparc,uniref)");
         }
 
-        ResourceBundle applicationConfig = SparkUtils.loadApplicationProperty();
+        Config applicationConfig = SparkUtils.loadApplicationProperty();
         List<DataStore> dataStores = SparkUtils.getDataStores(args[1]);
         ExecutorService executorService = Executors.newFixedThreadPool(dataStores.size());
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(applicationConfig)) {

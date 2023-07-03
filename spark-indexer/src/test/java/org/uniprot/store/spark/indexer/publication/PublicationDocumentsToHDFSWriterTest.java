@@ -21,6 +21,7 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.typesafe.config.Config;
 
 /**
  * Created 19/01/2021
@@ -33,7 +34,7 @@ class PublicationDocumentsToHDFSWriterTest {
     @Test
     void writeIndexDocumentsToHDFS() throws IOException {
         // given
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
+        Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
             JobParameter parameter =
                     JobParameter.builder()

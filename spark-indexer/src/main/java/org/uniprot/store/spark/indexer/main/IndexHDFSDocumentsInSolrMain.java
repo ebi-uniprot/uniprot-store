@@ -3,7 +3,6 @@ package org.uniprot.store.spark.indexer.main;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.*;
 
 import java.util.List;
-import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,6 +13,8 @@ import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.SolrIndexParameter;
 import org.uniprot.store.spark.indexer.common.writer.SolrIndexWriter;
+
+import com.typesafe.config.Config;
 
 /**
  * This class is responsible to load data from saved SolrDocuments and Index in Solr
@@ -32,7 +33,7 @@ public class IndexHDFSDocumentsInSolrMain {
                             + "args[1]= collection names comma separated (for example: uniprot,suggest)");
         }
 
-        ResourceBundle applicationConfig = loadApplicationProperty();
+        Config applicationConfig = loadApplicationProperty();
         String zkHost = applicationConfig.getString("solr.zkhost");
         try (JavaSparkContext sparkContext = loadSparkContext(applicationConfig)) {
 
@@ -67,8 +68,7 @@ public class IndexHDFSDocumentsInSolrMain {
         }
     }
 
-    static SolrIndexParameter getSolrIndexParameter(
-            SolrCollection collection, ResourceBundle config) {
+    static SolrIndexParameter getSolrIndexParameter(SolrCollection collection, Config config) {
         String delay = config.getString("solr.retry.delay");
         String maxRetry = config.getString("solr.max.retry");
         String batchSize = config.getString("solr.index.batch.size");

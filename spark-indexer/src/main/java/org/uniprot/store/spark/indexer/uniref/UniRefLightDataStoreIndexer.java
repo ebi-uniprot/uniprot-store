@@ -1,7 +1,6 @@
 package org.uniprot.store.spark.indexer.uniref;
 
 import java.util.Iterator;
-import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,6 +14,8 @@ import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.uniref.writer.UniRefLightDataStoreWriter;
+
+import com.typesafe.config.Config;
 
 /**
  * Created 08/07/2020
@@ -47,7 +48,7 @@ public class UniRefLightDataStoreIndexer implements DataStoreIndexer {
     }
 
     private JavaFutureAction<Void> indexUniRef(UniRefType type, JobParameter jobParameter) {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         DataStoreParameter parameter = getDataStoreParameter(config);
 
         UniRefLightRDDTupleReader reader = new UniRefLightRDDTupleReader(type, jobParameter, false);
@@ -55,7 +56,7 @@ public class UniRefLightDataStoreIndexer implements DataStoreIndexer {
         return uniRefRDD.foreachPartitionAsync(getWriter(parameter));
     }
 
-    private DataStoreParameter getDataStoreParameter(ResourceBundle config) {
+    private DataStoreParameter getDataStoreParameter(Config config) {
         String numberOfConnections = config.getString("store.uniref.light.numberOfConnections");
         String maxRetry = config.getString("store.uniref.light.retry");
         String delay = config.getString("store.uniref.light.delay");

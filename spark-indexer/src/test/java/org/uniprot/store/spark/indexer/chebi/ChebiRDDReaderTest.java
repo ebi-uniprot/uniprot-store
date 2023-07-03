@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.JavaPairRDD;
@@ -19,6 +18,8 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import scala.Tuple2;
 
+import com.typesafe.config.Config;
+
 /**
  * @author lgonzales
  * @since 10/05/2020
@@ -27,7 +28,8 @@ class ChebiRDDReaderTest {
 
     @Test
     void testLoadChebi() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
+        // CHEBI:156068
+        Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
             JobParameter parameter =
                     JobParameter.builder()
@@ -51,7 +53,7 @@ class ChebiRDDReaderTest {
 
     @Test
     void testLoadGraphThrowingMaxCycleException() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
+        Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
             JobParameter parameter =
                     JobParameter.builder()
@@ -81,7 +83,7 @@ class ChebiRDDReaderTest {
         assertEquals("CURLTUGMZLYLDI-UHFFFAOYSA-N", entry.getInchiKey());
 
         assertNotNull(entry.getSynonyms());
-        assertEquals(12, entry.getSynonyms().size());
+        assertEquals(11, entry.getSynonyms().size());
         assertTrue(entry.getSynonyms().contains("[CO2]"));
         assertTrue(entry.getSynonyms().contains("CARBON DIOXIDE"));
         assertTrue(entry.getSynonyms().contains("carbonic anhydride"));

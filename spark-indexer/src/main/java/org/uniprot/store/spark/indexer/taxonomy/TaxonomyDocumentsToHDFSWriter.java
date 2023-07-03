@@ -3,7 +3,6 @@ package org.uniprot.store.spark.indexer.taxonomy;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
 import java.util.Objects;
-import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +25,8 @@ import org.uniprot.store.spark.indexer.taxonomy.reader.*;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniprot.mapper.OrganismJoinMapper;
 
+import com.typesafe.config.Config;
+
 /**
  * This class is responsible to load all the data for TaxonomyDocument and save it into HDFS
  *
@@ -36,7 +37,7 @@ import org.uniprot.store.spark.indexer.uniprot.mapper.OrganismJoinMapper;
 public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
 
     private final JobParameter parameter;
-    private final ResourceBundle config;
+    private final Config config;
     private final String releaseName;
 
     public TaxonomyDocumentsToHDFSWriter(JobParameter parameter) {

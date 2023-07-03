@@ -2,12 +2,12 @@ package org.uniprot.store.spark.indexer.disease;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
-import java.util.ResourceBundle;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
+
+import com.typesafe.config.Config;
 
 /**
  * This class load Diseases to a JavaPairRDD{key=diseaseId, value={@link DiseaseEntry}}
@@ -27,7 +27,7 @@ public class DiseaseRDDReader implements PairRDDReader<String, DiseaseEntry> {
     /** @return JavaPairRDD{key=diseaseId, value={@link DiseaseEntry}} */
     @Override
     public JavaPairRDD<String, DiseaseEntry> load() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
         String filePath = releaseInputDir + config.getString("disease.file.path");
         jobParameter

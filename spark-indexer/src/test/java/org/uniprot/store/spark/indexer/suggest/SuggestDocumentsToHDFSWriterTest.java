@@ -16,7 +16,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -36,6 +35,8 @@ import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyH2Utils;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReaderFake;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
+import com.typesafe.config.Config;
+
 /**
  * @author lgonzales
  * @since 17/05/2020
@@ -49,7 +50,7 @@ class SuggestDocumentsToHDFSWriterTest {
 
     @BeforeAll
     void setUpWriter() throws SQLException, IOException {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
+        Config application = SparkUtils.loadApplicationProperty();
         JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application);
         parameter =
                 JobParameter.builder()

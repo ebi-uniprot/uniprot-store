@@ -2,8 +2,6 @@ package org.uniprot.store.spark.indexer.publication;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
-import java.util.ResourceBundle;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -14,6 +12,8 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.publication.mapper.CommunityMappedReferenceMapper;
 import org.uniprot.store.spark.indexer.publication.mapper.ComputationallyMappedReferenceMapper;
 import org.uniprot.store.spark.indexer.publication.mapper.MappedReferencePairMapper;
+
+import com.typesafe.config.Config;
 
 /**
  * @author lgonzales
@@ -47,7 +47,7 @@ public class MappedReferenceRDDReader {
 
     private JavaPairRDD<String, MappedReference> loadMappedReferenceRDD(
             String srcFilePathProperty, Function<String, MappedReference> converter) {
-        ResourceBundle config = this.parameter.getApplicationConfig();
+        Config config = this.parameter.getApplicationConfig();
         String releaseInputDir = getInputReleaseDirPath(config, this.parameter.getReleaseName());
         String filePath = releaseInputDir + config.getString(srcFilePathProperty);
 

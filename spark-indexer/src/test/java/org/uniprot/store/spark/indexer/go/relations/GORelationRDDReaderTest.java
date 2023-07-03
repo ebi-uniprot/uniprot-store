@@ -14,6 +14,8 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import scala.Tuple2;
 
+import com.typesafe.config.Config;
+
 /**
  * @author lgonzales
  * @since 2019-11-21
@@ -22,7 +24,7 @@ class GORelationRDDReaderTest {
 
     @Test
     void testLoadGORelation() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
+        Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
             JobParameter parameter =
                     JobParameter.builder()
