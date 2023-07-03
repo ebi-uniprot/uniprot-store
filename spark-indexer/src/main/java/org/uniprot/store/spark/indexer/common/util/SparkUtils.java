@@ -120,7 +120,9 @@ public class SparkUtils {
                         .set("spark.scheduler.mode", "FAIR")
                         .set("spark.sql.caseSensitive", "true")
                         .set("spark.shuffle.useOldFetchProtocol", "true")
-                        .set("spark.scheduler.allocation.file", applicationConfig.getString("uniprot.scheduler.file.path"));
+                        .set(
+                                "spark.scheduler.allocation.file",
+                                applicationConfig.getString("uniprot.scheduler.file.path"));
         JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
         sparkContext.setLocalProperty("spark.scheduler.pool", "uniprotPool");
         return sparkContext;

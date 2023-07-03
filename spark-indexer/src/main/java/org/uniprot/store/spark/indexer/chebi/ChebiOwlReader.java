@@ -20,6 +20,8 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 
 import scala.collection.JavaConverters;
 
+import com.typesafe.config.Config;
+
 public class ChebiOwlReader {
 
     private final SparkSession spark;
@@ -118,7 +120,7 @@ public class ChebiOwlReader {
     }
 
     private JavaRDD<Row> readChebiFile() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
         String filePath = releaseInputDir + config.getString("chebi.file.path");
         Dataset<Row> rdfDescriptions =
