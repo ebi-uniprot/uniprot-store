@@ -31,15 +31,10 @@ public abstract class AbstractDataStoreWriter<T> implements VoidFunction<Iterato
 
     @Override
     public void call(Iterator<T> entryIterator) throws Exception {
-        try(VoldemortClient<T> client = getDataStoreClient()) {
+        try (VoldemortClient<T> client = getDataStoreClient()) {
             RetryPolicy<Object> retryPolicy = getVoldemortRetryPolicy();
-            long i = 0;
             while (entryIterator.hasNext()) {
                 final T entry = entryIterator.next();
-                //            if(i%10000 == 0) {
-                //                Thread.sleep(100);
-                //            }
-                //            i++;
                 Failsafe.with(retryPolicy).run(() -> client.saveEntry(entry));
             }
         }

@@ -11,7 +11,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.spark.SparkConf;
-import org.apache.spark.SparkFiles;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.store.DataStore;
@@ -90,23 +89,11 @@ public class SparkUtils {
                         .getProtectionDomain()
                         .getCodeSource()
                         .getLocation();
-        try {
-            String path = SparkFiles.get("application.properties");
-            System.out.println("the path is " + path);
-            System.out.println("the value is");
-            readLines(path, null).stream().forEach(System.out::println);
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-        System.out.println("resourceURL is " + resourceURL.toString());
-        System.out.println("Locale.getDefault() " + Locale.getDefault());
         try (URLClassLoader urlLoader = new URLClassLoader(new java.net.URL[] {resourceURL})) {
-            System.out.println("Inside try block");
             // try to load from the directory that the application is being executed
             return ResourceBundle.getBundle(baseName, Locale.getDefault(), urlLoader);
         } catch (MissingResourceException | IOException e) {
             // load from the classpath
-            System.out.println("Inside catch block");
             return ResourceBundle.getBundle(baseName);
         }
     }
@@ -143,9 +130,8 @@ public class SparkUtils {
                         .setMaster(sparkMaster)
                         .set("spark.scheduler.mode", "FAIR")
                         .set("spark.sql.caseSensitive", "true")
-                        .set("spark.shuffle.useOldFetchProtocol", "true");
-        //                        .set("spark.scheduler.allocation.file",
-        // "uniprot-fair-scheduler.xml");
+                        .set("spark.shuffle.useOldFetchProtocol", "true")
+                        .set("spark.scheduler.allocation.file", "uniprot-fair-scheduler.xml");
         JavaSparkContext sparkContext = new JavaSparkContext(sparkConf);
         sparkContext.setLocalProperty("spark.scheduler.pool", "uniprotPool");
         return sparkContext;
