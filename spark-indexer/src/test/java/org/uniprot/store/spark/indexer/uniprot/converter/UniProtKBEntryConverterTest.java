@@ -3,9 +3,7 @@ package org.uniprot.store.spark.indexer.uniprot.converter;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.*;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
+import java.util.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.keyword.KeywordCategory;
@@ -57,7 +55,9 @@ class UniProtKBEntryConverterTest {
         // then
         assertEquals("P12345", document.accession);
         assertEquals("P12345-1", document.canonicalAccession);
-        assertEquals("UNIPROT_ENTRYID", document.id);
+        assertEquals(1, document.id.size());
+        assertTrue(document.id.contains("UNIPROT_ENTRYID"));
+        assertEquals("UNIPROT_ENTRYID", document.idSort);
         assertFalse(document.isIsoform);
         assertTrue(document.active);
         assertTrue(document.secacc.isEmpty());
@@ -82,7 +82,9 @@ class UniProtKBEntryConverterTest {
         // then
         assertEquals("P21802", document.accession);
         assertNull(document.canonicalAccession);
-        assertEquals("UNIPROT_ENTRYID", document.id);
+        assertEquals(1, document.id.size());
+        assertTrue(document.id.contains("UNIPROT_ENTRYID"));
+        assertEquals("UNIPROT_ENTRYID", document.idSort);
         assertFalse(document.isIsoform);
         assertTrue(document.active);
         assertTrue(document.secacc.contains("P21803"));
@@ -105,7 +107,9 @@ class UniProtKBEntryConverterTest {
         assertTrue(document.isIsoform);
         assertTrue(document.active);
         assertEquals("P12345", document.canonicalAccession);
-        assertEquals("UNIPROT_ENTRYID", document.id);
+        assertEquals(1, document.id.size());
+        assertTrue(document.id.contains("UNIPROT_ENTRYID"));
+        assertEquals("UNIPROT_ENTRYID", document.idSort);
     }
 
     @Test
@@ -154,7 +158,7 @@ class UniProtKBEntryConverterTest {
         UniProtDocument document = converter.convert(entry);
 
         // then
-        assertEquals(species, document.idDefault);
+        assertEquals(Arrays.asList(species), document.idDefault);
     }
 
     @Test
@@ -171,7 +175,7 @@ class UniProtKBEntryConverterTest {
         UniProtDocument document = converter.convert(entry);
 
         // then
-        assertEquals(id, document.idDefault);
+        assertEquals(Arrays.asList(id), document.idDefault);
     }
 
     @Test
@@ -275,7 +279,9 @@ class UniProtKBEntryConverterTest {
         // then
         assertEquals("P12345", document.accession);
         assertEquals(Arrays.asList("plastid", "cyanelle"), document.organelles);
-        assertEquals("UNIPROT_ENTRYID", document.id);
+        assertEquals(1, document.id.size());
+        assertTrue(document.id.contains("UNIPROT_ENTRYID"));
+        assertEquals("UNIPROT_ENTRYID", document.idSort);
     }
 
     @Test

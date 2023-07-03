@@ -165,19 +165,20 @@ public class UniProtEntryConverter
     }
 
     private void convertUniprotId(UniProtKBId uniProtkbId, UniProtDocument document) {
-        document.id = uniProtkbId.getValue();
-        String[] idParts = document.id.split("_");
+        document.id.add(uniProtkbId.getValue());
+        document.idSort = uniProtkbId.getValue();
+        String[] idParts = uniProtkbId.getValue().split("_");
         if (idParts.length == 2) {
             if (document.reviewed) {
                 // first component of swiss-prot id is gene, which we want searchable in the
                 // id
-                document.idDefault = document.id;
+                document.idDefault.addAll(document.id);
             } else {
                 // don't add first component for trembl entries, since this is the accession,
                 // and
                 // we do not want false boosting for default searches that match a substring of
                 // the accession
-                document.idDefault = idParts[1];
+                document.idDefault.add(idParts[1]);
                 document.content.add(uniProtkbId.getValue());
             }
         }

@@ -45,8 +45,6 @@ import org.uniprot.store.spark.indexer.uniref.UniRefRDDTupleReader;
 
 import scala.Tuple2;
 
-import com.typesafe.config.Config;
-
 /**
  * This class is responsible to load all the data for UniProtDocument and save it into HDFS
  *

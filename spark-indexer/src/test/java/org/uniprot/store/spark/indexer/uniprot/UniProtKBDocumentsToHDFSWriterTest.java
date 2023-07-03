@@ -185,6 +185,29 @@ class UniProtKBDocumentsToHDFSWriterTest {
     }
 
     @Test
+    void canJoinUniProtOldIdTracker() {
+        List<String> mappedResult =
+                Arrays.asList("NSMF_RAT", "NSMFOLD1_RAT", "NSMFOLD3_RAT", "NSMFOLD2_RAT");
+        UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
+
+        UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
+        JavaPairRDD<String, UniProtDocument> uniprotDocRDD =
+                reader.load().mapValues(new UniProtEntryToSolrDocument(new HashMap<>()));
+
+        uniprotDocRDD = writer.joinUniProtOldIdTracker(uniprotDocRDD);
+
+        List<UniProtDocument> result = uniprotDocRDD.values().take(10);
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        UniProtDocument doc = result.get(0);
+        assertEquals(4, doc.id.size());
+        assertEquals(mappedResult, doc.id);
+        assertEquals(4, doc.idDefault.size());
+        assertEquals(mappedResult, doc.idDefault);
+        assertFalse(doc.content.containsAll(mappedResult));
+    }
+
+    @Test
     void canJoinLiteratureMapped() {
         UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
 
