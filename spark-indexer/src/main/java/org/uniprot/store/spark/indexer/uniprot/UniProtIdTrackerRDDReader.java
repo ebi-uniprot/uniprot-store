@@ -3,7 +3,6 @@ package org.uniprot.store.spark.indexer.uniprot;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
 import java.util.HashSet;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.apache.spark.api.java.JavaPairRDD;
@@ -13,6 +12,8 @@ import org.apache.spark.sql.SparkSession;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniProtIdTrackerMapper;
+
+import com.typesafe.config.Config;
 
 public class UniProtIdTrackerRDDReader implements PairRDDReader<String, Set<String>> {
 
@@ -24,7 +25,7 @@ public class UniProtIdTrackerRDDReader implements PairRDDReader<String, Set<Stri
 
     @Override
     public JavaPairRDD<String, Set<String>> load() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
 
         SparkSession spark = SparkSession.builder().sparkContext(jsc.sc()).getOrCreate();

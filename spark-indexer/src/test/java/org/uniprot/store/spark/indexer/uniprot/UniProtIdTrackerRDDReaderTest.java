@@ -2,7 +2,6 @@ package org.uniprot.store.spark.indexer.uniprot;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.apache.spark.api.java.JavaPairRDD;
@@ -13,11 +12,13 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import scala.Tuple2;
 
+import com.typesafe.config.Config;
+
 class UniProtIdTrackerRDDReaderTest {
 
     @Test
     void load() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
+        Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
             JobParameter parameter =
                     JobParameter.builder()
