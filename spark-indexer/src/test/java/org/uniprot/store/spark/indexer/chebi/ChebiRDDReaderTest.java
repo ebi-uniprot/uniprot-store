@@ -83,7 +83,7 @@ class ChebiRDDReaderTest {
         assertEquals("CURLTUGMZLYLDI-UHFFFAOYSA-N", entry.getInchiKey());
 
         assertNotNull(entry.getSynonyms());
-        assertEquals(11, entry.getSynonyms().size());
+        assertEquals(12, entry.getSynonyms().size());
         assertTrue(entry.getSynonyms().contains("[CO2]"));
         assertTrue(entry.getSynonyms().contains("CARBON DIOXIDE"));
         assertTrue(entry.getSynonyms().contains("carbonic anhydride"));

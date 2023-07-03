@@ -36,12 +36,12 @@ public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
                     }
                     if (key.equals(CHEBI_RDFS_LABEL_ATTRIBUTE)) {
                         if (commonTypeValue.size() > 0) {
-                            values = row.getList(row.fieldIndex(key));
+                            values = getColumnValues(row, key);
                             processedAttributes.put(NAME, JavaConverters.asScalaBuffer(values));
                             values = null;
                             commonTypeValue = new ArrayList<>();
                         } else {
-                            values = row.getList(row.fieldIndex(key));
+                            values = getColumnValues(row, key);
                         }
                     } else if (key.equals(CHEBI_OWL_PROPERTY_ATTRIBUTE)
                             || key.equals(CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE)) {
@@ -138,5 +138,14 @@ public class ChebiNodeEntryRowMapper implements Function<Row, Row> {
             }
         }
         return commonType;
+    }
+
+    private List<String> getColumnValues(Row row, String fieldName) {
+        int idx = row.fieldIndex(fieldName);
+        List<String> values = null;
+        if (!row.isNullAt(idx)) {
+            values = row.getList(row.fieldIndex(fieldName));
+        }
+        return values;
     }
 }
