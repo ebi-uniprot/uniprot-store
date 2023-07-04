@@ -3,7 +3,6 @@ package org.uniprot.store.spark.indexer.suggest.mapper.document;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
@@ -29,7 +28,10 @@ class OrganismToSuggestDocumentTest {
         OrganismToSuggestDocument mapper = new OrganismToSuggestDocument("test1");
 
         SuggestDocument result =
-                mapper.call(new Tuple2<>("1111", Arrays.asList(organismFirst, organismSecond, organismLast)));
+                mapper.call(
+                        new Tuple2<>(
+                                "1111",
+                                Arrays.asList(organismFirst, organismSecond, organismLast)));
         assertNotNull(result);
 
         assertEquals("test1", result.dictionary);
