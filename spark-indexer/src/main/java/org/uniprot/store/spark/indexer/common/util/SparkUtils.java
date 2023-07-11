@@ -26,7 +26,6 @@ import com.typesafe.config.ConfigFactory;
 public class SparkUtils {
 
     private static final String COMMA_SEPARATOR = ",";
-    private static final String SPARK_MASTER = "spark.master";
 
     private SparkUtils() {}
 
@@ -87,18 +86,17 @@ public class SparkUtils {
         return ConfigFactory.load(baseName);
     }
 
-    public static JavaSparkContext loadSparkContext(Config applicationConfig) {
-        String sparkMaster = applicationConfig.getString(SPARK_MASTER);
+    public static JavaSparkContext loadSparkContext(Config applicationConfig, String sparkMaster) {
         if (sparkMaster.startsWith("local")) {
-            return getLocalSparkContext(applicationConfig);
+            return getLocalSparkContext(applicationConfig, sparkMaster);
         } else {
-            return getRemoteSparkContext(applicationConfig);
+            return getRemoteSparkContext(applicationConfig, sparkMaster);
         }
     }
 
-    private static JavaSparkContext getLocalSparkContext(Config applicationConfig) {
+    private static JavaSparkContext getLocalSparkContext(
+            Config applicationConfig, String sparkMaster) {
         String applicationName = applicationConfig.getString("spark.application.name");
-        String sparkMaster = applicationConfig.getString(SPARK_MASTER);
         SparkConf sparkConf =
                 new SparkConf()
                         .setAppName(applicationName)
@@ -110,9 +108,9 @@ public class SparkUtils {
         return new JavaSparkContext(sparkConf);
     }
 
-    private static JavaSparkContext getRemoteSparkContext(Config applicationConfig) {
+    private static JavaSparkContext getRemoteSparkContext(
+            Config applicationConfig, String sparkMaster) {
         String applicationName = applicationConfig.getString("spark.application.name");
-        String sparkMaster = applicationConfig.getString(SPARK_MASTER);
         SparkConf sparkConf =
                 new SparkConf()
                         .setAppName(applicationName)

@@ -24,8 +24,13 @@ import com.typesafe.config.Config;
 public class ValidateHDFSDocumentsMain {
 
     public static void main(String[] args) {
+        if (args == null || args.length != 1) {
+            throw new IllegalArgumentException(
+                    "Invalid argument. Expected "
+                            + "args[0]=spark master node url (e.g. spark://hl-codon-102-02.ebi.ac.uk:37550)");
+        }
         Config applicationConfig = SparkUtils.loadApplicationProperty();
-        JavaSparkContext sparkContext = SparkUtils.loadSparkContext(applicationConfig);
+        JavaSparkContext sparkContext = SparkUtils.loadSparkContext(applicationConfig, args[0]);
 
         SolrCollection collection = getSolrCollection(args[1]).get(0);
         String hdfsFilePath =

@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.genecentric;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,7 +34,8 @@ class GeneCentricDocumentsToHDFSWriterTest {
         ObjectMapper objectMapper = GeneCentricJsonConfig.getInstance().getFullObjectMapper();
         GeneCentricDocumentConverter converter = new GeneCentricDocumentConverter(objectMapper);
         Config application = SparkUtils.loadApplicationProperty();
-        try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
+        try (JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)

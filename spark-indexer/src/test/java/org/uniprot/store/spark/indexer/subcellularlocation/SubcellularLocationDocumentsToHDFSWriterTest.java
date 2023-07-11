@@ -2,6 +2,7 @@ package org.uniprot.store.spark.indexer.subcellularlocation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,7 +34,8 @@ class SubcellularLocationDocumentsToHDFSWriterTest {
     @BeforeAll
     void setUpWriter() {
         Config application = SparkUtils.loadApplicationProperty();
-        JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application);
+        JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER);
         parameter =
                 JobParameter.builder()
                         .applicationConfig(application)

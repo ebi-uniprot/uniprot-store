@@ -1,10 +1,11 @@
 package org.uniprot.store.spark.indexer.suggest;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.store.search.document.suggest.SuggestDictionary.*;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,7 +52,8 @@ class SuggestDocumentsToHDFSWriterTest {
     @BeforeAll
     void setUpWriter() throws SQLException, IOException {
         Config application = SparkUtils.loadApplicationProperty();
-        JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application);
+        JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER);
         parameter =
                 JobParameter.builder()
                         .applicationConfig(application)

@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.uniref;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import java.util.Iterator;
 
@@ -24,7 +25,8 @@ class UniRefLightDataStoreIndexerTest {
     @Test
     void indexInDataStore() {
         Config application = SparkUtils.loadApplicationProperty();
-        try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
+        try (JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)

@@ -20,7 +20,7 @@ class WriteIndexDocumentsToHDFSMainTest {
 
     @Test
     void testWriteIndexDocumentsToHDFSMainInvalidCollection() {
-        String[] args = {"invalid", "invalid"};
+        String[] args = {"invalid", "invalid", "invalid"};
         assertThrows(
                 IndexHDFSDocumentsException.class, () -> WriteIndexDocumentsToHDFSMain.main(args));
     }

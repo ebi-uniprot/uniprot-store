@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.taxonomy;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -41,7 +42,8 @@ class TaxonomyDocumentsToHDFSWriterTest {
     @BeforeAll
     void setUpWriter() throws SQLException, IOException {
         Config application = SparkUtils.loadApplicationProperty("application-taxonomy");
-        JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application);
+        JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER);
         parameter =
                 JobParameter.builder()
                         .applicationConfig(application)

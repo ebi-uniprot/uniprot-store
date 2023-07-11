@@ -26,16 +26,17 @@ import com.typesafe.config.Config;
 public class IndexHDFSDocumentsInSolrMain {
 
     public static void main(String[] args) {
-        if (args == null || args.length != 2) {
+        if (args == null || args.length != 3) {
             throw new IllegalArgumentException(
                     "Invalid arguments. "
                             + "Expected args[0]=release name (for example: (for example: 2020_02), "
-                            + "args[1]= collection names comma separated (for example: uniprot,suggest)");
+                            + "args[1]= collection names comma separated (for example: uniprot,suggest)"
+                            + "args[2]=spark master node url (e.g. spark://hl-codon-102-02.ebi.ac.uk:37550)");
         }
 
         Config applicationConfig = loadApplicationProperty();
         String zkHost = applicationConfig.getString("solr.zkhost");
-        try (JavaSparkContext sparkContext = loadSparkContext(applicationConfig)) {
+        try (JavaSparkContext sparkContext = loadSparkContext(applicationConfig, args[2])) {
 
             List<SolrCollection> solrCollections = getSolrCollection(args[1]);
             for (SolrCollection collection : solrCollections) {

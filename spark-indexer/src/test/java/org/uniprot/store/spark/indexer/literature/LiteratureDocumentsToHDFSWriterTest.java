@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.literature;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,7 +29,8 @@ class LiteratureDocumentsToHDFSWriterTest {
     @Test
     void writeIndexDocumentsToHDFS() throws IOException {
         Config application = SparkUtils.loadApplicationProperty();
-        try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
+        try (JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)

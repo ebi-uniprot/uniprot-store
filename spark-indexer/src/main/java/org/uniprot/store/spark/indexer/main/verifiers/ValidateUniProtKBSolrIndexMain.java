@@ -44,19 +44,20 @@ public class ValidateUniProtKBSolrIndexMain {
     static final String UNREVIEWED_QUERY = "reviewed:false AND active:true";
 
     public static void main(String[] args) {
-        if (args == null || args.length != 1) {
+        if (args == null || args.length != 2) {
             throw new IllegalArgumentException(
                     "Invalid arguments. Expected "
-                            + "args[0]= release name (for example: 2020_01)");
+                            + "args[0]= release name (for example: 2020_01)"
+                            + "args[1]=spark master node url (e.g. spark://hl-codon-102-02.ebi.ac.uk:37550)");
         }
         ValidateUniProtKBSolrIndexMain validator = new ValidateUniProtKBSolrIndexMain();
-        validator.runValidation(args[0]);
+        validator.runValidation(args[0], args[1]);
     }
 
-    boolean runValidation(String releaseName) {
+    boolean runValidation(String releaseName, String sparkMaster) {
         Config applicationConfig = SparkUtils.loadApplicationProperty();
         String zkHost = applicationConfig.getString("solr.zkhost");
-        try (JavaSparkContext sparkContext = getSparkContext(applicationConfig)) {
+        try (JavaSparkContext sparkContext = getSparkContext(applicationConfig, sparkMaster)) {
             JobParameter jobParameter =
                     JobParameter.builder()
                             .applicationConfig(applicationConfig)
@@ -161,8 +162,8 @@ public class ValidateUniProtKBSolrIndexMain {
         return true;
     }
 
-    JavaSparkContext getSparkContext(Config applicationConfig) {
-        return SparkUtils.loadSparkContext(applicationConfig);
+    JavaSparkContext getSparkContext(Config applicationConfig, String sparkMaster) {
+        return SparkUtils.loadSparkContext(applicationConfig, sparkMaster);
     }
 
     JavaRDD<SolrInputDocument> getOutputUniProtKBDocuments(

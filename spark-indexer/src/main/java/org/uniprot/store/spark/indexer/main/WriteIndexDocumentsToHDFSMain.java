@@ -22,15 +22,17 @@ import com.typesafe.config.Config;
 public class WriteIndexDocumentsToHDFSMain {
 
     public static void main(String[] args) throws Exception {
-        if (args == null || args.length != 2) {
+        if (args == null || args.length != 3) {
             throw new IllegalArgumentException(
                     "Invalid arguments. Expected "
                             + "args[0]= release name (for example: 2020_01"
-                            + "args[1]= collection name (for example: uniprot, uniparc, uniref or suggest)");
+                            + "args[1]= collection name (for example: uniprot, uniparc, uniref or suggest)"
+                            + "args[2]=spark master node url (e.g. spark://hl-codon-102-02.ebi.ac.uk:37550)");
         }
 
         Config applicationConfig = SparkUtils.loadApplicationProperty();
-        try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(applicationConfig)) {
+        try (JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(applicationConfig, args[2])) {
             JobParameter jobParameter =
                     JobParameter.builder()
                             .applicationConfig(applicationConfig)

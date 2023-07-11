@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.main.verifiers;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import java.util.List;
 
@@ -21,16 +22,17 @@ class ValidateUniProtKBSolrIndexMainTest {
     void errorWithInvalidArguments() throws Exception {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> ValidateUniProtKBSolrIndexMain.main(new String[2]));
+                () -> ValidateUniProtKBSolrIndexMain.main(new String[3]));
     }
 
     @Test
     void canRunValidation() throws Exception {
         Config applicationConfig = SparkUtils.loadApplicationProperty();
-        JavaSparkContext context = SparkUtils.loadSparkContext(applicationConfig);
+        JavaSparkContext context =
+                SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER);
         ValidateUniProtKBSolrIndexMain validator =
                 Mockito.spy(new ValidateUniProtKBSolrIndexMain());
-        Mockito.doReturn(context).when(validator).getSparkContext(Mockito.any());
+        Mockito.doReturn(context).when(validator).getSparkContext(Mockito.any(), Mockito.any());
 
         SolrInputDocument uniprotDoc = getUniprotDoc();
 
@@ -51,16 +53,17 @@ class ValidateUniProtKBSolrIndexMainTest {
                 .when(validator)
                 .getSolrCount(
                         Mockito.any(), Mockito.eq(ValidateUniProtKBSolrIndexMain.ISOFORM_QUERY));
-        assertDoesNotThrow(() -> validator.runValidation("2020_02"));
+        assertDoesNotThrow(() -> validator.runValidation("2020_02", SPARK_LOCAL_MASTER));
     }
 
     @Test
     void canRunInvalidReviewedValidation() throws Exception {
         Config applicationConfig = SparkUtils.loadApplicationProperty();
-        JavaSparkContext context = SparkUtils.loadSparkContext(applicationConfig);
+        JavaSparkContext context =
+                SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER);
         ValidateUniProtKBSolrIndexMain validator =
                 Mockito.spy(new ValidateUniProtKBSolrIndexMain());
-        Mockito.doReturn(context).when(validator).getSparkContext(Mockito.any());
+        Mockito.doReturn(context).when(validator).getSparkContext(Mockito.any(), Mockito.any());
 
         SolrInputDocument uniprotDoc = getUniprotDoc();
 
@@ -82,7 +85,9 @@ class ValidateUniProtKBSolrIndexMainTest {
                 .getSolrCount(
                         Mockito.any(), Mockito.eq(ValidateUniProtKBSolrIndexMain.ISOFORM_QUERY));
         SparkIndexException error =
-                assertThrows(SparkIndexException.class, () -> validator.runValidation("2020_02"));
+                assertThrows(
+                        SparkIndexException.class,
+                        () -> validator.runValidation("2020_02", SPARK_LOCAL_MASTER));
         assertEquals(
                 "reviewed does not match. DocumentOutput COUNT: 1, RDD COUNT: 1, Solr COUNT: 5",
                 error.getMessage());
@@ -91,10 +96,11 @@ class ValidateUniProtKBSolrIndexMainTest {
     @Test
     void canRunInvalidUnreviewedValidation() throws Exception {
         Config applicationConfig = SparkUtils.loadApplicationProperty();
-        JavaSparkContext context = SparkUtils.loadSparkContext(applicationConfig);
+        JavaSparkContext context =
+                SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER);
         ValidateUniProtKBSolrIndexMain validator =
                 Mockito.spy(new ValidateUniProtKBSolrIndexMain());
-        Mockito.doReturn(context).when(validator).getSparkContext(Mockito.any());
+        Mockito.doReturn(context).when(validator).getSparkContext(Mockito.any(), Mockito.any());
 
         SolrInputDocument uniprotDoc = getUniprotDoc();
 
@@ -116,7 +122,9 @@ class ValidateUniProtKBSolrIndexMainTest {
                 .getSolrCount(
                         Mockito.any(), Mockito.eq(ValidateUniProtKBSolrIndexMain.ISOFORM_QUERY));
         SparkIndexException error =
-                assertThrows(SparkIndexException.class, () -> validator.runValidation("2020_02"));
+                assertThrows(
+                        SparkIndexException.class,
+                        () -> validator.runValidation("2020_02", SPARK_LOCAL_MASTER));
         assertEquals(
                 "unReviewed does not match. DocumentOutput COUNT: 0, RDD COUNT: 0, Solr COUNT: 5",
                 error.getMessage());
@@ -125,10 +133,11 @@ class ValidateUniProtKBSolrIndexMainTest {
     @Test
     void canRunInvalidIsoformValidation() throws Exception {
         Config applicationConfig = SparkUtils.loadApplicationProperty();
-        JavaSparkContext context = SparkUtils.loadSparkContext(applicationConfig);
+        JavaSparkContext context =
+                SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER);
         ValidateUniProtKBSolrIndexMain validator =
                 Mockito.spy(new ValidateUniProtKBSolrIndexMain());
-        Mockito.doReturn(context).when(validator).getSparkContext(Mockito.any());
+        Mockito.doReturn(context).when(validator).getSparkContext(Mockito.any(), Mockito.any());
 
         SolrInputDocument uniprotDoc = getUniprotDoc();
 
@@ -150,7 +159,9 @@ class ValidateUniProtKBSolrIndexMainTest {
                 .getSolrCount(
                         Mockito.any(), Mockito.eq(ValidateUniProtKBSolrIndexMain.ISOFORM_QUERY));
         SparkIndexException error =
-                assertThrows(SparkIndexException.class, () -> validator.runValidation("2020_02"));
+                assertThrows(
+                        SparkIndexException.class,
+                        () -> validator.runValidation("2020_02", SPARK_LOCAL_MASTER));
         assertEquals(
                 "reviewed isoform does not match. DocumentOutput COUNT: 0, RDD COUNT: 0, Solr COUNT: 5",
                 error.getMessage());
