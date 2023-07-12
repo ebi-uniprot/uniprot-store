@@ -28,7 +28,7 @@ public class OrganismToSuggestDocument
 
     @Override
     public SuggestDocument call(Tuple2<String, List<TaxonomyLineage>> tuple) throws Exception {
-        TaxonomyLineage organism = tuple._2.get(0);
+        TaxonomyLineage organism = tuple._2.get(tuple._2.size() - 1);
         return getOrganismSuggestDocument(organism, dictionaryName);
     }
 

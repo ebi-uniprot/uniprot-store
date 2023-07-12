@@ -2,7 +2,7 @@ package org.uniprot.store.spark.indexer.suggest.mapper.document;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Collections;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
@@ -19,12 +19,19 @@ class OrganismToSuggestDocumentTest {
 
     @Test
     void testOrganismToSuggestDocument() throws Exception {
-        TaxonomyLineage organism =
+        TaxonomyLineage organismFirst =
+                new TaxonomyLineageBuilder().taxonId(3333).scientificName("value3").build();
+        TaxonomyLineage organismSecond =
+                new TaxonomyLineageBuilder().taxonId(2222).scientificName("value2").build();
+        TaxonomyLineage organismLast =
                 new TaxonomyLineageBuilder().taxonId(1111).scientificName("value").build();
         OrganismToSuggestDocument mapper = new OrganismToSuggestDocument("test1");
 
         SuggestDocument result =
-                mapper.call(new Tuple2<>("1111", Collections.singletonList(organism)));
+                mapper.call(
+                        new Tuple2<>(
+                                "1111",
+                                Arrays.asList(organismFirst, organismSecond, organismLast)));
         assertNotNull(result);
 
         assertEquals("test1", result.dictionary);
