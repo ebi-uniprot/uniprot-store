@@ -131,7 +131,7 @@ class UniProtKBJobIT {
         List<SuggestDocument> response =
                 solrClient.query(
                         SolrCollection.suggest,
-                        new SolrQuery("*:*").setRows(301),
+                        new SolrQuery("*:*").setRows(300),
                         SuggestDocument.class);
         assertThat(response, is(notNullValue()));
         assertThat(response.size(), is(reportedWriteCount));
