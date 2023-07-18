@@ -32,7 +32,7 @@ public class ListBigUniParcs {
                             .releaseName(releaseName)
                             .sparkContext(sparkContext)
                             .build();
-            UniParcRDDTupleReader reader = new UniParcRDDTupleReader(jobParameter, false);
+            UniParcRDDTupleReader reader = new UniParcRDDTupleReader(jobParameter, true);
             JavaRDD<UniParcEntry> uniParcRDD = reader.load();
             uniParcRDD.filter(entry -> entry.getUniParcCrossReferences().size() >= 10000)
                     .map(entry -> entry.getUniParcId().getValue() + "\t" + entry.getUniParcCrossReferences().size())
