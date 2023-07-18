@@ -36,7 +36,7 @@ public class ListBigUniParcs {
             JavaRDD<UniParcEntry> uniParcRDD = reader.load();
             uniParcRDD.filter(entry -> entry.getUniParcCrossReferences().size() >= 10000)
                     .map(entry -> entry.getUniParcId().getValue() + "\t" + entry.getUniParcCrossReferences().size())
-                    .coalesce(1)
+                    .repartition(150)
                     .saveAsTextFile(outputFilePath);
         }
     }
