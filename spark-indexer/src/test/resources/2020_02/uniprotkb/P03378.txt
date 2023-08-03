@@ -1,4 +1,4 @@
-ID   ENV_HV1A2               Reviewed;         855 AA.
+ID   ENV_HV1A2               Reviewed;         855 AA.  ////
 AC   P03378;
 DT   21-JUL-1986, integrated into UniProtKB/Swiss-Prot.
 DT   21-JUL-1986, sequence version 1.
@@ -243,7 +243,7 @@ DR   UniCarbKB; P03378; -.
 DR   ABCD; P03378; -.
 DR   Reactome; R-HSA-5621480; Dectin-2 family.
 DR   PRO; PR:P03378; -.
-DR   Proteomes; UP000007688; Genome.
+DR   Proteomes; UP000007688; Genome. ///
 DR   GO; GO:0044175; C:host cell endosome membrane; IEA:UniProtKB-SubCell.
 DR   GO; GO:0020002; C:host cell plasma membrane; ISS:UniProtKB.
 DR   GO; GO:0016021; C:integral component of membrane; IEA:UniProtKB-UniRule.
