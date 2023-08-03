@@ -1424,6 +1424,18 @@
     "childNumber": 8,
     "itemType": "SINGLE",
     "includeInSwagger": true,
+    "name": "cc_similarity",
+    "label": "Sequence similarities",
+    "id": "family_&_domains/sequence_similarity",
+    "paths": [
+      "comments[?(@.commentType=='SIMILARITY')]"
+    ]
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 9,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
     "name": "ft_zn_fing",
     "label": "Zinc finger",
     "id": "family_&_domains/zinc_finger",
