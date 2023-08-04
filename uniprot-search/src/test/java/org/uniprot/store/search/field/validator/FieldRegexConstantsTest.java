@@ -1,8 +1,9 @@
 package org.uniprot.store.search.field.validator;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FieldRegexConstantsTest {
 
@@ -51,5 +52,56 @@ class FieldRegexConstantsTest {
         assertFalse("123456_9HIV1".matches(FieldRegexConstants.UNIPROTKB_ACCESSION_OR_ID));
         assertFalse("PHOSP_".matches(FieldRegexConstants.UNIPROTKB_ACCESSION_OR_ID));
         assertFalse("PHOSP_1".matches(FieldRegexConstants.UNIPROTKB_ACCESSION_OR_ID));
+    }
+
+    @Test
+    void testECIdRegex() {
+        assertTrue("1.-.-.-".matches(FieldRegexConstants.EC_ID_REGEX));
+        assertTrue("1.22.-.-".matches(FieldRegexConstants.EC_ID_REGEX));
+        assertTrue("1.12.1.-".matches(FieldRegexConstants.EC_ID_REGEX));
+        assertTrue("1.12.24.n1".matches(FieldRegexConstants.EC_ID_REGEX));
+
+        assertFalse("8.-.-.-".matches(FieldRegexConstants.EC_ID_REGEX));
+        assertFalse("10.-.-.-".matches(FieldRegexConstants.EC_ID_REGEX));
+        assertFalse("1.-.1.-".matches(FieldRegexConstants.EC_ID_REGEX));
+        assertFalse("1.n2.-.-".matches(FieldRegexConstants.EC_ID_REGEX));
+        assertFalse("".matches(FieldRegexConstants.EC_ID_REGEX));
+    }
+
+    @Test
+    void testGOIdRegex() {
+        assertTrue("GO:1234567".matches(FieldRegexConstants.GO_ID_REGEX));
+        assertTrue("GO:9234567".matches(FieldRegexConstants.GO_ID_REGEX));
+
+        assertFalse("GO;1234567".matches(FieldRegexConstants.GO_ID_REGEX));
+        assertFalse("1234567".matches(FieldRegexConstants.GO_ID_REGEX));
+        assertFalse("GO:12345678".matches(FieldRegexConstants.GO_ID_REGEX));
+        assertFalse("GO:1234".matches(FieldRegexConstants.GO_ID_REGEX));
+        assertFalse("GO:ASD1234".matches(FieldRegexConstants.GO_ID_REGEX));
+        assertFalse("".matches(FieldRegexConstants.GO_ID_REGEX));
+    }
+
+    @Test
+    void testKeywordIdRegex() {
+        assertTrue("KW-1234".matches(FieldRegexConstants.KEYWORD_ID_REGEX));
+        assertTrue("KW-4321".matches(FieldRegexConstants.KEYWORD_ID_REGEX));
+
+        assertFalse("KW:1234".matches(FieldRegexConstants.KEYWORD_ID_REGEX));
+        assertFalse("KW-K123".matches(FieldRegexConstants.KEYWORD_ID_REGEX));
+        assertFalse("KW-12345".matches(FieldRegexConstants.KEYWORD_ID_REGEX));
+        assertFalse("1234".matches(FieldRegexConstants.KEYWORD_ID_REGEX));
+        assertFalse("".matches(FieldRegexConstants.KEYWORD_ID_REGEX));
+    }
+
+    @Test
+    void testTaxonomyIdRegex() {
+        assertTrue("1".matches(FieldRegexConstants.TAXONOMY_ID_REGEX));
+        assertTrue("123".matches(FieldRegexConstants.TAXONOMY_ID_REGEX));
+        assertTrue("12345677".matches(FieldRegexConstants.TAXONOMY_ID_REGEX));
+
+        assertFalse("".matches(FieldRegexConstants.TAXONOMY_ID_REGEX));
+        assertFalse("HP".matches(FieldRegexConstants.TAXONOMY_ID_REGEX));
+        assertFalse("HP123".matches(FieldRegexConstants.TAXONOMY_ID_REGEX));
+        assertFalse("123~".matches(FieldRegexConstants.TAXONOMY_ID_REGEX));
     }
 }
