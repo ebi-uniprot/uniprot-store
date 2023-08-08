@@ -23,6 +23,15 @@ public class FieldRegexConstants {
     public static final String SEQUENCE_REGEX = "^[A-Z]+$|^NULL$";
     public static final String COMMA_SEPARATED_REGEX = "\\s*,\\s*";
     public static final String CLEAN_QUERY_REGEX = "(?:^\\()|(?:\\)$)";
+    public static final String GO_ID_REGEX = "^GO:\\d{7}$";
+    public static final String EC_ID_REGEX =
+            "^([1-7])\\.("
+                    + "((\\d{1,2})\\.(\\d{1,2})\\.(\\d{1,3}|n\\d{1,2}|-))|"
+                    + "((\\d{1,2})\\.(\\d{1,2}|-)\\.-)|"
+                    + "((\\d{1,2}|-)\\.-\\.-)"
+                    + ")$";
+    public static final String KEYWORD_ID_REGEX = "^KW-\\d{4}$";
+    public static final String TAXONOMY_ID_REGEX = "^\\d+$";
 
     private FieldRegexConstants() {}
 }
