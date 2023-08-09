@@ -28,7 +28,7 @@ import org.uniprot.store.spark.indexer.chebi.ChebiRDDReader;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
+import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidence;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidenceMapper;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidencesRDDReader;
@@ -49,13 +49,13 @@ import scala.Tuple2;
 import com.typesafe.config.Config;
 
 /**
- * This class is responsible to load all the data for UniProtDocument and save it into HDFS
+ * This class is responsible to load all the data for UniProtDocument and save it into HPS
  *
  * @author lgonzales
  * @since 2019-11-12
  */
 @Slf4j
-public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
+public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
     private final JavaSparkContext sparkContext;
     private final String releaseName;
@@ -63,16 +63,16 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
     private final JobParameter parameter;
     private final UniProtKBRDDTupleReader reader;
 
-    public UniProtKBDocumentsToHDFSWriter(JobParameter jobParameter) {
+    public UniProtKBDocumentsToHPSWriter(JobParameter jobParameter) {
         this.config = jobParameter.getApplicationConfig();
         this.releaseName = jobParameter.getReleaseName();
         this.sparkContext = jobParameter.getSparkContext();
         this.parameter = jobParameter;
         this.reader = new UniProtKBRDDTupleReader(parameter, true);
     }
-    /** load all the data for UniProtDocument and write it into HDFS (Hadoop File System) */
+    /** load all the data for UniProtDocument and write it into HPS (Hadoop File System) */
     @Override
-    public void writeIndexDocumentsToHDFS() {
+    public void writeIndexDocumentsToHPS() {
         JavaPairRDD<String, UniProtKBEntry> uniProtEntryRDD = reader.load();
 
         uniProtEntryRDD = joinGoEvidences(uniProtEntryRDD);
@@ -102,9 +102,9 @@ public class UniProtKBDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
             uniProtDocumentRDD = uniProtDocumentRDD.union(inactiveEntryRDD);
         }
 
-        String hdfsPath =
+        String hpsPath =
                 getCollectionOutputReleaseDirPath(config, releaseName, SolrCollection.uniprot);
-        SolrUtils.saveSolrInputDocumentRDD(uniProtDocumentRDD, hdfsPath);
+        SolrUtils.saveSolrInputDocumentRDD(uniProtDocumentRDD, hpsPath);
 
         log.info("Completed UniProtKB prepare Solr index");
     }

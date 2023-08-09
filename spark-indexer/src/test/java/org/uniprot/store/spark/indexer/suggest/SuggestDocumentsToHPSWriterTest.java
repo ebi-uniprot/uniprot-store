@@ -43,7 +43,7 @@ import com.typesafe.config.Config;
  * @since 17/05/2020
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class SuggestDocumentsToHDFSWriterTest {
+class SuggestDocumentsToHPSWriterTest {
 
     private JobParameter parameter;
     private JavaRDD<String> flatFileRDD;
@@ -83,11 +83,11 @@ class SuggestDocumentsToHDFSWriterTest {
     }
 
     @Test
-    void testWriteIndexDocumentsToHDFS(@TempDir Path hdfsPath) {
-        SuggestDocumentsToHDFSWriter writer = Mockito.mock(SuggestDocumentsToHDFSWriter.class);
+    void testWriteIndexDocumentsToHPS(@TempDir Path hpsPath) {
+        SuggestDocumentsToHPSWriter writer = Mockito.mock(SuggestDocumentsToHPSWriter.class);
         Mockito.doCallRealMethod()
                 .when(writer)
-                .writeIndexDocumentsToHDFS(Mockito.anyInt(), Mockito.anyString());
+                .writeIndexDocumentsToHPS(Mockito.anyInt(), Mockito.anyString());
         JavaRDD<SuggestDocument> emptyRDD =
                 parameter.getSparkContext().parallelize(new ArrayList<>());
 
@@ -104,8 +104,8 @@ class SuggestDocumentsToHDFSWriterTest {
         Mockito.when(writer.getProteome(Mockito.any())).thenReturn(emptyRDD);
         Mockito.when(writer.getUniParcTaxonomy(Mockito.any())).thenReturn(emptyRDD);
 
-        writer.writeIndexDocumentsToHDFS(
-                1, hdfsPath.toString() + File.separator + "testWriteIndexDocumentsToHDFS");
+        writer.writeIndexDocumentsToHPS(
+                1, hpsPath.toString() + File.separator + "testWriteIndexDocumentsToHPS");
 
         Mockito.verify(writer, Mockito.atMostOnce()).getMain();
         Mockito.verify(writer, Mockito.atMostOnce()).getKeyword();
@@ -122,7 +122,7 @@ class SuggestDocumentsToHDFSWriterTest {
 
     @Test
     void testGetFlatFileRDD() {
-        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+        SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
         JavaRDD<String> result = writer.getFlatFileRDD();
         assertNotNull(result);
         assertEquals(1, result.count());
@@ -130,7 +130,7 @@ class SuggestDocumentsToHDFSWriterTest {
 
     @Test
     void getMain() {
-        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+        SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
         JavaRDD<SuggestDocument> suggestRdd = writer.getMain();
         assertNotNull(suggestRdd);
         long count = suggestRdd.count();
@@ -144,7 +144,7 @@ class SuggestDocumentsToHDFSWriterTest {
 
     @Test
     void getGo() {
-        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+        SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
         JavaRDD<SuggestDocument> suggestRdd = writer.getGo(flatFileRDD);
         assertNotNull(suggestRdd);
         long count = suggestRdd.count();
@@ -160,7 +160,7 @@ class SuggestDocumentsToHDFSWriterTest {
 
     @Test
     void getChebi() {
-        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+        SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
         JavaRDD<SuggestDocument> suggestRdd = writer.getChebi(flatFileRDD);
         assertNotNull(suggestRdd);
         long count = suggestRdd.count();
@@ -265,7 +265,7 @@ class SuggestDocumentsToHDFSWriterTest {
 
     @Test
     void getRheaComp() {
-        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+        SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
         JavaRDD<SuggestDocument> rheaCompRdd = writer.getRheaComp(flatFileRDD);
         assertNotNull(rheaCompRdd);
         long count = rheaCompRdd.count();
@@ -282,7 +282,7 @@ class SuggestDocumentsToHDFSWriterTest {
 
     @Test
     void getEC() {
-        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+        SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
         JavaRDD<SuggestDocument> suggestRdd = writer.getEC(flatFileRDD);
         assertNotNull(suggestRdd);
         long count = suggestRdd.count();
@@ -297,7 +297,7 @@ class SuggestDocumentsToHDFSWriterTest {
 
     @Test
     void getSubcell() {
-        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+        SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
         JavaRDD<SuggestDocument> suggestRdd = writer.getSubcell();
         assertNotNull(suggestRdd);
         int count = (int) suggestRdd.count();
@@ -315,7 +315,7 @@ class SuggestDocumentsToHDFSWriterTest {
 
     @Test
     void getKeyword() {
-        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+        SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
         JavaRDD<SuggestDocument> suggestRdd = writer.getKeyword();
         assertNotNull(suggestRdd);
         int count = (int) suggestRdd.count();
@@ -333,7 +333,7 @@ class SuggestDocumentsToHDFSWriterTest {
 
     @Test
     void getProteome() {
-        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+        SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
 
         JavaRDD<SuggestDocument> suggestRdd =
                 writer.getProteome(
@@ -378,7 +378,7 @@ class SuggestDocumentsToHDFSWriterTest {
 
     @Test
     void getUniprotKbOrganism() {
-        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+        SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
 
         JavaRDD<SuggestDocument> suggestRdd =
                 writer.getUniprotKbOrganism(
@@ -414,7 +414,7 @@ class SuggestDocumentsToHDFSWriterTest {
 
     @Test
     void getUniParcTaxonomy() {
-        SuggestDocumentsToHDFSWriter writer = new SuggestDocumentsToHDFSWriter(parameter);
+        SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
 
         JavaRDD<SuggestDocument> suggestRdd =
                 writer.getUniParcTaxonomy(
@@ -442,8 +442,8 @@ class SuggestDocumentsToHDFSWriterTest {
 
     @Nested
     class GetDefaultHighImportantTaxonTest {
-        private final SuggestDocumentsToHDFSWriter writer =
-                new SuggestDocumentsToHDFSWriter(parameter);
+        private final SuggestDocumentsToHPSWriter writer =
+                new SuggestDocumentsToHPSWriter(parameter);
 
         @ParameterizedTest
         @EnumSource(

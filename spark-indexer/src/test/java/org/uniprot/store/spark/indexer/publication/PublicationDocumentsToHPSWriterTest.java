@@ -32,11 +32,11 @@ import com.typesafe.config.Config;
  *
  * @author Edd
  */
-class PublicationDocumentsToHDFSWriterTest {
+class PublicationDocumentsToHPSWriterTest {
     private static final String LARGE_SCALE_STUDY_PUBMED_ID = "55555555";
 
     @Test
-    void writeIndexDocumentsToHDFS() throws IOException {
+    void writeIndexDocumentsToHPS() throws IOException {
         // given
         Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
@@ -48,11 +48,11 @@ class PublicationDocumentsToHDFSWriterTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            FakePublicationDocumentsToHDFSWriter writer =
-                    new FakePublicationDocumentsToHDFSWriter(parameter);
+            FakePublicationDocumentsToHPSWriter writer =
+                    new FakePublicationDocumentsToHPSWriter(parameter);
 
             // when
-            writer.writeIndexDocumentsToHDFS();
+            writer.writeIndexDocumentsToHPS();
 
             // then
             List<PublicationDocument> savedDocuments = writer.getSavedDocuments();
@@ -412,16 +412,16 @@ class PublicationDocumentsToHDFSWriterTest {
                 .orElseThrow(() -> new AssertionError("Could not find document"));
     }
 
-    private static class FakePublicationDocumentsToHDFSWriter
-            extends PublicationDocumentsToHDFSWriter {
+    private static class FakePublicationDocumentsToHPSWriter
+            extends PublicationDocumentsToHPSWriter {
         private List<PublicationDocument> documents;
 
-        public FakePublicationDocumentsToHDFSWriter(JobParameter parameter) {
+        public FakePublicationDocumentsToHPSWriter(JobParameter parameter) {
             super(parameter);
         }
 
         @Override
-        void saveToHDFS(JavaRDD<PublicationDocument> publicationDocumentRDD) {
+        void saveToHPS(JavaRDD<PublicationDocument> publicationDocumentRDD) {
             documents = publicationDocumentRDD.collect();
         }
 

@@ -14,7 +14,7 @@ import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.subcell.SubcellularLocationDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
-import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
+import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.subcell.SubcellularLocationRDDReader;
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.CombineMappedProteinAccessionSets;
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.MappedProteinAccession;
@@ -33,14 +33,14 @@ import com.typesafe.config.Config;
  * @created 31/01/2022
  */
 @Slf4j
-public class SubcellularLocationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
+public class SubcellularLocationDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
     private final JobParameter jobParameter;
     private final Config appConfig;
     private final String releaseName;
     private final UniProtKBRDDTupleReader uniProtKBReader;
 
-    public SubcellularLocationDocumentsToHDFSWriter(JobParameter jobParameter) {
+    public SubcellularLocationDocumentsToHPSWriter(JobParameter jobParameter) {
         this.jobParameter = jobParameter;
         this.appConfig = jobParameter.getApplicationConfig();
         this.releaseName = jobParameter.getReleaseName();
@@ -48,7 +48,7 @@ public class SubcellularLocationDocumentsToHDFSWriter implements DocumentsToHDFS
     }
 
     @Override
-    public void writeIndexDocumentsToHDFS() {
+    public void writeIndexDocumentsToHPS() {
         // read uniprotkb and get Tuple2 <SL-XXXX, MappedProteinAccession>
         JavaPairRDD<String, Iterable<MappedProteinAccession>> subcellIdProteinsRDD =
                 this.uniProtKBReader
@@ -73,7 +73,7 @@ public class SubcellularLocationDocumentsToHDFSWriter implements DocumentsToHDFS
                                 new CombineMappedProteinAccessionSets())
                         .mapValues(new StatisticsAggregationMapper());
 
-        //  join the stats with subcell and convert to solr document to save in hdfs
+        //  join the stats with subcell and convert to solr document to save in hps
         // RDD<SubcellularLocationEntryStatistics>
         JavaRDD<SubcellularLocationDocument> subcellDocumentRDD =
                 subcellReader
@@ -83,14 +83,14 @@ public class SubcellularLocationDocumentsToHDFSWriter implements DocumentsToHDFS
                         .map(new SubcellularLocationEntryStatisticsMerger())
                         .map(new SubcellularLocationEntryToDocument());
 
-        saveToHDFS(subcellDocumentRDD);
+        saveToHPS(subcellDocumentRDD);
     }
 
-    void saveToHDFS(JavaRDD<SubcellularLocationDocument> subcellDocumentRDD) {
-        String hdfsPath =
+    void saveToHPS(JavaRDD<SubcellularLocationDocument> subcellDocumentRDD) {
+        String hpsPath =
                 getCollectionOutputReleaseDirPath(
                         appConfig, releaseName, SolrCollection.subcellularlocation);
-        SolrUtils.saveSolrInputDocumentRDD(subcellDocumentRDD, hdfsPath);
+        SolrUtils.saveSolrInputDocumentRDD(subcellDocumentRDD, hpsPath);
         log.info("Completed SubcellularLocation prepare Solr index");
     }
 }

@@ -23,7 +23,7 @@ import com.typesafe.config.Config;
  * @since 2019-11-07
  */
 @Slf4j
-public class IndexHDFSDocumentsInSolrMain {
+public class IndexHPSDocumentsInSolrMain {
 
     public static void main(String[] args) {
         if (args == null || args.length != 3) {
@@ -40,7 +40,7 @@ public class IndexHDFSDocumentsInSolrMain {
 
             List<SolrCollection> solrCollections = getSolrCollection(args[1]);
             for (SolrCollection collection : solrCollections) {
-                String hdfsFilePath =
+                String hpsFilePath =
                         getCollectionOutputReleaseDirPath(applicationConfig, args[0], collection);
 
                 log.info(
@@ -51,7 +51,7 @@ public class IndexHDFSDocumentsInSolrMain {
                 SolrIndexParameter indexParameter =
                         getSolrIndexParameter(collection, applicationConfig);
                 sparkContext
-                        .objectFile(hdfsFilePath)
+                        .objectFile(hpsFilePath)
                         .map(obj -> (SolrInputDocument) obj)
                         .foreachPartition(new SolrIndexWriter(indexParameter));
                 log.info(

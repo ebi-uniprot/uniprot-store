@@ -32,7 +32,7 @@ import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.spark.indexer.chebi.ChebiRDDReader;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
-import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
+import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.ec.ECRDDReader;
 import org.uniprot.store.spark.indexer.go.relations.GORelationRDDReader;
 import org.uniprot.store.spark.indexer.keyword.KeywordRDDReader;
@@ -54,34 +54,34 @@ import scala.Tuple2;
 import com.typesafe.config.Config;
 
 /**
- * This class is responsible to load all the data for SuggestDocument and write it into HDFS
+ * This class is responsible to load all the data for SuggestDocument and write it into HPS
  *
  * @author lgonzales
  * @since 2020-01-15
  */
 @Slf4j
-public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
+public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
     private final JavaSparkContext sparkContext;
     private final Config config;
     private final JobParameter jobParameter;
 
-    public SuggestDocumentsToHDFSWriter(JobParameter jobParameter) {
+    public SuggestDocumentsToHPSWriter(JobParameter jobParameter) {
         this.config = jobParameter.getApplicationConfig();
         this.sparkContext = jobParameter.getSparkContext();
         this.jobParameter = jobParameter;
     }
-    /** load all the data for SuggestDocument and write it into HDFS (Hadoop File System) */
+    /** load all the data for SuggestDocument and write it into HPS (Hadoop File System) */
     @Override
-    public void writeIndexDocumentsToHDFS() {
+    public void writeIndexDocumentsToHPS() {
         int suggestPartition = Integer.parseInt(config.getString("suggest.partition.size"));
-        String hdfsPath =
+        String hpsPath =
                 getCollectionOutputReleaseDirPath(
                         config, jobParameter.getReleaseName(), SolrCollection.suggest);
-        writeIndexDocumentsToHDFS(suggestPartition, hdfsPath);
+        writeIndexDocumentsToHPS(suggestPartition, hpsPath);
     }
 
-    void writeIndexDocumentsToHDFS(int suggestPartition, String hdfsPath) {
+    void writeIndexDocumentsToHPS(int suggestPartition, String hpsPath) {
         var organismWithLineageRDD = getOrganismWithLineageRDD();
 
         JavaRDD<String> flatFileRDD = getFlatFileRDD();
@@ -98,7 +98,7 @@ public class SuggestDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .union(getUniParcTaxonomy(organismWithLineageRDD))
                         .repartition(suggestPartition);
 
-        SolrUtils.saveSolrInputDocumentRDD(suggestRDD, hdfsPath);
+        SolrUtils.saveSolrInputDocumentRDD(suggestRDD, hpsPath);
     }
 
     JavaRDD<String> getFlatFileRDD() {

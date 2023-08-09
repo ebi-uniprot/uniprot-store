@@ -27,10 +27,10 @@ import com.typesafe.config.Config;
  * @author lgonzales
  * @since 22/10/2020
  */
-class GeneCentricDocumentsToHDFSWriterTest {
+class GeneCentricDocumentsToHPSWriterTest {
 
     @Test
-    void writeIndexDocumentsToHDFS() throws IOException {
+    void writeIndexDocumentsToHPS() throws IOException {
         ObjectMapper objectMapper = GeneCentricJsonConfig.getInstance().getFullObjectMapper();
         GeneCentricDocumentConverter converter = new GeneCentricDocumentConverter(objectMapper);
         Config application = SparkUtils.loadApplicationProperty();
@@ -43,9 +43,9 @@ class GeneCentricDocumentsToHDFSWriterTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            GeneCentricDocumentsToHDFSWriterFake writer =
-                    new GeneCentricDocumentsToHDFSWriterFake(parameter);
-            writer.writeIndexDocumentsToHDFS();
+            GeneCentricDocumentsToHPSWriterFake writer =
+                    new GeneCentricDocumentsToHPSWriterFake(parameter);
+            writer.writeIndexDocumentsToHPS();
             List<GeneCentricDocument> savedDocuments = writer.getSavedDocuments();
             assertNotNull(savedDocuments);
             assertEquals(40, savedDocuments.size());
@@ -129,17 +129,17 @@ class GeneCentricDocumentsToHDFSWriterTest {
         assertTrue(entry.getRelatedProteins().isEmpty());
     }
 
-    private static class GeneCentricDocumentsToHDFSWriterFake
-            extends GeneCentricDocumentsToHDFSWriter {
+    private static class GeneCentricDocumentsToHPSWriterFake
+            extends GeneCentricDocumentsToHPSWriter {
 
         private List<GeneCentricDocument> documents;
 
-        public GeneCentricDocumentsToHDFSWriterFake(JobParameter parameter) {
+        public GeneCentricDocumentsToHPSWriterFake(JobParameter parameter) {
             super(parameter);
         }
 
         @Override
-        void saveToHDFS(JavaRDD<GeneCentricDocument> geneCentricDocument) {
+        void saveToHPS(JavaRDD<GeneCentricDocument> geneCentricDocument) {
             documents = geneCentricDocument.collect();
         }
 

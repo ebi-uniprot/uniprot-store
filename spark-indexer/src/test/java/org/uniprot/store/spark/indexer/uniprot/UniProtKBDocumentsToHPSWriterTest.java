@@ -31,7 +31,7 @@ import com.typesafe.config.Config;
  * @since 17/05/2020
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class UniProtKBDocumentsToHDFSWriterTest {
+class UniProtKBDocumentsToHPSWriterTest {
 
     private JobParameter parameter;
 
@@ -55,7 +55,7 @@ class UniProtKBDocumentsToHDFSWriterTest {
 
     @Test
     void canJoinGoEvidences() {
-        UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
+        UniProtKBDocumentsToHPSWriter writer = new UniProtKBDocumentsToHPSWriter(parameter);
         UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
         JavaPairRDD<String, UniProtKBEntry> uniProtRDD = reader.load();
 
@@ -96,7 +96,7 @@ class UniProtKBDocumentsToHDFSWriterTest {
 
     @Test
     void canJoinAllUniRefs() {
-        UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
+        UniProtKBDocumentsToHPSWriter writer = new UniProtKBDocumentsToHPSWriter(parameter);
 
         List<Tuple2<String, UniProtDocument>> tuples = new ArrayList<>();
 
@@ -134,7 +134,7 @@ class UniProtKBDocumentsToHDFSWriterTest {
 
     @Test
     void canJoinGoRelations() {
-        UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
+        UniProtKBDocumentsToHPSWriter writer = new UniProtKBDocumentsToHPSWriter(parameter);
 
         List<Tuple2<String, UniProtDocument>> tuples = new ArrayList<>();
         String accession1 = "Q9EPI6";
@@ -172,7 +172,7 @@ class UniProtKBDocumentsToHDFSWriterTest {
 
     @Test
     void canJoinChebiRelations() {
-        UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
+        UniProtKBDocumentsToHPSWriter writer = new UniProtKBDocumentsToHPSWriter(parameter);
 
         UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
         JavaPairRDD<String, UniProtDocument> uniprotDocRDD =
@@ -190,7 +190,7 @@ class UniProtKBDocumentsToHDFSWriterTest {
     void canJoinUniProtOldIdTracker() {
         List<String> mappedResult =
                 Arrays.asList("NSMF_RAT", "NSMFOLD1_RAT", "NSMFOLD3_RAT", "NSMFOLD2_RAT");
-        UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
+        UniProtKBDocumentsToHPSWriter writer = new UniProtKBDocumentsToHPSWriter(parameter);
 
         UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
         JavaPairRDD<String, UniProtDocument> uniprotDocRDD =
@@ -211,7 +211,7 @@ class UniProtKBDocumentsToHDFSWriterTest {
 
     @Test
     void canJoinLiteratureMapped() {
-        UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
+        UniProtKBDocumentsToHPSWriter writer = new UniProtKBDocumentsToHPSWriter(parameter);
 
         List<Tuple2<String, UniProtDocument>> tuples = new ArrayList<>();
 
@@ -266,7 +266,7 @@ class UniProtKBDocumentsToHDFSWriterTest {
 
     @Test
     void canJoinSubcellularLocation() {
-        UniProtKBDocumentsToHDFSWriter writer = new UniProtKBDocumentsToHDFSWriter(parameter);
+        UniProtKBDocumentsToHPSWriter writer = new UniProtKBDocumentsToHPSWriter(parameter);
         UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
         JavaPairRDD<String, UniProtKBEntry> uniProtRDD = reader.load();
         JavaPairRDD<String, UniProtDocument> uniProtDocument =

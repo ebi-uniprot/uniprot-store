@@ -10,25 +10,25 @@ import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
  * @author lgonzales
  * @since 08/05/2020
  */
-class IndexHDFSDocumentsInSolrMainTest {
+class IndexHPSDocumentsInSolrMainTest {
 
     @Test
-    void testIndexHDFSDocumentsInSolrMainInvalidArgumentIndex() {
+    void testIndexHPSDocumentsInSolrMainInvalidArgumentIndex() {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> IndexHDFSDocumentsInSolrMain.main(new String[0]));
+                () -> IndexHPSDocumentsInSolrMain.main(new String[0]));
     }
 
     @Test
-    void testIndexHDFSDocumentsInSolrMainInvalidCollection() {
+    void testIndexHPSDocumentsInSolrMainInvalidCollection() {
         String[] args = {"invalid", "invalid", "invalid"};
-        assertThrows(SolrIndexException.class, () -> IndexHDFSDocumentsInSolrMain.main(args));
+        assertThrows(SolrIndexException.class, () -> IndexHPSDocumentsInSolrMain.main(args));
     }
 
     @Test
-    void testIndexHDFSDocumentsInSolrMainThrowExceptions() {
+    void testIndexHPSDocumentsInSolrMainThrowExceptions() {
         // valid arguments, but it will fail because we do not have the serialized document files.
         String[] args = {"2020_04", "uniparc", SPARK_LOCAL_MASTER};
-        assertThrows(SolrIndexException.class, () -> IndexHDFSDocumentsInSolrMain.main(args));
+        assertThrows(SolrIndexException.class, () -> IndexHPSDocumentsInSolrMain.main(args));
     }
 }

@@ -27,7 +27,7 @@ import com.typesafe.config.Config;
  * @since 02/02/2022
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class SubcellularLocationDocumentsToHDFSWriterTest {
+class SubcellularLocationDocumentsToHPSWriterTest {
 
     private JobParameter parameter;
 
@@ -51,9 +51,9 @@ class SubcellularLocationDocumentsToHDFSWriterTest {
 
     @Test
     void canIndexSubcellularLocation() throws IOException {
-        SubcellularLocationDocumentsToHDFSWriterTest.SubcellularLocationDocumentsToHDFSWriterFake
-                writer = new SubcellularLocationDocumentsToHDFSWriterFake(parameter);
-        writer.writeIndexDocumentsToHDFS();
+        SubcellularLocationDocumentsToHPSWriterTest.SubcellularLocationDocumentsToHPSWriterFake
+                writer = new SubcellularLocationDocumentsToHPSWriterFake(parameter);
+        writer.writeIndexDocumentsToHPS();
         List<SubcellularLocationDocument> savedDocs = writer.getSavedDocuments();
         assertNotNull(savedDocs);
         assertEquals(520, savedDocs.size());
@@ -79,16 +79,16 @@ class SubcellularLocationDocumentsToHDFSWriterTest {
                 document.getSubcellularlocationObj(), SubcellularLocationEntry.class);
     }
 
-    private static class SubcellularLocationDocumentsToHDFSWriterFake
-            extends SubcellularLocationDocumentsToHDFSWriter {
+    private static class SubcellularLocationDocumentsToHPSWriterFake
+            extends SubcellularLocationDocumentsToHPSWriter {
         private List<SubcellularLocationDocument> documents;
 
-        public SubcellularLocationDocumentsToHDFSWriterFake(JobParameter jobParameter) {
+        public SubcellularLocationDocumentsToHPSWriterFake(JobParameter jobParameter) {
             super(jobParameter);
         }
 
         @Override
-        void saveToHDFS(JavaRDD<SubcellularLocationDocument> subcellularLocationDocumentRDD) {
+        void saveToHPS(JavaRDD<SubcellularLocationDocument> subcellularLocationDocumentRDD) {
             this.documents = subcellularLocationDocumentRDD.collect();
         }
 

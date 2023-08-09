@@ -14,7 +14,7 @@ import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
-import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
+import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.literature.mapper.*;
 import org.uniprot.store.spark.indexer.publication.MappedReferenceRDDReader;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
@@ -24,16 +24,16 @@ import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
  * @since 24/03/2021
  */
 @Slf4j
-public class LiteratureDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
+public class LiteratureDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
     private final JobParameter parameter;
 
-    public LiteratureDocumentsToHDFSWriter(JobParameter parameter) {
+    public LiteratureDocumentsToHPSWriter(JobParameter parameter) {
         this.parameter = parameter;
     }
 
     @Override
-    public void writeIndexDocumentsToHDFS() {
+    public void writeIndexDocumentsToHPS() {
         LiteratureRDDTupleReader literatureReader = new LiteratureRDDTupleReader(parameter);
 
         // load literature with abstract JavaPairRDD<citationId, Literature>
@@ -71,9 +71,9 @@ public class LiteratureDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .mapValues(new LiteratureEntryToDocumentMapper())
                         .values();
 
-        saveToHDFS(literatureDocsRDD);
+        saveToHPS(literatureDocsRDD);
 
-        log.info("Completed writing literature documents to HDFS");
+        log.info("Completed writing literature documents to HPS");
     }
 
     private JavaPairRDD<String, LiteratureEntry> loadUniProtKBLiteratureEntryRDD() {
@@ -89,12 +89,12 @@ public class LiteratureDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         new LiteratureEntryAggregationMapper());
     }
 
-    void saveToHDFS(JavaRDD<LiteratureDocument> literatureDocsRDD) {
-        String hdfsPath =
+    void saveToHPS(JavaRDD<LiteratureDocument> literatureDocsRDD) {
+        String hpsPath =
                 getCollectionOutputReleaseDirPath(
                         parameter.getApplicationConfig(),
                         parameter.getReleaseName(),
                         SolrCollection.literature);
-        SolrUtils.saveSolrInputDocumentRDD(literatureDocsRDD, hdfsPath);
+        SolrUtils.saveSolrInputDocumentRDD(literatureDocsRDD, hpsPath);
     }
 }

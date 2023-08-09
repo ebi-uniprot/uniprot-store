@@ -8,8 +8,6 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.Path;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
@@ -68,12 +66,7 @@ public class SparkUtils {
             throws IOException {
         InputStream inputStream = ClassLoader.getSystemResourceAsStream(filePath);
         if (inputStream == null) {
-            if (filePath.startsWith("hdfs:")) {
-                FileSystem fs = FileSystem.get(hadoopConfig);
-                inputStream = fs.open(new Path(filePath)).getWrappedStream();
-            } else {
-                inputStream = new FileInputStream(filePath);
-            }
+            inputStream = new FileInputStream(filePath);
         }
         return inputStream;
     }

@@ -26,10 +26,10 @@ import com.typesafe.config.Config;
  * @author lgonzales
  * @since 15/06/2020
  */
-class UniRefDocumentsToHDFSWriterTest {
+class UniRefDocumentsToHPSWriterTest {
 
     @Test
-    void writeIndexDocumentsToHDFS() {
+    void writeIndexDocumentsToHPS() {
         Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
                 SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
@@ -40,8 +40,8 @@ class UniRefDocumentsToHDFSWriterTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            UniRefDocumentsToHDFSWriterFake writer = new UniRefDocumentsToHDFSWriterFake(parameter);
-            writer.writeIndexDocumentsToHDFS();
+            UniRefDocumentsToHPSWriterFake writer = new UniRefDocumentsToHPSWriterFake(parameter);
+            writer.writeIndexDocumentsToHPS();
             List<UniRefDocument> savedDocuments = writer.getSavedDocuments();
             assertNotNull(savedDocuments);
             assertEquals(3, savedDocuments.size());
@@ -59,12 +59,12 @@ class UniRefDocumentsToHDFSWriterTest {
         }
     }
 
-    private static class UniRefDocumentsToHDFSWriterFake extends UniRefDocumentsToHDFSWriter {
+    private static class UniRefDocumentsToHPSWriterFake extends UniRefDocumentsToHPSWriter {
 
         private final JobParameter parameter;
         private List<UniRefDocument> documents;
 
-        public UniRefDocumentsToHDFSWriterFake(JobParameter parameter) {
+        public UniRefDocumentsToHPSWriterFake(JobParameter parameter) {
             super(parameter);
             this.parameter = parameter;
         }
@@ -90,7 +90,7 @@ class UniRefDocumentsToHDFSWriterTest {
         }
 
         @Override
-        void saveToHDFS(JavaRDD<UniRefDocument> unirefDocumentRDD) {
+        void saveToHPS(JavaRDD<UniRefDocument> unirefDocumentRDD) {
             documents = unirefDocumentRDD.collect();
         }
 

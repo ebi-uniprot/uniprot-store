@@ -26,10 +26,10 @@ import com.typesafe.config.Config;
  * @author lgonzales
  * @since 22/06/2020
  */
-class UniParcDocumentsToHDFSWriterTest {
+class UniParcDocumentsToHPSWriterTest {
 
     @Test
-    void writeIndexDocumentsToHDFS() {
+    void writeIndexDocumentsToHPS() {
         Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
                 SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
@@ -40,10 +40,9 @@ class UniParcDocumentsToHDFSWriterTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            UniParcDocumentsToHDFSWriterTest.UniParcDocumentsToHDFSWriterFake writer =
-                    new UniParcDocumentsToHDFSWriterTest.UniParcDocumentsToHDFSWriterFake(
-                            parameter);
-            writer.writeIndexDocumentsToHDFS();
+            UniParcDocumentsToHPSWriterTest.UniParcDocumentsToHPSWriterFake writer =
+                    new UniParcDocumentsToHPSWriterTest.UniParcDocumentsToHPSWriterFake(parameter);
+            writer.writeIndexDocumentsToHPS();
             List<UniParcDocument> savedDocuments = writer.getSavedDocuments();
             assertNotNull(savedDocuments);
             assertEquals(2, savedDocuments.size());
@@ -58,12 +57,12 @@ class UniParcDocumentsToHDFSWriterTest {
         }
     }
 
-    private static class UniParcDocumentsToHDFSWriterFake extends UniParcDocumentsToHDFSWriter {
+    private static class UniParcDocumentsToHPSWriterFake extends UniParcDocumentsToHPSWriter {
 
         private final JobParameter parameter;
         private List<UniParcDocument> documents;
 
-        public UniParcDocumentsToHDFSWriterFake(JobParameter parameter) {
+        public UniParcDocumentsToHPSWriterFake(JobParameter parameter) {
             super(parameter);
             this.parameter = parameter;
         }
@@ -89,7 +88,7 @@ class UniParcDocumentsToHDFSWriterTest {
         }
 
         @Override
-        void saveToHDFS(JavaRDD<UniParcDocument> uniParcDocumentRDD) {
+        void saveToHPS(JavaRDD<UniParcDocument> uniParcDocumentRDD) {
             documents = uniParcDocumentRDD.collect();
         }
 

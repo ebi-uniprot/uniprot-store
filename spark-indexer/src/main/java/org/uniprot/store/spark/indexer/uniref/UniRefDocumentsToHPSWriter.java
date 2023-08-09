@@ -12,28 +12,28 @@ import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
-import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
+import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniref.mapper.UniRefTaxonomyJoin;
 import org.uniprot.store.spark.indexer.uniref.mapper.UniRefToDocument;
 
 /**
- * This class is responsible to load all the data for UniRefDocument and save it into HDFS
+ * This class is responsible to load all the data for UniRefDocument and save it into HPS
  *
  * @author lgonzales
  * @since 2020-02-07
  */
 @Slf4j
-public class UniRefDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
+public class UniRefDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
     private final JobParameter parameter;
 
-    public UniRefDocumentsToHDFSWriter(JobParameter parameter) {
+    public UniRefDocumentsToHPSWriter(JobParameter parameter) {
         this.parameter = parameter;
     }
 
     @Override
-    public void writeIndexDocumentsToHDFS() {
+    public void writeIndexDocumentsToHPS() {
         // JavaPairRDD<taxId,TaxonomyEntry>
         JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD =
                 loadTaxonomyEntryJavaPairRDD();
@@ -61,18 +61,18 @@ public class UniRefDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .union(joinTaxonomy(uniref90DocRDD, taxonomyEntryJavaPairRDD))
                         .union(joinTaxonomy(uniref100DocRDD, taxonomyEntryJavaPairRDD));
 
-        saveToHDFS(unirefDocumentRDD);
+        saveToHPS(unirefDocumentRDD);
 
         log.info("Completed UniRef (100, 90 and 50) prepare Solr index");
     }
 
-    void saveToHDFS(JavaRDD<UniRefDocument> unirefDocumentRDD) {
-        String hdfsPath =
+    void saveToHPS(JavaRDD<UniRefDocument> unirefDocumentRDD) {
+        String hpsPath =
                 getCollectionOutputReleaseDirPath(
                         parameter.getApplicationConfig(),
                         parameter.getReleaseName(),
                         SolrCollection.uniref);
-        SolrUtils.saveSolrInputDocumentRDD(unirefDocumentRDD, hdfsPath);
+        SolrUtils.saveSolrInputDocumentRDD(unirefDocumentRDD, hpsPath);
     }
 
     JavaPairRDD<String, TaxonomyEntry> loadTaxonomyEntryJavaPairRDD() {

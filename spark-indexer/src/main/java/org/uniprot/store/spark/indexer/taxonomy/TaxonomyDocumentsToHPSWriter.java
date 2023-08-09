@@ -15,7 +15,7 @@ import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
-import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
+import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.proteome.ProteomeRDDReader;
 import org.uniprot.store.spark.indexer.proteome.mapper.ProteomeTaxonomyStatisticsMapper;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.*;
@@ -28,26 +28,26 @@ import org.uniprot.store.spark.indexer.uniprot.mapper.OrganismJoinMapper;
 import com.typesafe.config.Config;
 
 /**
- * This class is responsible to load all the data for TaxonomyDocument and save it into HDFS
+ * This class is responsible to load all the data for TaxonomyDocument and save it into HPS
  *
  * @author lgonzales
  * @since 2021-09-22
  */
 @Slf4j
-public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
+public class TaxonomyDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
     private final JobParameter parameter;
     private final Config config;
     private final String releaseName;
 
-    public TaxonomyDocumentsToHDFSWriter(JobParameter parameter) {
+    public TaxonomyDocumentsToHPSWriter(JobParameter parameter) {
         this.parameter = parameter;
         this.config = parameter.getApplicationConfig();
         this.releaseName = parameter.getReleaseName();
     }
 
     @Override
-    public void writeIndexDocumentsToHDFS() {
+    public void writeIndexDocumentsToHPS() {
         TaxonomyRDDReader taxonomyRDDReader = getTaxonomyRDDReader();
         JavaPairRDD<String, TaxonomyEntry> taxonomyRDD =
                 taxonomyRDDReader.load().persist(StorageLevel.DISK_ONLY());
@@ -90,7 +90,7 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .union(getInactiveDocumentsRDD())
                         .filter(Objects::nonNull);
 
-        saveToHDFS(taxonomyDocumentRDD);
+        saveToHPS(taxonomyDocumentRDD);
 
         log.info("Completed Taxonomy prepare Solr index");
     }
@@ -99,10 +99,10 @@ public class TaxonomyDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         return new TaxonomyRDDReader(parameter, true);
     }
 
-    void saveToHDFS(JavaRDD<TaxonomyDocument> taxonomyDocumentRDD) {
-        String hdfsPath =
+    void saveToHPS(JavaRDD<TaxonomyDocument> taxonomyDocumentRDD) {
+        String hpsPath =
                 getCollectionOutputReleaseDirPath(config, releaseName, SolrCollection.taxonomy);
-        SolrUtils.saveSolrInputDocumentRDD(taxonomyDocumentRDD, hdfsPath);
+        SolrUtils.saveSolrInputDocumentRDD(taxonomyDocumentRDD, hpsPath);
     }
 
     private JavaPairRDD<String, Iterable<Taxonomy>> getTaxonomyHosts(

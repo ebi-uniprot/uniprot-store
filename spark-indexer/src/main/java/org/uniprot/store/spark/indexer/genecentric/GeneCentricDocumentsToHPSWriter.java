@@ -11,7 +11,7 @@ import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.genecentric.GeneCentricDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
-import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
+import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.genecentric.mapper.GeneCentricJoin;
 import org.uniprot.store.spark.indexer.genecentric.mapper.GeneCentricToDocument;
 
@@ -22,20 +22,20 @@ import com.typesafe.config.Config;
  * @since 21/10/2020
  */
 @Slf4j
-public class GeneCentricDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
+public class GeneCentricDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
     private final JobParameter parameter;
     private final Config config;
     private final String releaseName;
 
-    public GeneCentricDocumentsToHDFSWriter(JobParameter parameter) {
+    public GeneCentricDocumentsToHPSWriter(JobParameter parameter) {
         this.parameter = parameter;
         this.config = parameter.getApplicationConfig();
         this.releaseName = parameter.getReleaseName();
     }
 
     @Override
-    public void writeIndexDocumentsToHDFS() {
+    public void writeIndexDocumentsToHPS() {
         GeneCentricCanonicalRDDReader canonicalReader =
                 new GeneCentricCanonicalRDDReader(parameter);
         JavaPairRDD<String, GeneCentricEntry> canonicalRDD = canonicalReader.load();
@@ -51,14 +51,14 @@ public class GeneCentricDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .mapValues(new GeneCentricToDocument())
                         .values();
 
-        saveToHDFS(geneCentricDocumentRDD);
+        saveToHPS(geneCentricDocumentRDD);
 
         log.info("Completed Gene Centric prepare Solr index");
     }
 
-    void saveToHDFS(JavaRDD<GeneCentricDocument> geneCentricDocumentRDD) {
-        String hdfsPath =
+    void saveToHPS(JavaRDD<GeneCentricDocument> geneCentricDocumentRDD) {
+        String hpsPath =
                 getCollectionOutputReleaseDirPath(config, releaseName, SolrCollection.genecentric);
-        SolrUtils.saveSolrInputDocumentRDD(geneCentricDocumentRDD, hdfsPath);
+        SolrUtils.saveSolrInputDocumentRDD(geneCentricDocumentRDD, hpsPath);
     }
 }

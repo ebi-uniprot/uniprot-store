@@ -7,7 +7,7 @@ import org.apache.hadoop.io.Text;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.genecentric.GeneCentricEntry;
 import org.uniprot.core.genecentric.Protein;
-import org.uniprot.store.spark.indexer.common.exception.IndexHDFSDocumentsException;
+import org.uniprot.store.spark.indexer.common.exception.IndexHPSDocumentsException;
 
 import scala.Tuple2;
 
@@ -49,6 +49,6 @@ class FastaToCanonicalGeneCentricEntryTest {
         FastaToCanonicalGeneCentricEntry mapper = new FastaToCanonicalGeneCentricEntry();
         String proteomeId = "UP000000554";
         Tuple2<LongWritable, Text> tuple = new Tuple2<>(new LongWritable(), new Text(fastaInput));
-        assertThrows(IndexHDFSDocumentsException.class, () -> mapper.parseEntry(proteomeId, tuple));
+        assertThrows(IndexHPSDocumentsException.class, () -> mapper.parseEntry(proteomeId, tuple));
     }
 }

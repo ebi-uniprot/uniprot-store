@@ -24,10 +24,10 @@ import com.typesafe.config.Config;
  * @author lgonzales
  * @since 31/03/2021
  */
-class LiteratureDocumentsToHDFSWriterTest {
+class LiteratureDocumentsToHPSWriterTest {
 
     @Test
-    void writeIndexDocumentsToHDFS() throws IOException {
+    void writeIndexDocumentsToHPS() throws IOException {
         Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
                 SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
@@ -38,10 +38,10 @@ class LiteratureDocumentsToHDFSWriterTest {
                             .sparkContext(sparkContext)
                             .build();
 
-            LiteratureDocumentsToHDFSWriterTest.LiteratureDocumentsToHDFSWriterFake writer =
-                    new LiteratureDocumentsToHDFSWriterTest.LiteratureDocumentsToHDFSWriterFake(
+            LiteratureDocumentsToHPSWriterTest.LiteratureDocumentsToHPSWriterFake writer =
+                    new LiteratureDocumentsToHPSWriterTest.LiteratureDocumentsToHPSWriterFake(
                             parameter);
-            writer.writeIndexDocumentsToHDFS();
+            writer.writeIndexDocumentsToHPS();
             List<LiteratureDocument> savedDocuments = writer.getSavedDocuments();
             assertNotNull(savedDocuments);
             assertEquals(15, savedDocuments.size());
@@ -135,17 +135,16 @@ class LiteratureDocumentsToHDFSWriterTest {
         }
     }
 
-    private static class LiteratureDocumentsToHDFSWriterFake
-            extends LiteratureDocumentsToHDFSWriter {
+    private static class LiteratureDocumentsToHPSWriterFake extends LiteratureDocumentsToHPSWriter {
 
         private List<LiteratureDocument> documents;
 
-        public LiteratureDocumentsToHDFSWriterFake(JobParameter parameter) {
+        public LiteratureDocumentsToHPSWriterFake(JobParameter parameter) {
             super(parameter);
         }
 
         @Override
-        void saveToHDFS(JavaRDD<LiteratureDocument> literatureDocument) {
+        void saveToHPS(JavaRDD<LiteratureDocument> literatureDocument) {
             documents = literatureDocument.collect();
         }
 

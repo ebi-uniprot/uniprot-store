@@ -4,9 +4,9 @@ package org.uniprot.store.spark.indexer.common.exception;
  * @author lgonzales
  * @since 24/04/2020
  */
-public class IndexHDFSDocumentsException extends RuntimeException {
+public class IndexHPSDocumentsException extends RuntimeException {
 
-    public IndexHDFSDocumentsException(String message, Throwable cause) {
+    public IndexHPSDocumentsException(String message, Throwable cause) {
         super(message, cause);
     }
 }

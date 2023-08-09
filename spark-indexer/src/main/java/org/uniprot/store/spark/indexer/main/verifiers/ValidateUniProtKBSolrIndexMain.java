@@ -23,7 +23,7 @@ import org.uniprot.core.uniprotkb.comment.Comment;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.JobParameter;
-import org.uniprot.store.spark.indexer.common.exception.IndexHDFSDocumentsException;
+import org.uniprot.store.spark.indexer.common.exception.IndexHPSDocumentsException;
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
@@ -88,11 +88,11 @@ public class ValidateUniProtKBSolrIndexMain {
             long rddReviewedIsoform = getRDDReviewedIsoformCount(flatFileRDD);
             long rddUnReviewed = getRDDUnreviewedCount(flatFileRDD);
 
-            String hdfsOutputFilePath =
+            String hpsOutputFilePath =
                     getCollectionOutputReleaseDirPath(
                             applicationConfig, releaseName, SolrCollection.uniprot);
             JavaRDD<SolrInputDocument> outputDocuments =
-                    getOutputUniProtKBDocuments(sparkContext, hdfsOutputFilePath);
+                    getOutputUniProtKBDocuments(sparkContext, hpsOutputFilePath);
 
             long outputReviewed = getOutputReviewedCount(outputDocuments);
             long outputReviewedIsoform = getOutputReviewedIsoformCount(outputDocuments);
@@ -155,7 +155,7 @@ public class ValidateUniProtKBSolrIndexMain {
         } catch (SparkIndexException e) {
             throw e;
         } catch (Exception e) {
-            throw new IndexHDFSDocumentsException("Unexpected error during index", e);
+            throw new IndexHPSDocumentsException("Unexpected error during index", e);
         } finally {
             log.info("Finished all Jobs!!!");
         }
@@ -167,8 +167,8 @@ public class ValidateUniProtKBSolrIndexMain {
     }
 
     JavaRDD<SolrInputDocument> getOutputUniProtKBDocuments(
-            JavaSparkContext sparkContext, String hdfsOutputFilePath) {
-        return sparkContext.objectFile(hdfsOutputFilePath).map(obj -> (SolrInputDocument) obj);
+            JavaSparkContext sparkContext, String hpsOutputFilePath) {
+        return sparkContext.objectFile(hpsOutputFilePath).map(obj -> (SolrInputDocument) obj);
     }
 
     private long getOutputUnreviewedCount(JavaRDD<SolrInputDocument> outputDocuments) {

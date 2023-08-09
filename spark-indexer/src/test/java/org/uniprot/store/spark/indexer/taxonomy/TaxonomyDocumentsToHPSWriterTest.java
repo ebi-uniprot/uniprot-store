@@ -34,7 +34,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.typesafe.config.Config;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TaxonomyDocumentsToHDFSWriterTest {
+class TaxonomyDocumentsToHPSWriterTest {
 
     private JobParameter parameter;
     private Connection dbConnection;
@@ -71,9 +71,9 @@ class TaxonomyDocumentsToHDFSWriterTest {
     }
 
     @Test
-    void writeIndexDocumentsToHDFS() throws Exception {
-        TaxonomyDocumentsToHDFSWriterFake writer = new TaxonomyDocumentsToHDFSWriterFake(parameter);
-        writer.writeIndexDocumentsToHDFS();
+    void writeIndexDocumentsToHPS() throws Exception {
+        TaxonomyDocumentsToHPSWriterFake writer = new TaxonomyDocumentsToHPSWriterFake(parameter);
+        writer.writeIndexDocumentsToHPS();
         Map<String, TaxonomyDocument> documents =
                 writer.getSavedDocuments().stream()
                         .collect(Collectors.toMap(TaxonomyDocument::getId, Function.identity()));
@@ -217,12 +217,12 @@ class TaxonomyDocumentsToHDFSWriterTest {
         }
     }
 
-    private static class TaxonomyDocumentsToHDFSWriterFake extends TaxonomyDocumentsToHDFSWriter {
+    private static class TaxonomyDocumentsToHPSWriterFake extends TaxonomyDocumentsToHPSWriter {
 
         private List<TaxonomyDocument> documents;
         private final JobParameter parameter;
 
-        public TaxonomyDocumentsToHDFSWriterFake(JobParameter parameter) {
+        public TaxonomyDocumentsToHPSWriterFake(JobParameter parameter) {
             super(parameter);
             this.parameter = parameter;
         }
@@ -233,7 +233,7 @@ class TaxonomyDocumentsToHDFSWriterTest {
         }
 
         @Override
-        void saveToHDFS(JavaRDD<TaxonomyDocument> taxonomyDocumentRDD) {
+        void saveToHPS(JavaRDD<TaxonomyDocument> taxonomyDocumentRDD) {
             documents = taxonomyDocumentRDD.collect();
         }
 

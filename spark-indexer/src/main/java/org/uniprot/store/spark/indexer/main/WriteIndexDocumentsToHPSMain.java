@@ -7,10 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.JobParameter;
-import org.uniprot.store.spark.indexer.common.exception.IndexHDFSDocumentsException;
+import org.uniprot.store.spark.indexer.common.exception.IndexHPSDocumentsException;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
-import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriterFactory;
+import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
+import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriterFactory;
 
 import com.typesafe.config.Config;
 
@@ -19,7 +19,7 @@ import com.typesafe.config.Config;
  * @since 2019-10-16
  */
 @Slf4j
-public class WriteIndexDocumentsToHDFSMain {
+public class WriteIndexDocumentsToHPSMain {
 
     public static void main(String[] args) throws Exception {
         if (args == null || args.length != 3) {
@@ -41,13 +41,13 @@ public class WriteIndexDocumentsToHDFSMain {
                             .build();
             List<SolrCollection> solrCollections = SparkUtils.getSolrCollection(args[1]);
             for (SolrCollection collection : solrCollections) {
-                DocumentsToHDFSWriterFactory factory = new DocumentsToHDFSWriterFactory();
-                DocumentsToHDFSWriter writer =
-                        factory.createDocumentsToHDFSWriter(collection, jobParameter);
-                writer.writeIndexDocumentsToHDFS();
+                DocumentsToHPSWriterFactory factory = new DocumentsToHPSWriterFactory();
+                DocumentsToHPSWriter writer =
+                        factory.createDocumentsToHPSWriter(collection, jobParameter);
+                writer.writeIndexDocumentsToHPS();
             }
         } catch (Exception e) {
-            throw new IndexHDFSDocumentsException("Unexpected error during index", e);
+            throw new IndexHPSDocumentsException("Unexpected error during index", e);
         } finally {
             log.info("Finished all Jobs!!!");
         }

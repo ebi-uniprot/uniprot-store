@@ -12,7 +12,7 @@ import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.publication.PublicationDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
-import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
+import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.publication.mapper.*;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
@@ -21,27 +21,27 @@ import com.typesafe.config.Config;
 /**
  * The purpose of this class is to load all publication sources (UniProtKB references, PIR
  * computationally mapped references, and community mapped publications), join their data to create
- * {@link PublicationDocument}s, and write them to HDFS.
+ * {@link PublicationDocument}s, and write them to HPS.
  *
  * <p>Created 19/01/2021
  *
  * @author Edd
  */
 @Slf4j
-public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
+public class PublicationDocumentsToHPSWriter implements DocumentsToHPSWriter {
     private static final String NO_PUBMED_PREFIX = "NO-PUBMED-";
     private final JobParameter parameter;
     private final Config config;
     private final String releaseName;
 
-    public PublicationDocumentsToHDFSWriter(JobParameter parameter) {
+    public PublicationDocumentsToHPSWriter(JobParameter parameter) {
         this.parameter = parameter;
         this.config = parameter.getApplicationConfig();
         this.releaseName = parameter.getReleaseName();
     }
 
     @Override
-    public void writeIndexDocumentsToHDFS() {
+    public void writeIndexDocumentsToHPS() {
         // load UniProtKB JavaPairRDD<accession_pubMedId, MappedReference>
         JavaPairRDD<String, MappedReference> kbMappedRefsRDD = loadUniProtKBMappedRefs();
 
@@ -73,9 +73,9 @@ public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .flatMap(new IsLargeScalePublicationDocumentFlatMapper())
                         .map(PublicationDocument.Builder::build);
 
-        saveToHDFS(allDocs);
+        saveToHPS(allDocs);
 
-        log.info("Completed writing UniProtKB publication documents to HDFS");
+        log.info("Completed writing UniProtKB publication documents to HPS");
     }
 
     public static String[] separateJoinKey(String joinKey) {
@@ -94,9 +94,9 @@ public class PublicationDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
         return uniProtKBEntryStringsRDD.flatMapToPair(new UniProtKBPublicationToMappedReference());
     }
 
-    void saveToHDFS(JavaRDD<PublicationDocument> publicationDocumentsRDD) {
-        String hdfsPath =
+    void saveToHPS(JavaRDD<PublicationDocument> publicationDocumentsRDD) {
+        String hpsPath =
                 getCollectionOutputReleaseDirPath(config, releaseName, SolrCollection.publication);
-        SolrUtils.saveSolrInputDocumentRDD(publicationDocumentsRDD, hdfsPath);
+        SolrUtils.saveSolrInputDocumentRDD(publicationDocumentsRDD, hpsPath);
     }
 }

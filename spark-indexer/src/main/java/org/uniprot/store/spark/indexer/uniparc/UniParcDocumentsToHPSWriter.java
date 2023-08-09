@@ -12,7 +12,7 @@ import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
-import org.uniprot.store.spark.indexer.common.writer.DocumentsToHDFSWriter;
+import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcDocTaxonomyJoin;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryToDocument;
@@ -21,27 +21,27 @@ import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyMapper;
 import com.typesafe.config.Config;
 
 /**
- * This class is responsible to load all the data for UniParcDocument and save it into HDFS
+ * This class is responsible to load all the data for UniParcDocument and save it into HPS
  *
  * @author lgonzales
  * @since 2020-02-13
  */
 @Slf4j
-public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
+public class UniParcDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
     private final JobParameter parameter;
     private final Config config;
     private final String releaseName;
 
-    public UniParcDocumentsToHDFSWriter(JobParameter parameter) {
+    public UniParcDocumentsToHPSWriter(JobParameter parameter) {
         this.parameter = parameter;
         this.config = parameter.getApplicationConfig();
         this.releaseName = parameter.getReleaseName();
     }
 
-    /** load all the data for UniParcDocument and write it into HDFS (Hadoop File System) */
+    /** load all the data for UniParcDocument and write it into HPS (Hadoop File System) */
     @Override
-    public void writeIndexDocumentsToHDFS() {
+    public void writeIndexDocumentsToHPS() {
         UniParcRDDTupleReader uniparcReader = new UniParcRDDTupleReader(parameter, true);
         JavaRDD<UniParcEntry> uniparcRDD = uniparcReader.load();
 
@@ -73,15 +73,15 @@ public class UniParcDocumentsToHDFSWriter implements DocumentsToHDFSWriter {
                         .mapValues(new UniParcDocTaxonomyJoin())
                         .values();
 
-        saveToHDFS(uniParcDocumentRDD);
+        saveToHPS(uniParcDocumentRDD);
 
         log.info("Completed UniParc prepare Solr index");
     }
 
-    void saveToHDFS(JavaRDD<UniParcDocument> uniParcDocumentRDD) {
-        String hdfsPath =
+    void saveToHPS(JavaRDD<UniParcDocument> uniParcDocumentRDD) {
+        String hpsPath =
                 getCollectionOutputReleaseDirPath(config, releaseName, SolrCollection.uniparc);
-        SolrUtils.saveSolrInputDocumentRDD(uniParcDocumentRDD, hdfsPath);
+        SolrUtils.saveSolrInputDocumentRDD(uniParcDocumentRDD, hpsPath);
     }
 
     JavaPairRDD<String, TaxonomyEntry> loadTaxonomyEntryJavaPairRDD() {
