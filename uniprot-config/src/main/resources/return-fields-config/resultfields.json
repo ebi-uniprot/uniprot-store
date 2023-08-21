@@ -1674,9 +1674,9 @@
         "mandatoryJsonField": false
       },
       {
-        "label": "TIGRFAMs",
-        "name": "dr_tigrfams",
-        "javaFieldName": "dr_tigrfams",
+        "label": "NCBIfam",
+        "name": "dr_ncbifam",
+        "javaFieldName": "dr_ncbifam",
         "mandatoryJsonField": false
       },
       {
