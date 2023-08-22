@@ -4,6 +4,7 @@ import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.genecentric.GeneCentricDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.literature.LiteratureDocumentsToHPSWriter;
+import org.uniprot.store.spark.indexer.proteome.ProteomeDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.subcellularlocation.SubcellularLocationDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.suggest.SuggestDocumentsToHPSWriter;
@@ -48,6 +49,9 @@ public class DocumentsToHPSWriterFactory {
                 break;
             case subcellularlocation:
                 writer = new SubcellularLocationDocumentsToHPSWriter(jobParameter);
+                break;
+            case proteome:
+                writer = new ProteomeDocumentsToHPSWriter(jobParameter);
                 break;
             default:
                 throw new UnsupportedOperationException(
