@@ -1,15 +1,16 @@
 package org.uniprot.store.spark.indexer.common.writer;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.proteome.ProteomeDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.suggest.SuggestDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.uniparc.UniParcDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.uniref.UniRefDocumentsToHPSWriter;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author lgonzales
@@ -55,6 +56,16 @@ class DocumentsToHPSWriterFactoryTest {
                 factory.createDocumentsToHPSWriter(SolrCollection.suggest, jobParameter);
         assertNotNull(writer);
         assertTrue(writer instanceof SuggestDocumentsToHPSWriter);
+    }
+
+    @Test
+    void createProteomeDocumentsToHPSWriterFactory() {
+        JobParameter jobParameter = Mockito.mock(JobParameter.class);
+        DocumentsToHPSWriterFactory factory = new DocumentsToHPSWriterFactory();
+        DocumentsToHPSWriter writer =
+                factory.createDocumentsToHPSWriter(SolrCollection.proteome, jobParameter);
+        assertNotNull(writer);
+        assertTrue(writer instanceof ProteomeDocumentsToHPSWriter);
     }
 
     @Test
