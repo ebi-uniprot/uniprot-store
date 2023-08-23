@@ -1,17 +1,18 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
-import org.apache.spark.api.java.function.Function;
-import org.uniprot.core.proteome.*;
-import org.uniprot.core.util.Utils;
-import org.uniprot.store.search.document.proteome.ProteomeDocument;
+import static org.uniprot.core.util.Utils.notNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.uniprot.core.util.Utils.notNull;
+import org.apache.spark.api.java.function.Function;
+import org.uniprot.core.proteome.*;
+import org.uniprot.core.util.Utils;
+import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
-public class ProteomeEntryToProteomeDocumentMapper implements Function<ProteomeEntry, ProteomeDocument> {
+public class ProteomeEntryToProteomeDocumentMapper
+        implements Function<ProteomeEntry, ProteomeDocument> {
     @Override
     public ProteomeDocument call(ProteomeEntry proteomeEntry) throws Exception {
         ProteomeDocument document = new ProteomeDocument();
@@ -22,7 +23,8 @@ public class ProteomeEntryToProteomeDocumentMapper implements Function<ProteomeE
         document.genomeAccession = getGenomeAccession(proteomeEntry);
         document.genomeAssembly = getGenomeAssembly(proteomeEntry);
         document.proteinCount = getProteinCount(proteomeEntry.getComponents());
-        ProteomeCompletenessReport proteomeCompletenessReport = proteomeEntry.getProteomeCompletenessReport();
+        ProteomeCompletenessReport proteomeCompletenessReport =
+                proteomeEntry.getProteomeCompletenessReport();
         document.busco = getBusco(proteomeCompletenessReport.getBuscoReport());
         document.cpd = getCPD(proteomeCompletenessReport.getCPDReport());
         updateProteome(document, proteomeEntry);

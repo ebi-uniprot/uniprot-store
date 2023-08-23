@@ -1,18 +1,20 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.truncatedSortValue;
+
+import java.util.*;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
-import java.util.*;
-
-import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.truncatedSortValue;
-
 @Slf4j
-public class TaxonomyToProteomeDocumentMapper implements Function<ProteomeDocument, ProteomeDocument> {
+public class TaxonomyToProteomeDocumentMapper
+        implements Function<ProteomeDocument, ProteomeDocument> {
     private final Map<String, TaxonomyEntry> taxonomyEntryMap;
 
     public TaxonomyToProteomeDocumentMapper(Map<String, TaxonomyEntry> taxonomyEntryMap) {
@@ -21,14 +23,17 @@ public class TaxonomyToProteomeDocumentMapper implements Function<ProteomeDocume
 
     @Override
     public ProteomeDocument call(ProteomeDocument proteomeDocument) throws Exception {
-        TaxonomyEntry organism = taxonomyEntryMap.get(String.valueOf(proteomeDocument.organismTaxId));
+        TaxonomyEntry organism =
+                taxonomyEntryMap.get(String.valueOf(proteomeDocument.organismTaxId));
 
         if (Utils.notNull(organism)) {
             updateOrganismFields(proteomeDocument, organism);
         } else {
             log.warn(
                     getWarnMessage(
-                            proteomeDocument.upid, taxonomyEntryMap.keySet(), proteomeDocument.organismTaxId));
+                            proteomeDocument.upid,
+                            taxonomyEntryMap.keySet(),
+                            proteomeDocument.organismTaxId));
         }
         return proteomeDocument;
     }
@@ -56,7 +61,8 @@ public class TaxonomyToProteomeDocumentMapper implements Function<ProteomeDocume
         proteomeDocument.taxLineageIds.add(Math.toIntExact(organism.getTaxonId()));
 
         if (organism.hasLineage()) {
-            organism.getLineages().forEach(lineage -> updateLineageTaxonomy(proteomeDocument, lineage));
+            organism.getLineages()
+                    .forEach(lineage -> updateLineageTaxonomy(proteomeDocument, lineage));
         } else {
             log.warn("Unable to find organism lineage for: " + proteomeDocument.organismTaxId);
         }
