@@ -1,5 +1,9 @@
 package org.uniprot.store.spark.indexer.proteome;
 
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
+
+import java.util.Map;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.Optional;
@@ -18,11 +22,8 @@ import org.uniprot.store.spark.indexer.proteome.mapper.StatisticsToProteomeDocum
 import org.uniprot.store.spark.indexer.proteome.mapper.TaxonomyToProteomeDocumentMapper;
 import org.uniprot.store.spark.indexer.proteome.reader.ProteomeStatisticsReader;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
+
 import scala.Tuple2;
-
-import java.util.Map;
-
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
 public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
     private final JobParameter jobParameter;
@@ -39,12 +40,13 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
     @Override
     public void writeIndexDocumentsToHPS() {
-        JavaRDD<ProteomeDocument> proteomeDocumentJavaRDD = loadProteomeRDD()
-                .mapValues(getEntryToProteomeDocumentMapper())
-                .leftOuterJoin(getProteomeStatisticsRDD())
-                .mapValues(getStatisticsToProteomeDocumentMapper())
-                .mapValues(getTaxonomyToProteomeDocumentMapper())
-                .values();
+        JavaRDD<ProteomeDocument> proteomeDocumentJavaRDD =
+                loadProteomeRDD()
+                        .mapValues(getEntryToProteomeDocumentMapper())
+                        .leftOuterJoin(getProteomeStatisticsRDD())
+                        .mapValues(getStatisticsToProteomeDocumentMapper())
+                        .mapValues(getTaxonomyToProteomeDocumentMapper())
+                        .values();
 
         saveToHPS(proteomeDocumentJavaRDD);
     }
@@ -53,7 +55,8 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
         return new TaxonomyToProteomeDocumentMapper(getTaxonomyEntryMap());
     }
 
-    Function<Tuple2<ProteomeDocument, Optional<ProteomeStatistics>>, ProteomeDocument> getStatisticsToProteomeDocumentMapper() {
+    Function<Tuple2<ProteomeDocument, Optional<ProteomeStatistics>>, ProteomeDocument>
+            getStatisticsToProteomeDocumentMapper() {
         return new StatisticsToProteomeDocumentMapper();
     }
 
@@ -73,9 +76,12 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
         return taxonomyRDDReader.load().collectAsMap();
     }
 
-
     void saveToHPS(JavaRDD<ProteomeDocument> proteomeDocumentJavaRDD) {
-        String hpsPath = getCollectionOutputReleaseDirPath(jobParameter.getApplicationConfig(), jobParameter.getReleaseName(), SolrCollection.proteome);
+        String hpsPath =
+                getCollectionOutputReleaseDirPath(
+                        jobParameter.getApplicationConfig(),
+                        jobParameter.getReleaseName(),
+                        SolrCollection.proteome);
         SolrUtils.saveSolrInputDocumentRDD(proteomeDocumentJavaRDD, hpsPath);
     }
 }

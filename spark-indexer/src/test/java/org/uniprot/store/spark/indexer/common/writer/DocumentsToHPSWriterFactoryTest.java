@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 /**
  * @author lgonzales
  * @since 08/05/2020
