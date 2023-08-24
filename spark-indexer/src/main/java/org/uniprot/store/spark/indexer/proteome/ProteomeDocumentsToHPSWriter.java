@@ -1,14 +1,9 @@
 package org.uniprot.store.spark.indexer.proteome;
 
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
-
-import java.util.Map;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
-import org.apache.spark.storage.StorageLevel;
 import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.proteome.ProteomeStatistics;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
@@ -22,8 +17,9 @@ import org.uniprot.store.spark.indexer.proteome.mapper.StatisticsToProteomeDocum
 import org.uniprot.store.spark.indexer.proteome.mapper.TaxonomyToProteomeDocumentMapper;
 import org.uniprot.store.spark.indexer.proteome.reader.ProteomeStatisticsReader;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
-
 import scala.Tuple2;
+
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
 public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
     private final JobParameter jobParameter;
@@ -40,23 +36,36 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
     @Override
     public void writeIndexDocumentsToHPS() {
-        JavaRDD<ProteomeDocument> proteomeDocumentJavaRDD =
-                loadProteomeRDD()
-                        .mapValues(getEntryToProteomeDocumentMapper())
-                        .leftOuterJoin(getProteomeStatisticsRDD())
-                        .mapValues(getStatisticsToProteomeDocumentMapper())
-                        .mapValues(getTaxonomyToProteomeDocumentMapper())
-                        .values();
+        JavaPairRDD<String, ProteomeDocument> idProteomeDocumentJavaPairRDD = loadProteomeRDD()
+                .mapValues(getEntryToProteomeDocumentMapper());
 
-        saveToHPS(proteomeDocumentJavaRDD);
+        idProteomeDocumentJavaPairRDD = joinStatistics(idProteomeDocumentJavaPairRDD);
+        idProteomeDocumentJavaPairRDD = joinTaxonomy(idProteomeDocumentJavaPairRDD);
+
+        saveToHPS(idProteomeDocumentJavaPairRDD.values());
     }
 
-    Function<ProteomeDocument, ProteomeDocument> getTaxonomyToProteomeDocumentMapper() {
-        return new TaxonomyToProteomeDocumentMapper(getTaxonomyEntryMap());
+    private JavaPairRDD<String, ProteomeDocument> joinTaxonomy(JavaPairRDD<String, ProteomeDocument> proteomeIdProteomeDocumentJavaPairRDD) {
+        JavaPairRDD<String, String> taxIdProteomeIdJavaRDD = JavaPairRDD.fromJavaRDD(proteomeIdProteomeDocumentJavaPairRDD.map(kv -> new Tuple2<>(String.valueOf(kv._2.organismTaxId), kv._1)));
+        JavaPairRDD<String, TaxonomyEntry> taxIdTaxEntryRDD = getTaxonomyRDD();
+
+        JavaPairRDD<String, TaxonomyEntry> proteomeIdTaxEntryJavaRDD = JavaPairRDD.fromJavaRDD(taxIdProteomeIdJavaRDD.join(taxIdTaxEntryRDD).values());
+
+        return proteomeIdProteomeDocumentJavaPairRDD
+                .leftOuterJoin(proteomeIdTaxEntryJavaRDD)
+                .mapValues(getTaxonomyToProteomeDocumentMapper());
     }
 
-    Function<Tuple2<ProteomeDocument, Optional<ProteomeStatistics>>, ProteomeDocument>
-            getStatisticsToProteomeDocumentMapper() {
+    private JavaPairRDD<String, ProteomeDocument> joinStatistics(JavaPairRDD<String, ProteomeDocument> idProteomeDocumentJavaPairRDD) {
+        return idProteomeDocumentJavaPairRDD.leftOuterJoin(getProteomeStatisticsRDD())
+                .mapValues(getStatisticsToProteomeDocumentMapper());
+    }
+
+    Function<Tuple2<ProteomeDocument, Optional<TaxonomyEntry>>, ProteomeDocument> getTaxonomyToProteomeDocumentMapper() {
+        return new TaxonomyToProteomeDocumentMapper();
+    }
+
+    Function<Tuple2<ProteomeDocument, Optional<ProteomeStatistics>>, ProteomeDocument> getStatisticsToProteomeDocumentMapper() {
         return new StatisticsToProteomeDocumentMapper();
     }
 
@@ -65,15 +74,15 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
     }
 
     JavaPairRDD<String, ProteomeEntry> loadProteomeRDD() {
-        return proteomeRDDReader.load().persist(StorageLevel.DISK_ONLY());
+        return proteomeRDDReader.load();
     }
 
     JavaPairRDD<String, ProteomeStatistics> getProteomeStatisticsRDD() {
         return proteomeStatisticsReader.getProteomeStatisticsRDD();
     }
 
-    Map<String, TaxonomyEntry> getTaxonomyEntryMap() {
-        return taxonomyRDDReader.load().collectAsMap();
+    JavaPairRDD<String, TaxonomyEntry> getTaxonomyRDD() {
+        return taxonomyRDDReader.load();
     }
 
     void saveToHPS(JavaRDD<ProteomeDocument> proteomeDocumentJavaRDD) {
