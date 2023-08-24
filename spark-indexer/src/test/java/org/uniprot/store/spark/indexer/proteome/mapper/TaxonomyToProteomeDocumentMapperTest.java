@@ -1,13 +1,10 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
-import org.apache.spark.api.java.Optional;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.taxonomy.TaxonomyEntry;
-import org.uniprot.core.taxonomy.TaxonomyLineage;
-import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
-import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
-import org.uniprot.store.search.document.proteome.ProteomeDocument;
-import scala.Tuple2;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.empty;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
 import java.util.Map;
@@ -15,11 +12,15 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.empty;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import org.apache.spark.api.java.Optional;
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.taxonomy.TaxonomyEntry;
+import org.uniprot.core.taxonomy.TaxonomyLineage;
+import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
+import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
+import org.uniprot.store.search.document.proteome.ProteomeDocument;
+
+import scala.Tuple2;
 
 class TaxonomyToProteomeDocumentMapperTest {
     private static final long TAXON_ID_0 = 0L;
@@ -78,7 +79,8 @@ class TaxonomyToProteomeDocumentMapperTest {
         proteomeDocument.organismTaxId = (int) TAXON_ID_1;
 
         ProteomeDocument proteomeDocumentResult =
-                taxonomyToProteomeDocumentMapper.call(new Tuple2<>(proteomeDocument, Optional.of(taxEntry1)));
+                taxonomyToProteomeDocumentMapper.call(
+                        new Tuple2<>(proteomeDocument, Optional.of(taxEntry1)));
 
         assertEquals("scientificName1 commonName1 so", proteomeDocumentResult.organismSort);
         assertThat(
@@ -102,7 +104,8 @@ class TaxonomyToProteomeDocumentMapperTest {
         proteomeDocument.organismTaxId = (int) TAXON_ID_0;
 
         ProteomeDocument proteomeDocumentResult =
-                taxonomyToProteomeDocumentMapper.call(new Tuple2<>(proteomeDocument, Optional.of(taxEntry0)));
+                taxonomyToProteomeDocumentMapper.call(
+                        new Tuple2<>(proteomeDocument, Optional.of(taxEntry0)));
 
         assertEquals("scientificName0 commonName0 so", proteomeDocumentResult.organismSort);
         assertThat(
@@ -119,7 +122,8 @@ class TaxonomyToProteomeDocumentMapperTest {
         proteomeDocument.organismTaxId = 0;
 
         ProteomeDocument proteomeDocumentResult =
-                taxonomyToProteomeDocumentMapper.call(new Tuple2<>(proteomeDocument, Optional.empty()));
+                taxonomyToProteomeDocumentMapper.call(
+                        new Tuple2<>(proteomeDocument, Optional.empty()));
 
         assertNull(proteomeDocumentResult.organismSort);
         assertThat(proteomeDocumentResult.organismName, empty());
