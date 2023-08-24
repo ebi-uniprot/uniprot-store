@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.proteome;
 
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.Optional;
@@ -17,9 +19,8 @@ import org.uniprot.store.spark.indexer.proteome.mapper.StatisticsToProteomeDocum
 import org.uniprot.store.spark.indexer.proteome.mapper.TaxonomyToProteomeDocumentMapper;
 import org.uniprot.store.spark.indexer.proteome.reader.ProteomeStatisticsReader;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
-import scala.Tuple2;
 
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
+import scala.Tuple2;
 
 public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
     private final JobParameter jobParameter;
@@ -36,8 +37,8 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
     @Override
     public void writeIndexDocumentsToHPS() {
-        JavaPairRDD<String, ProteomeDocument> idProteomeDocumentJavaPairRDD = loadProteomeRDD()
-                .mapValues(getEntryToProteomeDocumentMapper());
+        JavaPairRDD<String, ProteomeDocument> idProteomeDocumentJavaPairRDD =
+                loadProteomeRDD().mapValues(getEntryToProteomeDocumentMapper());
 
         idProteomeDocumentJavaPairRDD = joinStatistics(idProteomeDocumentJavaPairRDD);
         idProteomeDocumentJavaPairRDD = joinTaxonomy(idProteomeDocumentJavaPairRDD);
@@ -45,27 +46,36 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
         saveToHPS(idProteomeDocumentJavaPairRDD.values());
     }
 
-    private JavaPairRDD<String, ProteomeDocument> joinTaxonomy(JavaPairRDD<String, ProteomeDocument> proteomeIdProteomeDocumentJavaPairRDD) {
-        JavaPairRDD<String, String> taxIdProteomeIdJavaRDD = JavaPairRDD.fromJavaRDD(proteomeIdProteomeDocumentJavaPairRDD.map(kv -> new Tuple2<>(String.valueOf(kv._2.organismTaxId), kv._1)));
+    private JavaPairRDD<String, ProteomeDocument> joinTaxonomy(
+            JavaPairRDD<String, ProteomeDocument> proteomeIdProteomeDocumentJavaPairRDD) {
+        JavaPairRDD<String, String> taxIdProteomeIdJavaRDD =
+                JavaPairRDD.fromJavaRDD(
+                        proteomeIdProteomeDocumentJavaPairRDD.map(
+                                kv -> new Tuple2<>(String.valueOf(kv._2.organismTaxId), kv._1)));
         JavaPairRDD<String, TaxonomyEntry> taxIdTaxEntryRDD = getTaxonomyRDD();
 
-        JavaPairRDD<String, TaxonomyEntry> proteomeIdTaxEntryJavaRDD = JavaPairRDD.fromJavaRDD(taxIdProteomeIdJavaRDD.join(taxIdTaxEntryRDD).values());
+        JavaPairRDD<String, TaxonomyEntry> proteomeIdTaxEntryJavaRDD =
+                JavaPairRDD.fromJavaRDD(taxIdProteomeIdJavaRDD.join(taxIdTaxEntryRDD).values());
 
         return proteomeIdProteomeDocumentJavaPairRDD
                 .leftOuterJoin(proteomeIdTaxEntryJavaRDD)
                 .mapValues(getTaxonomyToProteomeDocumentMapper());
     }
 
-    private JavaPairRDD<String, ProteomeDocument> joinStatistics(JavaPairRDD<String, ProteomeDocument> idProteomeDocumentJavaPairRDD) {
-        return idProteomeDocumentJavaPairRDD.leftOuterJoin(getProteomeStatisticsRDD())
+    private JavaPairRDD<String, ProteomeDocument> joinStatistics(
+            JavaPairRDD<String, ProteomeDocument> idProteomeDocumentJavaPairRDD) {
+        return idProteomeDocumentJavaPairRDD
+                .leftOuterJoin(getProteomeStatisticsRDD())
                 .mapValues(getStatisticsToProteomeDocumentMapper());
     }
 
-    Function<Tuple2<ProteomeDocument, Optional<TaxonomyEntry>>, ProteomeDocument> getTaxonomyToProteomeDocumentMapper() {
+    Function<Tuple2<ProteomeDocument, Optional<TaxonomyEntry>>, ProteomeDocument>
+            getTaxonomyToProteomeDocumentMapper() {
         return new TaxonomyToProteomeDocumentMapper();
     }
 
-    Function<Tuple2<ProteomeDocument, Optional<ProteomeStatistics>>, ProteomeDocument> getStatisticsToProteomeDocumentMapper() {
+    Function<Tuple2<ProteomeDocument, Optional<ProteomeStatistics>>, ProteomeDocument>
+            getStatisticsToProteomeDocumentMapper() {
         return new StatisticsToProteomeDocumentMapper();
     }
 

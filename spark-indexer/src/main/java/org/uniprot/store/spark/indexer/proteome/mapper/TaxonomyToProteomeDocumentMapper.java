@@ -1,22 +1,27 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.truncatedSortValue;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
+
 import scala.Tuple2;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.truncatedSortValue;
-
 @Slf4j
-public class TaxonomyToProteomeDocumentMapper implements Function<Tuple2<ProteomeDocument, Optional<TaxonomyEntry>>, ProteomeDocument> {
+public class TaxonomyToProteomeDocumentMapper
+        implements Function<Tuple2<ProteomeDocument, Optional<TaxonomyEntry>>, ProteomeDocument> {
     @Override
-    public ProteomeDocument call(Tuple2<ProteomeDocument, Optional<TaxonomyEntry>> proteomeIdTaxEntryOptTuple) throws Exception {
+    public ProteomeDocument call(
+            Tuple2<ProteomeDocument, Optional<TaxonomyEntry>> proteomeIdTaxEntryOptTuple)
+            throws Exception {
         Optional<TaxonomyEntry> organism = proteomeIdTaxEntryOptTuple._2;
         ProteomeDocument proteomeDocument = proteomeIdTaxEntryOptTuple._1;
 
@@ -51,7 +56,8 @@ public class TaxonomyToProteomeDocumentMapper implements Function<Tuple2<Proteom
         proteomeDocument.taxLineageIds.add(Math.toIntExact(organism.getTaxonId()));
 
         if (organism.hasLineage()) {
-            organism.getLineages().forEach(lineage -> updateLineageTaxonomy(proteomeDocument, lineage));
+            organism.getLineages()
+                    .forEach(lineage -> updateLineageTaxonomy(proteomeDocument, lineage));
         } else {
             log.warn("Unable to find organism lineage for: " + proteomeDocument.organismTaxId);
         }

@@ -1,6 +1,11 @@
 package org.uniprot.store.spark.indexer.proteome;
 
-import com.typesafe.config.Config;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+
+import java.util.List;
+import java.util.Objects;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -17,13 +22,10 @@ import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+
 import scala.Tuple2;
 
-import java.util.List;
-import java.util.Objects;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+import com.typesafe.config.Config;
 
 class ProteomeDocumentsToHPSWriterTest {
     private static final String PROTEOME_ID_0 = "proteomeId0";
@@ -32,63 +34,93 @@ class ProteomeDocumentsToHPSWriterTest {
     private static final String PROTEOME_ID_3 = "proteomeId3";
     private static final String PROTEOME_ID_4 = "proteomeId4";
     private static final String[] PROTEOME_IDS =
-            new String[]{PROTEOME_ID_0, PROTEOME_ID_1, PROTEOME_ID_2, PROTEOME_ID_3, PROTEOME_ID_4};
+            new String[] {
+                PROTEOME_ID_0, PROTEOME_ID_1, PROTEOME_ID_2, PROTEOME_ID_3, PROTEOME_ID_4
+            };
     private static final int ORGANISM_ID_0 = 19;
     private static final int ORGANISM_ID_1 = 333;
     private static final int ORGANISM_ID_2 = 67;
     private static final int ORGANISM_ID_3 = 0;
     private static final int ORGANISM_ID_4 = ORGANISM_ID_2;
     private static final Integer[] ORGANISM_IDS =
-            new Integer[]{ORGANISM_ID_0, ORGANISM_ID_1, ORGANISM_ID_2, null, ORGANISM_ID_4};
+            new Integer[] {ORGANISM_ID_0, ORGANISM_ID_1, ORGANISM_ID_2, null, ORGANISM_ID_4};
     private static final long REVIEWED_PROTEIN_COUNT_0 = 49;
     private static final long REVIEWED_PROTEIN_COUNT_1 = 53;
     private static final long REVIEWED_PROTEIN_COUNT_2 = 0L;
     private static final long REVIEWED_PROTEIN_COUNT_3 = 2222;
     private static final long REVIEWED_PROTEIN_COUNT_4 = 56;
     private static final Long[] REVIEWED_PROTEIN_COUNTS =
-            new Long[]{REVIEWED_PROTEIN_COUNT_0, REVIEWED_PROTEIN_COUNT_1, REVIEWED_PROTEIN_COUNT_2, REVIEWED_PROTEIN_COUNT_3, REVIEWED_PROTEIN_COUNT_4};
+            new Long[] {
+                REVIEWED_PROTEIN_COUNT_0,
+                REVIEWED_PROTEIN_COUNT_1,
+                REVIEWED_PROTEIN_COUNT_2,
+                REVIEWED_PROTEIN_COUNT_3,
+                REVIEWED_PROTEIN_COUNT_4
+            };
     private static final long UNREVIEWED_PROTEIN_COUNT_0 = 5555;
     private static final long UNREVIEWED_PROTEIN_COUNT_1 = 10;
     private static final long UNREVIEWED_PROTEIN_COUNT_2 = 0L;
     private static final long UNREVIEWED_PROTEIN_COUNT_3 = 999;
     private static final long UNREVIEWED_PROTEIN_COUNT_4 = 2;
     private static final Long[] UNREVIEWED_PROTEIN_COUNTS =
-            new Long[]{UNREVIEWED_PROTEIN_COUNT_0, UNREVIEWED_PROTEIN_COUNT_1, UNREVIEWED_PROTEIN_COUNT_2, UNREVIEWED_PROTEIN_COUNT_3, UNREVIEWED_PROTEIN_COUNT_4};
+            new Long[] {
+                UNREVIEWED_PROTEIN_COUNT_0,
+                UNREVIEWED_PROTEIN_COUNT_1,
+                UNREVIEWED_PROTEIN_COUNT_2,
+                UNREVIEWED_PROTEIN_COUNT_3,
+                UNREVIEWED_PROTEIN_COUNT_4
+            };
     private static final long ISOFORM_PROTEIN_COUNT_0 = 36;
     private static final long ISOFORM_PROTEIN_COUNT_1 = 9998;
     private static final long ISOFORM_PROTEIN_COUNT_2 = 0L;
     private static final long ISOFORM_PROTEIN_COUNT_3 = 3456;
     private static final long ISOFORM_PROTEIN_COUNT_4 = 12;
     private static final Long[] ISOFORM_PROTEIN_COUNTS =
-            new Long[]{ISOFORM_PROTEIN_COUNT_0, ISOFORM_PROTEIN_COUNT_1, ISOFORM_PROTEIN_COUNT_2, ISOFORM_PROTEIN_COUNT_3, ISOFORM_PROTEIN_COUNT_4};
+            new Long[] {
+                ISOFORM_PROTEIN_COUNT_0,
+                ISOFORM_PROTEIN_COUNT_1,
+                ISOFORM_PROTEIN_COUNT_2,
+                ISOFORM_PROTEIN_COUNT_3,
+                ISOFORM_PROTEIN_COUNT_4
+            };
     private static final String ORGANISM_SORT_0 = "organismSort0";
     private static final String ORGANISM_SORT_1 = "organismSort1";
     private static final String ORGANISM_SORT_2 = "organismSort2";
     private static final String ORGANISM_SORT_3 = null;
     private static final String ORGANISM_SORT_4 = "organismSort4";
     private static final String[] ORGANISM_SORTS =
-            new String[]{ORGANISM_SORT_0, ORGANISM_SORT_1, ORGANISM_SORT_2, ORGANISM_SORT_3, ORGANISM_SORT_4};
+            new String[] {
+                ORGANISM_SORT_0, ORGANISM_SORT_1, ORGANISM_SORT_2, ORGANISM_SORT_3, ORGANISM_SORT_4
+            };
     private static final List<String> ORGANISM_NAME_0 = List.of("on0");
     private static final List<String> ORGANISM_NAME_1 = List.of("on1");
     private static final List<String> ORGANISM_NAME_2 = List.of("on2");
     private static final List<String> ORGANISM_NAME_3 = List.of();
     private static final List<String> ORGANISM_NAME_4 = List.of("on2");
     private static final List<String>[] ORGANISM_NAMES =
-            new List[]{ORGANISM_NAME_0, ORGANISM_NAME_1, ORGANISM_NAME_2, ORGANISM_NAME_3, ORGANISM_NAME_4};
+            new List[] {
+                ORGANISM_NAME_0, ORGANISM_NAME_1, ORGANISM_NAME_2, ORGANISM_NAME_3, ORGANISM_NAME_4
+            };
     private static final List<String> ORGANISM_TAXON_0 = List.of("ot0");
     private static final List<String> ORGANISM_TAXON_1 = List.of("ot1");
     private static final List<String> ORGANISM_TAXON_2 = List.of("ot2");
     private static final List<String> ORGANISM_TAXON_3 = List.of();
     private static final List<String> ORGANISM_TAXON_4 = List.of("ot2");
     private static final List<String>[] ORGANISM_TAXONS =
-            new List[]{ORGANISM_TAXON_0, ORGANISM_TAXON_1, ORGANISM_TAXON_2, ORGANISM_TAXON_3, ORGANISM_TAXON_4};
+            new List[] {
+                ORGANISM_TAXON_0,
+                ORGANISM_TAXON_1,
+                ORGANISM_TAXON_2,
+                ORGANISM_TAXON_3,
+                ORGANISM_TAXON_4
+            };
     private static final List<Integer> LINEAGE_ID_0 = List.of(10);
     private static final List<Integer> LINEAGE_ID_1 = List.of(11);
     private static final List<Integer> LINEAGE_ID_2 = List.of(12);
     private static final List<Integer> LINEAGE_ID_3 = List.of();
     private static final List<Integer> LINEAGE_ID_4 = List.of(12);
     private static final List<Integer>[] LINEAGE_IDS =
-            new List[]{LINEAGE_ID_0, LINEAGE_ID_1, LINEAGE_ID_2, LINEAGE_ID_3, LINEAGE_ID_4};
+            new List[] {LINEAGE_ID_0, LINEAGE_ID_1, LINEAGE_ID_2, LINEAGE_ID_3, LINEAGE_ID_4};
     private static final String RELEASE_NAME = "23_03";
     private static JavaPairRDD<String, ProteomeEntry> proteomeRDD;
     private static JavaPairRDD<String, ProteomeStatistics> statisticsRDD;
@@ -98,7 +130,7 @@ class ProteomeDocumentsToHPSWriterTest {
     void writeIndexDocumentsToHPS() {
         Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
-                     SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter jobParameter =
                     JobParameter.builder()
                             .sparkContext(sparkContext)
@@ -193,19 +225,13 @@ class ProteomeDocumentsToHPSWriterTest {
         return List.of(
                 new Tuple2<>(
                         String.valueOf(ORGANISM_ID_0),
-                        new TaxonomyEntryBuilder()
-                                .taxonId(ORGANISM_ID_0)
-                                .build()),
+                        new TaxonomyEntryBuilder().taxonId(ORGANISM_ID_0).build()),
                 new Tuple2<>(
                         String.valueOf(ORGANISM_ID_1),
-                        new TaxonomyEntryBuilder()
-                                .taxonId(ORGANISM_ID_1)
-                                .build()),
+                        new TaxonomyEntryBuilder().taxonId(ORGANISM_ID_1).build()),
                 new Tuple2<>(
                         String.valueOf(ORGANISM_ID_2),
-                        new TaxonomyEntryBuilder()
-                                .taxonId(ORGANISM_ID_2)
-                                .build()));
+                        new TaxonomyEntryBuilder().taxonId(ORGANISM_ID_2).build()));
     }
 
     private void assertResult(ProteomeDocument proteomeDocument, int index) {
@@ -213,7 +239,9 @@ class ProteomeDocumentsToHPSWriterTest {
         assertEquals(REVIEWED_PROTEIN_COUNTS[index], proteomeDocument.reviewedProteinCount);
         assertEquals(UNREVIEWED_PROTEIN_COUNTS[index], proteomeDocument.unreviewedProteinCount);
         assertEquals(ISOFORM_PROTEIN_COUNTS[index], proteomeDocument.isoformProteinCount);
-        assertEquals(ORGANISM_IDS[index] != null ? ORGANISM_IDS[index] : 0, proteomeDocument.organismTaxId);
+        assertEquals(
+                ORGANISM_IDS[index] != null ? ORGANISM_IDS[index] : 0,
+                proteomeDocument.organismTaxId);
         assertEquals(ORGANISM_SORTS[index], proteomeDocument.organismSort);
         assertEquals(ORGANISM_TAXONS[index], proteomeDocument.organismTaxon);
         assertEquals(ORGANISM_NAMES[index], proteomeDocument.organismName);
@@ -239,7 +267,7 @@ class ProteomeDocumentsToHPSWriterTest {
 
         @Override
         Function<Tuple2<ProteomeDocument, Optional<ProteomeStatistics>>, ProteomeDocument>
-        getStatisticsToProteomeDocumentMapper() {
+                getStatisticsToProteomeDocumentMapper() {
             return docStat -> {
                 ProteomeDocument proteomeDocument = docStat._1;
                 Optional<ProteomeStatistics> proteomeStatisticsOptional = docStat._2;
@@ -259,7 +287,8 @@ class ProteomeDocumentsToHPSWriterTest {
         }
 
         @Override
-        Function<Tuple2<ProteomeDocument, Optional<TaxonomyEntry>>, ProteomeDocument> getTaxonomyToProteomeDocumentMapper() {
+        Function<Tuple2<ProteomeDocument, Optional<TaxonomyEntry>>, ProteomeDocument>
+                getTaxonomyToProteomeDocumentMapper() {
             return input -> {
                 ProteomeDocument proteomeDocument = input._1;
                 if (Objects.equals(PROTEOME_ID_0, proteomeDocument.upid)) {
