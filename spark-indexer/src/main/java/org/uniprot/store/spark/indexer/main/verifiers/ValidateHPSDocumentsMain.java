@@ -24,7 +24,7 @@ import com.typesafe.config.Config;
 public class ValidateHPSDocumentsMain {
 
     public static void main(String[] args) {
-        if (args == null || args.length != 1) {
+        if (args == null || args.length != 2) {
             throw new IllegalArgumentException(
                     "Invalid argument. Expected "
                             + "args[0]=spark master node url (e.g. spark://hl-codon-102-02.ebi.ac.uk:37550)");
