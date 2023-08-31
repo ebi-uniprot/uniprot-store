@@ -1,5 +1,9 @@
 package org.uniprot.store.spark.indexer.common.writer;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -17,10 +21,6 @@ import org.uniprot.store.spark.indexer.uniparc.UniParcDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.uniref.UniRefDocumentsToHPSWriter;
 
-import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @author lgonzales
  * @since 08/05/2020
@@ -29,13 +29,12 @@ class DocumentsToHPSWriterFactoryTest {
 
     @ParameterizedTest
     @MethodSource("provideSparkCollection")
-    void testCreateHPSWriter(SolrCollection collection){
+    void testCreateHPSWriter(SolrCollection collection) {
         JobParameter jobParameter = Mockito.mock(JobParameter.class);
         DocumentsToHPSWriterFactory factory = new DocumentsToHPSWriterFactory();
-        DocumentsToHPSWriter writer =
-                factory.createDocumentsToHPSWriter(collection, jobParameter);
+        DocumentsToHPSWriter writer = factory.createDocumentsToHPSWriter(collection, jobParameter);
         assertNotNull(writer);
-        switch (collection){
+        switch (collection) {
             case uniparc:
                 assertTrue(writer instanceof UniParcDocumentsToHPSWriter);
                 break;
@@ -63,7 +62,6 @@ class DocumentsToHPSWriterFactoryTest {
             case subcellularlocation:
                 assertTrue(writer instanceof SubcellularLocationDocumentsToHPSWriter);
                 break;
-
         }
     }
 
@@ -85,7 +83,6 @@ class DocumentsToHPSWriterFactoryTest {
                 Arguments.of(SolrCollection.publication),
                 Arguments.of(SolrCollection.literature),
                 Arguments.of(SolrCollection.taxonomy),
-                Arguments.of(SolrCollection.subcellularlocation)
-        );
+                Arguments.of(SolrCollection.subcellularlocation));
     }
 }
