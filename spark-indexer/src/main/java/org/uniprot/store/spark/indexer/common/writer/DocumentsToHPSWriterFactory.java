@@ -23,35 +23,35 @@ public class DocumentsToHPSWriterFactory {
             SolrCollection collection, JobParameter jobParameter) {
         DocumentsToHPSWriter writer = null;
         switch (collection) {
-            case uniprot:
-                writer = new UniProtKBDocumentsToHPSWriter(jobParameter);
-                break;
-            case suggest:
-                writer = new SuggestDocumentsToHPSWriter(jobParameter);
-                break;
-            case uniref:
-                writer = new UniRefDocumentsToHPSWriter(jobParameter);
-                break;
-            case uniparc:
-                writer = new UniParcDocumentsToHPSWriter(jobParameter);
-                break;
             case genecentric:
                 writer = new GeneCentricDocumentsToHPSWriter(jobParameter);
-                break;
-            case publication:
-                writer = new PublicationDocumentsToHPSWriter(jobParameter);
                 break;
             case literature:
                 writer = new LiteratureDocumentsToHPSWriter(jobParameter);
                 break;
-            case taxonomy:
-                writer = new TaxonomyDocumentsToHPSWriter(jobParameter);
+            case proteome:
+                writer = new ProteomeDocumentsToHPSWriter(jobParameter);
+                break;
+            case publication:
+                writer = new PublicationDocumentsToHPSWriter(jobParameter);
                 break;
             case subcellularlocation:
                 writer = new SubcellularLocationDocumentsToHPSWriter(jobParameter);
                 break;
-            case proteome:
-                writer = new ProteomeDocumentsToHPSWriter(jobParameter);
+            case suggest:
+                writer = new SuggestDocumentsToHPSWriter(jobParameter);
+                break;
+            case taxonomy:
+                writer = new TaxonomyDocumentsToHPSWriter(jobParameter);
+                break;
+            case uniparc:
+                writer = new UniParcDocumentsToHPSWriter(jobParameter);
+                break;
+            case uniprot:
+                writer = new UniProtKBDocumentsToHPSWriter(jobParameter);
+                break;
+            case uniref:
+                writer = new UniRefDocumentsToHPSWriter(jobParameter);
                 break;
             default:
                 throw new UnsupportedOperationException(

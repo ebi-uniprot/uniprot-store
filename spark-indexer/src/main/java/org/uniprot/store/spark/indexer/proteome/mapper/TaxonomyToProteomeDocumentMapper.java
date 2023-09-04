@@ -1,19 +1,17 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
-import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.truncatedSortValue;
-
-import java.util.LinkedList;
-import java.util.List;
-
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
-
 import scala.Tuple2;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.truncatedSortValue;
 
 @Slf4j
 public class TaxonomyToProteomeDocumentMapper
@@ -28,7 +26,7 @@ public class TaxonomyToProteomeDocumentMapper
         if (organism.isPresent()) {
             updateOrganismFields(proteomeDocument, organism.get());
         } else {
-            log.warn("No Organism Id exist for proteome with id " + proteomeDocument.upid);
+            log.warn("No Organism Id exists for proteome with id " + proteomeDocument.upid);
         }
         return proteomeDocument;
     }

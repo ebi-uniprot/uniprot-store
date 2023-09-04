@@ -48,12 +48,15 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
     private JavaPairRDD<String, ProteomeDocument> joinTaxonomy(
             JavaPairRDD<String, ProteomeDocument> proteomeIdProteomeDocumentJavaPairRDD) {
+        // <organismId, proteomeId>
         JavaPairRDD<String, String> taxIdProteomeIdJavaRDD =
                 JavaPairRDD.fromJavaRDD(
                         proteomeIdProteomeDocumentJavaPairRDD.map(
                                 kv -> new Tuple2<>(String.valueOf(kv._2.organismTaxId), kv._1)));
+        //<taxId, taxEntry>
         JavaPairRDD<String, TaxonomyEntry> taxIdTaxEntryRDD = getTaxonomyRDD();
 
+        // <proteomeId, taxonEntry>
         JavaPairRDD<String, TaxonomyEntry> proteomeIdTaxEntryJavaRDD =
                 JavaPairRDD.fromJavaRDD(taxIdProteomeIdJavaRDD.join(taxIdTaxEntryRDD).values());
 
