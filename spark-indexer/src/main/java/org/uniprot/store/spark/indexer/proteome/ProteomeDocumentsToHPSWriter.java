@@ -53,7 +53,7 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
                 JavaPairRDD.fromJavaRDD(
                         proteomeIdProteomeDocumentJavaPairRDD.map(
                                 kv -> new Tuple2<>(String.valueOf(kv._2.organismTaxId), kv._1)));
-        //<taxId, taxEntry>
+        // <taxId, taxEntry>
         JavaPairRDD<String, TaxonomyEntry> taxIdTaxEntryRDD = getTaxonomyRDD();
 
         // <proteomeId, taxonEntry>
