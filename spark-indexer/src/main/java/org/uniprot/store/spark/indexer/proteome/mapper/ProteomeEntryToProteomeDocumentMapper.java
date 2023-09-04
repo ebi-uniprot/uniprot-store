@@ -1,15 +1,15 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
-import org.apache.spark.api.java.function.Function;
-import org.uniprot.core.proteome.*;
-import org.uniprot.core.util.Utils;
-import org.uniprot.store.search.document.proteome.ProteomeDocument;
+import static org.uniprot.core.util.Utils.notNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.uniprot.core.util.Utils.notNull;
+import org.apache.spark.api.java.function.Function;
+import org.uniprot.core.proteome.*;
+import org.uniprot.core.util.Utils;
+import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
 public class ProteomeEntryToProteomeDocumentMapper
         implements Function<ProteomeEntry, ProteomeDocument> {
