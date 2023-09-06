@@ -1,7 +1,9 @@
 package org.uniprot.store.spark.indexer.proteome;
 
-import com.databricks.spark.xml.util.XSDToSchema;
-import com.typesafe.config.Config;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
+
+import java.nio.file.Paths;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.sql.Dataset;
@@ -14,9 +16,8 @@ import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.proteome.converter.DatasetProteomeEntryConverter;
 import org.uniprot.store.spark.indexer.proteome.mapper.ProteomEntryToPair;
 
-import java.nio.file.Paths;
-
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
+import com.databricks.spark.xml.util.XSDToSchema;
+import com.typesafe.config.Config;
 
 /**
  * @author sahmad
@@ -61,7 +62,11 @@ public class ProteomeRDDReader implements PairRDDReader<String, ProteomeEntry> {
                 spark.read()
                         .format("com.databricks.spark.xml")
                         .option("rowTag", "proteome")
-                        .schema((StructType) XSDToSchema.read(Paths.get(xsdFilePath)).fields()[0].dataType())
+                        .schema(
+                                (StructType)
+                                        XSDToSchema.read(Paths.get(xsdFilePath))
+                                                .fields()[0]
+                                                .dataType())
                         .load(xmlFilePath);
         data.printSchema();
         return data;
