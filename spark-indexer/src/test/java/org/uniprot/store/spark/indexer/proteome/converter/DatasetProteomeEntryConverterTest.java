@@ -1,5 +1,18 @@
 package org.uniprot.store.spark.indexer.proteome.converter;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.uniprot.core.citation.SubmissionDatabase.EMBL_GENBANK_DDBJ;
+import static org.uniprot.store.spark.indexer.proteome.converter.DatasetProteomeEntryConverter.*;
+
+import java.sql.Date;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
 import org.apache.spark.sql.types.DataTypes;
@@ -12,22 +25,10 @@ import org.uniprot.core.proteome.*;
 import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
+
 import scala.Tuple2;
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
-
-import java.sql.Date;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
-import static org.uniprot.core.citation.SubmissionDatabase.EMBL_GENBANK_DDBJ;
-import static org.uniprot.store.spark.indexer.proteome.converter.DatasetProteomeEntryConverter.*;
 
 class DatasetProteomeEntryConverterTest {
 
@@ -37,11 +38,14 @@ class DatasetProteomeEntryConverterTest {
     private static final boolean IS_REFERENCE_PROTEOME_VAL = true;
     private static final boolean IS_REPRESENTATIVE_PROTEOME_VAL = false;
     private static final String STRAIN_VAL = "ATCC 51303 / DSM 11347 / YP87<";
-    private static final String DESCRIPTION_VAL = "Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87) is a thermophilic sulfate-reducing bacterium isolated from a thermal vent in Yellowstone Lake in Wyoming, USA. It has the ability to use sulfate, thiosulfate, and sulfite as terminal electron acceptors. Pyruvate can support fermentative growth";
+    private static final String DESCRIPTION_VAL =
+            "Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87) is a thermophilic sulfate-reducing bacterium isolated from a thermal vent in Yellowstone Lake in Wyoming, USA. It has the ability to use sulfate, thiosulfate, and sulfite as terminal electron acceptors. Pyruvate can support fermentative growth";
     private static final String GENOME_ANNOTATION_SOURCE_VAL = "ENA/EMBL";
     private static final String GENOME_ASSEMBLY_SOURCE_VAL = "ENA/EMBL";
-    private static final String GENOME_ANNOTATION_URL_VAL = "https://www.ebi.ac.uk/ena/browser/view/GCA_000020985.1";
-    private static final String GENOME_ASSEMBLY_URL_VAL = "https://www.ebi.ac.uk/ena/browser/view/GCA_000020985.1";
+    private static final String GENOME_ANNOTATION_URL_VAL =
+            "https://www.ebi.ac.uk/ena/browser/view/GCA_000020985.1";
+    private static final String GENOME_ASSEMBLY_URL_VAL =
+            "https://www.ebi.ac.uk/ena/browser/view/GCA_000020985.1";
     private static final String ANNOTATION_SCORE_VAL = "Score";
     private static final long ANNOTATION_SCORE_SCORE_VAL = 1267L;
     private static final String GENOME_ASSEMBLY_ID_VAL = "GCA_000020985.1";
@@ -49,7 +53,8 @@ class DatasetProteomeEntryConverterTest {
     private static final String COMPONENT_NAME_0 = "Chromosome";
     private static final long COMPONENT_PROTEIN_COUNT_0 = 10L;
     private static final String COMPONENT_BIO_SAMPLE_ID_0 = "SAMN02603929";
-    private static final String COMPONENT_DESCRIPTION_0 = "Thermodesulfovibrio yellowstonii DSM 11347";
+    private static final String COMPONENT_DESCRIPTION_0 =
+            "Thermodesulfovibrio yellowstonii DSM 11347";
     private static final String COMPONENT_GENOME_ACCESSION_0 = "CP001147";
     private static final String COMPONENT_SOURCE_0 = "ENA/EMBL";
     private static final String COMPONENT_NAME_1 = "Genome";
@@ -65,7 +70,8 @@ class DatasetProteomeEntryConverterTest {
     private static final String CITATION_NAME_0 = "Arch. Virol.";
     private static final String CITATION_TYPE_0 = "journal article";
     private static final String CITATION_VOLUME_0 = "143";
-    private static final String CITATION_TITLE_0 = "Molecular cloning and complete nucleotide sequence of galinsoga mosaic virus genomic RNA.";
+    private static final String CITATION_TITLE_0 =
+            "Molecular cloning and complete nucleotide sequence of galinsoga mosaic virus genomic RNA.";
     private static final String CITATION_DATE_1 = "2008-08";
     private static final String CITATION_DB_1 = "EMBL/GenBank/DDBJ databases";
     private static final String CITATION_FIRST_1 = "0";
@@ -73,7 +79,8 @@ class DatasetProteomeEntryConverterTest {
     private static final String CITATION_NAME_1 = "";
     private static final String CITATION_TYPE_1 = "submission";
     private static final String CITATION_VOLUME_1 = "0";
-    private static final String CITATION_TITLE_1 = "The complete genome sequence of Thermodesulfovibrio yellowstonii strain ATCC 51303 / DSM 11347 / YP87.";
+    private static final String CITATION_TITLE_1 =
+            "The complete genome sequence of Thermodesulfovibrio yellowstonii strain ATCC 51303 / DSM 11347 / YP87.";
     private static final String CITATION_FIRST_2 = "23999";
     private static final String CITATION_LAST_2 = "99993333";
     private static final String CITATION_TYPE_2 = "book";
@@ -117,7 +124,8 @@ class DatasetProteomeEntryConverterTest {
     private static final String REDUNDANT_PROTEIN_ID_1 = "1634";
     private static final String REDUNDANT_PROTEIN_SIMILARITY_0 = "23.5";
     private static final String REDUNDANT_PROTEIN_SIMILARITY_1 = "443.5";
-    private final DatasetProteomeEntryConverter proteomeEntryConverter = new DatasetProteomeEntryConverter();
+    private final DatasetProteomeEntryConverter proteomeEntryConverter =
+            new DatasetProteomeEntryConverter();
 
     @Test
     void fullProteomeEntry() throws Exception {
@@ -138,9 +146,13 @@ class DatasetProteomeEntryConverterTest {
     }
 
     private ProteomeEntry getExpectedMinimalResult() {
-        return new ProteomeEntryBuilder().proteomeId(UP_ID_VAL)
+        return new ProteomeEntryBuilder()
+                .proteomeId(UP_ID_VAL)
                 .taxonomy(new TaxonomyBuilder().taxonId(TAXONOMY_VAL).build())
-                .modified(Instant.ofEpochMilli(EPOCH_MILLI_NOW).atZone(ZoneId.systemDefault()).toLocalDate())
+                .modified(
+                        Instant.ofEpochMilli(EPOCH_MILLI_NOW)
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDate())
                 .proteomeType(ProteomeType.REPRESENTATIVE)
                 .citationsSet(List.of())
                 .build();
@@ -153,7 +165,11 @@ class DatasetProteomeEntryConverterTest {
         entryValues.add(false);
         entryValues.add(true);
         entryValues.add(new Date(EPOCH_MILLI_NOW));
-        entryValues.add((Seq) JavaConverters.asScalaIteratorConverter(Collections.emptyIterator()).asScala().toSeq());
+        entryValues.add(
+                (Seq)
+                        JavaConverters.asScalaIteratorConverter(Collections.emptyIterator())
+                                .asScala()
+                                .toSeq());
         return new GenericRowWithSchema(entryValues.toArray(), getProteomeMinimalXMLSchema());
     }
 
@@ -164,46 +180,126 @@ class DatasetProteomeEntryConverterTest {
         structType = structType.add(IS_REFERENCE_PROTEOME, DataTypes.BooleanType, false);
         structType = structType.add(IS_REPRESENTATIVE_PROTEOME, DataTypes.BooleanType, false);
         structType = structType.add(MODIFIED, DataTypes.DateType, false);
-        structType = structType.add(COMPONENT, DataTypes.createArrayType(getComponentSchema()), false);
+        structType =
+                structType.add(COMPONENT, DataTypes.createArrayType(getComponentSchema()), false);
         return structType;
     }
 
     private ProteomeEntry getExpectedFullResult() {
-        return new ProteomeEntryBuilder().proteomeId(UP_ID_VAL)
+        return new ProteomeEntryBuilder()
+                .proteomeId(UP_ID_VAL)
                 .taxonomy(new TaxonomyBuilder().taxonId(TAXONOMY_VAL).build())
                 .proteomeType(ProteomeType.REFERENCE)
-                .modified(Instant.ofEpochMilli(EPOCH_MILLI_NOW).atZone(ZoneId.systemDefault()).toLocalDate())
+                .modified(
+                        Instant.ofEpochMilli(EPOCH_MILLI_NOW)
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDate())
                 .strain(STRAIN_VAL)
                 .description(DESCRIPTION_VAL)
                 .isolate(ISOLATE_VAL)
                 .redundantTo(new ProteomeIdBuilder(REDUNDANT_TO_VAL).build())
                 .panproteome(new ProteomeIdBuilder(PANPROTEOME_VAL).build())
                 .annotationScore((int) ANNOTATION_SCORE_SCORE_VAL)
-                .genomeAnnotation(new GenomeAnnotationBuilder().source(GENOME_ANNOTATION_SOURCE_VAL).url(GENOME_ANNOTATION_URL_VAL).build())
-                .genomeAssembly(new GenomeAssemblyBuilder().assemblyId(GENOME_ASSEMBLY_ID_VAL).source(GenomeAssemblySource.ENA).genomeAssemblyUrl(GENOME_ASSEMBLY_URL_VAL).level(GenomeAssemblyLevel.FULL).build())
-                .componentsSet(List.of(
-                        new ComponentBuilder().name(COMPONENT_NAME_0).proteinCount((int) COMPONENT_PROTEIN_COUNT_0).description(COMPONENT_DESCRIPTION_0).genomeAnnotation(new GenomeAnnotationBuilder().source(COMPONENT_SOURCE_0).build()).build(),
-                        new ComponentBuilder().name(COMPONENT_NAME_1).proteinCount((int) COMPONENT_PROTEIN_COUNT_1).description(COMPONENT_DESCRIPTION_1).genomeAnnotation(new GenomeAnnotationBuilder().source(COMPONENT_SOURCE_1).build()).build()
-                ))
-                .citationsSet(List.of(
-                        new JournalArticleBuilder().journalName(CITATION_NAME_0).firstPage(CITATION_FIRST_0).lastPage(CITATION_LAST_0).volume(CITATION_VOLUME_0).title(CITATION_TITLE_0).publicationDate(CITATION_DATE_0)
-                                .authorsSet(new LinkedList<>(List.of(AUTHOR_NAME_0_0, AUTHOR_NAME_1_0)))
-                                .citationCrossReferencesSet(List.of(new CrossReferenceBuilder<CitationDatabase>().database(CitationDatabase.PUBMED).id(CONSORTIUM_VALUE_0_0).build(), new CrossReferenceBuilder<CitationDatabase>().database(CitationDatabase.DOI).id(CONSORTIUM_VALUE_1_0).build()))
-                                .build(),
-                        new SubmissionBuilder().submittedToDatabase(EMBL_GENBANK_DDBJ).title(CITATION_TITLE_1).publicationDate(CITATION_DATE_1)
-                                .authorsSet(new LinkedList<>(List.of(AUTHOR_NAME_0_1, AUTHOR_NAME_1_1)))
-                                .citationCrossReferencesSet(List.of(new CrossReferenceBuilder<CitationDatabase>().database(CitationDatabase.DOI).id(CONSORTIUM_VALUE_0_1).build(), new CrossReferenceBuilder<CitationDatabase>().database(CitationDatabase.PUBMED).id(CONSORTIUM_VALUE_1_1).build()))
-                                .build(),
-                        new BookBuilder().firstPage(CITATION_FIRST_2).lastPage(CITATION_LAST_2).volume(CITATION_VOLUME_2).build(),
-                        new PatentBuilder().build(),
-                        new ThesisBuilder().build(),
-                        new ElectronicArticleBuilder().build(),
-                        new LiteratureBuilder().build(),
-                        new UnpublishedBuilder().build()
-                ))
+                .genomeAnnotation(
+                        new GenomeAnnotationBuilder()
+                                .source(GENOME_ANNOTATION_SOURCE_VAL)
+                                .url(GENOME_ANNOTATION_URL_VAL)
+                                .build())
+                .genomeAssembly(
+                        new GenomeAssemblyBuilder()
+                                .assemblyId(GENOME_ASSEMBLY_ID_VAL)
+                                .source(GenomeAssemblySource.ENA)
+                                .genomeAssemblyUrl(GENOME_ASSEMBLY_URL_VAL)
+                                .level(GenomeAssemblyLevel.FULL)
+                                .build())
+                .componentsSet(
+                        List.of(
+                                new ComponentBuilder()
+                                        .name(COMPONENT_NAME_0)
+                                        .proteinCount((int) COMPONENT_PROTEIN_COUNT_0)
+                                        .description(COMPONENT_DESCRIPTION_0)
+                                        .genomeAnnotation(
+                                                new GenomeAnnotationBuilder()
+                                                        .source(COMPONENT_SOURCE_0)
+                                                        .build())
+                                        .build(),
+                                new ComponentBuilder()
+                                        .name(COMPONENT_NAME_1)
+                                        .proteinCount((int) COMPONENT_PROTEIN_COUNT_1)
+                                        .description(COMPONENT_DESCRIPTION_1)
+                                        .genomeAnnotation(
+                                                new GenomeAnnotationBuilder()
+                                                        .source(COMPONENT_SOURCE_1)
+                                                        .build())
+                                        .build()))
+                .citationsSet(
+                        List.of(
+                                new JournalArticleBuilder()
+                                        .journalName(CITATION_NAME_0)
+                                        .firstPage(CITATION_FIRST_0)
+                                        .lastPage(CITATION_LAST_0)
+                                        .volume(CITATION_VOLUME_0)
+                                        .title(CITATION_TITLE_0)
+                                        .publicationDate(CITATION_DATE_0)
+                                        .authorsSet(
+                                                new LinkedList<>(
+                                                        List.of(AUTHOR_NAME_0_0, AUTHOR_NAME_1_0)))
+                                        .citationCrossReferencesSet(
+                                                List.of(
+                                                        new CrossReferenceBuilder<
+                                                                        CitationDatabase>()
+                                                                .database(CitationDatabase.PUBMED)
+                                                                .id(CONSORTIUM_VALUE_0_0)
+                                                                .build(),
+                                                        new CrossReferenceBuilder<
+                                                                        CitationDatabase>()
+                                                                .database(CitationDatabase.DOI)
+                                                                .id(CONSORTIUM_VALUE_1_0)
+                                                                .build()))
+                                        .build(),
+                                new SubmissionBuilder()
+                                        .submittedToDatabase(EMBL_GENBANK_DDBJ)
+                                        .title(CITATION_TITLE_1)
+                                        .publicationDate(CITATION_DATE_1)
+                                        .authorsSet(
+                                                new LinkedList<>(
+                                                        List.of(AUTHOR_NAME_0_1, AUTHOR_NAME_1_1)))
+                                        .citationCrossReferencesSet(
+                                                List.of(
+                                                        new CrossReferenceBuilder<
+                                                                        CitationDatabase>()
+                                                                .database(CitationDatabase.DOI)
+                                                                .id(CONSORTIUM_VALUE_0_1)
+                                                                .build(),
+                                                        new CrossReferenceBuilder<
+                                                                        CitationDatabase>()
+                                                                .database(CitationDatabase.PUBMED)
+                                                                .id(CONSORTIUM_VALUE_1_1)
+                                                                .build()))
+                                        .build(),
+                                new BookBuilder()
+                                        .firstPage(CITATION_FIRST_2)
+                                        .lastPage(CITATION_LAST_2)
+                                        .volume(CITATION_VOLUME_2)
+                                        .build(),
+                                new PatentBuilder().build(),
+                                new ThesisBuilder().build(),
+                                new ElectronicArticleBuilder().build(),
+                                new LiteratureBuilder().build(),
+                                new UnpublishedBuilder().build()))
                 .exclusionReasonsAdd(ExclusionReason.MISSING_TRNA_GENES)
-                .redundantProteomesSet(List.of(new RedundantProteomeBuilder().proteomeId(REDUNDANT_PROTEIN_ID_0).similarity(Float.parseFloat(REDUNDANT_PROTEIN_SIMILARITY_0)).build(),
-                        new RedundantProteomeBuilder().proteomeId(REDUNDANT_PROTEIN_ID_1).similarity(Float.parseFloat(REDUNDANT_PROTEIN_SIMILARITY_1)).build()))
+                .redundantProteomesSet(
+                        List.of(
+                                new RedundantProteomeBuilder()
+                                        .proteomeId(REDUNDANT_PROTEIN_ID_0)
+                                        .similarity(
+                                                Float.parseFloat(REDUNDANT_PROTEIN_SIMILARITY_0))
+                                        .build(),
+                                new RedundantProteomeBuilder()
+                                        .proteomeId(REDUNDANT_PROTEIN_ID_1)
+                                        .similarity(
+                                                Float.parseFloat(REDUNDANT_PROTEIN_SIMILARITY_1))
+                                        .build()))
                 .build();
     }
 
@@ -239,10 +335,14 @@ class DatasetProteomeEntryConverterTest {
 
     private Seq getRedundantProteomes() {
         List<Object> redundantProteomes = new ArrayList<>();
-        redundantProteomes.add(getRedundantProteome(REDUNDANT_PROTEIN_ID_0, REDUNDANT_PROTEIN_SIMILARITY_0));
-        redundantProteomes.add(getRedundantProteome(REDUNDANT_PROTEIN_ID_1, REDUNDANT_PROTEIN_SIMILARITY_1));
+        redundantProteomes.add(
+                getRedundantProteome(REDUNDANT_PROTEIN_ID_0, REDUNDANT_PROTEIN_SIMILARITY_0));
+        redundantProteomes.add(
+                getRedundantProteome(REDUNDANT_PROTEIN_ID_1, REDUNDANT_PROTEIN_SIMILARITY_1));
         return (Seq)
-                JavaConverters.asScalaIteratorConverter(redundantProteomes.iterator()).asScala().toSeq();
+                JavaConverters.asScalaIteratorConverter(redundantProteomes.iterator())
+                        .asScala()
+                        .toSeq();
     }
 
     private Row getRedundantProteome(String name, String similarity) {
@@ -254,15 +354,33 @@ class DatasetProteomeEntryConverterTest {
 
     private Seq getComponentSeq() {
         List<Object> components = new ArrayList<>();
-        components.add(getComponentRow(COMPONENT_NAME_0, COMPONENT_PROTEIN_COUNT_0, COMPONENT_BIO_SAMPLE_ID_0, COMPONENT_DESCRIPTION_0,
-                COMPONENT_GENOME_ACCESSION_0, COMPONENT_SOURCE_0));
-        components.add(getComponentRow(COMPONENT_NAME_1, COMPONENT_PROTEIN_COUNT_1, COMPONENT_BIO_SAMPLE_ID_1, COMPONENT_DESCRIPTION_1,
-                COMPONENT_GENOME_ACCESSION_1, COMPONENT_SOURCE_1));
+        components.add(
+                getComponentRow(
+                        COMPONENT_NAME_0,
+                        COMPONENT_PROTEIN_COUNT_0,
+                        COMPONENT_BIO_SAMPLE_ID_0,
+                        COMPONENT_DESCRIPTION_0,
+                        COMPONENT_GENOME_ACCESSION_0,
+                        COMPONENT_SOURCE_0));
+        components.add(
+                getComponentRow(
+                        COMPONENT_NAME_1,
+                        COMPONENT_PROTEIN_COUNT_1,
+                        COMPONENT_BIO_SAMPLE_ID_1,
+                        COMPONENT_DESCRIPTION_1,
+                        COMPONENT_GENOME_ACCESSION_1,
+                        COMPONENT_SOURCE_1));
         return (Seq)
                 JavaConverters.asScalaIteratorConverter(components.iterator()).asScala().toSeq();
     }
 
-    private Row getComponentRow(String name, long proteinCount, String bioSampleId, String description, String genomeAccession, String source) {
+    private Row getComponentRow(
+            String name,
+            long proteinCount,
+            String bioSampleId,
+            String description,
+            String genomeAccession,
+            String source) {
         List<Object> component = new ArrayList<>();
         component.add(name);
         component.add(proteinCount);
@@ -276,15 +394,27 @@ class DatasetProteomeEntryConverterTest {
     private Row getGenomeAnnotationSourceRow(String genomeAnnotationSourceVal) {
         List<Object> genomeAnnotationSource = new ArrayList<>();
         genomeAnnotationSource.add(genomeAnnotationSourceVal);
-        return new GenericRowWithSchema(genomeAnnotationSource.toArray(), getGenomeAnnotationSourceSchema());
+        return new GenericRowWithSchema(
+                genomeAnnotationSource.toArray(), getGenomeAnnotationSourceSchema());
     }
 
     private Seq getScoresSeq() {
         List<Object> scores = new ArrayList<>();
-        scores.add(getScoresRow(SCORES_NAME_0, List.of(new Tuple2<>(SCORES_SCORE_0_0, SCORES_VALUE_0_0), new Tuple2<>(SCORES_SCORE_1_0, SCORES_VALUE_1_0), new Tuple2<>(SCORES_SCORE_2_0, SCORES_VALUE_2_0))));
-        scores.add(getScoresRow(SCORES_NAME_1, List.of(new Tuple2<>(SCORES_SCORE_0_1, SCORES_VALUE_0_1), new Tuple2<>(SCORES_SCORE_1_1, SCORES_VALUE_1_1), new Tuple2<>(SCORES_SCORE_2_1, SCORES_VALUE_2_1))));
-        return (Seq)
-                JavaConverters.asScalaIteratorConverter(scores.iterator()).asScala().toSeq();
+        scores.add(
+                getScoresRow(
+                        SCORES_NAME_0,
+                        List.of(
+                                new Tuple2<>(SCORES_SCORE_0_0, SCORES_VALUE_0_0),
+                                new Tuple2<>(SCORES_SCORE_1_0, SCORES_VALUE_1_0),
+                                new Tuple2<>(SCORES_SCORE_2_0, SCORES_VALUE_2_0))));
+        scores.add(
+                getScoresRow(
+                        SCORES_NAME_1,
+                        List.of(
+                                new Tuple2<>(SCORES_SCORE_0_1, SCORES_VALUE_0_1),
+                                new Tuple2<>(SCORES_SCORE_1_1, SCORES_VALUE_1_1),
+                                new Tuple2<>(SCORES_SCORE_2_1, SCORES_VALUE_2_1))));
+        return (Seq) JavaConverters.asScalaIteratorConverter(scores.iterator()).asScala().toSeq();
     }
 
     private Row getScoresRow(String name, List<Tuple2> properties) {
@@ -313,13 +443,43 @@ class DatasetProteomeEntryConverterTest {
 
     private Seq getReferenceSeq() {
         List<Object> referenceSeq = new ArrayList<>();
-        referenceSeq.add(getReferenceRow(CITATION_TYPE_0, List.of(CITATION_DATE_0, CITATION_DB_0, CITATION_FIRST_0, CITATION_LAST_0, CITATION_NAME_0, CITATION_VOLUME_0, CITATION_TITLE_0),
-                List.of("", AUTHOR_NAME_0_0, "", AUTHOR_NAME_1_0, "", ""),
-                List.of(CONSORTIUM_VALUE_0_0, CONSORTIUM_NAME_0_0, CONSORTIUM_VALUE_1_0, CONSORTIUM_NAME_1_0)));
-        referenceSeq.add(getReferenceRow(CITATION_TYPE_1, List.of(CITATION_DATE_1, CITATION_DB_1, CITATION_FIRST_1, CITATION_LAST_1, CITATION_NAME_1, CITATION_VOLUME_1, CITATION_TITLE_1),
-                List.of("", AUTHOR_NAME_0_1, "", AUTHOR_NAME_1_1, "", ""),
-                List.of(CONSORTIUM_VALUE_0_1, CONSORTIUM_NAME_0_1, CONSORTIUM_VALUE_1_1, CONSORTIUM_NAME_1_1)));
-        referenceSeq.add(getReferenceBookRowMinimal(List.of(CITATION_FIRST_2, CITATION_LAST_2, CITATION_VOLUME_2)));
+        referenceSeq.add(
+                getReferenceRow(
+                        CITATION_TYPE_0,
+                        List.of(
+                                CITATION_DATE_0,
+                                CITATION_DB_0,
+                                CITATION_FIRST_0,
+                                CITATION_LAST_0,
+                                CITATION_NAME_0,
+                                CITATION_VOLUME_0,
+                                CITATION_TITLE_0),
+                        List.of("", AUTHOR_NAME_0_0, "", AUTHOR_NAME_1_0, "", ""),
+                        List.of(
+                                CONSORTIUM_VALUE_0_0,
+                                CONSORTIUM_NAME_0_0,
+                                CONSORTIUM_VALUE_1_0,
+                                CONSORTIUM_NAME_1_0)));
+        referenceSeq.add(
+                getReferenceRow(
+                        CITATION_TYPE_1,
+                        List.of(
+                                CITATION_DATE_1,
+                                CITATION_DB_1,
+                                CITATION_FIRST_1,
+                                CITATION_LAST_1,
+                                CITATION_NAME_1,
+                                CITATION_VOLUME_1,
+                                CITATION_TITLE_1),
+                        List.of("", AUTHOR_NAME_0_1, "", AUTHOR_NAME_1_1, "", ""),
+                        List.of(
+                                CONSORTIUM_VALUE_0_1,
+                                CONSORTIUM_NAME_0_1,
+                                CONSORTIUM_VALUE_1_1,
+                                CONSORTIUM_NAME_1_1)));
+        referenceSeq.add(
+                getReferenceBookRowMinimal(
+                        List.of(CITATION_FIRST_2, CITATION_LAST_2, CITATION_VOLUME_2)));
         referenceSeq.add(getReferenceRowMinimal(CITATION_TYPE_3));
         referenceSeq.add(getReferenceRowMinimal(CITATION_TYPE_4));
         referenceSeq.add(getReferenceRowMinimal(CITATION_TYPE_5));
@@ -356,7 +516,8 @@ class DatasetProteomeEntryConverterTest {
     private Row getReferenceBookRowMinimal(List<String> otherProperties) {
         List<Object> referenceBookMinimal = new ArrayList<>();
         referenceBookMinimal.add(getCitationBookRowMinimal(otherProperties));
-        return new GenericRowWithSchema(referenceBookMinimal.toArray(), getReferenceBookSchemaMinimal());
+        return new GenericRowWithSchema(
+                referenceBookMinimal.toArray(), getReferenceBookSchemaMinimal());
     }
 
     private Row getCitationBookRowMinimal(List<String> otherProperties) {
@@ -365,12 +526,14 @@ class DatasetProteomeEntryConverterTest {
         citationBookMinimal.add(Long.parseLong(otherProperties.get(0)));
         citationBookMinimal.add(Long.parseLong(otherProperties.get(1)));
         citationBookMinimal.add(Long.parseLong(otherProperties.get(2)));
-        return new GenericRowWithSchema(citationBookMinimal.toArray(), getCitationBookSchemaMinimal());
+        return new GenericRowWithSchema(
+                citationBookMinimal.toArray(), getCitationBookSchemaMinimal());
     }
 
     private StructType getReferenceBookSchemaMinimal() {
         StructType referenceBookMinimal = new StructType();
-        referenceBookMinimal = referenceBookMinimal.add(CITATION, getCitationBookSchemaMinimal(), false);
+        referenceBookMinimal =
+                referenceBookMinimal.add(CITATION, getCitationBookSchemaMinimal(), false);
         return referenceBookMinimal;
     }
 
@@ -383,13 +546,22 @@ class DatasetProteomeEntryConverterTest {
         return citationBookMiniaml;
     }
 
-    private Row getReferenceRow(String type, List<String> citationProperties, List<String> authorProperties, List<String> dbReferenceProperties) {
+    private Row getReferenceRow(
+            String type,
+            List<String> citationProperties,
+            List<String> authorProperties,
+            List<String> dbReferenceProperties) {
         List<Object> referenceSeq = new ArrayList<>();
-        referenceSeq.add(getCitationRow(type, citationProperties, authorProperties, dbReferenceProperties));
+        referenceSeq.add(
+                getCitationRow(type, citationProperties, authorProperties, dbReferenceProperties));
         return new GenericRowWithSchema(referenceSeq.toArray(), getReferenceSchema());
     }
 
-    private Row getCitationRow(String type, List<String> citationProperties, List<String> authorProperties, List<String> dbReferenceProperties) {
+    private Row getCitationRow(
+            String type,
+            List<String> citationProperties,
+            List<String> authorProperties,
+            List<String> dbReferenceProperties) {
         List<Object> citation = new ArrayList<>();
         citation.add(type);
         if (!citationProperties.isEmpty()) {
@@ -442,10 +614,14 @@ class DatasetProteomeEntryConverterTest {
 
     private Seq geDbReferenceSchemaSequence(List<String> dbReferenceProperties) {
         List<Object> dbReferenceSeq = new ArrayList<>();
-        dbReferenceSeq.add(getDbReferenceRow(dbReferenceProperties.get(0), dbReferenceProperties.get(1)));
-        dbReferenceSeq.add(getDbReferenceRow(dbReferenceProperties.get(2), dbReferenceProperties.get(3)));
+        dbReferenceSeq.add(
+                getDbReferenceRow(dbReferenceProperties.get(0), dbReferenceProperties.get(1)));
+        dbReferenceSeq.add(
+                getDbReferenceRow(dbReferenceProperties.get(2), dbReferenceProperties.get(3)));
         return (Seq)
-                JavaConverters.asScalaIteratorConverter(dbReferenceSeq.iterator()).asScala().toSeq();
+                JavaConverters.asScalaIteratorConverter(dbReferenceSeq.iterator())
+                        .asScala()
+                        .toSeq();
     }
 
     private Object getDbReferenceRow(String id, String type) {
@@ -471,7 +647,8 @@ class DatasetProteomeEntryConverterTest {
         genomeAnnotationScore.add(ANNOTATION_SCORE_VAL);
         genomeAnnotationScore.add(ANNOTATION_SCORE_SCORE_VAL);
 
-        return new GenericRowWithSchema(genomeAnnotationScore.toArray(), getAnnotationScoreSchema());
+        return new GenericRowWithSchema(
+                genomeAnnotationScore.toArray(), getAnnotationScoreSchema());
     }
 
     private Row getGenomeAnnotationRow() {
@@ -497,11 +674,18 @@ class DatasetProteomeEntryConverterTest {
         structType = structType.add(ANNOTATION_SCORE, getAnnotationScoreSchema(), true);
         structType = structType.add(GENOME_ANNOTATION, getGenomeAnnotationSchema(), true);
         structType = structType.add(GENOME_ASSEMBLY, getGenomeAssemblySchema(), true);
-        structType = structType.add(COMPONENT, DataTypes.createArrayType(getComponentSchema()), false);
+        structType =
+                structType.add(COMPONENT, DataTypes.createArrayType(getComponentSchema()), false);
         structType = structType.add(SCORES, DataTypes.createArrayType(getScoresSchema()), true);
-        structType = structType.add(REFERENCE, DataTypes.createArrayType(getReferenceSchema()), true);
-        structType = structType.add(REDUNDANT_PROTEOME, DataTypes.createArrayType(getRedundantProteomeSchema()), true);
-        structType = structType.add(EXCLUDED, DataTypes.createArrayType(getExclusionSchema()), true);
+        structType =
+                structType.add(REFERENCE, DataTypes.createArrayType(getReferenceSchema()), true);
+        structType =
+                structType.add(
+                        REDUNDANT_PROTEOME,
+                        DataTypes.createArrayType(getRedundantProteomeSchema()),
+                        true);
+        structType =
+                structType.add(EXCLUDED, DataTypes.createArrayType(getExclusionSchema()), true);
         return structType;
     }
 
@@ -535,7 +719,8 @@ class DatasetProteomeEntryConverterTest {
         citation = citation.add(VOLUME, DataTypes.StringType, true);
         citation = citation.add(TITLE, DataTypes.StringType, true);
         citation = citation.add(AUTHOR_LIST, getAuthorListScheme(), true);
-        citation = citation.add(DB_REFERENCE, DataTypes.createArrayType(getDbReferenceScheme()), true);
+        citation =
+                citation.add(DB_REFERENCE, DataTypes.createArrayType(getDbReferenceScheme()), true);
         return citation;
     }
 
@@ -596,7 +781,8 @@ class DatasetProteomeEntryConverterTest {
 
     public static StructType getGenomeAnnotationSourceSchema() {
         StructType genomeAnnotationSource = new StructType();
-        genomeAnnotationSource = genomeAnnotationSource.add(GENOME_ANNOTATION_SOURCE, DataTypes.StringType, false);
+        genomeAnnotationSource =
+                genomeAnnotationSource.add(GENOME_ANNOTATION_SOURCE, DataTypes.StringType, false);
         return genomeAnnotationSource;
     }
 
@@ -612,13 +798,15 @@ class DatasetProteomeEntryConverterTest {
     public static StructType getAnnotationScoreSchema() {
         StructType annotationScore = new StructType();
         annotationScore = annotationScore.add(VALUE, DataTypes.StringType, true);
-        annotationScore = annotationScore.add(NORMALIZED_ANNOTATION_SCORE, DataTypes.LongType, false);
+        annotationScore =
+                annotationScore.add(NORMALIZED_ANNOTATION_SCORE, DataTypes.LongType, false);
         return annotationScore;
     }
 
     public static StructType getGenomeAnnotationSchema() {
         StructType genomeAnnotation = new StructType();
-        genomeAnnotation = genomeAnnotation.add(GENOME_ANNOTATION_SOURCE, DataTypes.StringType, false);
+        genomeAnnotation =
+                genomeAnnotation.add(GENOME_ANNOTATION_SOURCE, DataTypes.StringType, false);
         genomeAnnotation = genomeAnnotation.add(GENOME_ANNOTATION_URL, DataTypes.StringType, true);
         return genomeAnnotation;
     }

@@ -1,5 +1,14 @@
 package org.uniprot.store.spark.indexer.proteome.converter;
 
+import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
 import org.uniprot.core.CrossReference;
@@ -13,15 +22,6 @@ import org.uniprot.core.proteome.*;
 import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
-
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
 
 /**
  * Converts XML {@link Row} instances to {@link ProteomeEntry} instances.
@@ -83,32 +83,36 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
         ProteomeEntryBuilder builder = new ProteomeEntryBuilder();
         // upid
         builder.proteomeId(row.getString(row.fieldIndex(UPID)));
-        //taxonomy
-        Taxonomy taxonomy = new TaxonomyBuilder().taxonId(row.getInt(row.fieldIndex(TAXONOMY))).build();
+        // taxonomy
+        Taxonomy taxonomy =
+                new TaxonomyBuilder().taxonId(row.getInt(row.fieldIndex(TAXONOMY))).build();
         builder.taxonomy(taxonomy);
-        //strain
+        // strain
         if (hasFieldName(STRAIN, row)) {
             builder.strain(row.getString(row.fieldIndex(STRAIN)));
         }
-        //description
+        // description
         if (hasFieldName(DESCRIPTION, row)) {
             builder.description(row.getString(row.fieldIndex(DESCRIPTION)));
         }
-        //isolate
+        // isolate
         if (hasFieldName(ISOLATE, row)) {
             builder.isolate(row.getString(row.fieldIndex(ISOLATE)));
         }
-        //redundant to
+        // redundant to
         if (hasFieldName(REDUNDANT_TO, row)) {
-            builder.redundantTo(new ProteomeIdBuilder((row.getString(row.fieldIndex(REDUNDANT_TO)))).build());
+            builder.redundantTo(
+                    new ProteomeIdBuilder((row.getString(row.fieldIndex(REDUNDANT_TO)))).build());
         }
-        //panproteome
+        // panproteome
         if (hasFieldName(PANPROTEOME, row)) {
-            builder.panproteome(new ProteomeIdBuilder((row.getString(row.fieldIndex(PANPROTEOME)))).build());
+            builder.panproteome(
+                    new ProteomeIdBuilder((row.getString(row.fieldIndex(PANPROTEOME)))).build());
         }
-        //modified
+        // modified
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        builder.modified(LocalDate.parse(row.getDate(row.fieldIndex(MODIFIED)).toString(), formatter));
+        builder.modified(
+                LocalDate.parse(row.getDate(row.fieldIndex(MODIFIED)).toString(), formatter));
         // proteome type
         ProteomeType proteomeType = ProteomeType.NORMAL;
         boolean isReference = row.getBoolean(row.fieldIndex(IS_REFERENCE_PROTEOME));
@@ -122,37 +126,46 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
             proteomeType = ProteomeType.REPRESENTATIVE;
         }
         builder.proteomeType(proteomeType);
-        //genome annotation
+        // genome annotation
         if (hasFieldName(GENOME_ANNOTATION, row)) {
-            GenomeAnnotation genomeAnnotation = getGenomeAnnotation((Row) row.get(row.fieldIndex(GENOME_ANNOTATION)));
+            GenomeAnnotation genomeAnnotation =
+                    getGenomeAnnotation((Row) row.get(row.fieldIndex(GENOME_ANNOTATION)));
             builder.genomeAnnotation(genomeAnnotation);
         }
-        //genome assembly
+        // genome assembly
         if (hasFieldName(GENOME_ASSEMBLY, row)) {
-            GenomeAssembly genomeAssembly = getGenomeAssembly((Row) row.get(row.fieldIndex(GENOME_ASSEMBLY)));
+            GenomeAssembly genomeAssembly =
+                    getGenomeAssembly((Row) row.get(row.fieldIndex(GENOME_ASSEMBLY)));
             builder.genomeAssembly(genomeAssembly);
         }
-        //annotation score
+        // annotation score
         if (hasFieldName(ANNOTATION_SCORE, row)) {
-            Integer annotationScore = getAnnotationScore((Row) row.get(row.fieldIndex(ANNOTATION_SCORE)));
+            Integer annotationScore =
+                    getAnnotationScore((Row) row.get(row.fieldIndex(ANNOTATION_SCORE)));
             builder.annotationScore(annotationScore);
         }
-        //component set
+        // component set
         List<Row> componentRows = row.getList(row.fieldIndex(COMPONENT));
-        builder.componentsSet(componentRows.stream().map(this::getComponent).collect(Collectors.toList()));
-        //citation set
+        builder.componentsSet(
+                componentRows.stream().map(this::getComponent).collect(Collectors.toList()));
+        // citation set
         if (hasFieldName(REFERENCE, row)) {
             List<Row> referenceRows = row.getList(row.fieldIndex(REFERENCE));
-            builder.citationsSet(referenceRows.stream().map(this::getCitation).collect(Collectors.toList()));
+            builder.citationsSet(
+                    referenceRows.stream().map(this::getCitation).collect(Collectors.toList()));
         }
-        //redundant proteome
+        // redundant proteome
         if (hasFieldName(REDUNDANT_PROTEOME, row)) {
             List<Row> redundantProteomeRows = row.getList(row.fieldIndex(REDUNDANT_PROTEOME));
-            builder.redundantProteomesSet(redundantProteomeRows.stream().map(this::getRedundantProteome).collect(Collectors.toList()));
+            builder.redundantProteomesSet(
+                    redundantProteomeRows.stream()
+                            .map(this::getRedundantProteome)
+                            .collect(Collectors.toList()));
         }
-        //excluded
+        // excluded
         if (hasFieldName(EXCLUDED, row)) {
-            ExclusionReason exclusionReason = getExclusionReason((Row) row.get(row.fieldIndex(EXCLUDED)));
+            ExclusionReason exclusionReason =
+                    getExclusionReason((Row) row.get(row.fieldIndex(EXCLUDED)));
             builder.exclusionReasonsAdd(exclusionReason);
         }
 
@@ -162,7 +175,8 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
     private RedundantProteome getRedundantProteome(Row row) {
         RedundantProteomeBuilder redundantProteomeBuilder = new RedundantProteomeBuilder();
         redundantProteomeBuilder.proteomeId(row.getString(row.fieldIndex(UPID)));
-        redundantProteomeBuilder.similarity(Float.parseFloat(row.getString(row.fieldIndex(SIMILARITY))));
+        redundantProteomeBuilder.similarity(
+                Float.parseFloat(row.getString(row.fieldIndex(SIMILARITY))));
         return redundantProteomeBuilder.build();
     }
 
@@ -229,7 +243,8 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
         SubmissionBuilder submissionBuilder = new SubmissionBuilder();
         populateCommon(row, submissionBuilder);
         if (hasFieldName(DB, row)) {
-            submissionBuilder.submittedToDatabase(SubmissionDatabase.typeOf(row.getString(row.fieldIndex(DB))));
+            submissionBuilder.submittedToDatabase(
+                    SubmissionDatabase.typeOf(row.getString(row.fieldIndex(DB))));
         }
         return submissionBuilder.build();
     }
@@ -277,7 +292,8 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
         }
         if (hasFieldName(DB_REFERENCE, row)) {
             List<Row> dbReferences = row.getList(row.fieldIndex(DB_REFERENCE));
-            citationBuilder.citationCrossReferencesSet(dbReferences.stream().map(this::getCrossRef).collect(Collectors.toList()));
+            citationBuilder.citationCrossReferencesSet(
+                    dbReferences.stream().map(this::getCrossRef).collect(Collectors.toList()));
         }
         if (hasFieldName(TITLE, row)) {
             citationBuilder.title((row.getString(row.fieldIndex(TITLE))));
@@ -317,7 +333,8 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
             componentBuilder.description(row.getString(row.fieldIndex(DESCRIPTION)));
         }
         if (hasFieldName(GENOME_ANNOTATION, row)) {
-            GenomeAnnotation genomeAnnotation = getGenomeAnnotation((Row) row.get(row.fieldIndex(GENOME_ANNOTATION)));
+            GenomeAnnotation genomeAnnotation =
+                    getGenomeAnnotation((Row) row.get(row.fieldIndex(GENOME_ANNOTATION)));
             componentBuilder.genomeAnnotation(genomeAnnotation);
         }
         return componentBuilder.build();
@@ -326,11 +343,16 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
     private GenomeAssembly getGenomeAssembly(Row row) {
         GenomeAssemblyBuilder genomeAssemblyBuilder = new GenomeAssemblyBuilder();
         genomeAssemblyBuilder.assemblyId(row.getString(row.fieldIndex(GENOME_ASSEMBLY)));
-        genomeAssemblyBuilder.source(GenomeAssemblySource.fromValue((row.getString(row.fieldIndex(GENOME_ASSEMBLY_SOURCE)))));
+        genomeAssemblyBuilder.source(
+                GenomeAssemblySource.fromValue(
+                        (row.getString(row.fieldIndex(GENOME_ASSEMBLY_SOURCE)))));
         if (hasFieldName(GENOME_ASSEMBLY_URL, row)) {
-            genomeAssemblyBuilder.genomeAssemblyUrl(row.getString(row.fieldIndex(GENOME_ASSEMBLY_URL)));
+            genomeAssemblyBuilder.genomeAssemblyUrl(
+                    row.getString(row.fieldIndex(GENOME_ASSEMBLY_URL)));
         }
-        genomeAssemblyBuilder.level(GenomeAssemblyLevel.fromValue(row.getString(row.fieldIndex(GENOME_REPRESENTATION))));
+        genomeAssemblyBuilder.level(
+                GenomeAssemblyLevel.fromValue(
+                        row.getString(row.fieldIndex(GENOME_REPRESENTATION))));
         return genomeAssemblyBuilder.build();
     }
 
