@@ -10,10 +10,7 @@ import org.uniprot.core.citation.SubmissionDatabase;
 import org.uniprot.core.citation.impl.*;
 import org.uniprot.core.impl.CrossReferenceBuilder;
 import org.uniprot.core.proteome.*;
-import org.uniprot.core.proteome.impl.ComponentBuilder;
-import org.uniprot.core.proteome.impl.GenomeAnnotationBuilder;
-import org.uniprot.core.proteome.impl.GenomeAssemblyBuilder;
-import org.uniprot.core.proteome.impl.ProteomeEntryBuilder;
+import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 
@@ -21,13 +18,10 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
-import static org.uniprot.store.spark.indexer.proteome.ProteomeRDDReader.*;
 
 /**
  * Converts XML {@link Row} instances to {@link ProteomeEntry} instances.
@@ -36,44 +30,90 @@ import static org.uniprot.store.spark.indexer.proteome.ProteomeRDDReader.*;
  * @created 21/08/2020
  */
 public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntry>, Serializable {
-
     private static final long serialVersionUID = -6073762696467389831L;
+    public static final String UPID = "upid";
+    public static final String TAXONOMY = "taxonomy";
+    public static final String STRAIN = "strain";
+    public static final String MODIFIED = "modified";
+    public static final String IS_REFERENCE_PROTEOME = "isReferenceProteome";
+    public static final String IS_REPRESENTATIVE_PROTEOME = "isRepresentativeProteome";
+    public static final String GENOME_ANNOTATION = "genomeAnnotation";
+    public static final String GENOME_ANNOTATION_SOURCE = "genomeAnnotationSource";
+    public static final String GENOME_ANNOTATION_URL = "genomeAnnotationUrl";
+    public static final String GENOME_ASSEMBLY = "genomeAssembly";
+    public static final String GENOME_ASSEMBLY_SOURCE = "genomeAssemblySource";
+    public static final String GENOME_ASSEMBLY_URL = "genomeAssemblyUrl";
+    public static final String GENOME_REPRESENTATION = "genomeRepresentation";
+    public static final String COMPONENT = "component";
+    public static final String NAME = "_name";
+    public static final String PROTEIN_COUNT = "_proteinCount";
+    public static final String DESCRIPTION = "description";
+    public static final String ANNOTATION_SCORE = "annotationScore";
+    public static final String NORMALIZED_ANNOTATION_SCORE = "_normalizedAnnotationScore";
+    public static final String REFERENCE = "reference";
+    public static final String CITATION = "citation";
+    public static final String TYPE = "_type";
+    public static final String DATE = "_date";
+    public static final String TITLE = "title";
+    public static final String AUTHOR_LIST = "authorList";
+    public static final String PERSON = "person";
+    public static final String DB_REFERENCE = "dbReference";
+    public static final String FIRST = "_first";
+    public static final String LAST = "_last";
+    public static final String VOLUME = "_volume";
+    public static final String DB = "_db";
+    public static final String SCORES = "scores";
+    public static final String VALUE = "_VALUE";
+    public static final String BIO_SAMPLE_ID = "biosampleId";
+    public static final String GENOME_ACCESSION = "genomeAccession";
+    public static final String PROPERTY = "property";
+    public static final String VALUE_LOWER = "value";
+    public static final String CONSORTIUM = "consortium";
+    public static final String ID = "_id";
+    public static final String ISOLATE = "isolate";
+    public static final String REDUNDANT_TO = "redundantTo";
+    public static final String PANPROTEOME = "panproteome";
+    public static final String REDUNDANT_PROTEOME = "redundantProteome";
+    public static final String EXCLUDED = "excluded";
+    public static final String SIMILARITY = "similarity";
+    public static final String EXCLUSION_REASON = "exclusionReason";
 
     @Override
     public ProteomeEntry call(Row row) throws Exception {
         ProteomeEntryBuilder builder = new ProteomeEntryBuilder();
         // upid
-        if (hasFieldName(UPID, row)) {
-            builder.proteomeId(row.getString(row.fieldIndex(UPID)));
-        }
+        builder.proteomeId(row.getString(row.fieldIndex(UPID)));
         //taxonomy
-        if (hasFieldName(TAXONOMY, row)) {
-            Taxonomy taxonomy = new TaxonomyBuilder().taxonId(row.getInt(row.fieldIndex(TAXONOMY))).build();
-            builder.taxonomy(taxonomy);
-        }
+        Taxonomy taxonomy = new TaxonomyBuilder().taxonId(row.getInt(row.fieldIndex(TAXONOMY))).build();
+        builder.taxonomy(taxonomy);
         //strain
         if (hasFieldName(STRAIN, row)) {
             builder.strain(row.getString(row.fieldIndex(STRAIN)));
         }
-        //strain
+        //description
         if (hasFieldName(DESCRIPTION, row)) {
             builder.description(row.getString(row.fieldIndex(DESCRIPTION)));
         }
-        //modified
-        if (hasFieldName(MODIFIED, row)) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            builder.modified(LocalDate.parse(row.getString(row.fieldIndex(MODIFIED)), formatter));
+        //isolate
+        if (hasFieldName(ISOLATE, row)) {
+            builder.isolate(row.getString(row.fieldIndex(ISOLATE)));
         }
+        //redundant to
+        if (hasFieldName(REDUNDANT_TO, row)) {
+            builder.redundantTo(new ProteomeIdBuilder((row.getString(row.fieldIndex(REDUNDANT_TO)))).build());
+        }
+        //panproteome
+        if (hasFieldName(PANPROTEOME, row)) {
+            builder.panproteome(new ProteomeIdBuilder((row.getString(row.fieldIndex(PANPROTEOME)))).build());
+        }
+        //modified
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        builder.modified(LocalDate.parse(row.getDate(row.fieldIndex(MODIFIED)).toString(), formatter));
         // proteome type
         ProteomeType proteomeType = ProteomeType.NORMAL;
-        boolean isReference = false;
-        boolean isRepresentative = false;
-        if (hasFieldName(IS_REFERENCE_PROTEOME, row)) {
-            isReference = row.getBoolean(row.fieldIndex(IS_REFERENCE_PROTEOME));
-        }
-        if (hasFieldName(IS_REPRESENTATIVE_PROTEOME, row)) {
-            isRepresentative = row.getBoolean(row.fieldIndex(IS_REPRESENTATIVE_PROTEOME));
-        }
+        boolean isReference = row.getBoolean(row.fieldIndex(IS_REFERENCE_PROTEOME));
+        boolean isRepresentative = row.getBoolean(row.fieldIndex(IS_REPRESENTATIVE_PROTEOME));
+
         if (isReference && isRepresentative) {
             proteomeType = ProteomeType.REFERENCE_AND_REPRESENTATIVE;
         } else if (isReference) {
@@ -98,50 +138,64 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
             builder.annotationScore(annotationScore);
         }
         //component set
-        if (hasFieldName(COMPONENT, row)) {
-            List<Row> componentRows = row.getList(row.fieldIndex(COMPONENT));
-            builder.componentsSet(componentRows.stream().map(this::getComponent).collect(Collectors.toList()));
-        }
+        List<Row> componentRows = row.getList(row.fieldIndex(COMPONENT));
+        builder.componentsSet(componentRows.stream().map(this::getComponent).collect(Collectors.toList()));
         //citation set
         if (hasFieldName(REFERENCE, row)) {
             List<Row> referenceRows = row.getList(row.fieldIndex(REFERENCE));
-            builder.citationsSet(referenceRows.stream().map(this::getCitation).filter(Objects::nonNull).collect(Collectors.toList()));
+            builder.citationsSet(referenceRows.stream().map(this::getCitation).collect(Collectors.toList()));
+        }
+        //redundant proteome
+        if (hasFieldName(REDUNDANT_PROTEOME, row)) {
+            List<Row> redundantProteomeRows = row.getList(row.fieldIndex(REDUNDANT_PROTEOME));
+            builder.redundantProteomesSet(redundantProteomeRows.stream().map(this::getRedundantProteome).collect(Collectors.toList()));
+        }
+        //excluded
+        if (hasFieldName(EXCLUDED, row)) {
+            ExclusionReason exclusionReason = getExclusionReason((Row) row.get(row.fieldIndex(EXCLUDED)));
+            builder.exclusionReasonsAdd(exclusionReason);
         }
 
         return builder.build();
     }
 
+    private RedundantProteome getRedundantProteome(Row row) {
+        RedundantProteomeBuilder redundantProteomeBuilder = new RedundantProteomeBuilder();
+        redundantProteomeBuilder.proteomeId(row.getString(row.fieldIndex(UPID)));
+        redundantProteomeBuilder.similarity(Float.parseFloat(row.getString(row.fieldIndex(SIMILARITY))));
+        return redundantProteomeBuilder.build();
+    }
+
+    private ExclusionReason getExclusionReason(Row row) {
+        return ExclusionReason.typeOf(row.getString(row.fieldIndex(EXCLUSION_REASON)));
+    }
+
     private Citation getCitation(Row row) {
-        if (hasFieldName(CITATION, row)) {
-            Row citationRow = (Row) row.get(row.fieldIndex(CITATION));
-            return getCitationItem(citationRow);
-        }
-        return null;
+        Row citationRow = (Row) row.get(row.fieldIndex(CITATION));
+        return getCitationItem(citationRow);
     }
 
     private Citation getCitationItem(Row row) {
-        if (hasFieldName(TYPE, row)) {
-            CitationType citationType = CitationType.typeOf(row.getString(row.fieldIndex(TYPE)));
-            switch (citationType) {
-                case BOOK:
-                    return getBook(row);
-                case PATENT:
-                    return getPatent(row);
-                case THESIS:
-                    return getThesis(row);
-                case SUBMISSION:
-                    return getSubmission(row);
-                case JOURNAL_ARTICLE:
-                    return getJournalArticle(row);
-                case ELECTRONIC_ARTICLE:
-                    return getElectronicArticle(row);
-                case LITERATURE:
-                    return getLiterature(row);
-                case UNPUBLISHED:
-                    return getUnpublished(row);
-            }
+        CitationType citationType = CitationType.typeOf(row.getString(row.fieldIndex(TYPE)));
+        switch (citationType) {
+            case BOOK:
+                return getBook(row);
+            case PATENT:
+                return getPatent(row);
+            case THESIS:
+                return getThesis(row);
+            case SUBMISSION:
+                return getSubmission(row);
+            case JOURNAL_ARTICLE:
+                return getJournalArticle(row);
+            case ELECTRONIC_ARTICLE:
+                return getElectronicArticle(row);
+            case LITERATURE:
+                return getLiterature(row);
+            case UNPUBLISHED:
+                return getUnpublished(row);
         }
-        return null;
+        throw new RuntimeException("Invalid citation type " + citationType);
     }
 
     private Citation getBook(Row row) {
@@ -223,7 +277,7 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
         }
         if (hasFieldName(DB_REFERENCE, row)) {
             List<Row> dbReferences = row.getList(row.fieldIndex(DB_REFERENCE));
-            citationBuilder.citationCrossReferencesSet(dbReferences.stream().map(this::getCrossRef).filter(Objects::nonNull).collect(Collectors.toList()));
+            citationBuilder.citationCrossReferencesSet(dbReferences.stream().map(this::getCrossRef).collect(Collectors.toList()));
         }
         if (hasFieldName(TITLE, row)) {
             citationBuilder.title((row.getString(row.fieldIndex(TITLE))));
@@ -234,44 +288,28 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
     }
 
     private CrossReference<CitationDatabase> getCrossRef(Row row) {
-        if (hasFieldName(TYPE, row)) {
-            return new CrossReferenceBuilder<CitationDatabase>()
-                    .database(CitationDatabase.typeOf(row.getString(row.fieldIndex(TYPE))))
-                    .id(row.getString(row.fieldIndex(ID)))
-                    .build();
-        }
-        return null;
+        return new CrossReferenceBuilder<CitationDatabase>()
+                .database(CitationDatabase.typeOf(row.getString(row.fieldIndex(TYPE))))
+                .id(row.getString(row.fieldIndex(ID)))
+                .build();
     }
 
     private Collection<String> getAuthors(Row row) {
-        List<String> authorList = new LinkedList<>();
-        if (hasFieldName(PERSON, row)) {
-            List<Row> personList = row.getList(row.fieldIndex(PERSON));
-            authorList.addAll(personList.stream().map(this::getName).filter(Objects::nonNull).collect(Collectors.toList()));
-        }
-        return authorList;
+        List<Row> personList = row.getList(row.fieldIndex(PERSON));
+        return personList.stream().map(this::getName).collect(Collectors.toList());
     }
 
     private String getName(Row row) {
-        if (hasFieldName(NAME, row)) {
-            return row.getString(row.fieldIndex(NAME));
-        }
-        return null;
+        return row.getString(row.fieldIndex(NAME));
     }
 
     private Integer getAnnotationScore(Row row) {
-        Integer annotationScore = null;
-        if (hasFieldName(NORMALIZED_ANNOTATION_SCORE, row)) {
-            annotationScore = (int) row.getLong(row.fieldIndex(NORMALIZED_ANNOTATION_SCORE));
-        }
-        return annotationScore;
+        return (int) row.getLong(row.fieldIndex(NORMALIZED_ANNOTATION_SCORE));
     }
 
     private Component getComponent(Row row) {
         ComponentBuilder componentBuilder = new ComponentBuilder();
-        if (hasFieldName(NAME, row)) {
-            componentBuilder.name(row.getString(row.fieldIndex(NAME)));
-        }
+        componentBuilder.name(row.getString(row.fieldIndex(NAME)));
         if (hasFieldName(PROTEIN_COUNT, row)) {
             componentBuilder.proteinCount((int) row.getLong(row.fieldIndex(PROTEIN_COUNT)));
         }
@@ -287,26 +325,18 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
 
     private GenomeAssembly getGenomeAssembly(Row row) {
         GenomeAssemblyBuilder genomeAssemblyBuilder = new GenomeAssemblyBuilder();
-        if (hasFieldName(GENOME_ASSEMBLY, row)) {
-            genomeAssemblyBuilder.assemblyId(row.getString(row.fieldIndex(GENOME_ASSEMBLY)));
-        }
-        if (hasFieldName(GENOME_ASSEMBLY_SOURCE, row)) {
-            genomeAssemblyBuilder.source(GenomeAssemblySource.fromValue((row.getString(row.fieldIndex(GENOME_ASSEMBLY_SOURCE)))));
-        }
+        genomeAssemblyBuilder.assemblyId(row.getString(row.fieldIndex(GENOME_ASSEMBLY)));
+        genomeAssemblyBuilder.source(GenomeAssemblySource.fromValue((row.getString(row.fieldIndex(GENOME_ASSEMBLY_SOURCE)))));
         if (hasFieldName(GENOME_ASSEMBLY_URL, row)) {
             genomeAssemblyBuilder.genomeAssemblyUrl(row.getString(row.fieldIndex(GENOME_ASSEMBLY_URL)));
         }
-        if (hasFieldName(GENOME_REPRESENTATION, row)) {
-            genomeAssemblyBuilder.level(GenomeAssemblyLevel.fromValue(row.getString(row.fieldIndex(GENOME_REPRESENTATION))));
-        }
+        genomeAssemblyBuilder.level(GenomeAssemblyLevel.fromValue(row.getString(row.fieldIndex(GENOME_REPRESENTATION))));
         return genomeAssemblyBuilder.build();
     }
 
     private GenomeAnnotation getGenomeAnnotation(Row row) {
         GenomeAnnotationBuilder genomeAnnotationBuilder = new GenomeAnnotationBuilder();
-        if (hasFieldName(GENOME_ANNOTATION_SOURCE, row)) {
-            genomeAnnotationBuilder.source(row.getString(row.fieldIndex(GENOME_ANNOTATION_SOURCE)));
-        }
+        genomeAnnotationBuilder.source(row.getString(row.fieldIndex(GENOME_ANNOTATION_SOURCE)));
         if (hasFieldName(GENOME_ANNOTATION_URL, row)) {
             genomeAnnotationBuilder.url(row.getString(row.fieldIndex(GENOME_ANNOTATION_URL)));
         }
