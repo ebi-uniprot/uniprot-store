@@ -1,5 +1,15 @@
 package org.uniprot.store.spark.indexer.proteome.converter;
 
+import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
@@ -14,16 +24,6 @@ import org.uniprot.core.proteome.*;
 import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
-
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
 
 /**
  * Converts XML {@link Row} instances to {@link ProteomeEntry} instances.
@@ -105,7 +105,8 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
                     new ProteomeIdBuilder((row.getString(row.fieldIndex(PANPROTEOME)))).build());
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        builder.modified(LocalDate.parse(row.getDate(row.fieldIndex(MODIFIED)).toString(), formatter));
+        builder.modified(
+                LocalDate.parse(row.getDate(row.fieldIndex(MODIFIED)).toString(), formatter));
         if (hasFieldName(GENOME_ANNOTATION, row)) {
             GenomeAnnotation genomeAnnotation =
                     getGenomeAnnotation((Row) row.get(row.fieldIndex(GENOME_ANNOTATION)));
@@ -144,12 +145,21 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
         }
         boolean isReference = row.getBoolean(row.fieldIndex(IS_REFERENCE_PROTEOME));
         boolean isRepresentative = row.getBoolean(row.fieldIndex(IS_REPRESENTATIVE_PROTEOME));
-        builder.proteomeType(getProteomeType(isReference, isRepresentative, Objects.nonNull(exclusionReason), CollectionUtils.isEmpty((redundantProteomeRows))));
+        builder.proteomeType(
+                getProteomeType(
+                        isReference,
+                        isRepresentative,
+                        Objects.nonNull(exclusionReason),
+                        CollectionUtils.isEmpty((redundantProteomeRows))));
 
         return builder.build();
     }
 
-    private static ProteomeType getProteomeType(boolean isReference, boolean isRepresentative, boolean hasExclusionReason, boolean hasRedundantProteomes) {
+    private static ProteomeType getProteomeType(
+            boolean isReference,
+            boolean isRepresentative,
+            boolean hasExclusionReason,
+            boolean hasRedundantProteomes) {
         if (hasExclusionReason) {
             return ProteomeType.EXCLUDED;
         } else if (isReference && isRepresentative) {

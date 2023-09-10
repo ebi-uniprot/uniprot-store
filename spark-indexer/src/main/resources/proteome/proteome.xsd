@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-		   elementFormDefault="qualified"
-		   targetNamespace="http://uniprot.org/proteome"
-		   xmlns="http://uniprot.org/proteome">
+	elementFormDefault="qualified"
+	targetNamespace="http://uniprot.org/proteome"
+	xmlns="http://uniprot.org/proteome">
 	<xs:element name="proteomes">
 		<xs:complexType>
 			<xs:annotation>
@@ -21,34 +21,34 @@
 			<xs:sequence>
 				<xs:element name="upid" type="xs:string" />
 				<xs:element name="description" type="xs:string"
-							minOccurs="0" />
+					minOccurs="0" />
 				<xs:element name="taxonomy" type="xs:long" />
 				<xs:element name="modified" type="xs:date" />
 				<xs:element name="isReferenceProteome" type="xs:boolean" />
 				<xs:element name="isRepresentativeProteome"
-							type="xs:boolean" />
+					type="xs:boolean" />
 				<xs:element name="redundantTo" type="xs:string"
-							minOccurs="0" />
+					minOccurs="0" />
 				<xs:element name="strain" type="xs:string" minOccurs="0" />
 				<xs:element name="isolate" type="xs:string" minOccurs="0" />
 				<xs:element name="genomeAssembly"
-							type="genomeAssemblyType" minOccurs="0" />
+					type="genomeAssemblyType" minOccurs="0" />
 				<xs:element name="genomeAnnotation"
-							type="genomeAnnotationType" minOccurs="0" />
+					type="genomeAnnotationType" minOccurs="0" />
 				<xs:element name="component" type="componentType"
-							maxOccurs="unbounded" />
+					maxOccurs="unbounded" />
 				<xs:element name="reference" type="referenceType"
-							minOccurs="0" maxOccurs="unbounded" />
+					minOccurs="0" maxOccurs="unbounded" />
 				<xs:element name="redundantProteome"
-							type="redundantProteomeType" minOccurs="0" maxOccurs="unbounded" />
+					type="redundantProteomeType" minOccurs="0" maxOccurs="unbounded" />
 				<xs:element name="annotationScore"
-							type="annotationScoreType" minOccurs="0" />
+					type="annotationScoreType" minOccurs="0" />
 				<xs:element name="panproteome" type="xs:string"
-							minOccurs="0" />
+					minOccurs="0" />
 				<xs:element name="excluded" type="exclusionType"
-							minOccurs="0" />
+					minOccurs="0" />
 				<xs:element name="scores" type="scoreType" minOccurs="0"
-							maxOccurs="unbounded" />
+					maxOccurs="unbounded" />
 			</xs:sequence>
 			<xs:attribute name="proteinCount" type="xs:int" />
 		</xs:complexType>
@@ -57,12 +57,12 @@
 	<xs:complexType name="genomeAssemblyType">
 		<xs:sequence>
 			<xs:element name="genomeAssemblySource" type="xs:string" />
-			<!--<xs:sequence minOccurs="0">-->
-				<xs:element name="genomeAssembly" type="xs:string" />
-				<xs:element name="genomeAssemblyUrl" type="xs:string"
-							minOccurs="0" />
-				<xs:element name="genomeRepresentation" type="xs:string" />
-			<!--</xs:sequence>-->
+			<!--<xs:sequence minOccurs="0"> -->
+			<xs:element name="genomeAssembly" type="xs:string" />
+			<xs:element name="genomeAssemblyUrl" type="xs:string"
+				minOccurs="0" />
+			<xs:element name="genomeRepresentation" type="xs:string" />
+			<!--</xs:sequence> -->
 		</xs:sequence>
 	</xs:complexType>
 
@@ -70,14 +70,14 @@
 		<xs:sequence>
 			<xs:element name="genomeAnnotationSource" type="xs:string" />
 			<xs:element name="genomeAnnotationUrl" type="xs:string"
-						minOccurs="0" />
+				minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="annotationScoreType">
-		<xs:sequence/>
+		<xs:sequence />
 		<xs:attribute name="normalizedAnnotationScore"
-					  type="xs:int" use="required" />
+			type="xs:int" use="required" />
 	</xs:complexType>
 
 	<xs:complexType name="redundantProteomeType">
@@ -86,23 +86,23 @@
 				Describes redundant proteome
 			</xs:documentation>
 		</xs:annotation>
-		<xs:sequence/>
+		<xs:sequence />
 		<xs:attribute name="upid" type="xs:string" use="required" />
 		<xs:attribute name="similarity" type="xs:string"
-					  use="required" />
+			use="required" />
 	</xs:complexType>
 
 
 	<xs:complexType name="componentType">
 		<xs:sequence>
 			<xs:element name="description" type="xs:string"
-						minOccurs="0" />
+				minOccurs="0" />
 			<xs:element name="biosampleId" type="xs:string"
-						minOccurs="0" />
+				minOccurs="0" />
 			<xs:element name="genomeAccession" type="xs:string"
-						minOccurs="0" maxOccurs="unbounded" />
+				minOccurs="0" maxOccurs="unbounded" />
 			<xs:element name="genomeAnnotation"
-						type="genomeAnnotationType" minOccurs="0" />
+				type="genomeAnnotationType" minOccurs="0" />
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required" />
 		<xs:attribute name="proteinCount" type="xs:int" />
@@ -131,13 +131,13 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="authorList" type="nameListType"
-						minOccurs="0">
+				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Describes the authors of a citation.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="dbReference" type="dbReferenceType"
-						minOccurs="0" maxOccurs="unbounded">
+				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Describes cross-references to bibliography
 						databases (MEDLINE, PubMed, AGRICOLA) or other online resources
@@ -202,12 +202,12 @@
 			<xs:documentation>Describes the authors of a citation when these are
 				represented by a consortium.</xs:documentation>
 		</xs:annotation>
-		<xs:sequence/>
+		<xs:sequence />
 		<xs:attribute name="name" type="xs:string" use="required" />
 	</xs:complexType>
 
 	<xs:complexType name="personType">
-		<xs:sequence/>
+		<xs:sequence />
 		<xs:attribute name="name" type="xs:string" use="required" />
 	</xs:complexType>
 	<!-- Citation definition ends -->
@@ -217,7 +217,7 @@
 		<xs:annotation>
 			<xs:documentation>Describes a database cross-reference.</xs:documentation>
 		</xs:annotation>
-		<xs:sequence/>
+		<xs:sequence />
 		<xs:attribute name="type" type="xs:string" use="required">
 			<xs:annotation>
 				<xs:documentation>Describes the name of the database.</xs:documentation>
@@ -233,22 +233,22 @@
 	<xs:complexType name="exclusionType">
 		<xs:sequence>
 			<xs:element name="exclusionReason" type="xs:string"
-						maxOccurs="unbounded" />
+				maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="scoreType">
 		<xs:sequence>
 			<xs:element name="property" type="scorePropertyType"
-						minOccurs="0" maxOccurs="unbounded" />
+				minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required" />
 	</xs:complexType>
 
 	<xs:complexType name="scorePropertyType">
-		<xs:sequence/>
+		<xs:sequence />
 		<xs:attribute name="name" type="xs:string" use="required" />
 		<xs:attribute name="value" type="xs:string"
-					  use="required" />
+			use="required" />
 	</xs:complexType>
 </xs:schema>
