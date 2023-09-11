@@ -225,6 +225,12 @@
 			<version>${metrics.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.aayushatharva.brotli4j</groupId>
+			<artifactId>brotli4j</artifactId>
+			<version>1.12.0</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/com.github.jbellis/jamm -->
 		<dependency>
 			<groupId>com.github.jbellis</groupId>

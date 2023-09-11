@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 
+import com.aayushatharva.brotli4j.Brotli4jLoader;
+import com.aayushatharva.brotli4j.decoder.Decoder;
+import com.aayushatharva.brotli4j.decoder.DecoderJNI;
+import com.aayushatharva.brotli4j.decoder.DirectDecompress;
+import com.aayushatharva.brotli4j.encoder.Encoder;
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
 
@@ -40,6 +45,7 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
 
     public VoldemortRemoteJsonBinaryStore(String storeName, String... voldemortUrl) {
         this(DEFAULT_MAX_CONNECTION, storeName, voldemortUrl);
+        Brotli4jLoader.ensureAvailability();
     }
 
     @Inject
@@ -182,8 +188,15 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
 
     private T getEntryFromBinary(Versioned<byte[]> entryObjectVersioned) {
         try {
-            return getStoreObjectMapper()
-                    .readValue(entryObjectVersioned.getValue(), getEntryClass());
+            DirectDecompress directDecompress = Decoder.decompress(entryObjectVersioned.getValue());
+
+            if(directDecompress.getResultStatus() == DecoderJNI.Status.DONE) {
+                return getStoreObjectMapper()
+                        .readValue(directDecompress.getDecompressedData(), getEntryClass());
+            }
+
+            throw new IOException("Unable to decompress the entry");
+
         } catch (IOException e) {
             throw new RetrievalException("Error getting entry from BDB store.", e);
         }
@@ -196,9 +209,12 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         byte[] binaryEntry;
         try {
             binaryEntry = getStoreObjectMapper().writeValueAsBytes(entry);
-            client.put(acc, binaryEntry);
+            byte[] compressed = Encoder.compress(binaryEntry, new Encoder.Parameters().setQuality(9));
+            client.put(acc, compressed);
         } catch (JsonProcessingException e) {
             throw new RetrievalException("Unable to parse entry to binary json: ", e);
+        } catch (IOException ioe) {
+            throw new RetrievalException("Unable to compress entry with id " + acc, ioe);
         }
         time.stop();
     }
