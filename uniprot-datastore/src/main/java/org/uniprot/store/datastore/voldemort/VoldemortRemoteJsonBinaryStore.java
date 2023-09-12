@@ -51,6 +51,7 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
     @Inject
     public VoldemortRemoteJsonBinaryStore(
             int maxConnection, String storeName, String... voldemortUrl) {
+        Brotli4jLoader.ensureAvailability();
         this.storeName = storeName;
 
         Properties properties = getVoldemortProperties(maxConnection);
