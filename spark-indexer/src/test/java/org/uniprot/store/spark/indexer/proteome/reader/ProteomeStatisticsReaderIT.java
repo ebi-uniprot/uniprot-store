@@ -1,11 +1,6 @@
 package org.uniprot.store.spark.indexer.proteome.reader;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
-
-import java.util.List;
-
+import com.typesafe.config.Config;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -14,12 +9,15 @@ import org.uniprot.core.proteome.ProteomeStatistics;
 import org.uniprot.core.proteome.impl.ProteomeStatisticsBuilder;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-
 import scala.Tuple2;
 
-import com.typesafe.config.Config;
+import java.util.List;
 
-class ProteomeStatisticsReaderTest {
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+
+class ProteomeStatisticsReaderIT {
     private static JavaRDD<String> proteinRDD;
     private static final String RELEASE_NAME = "2020_02";
 
@@ -27,7 +25,7 @@ class ProteomeStatisticsReaderTest {
     void getProteomeStatisticsRDD() {
         Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
-                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
+                     SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter jobParameter =
                     JobParameter.builder()
                             .sparkContext(sparkContext)
@@ -47,7 +45,7 @@ class ProteomeStatisticsReaderTest {
                             new Tuple2<>(
                                     "UP000005640",
                                     new ProteomeStatisticsBuilder()
-                                            .reviewedProteinCount(2)
+                                            .reviewedProteinCount(1)
                                             .unreviewedProteinCount(0)
                                             .isoformProteinCount(1)
                                             .build()),

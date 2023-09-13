@@ -13,7 +13,7 @@ import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.proteome.converter.DatasetProteomeEntryConverter;
-import org.uniprot.store.spark.indexer.proteome.mapper.ProteomEntryToPair;
+import org.uniprot.store.spark.indexer.proteome.mapper.ProteomeEntryToPair;
 
 import com.typesafe.config.Config;
 
@@ -43,7 +43,7 @@ public class ProteomeRDDReader implements PairRDDReader<String, ProteomeEntry> {
 
         return proteomeEntryDataset
                 .map(new DatasetProteomeEntryConverter())
-                .mapToPair(new ProteomEntryToPair());
+                .mapToPair(new ProteomeEntryToPair());
     }
 
     private Dataset<Row> loadRawXml() {
