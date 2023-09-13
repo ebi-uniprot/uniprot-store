@@ -1,13 +1,12 @@
 package org.uniprot.store.spark.indexer.proteome;
 
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.proteome.ProteomeStatistics;
+import org.uniprot.core.proteome.impl.ProteomeEntryBuilder;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
@@ -15,12 +14,12 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.proteome.mapper.ProteomeEntryToProteomeDocumentMapper;
-import org.uniprot.store.spark.indexer.proteome.mapper.StatisticsToProteomeDocumentMapper;
-import org.uniprot.store.spark.indexer.proteome.mapper.TaxonomyToProteomeDocumentMapper;
+import org.uniprot.store.spark.indexer.proteome.mapper.ProteomeStatisticsToProteomeEntryMapper;
 import org.uniprot.store.spark.indexer.proteome.reader.ProteomeStatisticsReader;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
-
 import scala.Tuple2;
+
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
 public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
     private final JobParameter jobParameter;
@@ -37,52 +36,38 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
     @Override
     public void writeIndexDocumentsToHPS() {
-        JavaPairRDD<String, ProteomeDocument> idProteomeDocumentJavaPairRDD =
-                loadProteomeRDD().mapValues(getEntryToProteomeDocumentMapper());
-
-        idProteomeDocumentJavaPairRDD = joinStatistics(idProteomeDocumentJavaPairRDD);
-        idProteomeDocumentJavaPairRDD = joinTaxonomy(idProteomeDocumentJavaPairRDD);
+        JavaPairRDD<String, ProteomeEntry> proteomeIdProteomeEntryJavaPairRDD = loadProteomeRDD();
+        proteomeIdProteomeEntryJavaPairRDD = joinStatistics(proteomeIdProteomeEntryJavaPairRDD);
+        proteomeIdProteomeEntryJavaPairRDD = joinTaxonomy(proteomeIdProteomeEntryJavaPairRDD);
+        JavaPairRDD<String, ProteomeDocument> idProteomeDocumentJavaPairRDD = proteomeIdProteomeEntryJavaPairRDD.mapValues(getProteomeEntryToProteomeDocumentMapper());
 
         saveToHPS(idProteomeDocumentJavaPairRDD.values());
     }
 
-    private JavaPairRDD<String, ProteomeDocument> joinTaxonomy(
-            JavaPairRDD<String, ProteomeDocument> proteomeIdProteomeDocumentJavaPairRDD) {
+    private JavaPairRDD<String, ProteomeEntry> joinTaxonomy(JavaPairRDD<String, ProteomeEntry> proteomeIdProteomeEntryJavaPairRDD) {
         // <organismId, proteomeId>
-        JavaPairRDD<String, String> taxIdProteomeIdJavaRDD =
-                JavaPairRDD.fromJavaRDD(
-                        proteomeIdProteomeDocumentJavaPairRDD.map(
-                                kv -> new Tuple2<>(String.valueOf(kv._2.organismTaxId), kv._1)));
+        JavaPairRDD<String, String> taxIdProteomeIdJavaRDD = proteomeIdProteomeEntryJavaPairRDD
+                .mapToPair(proteomeIdProteomeDocumentTuple2 -> new Tuple2<>(String.valueOf(proteomeIdProteomeDocumentTuple2._2.getTaxonomy().getTaxonId()), proteomeIdProteomeDocumentTuple2._1));
         // <taxId, taxEntry>
         JavaPairRDD<String, TaxonomyEntry> taxIdTaxEntryRDD = getTaxonomyRDD();
-
         // <proteomeId, taxonEntry>
-        JavaPairRDD<String, TaxonomyEntry> proteomeIdTaxEntryJavaRDD =
-                JavaPairRDD.fromJavaRDD(taxIdProteomeIdJavaRDD.join(taxIdTaxEntryRDD).values());
-
-        return proteomeIdProteomeDocumentJavaPairRDD
-                .leftOuterJoin(proteomeIdTaxEntryJavaRDD)
-                .mapValues(getTaxonomyToProteomeDocumentMapper());
+        JavaPairRDD<String, TaxonomyEntry> proteomeIdTaxonomyEntryJavaPairRDD = taxIdProteomeIdJavaRDD.join(taxIdTaxEntryRDD).mapToPair(Tuple2::_2);
+        return proteomeIdProteomeEntryJavaPairRDD
+                .join(proteomeIdTaxonomyEntryJavaPairRDD)
+                .mapValues(v1 -> ProteomeEntryBuilder.from(v1._1).taxonomy(v1._2).build());
     }
 
-    private JavaPairRDD<String, ProteomeDocument> joinStatistics(
-            JavaPairRDD<String, ProteomeDocument> idProteomeDocumentJavaPairRDD) {
-        return idProteomeDocumentJavaPairRDD
-                .leftOuterJoin(getProteomeStatisticsRDD())
-                .mapValues(getStatisticsToProteomeDocumentMapper());
+    private JavaPairRDD<String, ProteomeEntry> joinStatistics(JavaPairRDD<String, ProteomeEntry> proteomeIdProteomeEntryJavaPairRDD) {
+        return proteomeIdProteomeEntryJavaPairRDD // <proteomeId, proteomeEntry>
+                .leftOuterJoin(getProteomeStatisticsRDD()) // <proteomeId, proteomeStatistics>
+                .mapValues(getProteomeStatisticsToProteomeEntryMapper());
     }
 
-    Function<Tuple2<ProteomeDocument, Optional<TaxonomyEntry>>, ProteomeDocument>
-            getTaxonomyToProteomeDocumentMapper() {
-        return new TaxonomyToProteomeDocumentMapper();
+    Function<Tuple2<ProteomeEntry, Optional<ProteomeStatistics>>, ProteomeEntry> getProteomeStatisticsToProteomeEntryMapper() {
+        return new ProteomeStatisticsToProteomeEntryMapper();
     }
 
-    Function<Tuple2<ProteomeDocument, Optional<ProteomeStatistics>>, ProteomeDocument>
-            getStatisticsToProteomeDocumentMapper() {
-        return new StatisticsToProteomeDocumentMapper();
-    }
-
-    Function<ProteomeEntry, ProteomeDocument> getEntryToProteomeDocumentMapper() {
+    Function<ProteomeEntry, ProteomeDocument> getProteomeEntryToProteomeDocumentMapper() {
         return new ProteomeEntryToProteomeDocumentMapper();
     }
 

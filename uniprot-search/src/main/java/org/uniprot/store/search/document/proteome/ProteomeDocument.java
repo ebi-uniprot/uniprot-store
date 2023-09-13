@@ -1,11 +1,11 @@
 package org.uniprot.store.search.document.proteome;
 
+import org.apache.solr.client.solrj.beans.Field;
+import org.uniprot.store.search.document.Document;
+
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.solr.client.solrj.beans.Field;
-import org.uniprot.store.search.document.Document;
 
 public class ProteomeDocument implements Document {
 
@@ -67,15 +67,6 @@ public class ProteomeDocument implements Document {
 
     @Field("protein_count")
     public int proteinCount;
-
-    @Field("reviewed_protein_count")
-    public long reviewedProteinCount;
-
-    @Field("unreviewed_protein_count")
-    public long unreviewedProteinCount;
-
-    @Field("isoform_protein_count")
-    public long isoformProteinCount;
 
     @Override
     public String getDocumentId() {
