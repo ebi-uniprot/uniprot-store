@@ -39,7 +39,8 @@ public class ProteomeStatisticsReader {
         return new ProteomeStatisticsMapper();
     }
 
-    Function2<ProteomeStatistics, ProteomeStatistics, ProteomeStatistics> getProteomeStatisticsAggregationMapper() {
+    Function2<ProteomeStatistics, ProteomeStatistics, ProteomeStatistics>
+            getProteomeStatisticsAggregationMapper() {
         return new ProteomeStatisticsAggregationMapper();
     }
 }

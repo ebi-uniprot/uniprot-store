@@ -1,6 +1,16 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.core.proteome.CPDStatus.STANDARD;
+import static org.uniprot.core.proteome.ProteomeType.*;
+
+import java.nio.ByteBuffer;
+import java.util.List;
+
 import lombok.Data;
+
 import org.apache.commons.lang.SerializationUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,15 +21,6 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
-
-import java.nio.ByteBuffer;
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.core.proteome.CPDStatus.STANDARD;
-import static org.uniprot.core.proteome.ProteomeType.*;
 
 class ProteomeEntryToProteomeDocumentMapperTest {
 
@@ -101,7 +102,10 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                     .proteinCount(PROTEIN_COUNT_1)
                     .build();
     private static final Component COMPONENT_2 =
-            new ComponentBuilder().name(COMPONENT_NAME_2).genomeAnnotation(GENOMIC_ANNOTATION_2).build();
+            new ComponentBuilder()
+                    .name(COMPONENT_NAME_2)
+                    .genomeAnnotation(GENOMIC_ANNOTATION_2)
+                    .build();
     private static final BuscoReport BUSCO_REPORT =
             new BuscoReportBuilder().complete(BUSCO_COMPLETE).total(BUSCO_TOTAL).build();
     private static final CPDReport CPD_REPORT = new CPDReportBuilder().status(cPDStatus).build();
@@ -141,14 +145,16 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                 proteomeDocument,
                 new ProteomeTypeInfo(2, false, false, false),
                 List.of(GENOME_ASSEMBLY_ID),
-                (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL, proteomeEntry);
+                (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
+                proteomeEntry);
     }
 
     private void assertProteomeDocument(
             ProteomeDocument proteomeDocument,
             ProteomeTypeInfo proteomeTypeInfo,
             List<String> genomeAssembly,
-            float busco, ProteomeEntry proteomeEntry) {
+            float busco,
+            ProteomeEntry proteomeEntry) {
         assertSame(ID, proteomeDocument.upid);
         assertEquals(TAXON_ID_1, proteomeDocument.organismTaxId);
         assertSame(STRAIN, proteomeDocument.strain);
@@ -165,17 +171,23 @@ class ProteomeEntryToProteomeDocumentMapperTest {
         assertEquals(proteomeTypeInfo.isExcluded, proteomeDocument.isExcluded);
         assertEquals(proteomeTypeInfo.isRedundant, proteomeDocument.isRedundant);
         assertEquals(SCIENTIFIC_NAME_1 + SPACE + COMMON_NAME_1 + SY, proteomeDocument.organismSort);
-        assertThat(proteomeDocument.organismName, contains(SCIENTIFIC_NAME_1, COMMON_NAME_1, SYNONYM_1, MNEMONIC_1));
-        assertThat(proteomeDocument.organismTaxon, contains(
-                SCIENTIFIC_NAME_1,
-                COMMON_NAME_1,
-                SYNONYM_1,
-                MNEMONIC_1,
-                SCIENTIFIC_NAME_0,
-                COMMON_NAME_0));
+        assertThat(
+                proteomeDocument.organismName,
+                contains(SCIENTIFIC_NAME_1, COMMON_NAME_1, SYNONYM_1, MNEMONIC_1));
+        assertThat(
+                proteomeDocument.organismTaxon,
+                contains(
+                        SCIENTIFIC_NAME_1,
+                        COMMON_NAME_1,
+                        SYNONYM_1,
+                        MNEMONIC_1,
+                        SCIENTIFIC_NAME_0,
+                        COMMON_NAME_0));
         assertThat(proteomeDocument.taxLineageIds, contains((int) TAXON_ID_1, (int) TAXON_ID_0));
         assertEquals(SCIENTIFIC_NAME_0, proteomeDocument.superkingdom);
-        assertEquals(ByteBuffer.wrap(SerializationUtils.serialize(proteomeEntry)), proteomeDocument.proteomeStored);
+        assertEquals(
+                ByteBuffer.wrap(SerializationUtils.serialize(proteomeEntry)),
+                proteomeDocument.proteomeStored);
     }
 
     @Test
@@ -196,7 +208,8 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                 proteomeDocument,
                 new ProteomeTypeInfo(2, false, false, false),
                 List.of(GENOME_ASSEMBLY_ID),
-                0f, proteomeEntry);
+                0f,
+                proteomeEntry);
     }
 
     @Test
@@ -210,7 +223,8 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                 proteomeDocument,
                 new ProteomeTypeInfo(2, false, false, false),
                 List.of(),
-                (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL, proteomeEntry);
+                (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
+                proteomeEntry);
     }
 
     @Test
@@ -224,7 +238,8 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                 proteomeDocument,
                 new ProteomeTypeInfo(1, true, false, false),
                 List.of(GENOME_ASSEMBLY_ID),
-                (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL, proteomeEntry);
+                (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
+                proteomeEntry);
     }
 
     @Test
@@ -238,7 +253,8 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                 proteomeDocument,
                 new ProteomeTypeInfo(1, true, false, false),
                 List.of(GENOME_ASSEMBLY_ID),
-                (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL, proteomeEntry);
+                (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
+                proteomeEntry);
     }
 
     @Test
@@ -253,7 +269,8 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                 proteomeDocument,
                 new ProteomeTypeInfo(1, true, false, false),
                 List.of(GENOME_ASSEMBLY_ID),
-                (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL, proteomeEntry);
+                (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
+                proteomeEntry);
     }
 
     @Test
@@ -267,7 +284,8 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                 proteomeDocument,
                 new ProteomeTypeInfo(4, false, true, false),
                 List.of(GENOME_ASSEMBLY_ID),
-                (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL, proteomeEntry);
+                (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
+                proteomeEntry);
     }
 
     @Test
@@ -281,16 +299,20 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                 proteomeDocument,
                 new ProteomeTypeInfo(3, false, false, true),
                 List.of(GENOME_ASSEMBLY_ID),
-                (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL, proteomeEntry);
+                (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
+                proteomeEntry);
     }
 
     @Test
     void call_whenOrganismHasNoLineage() throws Exception {
         ProteomeEntry proteomeEntry = proteomeEntryBuilder.taxonomy(TAX_ENTRY_0).build();
 
-        ProteomeDocument proteomeDocumentResult = proteomeEntryToProteomeDocumentMapper.call(proteomeEntry);
+        ProteomeDocument proteomeDocumentResult =
+                proteomeEntryToProteomeDocumentMapper.call(proteomeEntry);
 
-        assertEquals(SCIENTIFIC_NAME_0 + SPACE + COMMON_NAME_0 + SPACE + SYNONYM_0 + M, proteomeDocumentResult.organismSort);
+        assertEquals(
+                SCIENTIFIC_NAME_0 + SPACE + COMMON_NAME_0 + SPACE + SYNONYM_0 + M,
+                proteomeDocumentResult.organismSort);
         assertThat(
                 proteomeDocumentResult.organismName,
                 contains(SCIENTIFIC_NAME_0, COMMON_NAME_0, SYNONYM_0, MNEMONIC_0));

@@ -1,46 +1,70 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.proteome.ProteomeStatistics;
-import org.uniprot.core.proteome.impl.ProteomeStatisticsBuilder;
-import scala.Tuple2;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.proteome.ProteomeStatistics;
+import org.uniprot.core.proteome.impl.ProteomeStatisticsBuilder;
+
+import scala.Tuple2;
 
 class ProteomeStatisticsMapperTest {
-    private final ProteomeStatisticsMapper proteomeStatisticsMapper = new ProteomeStatisticsMapper();
+    private final ProteomeStatisticsMapper proteomeStatisticsMapper =
+            new ProteomeStatisticsMapper();
 
     @Test
     void call_singleIsoform() {
-        Iterator<Tuple2<String, ProteomeStatistics>> iterator = proteomeStatisticsMapper.call(getIsoformProtein());
+        Iterator<Tuple2<String, ProteomeStatistics>> iterator =
+                proteomeStatisticsMapper.call(getIsoformProtein());
         List<Tuple2<String, ProteomeStatistics>> result = new LinkedList<>();
         iterator.forEachRemaining(result::add);
 
-        assertThat(result, contains(new Tuple2<>("UP000005640", new ProteomeStatisticsBuilder().isoformProteinCount(1).build())));
+        assertThat(
+                result,
+                contains(
+                        new Tuple2<>(
+                                "UP000005640",
+                                new ProteomeStatisticsBuilder().isoformProteinCount(1).build())));
     }
 
     @Test
     void call_multipleProteomes() {
-        Iterator<Tuple2<String, ProteomeStatistics>> iterator = proteomeStatisticsMapper.call(getProteinWithTwoProteomes());
+        Iterator<Tuple2<String, ProteomeStatistics>> iterator =
+                proteomeStatisticsMapper.call(getProteinWithTwoProteomes());
         List<Tuple2<String, ProteomeStatistics>> result = new LinkedList<>();
         iterator.forEachRemaining(result::add);
 
-        assertThat(result, contains(new Tuple2<>("UP000005640", new ProteomeStatisticsBuilder().reviewedProteinCount(1).build()),
-                new Tuple2<>("UP000005641", new ProteomeStatisticsBuilder().reviewedProteinCount(1).build())));
+        assertThat(
+                result,
+                contains(
+                        new Tuple2<>(
+                                "UP000005640",
+                                new ProteomeStatisticsBuilder().reviewedProteinCount(1).build()),
+                        new Tuple2<>(
+                                "UP000005641",
+                                new ProteomeStatisticsBuilder().reviewedProteinCount(1).build())));
     }
 
     @Test
     void call_singleUnreviewedProtein() {
-        Iterator<Tuple2<String, ProteomeStatistics>> iterator = proteomeStatisticsMapper.call(getUnreviewedProtein());
+        Iterator<Tuple2<String, ProteomeStatistics>> iterator =
+                proteomeStatisticsMapper.call(getUnreviewedProtein());
         List<Tuple2<String, ProteomeStatistics>> result = new LinkedList<>();
         iterator.forEachRemaining(result::add);
 
-        assertThat(result, contains(new Tuple2<>("UP000005642", new ProteomeStatisticsBuilder().unreviewedProteinCount(1).build())));
+        assertThat(
+                result,
+                contains(
+                        new Tuple2<>(
+                                "UP000005642",
+                                new ProteomeStatisticsBuilder()
+                                        .unreviewedProteinCount(1)
+                                        .build())));
     }
 
     private static String getUnreviewedProtein() {

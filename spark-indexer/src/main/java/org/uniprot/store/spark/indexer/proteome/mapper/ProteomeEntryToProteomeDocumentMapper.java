@@ -1,13 +1,7 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.SerializationUtils;
-import org.apache.spark.api.java.function.Function;
-import org.uniprot.core.proteome.*;
-import org.uniprot.core.taxonomy.TaxonomyEntry;
-import org.uniprot.core.taxonomy.TaxonomyLineage;
-import org.uniprot.core.util.Utils;
-import org.uniprot.store.search.document.proteome.ProteomeDocument;
+import static org.uniprot.core.util.Utils.notNull;
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.truncatedSortValue;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -15,8 +9,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.uniprot.core.util.Utils.notNull;
-import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.truncatedSortValue;
+import lombok.extern.slf4j.Slf4j;
+
+import org.apache.commons.lang.SerializationUtils;
+import org.apache.spark.api.java.function.Function;
+import org.uniprot.core.proteome.*;
+import org.uniprot.core.taxonomy.TaxonomyEntry;
+import org.uniprot.core.taxonomy.TaxonomyLineage;
+import org.uniprot.core.util.Utils;
+import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
 @Slf4j
 public class ProteomeEntryToProteomeDocumentMapper
