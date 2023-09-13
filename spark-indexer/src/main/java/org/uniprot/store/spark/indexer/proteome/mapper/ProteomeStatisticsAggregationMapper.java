@@ -4,11 +4,14 @@ import org.apache.spark.api.java.function.Function2;
 import org.uniprot.core.proteome.ProteomeStatistics;
 import org.uniprot.core.proteome.impl.ProteomeStatisticsBuilder;
 
-public class ProteomeStatisticsAggregationMapper implements Function2<ProteomeStatistics, ProteomeStatistics, ProteomeStatistics> {
+public class ProteomeStatisticsAggregationMapper
+        implements Function2<ProteomeStatistics, ProteomeStatistics, ProteomeStatistics> {
     private static final long serialVersionUID = 3452201288759365796L;
 
     @Override
-    public ProteomeStatistics call(ProteomeStatistics proteomeStatistics1, ProteomeStatistics proteomeStatistics2) throws Exception {
+    public ProteomeStatistics call(
+            ProteomeStatistics proteomeStatistics1, ProteomeStatistics proteomeStatistics2)
+            throws Exception {
         return new ProteomeStatisticsBuilder()
                 .reviewedProteinCount(
                         proteomeStatistics1.getReviewedProteinCount()
