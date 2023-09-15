@@ -4,11 +4,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 
-import com.aayushatharva.brotli4j.Brotli4jLoader;
-import com.aayushatharva.brotli4j.decoder.Decoder;
-import com.aayushatharva.brotli4j.decoder.DecoderJNI;
-import com.aayushatharva.brotli4j.decoder.DirectDecompress;
-import com.aayushatharva.brotli4j.encoder.Encoder;
 import net.jodah.failsafe.Failsafe;
 import net.jodah.failsafe.RetryPolicy;
 
@@ -23,6 +18,11 @@ import voldemort.client.StoreClientFactory;
 import voldemort.versioning.ObsoleteVersionException;
 import voldemort.versioning.Versioned;
 
+import com.aayushatharva.brotli4j.Brotli4jLoader;
+import com.aayushatharva.brotli4j.decoder.Decoder;
+import com.aayushatharva.brotli4j.decoder.DecoderJNI;
+import com.aayushatharva.brotli4j.decoder.DirectDecompress;
+import com.aayushatharva.brotli4j.encoder.Encoder;
 import com.codahale.metrics.Timer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,6 +34,7 @@ import com.google.inject.Inject;
  */
 public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClient<T> {
 
+    public static final int BROTLI_COMPRESSION_LEVEL = 9;
     private static final Logger logger =
             LoggerFactory.getLogger(VoldemortRemoteJsonBinaryStore.class);
     private static final int DEFAULT_MAX_CONNECTION = 20;
@@ -45,12 +46,12 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
 
     public VoldemortRemoteJsonBinaryStore(String storeName, String... voldemortUrl) {
         this(DEFAULT_MAX_CONNECTION, storeName, voldemortUrl);
-        Brotli4jLoader.ensureAvailability();
     }
 
     @Inject
     public VoldemortRemoteJsonBinaryStore(
             int maxConnection, String storeName, String... voldemortUrl) {
+
         Brotli4jLoader.ensureAvailability();
         this.storeName = storeName;
 
@@ -191,7 +192,7 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         try {
             DirectDecompress directDecompress = Decoder.decompress(entryObjectVersioned.getValue());
 
-            if(directDecompress.getResultStatus() == DecoderJNI.Status.DONE) {
+            if (directDecompress.getResultStatus() == DecoderJNI.Status.DONE) {
                 return getStoreObjectMapper()
                         .readValue(directDecompress.getDecompressedData(), getEntryClass());
             }
@@ -210,7 +211,8 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         byte[] binaryEntry;
         try {
             binaryEntry = getStoreObjectMapper().writeValueAsBytes(entry);
-            byte[] compressed = Encoder.compress(binaryEntry, new Encoder.Parameters().setQuality(9));
+            byte[] compressed =
+                    Encoder.compress(binaryEntry, new Encoder.Parameters().setQuality(BROTLI_COMPRESSION_LEVEL));
             client.put(acc, compressed);
         } catch (JsonProcessingException e) {
             throw new RetrievalException("Unable to parse entry to binary json: ", e);

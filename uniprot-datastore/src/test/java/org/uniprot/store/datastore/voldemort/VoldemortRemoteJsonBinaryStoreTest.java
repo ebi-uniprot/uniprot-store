@@ -1,7 +1,9 @@
 package org.uniprot.store.datastore.voldemort;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.datastore.voldemort.VoldemortRemoteJsonBinaryStore.BROTLI_COMPRESSION_LEVEL;
 
+import java.io.IOException;
 import java.util.*;
 
 import org.junit.jupiter.api.Assertions;
@@ -22,6 +24,7 @@ import voldemort.cluster.failuredetector.FailureDetector;
 import voldemort.versioning.ObsoleteVersionException;
 import voldemort.versioning.Versioned;
 
+import com.aayushatharva.brotli4j.encoder.Encoder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -155,8 +158,7 @@ class VoldemortRemoteJsonBinaryStoreTest {
 
     @Test
     void getEntryValidAccession() throws Exception {
-        Versioned<byte[]> versioned =
-                new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
+        Versioned<byte[]> versioned = getKeywordEntry();
         Mockito.when(client.get(Mockito.anyString())).thenReturn(versioned);
         Optional<KeywordEntry> result = voldemort.getEntry(KEYWORD_ID);
         assertTrue(result.isPresent());
@@ -181,8 +183,7 @@ class VoldemortRemoteJsonBinaryStoreTest {
 
     @Test
     void getEntriesValidAccessions() throws Exception {
-        Versioned<byte[]> versioned =
-                new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
+        Versioned<byte[]> versioned = getKeywordEntry();
         Map<String, Versioned<byte[]>> entryMap = new HashMap<>();
         entryMap.put(KEYWORD_ID, versioned);
         Mockito.when(client.getAll(Mockito.anyIterable())).thenReturn(entryMap);
@@ -194,8 +195,7 @@ class VoldemortRemoteJsonBinaryStoreTest {
 
     @Test
     void getEntriesDoNotReturnInvalidAccessions() throws Exception {
-        Versioned<byte[]> versioned =
-                new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
+        Versioned<byte[]> versioned = getKeywordEntry();
         Map<String, Versioned<byte[]>> entryMap = new HashMap<>();
         entryMap.put(KEYWORD_ID, versioned);
         Mockito.when(client.getAll(Mockito.anyIterable())).thenReturn(entryMap);
@@ -208,8 +208,7 @@ class VoldemortRemoteJsonBinaryStoreTest {
 
     @Test
     void getEntryMapValidAccession() throws Exception {
-        Versioned<byte[]> versioned =
-                new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
+        Versioned<byte[]> versioned = getKeywordEntry();
         Map<String, Versioned<byte[]>> entryMap = new HashMap<>();
         entryMap.put(KEYWORD_ID, versioned);
         Mockito.when(client.getAll(Mockito.anyIterable())).thenReturn(entryMap);
@@ -223,8 +222,7 @@ class VoldemortRemoteJsonBinaryStoreTest {
 
     @Test
     void getEntryMapInvalidAccession() throws Exception {
-        Versioned<byte[]> versioned =
-                new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
+        Versioned<byte[]> versioned = getKeywordEntry();
         Map<String, Versioned<byte[]>> entryMap = new HashMap<>();
         entryMap.put(KEYWORD_ID, versioned);
         Mockito.when(client.getAll(Mockito.anyIterable())).thenReturn(entryMap);
@@ -247,6 +245,14 @@ class VoldemortRemoteJsonBinaryStoreTest {
     @Test
     void getStoreName() {
         assertEquals(STORE_NAME, voldemort.getStoreName());
+    }
+
+    private Versioned<byte[]> getKeywordEntry() throws IOException {
+        byte[] binaryEntry = voldemort.getStoreObjectMapper().writeValueAsBytes(entry);
+        byte[] compressedEntry =
+                Encoder.compress(
+                        binaryEntry, new Encoder.Parameters().setQuality(BROTLI_COMPRESSION_LEVEL));
+        return new Versioned<>(compressedEntry);
     }
 
     private class FakeVoldemortRemoteJsonBinaryStore
