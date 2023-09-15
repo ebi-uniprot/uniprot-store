@@ -212,7 +212,9 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         try {
             binaryEntry = getStoreObjectMapper().writeValueAsBytes(entry);
             byte[] compressed =
-                    Encoder.compress(binaryEntry, new Encoder.Parameters().setQuality(BROTLI_COMPRESSION_LEVEL));
+                    Encoder.compress(
+                            binaryEntry,
+                            new Encoder.Parameters().setQuality(BROTLI_COMPRESSION_LEVEL));
             client.put(acc, compressed);
         } catch (JsonProcessingException e) {
             throw new RetrievalException("Unable to parse entry to binary json: ", e);
