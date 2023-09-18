@@ -20,4 +20,8 @@ public class DataStoreParameter implements Serializable {
     private final String connectionURL;
     private final long delay;
     private final int maxRetry;
+
+    private final boolean brotliEnabled;
+
+    private final int brotliLevel;
 }

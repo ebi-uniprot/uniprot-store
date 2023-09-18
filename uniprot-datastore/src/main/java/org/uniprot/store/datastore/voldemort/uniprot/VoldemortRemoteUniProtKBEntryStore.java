@@ -32,6 +32,15 @@ public class VoldemortRemoteUniProtKBEntryStore
         super(maxConnection, storeName, voldemortUrl);
     }
 
+    public VoldemortRemoteUniProtKBEntryStore(
+            int maxConnection,
+            boolean brotliEnabled,
+            int brotliLevel,
+            String storeName,
+            String... voldemortUrl) {
+        super(maxConnection, brotliEnabled, brotliLevel, storeName, voldemortUrl);
+    }
+
     @Override
     public String getStoreId(UniProtKBEntry entry) {
         return entry.getPrimaryAccession().getValue();

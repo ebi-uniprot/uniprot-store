@@ -22,6 +22,8 @@ public class UniProtKBDataStoreWriter extends AbstractDataStoreWriter<UniProtKBE
     protected VoldemortClient<UniProtKBEntry> getDataStoreClient() {
         return new VoldemortRemoteUniProtKBEntryStore(
                 parameter.getNumberOfConnections(),
+                parameter.isBrotliEnabled(),
+                parameter.getBrotliLevel(),
                 parameter.getStoreName(),
                 parameter.getConnectionURL());
     }

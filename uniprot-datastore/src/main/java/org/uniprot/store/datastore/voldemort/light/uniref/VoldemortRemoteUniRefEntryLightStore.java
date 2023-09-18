@@ -18,6 +18,15 @@ public class VoldemortRemoteUniRefEntryLightStore
         super(maxConnection, storeName, voldemortUrl);
     }
 
+    public VoldemortRemoteUniRefEntryLightStore(
+            int maxConnection,
+            boolean brotliEnabled,
+            int brotliLevel,
+            String storeName,
+            String... voldemortUrl) {
+        super(maxConnection, brotliEnabled, brotliLevel, storeName, voldemortUrl);
+    }
+
     @Override
     public String getStoreId(UniRefEntryLight entry) {
         return entry.getId().getValue();

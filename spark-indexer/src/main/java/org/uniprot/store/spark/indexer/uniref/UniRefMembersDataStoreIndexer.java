@@ -103,6 +103,8 @@ public class UniRefMembersDataStoreIndexer implements DataStoreIndexer {
                 .numberOfConnections(Integer.parseInt(numberOfConnections))
                 .maxRetry(Integer.parseInt(maxRetry))
                 .delay(Long.parseLong(delay))
+                .brotliEnabled(config.getBoolean("brotli.compression.enabled"))
+                .brotliLevel(config.getInt("brotli.compression.level"))
                 .build();
     }
 
