@@ -34,25 +34,55 @@ import com.google.inject.Inject;
  */
 public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClient<T> {
 
-    public static final int BROTLI_COMPRESSION_LEVEL = 11;
+    public static final int DEFAULT_BROTLI_COMPRESSION_LEVEL = 9;
+    public static final boolean BROTLI_ENABLED = true;
     private static final Logger logger =
             LoggerFactory.getLogger(VoldemortRemoteJsonBinaryStore.class);
-    private static final int DEFAULT_MAX_CONNECTION = 20;
+    static final int DEFAULT_MAX_CONNECTION = 20;
     private static final String TIME_OUT_MILLIS = "60000";
     private final StoreClient<String, byte[]> client;
     private final StoreClientFactory factory;
     private final RetryPolicy<Object> retryPolicy;
     private final String storeName;
+    private final int brotliLevel;
+    private final boolean brotliEnabled;
 
     public VoldemortRemoteJsonBinaryStore(String storeName, String... voldemortUrl) {
-        this(DEFAULT_MAX_CONNECTION, storeName, voldemortUrl);
+        this(
+                DEFAULT_MAX_CONNECTION,
+                BROTLI_ENABLED,
+                DEFAULT_BROTLI_COMPRESSION_LEVEL,
+                storeName,
+                voldemortUrl);
     }
 
     @Inject
     public VoldemortRemoteJsonBinaryStore(
             int maxConnection, String storeName, String... voldemortUrl) {
+        this(maxConnection, BROTLI_ENABLED, DEFAULT_BROTLI_COMPRESSION_LEVEL, storeName, voldemortUrl);
+    }
 
-        Brotli4jLoader.ensureAvailability();
+    @Inject
+    public VoldemortRemoteJsonBinaryStore(
+            int maxConnection, boolean brotliEnabled, String storeName, String... voldemortUrl) {
+        this(maxConnection, brotliEnabled, DEFAULT_BROTLI_COMPRESSION_LEVEL, storeName, voldemortUrl);
+    }
+
+    @Inject
+    public VoldemortRemoteJsonBinaryStore(
+            int maxConnection,
+            boolean brotliEnabled,
+            int brotliLevel,
+            String storeName,
+            String... voldemortUrl) {
+
+        if (brotliEnabled) {
+            Brotli4jLoader.ensureAvailability();
+        }
+
+        this.brotliEnabled = brotliEnabled;
+
+        this.brotliLevel = brotliLevel;
         this.storeName = storeName;
 
         Properties properties = getVoldemortProperties(maxConnection);
@@ -190,14 +220,19 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
 
     private T getEntryFromBinary(Versioned<byte[]> entryObjectVersioned) {
         try {
-            DirectDecompress directDecompress = Decoder.decompress(entryObjectVersioned.getValue());
+            if (this.brotliEnabled) {
+                DirectDecompress directDecompress =
+                        Decoder.decompress(entryObjectVersioned.getValue());
 
-            if (directDecompress.getResultStatus() == DecoderJNI.Status.DONE) {
+                if (directDecompress.getResultStatus() == DecoderJNI.Status.DONE) {
+                    return getStoreObjectMapper()
+                            .readValue(directDecompress.getDecompressedData(), getEntryClass());
+                }
+                throw new IOException("Unable to decompress the entry");
+            } else {
                 return getStoreObjectMapper()
-                        .readValue(directDecompress.getDecompressedData(), getEntryClass());
+                        .readValue(entryObjectVersioned.getValue(), getEntryClass());
             }
-
-            throw new IOException("Unable to decompress the entry");
 
         } catch (IOException e) {
             throw new RetrievalException("Error getting entry from BDB store.", e);
@@ -211,11 +246,14 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         byte[] binaryEntry;
         try {
             binaryEntry = getStoreObjectMapper().writeValueAsBytes(entry);
-            byte[] compressed =
-                    Encoder.compress(
-                            binaryEntry,
-                            new Encoder.Parameters().setQuality(BROTLI_COMPRESSION_LEVEL));
-            client.put(acc, compressed);
+            if (this.brotliEnabled) {
+                byte[] compressed =
+                        Encoder.compress(
+                                binaryEntry, new Encoder.Parameters().setQuality(this.brotliLevel));
+                client.put(acc, compressed);
+            } else {
+                client.put(acc, binaryEntry);
+            }
         } catch (JsonProcessingException e) {
             throw new RetrievalException("Unable to parse entry to binary json: ", e);
         } catch (IOException ioe) {

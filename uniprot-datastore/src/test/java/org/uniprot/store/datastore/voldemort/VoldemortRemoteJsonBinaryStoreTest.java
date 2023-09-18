@@ -1,7 +1,7 @@
 package org.uniprot.store.datastore.voldemort;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.store.datastore.voldemort.VoldemortRemoteJsonBinaryStore.BROTLI_COMPRESSION_LEVEL;
+import static org.uniprot.store.datastore.voldemort.VoldemortRemoteJsonBinaryStore.DEFAULT_BROTLI_COMPRESSION_LEVEL;
 
 import java.io.IOException;
 import java.util.*;
@@ -25,6 +25,7 @@ import voldemort.versioning.ObsoleteVersionException;
 import voldemort.versioning.Versioned;
 
 import com.aayushatharva.brotli4j.encoder.Encoder;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -247,11 +248,24 @@ class VoldemortRemoteJsonBinaryStoreTest {
         assertEquals(STORE_NAME, voldemort.getStoreName());
     }
 
+    @Test
+    void saveAndGetNonBrotliCompressed() throws JsonProcessingException {
+        FakeVoldemortRemoteJsonBinaryStore nonBrotliVoldemort =
+                new FakeVoldemortRemoteJsonBinaryStore(
+                        false, STORE_NAME, "tcp://localhost:99999999");
+        Assertions.assertDoesNotThrow(() -> nonBrotliVoldemort.saveEntry(entry));
+        byte[] binaryEntry = nonBrotliVoldemort.getStoreObjectMapper().writeValueAsBytes(entry);
+        Mockito.when(client.get(Mockito.anyString())).thenReturn(new Versioned<>(binaryEntry));
+        Optional<KeywordEntry> result = nonBrotliVoldemort.getEntry(KEYWORD_ID);
+        assertTrue(result.isPresent());
+        assertEquals(entry, result.get());
+    }
+
     private Versioned<byte[]> getKeywordEntry() throws IOException {
         byte[] binaryEntry = voldemort.getStoreObjectMapper().writeValueAsBytes(entry);
         byte[] compressedEntry =
                 Encoder.compress(
-                        binaryEntry, new Encoder.Parameters().setQuality(BROTLI_COMPRESSION_LEVEL));
+                        binaryEntry, new Encoder.Parameters().setQuality(DEFAULT_BROTLI_COMPRESSION_LEVEL));
         return new Versioned<>(compressedEntry);
     }
 
@@ -259,7 +273,12 @@ class VoldemortRemoteJsonBinaryStoreTest {
             extends VoldemortRemoteJsonBinaryStore<KeywordEntry> {
 
         public FakeVoldemortRemoteJsonBinaryStore(String storeName, String... voldemortUrl) {
-            super(storeName, voldemortUrl);
+            this(BROTLI_ENABLED, storeName, voldemortUrl);
+        }
+
+        public FakeVoldemortRemoteJsonBinaryStore(
+                boolean brotliEnabled, String storeName, String... voldemortUrl) {
+            super(DEFAULT_MAX_CONNECTION, brotliEnabled, storeName, voldemortUrl);
             ReflectionTestUtils.setField(this, "client", client);
         }
 

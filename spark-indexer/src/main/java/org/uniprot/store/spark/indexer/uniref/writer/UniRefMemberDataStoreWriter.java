@@ -26,6 +26,8 @@ public class UniRefMemberDataStoreWriter extends AbstractDataStoreWriter<Represe
     public VoldemortClient<RepresentativeMember> getDataStoreClient() {
         return new VoldemortRemoteUniRefMemberStore(
                 parameter.getNumberOfConnections(),
+                parameter.isBrotliEnabled(),
+                parameter.getBrotliLevel(),
                 parameter.getStoreName(),
                 parameter.getConnectionURL());
     }
