@@ -34,7 +34,7 @@ import com.google.inject.Inject;
  */
 public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClient<T> {
 
-    public static final int DEFAULT_BROTLI_COMPRESSION_LEVEL = 9;
+    public static final int DEFAULT_BROTLI_COMPRESSION_LEVEL = 11;
     public static final boolean BROTLI_ENABLED = true;
     private static final Logger logger =
             LoggerFactory.getLogger(VoldemortRemoteJsonBinaryStore.class);
