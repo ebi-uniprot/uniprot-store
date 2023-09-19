@@ -1,15 +1,5 @@
 package org.uniprot.store.spark.indexer.proteome.converter;
 
-import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
-
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
@@ -25,6 +15,17 @@ import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
+import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
+
 /**
  * Converts XML {@link Row} instances to {@link ProteomeEntry} instances.
  *
@@ -33,59 +34,12 @@ import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
  */
 public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntry>, Serializable {
     private static final long serialVersionUID = 6017417913038106086L;
-    public static final String UPID = "upid";
-    public static final String TAXONOMY = "taxonomy";
-    public static final String STRAIN = "strain";
-    public static final String MODIFIED = "modified";
-    public static final String IS_REFERENCE_PROTEOME = "isReferenceProteome";
-    public static final String IS_REPRESENTATIVE_PROTEOME = "isRepresentativeProteome";
-    public static final String GENOME_ANNOTATION = "genomeAnnotation";
-    public static final String GENOME_ANNOTATION_SOURCE = "genomeAnnotationSource";
-    public static final String GENOME_ANNOTATION_URL = "genomeAnnotationUrl";
-    public static final String GENOME_ASSEMBLY = "genomeAssembly";
-    public static final String GENOME_ASSEMBLY_SOURCE = "genomeAssemblySource";
-    public static final String GENOME_ASSEMBLY_URL = "genomeAssemblyUrl";
-    public static final String GENOME_REPRESENTATION = "genomeRepresentation";
-    public static final String COMPONENT = "component";
-    public static final String NAME = "_name";
-    public static final String PROTEIN_COUNT = "_proteinCount";
-    public static final String DESCRIPTION = "description";
-    public static final String ANNOTATION_SCORE = "annotationScore";
-    public static final String NORMALIZED_ANNOTATION_SCORE = "_normalizedAnnotationScore";
-    public static final String REFERENCE = "reference";
-    public static final String CITATION = "citation";
-    public static final String TYPE = "_type";
-    public static final String DATE = "_date";
-    public static final String TITLE = "title";
-    public static final String AUTHOR_LIST = "authorList";
-    public static final String PERSON = "person";
-    public static final String DB_REFERENCE = "dbReference";
-    public static final String FIRST = "_first";
-    public static final String LAST = "_last";
-    public static final String VOLUME = "_volume";
-    public static final String DB = "_db";
-    public static final String SCORES = "scores";
-    public static final String VALUE = "_VALUE";
-    public static final String BIO_SAMPLE_ID = "biosampleId";
-    public static final String GENOME_ACCESSION = "genomeAccession";
-    public static final String PROPERTY = "property";
-    public static final String VALUE_LOWER = "value";
-    public static final String CONSORTIUM = "consortium";
-    public static final String ID = "_id";
-    public static final String ISOLATE = "isolate";
-    public static final String REDUNDANT_TO = "redundantTo";
-    public static final String PANPROTEOME = "panproteome";
-    public static final String REDUNDANT_PROTEOME = "redundantProteome";
-    public static final String EXCLUDED = "excluded";
-    public static final String SIMILARITY = "similarity";
-    public static final String EXCLUSION_REASON = "exclusionReason";
-
     @Override
     public ProteomeEntry call(Row row) throws Exception {
         ProteomeEntryBuilder builder = new ProteomeEntryBuilder();
         builder.proteomeId(row.getString(row.fieldIndex(UPID)));
         Taxonomy taxonomy =
-                new TaxonomyBuilder().taxonId(row.getInt(row.fieldIndex(TAXONOMY))).build();
+                new TaxonomyBuilder().taxonId(row.getLong(row.fieldIndex(TAXONOMY))).build();
         builder.taxonomy(taxonomy);
         if (hasFieldName(STRAIN, row)) {
             builder.strain(row.getString(row.fieldIndex(STRAIN)));
@@ -256,13 +210,13 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
         JournalArticleBuilder journalArticleBuilder = new JournalArticleBuilder();
         populateCommon(row, journalArticleBuilder);
         if (hasFieldName(FIRST, row)) {
-            journalArticleBuilder.firstPage(String.valueOf(row.getLong(row.fieldIndex(FIRST))));
+            journalArticleBuilder.firstPage(row.getString(row.fieldIndex(FIRST)));
         }
         if (hasFieldName(LAST, row)) {
-            journalArticleBuilder.lastPage(String.valueOf(row.getLong(row.fieldIndex(LAST))));
+            journalArticleBuilder.lastPage(row.getString(row.fieldIndex(LAST)));
         }
         if (hasFieldName(VOLUME, row)) {
-            journalArticleBuilder.volume(String.valueOf(row.getLong(row.fieldIndex(VOLUME))));
+            journalArticleBuilder.volume(row.getString(row.fieldIndex(VOLUME)));
         }
         if (hasFieldName(NAME, row)) {
             journalArticleBuilder.journalName(row.getString(row.fieldIndex(NAME)));
@@ -292,7 +246,9 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
     private void populateCommon(Row row, AbstractCitationBuilder citationBuilder) {
         if (hasFieldName(AUTHOR_LIST, row)) {
             Row authorsRow = (Row) row.get(row.fieldIndex(AUTHOR_LIST));
-            citationBuilder.authorsSet(getAuthors(authorsRow));
+            if(hasFieldName(PERSON,authorsRow)) {
+                citationBuilder.authorsSet(getAuthors(authorsRow));
+            }
         }
         if (hasFieldName(DB_REFERENCE, row)) {
             List<Row> dbReferences = row.getList(row.fieldIndex(DB_REFERENCE));
