@@ -51,10 +51,8 @@ public class ProteomeXMLSchemaProvider {
     public static final String SIMILARITY = "similarity";
     public static final String EXCLUSION_REASON = "exclusionReason";
 
+    private ProteomeXMLSchemaProvider() {}
 
-    private ProteomeXMLSchemaProvider() {
-
-    }
     public static StructType getProteomeXMLSchema() {
         StructType structType = new StructType();
         structType = structType.add(UPID, DataTypes.StringType, false);
