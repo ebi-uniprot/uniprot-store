@@ -1,5 +1,16 @@
 package org.uniprot.store.spark.indexer.proteome.converter;
 
+import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
+import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
@@ -15,17 +26,6 @@ import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
-import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
-
 /**
  * Converts XML {@link Row} instances to {@link ProteomeEntry} instances.
  *
@@ -34,6 +34,7 @@ import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider
  */
 public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntry>, Serializable {
     private static final long serialVersionUID = 6017417913038106086L;
+
     @Override
     public ProteomeEntry call(Row row) throws Exception {
         ProteomeEntryBuilder builder = new ProteomeEntryBuilder();
@@ -246,7 +247,7 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
     private void populateCommon(Row row, AbstractCitationBuilder citationBuilder) {
         if (hasFieldName(AUTHOR_LIST, row)) {
             Row authorsRow = (Row) row.get(row.fieldIndex(AUTHOR_LIST));
-            if(hasFieldName(PERSON,authorsRow)) {
+            if (hasFieldName(PERSON, authorsRow)) {
                 citationBuilder.authorsSet(getAuthors(authorsRow));
             }
         }

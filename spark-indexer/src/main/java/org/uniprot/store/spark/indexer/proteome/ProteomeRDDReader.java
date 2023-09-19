@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.proteome;
 
-import com.typesafe.config.Config;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.sql.Dataset;
@@ -12,7 +13,7 @@ import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.proteome.converter.DatasetProteomeEntryConverter;
 import org.uniprot.store.spark.indexer.proteome.mapper.ProteomEntryToPair;
 
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
+import com.typesafe.config.Config;
 
 /**
  * @author sahmad
