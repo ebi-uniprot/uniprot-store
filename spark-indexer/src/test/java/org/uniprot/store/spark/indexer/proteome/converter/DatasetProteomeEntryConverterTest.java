@@ -1,19 +1,5 @@
 package org.uniprot.store.spark.indexer.proteome.converter;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.uniprot.core.citation.SubmissionDatabase.EMBL_GENBANK_DDBJ;
-import static org.uniprot.store.spark.indexer.proteome.converter.DatasetProteomeEntryConverter.*;
-
-import java.sql.Date;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
@@ -27,16 +13,29 @@ import org.uniprot.core.proteome.*;
 import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
-
 import scala.Tuple2;
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
+
+import java.sql.Date;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.uniprot.core.citation.SubmissionDatabase.EMBL_GENBANK_DDBJ;
+import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
 
 class DatasetProteomeEntryConverterTest {
 
     private static final String EXCLUSION_REASON_VAL = "missing tRNA genes";
     private static final String UP_ID_VAL = "UP000000718";
-    private static final int TAXONOMY_VAL = 289376;
+    private static final long TAXONOMY_VAL = 289376;
     private static final boolean IS_REFERENCE_PROTEOME_VAL = true;
     private static final boolean IS_REPRESENTATIVE_PROTEOME_VAL = false;
     private static final String STRAIN_VAL = "ATCC 51303 / DSM 11347 / YP87<";
@@ -603,10 +602,10 @@ class DatasetProteomeEntryConverterTest {
         if (!citationProperties.isEmpty()) {
             citation.add(citationProperties.get(0));
             citation.add(citationProperties.get(1));
-            citation.add(Long.parseLong(citationProperties.get(2)));
-            citation.add(Long.parseLong(citationProperties.get(3)));
+            citation.add(citationProperties.get(2));
+            citation.add(citationProperties.get(3));
             citation.add(citationProperties.get(4));
-            citation.add(Long.parseLong(citationProperties.get(5)));
+            citation.add(citationProperties.get(5));
             citation.add(citationProperties.get(6));
         }
         if (!authorProperties.isEmpty()) {
@@ -695,155 +694,4 @@ class DatasetProteomeEntryConverterTest {
         return new GenericRowWithSchema(genomeAnnotation.toArray(), getGenomeAnnotationSchema());
     }
 
-    public static StructType getProteomeXMLSchema() {
-        StructType structType = new StructType();
-        structType = structType.add(UPID, DataTypes.StringType, false);
-        structType = structType.add(TAXONOMY, DataTypes.LongType, false);
-        structType = structType.add(IS_REFERENCE_PROTEOME, DataTypes.BooleanType, false);
-        structType = structType.add(IS_REPRESENTATIVE_PROTEOME, DataTypes.BooleanType, false);
-        structType = structType.add(MODIFIED, DataTypes.DateType, false);
-        structType = structType.add(STRAIN, DataTypes.StringType, true);
-        structType = structType.add(DESCRIPTION, DataTypes.StringType, true);
-        structType = structType.add(ISOLATE, DataTypes.StringType, true);
-        structType = structType.add(REDUNDANT_TO, DataTypes.StringType, true);
-        structType = structType.add(PANPROTEOME, DataTypes.StringType, true);
-        structType = structType.add(ANNOTATION_SCORE, getAnnotationScoreSchema(), true);
-        structType = structType.add(GENOME_ANNOTATION, getGenomeAnnotationSchema(), true);
-        structType = structType.add(GENOME_ASSEMBLY, getGenomeAssemblySchema(), true);
-        structType =
-                structType.add(COMPONENT, DataTypes.createArrayType(getComponentSchema()), false);
-        structType = structType.add(SCORES, DataTypes.createArrayType(getScoresSchema()), true);
-        structType =
-                structType.add(REFERENCE, DataTypes.createArrayType(getReferenceSchema()), true);
-        structType =
-                structType.add(
-                        REDUNDANT_PROTEOME,
-                        DataTypes.createArrayType(getRedundantProteomeSchema()),
-                        true);
-        structType =
-                structType.add(EXCLUDED, DataTypes.createArrayType(getExclusionSchema()), true);
-        return structType;
-    }
-
-    public static StructType getExclusionSchema() {
-        StructType exclusion = new StructType();
-        exclusion = exclusion.add(EXCLUSION_REASON, DataTypes.StringType, false);
-        return exclusion;
-    }
-
-    public static StructType getRedundantProteomeSchema() {
-        StructType redundantProtein = new StructType();
-        redundantProtein = redundantProtein.add(UPID, DataTypes.StringType, false);
-        redundantProtein = redundantProtein.add(SIMILARITY, DataTypes.StringType, false);
-        return redundantProtein;
-    }
-
-    public static StructType getReferenceSchema() {
-        StructType reference = new StructType();
-        reference = reference.add(CITATION, getCitationSchema(), false);
-        return reference;
-    }
-
-    public static StructType getCitationSchema() {
-        StructType citation = new StructType();
-        citation = citation.add(TYPE, DataTypes.StringType, false);
-        citation = citation.add(DATE, DataTypes.StringType, true);
-        citation = citation.add(DB, DataTypes.StringType, true);
-        citation = citation.add(FIRST, DataTypes.StringType, true);
-        citation = citation.add(LAST, DataTypes.StringType, true);
-        citation = citation.add(NAME, DataTypes.StringType, true);
-        citation = citation.add(VOLUME, DataTypes.StringType, true);
-        citation = citation.add(TITLE, DataTypes.StringType, true);
-        citation = citation.add(AUTHOR_LIST, getAuthorListScheme(), true);
-        citation =
-                citation.add(DB_REFERENCE, DataTypes.createArrayType(getDbReferenceScheme()), true);
-        return citation;
-    }
-
-    public static StructType getDbReferenceScheme() {
-        StructType dbReference = new StructType();
-        dbReference = dbReference.add(VALUE, DataTypes.StringType, true);
-        dbReference = dbReference.add(ID, DataTypes.StringType, false);
-        dbReference = dbReference.add(TYPE, DataTypes.StringType, false);
-        return dbReference;
-    }
-
-    public static StructType getAuthorListScheme() {
-        StructType author = new StructType();
-        author = author.add(PERSON, DataTypes.createArrayType(getPersonScheme()), false);
-        author = author.add(CONSORTIUM, getConsortiumSchema(), false);
-        return author;
-    }
-
-    public static StructType getConsortiumSchema() {
-        StructType consortium = new StructType();
-        consortium = consortium.add(VALUE, DataTypes.StringType, true);
-        consortium = consortium.add(NAME, DataTypes.StringType, false);
-        return consortium;
-    }
-
-    public static StructType getPersonScheme() {
-        StructType person = new StructType();
-        person = person.add(VALUE, DataTypes.StringType, true);
-        person = person.add(NAME, DataTypes.StringType, false);
-        return person;
-    }
-
-    public static StructType getScoresSchema() {
-        StructType scores = new StructType();
-        scores = scores.add(NAME, DataTypes.StringType, false);
-        scores = scores.add(PROPERTY, DataTypes.createArrayType((getPropertySchema()), true));
-        return scores;
-    }
-
-    private static StructType getPropertySchema() {
-        StructType property = new StructType();
-        property = property.add(VALUE, DataTypes.StringType, true);
-        property = property.add(NAME, DataTypes.StringType, false);
-        property = property.add(VALUE_LOWER, DataTypes.StringType, false);
-        return property;
-    }
-
-    public static StructType getComponentSchema() {
-        StructType component = new StructType();
-        component = component.add(NAME, DataTypes.StringType, false);
-        component = component.add(PROTEIN_COUNT, DataTypes.LongType, true);
-        component = component.add(BIO_SAMPLE_ID, DataTypes.StringType, true);
-        component = component.add(DESCRIPTION, DataTypes.StringType, true);
-        component = component.add(GENOME_ACCESSION, DataTypes.StringType, true);
-        component = component.add(GENOME_ANNOTATION, getGenomeAnnotationSourceSchema(), true);
-        return component;
-    }
-
-    public static StructType getGenomeAnnotationSourceSchema() {
-        StructType genomeAnnotationSource = new StructType();
-        genomeAnnotationSource =
-                genomeAnnotationSource.add(GENOME_ANNOTATION_SOURCE, DataTypes.StringType, false);
-        return genomeAnnotationSource;
-    }
-
-    public static StructType getGenomeAssemblySchema() {
-        StructType genomeAssembly = new StructType();
-        genomeAssembly = genomeAssembly.add(GENOME_ASSEMBLY, DataTypes.StringType, false);
-        genomeAssembly = genomeAssembly.add(GENOME_ASSEMBLY_URL, DataTypes.StringType, true);
-        genomeAssembly = genomeAssembly.add(GENOME_ASSEMBLY_SOURCE, DataTypes.StringType, false);
-        genomeAssembly = genomeAssembly.add(GENOME_REPRESENTATION, DataTypes.StringType, false);
-        return genomeAssembly;
-    }
-
-    public static StructType getAnnotationScoreSchema() {
-        StructType annotationScore = new StructType();
-        annotationScore = annotationScore.add(VALUE, DataTypes.StringType, true);
-        annotationScore =
-                annotationScore.add(NORMALIZED_ANNOTATION_SCORE, DataTypes.LongType, false);
-        return annotationScore;
-    }
-
-    public static StructType getGenomeAnnotationSchema() {
-        StructType genomeAnnotation = new StructType();
-        genomeAnnotation =
-                genomeAnnotation.add(GENOME_ANNOTATION_SOURCE, DataTypes.StringType, false);
-        genomeAnnotation = genomeAnnotation.add(GENOME_ANNOTATION_URL, DataTypes.StringType, true);
-        return genomeAnnotation;
-    }
 }
