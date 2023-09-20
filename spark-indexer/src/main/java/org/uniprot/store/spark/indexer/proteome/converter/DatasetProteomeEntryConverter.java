@@ -1,22 +1,6 @@
 package org.uniprot.store.spark.indexer.proteome.converter;
 
-import static org.uniprot.core.util.Utils.notNullNotEmpty;
-import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
-import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
-
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import lombok.Data;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
@@ -32,6 +16,21 @@ import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.core.util.Utils;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.uniprot.core.util.Utils.notNullNotEmpty;
+import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
+import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
 
 /**
  * Converts XML {@link Row} instances to {@link ProteomeEntry} instances.
@@ -438,6 +437,14 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
             GenomeAnnotation genomeAnnotation =
                     getGenomeAnnotation((Row) row.get(row.fieldIndex(GENOME_ANNOTATION)));
             componentBuilder.genomeAnnotation(genomeAnnotation);
+        }
+        if (hasFieldName(GENOME_ACCESSION, row)) {
+            componentBuilder.proteomeCrossReferencesAdd(new CrossReferenceBuilder<ProteomeDatabase>()
+                    .database(ProteomeDatabase.GENOME_ACCESSION).id(row.getString(row.fieldIndex(GENOME_ACCESSION))).build());
+        }
+        if (hasFieldName(BIO_SAMPLE_ID, row)) {
+            componentBuilder.proteomeCrossReferencesAdd(new CrossReferenceBuilder<ProteomeDatabase>()
+                    .database(ProteomeDatabase.BIOSAMPLE).id(row.getString(row.fieldIndex(BIO_SAMPLE_ID))).build());
         }
         return componentBuilder.build();
     }
