@@ -40,7 +40,7 @@ public class ProteomeXMLSchemaProvider {
     public static final String BIO_SAMPLE_ID = "biosampleId";
     public static final String GENOME_ACCESSION = "genomeAccession";
     public static final String PROPERTY = "property";
-    public static final String VALUE_LOWER = "value";
+    public static final String VALUE_LOWER = "_value";
     public static final String CONSORTIUM = "consortium";
     public static final String ID = "_id";
     public static final String ISOLATE = "isolate";
@@ -154,11 +154,11 @@ public class ProteomeXMLSchemaProvider {
         return scores;
     }
 
-    private static StructType getPropertySchema() {
+    public static StructType getPropertySchema() {
         StructType property = new StructType();
         property = property.add(VALUE, DataTypes.StringType, true);
         property = property.add(NAME, DataTypes.StringType, false);
-        property = property.add(VALUE_LOWER, DataTypes.StringType, true);
+        property = property.add(VALUE_LOWER, DataTypes.StringType, false);
         return property;
     }
 
