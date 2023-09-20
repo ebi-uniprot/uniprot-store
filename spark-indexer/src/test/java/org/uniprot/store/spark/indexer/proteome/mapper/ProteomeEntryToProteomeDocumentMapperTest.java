@@ -1,6 +1,17 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.core.proteome.CPDStatus.STANDARD;
+import static org.uniprot.core.proteome.ProteomeDatabase.BIOSAMPLE;
+import static org.uniprot.core.proteome.ProteomeDatabase.GENOME_ACCESSION;
+import static org.uniprot.core.proteome.ProteomeType.*;
+
+import java.util.List;
+
 import lombok.Data;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.impl.CrossReferenceBuilder;
@@ -12,16 +23,6 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
-
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.core.proteome.CPDStatus.STANDARD;
-import static org.uniprot.core.proteome.ProteomeDatabase.BIOSAMPLE;
-import static org.uniprot.core.proteome.ProteomeDatabase.GENOME_ACCESSION;
-import static org.uniprot.core.proteome.ProteomeType.*;
 
 class ProteomeEntryToProteomeDocumentMapperTest {
 
@@ -97,16 +98,22 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                     .name(COMPONENT_NAME_0)
                     .genomeAnnotation(GENOMIC_ANNOTATION_0)
                     .proteinCount(PROTEIN_COUNT_0)
-                    .proteomeCrossReferencesAdd(new CrossReferenceBuilder<ProteomeDatabase>().database(GENOME_ACCESSION)
-                            .id(GENOME_ACCESSION_0).build())
+                    .proteomeCrossReferencesAdd(
+                            new CrossReferenceBuilder<ProteomeDatabase>()
+                                    .database(GENOME_ACCESSION)
+                                    .id(GENOME_ACCESSION_0)
+                                    .build())
                     .build();
     private static final Component COMPONENT_1 =
             new ComponentBuilder()
                     .name(COMPONENT_NAME_1)
                     .genomeAnnotation(GENOMIC_ANNOTATION_1)
                     .proteinCount(PROTEIN_COUNT_1)
-                    .proteomeCrossReferencesAdd(new CrossReferenceBuilder<ProteomeDatabase>().database(BIOSAMPLE)
-                            .id(BIO_SAMPLE_0).build())
+                    .proteomeCrossReferencesAdd(
+                            new CrossReferenceBuilder<ProteomeDatabase>()
+                                    .database(BIOSAMPLE)
+                                    .id(BIO_SAMPLE_0)
+                                    .build())
                     .build();
     private static final Component COMPONENT_2 =
             new ComponentBuilder()
@@ -167,9 +174,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
         assertEquals(TAXON_ID_1, proteomeDocument.organismTaxId);
         assertSame(STRAIN, proteomeDocument.strain);
         assertEquals(ANNOTATION_SCORE, proteomeDocument.score);
-        assertThat(
-                proteomeDocument.genomeAccession,
-                contains(GENOME_ACCESSION_0));
+        assertThat(proteomeDocument.genomeAccession, contains(GENOME_ACCESSION_0));
         assertEquals(proteomeDocument.genomeAssembly, genomeAssembly);
         assertEquals(proteomeDocument.proteinCount, PROTEIN_COUNT_0 + PROTEIN_COUNT_1);
         assertEquals(proteomeDocument.busco, busco);
