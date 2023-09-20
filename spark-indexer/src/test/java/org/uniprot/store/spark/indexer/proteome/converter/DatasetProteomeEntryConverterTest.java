@@ -1,5 +1,20 @@
 package org.uniprot.store.spark.indexer.proteome.converter;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.uniprot.core.citation.SubmissionDatabase.EMBL_GENBANK_DDBJ;
+import static org.uniprot.core.proteome.CPDStatus.STANDARD;
+import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
+
+import java.sql.Date;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
@@ -12,24 +27,10 @@ import org.uniprot.core.impl.CrossReferenceBuilder;
 import org.uniprot.core.proteome.*;
 import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
+
 import scala.Tuple2;
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
-
-import java.sql.Date;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.uniprot.core.citation.SubmissionDatabase.EMBL_GENBANK_DDBJ;
-import static org.uniprot.core.proteome.CPDStatus.STANDARD;
-import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
 
 class DatasetProteomeEntryConverterTest {
 
@@ -257,10 +258,16 @@ class DatasetProteomeEntryConverterTest {
                                                 new GenomeAnnotationBuilder()
                                                         .source(COMPONENT_SOURCE_0)
                                                         .build())
-                                        .proteomeCrossReferencesAdd(new CrossReferenceBuilder<ProteomeDatabase>()
-                                                .database(ProteomeDatabase.GENOME_ACCESSION).id("CP001147").build())
-                                        .proteomeCrossReferencesAdd(new CrossReferenceBuilder<ProteomeDatabase>()
-                                                .database(ProteomeDatabase.BIOSAMPLE).id("SAMN02603929").build())
+                                        .proteomeCrossReferencesAdd(
+                                                new CrossReferenceBuilder<ProteomeDatabase>()
+                                                        .database(ProteomeDatabase.GENOME_ACCESSION)
+                                                        .id("CP001147")
+                                                        .build())
+                                        .proteomeCrossReferencesAdd(
+                                                new CrossReferenceBuilder<ProteomeDatabase>()
+                                                        .database(ProteomeDatabase.BIOSAMPLE)
+                                                        .id("SAMN02603929")
+                                                        .build())
                                         .build(),
                                 new ComponentBuilder()
                                         .name(COMPONENT_NAME_1)
@@ -270,10 +277,16 @@ class DatasetProteomeEntryConverterTest {
                                                 new GenomeAnnotationBuilder()
                                                         .source(COMPONENT_SOURCE_1)
                                                         .build())
-                                        .proteomeCrossReferencesAdd(new CrossReferenceBuilder<ProteomeDatabase>()
-                                                .database(ProteomeDatabase.GENOME_ACCESSION).id("M96262").build())
-                                        .proteomeCrossReferencesAdd(new CrossReferenceBuilder<ProteomeDatabase>()
-                                                .database(ProteomeDatabase.BIOSAMPLE).id("SAMN02603927").build())
+                                        .proteomeCrossReferencesAdd(
+                                                new CrossReferenceBuilder<ProteomeDatabase>()
+                                                        .database(ProteomeDatabase.GENOME_ACCESSION)
+                                                        .id("M96262")
+                                                        .build())
+                                        .proteomeCrossReferencesAdd(
+                                                new CrossReferenceBuilder<ProteomeDatabase>()
+                                                        .database(ProteomeDatabase.BIOSAMPLE)
+                                                        .id("SAMN02603927")
+                                                        .build())
                                         .build()))
                 .citationsSet(
                         List.of(
@@ -290,12 +303,12 @@ class DatasetProteomeEntryConverterTest {
                                         .citationCrossReferencesSet(
                                                 List.of(
                                                         new CrossReferenceBuilder<
-                                                                CitationDatabase>()
+                                                                        CitationDatabase>()
                                                                 .database(CitationDatabase.PUBMED)
                                                                 .id(CONSORTIUM_VALUE_0_0)
                                                                 .build(),
                                                         new CrossReferenceBuilder<
-                                                                CitationDatabase>()
+                                                                        CitationDatabase>()
                                                                 .database(CitationDatabase.DOI)
                                                                 .id(CONSORTIUM_VALUE_1_0)
                                                                 .build()))
@@ -310,12 +323,12 @@ class DatasetProteomeEntryConverterTest {
                                         .citationCrossReferencesSet(
                                                 List.of(
                                                         new CrossReferenceBuilder<
-                                                                CitationDatabase>()
+                                                                        CitationDatabase>()
                                                                 .database(CitationDatabase.DOI)
                                                                 .id(CONSORTIUM_VALUE_0_1)
                                                                 .build(),
                                                         new CrossReferenceBuilder<
-                                                                CitationDatabase>()
+                                                                        CitationDatabase>()
                                                                 .database(CitationDatabase.PUBMED)
                                                                 .id(CONSORTIUM_VALUE_1_1)
                                                                 .build()))
