@@ -1,6 +1,16 @@
 package org.uniprot.store.spark.indexer.proteome;
 
-import com.typesafe.config.Config;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -16,18 +26,10 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyH2Utils;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
+
 import scala.Tuple2;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+import com.typesafe.config.Config;
 
 class ProteomeDocumentsToHPSWriterIT {
     private static final String RELEASE_NAME = "2020_02";
@@ -53,7 +55,7 @@ class ProteomeDocumentsToHPSWriterIT {
     void writeIndexDocumentsToHPS() {
         Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
-                     SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter jobParameter =
                     JobParameter.builder()
                             .sparkContext(sparkContext)
@@ -61,7 +63,8 @@ class ProteomeDocumentsToHPSWriterIT {
                             .releaseName(RELEASE_NAME)
                             .build();
 
-            ProteomeDocumentsToHPSWriterFake writer = new ProteomeDocumentsToHPSWriterFake(jobParameter);
+            ProteomeDocumentsToHPSWriterFake writer =
+                    new ProteomeDocumentsToHPSWriterFake(jobParameter);
 
             writer.writeIndexDocumentsToHPS();
 
@@ -122,7 +125,7 @@ class ProteomeDocumentsToHPSWriterIT {
             List<TaxonomyLineage> lineages = new ArrayList<>();
             int finalId = taxonIds.length - 1;
             /*if (includeOrganism) {*/
-                finalId = taxonIds.length;
+            finalId = taxonIds.length;
             /*}*/
 
             for (int i = 0; i < finalId; i++) {
@@ -141,7 +144,6 @@ class ProteomeDocumentsToHPSWriterIT {
                     .build();
         }
     }
-
 
     @AfterEach
     public void teardown() throws SQLException, IOException {

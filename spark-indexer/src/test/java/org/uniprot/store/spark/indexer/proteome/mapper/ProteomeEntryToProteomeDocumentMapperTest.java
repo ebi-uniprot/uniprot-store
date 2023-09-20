@@ -1,6 +1,15 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.core.proteome.CPDStatus.STANDARD;
+import static org.uniprot.core.proteome.ProteomeType.*;
+
+import java.util.List;
+
 import lombok.Data;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
@@ -11,14 +20,6 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
-
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.core.proteome.CPDStatus.STANDARD;
-import static org.uniprot.core.proteome.ProteomeType.*;
 
 class ProteomeEntryToProteomeDocumentMapperTest {
 
@@ -152,7 +153,8 @@ class ProteomeEntryToProteomeDocumentMapperTest {
             ProteomeTypeInfo proteomeTypeInfo,
             List<String> genomeAssembly,
             float busco,
-            ProteomeEntry proteomeEntry) throws Exception {
+            ProteomeEntry proteomeEntry)
+            throws Exception {
         assertSame(ID, proteomeDocument.upid);
         assertEquals(TAXON_ID_1, proteomeDocument.organismTaxId);
         assertSame(STRAIN, proteomeDocument.strain);
@@ -183,7 +185,11 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                         COMMON_NAME_0));
         assertThat(proteomeDocument.taxLineageIds, contains((int) TAXON_ID_1, (int) TAXON_ID_0));
         assertEquals(SCIENTIFIC_NAME_0, proteomeDocument.superkingdom);
-        assertArrayEquals(ProteomeJsonConfig.getInstance().getFullObjectMapper().writeValueAsBytes(proteomeEntry), proteomeDocument.proteomeStored);
+        assertArrayEquals(
+                ProteomeJsonConfig.getInstance()
+                        .getFullObjectMapper()
+                        .writeValueAsBytes(proteomeEntry),
+                proteomeDocument.proteomeStored);
     }
 
     @Test

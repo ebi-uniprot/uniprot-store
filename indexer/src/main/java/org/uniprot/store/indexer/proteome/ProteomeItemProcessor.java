@@ -1,5 +1,11 @@
 package org.uniprot.store.indexer.proteome;
 
+import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.createSuggestionMapKey;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
@@ -10,12 +16,6 @@ import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
-import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.createSuggestionMapKey;
 
 /** @author jluo */
 public class ProteomeItemProcessor implements ItemProcessor<Proteome, ProteomeDocument> {

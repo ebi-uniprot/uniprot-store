@@ -1,6 +1,16 @@
 package org.uniprot.store.indexer.proteome;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.indexer.common.utils.Constants.PROTEOME_INDEX_JOB;
+import static org.uniprot.store.indexer.common.utils.Constants.SUGGESTIONS_INDEX_STEP;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
@@ -24,16 +34,7 @@ import org.uniprot.store.search.document.proteome.ProteomeDocument;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.store.indexer.common.utils.Constants.PROTEOME_INDEX_JOB;
-import static org.uniprot.store.indexer.common.utils.Constants.SUGGESTIONS_INDEX_STEP;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author jluo
