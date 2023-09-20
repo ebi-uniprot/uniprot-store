@@ -1,13 +1,7 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.spark.api.java.function.Function;
-import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
-import org.uniprot.core.proteome.*;
-import org.uniprot.core.taxonomy.TaxonomyEntry;
-import org.uniprot.core.taxonomy.TaxonomyLineage;
-import org.uniprot.core.util.Utils;
-import org.uniprot.store.search.document.proteome.ProteomeDocument;
+import static org.uniprot.core.util.Utils.notNull;
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.truncatedSortValue;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -15,8 +9,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.uniprot.core.util.Utils.notNull;
-import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.truncatedSortValue;
+import lombok.extern.slf4j.Slf4j;
+
+import org.apache.spark.api.java.function.Function;
+import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
+import org.uniprot.core.proteome.*;
+import org.uniprot.core.taxonomy.TaxonomyEntry;
+import org.uniprot.core.taxonomy.TaxonomyLineage;
+import org.uniprot.core.util.Utils;
+import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
 @Slf4j
 public class ProteomeEntryToProteomeDocumentMapper
@@ -29,17 +30,23 @@ public class ProteomeEntryToProteomeDocumentMapper
         document.upid = proteomeEntry.getId().getValue();
         document.organismTaxId = (int) proteomeEntry.getTaxonomy().getTaxonId();
         document.strain = proteomeEntry.getStrain();
-        Optional.ofNullable(proteomeEntry.getAnnotationScore()).ifPresent(score -> document.score = score);
+        Optional.ofNullable(proteomeEntry.getAnnotationScore())
+                .ifPresent(score -> document.score = score);
         document.genomeAccession = getGenomeAccession(proteomeEntry);
         document.genomeAssembly = getGenomeAssembly(proteomeEntry);
         document.proteinCount = getProteinCount(proteomeEntry.getComponents());
-        Optional.ofNullable(proteomeEntry.getProteomeCompletenessReport()).ifPresent(report -> {
-            document.busco = getBuscoPercentage(report.getBuscoReport());
-            document.cpd = getCPD(report.getCPDReport());
-        });
+        Optional.ofNullable(proteomeEntry.getProteomeCompletenessReport())
+                .ifPresent(
+                        report -> {
+                            document.busco = getBuscoPercentage(report.getBuscoReport());
+                            document.cpd = getCPD(report.getCPDReport());
+                        });
         updateProteomeType(document, proteomeEntry);
         updateOrganismFields(document, (TaxonomyEntry) proteomeEntry.getTaxonomy());
-        document.proteomeStored = ProteomeJsonConfig.getInstance().getFullObjectMapper().writeValueAsBytes(proteomeEntry);
+        document.proteomeStored =
+                ProteomeJsonConfig.getInstance()
+                        .getFullObjectMapper()
+                        .writeValueAsBytes(proteomeEntry);
         return document;
     }
 

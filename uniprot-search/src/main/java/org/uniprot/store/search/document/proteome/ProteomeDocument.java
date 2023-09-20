@@ -1,10 +1,10 @@
 package org.uniprot.store.search.document.proteome;
 
-import org.apache.solr.client.solrj.beans.Field;
-import org.uniprot.store.search.document.Document;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.solr.client.solrj.beans.Field;
+import org.uniprot.store.search.document.Document;
 
 public class ProteomeDocument implements Document {
 
