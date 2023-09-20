@@ -1,16 +1,6 @@
 package org.uniprot.store.spark.indexer.proteome.converter;
 
-import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
-import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
-
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
+import lombok.Data;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
@@ -25,6 +15,22 @@ import org.uniprot.core.proteome.*;
 import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
+import org.uniprot.core.util.Utils;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.uniprot.core.util.Utils.notNullNotEmpty;
+import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
+import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
 
 /**
  * Converts XML {@link Row} instances to {@link ProteomeEntry} instances.
@@ -34,6 +40,21 @@ import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
  */
 public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntry>, Serializable {
     private static final long serialVersionUID = 6017417913038106086L;
+    public static final String PROPERTY_TOTAL = "total";
+    public static final String PROPERTY_COMPLETED = "completed";
+    public static final String PROPERTY_COMPLETED_SINGLE = "completedSingle";
+    public static final String PROPERTY_COMPLETED_DUPLICATED = "completedDuplicated";
+    public static final String PROPERTY_FRAGMENTED = "fragmented";
+    public static final String PROPERTY_MISSING = "missing";
+    public static final String PROPERTY_SCORE = "score";
+    public static final String PROPERTY_LINEAGE = "lineage";
+    public static final String PROPERTY_AVERAGE_CDS = "averageCds";
+    public static final String PROPERTY_STATUS = "status";
+    public static final String PROPERTY_CONFIDENCE = "confidence";
+    public static final String PROPERTY_PROTEOME_COUNT = "proteomeCount";
+    public static final String PROPERTY_STD_CDSS = "stdCdss";
+    public static final String BUSCO = "busco";
+    public static final String CPD = "cpd";
 
     @Override
     public ProteomeEntry call(Row row) throws Exception {
@@ -93,6 +114,13 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
                             .map(this::getRedundantProteome)
                             .collect(Collectors.toList()));
         }
+        if (hasFieldName(SCORES, row)) {
+            List<Row> scoreRows = row.getList(row.fieldIndex(SCORES));
+            builder.proteomeCompletenessReport(getCompletenessReport(
+                    scoreRows.stream()
+                            .map(this::getScore)
+                            .collect(Collectors.toList())));
+        }
         ExclusionReason exclusionReason = null;
         if (hasFieldName(EXCLUDED, row)) {
             exclusionReason = getExclusionReason((Row) row.get(row.fieldIndex(EXCLUDED)));
@@ -108,6 +136,118 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
                         CollectionUtils.isEmpty((redundantProteomeRows))));
 
         return builder.build();
+    }
+
+    private Score getScore(Row row) {
+        String name = row.getString(row.fieldIndex(NAME));
+        List<Property> properties = List.of();
+        if (hasFieldName(PROPERTY, row)) {
+            List<Row> list = row.getList(row.fieldIndex(PROPERTY));
+            properties = list.stream().map(this::getProperty).collect(Collectors.toList());
+        }
+        return new Score(name, properties);
+    }
+
+    private Property getProperty(Row row) {
+        return new Property(row.getString(row.fieldIndex(NAME)), row.getString(row.fieldIndex(VALUE_LOWER)));
+    }
+
+    private ProteomeCompletenessReport getCompletenessReport(List<Score> scores) {
+        ProteomeCompletenessReport result = null;
+        if (notNullNotEmpty(scores)) {
+            ProteomeCompletenessReportBuilder builder = new ProteomeCompletenessReportBuilder();
+            Optional<BuscoReport> buscoReport =
+                    scores.stream()
+                            .filter(score -> score.getName().equalsIgnoreCase(BUSCO))
+                            .map(this::getBuscoReport)
+                            .findFirst();
+            builder.buscoReport(buscoReport.orElse(null));
+
+            Optional<CPDReport> cpdReport =
+                    scores.stream()
+                            .filter(score -> score.getName().equalsIgnoreCase(CPD))
+                            .map(this::getCPDReport)
+                            .findFirst();
+            builder.cpdReport(cpdReport.orElse(null));
+            result = builder.build();
+        }
+        return result;
+    }
+
+    private BuscoReport getBuscoReport(Score score) {
+        BuscoReport result = null;
+        if (Utils.notNull(score)) {
+            List<Property> properties = score.getProperties();
+            BuscoReportBuilder builder = new BuscoReportBuilder();
+            for (Property property : properties) {
+                switch (property.getName()) {
+                    case PROPERTY_COMPLETED:
+                        builder.complete(Integer.parseInt(property.getValue()));
+                        break;
+                    case PROPERTY_COMPLETED_SINGLE:
+                        builder.completeSingle(Integer.parseInt(property.getValue()));
+                        break;
+                    case PROPERTY_COMPLETED_DUPLICATED:
+                        builder.completeDuplicated(Integer.parseInt(property.getValue()));
+                        break;
+                    case PROPERTY_TOTAL:
+                        builder.total(Integer.parseInt(property.getValue()));
+                        break;
+                    case PROPERTY_MISSING:
+                        builder.missing(Integer.parseInt(property.getValue()));
+                        break;
+                    case PROPERTY_FRAGMENTED:
+                        builder.fragmented(Integer.parseInt(property.getValue()));
+                        break;
+                    case PROPERTY_LINEAGE:
+                        builder.lineageDb(property.getValue());
+                        break;
+                    case PROPERTY_SCORE:
+                        break;
+                    default:
+                        throw new IllegalArgumentException(
+                                "Unknown BUSCO property ScorePropertyType.getName: "
+                                        + property.getName());
+                }
+            }
+            result = builder.build();
+        }
+        return result;
+    }
+
+    private CPDReport getCPDReport(Score score) {
+        CPDReport result = null;
+        if (Utils.notNull(score)) {
+            CPDReportBuilder builder = new CPDReportBuilder();
+            List<Property> properties = score.getProperties();
+            for (Property property : properties) {
+                switch (property.getName()) {
+                    case PROPERTY_AVERAGE_CDS:
+                        builder.averageCdss(Integer.parseInt(property.getValue()));
+                        break;
+                    case PROPERTY_CONFIDENCE:
+                        builder.confidence(Integer.parseInt(property.getValue()));
+                        break;
+                    case PROPERTY_PROTEOME_COUNT:
+                        builder.proteomeCount(Integer.parseInt(property.getValue()));
+                        break;
+                    case PROPERTY_STD_CDSS:
+                        BigDecimal stdCdss = new BigDecimal(property.getValue());
+                        stdCdss = stdCdss.setScale(2, RoundingMode.HALF_DOWN);
+                        builder.stdCdss(stdCdss.doubleValue());
+                        break;
+                    case PROPERTY_STATUS:
+                        builder.status(CPDStatus.fromValue(property.getValue()));
+                        break;
+                    default:
+                        throw new IllegalArgumentException(
+                                "Unknown CPDReport property ScorePropertyType.getName: "
+                                        + property.getName());
+                }
+            }
+            result = builder.build();
+        }
+        return result;
     }
 
     private static ProteomeType getProteomeType(
@@ -325,4 +465,17 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
         }
         return genomeAnnotationBuilder.build();
     }
+
+    @Data
+    private static class Score {
+        private final String name;
+        private final List<Property> properties;
+    }
+
+    @Data
+    private static class Property {
+        private final String name;
+        private final String value;
+    }
+
 }

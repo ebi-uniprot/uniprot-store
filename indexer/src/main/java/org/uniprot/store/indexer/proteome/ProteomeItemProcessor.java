@@ -1,12 +1,5 @@
 package org.uniprot.store.indexer.proteome;
 
-import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.createSuggestionMapKey;
-
-import java.nio.ByteBuffer;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
@@ -17,6 +10,12 @@ import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.createSuggestionMapKey;
 
 /** @author jluo */
 public class ProteomeItemProcessor implements ItemProcessor<Proteome, ProteomeDocument> {
@@ -36,7 +35,7 @@ public class ProteomeItemProcessor implements ItemProcessor<Proteome, ProteomeDo
         ProteomeDocument document = documentConverter.convert(source);
 
         ProteomeEntry entry = entryAdapter.adaptEntry(source);
-        document.proteomeStored = ByteBuffer.wrap(documentConverter.getBinaryObject(entry));
+        document.proteomeStored = documentConverter.getBinaryObject(entry);
 
         addProteomeToSuggestMap(document.upid, document.organismSort);
         return document;

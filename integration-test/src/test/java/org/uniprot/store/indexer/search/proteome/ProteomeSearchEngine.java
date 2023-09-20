@@ -1,10 +1,5 @@
 package org.uniprot.store.indexer.search.proteome;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.ByteBuffer;
-
 import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.xml.jaxb.proteome.Proteome;
 import org.uniprot.core.xml.proteome.ProteomeConverter;
@@ -17,6 +12,10 @@ import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
 import org.uniprot.store.indexer.proteome.ProteomeDocumentConverter;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
+
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 class ProteomeSearchEngine extends AbstractSearchEngine<Proteome> {
 
@@ -54,7 +53,7 @@ class ProteomeSearchEngine extends AbstractSearchEngine<Proteome> {
 
         ProteomeDocument document = DOCUMENT_PRODUCER.convert(entry);
         ProteomeEntry proteomeEntry = entryConverter.fromXml(entry);
-        document.proteomeStored = ByteBuffer.wrap(DOCUMENT_PRODUCER.getBinaryObject(proteomeEntry));
+        document.proteomeStored = DOCUMENT_PRODUCER.getBinaryObject(proteomeEntry);
 
         saveDocument(document);
     }

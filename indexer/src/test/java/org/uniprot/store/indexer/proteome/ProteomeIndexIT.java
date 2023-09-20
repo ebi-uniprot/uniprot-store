@@ -1,18 +1,6 @@
 package org.uniprot.store.indexer.proteome;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.store.indexer.common.utils.Constants.PROTEOME_INDEX_JOB;
-import static org.uniprot.store.indexer.common.utils.Constants.SUGGESTIONS_INDEX_STEP;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
@@ -36,7 +24,16 @@ import org.uniprot.store.search.document.proteome.ProteomeDocument;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.indexer.common.utils.Constants.PROTEOME_INDEX_JOB;
+import static org.uniprot.store.indexer.common.utils.Constants.SUGGESTIONS_INDEX_STEP;
 
 /**
  * @author jluo
@@ -81,7 +78,7 @@ class ProteomeIndexIT {
     private void verifyProteome(ProteomeDocument doc) {
         String upid = doc.upid;
         ObjectMapper objectMapper = ProteomeJsonConfig.getInstance().getFullObjectMapper();
-        byte[] obj = doc.proteomeStored.array();
+        byte[] obj = doc.proteomeStored;
         try {
             ProteomeEntry proteome = objectMapper.readValue(obj, ProteomeEntry.class);
             assertEquals(upid, proteome.getId().getValue());
