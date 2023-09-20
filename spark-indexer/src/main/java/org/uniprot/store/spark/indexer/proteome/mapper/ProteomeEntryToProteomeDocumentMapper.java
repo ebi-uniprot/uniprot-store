@@ -1,23 +1,20 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
-import static org.uniprot.core.util.Utils.notNull;
-import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.truncatedSortValue;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.function.Function;
+import org.uniprot.core.CrossReference;
 import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
 import org.uniprot.core.proteome.*;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.uniprot.core.util.Utils.notNull;
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.truncatedSortValue;
 
 @Slf4j
 public class ProteomeEntryToProteomeDocumentMapper
@@ -144,7 +141,11 @@ public class ProteomeEntryToProteomeDocumentMapper
 
     private List<String> getGenomeAccession(ProteomeEntry proteomeEntry) {
         return proteomeEntry.getComponents().stream()
-                .map(c -> c.getGenomeAnnotation().getSource())
+                .map(c -> c.getProteomeCrossReferences().stream()
+                        .filter(cr -> ProteomeDatabase.GENOME_ACCESSION.equals(cr.getDatabase()))
+                        .collect(Collectors.toList()))
+                .flatMap(Collection::stream)
+                .map(CrossReference::getId)
                 .collect(Collectors.toList());
     }
 }
