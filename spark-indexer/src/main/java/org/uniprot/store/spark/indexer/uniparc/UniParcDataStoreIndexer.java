@@ -105,8 +105,8 @@ public class UniParcDataStoreIndexer implements DataStoreIndexer {
                 .numberOfConnections(Integer.parseInt(numberOfConnections))
                 .maxRetry(Integer.parseInt(maxRetry))
                 .delay(Long.parseLong(delay))
-                .brotliEnabled(config.getBoolean("brotli.compression.enabled"))
-                .brotliLevel(config.getInt("brotli.compression.level"))
+                .brotliEnabled(config.getBoolean(BROTLI_COMPRESSION_ENABLED))
+                .brotliLevel(config.getInt(BROTLI_COMPRESSION_LEVEL))
                 .build();
     }
 }
