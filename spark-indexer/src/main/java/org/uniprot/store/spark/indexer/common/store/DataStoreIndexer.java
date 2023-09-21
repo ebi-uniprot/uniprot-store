@@ -9,5 +9,6 @@ package org.uniprot.store.spark.indexer.common.store;
 public interface DataStoreIndexer {
     String BROTLI_COMPRESSION_ENABLED = "brotli.compression.enabled";
     String BROTLI_COMPRESSION_LEVEL = "brotli.compression.level";
+
     void indexInDataStore();
 }

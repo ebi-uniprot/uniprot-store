@@ -33,6 +33,11 @@ public class VoldemortRemoteUniProtKBEntryStore
     }
 
     public VoldemortRemoteUniProtKBEntryStore(
+            int maxConnection, boolean brotliEnabled, String storeName, String... voldemortUrl) {
+        super(maxConnection, brotliEnabled, storeName, voldemortUrl);
+    }
+
+    public VoldemortRemoteUniProtKBEntryStore(
             int maxConnection,
             boolean brotliEnabled,
             int brotliLevel,

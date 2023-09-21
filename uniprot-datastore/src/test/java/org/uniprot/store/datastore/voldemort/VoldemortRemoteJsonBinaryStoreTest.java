@@ -265,7 +265,8 @@ class VoldemortRemoteJsonBinaryStoreTest {
         byte[] binaryEntry = voldemort.getStoreObjectMapper().writeValueAsBytes(entry);
         byte[] compressedEntry =
                 Encoder.compress(
-                        binaryEntry, new Encoder.Parameters().setQuality(DEFAULT_BROTLI_COMPRESSION_LEVEL));
+                        binaryEntry,
+                        new Encoder.Parameters().setQuality(DEFAULT_BROTLI_COMPRESSION_LEVEL));
         return new Versioned<>(compressedEntry);
     }
 
