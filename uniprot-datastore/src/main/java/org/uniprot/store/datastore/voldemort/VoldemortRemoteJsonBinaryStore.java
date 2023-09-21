@@ -59,13 +59,23 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
     @Inject
     public VoldemortRemoteJsonBinaryStore(
             int maxConnection, String storeName, String... voldemortUrl) {
-        this(maxConnection, BROTLI_ENABLED, DEFAULT_BROTLI_COMPRESSION_LEVEL, storeName, voldemortUrl);
+        this(
+                maxConnection,
+                BROTLI_ENABLED,
+                DEFAULT_BROTLI_COMPRESSION_LEVEL,
+                storeName,
+                voldemortUrl);
     }
 
     @Inject
     public VoldemortRemoteJsonBinaryStore(
             int maxConnection, boolean brotliEnabled, String storeName, String... voldemortUrl) {
-        this(maxConnection, brotliEnabled, DEFAULT_BROTLI_COMPRESSION_LEVEL, storeName, voldemortUrl);
+        this(
+                maxConnection,
+                brotliEnabled,
+                DEFAULT_BROTLI_COMPRESSION_LEVEL,
+                storeName,
+                voldemortUrl);
     }
 
     @Inject

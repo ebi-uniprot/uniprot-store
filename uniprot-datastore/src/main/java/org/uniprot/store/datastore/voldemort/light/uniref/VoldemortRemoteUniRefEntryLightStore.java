@@ -19,6 +19,11 @@ public class VoldemortRemoteUniRefEntryLightStore
     }
 
     public VoldemortRemoteUniRefEntryLightStore(
+            int maxConnection, boolean brotliEnabled, String storeName, String... voldemortUrl) {
+        super(maxConnection, brotliEnabled, storeName, voldemortUrl);
+    }
+
+    public VoldemortRemoteUniRefEntryLightStore(
             int maxConnection,
             boolean brotliEnabled,
             int brotliLevel,
