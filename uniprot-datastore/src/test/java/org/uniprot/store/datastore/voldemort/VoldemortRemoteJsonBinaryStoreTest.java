@@ -15,7 +15,10 @@ import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.cv.keyword.impl.KeywordEntryBuilder;
 import org.uniprot.core.cv.keyword.impl.KeywordIdBuilder;
 import org.uniprot.core.json.parser.keyword.KeywordJsonConfig;
+import org.uniprot.store.datastore.voldemort.light.uniref.VoldemortRemoteUniRefEntryLightStore;
+import org.uniprot.store.datastore.voldemort.member.uniref.VoldemortRemoteUniRefMemberStore;
 import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
+import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
 
 import voldemort.client.ClientConfig;
 import voldemort.client.SocketStoreClientFactory;
@@ -57,6 +60,20 @@ class VoldemortRemoteJsonBinaryStoreTest {
         Assertions.assertThrows(
                 RetrievalException.class,
                 () -> new VoldemortRemoteUniParcEntryStore(10, "uniparc", "tcp://localhost:1010"));
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniParcEntryStore(
+                                10, false, "uniparc", "tcp://localhost:1010"));
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniParcEntryStore(
+                                10,
+                                true,
+                                DEFAULT_BROTLI_COMPRESSION_LEVEL,
+                                "uniparc",
+                                "tcp://localhost:1010"));
     }
 
     @Test
@@ -259,6 +276,75 @@ class VoldemortRemoteJsonBinaryStoreTest {
         Optional<KeywordEntry> result = nonBrotliVoldemort.getEntry(KEYWORD_ID);
         assertTrue(result.isPresent());
         assertEquals(entry, result.get());
+    }
+
+    @Test
+    void usingVoldemortRemoteUniProtKBEntryStoreConstructorThrowsException() {
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniProtKBEntryStore(
+                                10, "uniprot", "tcp://localhost:1010"));
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniProtKBEntryStore(
+                                10, false, "uniprot", "tcp://localhost:1010"));
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniProtKBEntryStore(
+                                10,
+                                true,
+                                DEFAULT_BROTLI_COMPRESSION_LEVEL,
+                                "uniparc",
+                                "tcp://localhost:1010"));
+    }
+
+    @Test
+    void usingVoldemortRemoteUniRefLightEntryStoreConstructorThrowsException() {
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniRefEntryLightStore(
+                                10, "uniref", "tcp://localhost:1010"));
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniRefEntryLightStore(
+                                10, false, "uniref", "tcp://localhost:1010"));
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniRefEntryLightStore(
+                                10,
+                                true,
+                                DEFAULT_BROTLI_COMPRESSION_LEVEL,
+                                "uniref",
+                                "tcp://localhost:1010"));
+    }
+
+    @Test
+    void usingVoldemortRemoteUniRefMemberStoreConstructorThrowsException() {
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniRefMemberStore(
+                                10, "uniref-member", "tcp://localhost:1010"));
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniRefMemberStore(
+                                10, false, "uniref-member", "tcp://localhost:1010"));
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniRefMemberStore(
+                                10,
+                                true,
+                                DEFAULT_BROTLI_COMPRESSION_LEVEL,
+                                "uniref-member",
+                                "tcp://localhost:1010"));
     }
 
     private Versioned<byte[]> getKeywordEntry() throws IOException {

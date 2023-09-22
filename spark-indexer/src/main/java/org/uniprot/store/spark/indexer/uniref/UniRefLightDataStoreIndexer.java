@@ -56,7 +56,7 @@ public class UniRefLightDataStoreIndexer implements DataStoreIndexer {
         return uniRefRDD.foreachPartitionAsync(getWriter(parameter));
     }
 
-    private DataStoreParameter getDataStoreParameter(Config config) {
+    DataStoreParameter getDataStoreParameter(Config config) {
         String numberOfConnections = config.getString("store.uniref.light.numberOfConnections");
         String maxRetry = config.getString("store.uniref.light.retry");
         String delay = config.getString("store.uniref.light.delay");

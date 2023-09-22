@@ -18,6 +18,7 @@ import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import scala.Tuple2;
@@ -45,6 +46,9 @@ class UniParcDataStoreIndexerTest {
                     new UniParcDataStoreIndexerTest.FakeUniParcDataStoreIndexer(parameter);
             assertNotNull(indexer);
             indexer.indexInDataStore();
+            DataStoreParameter dataStoreParams =
+                    indexer.getDataStoreParameter(parameter.getApplicationConfig());
+            assertNotNull(dataStoreParams);
         }
     }
 
