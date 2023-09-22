@@ -1,7 +1,5 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
-import java.util.ResourceBundle;
-
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.spark.api.java.JavaPairRDD;
@@ -15,6 +13,8 @@ import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryKeyMapper;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryTaxonomyJoin;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyMapper;
+
+import com.typesafe.config.Config;
 
 /**
  * @author lgonzales
@@ -95,7 +95,7 @@ public class UniParcDataStoreIndexer implements DataStoreIndexer {
         return taxReader.load();
     }
 
-    private DataStoreParameter getDataStoreParameter(ResourceBundle config) {
+    DataStoreParameter getDataStoreParameter(Config config) {
         String numberOfConnections = config.getString("store.uniparc.numberOfConnections");
         String maxRetry = config.getString("store.uniparc.retry");
         String delay = config.getString("store.uniparc.delay");
@@ -105,6 +105,8 @@ public class UniParcDataStoreIndexer implements DataStoreIndexer {
                 .numberOfConnections(Integer.parseInt(numberOfConnections))
                 .maxRetry(Integer.parseInt(maxRetry))
                 .delay(Long.parseLong(delay))
+                .brotliEnabled(config.getBoolean(BROTLI_COMPRESSION_ENABLED))
+                .brotliLevel(config.getInt(BROTLI_COMPRESSION_LEVEL))
                 .build();
     }
 }

@@ -13,8 +13,6 @@ package org.uniprot.store.search.field.validator;
 public class FieldRegexConstants {
     public static final String UNIPROTKB_ACCESSION_REGEX =
             "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])(-[0-9]+)?";
-    public static final String UNIPROTKB_ACCESSION_REGEX_ISOFORM =
-            "([O,P,Q][0-9][A-Z|0-9]{3}[0-9]|[A-N,R-Z]([0-9][A-Z][A-Z|0-9]{2}){1,2}[0-9])(-\\d+)*";
     public static final String UNIPROTKB_ACCESSION_OR_ID =
             "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])((-[0-9]{1,3})|(\\.[0-9]{1,3})|(_[A-Z0-9]{2,5}))?|[A-Z0-9]{2,5}_[A-Z0-9]{2,5}";
 
@@ -25,6 +23,15 @@ public class FieldRegexConstants {
     public static final String SEQUENCE_REGEX = "^[A-Z]+$|^NULL$";
     public static final String COMMA_SEPARATED_REGEX = "\\s*,\\s*";
     public static final String CLEAN_QUERY_REGEX = "(?:^\\()|(?:\\)$)";
+    public static final String GO_ID_REGEX = "^GO:\\d{7}$";
+    public static final String EC_ID_REGEX =
+            "^([1-7])\\.("
+                    + "((\\d{1,2})\\.(\\d{1,2})\\.(\\d{1,3}|n\\d{1,2}|-))|"
+                    + "((\\d{1,2})\\.(\\d{1,2}|-)\\.-)|"
+                    + "((\\d{1,2}|-)\\.-\\.-)"
+                    + ")$";
+    public static final String KEYWORD_ID_REGEX = "^KW-\\d{4}$";
+    public static final String TAXONOMY_ID_REGEX = "^\\d+$";
 
     private FieldRegexConstants() {}
 }

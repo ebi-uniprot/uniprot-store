@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.go.relations;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import java.util.*;
 
@@ -14,6 +15,8 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import scala.Tuple2;
 
+import com.typesafe.config.Config;
+
 /**
  * @author lgonzales
  * @since 2019-11-21
@@ -22,8 +25,9 @@ class GORelationRDDReaderTest {
 
     @Test
     void testLoadGORelation() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
-        try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
+        Config application = SparkUtils.loadApplicationProperty();
+        try (JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)

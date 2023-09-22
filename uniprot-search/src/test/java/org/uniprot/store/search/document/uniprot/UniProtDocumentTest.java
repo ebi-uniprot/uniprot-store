@@ -37,8 +37,8 @@ class UniProtDocumentTest {
     private UniProtDocument getCompleteDocument(Date date) {
         UniProtDocument doc = new UniProtDocument();
         doc.accession = "P21802";
-        doc.id = "1";
-        doc.idDefault = "1";
+        doc.id.add("1");
+        doc.idDefault.add("1");
         doc.reviewed = true;
         doc.proteinsNamesSort = "1";
         doc.lastModified = date;

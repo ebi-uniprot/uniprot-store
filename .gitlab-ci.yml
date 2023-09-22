@@ -45,6 +45,8 @@ store:settings:
 store:test:
   stage: test
   script:
+    - apt-get update && apt -y install brotli
+    - brotli --version
     - 'mvn $MAVEN_CLI_OPTS $UNIPROT_RESOURCES install -s ${MAVEN_SETTINGS}'
     - 'mkdir -p ./jacoco-report'
     - 'cp $JACOCO_AGGREGATE_REPORT ./jacoco-report/'

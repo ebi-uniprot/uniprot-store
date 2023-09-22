@@ -1,7 +1,6 @@
 package org.uniprot.store.spark.indexer.taxonomy.reader;
 
 import java.util.List;
-import java.util.ResourceBundle;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,6 +13,8 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyLineageRowMapper;
+
+import com.typesafe.config.Config;
 
 /**
  * This class is responsible to read values from Lineage into an a JavaPairRDD{key=taxId, value=List
@@ -58,7 +59,7 @@ public class TaxonomyLineageReader implements PairRDDReader<String, List<Taxonom
     /** @return JavaPairRDD{key=taxId, value=List of TaxonomyLineage} */
     public JavaPairRDD<String, List<TaxonomyLineage>> load() {
         JavaSparkContext sparkContext = jobParameter.getSparkContext();
-        ResourceBundle applicationConfig = jobParameter.getApplicationConfig();
+        Config applicationConfig = jobParameter.getApplicationConfig();
 
         int maxTaxId = TaxonomyUtil.getMaxTaxId(sparkContext, applicationConfig);
         log.info("Max tax id: " + maxTaxId);

@@ -2,8 +2,6 @@ package org.uniprot.store.spark.indexer.chebi;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
-import java.util.ResourceBundle;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.graphx.Edge;
@@ -18,6 +16,8 @@ import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 
 import scala.Tuple2;
 import scala.reflect.ClassTag;
+
+import com.typesafe.config.Config;
 
 /**
  * ChebiRDDReader loads CHEBI data and also its related ids "is_a","is_conjugate_base_of" and
@@ -47,7 +47,7 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
     /** @return JavaPairRDD{key=chebiId, value={@link ChebiEntry}} */
     @Override
     public JavaPairRDD<String, ChebiEntry> load() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
         String filePath = releaseInputDir + config.getString("chebi.file.path");
 
@@ -90,21 +90,14 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
     }
 
     /**
-     * This method load chebi.obo file into JavaPairRDD of chebi entries.
+     * This method load chebi.owl file into JavaPairRDD of chebi entries.
      *
-     * @param filePath chebi.obo file path (extracted from application.properties)
+     * @param filePath chebi.owl file path (extracted from application.properties)
      * @return return JavaPairRDD<chebiId,ChebiEntry>
      */
     private JavaPairRDD<Long, ChebiEntry> loadChebiRDD(String filePath) {
-        JavaPairRDD<Long, ChebiEntry> chebiRDD =
-                jobParameter
-                        .getSparkContext()
-                        .textFile(filePath)
-                        .filter(
-                                input ->
-                                        !input.startsWith("format-version")
-                                                && !input.startsWith("[Typedef]"))
-                        .mapToPair(new ChebiFileMapper());
+        ChebiOwlReader chebiOwlReader = new ChebiOwlReader(jobParameter);
+        JavaPairRDD<Long, ChebiEntry> chebiRDD = chebiOwlReader.load();
         return chebiRDD;
     }
 
@@ -203,6 +196,10 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
     }
 
     private static int countRelatedId(Tuple2<Object, ChebiEntry> tuple) {
-        return tuple._2.getRelatedIds().size() + 1;
+        if (tuple._2 != null) {
+            return tuple._2.getRelatedIds().size() + 1;
+        } else {
+            return 0;
+        }
     }
 }

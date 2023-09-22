@@ -22,6 +22,8 @@ public class UniParcDataStoreWriter extends AbstractDataStoreWriter<UniParcEntry
     public VoldemortClient<UniParcEntry> getDataStoreClient() {
         return new VoldemortRemoteUniParcEntryStore(
                 parameter.getNumberOfConnections(),
+                parameter.isBrotliEnabled(),
+                parameter.getBrotliLevel(),
                 parameter.getStoreName(),
                 parameter.getConnectionURL());
     }

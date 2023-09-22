@@ -13,7 +13,7 @@ import org.uniprot.core.genecentric.impl.ProteinBuilder;
 import org.uniprot.core.parser.fasta.uniprot.UniProtKBFastaParser;
 import org.uniprot.core.uniprotkb.UniProtKBAccession;
 import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
-import org.uniprot.store.spark.indexer.common.exception.IndexHDFSDocumentsException;
+import org.uniprot.store.spark.indexer.common.exception.IndexHPSDocumentsException;
 
 import scala.Tuple2;
 
@@ -35,7 +35,7 @@ public class FastaToRelatedGeneCentricEntry extends FastaToGeneCentricEntry {
         try {
             uniProtKBFasta = UniProtKBFastaParser.fromFasta(fastaInput);
         } catch (Exception e) {
-            throw new IndexHDFSDocumentsException(
+            throw new IndexHPSDocumentsException(
                     "In Proteome: " + proteomeId + ", unable to parse fastaInput: " + fastaInput,
                     e);
         }

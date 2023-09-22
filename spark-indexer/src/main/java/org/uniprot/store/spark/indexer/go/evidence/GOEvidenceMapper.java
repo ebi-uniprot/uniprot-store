@@ -70,16 +70,19 @@ public class GOEvidenceMapper
     }
 
     private Map<String, List<Evidence>> getGoEvidenceMap(Iterable<GOEvidence> goEvidences) {
-        Map<String, List<Evidence>> goEvidenceMap = new HashMap<>();
+        Map<String, Set<Evidence>> goEvidenceMap = new HashMap<>();
 
         goEvidences.forEach(
                 goEvidence -> {
-                    List<Evidence> values =
+                    Set<Evidence> values =
                             goEvidenceMap.computeIfAbsent(
-                                    goEvidence.getGoId(), goId -> new ArrayList<>());
+                                    goEvidence.getGoId(), goId -> new LinkedHashSet<>());
                     values.add(goEvidence.getEvidence());
                 });
 
-        return goEvidenceMap;
+        return goEvidenceMap.entrySet().stream()
+                .collect(
+                        Collectors.toMap(
+                                Map.Entry::getKey, entry -> new ArrayList<>(entry.getValue())));
     }
 }

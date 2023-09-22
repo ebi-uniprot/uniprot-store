@@ -60,7 +60,9 @@ public class LiteratureConverter {
                     fileEntry.rlLines.add(tokens[1]);
                     break;
                 case RG_LINE:
-                    fileEntry.rgLines.add(tokens[1]);
+                    if (canAddLine(tokens)) {
+                        fileEntry.rgLines.add(tokens[1]);
+                    }
                     break;
                 case COMMENT_LINE:
                     fileEntry.completeAuthorList = false;
@@ -75,6 +77,10 @@ public class LiteratureConverter {
             }
         }
         return buildLiteratureEntry(fileEntry);
+    }
+
+    private boolean canAddLine(String[] tokens) {
+        return tokens.length >= 2;
     }
 
     private Literature buildLiteratureEntry(LiteratureFileEntry fileEntry) {

@@ -1,9 +1,9 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.JavaRDD;
@@ -13,6 +13,8 @@ import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
+import com.typesafe.config.Config;
+
 /**
  * @author lgonzales
  * @since 16/05/2020
@@ -21,8 +23,9 @@ class UniParcRDDTupleReaderTest {
 
     @Test
     void testLoadUniParc() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
-        try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
+        Config application = SparkUtils.loadApplicationProperty();
+        try (JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)

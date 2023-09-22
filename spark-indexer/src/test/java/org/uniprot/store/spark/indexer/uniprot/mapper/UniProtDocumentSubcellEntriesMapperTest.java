@@ -1,17 +1,14 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
-import static org.uniprot.store.spark.indexer.uniprot.mapper.UniProtDocumentSubcellEntriesMapper.*;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+import static org.uniprot.store.spark.indexer.uniprot.mapper.UniProtDocumentSubcellEntriesMapper.CC_SUBCELL_EXP;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.Optional;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
@@ -20,6 +17,8 @@ import org.uniprot.store.spark.indexer.subcell.SubcellularLocationRDDReader;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
 import scala.Tuple2;
+
+import com.typesafe.config.Config;
 
 /**
  * @author sahmad
@@ -32,8 +31,9 @@ class UniProtDocumentSubcellEntriesMapperTest {
 
     @BeforeAll
     void setUpWriter() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
-        JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application);
+        Config application = SparkUtils.loadApplicationProperty();
+        JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER);
         parameter =
                 JobParameter.builder()
                         .applicationConfig(application)

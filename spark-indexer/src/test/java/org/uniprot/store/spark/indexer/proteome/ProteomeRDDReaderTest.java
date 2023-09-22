@@ -2,8 +2,7 @@ package org.uniprot.store.spark.indexer.proteome;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.ResourceBundle;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -14,6 +13,8 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import scala.Tuple2;
 
+import com.typesafe.config.Config;
+
 /**
  * @author sahmad
  * @since 21/08/2020
@@ -21,8 +22,9 @@ import scala.Tuple2;
 class ProteomeRDDReaderTest {
     @Test
     void testLoadProteomeWithoutPartition() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
-        try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
+        Config application = SparkUtils.loadApplicationProperty();
+        try (JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)
@@ -45,8 +47,9 @@ class ProteomeRDDReaderTest {
 
     @Test
     void testLoadProteomeWithPartition() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
-        try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
+        Config application = SparkUtils.loadApplicationProperty();
+        try (JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)

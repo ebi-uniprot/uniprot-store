@@ -1,8 +1,7 @@
 package org.uniprot.store.spark.indexer.genecentric;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ResourceBundle;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -14,6 +13,8 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import scala.Tuple2;
 
+import com.typesafe.config.Config;
+
 /**
  * @author lgonzales
  * @since 21/10/2020
@@ -22,8 +23,9 @@ class GeneCentricRelatedRDDReaderTest {
 
     @Test
     void testLoadGeneCentricRelatedProteins() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
-        try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
+        Config application = SparkUtils.loadApplicationProperty();
+        try (JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)

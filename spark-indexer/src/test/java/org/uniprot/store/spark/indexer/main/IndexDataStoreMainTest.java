@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.main;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
@@ -18,7 +18,7 @@ class IndexDataStoreMainTest {
 
     @Test
     void testIndexDataStoreMainInvalidCollection() {
-        String[] args = {"invalid", "invalid"};
+        String[] args = {"invalid", "invalid", "invalid"};
         assertThrows(IndexDataStoreException.class, () -> IndexDataStoreMain.main(args));
     }
 }

@@ -2,8 +2,6 @@ package org.uniprot.store.spark.indexer.literature;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
-import java.util.ResourceBundle;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
@@ -14,6 +12,8 @@ import org.uniprot.store.spark.indexer.literature.mapper.LiteratureMappedFileMap
 import org.uniprot.store.spark.indexer.literature.mapper.LiteraturePubmedFileMapper;
 
 import scala.Tuple2;
+
+import com.typesafe.config.Config;
 
 /**
  * Class responsible to load JavaPairRDD from PIR mapped files.
@@ -37,7 +37,7 @@ public class LiteratureMappedRDDReader
      */
     @Override
     public JavaPairRDD<String, Iterable<LiteratureMappedReference>> load() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
 
         SparkSession spark = SparkSession.builder().config(jsc.getConf()).getOrCreate();
@@ -56,7 +56,7 @@ public class LiteratureMappedRDDReader
      * @return JavaPairRDD{key=Uniprot accession, value=Iterable of [sourceType, PubmedId]}
      */
     public JavaPairRDD<String, Iterable<Tuple2<String, String>>> loadAccessionPubMedRDD() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
 
         SparkSession spark = SparkSession.builder().config(jsc.getConf()).getOrCreate();

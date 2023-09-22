@@ -11,6 +11,7 @@ import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniPro
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
@@ -791,7 +792,7 @@ public class FullCISplitNumericAnalysisSearchIT {
     }
 
     enum FieldType {
-        id_default(TypeFunctions.STRING_FUNCTION, "id_default");
+        id_default(TypeFunctions.STRING_LIST_FUNCTION, "id_default");
 
         private final Function<String, ?> field;
 
@@ -811,7 +812,8 @@ public class FullCISplitNumericAnalysisSearchIT {
         }
 
         static class TypeFunctions {
-            static final Function<String, String> STRING_FUNCTION = s -> s;
+            static final Function<String, List<String>> STRING_LIST_FUNCTION =
+                    Collections::singletonList;
         }
     }
 }

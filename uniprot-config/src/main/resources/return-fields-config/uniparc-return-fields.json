@@ -287,10 +287,10 @@
     "parentId": "family_&_domains",
     "childNumber": 11,
     "itemType": "SINGLE",
-    "label": "TIGRFAMs",
-    "name": "TIGRFAMs",
-    "paths": ["sequenceFeatures[?(@.database=='TIGRFAMs')]"],
-    "id": "family_&_domains/TIGRFAMs",
+    "label": "NCBIfam",
+    "name": "NCBIfam",
+    "paths": ["sequenceFeatures[?(@.database=='NCBIfam')]"],
+    "id": "family_&_domains/NCBIfam",
     "includeInSwagger": true
   },
   {

@@ -17,6 +17,20 @@ public class VoldemortRemoteUniParcEntryStore extends VoldemortRemoteJsonBinaryS
         super(maxConnection, storeName, voldemortUrl);
     }
 
+    public VoldemortRemoteUniParcEntryStore(
+            int maxConnection, boolean brotliEnabled, String storeName, String... voldemortUrl) {
+        super(maxConnection, brotliEnabled, storeName, voldemortUrl);
+    }
+
+    public VoldemortRemoteUniParcEntryStore(
+            int maxConnection,
+            boolean brotliEnabled,
+            int brotliLevel,
+            String storeName,
+            String... voldemortUrl) {
+        super(maxConnection, brotliEnabled, brotliLevel, storeName, voldemortUrl);
+    }
+
     @Override
     public String getStoreId(UniParcEntry entry) {
         return entry.getUniParcId().getValue();

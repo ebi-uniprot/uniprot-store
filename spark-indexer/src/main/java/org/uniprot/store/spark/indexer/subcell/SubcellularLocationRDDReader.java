@@ -3,7 +3,6 @@ package org.uniprot.store.spark.indexer.subcell;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseMainThreadDirPath;
 
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -12,6 +11,8 @@ import org.uniprot.cv.subcell.SubcellularLocationFileReader;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+
+import com.typesafe.config.Config;
 
 /**
  * @author lgonzales
@@ -29,7 +30,7 @@ public class SubcellularLocationRDDReader
     /** @return JavaPairRDD{key=subcellId, value={@link SubcellularLocationEntry}} */
     @Override
     public JavaPairRDD<String, SubcellularLocationEntry> load() {
-        ResourceBundle config = jobParameter.getApplicationConfig();
+        Config config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
 
         String releaseInputDir =

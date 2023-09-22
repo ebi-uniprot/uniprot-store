@@ -1,8 +1,8 @@
 package org.uniprot.store.spark.indexer.subcell;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ResourceBundle;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -13,6 +13,8 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import scala.Tuple2;
 
+import com.typesafe.config.Config;
+
 /**
  * @author lgonzales
  * @since 10/05/2020
@@ -21,8 +23,9 @@ class SubcellularLocationRDDReaderTest {
 
     @Test
     void testLoadSubcellRdd() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
-        try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
+        Config application = SparkUtils.loadApplicationProperty();
+        try (JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)

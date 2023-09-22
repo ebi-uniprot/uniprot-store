@@ -1,7 +1,7 @@
 package org.uniprot.store.spark.indexer.publication.mapper;
 
 import static org.apache.spark.sql.functions.rand;
-import static org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHDFSWriter.separateJoinKey;
+import static org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHPSWriter.separateJoinKey;
 
 import java.util.Collections;
 import java.util.HashSet;

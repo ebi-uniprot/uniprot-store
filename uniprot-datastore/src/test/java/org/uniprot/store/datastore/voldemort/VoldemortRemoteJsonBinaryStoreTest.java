@@ -1,7 +1,9 @@
 package org.uniprot.store.datastore.voldemort;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.datastore.voldemort.VoldemortRemoteJsonBinaryStore.DEFAULT_BROTLI_COMPRESSION_LEVEL;
 
+import java.io.IOException;
 import java.util.*;
 
 import org.junit.jupiter.api.Assertions;
@@ -13,7 +15,10 @@ import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.cv.keyword.impl.KeywordEntryBuilder;
 import org.uniprot.core.cv.keyword.impl.KeywordIdBuilder;
 import org.uniprot.core.json.parser.keyword.KeywordJsonConfig;
+import org.uniprot.store.datastore.voldemort.light.uniref.VoldemortRemoteUniRefEntryLightStore;
+import org.uniprot.store.datastore.voldemort.member.uniref.VoldemortRemoteUniRefMemberStore;
 import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
+import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
 
 import voldemort.client.ClientConfig;
 import voldemort.client.SocketStoreClientFactory;
@@ -22,6 +27,8 @@ import voldemort.cluster.failuredetector.FailureDetector;
 import voldemort.versioning.ObsoleteVersionException;
 import voldemort.versioning.Versioned;
 
+import com.aayushatharva.brotli4j.encoder.Encoder;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -53,6 +60,20 @@ class VoldemortRemoteJsonBinaryStoreTest {
         Assertions.assertThrows(
                 RetrievalException.class,
                 () -> new VoldemortRemoteUniParcEntryStore(10, "uniparc", "tcp://localhost:1010"));
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniParcEntryStore(
+                                10, false, "uniparc", "tcp://localhost:1010"));
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniParcEntryStore(
+                                10,
+                                true,
+                                DEFAULT_BROTLI_COMPRESSION_LEVEL,
+                                "uniparc",
+                                "tcp://localhost:1010"));
     }
 
     @Test
@@ -155,8 +176,7 @@ class VoldemortRemoteJsonBinaryStoreTest {
 
     @Test
     void getEntryValidAccession() throws Exception {
-        Versioned<byte[]> versioned =
-                new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
+        Versioned<byte[]> versioned = getKeywordEntry();
         Mockito.when(client.get(Mockito.anyString())).thenReturn(versioned);
         Optional<KeywordEntry> result = voldemort.getEntry(KEYWORD_ID);
         assertTrue(result.isPresent());
@@ -181,8 +201,7 @@ class VoldemortRemoteJsonBinaryStoreTest {
 
     @Test
     void getEntriesValidAccessions() throws Exception {
-        Versioned<byte[]> versioned =
-                new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
+        Versioned<byte[]> versioned = getKeywordEntry();
         Map<String, Versioned<byte[]>> entryMap = new HashMap<>();
         entryMap.put(KEYWORD_ID, versioned);
         Mockito.when(client.getAll(Mockito.anyIterable())).thenReturn(entryMap);
@@ -194,8 +213,7 @@ class VoldemortRemoteJsonBinaryStoreTest {
 
     @Test
     void getEntriesDoNotReturnInvalidAccessions() throws Exception {
-        Versioned<byte[]> versioned =
-                new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
+        Versioned<byte[]> versioned = getKeywordEntry();
         Map<String, Versioned<byte[]>> entryMap = new HashMap<>();
         entryMap.put(KEYWORD_ID, versioned);
         Mockito.when(client.getAll(Mockito.anyIterable())).thenReturn(entryMap);
@@ -208,8 +226,7 @@ class VoldemortRemoteJsonBinaryStoreTest {
 
     @Test
     void getEntryMapValidAccession() throws Exception {
-        Versioned<byte[]> versioned =
-                new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
+        Versioned<byte[]> versioned = getKeywordEntry();
         Map<String, Versioned<byte[]>> entryMap = new HashMap<>();
         entryMap.put(KEYWORD_ID, versioned);
         Mockito.when(client.getAll(Mockito.anyIterable())).thenReturn(entryMap);
@@ -223,8 +240,7 @@ class VoldemortRemoteJsonBinaryStoreTest {
 
     @Test
     void getEntryMapInvalidAccession() throws Exception {
-        Versioned<byte[]> versioned =
-                new Versioned<>(voldemort.getStoreObjectMapper().writeValueAsBytes(entry));
+        Versioned<byte[]> versioned = getKeywordEntry();
         Map<String, Versioned<byte[]>> entryMap = new HashMap<>();
         entryMap.put(KEYWORD_ID, versioned);
         Mockito.when(client.getAll(Mockito.anyIterable())).thenReturn(entryMap);
@@ -249,11 +265,107 @@ class VoldemortRemoteJsonBinaryStoreTest {
         assertEquals(STORE_NAME, voldemort.getStoreName());
     }
 
+    @Test
+    void saveAndGetNonBrotliCompressed() throws JsonProcessingException {
+        FakeVoldemortRemoteJsonBinaryStore nonBrotliVoldemort =
+                new FakeVoldemortRemoteJsonBinaryStore(
+                        false, STORE_NAME, "tcp://localhost:99999999");
+        Assertions.assertDoesNotThrow(() -> nonBrotliVoldemort.saveEntry(entry));
+        byte[] binaryEntry = nonBrotliVoldemort.getStoreObjectMapper().writeValueAsBytes(entry);
+        Mockito.when(client.get(Mockito.anyString())).thenReturn(new Versioned<>(binaryEntry));
+        Optional<KeywordEntry> result = nonBrotliVoldemort.getEntry(KEYWORD_ID);
+        assertTrue(result.isPresent());
+        assertEquals(entry, result.get());
+    }
+
+    @Test
+    void usingVoldemortRemoteUniProtKBEntryStoreConstructorThrowsException() {
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniProtKBEntryStore(
+                                10, "uniprot", "tcp://localhost:1010"));
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniProtKBEntryStore(
+                                10, false, "uniprot", "tcp://localhost:1010"));
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniProtKBEntryStore(
+                                10,
+                                true,
+                                DEFAULT_BROTLI_COMPRESSION_LEVEL,
+                                "uniparc",
+                                "tcp://localhost:1010"));
+    }
+
+    @Test
+    void usingVoldemortRemoteUniRefLightEntryStoreConstructorThrowsException() {
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniRefEntryLightStore(
+                                10, "uniref", "tcp://localhost:1010"));
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniRefEntryLightStore(
+                                10, false, "uniref", "tcp://localhost:1010"));
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniRefEntryLightStore(
+                                10,
+                                true,
+                                DEFAULT_BROTLI_COMPRESSION_LEVEL,
+                                "uniref",
+                                "tcp://localhost:1010"));
+    }
+
+    @Test
+    void usingVoldemortRemoteUniRefMemberStoreConstructorThrowsException() {
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniRefMemberStore(
+                                10, "uniref-member", "tcp://localhost:1010"));
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniRefMemberStore(
+                                10, false, "uniref-member", "tcp://localhost:1010"));
+        Assertions.assertThrows(
+                RetrievalException.class,
+                () ->
+                        new VoldemortRemoteUniRefMemberStore(
+                                10,
+                                true,
+                                DEFAULT_BROTLI_COMPRESSION_LEVEL,
+                                "uniref-member",
+                                "tcp://localhost:1010"));
+    }
+
+    private Versioned<byte[]> getKeywordEntry() throws IOException {
+        byte[] binaryEntry = voldemort.getStoreObjectMapper().writeValueAsBytes(entry);
+        byte[] compressedEntry =
+                Encoder.compress(
+                        binaryEntry,
+                        new Encoder.Parameters().setQuality(DEFAULT_BROTLI_COMPRESSION_LEVEL));
+        return new Versioned<>(compressedEntry);
+    }
+
     private class FakeVoldemortRemoteJsonBinaryStore
             extends VoldemortRemoteJsonBinaryStore<KeywordEntry> {
 
         public FakeVoldemortRemoteJsonBinaryStore(String storeName, String... voldemortUrl) {
-            super(storeName, voldemortUrl);
+            this(BROTLI_ENABLED, storeName, voldemortUrl);
+        }
+
+        public FakeVoldemortRemoteJsonBinaryStore(
+                boolean brotliEnabled, String storeName, String... voldemortUrl) {
+            super(DEFAULT_MAX_CONNECTION, brotliEnabled, storeName, voldemortUrl);
             ReflectionTestUtils.setField(this, "client", client);
         }
 

@@ -1,6 +1,8 @@
 package org.uniprot.store.spark.indexer.taxonomy.reader;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -8,16 +10,20 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import scala.Tuple2;
+
+import com.typesafe.config.Config;
 
 /**
  * @author lgonzales
@@ -27,7 +33,7 @@ import scala.Tuple2;
 class TaxonomyRDDReaderTest {
 
     private Connection dbConnection;
-    private ResourceBundle application;
+    private Config application;
 
     @BeforeAll
     public void setupTests() throws SQLException, IOException {
@@ -42,7 +48,8 @@ class TaxonomyRDDReaderTest {
     @Test
     void load() {
         assertNotNull(dbConnection);
-        try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
+        try (JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)
@@ -69,7 +76,8 @@ class TaxonomyRDDReaderTest {
     @Test
     void loadWithLineage() {
         assertNotNull(dbConnection);
-        try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
+        try (JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)
@@ -94,9 +102,9 @@ class TaxonomyRDDReaderTest {
             assertEquals(10116L, taxWithLineage.getTaxonId());
             assertNotNull(taxWithLineage.getLineages());
             assertEquals(3, taxWithLineage.getLineages().size());
-            assertEquals(10114L, taxWithLineage.getLineages().get(0).getTaxonId());
+            assertEquals(10114L, taxWithLineage.getLineages().get(2).getTaxonId());
             assertEquals(39107L, taxWithLineage.getLineages().get(1).getTaxonId());
-            assertEquals(10066L, taxWithLineage.getLineages().get(2).getTaxonId());
+            assertEquals(10066L, taxWithLineage.getLineages().get(0).getTaxonId());
         }
     }
 

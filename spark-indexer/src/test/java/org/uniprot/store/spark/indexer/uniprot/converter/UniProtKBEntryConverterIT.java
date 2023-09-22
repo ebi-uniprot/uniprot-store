@@ -57,7 +57,8 @@ class UniProtKBEntryConverterIT {
         UniProtDocument doc = convertEntry(entry);
         assertNotNull(doc);
         assertEquals("A0PHU1", doc.accession);
-        assertEquals("A0PHU1_9CICH", doc.id);
+        assertEquals(1, doc.id.size());
+        assertTrue(doc.id.contains("A0PHU1_9CICH"));
         assertFalse(doc.reviewed);
         assertEquals(1, doc.proteinNames.size());
         assertEquals("Cytochrome b", doc.proteinNames.get(0));
@@ -118,11 +119,6 @@ class UniProtKBEntryConverterIT {
                         .get(CC_SIMILARITY_FIELD)
                         .contains("SIMILARITY: Belongs to the cytochrome b family."));
 
-        assertEquals(3, doc.commentEvMap.size());
-        assertTrue(doc.commentEvMap.containsKey(CCEV_SIMILARITY_FIELD));
-        assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("ECO_0000256"));
-        assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("automatic"));
-
         assertEquals(3, doc.proteinExistence);
         assertFalse(doc.fragment);
         assertFalse(doc.precursor);
@@ -141,12 +137,6 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(1, doc.cofactorNote.size());
         assertTrue(doc.cofactorNote.contains("Binds 2 heme groups non-covalently."));
-
-        assertEquals(2, doc.cofactorChebiEv.size());
-        assertTrue(doc.cofactorChebiEv.contains("ECO_0000256"));
-
-        assertEquals(2, doc.cofactorNoteEv.size());
-        assertTrue(doc.cofactorNoteEv.contains("ECO_0000256"));
 
         assertEquals(1, doc.familyInfo.size());
         assertTrue(doc.familyInfo.contains("cytochrome b family"));
@@ -183,7 +173,8 @@ class UniProtKBEntryConverterIT {
         assertEquals(5, doc.secacc.size());
         assertEquals("Q7TSC6", doc.secacc.get(1));
         assertNull(doc.canonicalAccession);
-        assertEquals("NSMF_RAT", doc.id);
+        assertEquals(1, doc.id.size());
+        assertTrue(doc.id.contains("NSMF_RAT"));
         assertTrue(doc.reviewed);
 
         assertEquals(5, doc.proteinNames.size());
@@ -282,23 +273,9 @@ class UniProtKBEntryConverterIT {
                         .get(CC_SIMILARITY_FIELD)
                         .contains("SIMILARITY: Belongs to the NSMF family."));
 
-        assertEquals(11, doc.commentEvMap.size());
-        assertTrue(doc.commentEvMap.containsKey(CCEV_SIMILARITY_FIELD));
-        assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("ECO_0000305"));
-        assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("manual"));
-
         assertEquals(14, doc.featuresMap.size());
         assertTrue(doc.featuresMap.containsKey(FT_CONFLICT_FIELD));
         assertTrue(doc.featuresMap.get(FT_CONFLICT_FIELD).contains("in Ref. 3; AAH87719"));
-
-        assertEquals(10, doc.featureEvidenceMap.size());
-        assertTrue(doc.featureEvidenceMap.containsKey(FTEV_CONFLICT_FIELD));
-        assertTrue(doc.featureEvidenceMap.get(FTEV_CONFLICT_FIELD).contains("ECO_0000305"));
-        assertTrue(doc.featureEvidenceMap.get(FTEV_CONFLICT_FIELD).contains("manual"));
-
-        assertEquals(10, doc.featureLengthMap.size());
-        assertTrue(doc.featureLengthMap.containsKey(FTLEN_CHAIN_FIELD));
-        assertTrue(doc.featureLengthMap.get(FTLEN_CHAIN_FIELD).contains(531));
 
         assertEquals(1, doc.proteinExistence);
         assertFalse(doc.fragment);
@@ -312,11 +289,7 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(26, doc.subcellLocationTerm.size());
         assertTrue(doc.subcellLocationTerm.contains("Nucleus envelope"));
-        assertEquals(1, doc.subcellLocationTermEv.size());
         assertEquals(1, doc.subcellLocationNote.size());
-        assertEquals(2, doc.subcellLocationNoteEv.size());
-        assertTrue(doc.subcellLocationNoteEv.contains("ECO_0000250"));
-        assertTrue(doc.subcellLocationNoteEv.contains("manual"));
         List<String> subcellTerm =
                 doc.subcellLocationTerm.stream()
                         .filter(val -> !val.startsWith("SL-"))
@@ -377,7 +350,8 @@ class UniProtKBEntryConverterIT {
 
         assertEquals("Q9EPI6-2", doc.accession);
         assertEquals("Q9EPI6", doc.canonicalAccession);
-        assertEquals("NSMF-2_RAT", doc.id);
+        assertEquals(1, doc.id.size());
+        assertTrue(doc.id.contains("NSMF-2_RAT"));
         assertTrue(doc.isIsoform);
         assertTrue(doc.reviewed);
 
@@ -456,12 +430,7 @@ class UniProtKBEntryConverterIT {
         assertEquals(1, doc.commentMap.size());
         assertTrue(doc.commentMap.containsKey(CC_ALTERNATIVE_PRODUCTS_FIELD));
 
-        assertEquals(1, doc.commentEvMap.size());
-        assertTrue(doc.commentEvMap.containsKey("ccev_alternative_products"));
-
         assertEquals(0, doc.featuresMap.size());
-        assertEquals(0, doc.featureEvidenceMap.size());
-        assertEquals(0, doc.featureLengthMap.size());
 
         assertEquals(1, doc.proteinExistence);
         assertFalse(doc.fragment);

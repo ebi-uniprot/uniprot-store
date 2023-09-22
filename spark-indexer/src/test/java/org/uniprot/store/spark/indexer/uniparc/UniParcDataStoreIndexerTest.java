@@ -1,8 +1,11 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -15,9 +18,12 @@ import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import scala.Tuple2;
+
+import com.typesafe.config.Config;
 
 /**
  * @author lgonzales
@@ -27,8 +33,9 @@ class UniParcDataStoreIndexerTest {
 
     @Test
     void indexInDataStore() {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
-        try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
+        Config application = SparkUtils.loadApplicationProperty();
+        try (JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)
@@ -39,6 +46,9 @@ class UniParcDataStoreIndexerTest {
                     new UniParcDataStoreIndexerTest.FakeUniParcDataStoreIndexer(parameter);
             assertNotNull(indexer);
             indexer.indexInDataStore();
+            DataStoreParameter dataStoreParams =
+                    indexer.getDataStoreParameter(parameter.getApplicationConfig());
+            assertNotNull(dataStoreParams);
         }
     }
 

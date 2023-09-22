@@ -1,11 +1,9 @@
 package org.uniprot.store.spark.indexer.subcellularlocation.mapper;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import java.util.Iterator;
-import java.util.ResourceBundle;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -17,6 +15,8 @@ import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
 import scala.Tuple2;
 
+import com.typesafe.config.Config;
+
 /**
  * @author sahmad
  * @created 03/02/2022
@@ -25,8 +25,9 @@ class SubcellularLocationJoinMapperTest {
 
     @Test
     void testGetSubcellularLocationsFromUniProtEntry() throws Exception {
-        ResourceBundle application = SparkUtils.loadApplicationProperty();
-        try (JavaSparkContext sparkContext = SparkUtils.loadSparkContext(application)) {
+        Config application = SparkUtils.loadApplicationProperty();
+        try (JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)

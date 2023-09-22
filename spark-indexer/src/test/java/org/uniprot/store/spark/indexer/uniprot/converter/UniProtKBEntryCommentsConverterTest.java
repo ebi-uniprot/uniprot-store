@@ -90,15 +90,6 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertTrue(document.content.contains(expectedIndexed));
 
-        assertTrue(document.commentEvMap.containsKey(CCEV_CATALYTIC_ACTIVITY));
-        assertEquals(6, document.commentEvMap.get(CCEV_CATALYTIC_ACTIVITY).size());
-        assertTrue(document.commentEvMap.get(CCEV_CATALYTIC_ACTIVITY).contains("ECO_0000305"));
-        assertTrue(document.commentEvMap.get(CCEV_CATALYTIC_ACTIVITY).contains("ECO_0000250"));
-        assertTrue(document.commentEvMap.get(CCEV_CATALYTIC_ACTIVITY).contains("ECO_0000269"));
-        assertTrue(document.commentEvMap.get(CCEV_CATALYTIC_ACTIVITY).contains("ECO_0000255"));
-        assertTrue(document.commentEvMap.get(CCEV_CATALYTIC_ACTIVITY).contains("experimental"));
-        assertTrue(document.commentEvMap.get(CCEV_CATALYTIC_ACTIVITY).contains("manual"));
-
         assertEquals(1, document.proteinsWith.size());
         assertTrue(document.proteinsWith.contains(ProteinsWith.CATALYTIC_ACTIVITY.getValue()));
         assertEquals(3, document.rheaIds.size());
@@ -149,10 +140,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.evidenceExperimental);
         assertTrue(document.content.contains(expectedIndexed));
 
-        assertTrue(document.commentEvMap.containsKey(CCEV_CATALYTIC_ACTIVITY));
-        assertEquals(1, document.commentEvMap.get(CCEV_CATALYTIC_ACTIVITY).size());
-        assertTrue(document.commentEvMap.get(CCEV_CATALYTIC_ACTIVITY).contains("experimental"));
-
         assertEquals(1, document.proteinsWith.size());
         assertTrue(document.proteinsWith.contains(ProteinsWith.CATALYTIC_ACTIVITY.getValue()));
         assertEquals(3, document.rheaIds.size());
@@ -195,13 +182,6 @@ class UniProtKBEntryCommentsConverterTest {
         Collection<String> pathwayExpList = document.commentMap.get(CC_PATHWAY_EXPERIMENTAL);
         assertEquals(1, pathwayExpList.size());
         assertTrue(pathwayExpList.contains("PATHWAY: Lipid metabolism; glycerolipid metabolism."));
-
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey("ccev_pathway"));
-        assertEquals(3, document.commentEvMap.get("ccev_pathway").size());
-        assertTrue(document.commentEvMap.get("ccev_pathway").contains("ECO_0000269"));
-        assertTrue(document.commentEvMap.get("ccev_pathway").contains("experimental"));
-        assertTrue(document.commentEvMap.get("ccev_pathway").contains("manual"));
 
         assertTrue(
                 document.content.contains("PATHWAY: Lipid metabolism; glycerolipid metabolism."));
@@ -247,11 +227,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertEquals(pathwayList, document.commentMap.get(CC_PATHWAY_EXPERIMENTAL));
         assertTrue(document.evidenceExperimental);
 
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey("ccev_pathway"));
-        assertEquals(1, document.commentEvMap.get("ccev_pathway").size());
-        assertTrue(document.commentEvMap.get("ccev_pathway").contains("experimental"));
-
         assertEquals(5, document.content.size());
     }
 
@@ -296,13 +271,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertFalse(document.evidenceExperimental);
         assertEquals(1, document.commentMap.get("cc_interaction").size());
         assertTrue(document.commentMap.get("cc_interaction").contains(interactionIndexedString));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey("ccev_interaction"));
-        assertEquals(
-                0,
-                document.commentEvMap
-                        .get("ccev_interaction")
-                        .size()); // interaction do not have evidence
 
         assertTrue(document.content.contains(interactionIndexedString));
     }
@@ -335,11 +303,7 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentMap.containsKey("cc_similarity"));
         assertEquals(1, document.commentMap.get("cc_similarity").size());
         assertTrue(document.commentMap.get("cc_similarity").contains(similarityIndexedString));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey("ccev_similarity"));
-        assertEquals(3, document.commentEvMap.get("ccev_similarity").size());
-        assertTrue(document.commentEvMap.get("ccev_similarity").contains("ECO_0000269"));
-        assertTrue(document.commentEvMap.get("ccev_similarity").contains("manual"));
+
         assertTrue(document.content.contains(similarityIndexedString));
 
         assertTrue(document.commentMap.containsKey("cc_similarity" + EXPERIMENTAL));
@@ -378,9 +342,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentMap.containsKey("cc_similarity"));
         assertEquals(1, document.commentMap.get("cc_similarity").size());
         assertTrue(document.commentMap.get("cc_similarity").contains(similarityIndexedString));
-
-        assertEquals(1, document.commentEvMap.size());
-        assertEquals(0, document.commentEvMap.get("ccev_similarity").size());
 
         assertTrue(document.content.contains(similarityIndexedString));
         assertFalse(document.commentMap.containsKey("cc_similarity" + EXPERIMENTAL));
@@ -434,22 +395,17 @@ class UniProtKBEntryCommentsConverterTest {
                         .get(CC_ALTERNATIVE_PRODUCTS_FIELD)
                         .contains(alternativeProductsLine));
 
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey(CCEV_ALTERNATIVE_PRODUCTS_FIELD));
-        assertEquals(3, document.commentEvMap.get(CCEV_ALTERNATIVE_PRODUCTS_FIELD).size());
-
         assertEquals(8, document.ap.size());
         assertTrue(document.ap.contains("Alternative promoter usage"));
         assertTrue(document.ap.contains("Produced from the genomic RNA."));
         assertTrue(document.ap.contains("external"));
-        assertEquals(3, document.apEv.size());
+
         assertEquals(6, document.apApu.size());
         assertTrue(document.apApu.contains("Produced from the genomic RNA."));
         assertTrue(
                 document.apApu.contains(
                         "Produced by alternative initiation from the subgenomic RNA."));
         assertTrue(document.apApu.contains("described"));
-        assertEquals(3, document.apApuEv.size());
 
         assertTrue(document.content.contains(alternativeProductsLine));
 
@@ -500,18 +456,12 @@ class UniProtKBEntryCommentsConverterTest {
                         .get(CC_ALTERNATIVE_PRODUCTS_FIELD)
                         .contains(alternativeProductsLine));
 
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey(CCEV_ALTERNATIVE_PRODUCTS_FIELD));
-        assertEquals(0, document.commentEvMap.get(CCEV_ALTERNATIVE_PRODUCTS_FIELD).size());
-
         assertEquals(4, document.ap.size());
         assertTrue(document.ap.contains("Alternative promoter usage"));
-        assertEquals(0, document.apEv.size());
 
         assertEquals(2, document.apApu.size());
         assertTrue(document.apApu.contains("Produced from the genomic RNA."));
         assertTrue(document.apApu.contains("displayed"));
-        assertEquals(0, document.apApuEv.size());
 
         assertTrue(document.content.contains(alternativeProductsLine));
         assertFalse(document.commentMap.containsKey(CC_AP_EXPERIMENTAL));
@@ -560,24 +510,17 @@ class UniProtKBEntryCommentsConverterTest {
                         .get(CC_ALTERNATIVE_PRODUCTS_FIELD)
                         .contains(alternativeProductsLine));
 
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey(CCEV_ALTERNATIVE_PRODUCTS_FIELD));
-        assertEquals(3, document.commentEvMap.get(CCEV_ALTERNATIVE_PRODUCTS_FIELD).size());
-
         assertEquals(5, document.ap.size());
         assertTrue(document.ap.contains("Ribosomal frameshifting"));
         assertTrue(document.ap.contains("Produced by conventional translation."));
         assertTrue(document.ap.contains("external"));
-        assertEquals(3, document.apEv.size());
-        assertTrue(document.apEv.contains("ECO_0000269"));
+
         assertEquals(4, document.apRf.size());
         assertTrue(document.apRf.contains("Produced by conventional translation."));
         assertTrue(
                 document.apRf.contains(
                         "Produced by -1 ribosomal frameshifting. The N-terminus is translated following a ribosomal skip event."));
         assertTrue(document.apRf.contains("external"));
-        assertEquals(3, document.apRfEv.size());
-        assertTrue(document.apRfEv.contains("ECO_0000269"));
 
         assertTrue(document.content.contains(alternativeProductsLine));
         assertTrue(document.evidenceExperimental);
@@ -617,19 +560,12 @@ class UniProtKBEntryCommentsConverterTest {
 
         assertTrue(document.commentMap.containsKey(CC_COFACTOR_FIELD));
         assertTrue(document.commentMap.get(CC_COFACTOR_FIELD).contains(cofactorLineValue));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey(CCEV_COFACTOR_FIELD));
-        assertEquals(2, document.commentEvMap.get(CCEV_COFACTOR_FIELD).size());
 
         assertEquals(2, document.cofactorChebi.size());
         assertTrue(document.cofactorChebi.contains("Mg(2+)"));
-        assertEquals(2, document.cofactorChebiEv.size());
-        assertTrue(document.cofactorChebiEv.contains("manual"));
 
         assertEquals(1, document.cofactorNote.size());
         assertTrue(document.cofactorNote.contains("Requires the presence of 3CDpro or 3CPro."));
-        assertEquals(2, document.cofactorNoteEv.size());
-        assertTrue(document.cofactorNoteEv.contains("ECO_0000250"));
 
         assertTrue(
                 document.content.contains(
@@ -675,20 +611,12 @@ class UniProtKBEntryCommentsConverterTest {
                 document.commentMap
                         .get(CC_COFACTOR_FIELD + EXPERIMENTAL)
                         .contains(cofactorLineValue));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey(CCEV_COFACTOR_FIELD));
-        assertEquals(3, document.commentEvMap.get(CCEV_COFACTOR_FIELD).size());
-        assertTrue(document.commentEvMap.get(CCEV_COFACTOR_FIELD).contains("experimental"));
 
         assertEquals(2, document.cofactorChebi.size());
         assertTrue(document.cofactorChebi.contains("Mg(2+)"));
-        assertEquals(3, document.cofactorChebiEv.size());
-        assertTrue(document.cofactorChebiEv.contains("experimental"));
 
         assertEquals(1, document.cofactorNote.size());
         assertTrue(document.cofactorNote.contains("Requires the presence of 3CDpro or 3CPro."));
-        assertEquals(3, document.cofactorNoteEv.size());
-        assertTrue(document.cofactorNoteEv.contains("ECO_0000269"));
 
         assertTrue(
                 document.content.contains(
@@ -738,24 +666,16 @@ class UniProtKBEntryCommentsConverterTest {
                         .get(CC_COFACTOR_FIELD + EXPERIMENTAL)
                         .contains(cofactorLineValue));
 
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey(CCEV_COFACTOR_FIELD));
-        assertEquals(1, document.commentEvMap.get(CCEV_COFACTOR_FIELD).size());
-        assertTrue(document.commentEvMap.get(CCEV_COFACTOR_FIELD).contains("experimental"));
-
         assertEquals(2, document.cofactorChebi.size());
         assertTrue(document.cofactorChebi.contains("Mg(2+)"));
-        assertEquals(1, document.cofactorChebiEv.size());
         assertTrue(document.evidenceExperimental);
-        assertTrue(document.cofactorChebiEv.contains("experimental"));
         assertTrue(document.commentMap.containsKey(CC_COFACTOR_CHEBI_EXPERIMENTAL));
         assertEquals(
                 document.cofactorChebi, document.commentMap.get(CC_COFACTOR_CHEBI_EXPERIMENTAL));
 
         assertEquals(1, document.cofactorNote.size());
         assertTrue(document.cofactorNote.contains("Requires the presence of 3CDpro or 3CPro."));
-        assertEquals(1, document.cofactorNoteEv.size());
-        assertTrue(document.cofactorNoteEv.contains("experimental"));
+
         assertTrue(document.commentMap.containsKey(CC_COFACTOR_NOTE_EXPERIMENTAL));
         assertEquals(document.cofactorNote, document.commentMap.get(CC_COFACTOR_NOTE_EXPERIMENTAL));
         assertTrue(
@@ -834,18 +754,11 @@ class UniProtKBEntryCommentsConverterTest {
                         .get(CC_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD + EXPERIMENTAL)
                         .contains(phdependenceLineValue));
 
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey(CCEV_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD));
-        assertEquals(3, document.commentEvMap.get(CCEV_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD).size());
-
         assertEquals(19, document.bpcp.size());
         assertTrue(document.bpcp.contains("550"));
 
         assertTrue(document.commentMap.containsKey("cc_bpcp" + EXPERIMENTAL));
         assertEquals(document.bpcp, document.commentMap.get("cc_bpcp" + EXPERIMENTAL));
-
-        assertEquals(3, document.bpcpEv.size());
-        assertTrue(document.bpcpEv.contains("ECO_0000269"));
 
         assertEquals(2, document.bpcpAbsorption.size());
         assertTrue(
@@ -854,31 +767,23 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.evidenceExperimental);
         assertEquals(
                 document.bpcpAbsorption, document.commentMap.get(CC_BPCP_ABSORPTION_EXPERIMENTAL));
-        assertEquals(3, document.bpcpAbsorptionEv.size());
-        assertTrue(document.bpcpAbsorptionEv.contains("experimental"));
 
         assertEquals(14, document.bpcpKinetics.size());
         assertTrue(
                 document.bpcpKinetics.contains(
                         "kcat is 13 s(-1) for L-proline. kcat is 75 s(-1) for 3,4-dehydro-L-proline."));
         assertEquals(document.bpcpKinetics, document.commentMap.get(CC_BPCP_KINETICS_EXPERIMENTAL));
-        assertEquals(3, document.bpcpKineticsEv.size());
-        assertTrue(document.bpcpKineticsEv.contains("manual"));
 
         assertEquals(1, document.bpcpPhDependence.size());
         assertTrue(document.bpcpPhDependence.contains("Optimum pH is 5.0 for protease activity."));
         assertEquals(
                 document.bpcpPhDependence, document.commentMap.get(CC_BPCP_PH_DEP_EXPERIMENTAL));
-        assertEquals(3, document.bpcpPhDependenceEv.size());
-        assertTrue(document.bpcpPhDependenceEv.contains("ECO_0000269"));
 
         assertEquals(1, document.bpcpRedoxPotential.size());
         assertTrue(document.bpcpRedoxPotential.contains("E(0) is -75 mV."));
         assertEquals(
                 document.bpcpRedoxPotential,
                 document.commentMap.get(CC_BPCP_REDOX_POT_EXPERIMENTAL));
-        assertEquals(3, document.bpcpRedoxPotentialEv.size());
-        assertTrue(document.bpcpRedoxPotentialEv.contains("experimental"));
 
         assertEquals(1, document.bpcpTempDependence.size());
         assertTrue(
@@ -887,8 +792,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertEquals(
                 document.bpcpTempDependence,
                 document.commentMap.get(CC_BPCP_TEMP_DEP_EXPERIMENTAL));
-        assertEquals(3, document.bpcpTempDependenceEv.size());
-        assertTrue(document.bpcpTempDependenceEv.contains("manual"));
 
         assertEquals(3, document.content.size());
         assertTrue(document.content.contains(phdependenceLineValue));
@@ -949,21 +852,10 @@ class UniProtKBEntryCommentsConverterTest {
                         .get(CC_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD)
                         .contains(phdependenceLineValue));
 
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey(CCEV_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD));
-        assertEquals(1, document.commentEvMap.get(CCEV_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD).size());
-        assertTrue(
-                document.commentEvMap
-                        .get(CCEV_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD)
-                        .contains("experimental"));
-
         assertEquals(19, document.bpcp.size());
         assertTrue(document.bpcp.contains("550"));
         assertTrue(document.commentMap.containsKey("cc_bpcp" + EXPERIMENTAL));
         assertEquals(document.bpcp, document.commentMap.get("cc_bpcp" + EXPERIMENTAL));
-
-        assertEquals(1, document.bpcpEv.size());
-        assertTrue(document.bpcpEv.contains("experimental"));
 
         assertEquals(2, document.bpcpAbsorption.size());
         assertTrue(
@@ -972,31 +864,23 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.evidenceExperimental);
         assertEquals(
                 document.bpcpAbsorption, document.commentMap.get(CC_BPCP_ABSORPTION_EXPERIMENTAL));
-        assertEquals(1, document.bpcpAbsorptionEv.size());
-        assertTrue(document.bpcpAbsorptionEv.contains("experimental"));
 
         assertEquals(14, document.bpcpKinetics.size());
         assertTrue(
                 document.bpcpKinetics.contains(
                         "kcat is 13 s(-1) for L-proline. kcat is 75 s(-1) for 3,4-dehydro-L-proline."));
         assertEquals(document.bpcpKinetics, document.commentMap.get(CC_BPCP_KINETICS_EXPERIMENTAL));
-        assertEquals(1, document.bpcpKineticsEv.size());
-        assertTrue(document.bpcpKineticsEv.contains("experimental"));
 
         assertEquals(1, document.bpcpPhDependence.size());
         assertTrue(document.bpcpPhDependence.contains("Optimum pH is 5.0 for protease activity."));
         assertEquals(
                 document.bpcpPhDependence, document.commentMap.get(CC_BPCP_PH_DEP_EXPERIMENTAL));
-        assertEquals(1, document.bpcpPhDependenceEv.size());
-        assertTrue(document.bpcpPhDependenceEv.contains("experimental"));
 
         assertEquals(1, document.bpcpRedoxPotential.size());
         assertTrue(document.bpcpRedoxPotential.contains("E(0) is -75 mV."));
         assertEquals(
                 document.bpcpRedoxPotential,
                 document.commentMap.get(CC_BPCP_REDOX_POT_EXPERIMENTAL));
-        assertEquals(1, document.bpcpRedoxPotentialEv.size());
-        assertTrue(document.bpcpRedoxPotentialEv.contains("experimental"));
 
         assertEquals(1, document.bpcpTempDependence.size());
         assertTrue(
@@ -1005,8 +889,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertEquals(
                 document.bpcpTempDependence,
                 document.commentMap.get(CC_BPCP_TEMP_DEP_EXPERIMENTAL));
-        assertEquals(1, document.bpcpTempDependenceEv.size());
-        assertTrue(document.bpcpTempDependenceEv.contains("experimental"));
 
         assertEquals(3, document.content.size());
         assertTrue(document.content.contains(phdependenceLineValue));
@@ -1074,21 +956,13 @@ class UniProtKBEntryCommentsConverterTest {
                         .get(CC_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD)
                         .contains(phdependenceLineValue));
 
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey(CCEV_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD));
-        assertEquals(2, document.commentEvMap.get(CCEV_BIOPHYSICOCHEMICAL_PROPERTIES_FIELD).size());
-
         assertEquals(19, document.bpcp.size());
         assertTrue(document.bpcp.contains("550"));
-        assertEquals(2, document.bpcpEv.size());
-        assertTrue(document.bpcpEv.contains("ECO_0000250"));
 
         assertEquals(2, document.bpcpAbsorption.size());
         assertTrue(
                 document.bpcpAbsorption.contains(
                         "Shoulder at 335 nm (at pH 7.5 and 30 degrees Celsius)."));
-        assertEquals(2, document.bpcpAbsorptionEv.size());
-        assertTrue(document.bpcpAbsorptionEv.contains("manual"));
         assertFalse(document.evidenceExperimental);
         assertFalse(document.commentMap.containsKey(CC_BPCP_ABSORPTION_EXPERIMENTAL));
 
@@ -1096,28 +970,24 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(
                 document.bpcpKinetics.contains(
                         "kcat is 13 s(-1) for L-proline. kcat is 75 s(-1) for 3,4-dehydro-L-proline."));
-        assertEquals(2, document.bpcpKineticsEv.size());
-        assertTrue(document.bpcpKineticsEv.contains("manual"));
+
         assertFalse(document.commentMap.containsKey(CC_BPCP_KINETICS_EXPERIMENTAL));
 
         assertEquals(1, document.bpcpPhDependence.size());
         assertTrue(document.bpcpPhDependence.contains("Optimum pH is 5.0 for protease activity."));
-        assertEquals(2, document.bpcpPhDependenceEv.size());
-        assertTrue(document.bpcpPhDependenceEv.contains("ECO_0000250"));
+
         assertFalse(document.commentMap.containsKey(CC_BPCP_PH_DEP_EXPERIMENTAL));
 
         assertEquals(1, document.bpcpRedoxPotential.size());
         assertTrue(document.bpcpRedoxPotential.contains("E(0) is -75 mV."));
-        assertEquals(2, document.bpcpRedoxPotentialEv.size());
-        assertTrue(document.bpcpRedoxPotentialEv.contains("ECO_0000250"));
+
         assertFalse(document.commentMap.containsKey(CC_BPCP_REDOX_POT_EXPERIMENTAL));
 
         assertEquals(1, document.bpcpTempDependence.size());
         assertTrue(
                 document.bpcpTempDependence.contains(
                         "Highly thermostable. Exhibits over 85% or 60% of activity after."));
-        assertEquals(2, document.bpcpTempDependenceEv.size());
-        assertTrue(document.bpcpTempDependenceEv.contains("manual"));
+
         assertFalse(document.commentMap.containsKey(CC_BPCP_TEMP_DEP_EXPERIMENTAL));
 
         assertEquals(3, document.content.size());
@@ -1159,18 +1029,11 @@ class UniProtKBEntryCommentsConverterTest {
                 document.commentMap
                         .get(CC_SEQUENCE_CAUTION_FIELD)
                         .contains(sequenceCautionLineValue));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey(CCEV_SEQUENCE_CAUTION_FIELD));
-        assertEquals(0, document.commentEvMap.get(CCEV_SEQUENCE_CAUTION_FIELD).size());
 
         assertEquals(9, document.seqCaution.size());
         assertTrue(document.seqCaution.contains("Translated as Trp."));
         assertTrue(document.seqCaution.contains("Frameshift"));
         assertTrue(document.seqCaution.contains("Erroneous initiation"));
-
-        assertEquals(4, document.seqCautionEv.size());
-        assertTrue(document.seqCautionEv.contains("ECO_0000305"));
-        assertTrue(document.seqCautionEv.contains("ECO_0000269"));
 
         assertEquals(1, document.seqCautionErInit.size());
         assertTrue(document.seqCautionErInit.contains("true"));
@@ -1191,10 +1054,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(
                 document.seqCautionMisc.contains(
                         "Chimeric cDNA. It is a chimera between Dox-A3 and PPO2."));
-
-        assertEquals(3, document.seqCautionMiscEv.size());
-        assertTrue(document.seqCautionEv.contains("ECO_0000269"));
-        assertTrue(document.seqCautionMiscEv.contains("experimental"));
 
         assertEquals(6, document.content.size());
         assertTrue(document.content.contains(sequenceCautionLineValue));
@@ -1245,16 +1104,11 @@ class UniProtKBEntryCommentsConverterTest {
                 document.commentMap
                         .get(CC_SEQUENCE_CAUTION_FIELD)
                         .contains(sequenceCautionLineValue));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey(CCEV_SEQUENCE_CAUTION_FIELD));
-        assertEquals(0, document.commentEvMap.get(CCEV_SEQUENCE_CAUTION_FIELD).size());
 
         assertEquals(9, document.seqCaution.size());
         assertTrue(document.seqCaution.contains("Translated as Trp."));
         assertTrue(document.seqCaution.contains("Frameshift"));
         assertTrue(document.seqCaution.contains("Erroneous initiation"));
-
-        assertEquals(0, document.seqCautionEv.size());
 
         assertEquals(1, document.seqCautionErInit.size());
         assertTrue(document.seqCautionErInit.contains("true"));
@@ -1275,8 +1129,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(
                 document.seqCautionMisc.contains(
                         "Chimeric cDNA. It is a chimera between Dox-A3 and PPO2."));
-
-        assertEquals(0, document.seqCautionMiscEv.size());
 
         assertEquals(6, document.content.size());
         assertTrue(document.content.contains(sequenceCautionLineValue));
@@ -1325,9 +1177,6 @@ class UniProtKBEntryCommentsConverterTest {
                 document.commentMap
                         .get(CC_SUBCELLULAR_LOCATION_FIELD)
                         .contains(subcellularLocationLineValue));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey(CCEV_SUBCELLULAR_LOCATION_FIELD));
-        assertEquals(6, document.commentEvMap.get(CCEV_SUBCELLULAR_LOCATION_FIELD).size());
 
         assertEquals(18, document.subcellLocationTerm.size());
         assertTrue(document.subcellLocationTerm.contains("Host cytoplasm"));
@@ -1339,10 +1188,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.subcellLocationTerm.contains("Virion membrane"));
         assertTrue(document.subcellLocationTerm.contains("SL-0275"));
 
-        assertEquals(6, document.subcellLocationTermEv.size());
-        assertTrue(document.subcellLocationTermEv.contains("ECO_0000255"));
-        assertTrue(document.subcellLocationTermEv.contains("ECO_0000269"));
-
         assertEquals(2, document.subcellLocationNote.size());
         assertTrue(
                 document.subcellLocationNote.contains(
@@ -1353,9 +1198,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(
                 experimentalNote.contains(
                         "ER membrane retention is mediated by the transmembrane domains"));
-
-        assertEquals(3, document.subcellLocationNoteEv.size());
-        assertTrue(document.subcellLocationNoteEv.contains("ECO_0000269"));
 
         assertTrue(document.content.contains(subcellularLocationLineValue));
         assertTrue(document.content.contains("SL-0390"));
@@ -1394,12 +1236,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertEquals(2, document.commentMap.get("cc_disease").size());
         assertTrue(document.commentMap.get("cc_disease").contains(indexedDiseaseComment));
         assertTrue(document.commentMap.get("cc_disease").contains("DI-00602"));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey("ccev_disease"));
-        assertEquals(3, document.commentEvMap.get("ccev_disease").size());
-        assertTrue(document.commentEvMap.get("ccev_disease").contains("ECO_0000269"));
-        assertTrue(document.commentEvMap.get("ccev_disease").contains("experimental"));
-        assertTrue(document.commentEvMap.get("ccev_disease").contains("manual"));
 
         assertTrue(document.content.contains(indexedDiseaseComment));
         assertTrue(document.content.contains("DI-00602"));
@@ -1440,10 +1276,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertEquals(2, document.commentMap.get("cc_disease").size());
         assertTrue(document.commentMap.get("cc_disease").contains(indexedDiseaseComment));
         assertTrue(document.commentMap.get("cc_disease").contains("DI-00602"));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey("ccev_disease"));
-        assertEquals(1, document.commentEvMap.get("ccev_disease").size());
-        assertTrue(document.commentEvMap.get("ccev_disease").contains("experimental"));
 
         assertTrue(document.content.contains(indexedDiseaseComment));
         assertTrue(document.content.contains("DI-00602"));
@@ -1485,13 +1317,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentMap.containsKey("cc_rna_editing"));
         assertEquals(1, document.commentMap.get("cc_rna_editing").size());
         assertTrue(document.commentMap.get("cc_rna_editing").contains(indexedRnaEditingComment));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey("ccev_rna_editing"));
-        assertEquals(4, document.commentEvMap.get("ccev_rna_editing").size());
-        assertTrue(document.commentEvMap.get("ccev_rna_editing").contains("ECO_0000250"));
-        assertTrue(document.commentEvMap.get("ccev_rna_editing").contains("manual"));
-        assertTrue(document.commentEvMap.get("ccev_rna_editing").contains("ECO_0000269"));
-        assertTrue(document.commentEvMap.get("ccev_rna_editing").contains("experimental"));
 
         assertTrue(document.content.contains(indexedRnaEditingComment));
         assertTrue(document.evidenceExperimental);
@@ -1533,10 +1358,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentMap.containsKey("cc_rna_editing"));
         assertEquals(1, document.commentMap.get("cc_rna_editing").size());
         assertTrue(document.commentMap.get("cc_rna_editing").contains(indexedRnaEditingComment));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey("ccev_rna_editing"));
-        assertEquals(1, document.commentEvMap.get("ccev_rna_editing").size());
-        assertTrue(document.commentEvMap.get("ccev_rna_editing").contains("experimental"));
 
         assertTrue(document.content.contains(indexedRnaEditingComment));
         assertTrue(document.evidenceExperimental);
@@ -1574,12 +1395,6 @@ class UniProtKBEntryCommentsConverterTest {
                 document.commentMap
                         .get("cc_mass_spectrometry")
                         .contains(indexedMassSpectrometryComment));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey("ccev_mass_spectrometry"));
-        assertEquals(3, document.commentEvMap.get("ccev_mass_spectrometry").size());
-        assertTrue(document.commentEvMap.get("ccev_mass_spectrometry").contains("manual"));
-        assertTrue(document.commentEvMap.get("ccev_mass_spectrometry").contains("ECO_0000269"));
-        assertTrue(document.commentEvMap.get("ccev_mass_spectrometry").contains("experimental"));
 
         assertTrue(document.content.contains(indexedMassSpectrometryComment));
         assertTrue(document.evidenceExperimental);
@@ -1611,12 +1426,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentMap.containsKey("cc_tissue_specificity"));
         assertEquals(1, document.commentMap.get("cc_tissue_specificity").size());
         assertTrue(document.commentMap.get("cc_tissue_specificity").contains(indexedComment));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey("ccev_tissue_specificity"));
-        assertEquals(3, document.commentEvMap.get("ccev_tissue_specificity").size());
-        assertTrue(document.commentEvMap.get("ccev_tissue_specificity").contains("manual"));
-        assertTrue(document.commentEvMap.get("ccev_tissue_specificity").contains("ECO_0000269"));
-        assertTrue(document.commentEvMap.get("ccev_tissue_specificity").contains("experimental"));
 
         assertTrue(document.content.contains(indexedComment));
         assertTrue(document.evidenceExperimental);
@@ -1650,9 +1459,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentMap.containsKey("cc_domain"));
         assertEquals(1, document.commentMap.get("cc_domain").size());
         assertTrue(document.commentMap.get("cc_domain").contains(indexedComment));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey("ccev_domain"));
-        assertEquals(0, document.commentEvMap.get("ccev_domain").size());
         assertFalse(document.commentMap.containsKey("cc_domain_exp"));
         assertFalse(document.evidenceExperimental);
     }
@@ -1679,9 +1485,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentMap.containsKey("cc_function"));
         assertEquals(1, document.commentMap.get("cc_function").size());
         assertTrue(document.commentMap.get("cc_function").contains(indexedComment));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey("ccev_function"));
-        assertEquals(0, document.commentEvMap.get("ccev_function").size());
         assertFalse(document.commentMap.containsKey("cc_function_exp"));
         assertFalse(document.evidenceExperimental);
     }
@@ -1708,9 +1511,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentMap.containsKey("cc_function"));
         assertEquals(1, document.commentMap.get("cc_function").size());
         assertTrue(document.commentMap.get("cc_function").contains(indexedComment));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey("ccev_function"));
-        assertEquals(0, document.commentEvMap.get("ccev_function").size());
         assertFalse(document.commentMap.containsKey("cc_function_exp"));
         assertFalse(document.evidenceExperimental);
     }
@@ -1737,9 +1537,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentMap.containsKey("cc_function"));
         assertEquals(1, document.commentMap.get("cc_function").size());
         assertTrue(document.commentMap.get("cc_function").contains(indexedComment));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey("ccev_function"));
-        assertEquals(0, document.commentEvMap.get("ccev_function").size());
         assertFalse(document.commentMap.containsKey("cc_function_exp"));
         assertFalse(document.evidenceExperimental);
     }
@@ -1767,10 +1564,6 @@ class UniProtKBEntryCommentsConverterTest {
         assertTrue(document.commentMap.containsKey("cc_tissue_specificity"));
         assertEquals(1, document.commentMap.get("cc_tissue_specificity").size());
         assertTrue(document.commentMap.get("cc_tissue_specificity").contains(indexedComment));
-        assertEquals(1, document.commentEvMap.size());
-        assertTrue(document.commentEvMap.containsKey("ccev_tissue_specificity"));
-        assertEquals(1, document.commentEvMap.get("ccev_tissue_specificity").size());
-        assertTrue(document.commentEvMap.get("ccev_tissue_specificity").contains("experimental"));
 
         assertTrue(document.content.contains(indexedComment));
         assertTrue(document.commentMap.containsKey("cc_tissue_specificity_exp"));

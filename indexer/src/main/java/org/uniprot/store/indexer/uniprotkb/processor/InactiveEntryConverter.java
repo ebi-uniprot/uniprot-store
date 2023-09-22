@@ -18,7 +18,7 @@ public class InactiveEntryConverter
 
         document.accession = source.getAccession();
         if (Utils.notNull(source.getId())) {
-            document.id = source.getId();
+            document.id.add(source.getId());
             if (!source.getReason().equalsIgnoreCase("demerged")) {
                 document.idInactive = source.getId();
             }
