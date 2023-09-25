@@ -182,7 +182,7 @@ public class ProteomeXMLSchemaProvider {
 
     public static StructType getGenomeAssemblySchema() {
         StructType genomeAssembly = new StructType();
-        genomeAssembly = genomeAssembly.add(GENOME_ASSEMBLY, DataTypes.StringType, false);
+        genomeAssembly = genomeAssembly.add(GENOME_ASSEMBLY, DataTypes.StringType, true);
         genomeAssembly = genomeAssembly.add(GENOME_ASSEMBLY_URL, DataTypes.StringType, true);
         genomeAssembly = genomeAssembly.add(GENOME_ASSEMBLY_SOURCE, DataTypes.StringType, false);
         genomeAssembly = genomeAssembly.add(GENOME_REPRESENTATION, DataTypes.StringType, false);
