@@ -1,7 +1,6 @@
 package org.uniprot.store.spark.indexer.proteome.converter;
 
 import lombok.Data;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
 import org.uniprot.core.CrossReference;
@@ -16,17 +15,19 @@ import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.core.util.Utils;
+import scala.collection.mutable.WrappedArray;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.uniprot.core.util.Utils.notNullNotEmpty;
 import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
@@ -80,9 +81,11 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
             builder.panproteome(
                     new ProteomeIdBuilder((row.getString(row.fieldIndex(PANPROTEOME)))).build());
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'Z'");
+        String dateString = row.getDate(row.fieldIndex(MODIFIED)).toString();
+        boolean dateEndsWithZ = dateString.endsWith("Z");
         builder.modified(
-                LocalDate.parse(row.getDate(row.fieldIndex(MODIFIED)).toString(), formatter));
+                LocalDate.parse(dateEndsWithZ ? dateString : dateString + "Z", formatter));
         if (hasFieldName(GENOME_ANNOTATION, row)) {
             GenomeAnnotation genomeAnnotation =
                     getGenomeAnnotation((Row) row.get(row.fieldIndex(GENOME_ANNOTATION)));
@@ -106,7 +109,7 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
             builder.citationsSet(
                     referenceRows.stream().map(this::getCitation).collect(Collectors.toList()));
         }
-        List<Row> redundantProteomeRows = null;
+        List<Row> redundantProteomeRows = List.of();
         if (hasFieldName(REDUNDANT_PROTEOME, row)) {
             redundantProteomeRows = row.getList(row.fieldIndex(REDUNDANT_PROTEOME));
             builder.redundantProteomesSet(
@@ -120,10 +123,11 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
                     getCompletenessReport(
                             scoreRows.stream().map(this::getScore).collect(Collectors.toList())));
         }
-        ExclusionReason exclusionReason = null;
+        List<ExclusionReason> exclusionReasons = List.of();
         if (hasFieldName(EXCLUDED, row)) {
-            exclusionReason = getExclusionReason((Row) row.get(row.fieldIndex(EXCLUDED)));
-            builder.exclusionReasonsAdd(exclusionReason);
+            Row[] excludedReasonRows = (Row[]) ((WrappedArray) row.get(row.fieldIndex(EXCLUDED))).array();
+            exclusionReasons = Arrays.stream(excludedReasonRows).map(this::getExclusionReasons).flatMap(Collection::stream).collect(Collectors.toList());
+            builder.exclusionReasonsSet(exclusionReasons);
         }
         boolean isReference = row.getBoolean(row.fieldIndex(IS_REFERENCE_PROTEOME));
         boolean isRepresentative = row.getBoolean(row.fieldIndex(IS_REPRESENTATIVE_PROTEOME));
@@ -131,8 +135,8 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
                 getProteomeType(
                         isReference,
                         isRepresentative,
-                        Objects.nonNull(exclusionReason),
-                        CollectionUtils.isEmpty((redundantProteomeRows))));
+                        !exclusionReasons.isEmpty(),
+                        !redundantProteomeRows.isEmpty()));
 
         return builder.build();
     }
@@ -272,14 +276,17 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
 
     private RedundantProteome getRedundantProteome(Row row) {
         RedundantProteomeBuilder redundantProteomeBuilder = new RedundantProteomeBuilder();
-        redundantProteomeBuilder.proteomeId(row.getString(row.fieldIndex(UPID)));
-        redundantProteomeBuilder.similarity(
-                Float.parseFloat(row.getString(row.fieldIndex(SIMILARITY))));
+        redundantProteomeBuilder.proteomeId(row.getString(row.fieldIndex(UPID_ATTRIBUTE)));
+        if (hasFieldName(SIMILARITY, row)) {
+            redundantProteomeBuilder.similarity(
+                    Float.parseFloat(row.getString(row.fieldIndex(SIMILARITY))));
+        }
         return redundantProteomeBuilder.build();
     }
 
-    private ExclusionReason getExclusionReason(Row row) {
-        return ExclusionReason.typeOf(row.getString(row.fieldIndex(EXCLUSION_REASON)));
+    private List<ExclusionReason> getExclusionReasons(Row row) {
+        String[] reasons = (String[]) ((WrappedArray) row.get(row.fieldIndex(EXCLUSION_REASON))).array();
+        return Stream.of(reasons).map(ExclusionReason::typeOf).collect(Collectors.toList());
     }
 
     private Citation getCitation(Row row) {
@@ -314,13 +321,13 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
         BookBuilder bookBuilder = new BookBuilder();
         populateCommon(row, bookBuilder);
         if (hasFieldName(FIRST, row)) {
-            bookBuilder.firstPage(String.valueOf(row.getLong(row.fieldIndex(FIRST))));
+            bookBuilder.firstPage(row.getString(row.fieldIndex(FIRST)));
         }
         if (hasFieldName(LAST, row)) {
-            bookBuilder.lastPage(String.valueOf(row.getLong(row.fieldIndex(LAST))));
+            bookBuilder.lastPage(row.getString(row.fieldIndex(LAST)));
         }
         if (hasFieldName(VOLUME, row)) {
-            bookBuilder.volume(String.valueOf(row.getLong(row.fieldIndex(VOLUME))));
+            bookBuilder.volume(row.getString(row.fieldIndex(VOLUME)));
         }
         return bookBuilder.build();
     }
@@ -467,9 +474,11 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
             genomeAssemblyBuilder.genomeAssemblyUrl(
                     row.getString(row.fieldIndex(GENOME_ASSEMBLY_URL)));
         }
-        genomeAssemblyBuilder.level(
-                GenomeAssemblyLevel.fromValue(
-                        row.getString(row.fieldIndex(GENOME_REPRESENTATION))));
+        if (hasFieldName(GENOME_REPRESENTATION, row)) {
+            genomeAssemblyBuilder.level(
+                    GenomeAssemblyLevel.fromValue(
+                            row.getString(row.fieldIndex(GENOME_REPRESENTATION))));
+        }
         return genomeAssemblyBuilder.build();
     }
 

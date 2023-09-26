@@ -5,6 +5,7 @@ import org.apache.spark.sql.types.StructType;
 
 public class ProteomeXMLSchemaProvider {
     public static final String UPID = "upid";
+    public static final String UPID_ATTRIBUTE = "_upid";
     public static final String TAXONOMY = "taxonomy";
     public static final String STRAIN = "strain";
     public static final String MODIFIED = "modified";
@@ -48,13 +49,15 @@ public class ProteomeXMLSchemaProvider {
     public static final String PANPROTEOME = "panproteome";
     public static final String REDUNDANT_PROTEOME = "redundantProteome";
     public static final String EXCLUDED = "excluded";
-    public static final String SIMILARITY = "similarity";
+    public static final String SIMILARITY = "_similarity";
     public static final String EXCLUSION_REASON = "exclusionReason";
 
-    private ProteomeXMLSchemaProvider() {}
+    private ProteomeXMLSchemaProvider() {
+    }
 
     public static StructType getProteomeXMLSchema() {
         StructType structType = new StructType();
+        structType = structType.add(PROTEIN_COUNT, DataTypes.StringType, true);
         structType = structType.add(UPID, DataTypes.StringType, false);
         structType = structType.add(TAXONOMY, DataTypes.LongType, false);
         structType = structType.add(IS_REFERENCE_PROTEOME, DataTypes.BooleanType, false);
@@ -85,14 +88,14 @@ public class ProteomeXMLSchemaProvider {
 
     public static StructType getExclusionSchema() {
         StructType exclusion = new StructType();
-        exclusion = exclusion.add(EXCLUSION_REASON, DataTypes.StringType, false);
+        exclusion = exclusion.add(EXCLUSION_REASON, DataTypes.createArrayType(DataTypes.StringType), false);
         return exclusion;
     }
 
     public static StructType getRedundantProteomeSchema() {
         StructType redundantProtein = new StructType();
-        redundantProtein = redundantProtein.add(UPID, DataTypes.StringType, false);
-        redundantProtein = redundantProtein.add(SIMILARITY, DataTypes.StringType, false);
+        redundantProtein = redundantProtein.add(UPID_ATTRIBUTE, DataTypes.StringType, false);
+        redundantProtein = redundantProtein.add(SIMILARITY, DataTypes.StringType, true);
         return redundantProtein;
     }
 
@@ -185,7 +188,7 @@ public class ProteomeXMLSchemaProvider {
         genomeAssembly = genomeAssembly.add(GENOME_ASSEMBLY, DataTypes.StringType, true);
         genomeAssembly = genomeAssembly.add(GENOME_ASSEMBLY_URL, DataTypes.StringType, true);
         genomeAssembly = genomeAssembly.add(GENOME_ASSEMBLY_SOURCE, DataTypes.StringType, false);
-        genomeAssembly = genomeAssembly.add(GENOME_REPRESENTATION, DataTypes.StringType, false);
+        genomeAssembly = genomeAssembly.add(GENOME_REPRESENTATION, DataTypes.StringType, true);
         return genomeAssembly;
     }
 
