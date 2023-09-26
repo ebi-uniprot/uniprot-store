@@ -52,8 +52,7 @@ public class ProteomeXMLSchemaProvider {
     public static final String SIMILARITY = "_similarity";
     public static final String EXCLUSION_REASON = "exclusionReason";
 
-    private ProteomeXMLSchemaProvider() {
-    }
+    private ProteomeXMLSchemaProvider() {}
 
     public static StructType getProteomeXMLSchema() {
         StructType structType = new StructType();
@@ -88,7 +87,9 @@ public class ProteomeXMLSchemaProvider {
 
     public static StructType getExclusionSchema() {
         StructType exclusion = new StructType();
-        exclusion = exclusion.add(EXCLUSION_REASON, DataTypes.createArrayType(DataTypes.StringType), false);
+        exclusion =
+                exclusion.add(
+                        EXCLUSION_REASON, DataTypes.createArrayType(DataTypes.StringType), false);
         return exclusion;
     }
 

@@ -1,5 +1,9 @@
 package org.uniprot.store.spark.indexer.common.writer;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -17,11 +21,6 @@ import org.uniprot.store.spark.indexer.taxonomy.TaxonomyDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.uniparc.UniParcDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.uniref.UniRefDocumentsToHPSWriter;
-
-import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 
 /**
  * @author lgonzales

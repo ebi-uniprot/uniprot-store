@@ -1,5 +1,20 @@
 package org.uniprot.store.spark.indexer.proteome.converter;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.uniprot.core.citation.SubmissionDatabase.EMBL_GENBANK_DDBJ;
+import static org.uniprot.core.proteome.CPDStatus.STANDARD;
+import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
+
+import java.sql.Date;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
@@ -12,25 +27,11 @@ import org.uniprot.core.impl.CrossReferenceBuilder;
 import org.uniprot.core.proteome.*;
 import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
+
 import scala.Tuple2;
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
 import scala.collection.mutable.WrappedArray;
-
-import java.sql.Date;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.uniprot.core.citation.SubmissionDatabase.EMBL_GENBANK_DDBJ;
-import static org.uniprot.core.proteome.CPDStatus.STANDARD;
-import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
 
 class DatasetProteomeEntryConverterTest {
 
@@ -303,12 +304,12 @@ class DatasetProteomeEntryConverterTest {
                                         .citationCrossReferencesSet(
                                                 List.of(
                                                         new CrossReferenceBuilder<
-                                                                CitationDatabase>()
+                                                                        CitationDatabase>()
                                                                 .database(CitationDatabase.PUBMED)
                                                                 .id(CONSORTIUM_VALUE_0_0)
                                                                 .build(),
                                                         new CrossReferenceBuilder<
-                                                                CitationDatabase>()
+                                                                        CitationDatabase>()
                                                                 .database(CitationDatabase.DOI)
                                                                 .id(CONSORTIUM_VALUE_1_0)
                                                                 .build()))
@@ -323,12 +324,12 @@ class DatasetProteomeEntryConverterTest {
                                         .citationCrossReferencesSet(
                                                 List.of(
                                                         new CrossReferenceBuilder<
-                                                                CitationDatabase>()
+                                                                        CitationDatabase>()
                                                                 .database(CitationDatabase.DOI)
                                                                 .id(CONSORTIUM_VALUE_0_1)
                                                                 .build(),
                                                         new CrossReferenceBuilder<
-                                                                CitationDatabase>()
+                                                                        CitationDatabase>()
                                                                 .database(CitationDatabase.PUBMED)
                                                                 .id(CONSORTIUM_VALUE_1_1)
                                                                 .build()))
@@ -396,13 +397,18 @@ class DatasetProteomeEntryConverterTest {
     private WrappedArray getExclusion() {
         List<Object> exclusion = new ArrayList<>();
         exclusion.add(getExclusionReasons());
-        Row[] array = exclusion.stream()
-                .map(e -> new GenericRowWithSchema(exclusion.toArray(), getExclusionSchema())).toArray(Row[]::new);
+        Row[] array =
+                exclusion.stream()
+                        .map(
+                                e ->
+                                        new GenericRowWithSchema(
+                                                exclusion.toArray(), getExclusionSchema()))
+                        .toArray(Row[]::new);
         return new WrappedArray.ofRef<>(array);
     }
 
     private WrappedArray getExclusionReasons() {
-        String[] exclusionReasons = new String[]{EXCLUSION_REASON_VAL};
+        String[] exclusionReasons = new String[] {EXCLUSION_REASON_VAL};
         return new WrappedArray.ofRef<>(exclusionReasons);
     }
 
