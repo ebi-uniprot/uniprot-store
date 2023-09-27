@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.proteome;
 
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.Optional;
@@ -17,9 +19,8 @@ import org.uniprot.store.spark.indexer.proteome.mapper.ProteomeEntryToProteomeDo
 import org.uniprot.store.spark.indexer.proteome.mapper.ProteomeStatisticsToProteomeEntryMapper;
 import org.uniprot.store.spark.indexer.proteome.reader.ProteomeStatisticsReader;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
-import scala.Tuple2;
 
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
+import scala.Tuple2;
 
 public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
     private final JobParameter jobParameter;
@@ -63,11 +64,14 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
         JavaPairRDD<String, TaxonomyEntry> taxIdTaxEntryRDD = getTaxonomyRDD();
         // <proteomeId, taxonEntry>
         JavaPairRDD<String, TaxonomyEntry> proteomeIdTaxonomyEntryJavaPairRDD =
-                taxIdProteomeIdJavaRDD.leftOuterJoin(taxIdTaxEntryRDD).values().mapToPair(
-                        proteomeIdTaxEntryOptTuple2 ->
-                                new Tuple2<>(proteomeIdTaxEntryOptTuple2._1,
-                                                proteomeIdTaxEntryOptTuple2._2.orElse(null))
-                );
+                taxIdProteomeIdJavaRDD
+                        .leftOuterJoin(taxIdTaxEntryRDD)
+                        .values()
+                        .mapToPair(
+                                proteomeIdTaxEntryOptTuple2 ->
+                                        new Tuple2<>(
+                                                proteomeIdTaxEntryOptTuple2._1,
+                                                proteomeIdTaxEntryOptTuple2._2.orElse(null)));
         return proteomeIdProteomeEntryJavaPairRDD
                 .join(proteomeIdTaxonomyEntryJavaPairRDD)
                 .mapValues(v1 -> ProteomeEntryBuilder.from(v1._1).taxonomy(v1._2).build());
