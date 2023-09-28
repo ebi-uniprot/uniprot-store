@@ -1,23 +1,6 @@
 package org.uniprot.store.spark.indexer.proteome.converter;
 
-import static org.uniprot.core.util.Utils.notNullNotEmpty;
-import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
-import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
-
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import lombok.Data;
-
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
 import org.uniprot.core.CrossReference;
@@ -32,8 +15,23 @@ import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.core.util.Utils;
-
 import scala.collection.mutable.WrappedArray;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.uniprot.core.util.Utils.notNullNotEmpty;
+import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
+import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
 
 /**
  * Converts XML {@link Row} instances to {@link ProteomeEntry} instances.
@@ -75,7 +73,9 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
         if (hasFieldName(ISOLATE, row)) {
             builder.isolate(row.getString(row.fieldIndex(ISOLATE)));
         }
+        boolean isRedundant = false;
         if (hasFieldName(REDUNDANT_TO, row)) {
+            isRedundant = true;
             builder.redundantTo(
                     new ProteomeIdBuilder((row.getString(row.fieldIndex(REDUNDANT_TO)))).build());
         }
@@ -110,9 +110,8 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
             builder.citationsSet(
                     referenceRows.stream().map(this::getCitation).collect(Collectors.toList()));
         }
-        List<Row> redundantProteomeRows = List.of();
         if (hasFieldName(REDUNDANT_PROTEOME, row)) {
-            redundantProteomeRows = row.getList(row.fieldIndex(REDUNDANT_PROTEOME));
+            List<Row>  redundantProteomeRows = row.getList(row.fieldIndex(REDUNDANT_PROTEOME));
             builder.redundantProteomesSet(
                     redundantProteomeRows.stream()
                             .map(this::getRedundantProteome)
@@ -142,7 +141,7 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
                         isReference,
                         isRepresentative,
                         !exclusionReasons.isEmpty(),
-                        !redundantProteomeRows.isEmpty()));
+                        isRedundant));
 
         return builder.build();
     }

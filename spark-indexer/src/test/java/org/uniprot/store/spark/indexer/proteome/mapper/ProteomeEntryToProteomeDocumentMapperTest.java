@@ -1,17 +1,6 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.core.proteome.CPDStatus.STANDARD;
-import static org.uniprot.core.proteome.ProteomeDatabase.BIOSAMPLE;
-import static org.uniprot.core.proteome.ProteomeDatabase.GENOME_ACCESSION;
-import static org.uniprot.core.proteome.ProteomeType.*;
-
-import java.util.List;
-
 import lombok.Data;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.impl.CrossReferenceBuilder;
@@ -23,6 +12,16 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
+
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.core.proteome.CPDStatus.STANDARD;
+import static org.uniprot.core.proteome.ProteomeDatabase.BIOSAMPLE;
+import static org.uniprot.core.proteome.ProteomeDatabase.GENOME_ACCESSION;
+import static org.uniprot.core.proteome.ProteomeType.*;
 
 class ProteomeEntryToProteomeDocumentMapperTest {
 
@@ -46,23 +45,17 @@ class ProteomeEntryToProteomeDocumentMapperTest {
     private static final int BUSCO_TOTAL = 82;
     private static final long TAXON_ID_0 = 0L;
     private static final long TAXON_ID_1 = 1L;
-    private static final long TAXON_ID_2 = 2L;
     private static final String SCIENTIFIC_NAME_0 = "viruses";
     private static final String SCIENTIFIC_NAME_1 = "scientificName1";
-    private static final String SCIENTIFIC_NAME_2 = "scientificName2";
     private static final String COMMON_NAME_0 = "commonName0";
     private static final String COMMON_NAME_1 = "commonName1";
-    private static final String COMMON_NAME_2 = "commonName2";
     private static final String MNEMONIC_0 = "mnemonic0";
     private static final String MNEMONIC_1 = "mnemonic1";
-    private static final String MNEMONIC_2 = "mnemonic2";
     private static final String SYNONYM_0 = "synonym0";
     private static final String SYNONYM_1 = "synonym1";
-    private static final String SYNONYM_2 = "synonym2";
     private static final List<String> SYNONYMS_0 = List.of(SYNONYM_0);
     private static final List<String> SYNONYMS_1 = List.of(SYNONYM_1);
     private static final String SY = " sy";
-    private static final String M = " m";
     private static final String SPACE = " ";
     private static final TaxonomyLineage taxLineage0 =
             new TaxonomyLineageBuilder()
@@ -186,14 +179,13 @@ class ProteomeEntryToProteomeDocumentMapperTest {
         assertEquals(SCIENTIFIC_NAME_1 + SPACE + COMMON_NAME_1 + SY, proteomeDocument.organismSort);
         assertThat(
                 proteomeDocument.organismName,
-                contains(SCIENTIFIC_NAME_1, COMMON_NAME_1, SYNONYM_1, MNEMONIC_1));
+                contains(SCIENTIFIC_NAME_1, COMMON_NAME_1, SYNONYM_1));
         assertThat(
                 proteomeDocument.organismTaxon,
                 contains(
                         SCIENTIFIC_NAME_1,
                         COMMON_NAME_1,
                         SYNONYM_1,
-                        MNEMONIC_1,
                         SCIENTIFIC_NAME_0,
                         COMMON_NAME_0));
         assertThat(proteomeDocument.taxLineageIds, contains((int) TAXON_ID_1, (int) TAXON_ID_0));
@@ -326,14 +318,14 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                 proteomeEntryToProteomeDocumentMapper.call(proteomeEntry);
 
         assertEquals(
-                SCIENTIFIC_NAME_0 + SPACE + COMMON_NAME_0 + SPACE + SYNONYM_0 + M,
+                SCIENTIFIC_NAME_0 + SPACE + COMMON_NAME_0 + SPACE + SYNONYM_0,
                 proteomeDocumentResult.organismSort);
         assertThat(
                 proteomeDocumentResult.organismName,
-                contains(SCIENTIFIC_NAME_0, COMMON_NAME_0, SYNONYM_0, MNEMONIC_0));
+                contains(SCIENTIFIC_NAME_0, COMMON_NAME_0, SYNONYM_0));
         assertThat(
                 proteomeDocumentResult.organismTaxon,
-                contains(SCIENTIFIC_NAME_0, COMMON_NAME_0, SYNONYM_0, MNEMONIC_0));
+                contains(SCIENTIFIC_NAME_0, COMMON_NAME_0, SYNONYM_0));
         assertThat(proteomeDocumentResult.taxLineageIds, contains((int) TAXON_ID_0));
         assertNull(proteomeDocumentResult.superkingdom);
     }

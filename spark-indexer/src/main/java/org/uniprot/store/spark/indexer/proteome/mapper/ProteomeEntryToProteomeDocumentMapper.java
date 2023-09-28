@@ -1,13 +1,6 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
-import static org.uniprot.core.util.Utils.notNull;
-import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.truncatedSortValue;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
@@ -17,6 +10,12 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.uniprot.core.util.Utils.notNull;
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.truncatedSortValue;
 
 @Slf4j
 public class ProteomeEntryToProteomeDocumentMapper
@@ -73,9 +72,6 @@ public class ProteomeEntryToProteomeDocumentMapper
         }
         if (organism.hasSynonyms()) {
             organismNames.addAll(organism.getSynonyms());
-        }
-        if (organism.hasMnemonic()) {
-            organismNames.add(organism.getMnemonic());
         }
         return organismNames;
     }
