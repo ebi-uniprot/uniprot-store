@@ -36,10 +36,10 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
             UniParcCrossReference xref, UniParcDocument.UniParcDocumentBuilder builder) {
         UniParcDatabase type = xref.getDatabase();
 
+        builder.dbId(xref.getId());
+
         if (Objects.nonNull(xref.getVersion())) {
             builder.dbId(xref.getId() + "." + xref.getVersion());
-        } else {
-            builder.dbId(xref.getId());
         }
 
         Map.Entry<String, String> dbTypeData = UniParcConfigUtil.getDBNameValue(type);
