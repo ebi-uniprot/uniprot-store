@@ -50,10 +50,11 @@ class UniParcDocumentConverterTest {
         assertTrue(result.getDatabasesFacets().contains(UniParcDatabase.EMBL.getIndex()));
 
         assertNotNull(result.getDbIds());
-        assertEquals(3, result.getDbIds().size());
+        assertEquals(4, result.getDbIds().size());
         assertTrue(result.getDbIds().contains("UniProtKB/Swiss-ProtIdValue-true"));
         assertTrue(result.getDbIds().contains("UniProtKB/Swiss-ProtIdValue-false"));
         assertTrue(result.getDbIds().contains("inactiveIdValue.99"));
+        assertTrue(result.getDbIds().contains("inactiveIdValue"));
 
         assertNotNull(result.getActives());
         assertEquals(1, result.getActives().size());
@@ -96,11 +97,12 @@ class UniParcDocumentConverterTest {
         assertTrue(result.getActives().contains("isoforms"));
 
         assertNotNull(result.getDbIds());
-        assertEquals(3, result.getDbIds().size());
+        assertEquals(4, result.getDbIds().size());
         assertTrue(result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue-true"));
         assertTrue(
                 result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue-false"));
         assertTrue(result.getDbIds().contains("inactiveIdValue.99"));
+        assertTrue(result.getDbIds().contains("inactiveIdValue"));
 
         validateDocumentCommonValues(result);
     }
