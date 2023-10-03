@@ -9,7 +9,9 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 /**
- * This class contains methods to save Uniprot voldemort entry remotely.
+ * This class contains methods to save UniProt voldemort entry remotely. Mainly used by REST.
+ * Warning - See AA usage in {@link
+ * org.uniprot.store.datastore.voldemort.client.impl.DefaultClientFactory}
  *
  * <p>Created 05/10/2017
  *
