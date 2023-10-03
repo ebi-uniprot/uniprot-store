@@ -38,7 +38,7 @@ store:settings:
     paths:
       - ./${MAVEN_SETTINGS}
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master"'
+    - if: '$CI_COMMIT_REF_NAME == "main"'
     - when: manual
       allow_failure: true
 
@@ -60,7 +60,7 @@ store:test:
       junit:
         - ./*/target/surefire-reports/TEST-*.xml
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master"'
+    - if: '$CI_COMMIT_REF_NAME == "main"'
     - when: manual
       allow_failure: true
 
@@ -71,7 +71,7 @@ store:sonar:
     - store:test
     - store:settings
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master"'
+    - if: '$CI_COMMIT_REF_NAME == "main"'
     - when: manual
       allow_failure: true
 
@@ -81,7 +81,7 @@ store:deploy:
   dependencies:
     - store:settings
   only:
-    - master
+    - main
 
 #after_script:
 #  - 'pwd'
@@ -95,4 +95,4 @@ rest-api:downstream:
   trigger: uniprot/deployment/mirror-uniprot-rest-api
   when: on_success
   only:
-    - master
+    - main
