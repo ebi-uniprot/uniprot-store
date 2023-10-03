@@ -7,6 +7,7 @@ import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
 import org.uniprot.core.proteome.*;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
+import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
@@ -37,9 +38,9 @@ public class ProteomeEntryToProteomeDocumentMapper
                             document.cpd = getCPD(report.getCPDReport());
                         });
         updateProteomeType(document, proteomeEntry);
-        Optional<TaxonomyEntry> taxonomy = Optional.ofNullable((TaxonomyEntry) proteomeEntry.getTaxonomy());
-        document.organismTaxId = taxonomy.map(taxonomyEntry -> (int) taxonomyEntry.getTaxonId()).orElse(0);
-        taxonomy.ifPresent(tax -> updateOrganismFields(document, tax));
+        Optional<Taxonomy> taxonomy = Optional.ofNullable( proteomeEntry.getTaxonomy());
+        document.organismTaxId = taxonomy.map(tx -> (int) tx.getTaxonId()).orElse(0);
+        taxonomy.ifPresent(tax -> updateOrganismFields(document, (TaxonomyEntry) tax));
         Optional.ofNullable(proteomeEntry.getSuperkingdom()).ifPresent(sk -> document.superkingdom = sk.getName());
         document.proteomeStored =
                 ProteomeJsonConfig.getInstance()
