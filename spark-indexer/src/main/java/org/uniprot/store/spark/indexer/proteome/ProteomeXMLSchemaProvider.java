@@ -133,7 +133,7 @@ public class ProteomeXMLSchemaProvider {
     public static StructType getAuthorListScheme() {
         StructType author = new StructType();
         author = author.add(PERSON, DataTypes.createArrayType(getPersonScheme()), true);
-        author = author.add(CONSORTIUM, getConsortiumSchema(), true);
+        author = author.add(CONSORTIUM, DataTypes.createArrayType(getConsortiumSchema()), true);
         return author;
     }
 

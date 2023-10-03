@@ -1,11 +1,6 @@
 package org.uniprot.store.spark.indexer.proteome;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
-
-import java.util.List;
-import java.util.Objects;
-
+import com.typesafe.config.Config;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -14,6 +9,7 @@ import org.apache.spark.api.java.function.Function;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.proteome.ProteomeStatistics;
+import org.uniprot.core.proteome.Superkingdom;
 import org.uniprot.core.proteome.impl.ProteomeEntryBuilder;
 import org.uniprot.core.proteome.impl.ProteomeStatisticsBuilder;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
@@ -22,10 +18,13 @@ import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-
 import scala.Tuple2;
 
-import com.typesafe.config.Config;
+import java.util.List;
+import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 class ProteomeDocumentsToHPSWriterTest {
     private static final String PROTEOME_ID_0 = "proteomeId0";
@@ -34,8 +33,8 @@ class ProteomeDocumentsToHPSWriterTest {
     private static final String PROTEOME_ID_3 = "proteomeId3";
     private static final String PROTEOME_ID_4 = "proteomeId4";
     private static final String[] PROTEOME_IDS =
-            new String[] {
-                PROTEOME_ID_0, PROTEOME_ID_1, PROTEOME_ID_2, PROTEOME_ID_3, PROTEOME_ID_4
+            new String[]{
+                    PROTEOME_ID_0, PROTEOME_ID_1, PROTEOME_ID_2, PROTEOME_ID_3, PROTEOME_ID_4
             };
     private static final int ORGANISM_ID_0 = 19;
     private static final int ORGANISM_ID_1 = 333;
@@ -43,8 +42,8 @@ class ProteomeDocumentsToHPSWriterTest {
     private static final int ORGANISM_ID_3 = ORGANISM_ID_0;
     private static final int ORGANISM_ID_4 = ORGANISM_ID_2;
     private static final Integer[] ORGANISM_IDS =
-            new Integer[] {
-                ORGANISM_ID_0, ORGANISM_ID_1, ORGANISM_ID_2, ORGANISM_ID_3, ORGANISM_ID_4
+            new Integer[]{
+                    ORGANISM_ID_0, ORGANISM_ID_1, ORGANISM_ID_2, ORGANISM_ID_3, ORGANISM_ID_4
             };
     private static final long REVIEWED_PROTEIN_COUNT_0 = 49;
     private static final long REVIEWED_PROTEIN_COUNT_1 = 53;
@@ -64,8 +63,8 @@ class ProteomeDocumentsToHPSWriterTest {
     private static final String ORGANISM_SORT_3 = null;
     private static final String ORGANISM_SORT_4 = "organismSort4";
     private static final String[] ORGANISM_SORTS =
-            new String[] {
-                ORGANISM_SORT_0, ORGANISM_SORT_1, ORGANISM_SORT_2, ORGANISM_SORT_3, ORGANISM_SORT_4
+            new String[]{
+                    ORGANISM_SORT_0, ORGANISM_SORT_1, ORGANISM_SORT_2, ORGANISM_SORT_3, ORGANISM_SORT_4
             };
     private static final List<String> ORGANISM_NAME_0 = List.of("on0");
     private static final List<String> ORGANISM_NAME_1 = List.of("on1");
@@ -73,8 +72,8 @@ class ProteomeDocumentsToHPSWriterTest {
     private static final List<String> ORGANISM_NAME_3 = List.of();
     private static final List<String> ORGANISM_NAME_4 = List.of("on2");
     private static final List<String>[] ORGANISM_NAMES =
-            new List[] {
-                ORGANISM_NAME_0, ORGANISM_NAME_1, ORGANISM_NAME_2, ORGANISM_NAME_3, ORGANISM_NAME_4
+            new List[]{
+                    ORGANISM_NAME_0, ORGANISM_NAME_1, ORGANISM_NAME_2, ORGANISM_NAME_3, ORGANISM_NAME_4
             };
     private static final List<String> ORGANISM_TAXON_0 = List.of("ot0");
     private static final List<String> ORGANISM_TAXON_1 = List.of("ot1");
@@ -82,12 +81,12 @@ class ProteomeDocumentsToHPSWriterTest {
     private static final List<String> ORGANISM_TAXON_3 = List.of();
     private static final List<String> ORGANISM_TAXON_4 = List.of("ot2");
     private static final List<String>[] ORGANISM_TAXONS =
-            new List[] {
-                ORGANISM_TAXON_0,
-                ORGANISM_TAXON_1,
-                ORGANISM_TAXON_2,
-                ORGANISM_TAXON_3,
-                ORGANISM_TAXON_4
+            new List[]{
+                    ORGANISM_TAXON_0,
+                    ORGANISM_TAXON_1,
+                    ORGANISM_TAXON_2,
+                    ORGANISM_TAXON_3,
+                    ORGANISM_TAXON_4
             };
     private static final List<Integer> LINEAGE_ID_0 = List.of(10);
     private static final List<Integer> LINEAGE_ID_1 = List.of(11);
@@ -95,17 +94,23 @@ class ProteomeDocumentsToHPSWriterTest {
     private static final List<Integer> LINEAGE_ID_3 = List.of();
     private static final List<Integer> LINEAGE_ID_4 = List.of(12);
     private static final List<Integer>[] LINEAGE_IDS =
-            new List[] {LINEAGE_ID_0, LINEAGE_ID_1, LINEAGE_ID_2, LINEAGE_ID_3, LINEAGE_ID_4};
+            new List[]{LINEAGE_ID_0, LINEAGE_ID_1, LINEAGE_ID_2, LINEAGE_ID_3, LINEAGE_ID_4};
     private static final String RELEASE_NAME = "23_03";
+    private static final int GENE_COUNT_0 = 3;
+    private static final int GENE_COUNT_1 = 222;
+    private static final int GENE_COUNT_2 = 95678;
+    private static final int GENE_COUNT_3 = 20;
+    public static final Superkingdom SUPERKINGDOM = Superkingdom.VIRUSES;
     private static JavaPairRDD<String, ProteomeEntry> proteomeRDD;
     private static JavaPairRDD<String, ProteomeStatistics> statisticsRDD;
     private static JavaPairRDD<String, TaxonomyEntry> taxonomyRDD;
+    private static JavaPairRDD<String, Integer> proteomeGeneCountRDD;
 
     @Test
     void writeIndexDocumentsToHPS() {
         Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
-                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
+                     SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter jobParameter =
                     JobParameter.builder()
                             .sparkContext(sparkContext)
@@ -115,6 +120,7 @@ class ProteomeDocumentsToHPSWriterTest {
             proteomeRDD = sparkContext.parallelizePairs(getProteomeTuples());
             statisticsRDD = sparkContext.parallelizePairs(getStatisticsTuples());
             taxonomyRDD = sparkContext.parallelizePairs(getTaxonomyTuples());
+            proteomeGeneCountRDD = sparkContext.parallelizePairs(getProteomeGeneCountTuples());
 
             ProteomeDocumentsToHPSWriterFake writer =
                     new ProteomeDocumentsToHPSWriterFake(jobParameter);
@@ -128,6 +134,15 @@ class ProteomeDocumentsToHPSWriterTest {
                 assertResult(savedDocument, index);
             }
         }
+    }
+
+    private List<Tuple2<String, Integer>> getProteomeGeneCountTuples() {
+        return List.of(
+                new Tuple2<>(PROTEOME_ID_0, GENE_COUNT_0),
+                new Tuple2<>(PROTEOME_ID_1, GENE_COUNT_1),
+                new Tuple2<>(PROTEOME_ID_2, GENE_COUNT_2),
+                new Tuple2<>(PROTEOME_ID_3, GENE_COUNT_3)
+        );
     }
 
     private static List<Tuple2<String, ProteomeEntry>> getProteomeTuples() {
@@ -226,8 +241,34 @@ class ProteomeDocumentsToHPSWriterTest {
         }
 
         @Override
+        JavaPairRDD<String, Integer> getProteomeGeneCountRDD() {
+            return proteomeGeneCountRDD;
+        }
+
+        @Override
+        Function<Tuple2<ProteomeEntry, Optional<TaxonomyEntry>>, ProteomeEntry> getTaxonomyToProteomeEntryMapper() {
+            return proteomeEntryTaxonomyTuple2 -> {
+                ProteomeEntry proteomeEntry = proteomeEntryTaxonomyTuple2._1;
+                Optional<TaxonomyEntry> taxonomyEntryOptional = proteomeEntryTaxonomyTuple2._2;
+
+                if (taxonomyEntryOptional.isPresent()) {
+                    TaxonomyEntry taxonomyEntry = taxonomyEntryOptional.get();
+                    ProteomeEntryBuilder proteomeEntryBuilder = ProteomeEntryBuilder.from(proteomeEntry);
+                    proteomeEntryBuilder.taxonomy(taxonomyEntry);
+                    proteomeEntryBuilder.taxonLineagesSet(taxonomyEntry.getLineages());
+                    if (Objects.equals(PROTEOME_ID_0,proteomeEntry.getId().getValue())) {
+                        proteomeEntryBuilder.superkingdom(SUPERKINGDOM);
+                    }
+                    return proteomeEntryBuilder.build();
+                }
+
+                return proteomeEntry;
+            };
+        }
+
+        @Override
         Function<Tuple2<ProteomeEntry, Optional<ProteomeStatistics>>, ProteomeEntry>
-                getProteomeStatisticsToProteomeEntryMapper() {
+        getProteomeStatisticsToProteomeEntryMapper() {
             return docStat -> {
                 ProteomeEntry proteomeEntry = docStat._1;
                 Optional<ProteomeStatistics> proteomeStatistics = docStat._2;
@@ -257,7 +298,7 @@ class ProteomeDocumentsToHPSWriterTest {
                     return copyTaxData(proteomeDocument, 2);
                 }
                 if (Objects.equals(PROTEOME_ID_3, proteomeDocument.upid)) {
-                    return copyTaxData(proteomeDocument, 3);
+                    return copyTaxData(proteomeDocument, GENE_COUNT_0);
                 }
                 if (Objects.equals(PROTEOME_ID_4, proteomeDocument.upid)) {
                     return copyTaxData(proteomeDocument, 4);

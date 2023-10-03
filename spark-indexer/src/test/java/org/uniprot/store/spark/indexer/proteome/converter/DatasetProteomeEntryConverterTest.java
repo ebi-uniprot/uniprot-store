@@ -1,20 +1,5 @@
 package org.uniprot.store.spark.indexer.proteome.converter;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.uniprot.core.citation.SubmissionDatabase.EMBL_GENBANK_DDBJ;
-import static org.uniprot.core.proteome.CPDStatus.STANDARD;
-import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
-
-import java.sql.Date;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
@@ -27,11 +12,25 @@ import org.uniprot.core.impl.CrossReferenceBuilder;
 import org.uniprot.core.proteome.*;
 import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
-
 import scala.Tuple2;
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
 import scala.collection.mutable.WrappedArray;
+
+import java.sql.Date;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.uniprot.core.citation.SubmissionDatabase.EMBL_GENBANK_DDBJ;
+import static org.uniprot.core.proteome.CPDStatus.STANDARD;
+import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
 
 class DatasetProteomeEntryConverterTest {
 
@@ -94,17 +93,21 @@ class DatasetProteomeEntryConverterTest {
     private static final String CITATION_TYPE_6 = "UniProt indexed literatures";
     private static final String CITATION_TYPE_7 = "unpublished observations";
     private static final String AUTHOR_NAME_0_0 = "Briddon R.W.";
+    private static final String CONSORTIUM_NAME_0_0 = "Rat Genome";
+    private static final String CONSORTIUM_NAME_0_1 = "Cat Genome";
+    private static final String CONSORTIUM_NAME_1_0 = "Dog Genome";
+    private static final String CONSORTIUM_NAME_1_1 = "Elephant Genome";
     private static final String AUTHOR_NAME_1_0 = "Heydarnejad J.";
     private static final String AUTHOR_NAME_0_1 = "Khosrowfar F.";
     private static final String AUTHOR_NAME_1_1 = "Massumi H.";
-    private static final String CONSORTIUM_VALUE_0_0 = "25635016";
-    private static final String CONSORTIUM_VALUE_0_1 = "10.1016/j.virusres.2010.05.016";
-    private static final String CONSORTIUM_VALUE_1_0 = "10.1006/viro.1993.1008";
-    private static final String CONSORTIUM_VALUE_1_1 = "20566344";
-    private static final String CONSORTIUM_NAME_0_0 = "PubMed";
-    private static final String CONSORTIUM_NAME_1_0 = "DOI";
-    private static final String CONSORTIUM_NAME_1_1 = "PubMed";
-    private static final String CONSORTIUM_NAME_0_1 = "DOI";
+    private static final String DB_REF_VALUE_0_0 = "25635016";
+    private static final String DB_REF_VALUE_0_1 = "10.1016/j.virusres.2010.05.016";
+    private static final String DB_REF_VALUE_1_0 = "10.1006/viro.1993.1008";
+    private static final String DB_REF_VALUE_1_1 = "20566344";
+    private static final String DB_REF_NAME_0_0 = "PubMed";
+    private static final String DB_REF_NAME_1_0 = "DOI";
+    private static final String DB_REF_NAME_1_1 = "PubMed";
+    private static final String DB_REF_NAME_0_1 = "DOI";
     private static final String SCORES_NAME_0 = "cpd";
     private static final String SCORES_NAME_1 = "abc";
     private static final String SCORES_SCORE_0_0 = "confidence";
@@ -127,6 +130,7 @@ class DatasetProteomeEntryConverterTest {
     private static final String REDUNDANT_PROTEIN_ID_1 = "1634";
     private static final String REDUNDANT_PROTEIN_SIMILARITY_0 = "23.5";
     private static final String REDUNDANT_PROTEIN_SIMILARITY_1 = "443.5";
+    public static final int PROTEIN_COUNT_VALUE = 25;
     private final DatasetProteomeEntryConverter proteomeEntryConverter =
             new DatasetProteomeEntryConverter();
 
@@ -224,6 +228,7 @@ class DatasetProteomeEntryConverterTest {
 
     private ProteomeEntry getExpectedFullResult() {
         return new ProteomeEntryBuilder()
+                .proteinCount(PROTEIN_COUNT_VALUE)
                 .proteomeId(UP_ID_VAL)
                 .taxonomy(new TaxonomyBuilder().taxonId(TAXONOMY_VAL).build())
                 .proteomeType(ProteomeType.EXCLUDED)
@@ -301,17 +306,20 @@ class DatasetProteomeEntryConverterTest {
                                         .authorsSet(
                                                 new LinkedList<>(
                                                         List.of(AUTHOR_NAME_0_0, AUTHOR_NAME_1_0)))
+                                        .authoringGroupsSet(new LinkedList<>(
+                                                List.of(CONSORTIUM_NAME_0_0, CONSORTIUM_NAME_0_1)
+                                        ))
                                         .citationCrossReferencesSet(
                                                 List.of(
                                                         new CrossReferenceBuilder<
                                                                         CitationDatabase>()
                                                                 .database(CitationDatabase.PUBMED)
-                                                                .id(CONSORTIUM_VALUE_0_0)
+                                                                .id(DB_REF_VALUE_0_0)
                                                                 .build(),
                                                         new CrossReferenceBuilder<
                                                                         CitationDatabase>()
                                                                 .database(CitationDatabase.DOI)
-                                                                .id(CONSORTIUM_VALUE_1_0)
+                                                                .id(DB_REF_VALUE_1_0)
                                                                 .build()))
                                         .build(),
                                 new SubmissionBuilder()
@@ -321,17 +329,20 @@ class DatasetProteomeEntryConverterTest {
                                         .authorsSet(
                                                 new LinkedList<>(
                                                         List.of(AUTHOR_NAME_0_1, AUTHOR_NAME_1_1)))
+                                        .authoringGroupsSet(new LinkedList<>(
+                                                List.of(CONSORTIUM_NAME_1_0, CONSORTIUM_NAME_1_1)
+                                        ))
                                         .citationCrossReferencesSet(
                                                 List.of(
                                                         new CrossReferenceBuilder<
                                                                         CitationDatabase>()
                                                                 .database(CitationDatabase.DOI)
-                                                                .id(CONSORTIUM_VALUE_0_1)
+                                                                .id(DB_REF_VALUE_0_1)
                                                                 .build(),
                                                         new CrossReferenceBuilder<
                                                                         CitationDatabase>()
                                                                 .database(CitationDatabase.PUBMED)
-                                                                .id(CONSORTIUM_VALUE_1_1)
+                                                                .id(DB_REF_VALUE_1_1)
                                                                 .build()))
                                         .build(),
                                 new BookBuilder()
@@ -371,7 +382,7 @@ class DatasetProteomeEntryConverterTest {
 
     private Row getFullProteomeRow() {
         List<Object> entryValues = new LinkedList<>();
-        entryValues.add(25);
+        entryValues.add(PROTEIN_COUNT_VALUE);
         entryValues.add(UP_ID_VAL);
         entryValues.add(TAXONOMY_VAL);
         entryValues.add(IS_REFERENCE_PROTEOME_VAL);
@@ -533,12 +544,12 @@ class DatasetProteomeEntryConverterTest {
                                 CITATION_NAME_0,
                                 CITATION_VOLUME_0,
                                 CITATION_TITLE_0),
-                        List.of("", AUTHOR_NAME_0_0, "", AUTHOR_NAME_1_0, "", ""),
+                        List.of("", AUTHOR_NAME_0_0, "", AUTHOR_NAME_1_0, CONSORTIUM_NAME_0_0, CONSORTIUM_NAME_0_1),
                         List.of(
-                                CONSORTIUM_VALUE_0_0,
-                                CONSORTIUM_NAME_0_0,
-                                CONSORTIUM_VALUE_1_0,
-                                CONSORTIUM_NAME_1_0)));
+                                DB_REF_VALUE_0_0,
+                                DB_REF_NAME_0_0,
+                                DB_REF_VALUE_1_0,
+                                DB_REF_NAME_1_0)));
         referenceSeq.add(
                 getReferenceRow(
                         CITATION_TYPE_1,
@@ -550,12 +561,12 @@ class DatasetProteomeEntryConverterTest {
                                 CITATION_NAME_1,
                                 CITATION_VOLUME_1,
                                 CITATION_TITLE_1),
-                        List.of("", AUTHOR_NAME_0_1, "", AUTHOR_NAME_1_1, "", ""),
+                        List.of("", AUTHOR_NAME_0_1, "", AUTHOR_NAME_1_1, CONSORTIUM_NAME_1_0, CONSORTIUM_NAME_1_1),
                         List.of(
-                                CONSORTIUM_VALUE_0_1,
-                                CONSORTIUM_NAME_0_1,
-                                CONSORTIUM_VALUE_1_1,
-                                CONSORTIUM_NAME_1_1)));
+                                DB_REF_VALUE_0_1,
+                                DB_REF_NAME_0_1,
+                                DB_REF_VALUE_1_1,
+                                DB_REF_NAME_1_1)));
         referenceSeq.add(
                 getReferenceBookRowMinimal(
                         List.of(CITATION_FIRST_2, CITATION_LAST_2, CITATION_VOLUME_2)));
@@ -665,8 +676,16 @@ class DatasetProteomeEntryConverterTest {
     private Row getAuthorListRow(List<String> authorProperties) {
         List<Object> authorSeq = new ArrayList<>();
         authorSeq.add(getPersonSequence(authorProperties));
-        authorSeq.add(getConsortiumRow(authorProperties.get(4), authorProperties.get(5)));
+        authorSeq.add(getConsortiumSequence(authorProperties));
         return new GenericRowWithSchema(authorSeq.toArray(), getAuthorListScheme());
+    }
+
+    private Seq getConsortiumSequence(List<String> personProperties) {
+        List<Object> personSeq = new ArrayList<>();
+        personSeq.add(getConsortiumRow("", personProperties.get(4)));
+        personSeq.add(getPersonRow("", personProperties.get(5)));
+        return (Seq)
+                JavaConverters.asScalaIteratorConverter(personSeq.iterator()).asScala().toSeq();
     }
 
     private Seq getPersonSequence(List<String> personProperties) {

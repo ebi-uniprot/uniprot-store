@@ -7,7 +7,6 @@ import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
 import org.uniprot.core.proteome.*;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
-import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
@@ -15,7 +14,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.uniprot.core.util.Utils.notNull;
-import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil.truncatedSortValue;
 
 @Slf4j
 public class ProteomeEntryToProteomeDocumentMapper
@@ -26,8 +24,6 @@ public class ProteomeEntryToProteomeDocumentMapper
     public ProteomeDocument call(ProteomeEntry proteomeEntry) throws Exception {
         ProteomeDocument document = new ProteomeDocument();
         document.upid = proteomeEntry.getId().getValue();
-        Optional<Taxonomy> taxonomy = Optional.ofNullable(proteomeEntry.getTaxonomy());
-        taxonomy.ifPresent(value -> document.organismTaxId = (int) value.getTaxonId());
         document.strain = proteomeEntry.getStrain();
         Optional.ofNullable(proteomeEntry.getAnnotationScore())
                 .ifPresent(score -> document.score = score);
@@ -41,7 +37,10 @@ public class ProteomeEntryToProteomeDocumentMapper
                             document.cpd = getCPD(report.getCPDReport());
                         });
         updateProteomeType(document, proteomeEntry);
-        taxonomy.ifPresent(value -> updateOrganismFields(document, (TaxonomyEntry) value));
+        Optional<TaxonomyEntry> taxonomy = Optional.ofNullable((TaxonomyEntry) proteomeEntry.getTaxonomy());
+        document.organismTaxId = taxonomy.map(taxonomyEntry -> (int) taxonomyEntry.getTaxonId()).orElse(0);
+        taxonomy.ifPresent(tax -> updateOrganismFields(document, tax));
+        Optional.ofNullable(proteomeEntry.getSuperkingdom()).ifPresent(sk -> document.superkingdom = sk.getName());
         document.proteomeStored =
                 ProteomeJsonConfig.getInstance()
                         .getFullObjectMapper()
@@ -53,7 +52,7 @@ public class ProteomeEntryToProteomeDocumentMapper
         List<String> organismNames = getOrganismNames(organism);
         proteomeDocument.organismName.addAll(organismNames);
         proteomeDocument.organismTaxon.addAll(organismNames);
-        proteomeDocument.organismSort = truncatedSortValue(String.join(" ", organismNames));
+        proteomeDocument.organismSort = organism.getScientificName();
         proteomeDocument.taxLineageIds.add(Math.toIntExact(organism.getTaxonId()));
 
         if (organism.hasLineage()) {
@@ -82,14 +81,10 @@ public class ProteomeEntryToProteomeDocumentMapper
         if (lineage.hasCommonName()) {
             document.organismTaxon.add(lineage.getCommonName());
         }
-        document.organismTaxon.stream()
-                .filter(Superkingdom::isSuperkingdom)
-                .findFirst()
-                .ifPresent(superKingdom -> document.superkingdom = superKingdom);
     }
 
     private Float getBuscoPercentage(BuscoReport buscoReport) {
-        float buscoCompletedPercentage = 0f;
+        Float buscoCompletedPercentage = null;
         if (buscoReport != null && buscoReport.getTotal() > 0) {
             buscoCompletedPercentage = buscoReport.getComplete() * 100f / buscoReport.getTotal();
         }

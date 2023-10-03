@@ -45,7 +45,8 @@ class ProteomeEntryToProteomeDocumentMapperTest {
     private static final int BUSCO_TOTAL = 82;
     private static final long TAXON_ID_0 = 0L;
     private static final long TAXON_ID_1 = 1L;
-    private static final String SCIENTIFIC_NAME_0 = "viruses";
+    private static final Superkingdom SUPERKINGDOM = Superkingdom.VIRUSES;
+    private static final String SCIENTIFIC_NAME_0 = SUPERKINGDOM.getName();
     private static final String SCIENTIFIC_NAME_1 = "scientificName1";
     private static final String COMMON_NAME_0 = "commonName0";
     private static final String COMMON_NAME_1 = "commonName1";
@@ -55,8 +56,6 @@ class ProteomeEntryToProteomeDocumentMapperTest {
     private static final String SYNONYM_1 = "synonym1";
     private static final List<String> SYNONYMS_0 = List.of(SYNONYM_0);
     private static final List<String> SYNONYMS_1 = List.of(SYNONYM_1);
-    private static final String SY = " sy";
-    private static final String SPACE = " ";
     private static final TaxonomyLineage taxLineage0 =
             new TaxonomyLineageBuilder()
                     .taxonId(TAXON_ID_0)
@@ -138,7 +137,8 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                         .genomeAssembly(GENOME_ASSEMBLY)
                         .annotationScore(ANNOTATION_SCORE)
                         .proteomeCompletenessReport(PROTEOME_COMPLETENESS_REPORT)
-                        .proteomeType(PROTEOME_TYPE);
+                        .proteomeType(PROTEOME_TYPE)
+                        .superkingdom(SUPERKINGDOM);
     }
 
     @Test
@@ -160,7 +160,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
             ProteomeDocument proteomeDocument,
             ProteomeTypeInfo proteomeTypeInfo,
             List<String> genomeAssembly,
-            float busco,
+            Float busco,
             ProteomeEntry proteomeEntry)
             throws Exception {
         assertSame(ID, proteomeDocument.upid);
@@ -168,15 +168,15 @@ class ProteomeEntryToProteomeDocumentMapperTest {
         assertSame(STRAIN, proteomeDocument.strain);
         assertEquals(ANNOTATION_SCORE, proteomeDocument.score);
         assertThat(proteomeDocument.genomeAccession, contains(GENOME_ACCESSION_0));
-        assertEquals(proteomeDocument.genomeAssembly, genomeAssembly);
-        assertEquals(proteomeDocument.proteinCount, PROTEIN_COUNT_0 + PROTEIN_COUNT_1);
-        assertEquals(proteomeDocument.busco, busco);
-        assertSame(proteomeDocument.cpd, cPDStatus.getId());
+        assertEquals(genomeAssembly, proteomeDocument.genomeAssembly);
+        assertEquals(PROTEIN_COUNT_0 + PROTEIN_COUNT_1, proteomeDocument.proteinCount);
+        assertEquals(busco, proteomeDocument.busco);
+        assertSame(cPDStatus.getId(), proteomeDocument.cpd);
         assertEquals(proteomeTypeInfo.proteomeType, proteomeDocument.proteomeType);
         assertEquals(proteomeTypeInfo.isReferenceProteome, proteomeDocument.isReferenceProteome);
         assertEquals(proteomeTypeInfo.isExcluded, proteomeDocument.isExcluded);
         assertEquals(proteomeTypeInfo.isRedundant, proteomeDocument.isRedundant);
-        assertEquals(SCIENTIFIC_NAME_1 + SPACE + COMMON_NAME_1 + SY, proteomeDocument.organismSort);
+        assertEquals(SCIENTIFIC_NAME_1, proteomeDocument.organismSort);
         assertThat(
                 proteomeDocument.organismName,
                 contains(SCIENTIFIC_NAME_1, COMMON_NAME_1, SYNONYM_1));
@@ -215,7 +215,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                 proteomeDocument,
                 new ProteomeTypeInfo(2, false, false, false),
                 List.of(GENOME_ASSEMBLY_ID),
-                0f,
+                null,
                 proteomeEntry);
     }
 
@@ -312,14 +312,13 @@ class ProteomeEntryToProteomeDocumentMapperTest {
 
     @Test
     void call_whenOrganismHasNoLineage() throws Exception {
-        ProteomeEntry proteomeEntry = proteomeEntryBuilder.taxonomy(TAX_ENTRY_0).build();
+        ProteomeEntry proteomeEntry = proteomeEntryBuilder.taxonomy(TAX_ENTRY_0).superkingdom(null).build();
 
         ProteomeDocument proteomeDocumentResult =
                 proteomeEntryToProteomeDocumentMapper.call(proteomeEntry);
 
         assertEquals(
-                SCIENTIFIC_NAME_0 + SPACE + COMMON_NAME_0 + SPACE + SYNONYM_0,
-                proteomeDocumentResult.organismSort);
+                SCIENTIFIC_NAME_0, proteomeDocumentResult.organismSort);
         assertThat(
                 proteomeDocumentResult.organismName,
                 contains(SCIENTIFIC_NAME_0, COMMON_NAME_0, SYNONYM_0));

@@ -60,6 +60,9 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
     @Override
     public ProteomeEntry call(Row row) throws Exception {
         ProteomeEntryBuilder builder = new ProteomeEntryBuilder();
+        if (hasFieldName(PROTEIN_COUNT, row)) {
+            builder.proteinCount(row.getInt(row.fieldIndex(PROTEIN_COUNT)));
+        }
         builder.proteomeId(row.getString(row.fieldIndex(UPID)));
         Taxonomy taxonomy =
                 new TaxonomyBuilder().taxonId(row.getLong(row.fieldIndex(TAXONOMY))).build();
@@ -111,7 +114,7 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
                     referenceRows.stream().map(this::getCitation).collect(Collectors.toList()));
         }
         if (hasFieldName(REDUNDANT_PROTEOME, row)) {
-            List<Row>  redundantProteomeRows = row.getList(row.fieldIndex(REDUNDANT_PROTEOME));
+            List<Row> redundantProteomeRows = row.getList(row.fieldIndex(REDUNDANT_PROTEOME));
             builder.redundantProteomesSet(
                     redundantProteomeRows.stream()
                             .map(this::getRedundantProteome)
@@ -138,10 +141,7 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
         boolean isRepresentative = row.getBoolean(row.fieldIndex(IS_REPRESENTATIVE_PROTEOME));
         builder.proteomeType(
                 getProteomeType(
-                        isReference,
-                        isRepresentative,
-                        !exclusionReasons.isEmpty(),
-                        isRedundant));
+                        isReference, isRepresentative, !exclusionReasons.isEmpty(), isRedundant));
 
         return builder.build();
     }
@@ -403,6 +403,9 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
             if (hasFieldName(PERSON, authorsRow)) {
                 citationBuilder.authorsSet(getAuthors(authorsRow));
             }
+            if (hasFieldName(CONSORTIUM, authorsRow)) {
+                citationBuilder.authoringGroupsSet(getAuthoringGroups(authorsRow));
+            }
         }
         if (hasFieldName(DB_REFERENCE, row)) {
             List<Row> dbReferences = row.getList(row.fieldIndex(DB_REFERENCE));
@@ -427,6 +430,11 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
     private Collection<String> getAuthors(Row row) {
         List<Row> personList = row.getList(row.fieldIndex(PERSON));
         return personList.stream().map(this::getName).collect(Collectors.toList());
+    }
+
+    private List<String> getAuthoringGroups(Row row) {
+        List<Row> authoringGroups = row.getList(row.fieldIndex(CONSORTIUM));
+        return authoringGroups.stream().map(this::getName).collect(Collectors.toList());
     }
 
     private String getName(Row row) {
