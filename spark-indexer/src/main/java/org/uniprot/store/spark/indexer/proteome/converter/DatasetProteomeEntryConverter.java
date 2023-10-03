@@ -61,7 +61,7 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
     public ProteomeEntry call(Row row) throws Exception {
         ProteomeEntryBuilder builder = new ProteomeEntryBuilder();
         if (hasFieldName(PROTEIN_COUNT, row)) {
-            builder.proteinCount(row.getInt(row.fieldIndex(PROTEIN_COUNT)));
+            builder.proteinCount(Integer.valueOf(row.getString(row.fieldIndex(PROTEIN_COUNT))));
         }
         builder.proteomeId(row.getString(row.fieldIndex(UPID)));
         Taxonomy taxonomy =

@@ -130,7 +130,7 @@ class DatasetProteomeEntryConverterTest {
     private static final String REDUNDANT_PROTEIN_ID_1 = "1634";
     private static final String REDUNDANT_PROTEIN_SIMILARITY_0 = "23.5";
     private static final String REDUNDANT_PROTEIN_SIMILARITY_1 = "443.5";
-    public static final int PROTEIN_COUNT_VALUE = 25;
+    public static final String PROTEIN_COUNT_VALUE = "25";
     private final DatasetProteomeEntryConverter proteomeEntryConverter =
             new DatasetProteomeEntryConverter();
 
@@ -228,7 +228,7 @@ class DatasetProteomeEntryConverterTest {
 
     private ProteomeEntry getExpectedFullResult() {
         return new ProteomeEntryBuilder()
-                .proteinCount(PROTEIN_COUNT_VALUE)
+                .proteinCount(Integer.valueOf(PROTEIN_COUNT_VALUE))
                 .proteomeId(UP_ID_VAL)
                 .taxonomy(new TaxonomyBuilder().taxonId(TAXONOMY_VAL).build())
                 .proteomeType(ProteomeType.EXCLUDED)
