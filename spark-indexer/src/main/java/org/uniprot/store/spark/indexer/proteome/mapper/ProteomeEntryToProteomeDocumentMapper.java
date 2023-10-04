@@ -5,7 +5,6 @@ import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
 import org.uniprot.core.proteome.*;
-import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.util.Utils;
@@ -38,9 +37,9 @@ public class ProteomeEntryToProteomeDocumentMapper
                             document.cpd = getCPD(report.getCPDReport());
                         });
         updateProteomeType(document, proteomeEntry);
-        Optional<Taxonomy> taxonomy = Optional.ofNullable( proteomeEntry.getTaxonomy());
+        Optional<Taxonomy> taxonomy = Optional.ofNullable(proteomeEntry.getTaxonomy());
         document.organismTaxId = taxonomy.map(tx -> (int) tx.getTaxonId()).orElse(0);
-        taxonomy.ifPresent(tax -> updateOrganismFields(document, (TaxonomyEntry) tax));
+        taxonomy.ifPresent(tax -> updateOrganismFields(document, tax, proteomeEntry.getTaxonLineages()));
         Optional.ofNullable(proteomeEntry.getSuperkingdom()).ifPresent(sk -> document.superkingdom = sk.getName());
         document.proteomeStored =
                 ProteomeJsonConfig.getInstance()
@@ -49,22 +48,22 @@ public class ProteomeEntryToProteomeDocumentMapper
         return document;
     }
 
-    private void updateOrganismFields(ProteomeDocument proteomeDocument, TaxonomyEntry organism) {
+    private void updateOrganismFields(ProteomeDocument proteomeDocument, Taxonomy organism, List<TaxonomyLineage> taxonLineages) {
         List<String> organismNames = getOrganismNames(organism);
         proteomeDocument.organismName.addAll(organismNames);
         proteomeDocument.organismTaxon.addAll(organismNames);
         proteomeDocument.organismSort = organism.getScientificName();
         proteomeDocument.taxLineageIds.add(Math.toIntExact(organism.getTaxonId()));
 
-        if (organism.hasLineage()) {
-            organism.getLineages()
+        if (!taxonLineages.isEmpty()) {
+            taxonLineages
                     .forEach(lineage -> updateLineageTaxonomy(proteomeDocument, lineage));
         } else {
             log.warn("Unable to find organism lineage for: " + proteomeDocument.organismTaxId);
         }
     }
 
-    private List<String> getOrganismNames(TaxonomyEntry organism) {
+    private List<String> getOrganismNames(Taxonomy organism) {
         List<String> organismNames = new LinkedList<>();
         organismNames.add(organism.getScientificName());
         if (organism.hasCommonName()) {

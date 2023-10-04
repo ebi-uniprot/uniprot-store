@@ -138,6 +138,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                         .annotationScore(ANNOTATION_SCORE)
                         .proteomeCompletenessReport(PROTEOME_COMPLETENESS_REPORT)
                         .proteomeType(PROTEOME_TYPE)
+                        .taxonLineagesSet(List.of(taxLineage0))
                         .superkingdom(SUPERKINGDOM);
     }
 
@@ -312,7 +313,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
 
     @Test
     void call_whenOrganismHasNoLineage() throws Exception {
-        ProteomeEntry proteomeEntry = proteomeEntryBuilder.taxonomy(TAX_ENTRY_0).superkingdom(null).build();
+        ProteomeEntry proteomeEntry = proteomeEntryBuilder.taxonomy(TAX_ENTRY_0).taxonLineagesSet(List.of()).superkingdom(null).build();
 
         ProteomeDocument proteomeDocumentResult =
                 proteomeEntryToProteomeDocumentMapper.call(proteomeEntry);
