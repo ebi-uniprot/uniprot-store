@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
@@ -40,7 +41,7 @@ public class ProteomeEntryToProteomeDocumentMapper
         Optional<Taxonomy> taxonomy = Optional.ofNullable(proteomeEntry.getTaxonomy());
         document.organismTaxId = taxonomy.map(tx -> (int) tx.getTaxonId()).orElse(0);
         taxonomy.ifPresent(tax -> updateOrganismFields(document, tax, proteomeEntry.getTaxonLineages()));
-        Optional.ofNullable(proteomeEntry.getSuperkingdom()).ifPresent(sk -> document.superkingdom = sk.getName());
+        Optional.ofNullable(proteomeEntry.getSuperkingdom()).ifPresent(sk -> document.superkingdom = StringUtils.capitalize(sk.getName()));
         document.proteomeStored =
                 ProteomeJsonConfig.getInstance()
                         .getFullObjectMapper()

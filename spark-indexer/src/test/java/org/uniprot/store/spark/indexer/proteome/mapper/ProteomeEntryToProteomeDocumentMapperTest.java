@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
 import lombok.Data;
+import org.apache.commons.lang.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.impl.CrossReferenceBuilder;
@@ -46,7 +47,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
     private static final long TAXON_ID_0 = 0L;
     private static final long TAXON_ID_1 = 1L;
     private static final Superkingdom SUPERKINGDOM = Superkingdom.VIRUSES;
-    private static final String SCIENTIFIC_NAME_0 = SUPERKINGDOM.getName();
+    private static final String SCIENTIFIC_NAME_0 = StringUtils.capitalize(SUPERKINGDOM.getName());
     private static final String SCIENTIFIC_NAME_1 = "scientificName1";
     private static final String COMMON_NAME_0 = "commonName0";
     private static final String COMMON_NAME_1 = "commonName1";
