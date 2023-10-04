@@ -1,18 +1,25 @@
 package org.uniprot.store.datastore.voldemort.client.impl;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.store.datastore.voldemort.VoldemortClient;
+import org.uniprot.store.datastore.voldemort.client.UniProtClient;
 
 class DefaultClientFactoryTest {
 
     @Test
     void testGetUniProtClient() {
         // When
-        DefaultClientFactory factory = Mockito.mock(DefaultClientFactory.class);
+        DefaultClientFactory factory = new DefaultClientFactory("url");
+        VoldemortClient<UniProtKBEntry> voldemortClient = Mockito.mock(VoldemortClient.class);
+        ReflectionTestUtils.setField(factory, "voldemortClient", voldemortClient);
         // then
-        assertDoesNotThrow(factory::createUniProtClient);
+        UniProtClient uniProtClient = factory.createUniProtClient();
+        assertNotNull(uniProtClient);
     }
 
     @Test
