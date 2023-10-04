@@ -312,12 +312,12 @@ class DatasetProteomeEntryConverterTest {
                                         .citationCrossReferencesSet(
                                                 List.of(
                                                         new CrossReferenceBuilder<
-                                                                        CitationDatabase>()
+                                                                CitationDatabase>()
                                                                 .database(CitationDatabase.PUBMED)
                                                                 .id(DB_REF_VALUE_0_0)
                                                                 .build(),
                                                         new CrossReferenceBuilder<
-                                                                        CitationDatabase>()
+                                                                CitationDatabase>()
                                                                 .database(CitationDatabase.DOI)
                                                                 .id(DB_REF_VALUE_1_0)
                                                                 .build()))
@@ -325,7 +325,7 @@ class DatasetProteomeEntryConverterTest {
                                 new SubmissionBuilder()
                                         .submittedToDatabase(EMBL_GENBANK_DDBJ)
                                         .title(CITATION_TITLE_1)
-                                        .publicationDate(CITATION_DATE_1)
+                                        .publicationDate("AUG-2008")
                                         .authorsSet(
                                                 new LinkedList<>(
                                                         List.of(AUTHOR_NAME_0_1, AUTHOR_NAME_1_1)))
@@ -335,12 +335,12 @@ class DatasetProteomeEntryConverterTest {
                                         .citationCrossReferencesSet(
                                                 List.of(
                                                         new CrossReferenceBuilder<
-                                                                        CitationDatabase>()
+                                                                CitationDatabase>()
                                                                 .database(CitationDatabase.DOI)
                                                                 .id(DB_REF_VALUE_0_1)
                                                                 .build(),
                                                         new CrossReferenceBuilder<
-                                                                        CitationDatabase>()
+                                                                CitationDatabase>()
                                                                 .database(CitationDatabase.PUBMED)
                                                                 .id(DB_REF_VALUE_1_1)
                                                                 .build()))
@@ -419,7 +419,7 @@ class DatasetProteomeEntryConverterTest {
     }
 
     private WrappedArray getExclusionReasons() {
-        String[] exclusionReasons = new String[] {EXCLUSION_REASON_VAL};
+        String[] exclusionReasons = new String[]{EXCLUSION_REASON_VAL};
         return new WrappedArray.ofRef<>(exclusionReasons);
     }
 
@@ -476,9 +476,14 @@ class DatasetProteomeEntryConverterTest {
         component.add(proteinCount);
         component.add(bioSampleId);
         component.add(description);
-        component.add(genomeAccession);
+        component.add(getGenomeAccessions(genomeAccession));
         component.add(getGenomeAnnotationSourceRow(source));
         return new GenericRowWithSchema(component.toArray(), getComponentSchema());
+    }
+
+    private WrappedArray getGenomeAccessions(String genomeAccession) {
+        String[] exclusionReasons = new String[]{genomeAccession};
+        return new WrappedArray.ofRef<>(exclusionReasons);
     }
 
     private Row getGenomeAnnotationSourceRow(String genomeAnnotationSourceVal) {

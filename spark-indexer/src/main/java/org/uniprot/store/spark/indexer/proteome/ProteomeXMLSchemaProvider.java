@@ -172,7 +172,7 @@ public class ProteomeXMLSchemaProvider {
         component = component.add(PROTEIN_COUNT, DataTypes.LongType, true);
         component = component.add(BIO_SAMPLE_ID, DataTypes.StringType, true);
         component = component.add(DESCRIPTION, DataTypes.StringType, true);
-        component = component.add(GENOME_ACCESSION, DataTypes.StringType, true);
+        component = component.add(GENOME_ACCESSION, DataTypes.createArrayType(DataTypes.StringType), true);
         component = component.add(GENOME_ANNOTATION, getGenomeAnnotationSourceSchema(), true);
         return component;
     }

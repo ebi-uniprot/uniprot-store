@@ -21,11 +21,10 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.time.format.TextStyle;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -408,15 +407,20 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
             }
         }
         if (hasFieldName(DB_REFERENCE, row)) {
-            List<Row> dbReferences = row.getList(row.fieldIndex(DB_REFERENCE));
+            List<Row> dbReferenceRows = row.getList(row.fieldIndex(DB_REFERENCE));
             citationBuilder.citationCrossReferencesSet(
-                    dbReferences.stream().map(this::getCrossRef).collect(Collectors.toList()));
+                    dbReferenceRows.stream().map(this::getCrossRef).collect(Collectors.toList()));
         }
         if (hasFieldName(TITLE, row)) {
             citationBuilder.title((row.getString(row.fieldIndex(TITLE))));
         }
         if (hasFieldName(DATE, row)) {
-            citationBuilder.publicationDate((row.getString(row.fieldIndex(DATE))));
+            String dateString = row.getString(row.fieldIndex(DATE));
+            String[] yearAndMonth = dateString.split("-");
+            if (yearAndMonth.length > 1) {
+                dateString = Month.of(Integer.parseInt(yearAndMonth[1])).getDisplayName(TextStyle.SHORT, Locale.ENGLISH).toUpperCase() + "-" + yearAndMonth[0];
+            }
+            citationBuilder.publicationDate(dateString);
         }
     }
 
@@ -460,11 +464,13 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
             componentBuilder.genomeAnnotation(genomeAnnotation);
         }
         if (hasFieldName(GENOME_ACCESSION, row)) {
-            componentBuilder.proteomeCrossReferencesAdd(
-                    new CrossReferenceBuilder<ProteomeDatabase>()
-                            .database(ProteomeDatabase.GENOME_ACCESSION)
-                            .id(row.getString(row.fieldIndex(GENOME_ACCESSION)))
-                            .build());
+            String[] genomeAccessions = (String[]) ((WrappedArray) row.get(row.fieldIndex(GENOME_ACCESSION))).array();
+            Arrays.stream(genomeAccessions).forEach(genomeAccession ->
+                    componentBuilder.proteomeCrossReferencesAdd(
+                            new CrossReferenceBuilder<ProteomeDatabase>()
+                                    .database(ProteomeDatabase.GENOME_ACCESSION)
+                                    .id(genomeAccession)
+                                    .build()));
         }
         if (hasFieldName(BIO_SAMPLE_ID, row)) {
             componentBuilder.proteomeCrossReferencesAdd(
