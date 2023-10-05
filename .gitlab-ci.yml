@@ -92,7 +92,7 @@ store:deploy:
 
 rest-api:downstream:
   stage: bridge
-  trigger: uniprot/deployment/uniprot-rest-api
+  trigger: uniprot/deployment/mirror-uniprot-rest-api
   when: on_success
   only:
     - main
