@@ -19,13 +19,17 @@ public class ProteomeStatisticsReader {
     }
 
     public JavaPairRDD<String, ProteomeStatistics> getProteomeStatisticsRDD() {
-        return getProteinInfo()
-                .flatMapToPair(getProteomeStatisticsMapper())
+        JavaPairRDD<String, ProteomeStatistics> stringProteomeStatisticsJavaPairRDD = getProteinInfo()
+                .flatMapToPair(getProteomeStatisticsMapper());
+        System.out.println("****TOTAL_COUNT******"+stringProteomeStatisticsJavaPairRDD.count());
+        stringProteomeStatisticsJavaPairRDD.take(200).forEach(t-> System.out.println("+++prot stat&&&:"+t._1+"~"+t._2.getReviewedProteinCount()
+        +"**"+t._2.getUnreviewedProteinCount()+"**"+t._2.getIsoformProteinCount()));
+        return stringProteomeStatisticsJavaPairRDD
                 .aggregateByKey(
                         new ProteomeStatisticsBuilder()
-                                .reviewedProteinCount(0L)
-                                .unreviewedProteinCount(0L)
-                                .isoformProteinCount(0L)
+                                .reviewedProteinCount(9999L)
+                                .unreviewedProteinCount(73L)
+                                .isoformProteinCount(112L)
                                 .build(),
                         getProteomeStatisticsAggregationMapper(),
                         getProteomeStatisticsAggregationMapper());

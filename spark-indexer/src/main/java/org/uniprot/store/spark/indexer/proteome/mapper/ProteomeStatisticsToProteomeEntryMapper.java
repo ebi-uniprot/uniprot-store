@@ -22,9 +22,9 @@ public class ProteomeStatisticsToProteomeEntryMapper
         ProteomeStatistics proteomeStatistics =
                 proteomeEntryProteomeStatisticsTuple2._2.orElse(
                         new ProteomeStatisticsBuilder()
-                                .reviewedProteinCount(0)
-                                .unreviewedProteinCount(0)
-                                .isoformProteinCount(0)
+                                .reviewedProteinCount(1L)
+                                .unreviewedProteinCount(2L)
+                                .isoformProteinCount(3L)
                                 .build());
 
         ProteomeEntryBuilder proteomeEntryBuilder = ProteomeEntryBuilder.from(proteomeEntry);
