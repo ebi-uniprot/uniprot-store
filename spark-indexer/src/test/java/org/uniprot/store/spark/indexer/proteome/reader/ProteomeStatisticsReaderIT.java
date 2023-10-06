@@ -1,11 +1,6 @@
 package org.uniprot.store.spark.indexer.proteome.reader;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
-
-import java.util.List;
-
+import com.typesafe.config.Config;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -14,10 +9,13 @@ import org.uniprot.core.proteome.ProteomeStatistics;
 import org.uniprot.core.proteome.impl.ProteomeStatisticsBuilder;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-
 import scala.Tuple2;
 
-import com.typesafe.config.Config;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 class ProteomeStatisticsReaderIT {
     private static JavaRDD<String> proteinRDD;
@@ -72,18 +70,18 @@ class ProteomeStatisticsReaderIT {
         return List.of(
                 "ID   MOTSC_HUMAN             Reviewed;          16 AA.\n"
                         + "AC   A0-A0C5B5G6;\n"
-                        + "Proteomes; UP000005640; Mitochondrion.\n"
+                        + "DR   Proteomes; UP000005640; Mitochondrion.\n"
                         + "CC   -!- FUNCTION: Regulates insulin sensitivity and metabolic homeostasis\n"
                         + "CC       (PubMed:25738459, PubMed:33468709). Inhibits the folate cycle, thereby.",
                 "ID   MOTSC_HUMAN             Reviewed;          16 AA.\n"
                         + "AC   A0A0C5B5G7;\n"
-                        + "Proteomes; UP000005640; Mitochondrion.\n"
-                        + "Proteomes; UP000005641; Mitochondrion.\n"
+                        + "DR   Proteomes; UP000005640; Mitochondrion.\n"
+                        + "DR   Proteomes; UP000005641; Mitochondrion.\n"
                         + "CC   -!- FUNCTION: Regulates insulin sensitivity and metabolic homeostasis\n"
                         + "CC       (PubMed:25738459, PubMed:33468709). Inhibits the folate cycle, thereby.",
                 "ID   MOTSC_HUMAN                       16 AA.\n"
                         + "AC   A0A0C5B5G8;\n"
-                        + "Proteomes; UP000005642; Mitochondrion.\n"
+                        + "DR   Proteomes; UP000005642; Mitochondrion.\n"
                         + "CC   -!- FUNCTION: Regulates insulin sensitivity and metabolic homeostasis\n"
                         + "CC       (PubMed:25738459, PubMed:33468709). Inhibits the folate cycle, thereby.");
     }

@@ -1,10 +1,5 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.apache.spark.api.java.function.PairFlatMapFunction;
 import org.uniprot.core.flatfile.parser.impl.cc.CcLineTransformer;
 import org.uniprot.core.proteome.ProteomeStatistics;
@@ -14,13 +9,17 @@ import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.uniprotkb.comment.Comment;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil;
-
 import scala.Tuple2;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProteomeStatisticsMapper
         implements PairFlatMapFunction<String, String, ProteomeStatistics> {
     private static final long serialVersionUID = -4019724767488026549L;
-    private static final String PROTEOMES = "Proteomes";
+    private static final String DR_PROTEOMES = "DR   Proteomes;";
 
     @Override
     public Iterator<Tuple2<String, ProteomeStatistics>> call(String entryStr) {
@@ -40,7 +39,7 @@ public class ProteomeStatisticsMapper
                         .build();
 
         return Arrays.stream(lines)
-                .filter(line -> line.startsWith(PROTEOMES))
+                .filter(line -> line.startsWith(DR_PROTEOMES))
                 .map(line -> line.split(";")[1].strip())
                 .map(proteomeId -> new Tuple2<>(proteomeId, proteomeStatistics))
                 .collect(Collectors.toList())
