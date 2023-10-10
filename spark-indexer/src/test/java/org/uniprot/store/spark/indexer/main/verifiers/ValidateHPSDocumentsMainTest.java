@@ -3,9 +3,6 @@ package org.uniprot.store.spark.indexer.main.verifiers;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
-import java.net.BindException;
-
-import org.apache.spark.SparkException;
 import org.junit.jupiter.api.Test;
 
 class ValidateHPSDocumentsMainTest {

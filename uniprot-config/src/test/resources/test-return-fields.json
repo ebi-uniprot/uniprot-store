@@ -57,5 +57,12 @@
     "groupName": "Protein family/group",
     "isDatabaseGroup": true,
     "id": "protein_family/group"
+  },
+  {
+  "seqNumber": 3,
+  "itemType": "GROUP",
+  "groupName": "Genome annotation",
+  "isDatabaseGroup": true,
+  "id": "genome_annotation"
   }
 ]
