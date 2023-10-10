@@ -1,13 +1,7 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
-import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.flatfile.parser.SupportingDataMap;
-import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
-import org.uniprot.core.uniprotkb.UniProtKBEntry;
-import org.uniprot.store.search.document.uniprot.ProteinsWith;
-import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryCommentsConverter.EXPERIMENTAL;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -22,8 +16,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryCommentsConverter.EXPERIMENTAL;
+import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.flatfile.parser.SupportingDataMap;
+import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.store.search.document.uniprot.ProteinsWith;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 /**
  * Created 12/04/19

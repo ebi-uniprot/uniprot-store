@@ -1,13 +1,14 @@
 package org.uniprot.store.spark.indexer.genecentric;
 
-import com.typesafe.config.Config;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.genecentric.mapper.FastaToCanonicalGeneCentricEntry;
 import org.uniprot.store.spark.indexer.genecentric.mapper.FastaToGeneCentricEntry;
 import org.uniprot.store.spark.indexer.genecentric.mapper.FastaToProteomeGeneCount;
 
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
+import com.typesafe.config.Config;
 
 /**
  * @author lgonzales

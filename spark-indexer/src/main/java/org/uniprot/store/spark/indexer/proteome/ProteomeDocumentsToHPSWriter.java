@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.proteome;
 
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.Optional;
@@ -19,9 +21,8 @@ import org.uniprot.store.spark.indexer.proteome.mapper.ProteomeStatisticsToProte
 import org.uniprot.store.spark.indexer.proteome.mapper.TaxonomyToProteomeEntryMapper;
 import org.uniprot.store.spark.indexer.proteome.reader.ProteomeStatisticsReader;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
-import scala.Tuple2;
 
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
+import scala.Tuple2;
 
 public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
     private final JobParameter jobParameter;
@@ -51,13 +52,22 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
         saveToHPS(idProteomeDocumentJavaPairRDD.values());
     }
 
-    private JavaPairRDD<String, ProteomeEntry> joinGeneCounts(JavaPairRDD<String, ProteomeEntry> proteomeIdProteomeEntryJavaPairRDD) {
+    private JavaPairRDD<String, ProteomeEntry> joinGeneCounts(
+            JavaPairRDD<String, ProteomeEntry> proteomeIdProteomeEntryJavaPairRDD) {
         JavaPairRDD<String, Integer> proteomeIdToProteomeGeneCount = getProteomeGeneCountRDD();
-        return proteomeIdProteomeEntryJavaPairRDD.leftOuterJoin(proteomeIdToProteomeGeneCount).values().mapToPair(
-                proteomeEntryProteomeGeneCountTuple2 ->
-                        new Tuple2<>(proteomeEntryProteomeGeneCountTuple2._1.getId().getValue(),
-                                ProteomeEntryBuilder.from(proteomeEntryProteomeGeneCountTuple2._1).geneCount(proteomeEntryProteomeGeneCountTuple2._2.orElse(0)).build()
-                        ));
+        return proteomeIdProteomeEntryJavaPairRDD
+                .leftOuterJoin(proteomeIdToProteomeGeneCount)
+                .values()
+                .mapToPair(
+                        proteomeEntryProteomeGeneCountTuple2 ->
+                                new Tuple2<>(
+                                        proteomeEntryProteomeGeneCountTuple2._1.getId().getValue(),
+                                        ProteomeEntryBuilder.from(
+                                                        proteomeEntryProteomeGeneCountTuple2._1)
+                                                .geneCount(
+                                                        proteomeEntryProteomeGeneCountTuple2._2
+                                                                .orElse(0))
+                                                .build()));
     }
 
     JavaPairRDD<String, Integer> getProteomeGeneCountRDD() {
@@ -94,7 +104,8 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
                 .mapValues(getTaxonomyToProteomeEntryMapper());
     }
 
-    Function<Tuple2<ProteomeEntry, Optional<TaxonomyEntry>>, ProteomeEntry> getTaxonomyToProteomeEntryMapper() {
+    Function<Tuple2<ProteomeEntry, Optional<TaxonomyEntry>>, ProteomeEntry>
+            getTaxonomyToProteomeEntryMapper() {
         return new TaxonomyToProteomeEntryMapper();
     }
 
@@ -106,7 +117,7 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
     }
 
     Function<Tuple2<ProteomeEntry, Optional<ProteomeStatistics>>, ProteomeEntry>
-    getProteomeStatisticsToProteomeEntryMapper() {
+            getProteomeStatisticsToProteomeEntryMapper() {
         return new ProteomeStatisticsToProteomeEntryMapper();
     }
 

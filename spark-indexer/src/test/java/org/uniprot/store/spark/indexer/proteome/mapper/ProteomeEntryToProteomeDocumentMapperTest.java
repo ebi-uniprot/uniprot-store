@@ -1,6 +1,17 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.core.proteome.CPDStatus.STANDARD;
+import static org.uniprot.core.proteome.ProteomeDatabase.BIOSAMPLE;
+import static org.uniprot.core.proteome.ProteomeDatabase.GENOME_ACCESSION;
+import static org.uniprot.core.proteome.ProteomeType.*;
+
+import java.util.List;
+
 import lombok.Data;
+
 import org.apache.commons.lang.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,16 +24,6 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
-
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.core.proteome.CPDStatus.STANDARD;
-import static org.uniprot.core.proteome.ProteomeDatabase.BIOSAMPLE;
-import static org.uniprot.core.proteome.ProteomeDatabase.GENOME_ACCESSION;
-import static org.uniprot.core.proteome.ProteomeType.*;
 
 class ProteomeEntryToProteomeDocumentMapperTest {
 
@@ -314,13 +315,17 @@ class ProteomeEntryToProteomeDocumentMapperTest {
 
     @Test
     void call_whenOrganismHasNoLineage() throws Exception {
-        ProteomeEntry proteomeEntry = proteomeEntryBuilder.taxonomy(TAX_ENTRY_0).taxonLineagesSet(List.of()).superkingdom(null).build();
+        ProteomeEntry proteomeEntry =
+                proteomeEntryBuilder
+                        .taxonomy(TAX_ENTRY_0)
+                        .taxonLineagesSet(List.of())
+                        .superkingdom(null)
+                        .build();
 
         ProteomeDocument proteomeDocumentResult =
                 proteomeEntryToProteomeDocumentMapper.call(proteomeEntry);
 
-        assertEquals(
-                SCIENTIFIC_NAME_0, proteomeDocumentResult.organismSort);
+        assertEquals(SCIENTIFIC_NAME_0, proteomeDocumentResult.organismSort);
         assertThat(
                 proteomeDocumentResult.organismName,
                 contains(SCIENTIFIC_NAME_0, COMMON_NAME_0, SYNONYM_0));

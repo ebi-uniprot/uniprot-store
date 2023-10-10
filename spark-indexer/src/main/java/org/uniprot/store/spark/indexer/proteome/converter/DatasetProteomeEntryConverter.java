@@ -1,6 +1,22 @@
 package org.uniprot.store.spark.indexer.proteome.converter;
 
+import static org.uniprot.core.util.Utils.notNullNotEmpty;
+import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
+import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import lombok.Data;
+
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
 import org.uniprot.core.CrossReference;
@@ -15,22 +31,8 @@ import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.core.util.Utils;
+
 import scala.collection.mutable.WrappedArray;
-
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.uniprot.core.util.Utils.notNullNotEmpty;
-import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
-import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
 
 /**
  * Converts XML {@link Row} instances to {@link ProteomeEntry} instances.
@@ -418,7 +420,12 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
             String dateString = row.getString(row.fieldIndex(DATE));
             String[] yearAndMonth = dateString.split("-");
             if (yearAndMonth.length > 1) {
-                dateString = Month.of(Integer.parseInt(yearAndMonth[1])).getDisplayName(TextStyle.SHORT, Locale.ENGLISH).toUpperCase() + "-" + yearAndMonth[0];
+                dateString =
+                        Month.of(Integer.parseInt(yearAndMonth[1]))
+                                        .getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
+                                        .toUpperCase()
+                                + "-"
+                                + yearAndMonth[0];
             }
             citationBuilder.publicationDate(dateString);
         }
@@ -464,13 +471,16 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
             componentBuilder.genomeAnnotation(genomeAnnotation);
         }
         if (hasFieldName(GENOME_ACCESSION, row)) {
-            String[] genomeAccessions = (String[]) ((WrappedArray) row.get(row.fieldIndex(GENOME_ACCESSION))).array();
-            Arrays.stream(genomeAccessions).forEach(genomeAccession ->
-                    componentBuilder.proteomeCrossReferencesAdd(
-                            new CrossReferenceBuilder<ProteomeDatabase>()
-                                    .database(ProteomeDatabase.GENOME_ACCESSION)
-                                    .id(genomeAccession)
-                                    .build()));
+            String[] genomeAccessions =
+                    (String[]) ((WrappedArray) row.get(row.fieldIndex(GENOME_ACCESSION))).array();
+            Arrays.stream(genomeAccessions)
+                    .forEach(
+                            genomeAccession ->
+                                    componentBuilder.proteomeCrossReferencesAdd(
+                                            new CrossReferenceBuilder<ProteomeDatabase>()
+                                                    .database(ProteomeDatabase.GENOME_ACCESSION)
+                                                    .id(genomeAccession)
+                                                    .build()));
         }
         if (hasFieldName(BIO_SAMPLE_ID, row)) {
             componentBuilder.proteomeCrossReferencesAdd(

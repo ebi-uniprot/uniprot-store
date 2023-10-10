@@ -1,21 +1,23 @@
 package org.uniprot.store.spark.indexer.genecentric;
 
-import com.typesafe.config.Config;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+
+import java.util.List;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.genecentric.GeneCentricEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+
 import scala.Tuple2;
 
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+import com.typesafe.config.Config;
 
 /**
  * @author lgonzales
@@ -65,7 +67,7 @@ class GeneCentricCanonicalRDDReaderTest {
     void loadProteomeGeneCounts() {
         Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
-                     SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)
@@ -77,8 +79,10 @@ class GeneCentricCanonicalRDDReaderTest {
             JavaPairRDD<String, Integer> uniprotRdd = reader.loadProteomeGeneCounts();
 
             List<Tuple2<String, Integer>> collect = uniprotRdd.collect();
-            assertThat(collect, containsInAnyOrder(new Tuple2<>("UP000478052", 10), new Tuple2<>("UP000000554", 30)));
+            assertThat(
+                    collect,
+                    containsInAnyOrder(
+                            new Tuple2<>("UP000478052", 10), new Tuple2<>("UP000000554", 30)));
         }
-
     }
 }
