@@ -1,7 +1,13 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryCommentsConverter.EXPERIMENTAL;
+import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.uniprot.core.flatfile.parser.SupportingDataMap;
+import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.store.search.document.uniprot.ProteinsWith;
+import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -16,14 +22,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.uniprot.core.flatfile.parser.SupportingDataMap;
-import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
-import org.uniprot.core.uniprotkb.UniProtKBEntry;
-import org.uniprot.store.search.document.uniprot.ProteinsWith;
-import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryCommentsConverter.EXPERIMENTAL;
 
 /**
  * Created 12/04/19
@@ -219,13 +219,13 @@ class UniProtKBEntryConverterIT {
         assertEquals(0, doc.organismHostNames.size());
         assertEquals(0, doc.organismHostIds.size());
 
-        assertEquals(153, doc.crossRefs.size());
+        assertEquals(155, doc.crossRefs.size());
         assertTrue(doc.crossRefs.contains("refseq-NM_001270626.1"));
         assertTrue(doc.crossRefs.contains("refseq-NM_001270626"));
         assertTrue(doc.crossRefs.contains("NM_001270626.1"));
         assertTrue(doc.crossRefs.contains("NM_001270626"));
 
-        assertEquals(21, doc.databases.size());
+        assertEquals(22, doc.databases.size());
         assertTrue(doc.databases.contains("refseq"));
         assertTrue(doc.databases.contains("ensembl"));
 
