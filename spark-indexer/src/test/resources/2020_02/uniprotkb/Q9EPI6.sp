@@ -1,5 +1,7 @@
 ID   NSMF_RAT                Reviewed;         532 AA.
 AC   Q9EPI6; Q5PPF6; Q7TSC6; Q7TSC8; Q9EPI4; Q9EPI5;
+DR   Proteomes; UP000006687; Mitochondrion
+DR   Proteomes; UP000029766; Mitochondrion
 DT   19-JUL-2005, integrated into UniProtKB/Swiss-Prot.
 DT   01-MAR-2001, sequence version 1.
 DT   29-OCT-2014, entry version 74.

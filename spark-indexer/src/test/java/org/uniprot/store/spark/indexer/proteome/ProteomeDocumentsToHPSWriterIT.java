@@ -1,38 +1,52 @@
 package org.uniprot.store.spark.indexer.proteome;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.typesafe.config.Config;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.uniprot.core.citation.CitationDatabase;
+import org.uniprot.core.citation.impl.JournalArticleBuilder;
+import org.uniprot.core.citation.impl.PublicationDateBuilder;
+import org.uniprot.core.impl.CrossReferenceBuilder;
+import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
+import org.uniprot.core.proteome.GenomeAssemblyLevel;
+import org.uniprot.core.proteome.ProteomeDatabase;
+import org.uniprot.core.proteome.ProteomeEntry;
+import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
-import org.uniprot.core.taxonomy.TaxonomyRank;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
+import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyH2Utils;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
-
 import scala.Tuple2;
 
-import com.typesafe.config.Config;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.uniprot.core.proteome.CPDStatus.STANDARD;
+import static org.uniprot.core.proteome.GenomeAssemblySource.ENA;
+import static org.uniprot.core.proteome.ProteomeType.REFERENCE_AND_REPRESENTATIVE;
+import static org.uniprot.core.taxonomy.TaxonomyRank.FAMILY;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 class ProteomeDocumentsToHPSWriterIT {
     private static final String RELEASE_NAME = "2020_02";
@@ -55,10 +69,10 @@ class ProteomeDocumentsToHPSWriterIT {
     }
 
     @Test
-    void writeIndexDocumentsToHPS() {
+    void writeIndexDocumentsToHPS() throws Exception {
         Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
-                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
+                     SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter jobParameter =
                     JobParameter.builder()
                             .sparkContext(sparkContext)
@@ -83,8 +97,104 @@ class ProteomeDocumentsToHPSWriterIT {
                             samePropertyValuesAs(getDoc4(), "proteomeStored"),
                             samePropertyValuesAs(getDoc5(), "proteomeStored"),
                             samePropertyValuesAs(getDoc6(), "proteomeStored")));
+            Map<String, ProteomeEntry> proteomeEntryMap = savedDocuments.stream().collect(Collectors.toMap(ProteomeDocument::getDocumentId, ProteomeDocumentsToHPSWriterIT::getProteomeEntry));
+            assertProteomeEntry0(proteomeEntryMap.get("UP000002494"));
+            assertProteomeEntry1(proteomeEntryMap.get("UP000164653"));
+            assertProteomeEntry2(proteomeEntryMap.get("UP000006687"));
         }
     }
+
+    private static ProteomeEntry getProteomeEntry(ProteomeDocument pd) {
+        try {
+            return ProteomeJsonConfig.getInstance().getFullObjectMapper().readValue(pd.proteomeStored, ProteomeEntry.class);
+        } catch (IOException e) {
+            return new ProteomeEntryBuilder().build();
+        }
+    }
+
+    private void assertProteomeEntry0(ProteomeEntry proteomeEntry) {
+        assertEquals("UP000002494", proteomeEntry.getId().getValue());
+        assertEquals("Rattus norvegicus (also called the brown rat, Hanover rat, Norwegian rat, Brown Norway rat) is a\n" +
+                "            common rodent closely related to mouse. The species originated in Asia, not Norway as the name suggests, and\n" +
+                "            has spread throughout the world. The rat is a major pest and a reservoir of pathogens, being involved in the\n" +
+                "            transmission of infectious diseases such as cholera, bubonic plague and typhus. On the other hand, Rattus\n" +
+                "            norvegicus was the first mammalian species to be domesticated for scientific research. The rat is an\n" +
+                "            indispensable model organism in biomedical research, especially in cardiovascular and psychological\n" +
+                "            research, and in therapeutic efficacy and toxicity studies. It is the third mammalian species to have its\n" +
+                "            genome sequenced. The reference proteome of Rattus norvegicus is derived from the genome sequence of strain\n" +
+                "            Brown Norway (BN) that was published in 2004. The sequence data were mostly from two inbred female animals\n" +
+                "            of strain BN/SsNHsd/Mcwi. The assembled genome size is 2.75 Gb.\n" +
+                "        ", proteomeEntry.getDescription());
+        assertEquals(new TaxonomyBuilder().taxonId(10116).mnemonic("RAT").scientificName("Rattus norvegicus").commonName("Rat").build(), proteomeEntry.getTaxonomy());
+        assertEquals(LocalDate.of(2021, 3, 4), proteomeEntry.getModified());
+        assertEquals(REFERENCE_AND_REPRESENTATIVE, proteomeEntry.getProteomeType());
+        assertEquals(new ProteomeCompletenessReportBuilder()
+                        .buscoReport(new BuscoReportBuilder().complete(13366).completeSingle(10256).completeDuplicated(3110).fragmented(131).missing(301).total(13798).lineageDb("glires_odb10").build())
+                        .cpdReport(new CPDReportBuilder().proteomeCount(51).status(STANDARD).build()).build(),
+                proteomeEntry.getProteomeCompletenessReport());
+        assertEquals("Brown Norway", proteomeEntry.getStrain());
+    }
+
+    private void assertProteomeEntry1(ProteomeEntry proteomeEntry) {
+        assertEquals(2, proteomeEntry.getAnnotationScore());
+        assertEquals(new GenomeAssemblyBuilder().assemblyId("GCA_000892975.1").genomeAssemblyUrl("https://www.ebi.ac.uk/ena/browser/view/GCA_000892975.1").level(GenomeAssemblyLevel.FULL).source(ENA).build(), proteomeEntry.getGenomeAssembly());
+        assertEquals(new ArrayList<>(List.of(
+                new TaxonomyLineageBuilder().taxonId(1076254).rank(FAMILY).scientificName("scientificName for 1076254").commonName("commonName for 1076254").build(),
+                new TaxonomyLineageBuilder().taxonId(1076255).rank(FAMILY).scientificName("scientificName for 1076255").commonName("commonName for 1076255").build()
+        )), proteomeEntry.getTaxonLineages());
+        assertEquals(new ArrayList<>(List.of(new JournalArticleBuilder().firstPage("10230").lastPage("10238").volume("85").authorsSet(
+                                new ArrayList<>(List.of("Zhao G.", "Droit L.", "Tesh R.B.", "Popov V.L.", "Little N.S.", "Upton C.", "Virgin H.W.", "Wang D."))
+                        )
+                        .title("The genome of yoka poxvirus.")
+                        .publicationDate(new PublicationDateBuilder("2011").build())
+                        .citationCrossReferencesSet(
+                                new ArrayList<>(
+                                        List.of(
+                                                new CrossReferenceBuilder<CitationDatabase>()
+                                                        .database(CitationDatabase.PUBMED)
+                                                        .id("21813608")
+                                                        .build(),
+                                                new CrossReferenceBuilder<CitationDatabase>()
+                                                        .database(CitationDatabase.DOI)
+                                                        .id("10.1128/jvi.00637-11")
+                                                        .build()
+                                        )
+                                )
+                        ).journalName("J. Virol.").build())),
+                proteomeEntry.getCitations());
+    }
+
+    private void assertProteomeEntry2(ProteomeEntry proteomeEntry) {
+        assertEquals(new GenomeAnnotationBuilder().source("ENA/EMBL").url("https://www.ebi.ac.uk/ena/browser/view/GCA_003971765.1").build(), proteomeEntry.getGenomeAnnotation());
+        assertEquals(new ArrayList<>(List.of(
+                new ComponentBuilder().name("Genome").description("Lelystad virus")
+                        .genomeAnnotation(new GenomeAnnotationBuilder().source("ENA/EMBL").build())
+                        .proteomeCrossReferencesSet(new ArrayList<>(
+                                List.of(
+                                        new CrossReferenceBuilder<ProteomeDatabase>()
+                                                .database(ProteomeDatabase.GENOME_ACCESSION)
+                                                .id("M96262")
+                                                .build()
+                                )
+                        ))
+                        .proteinCount(11)
+                        .build()
+        )), proteomeEntry.getComponents());
+        assertEquals(new ProteomeStatisticsBuilder().reviewedProteinCount(1).unreviewedProteinCount(0).isoformProteinCount(0).build(), proteomeEntry.getProteomeStatistics());
+    }
+
+    private void assertProteomeEntry3(ProteomeEntry proteomeEntry) {
+    }
+
+    private void assertProteomeEntry4(ProteomeEntry proteomeEntry) {
+    }
+
+    private void assertProteomeEntry5(ProteomeEntry proteomeEntry) {
+    }
+
+    private void assertProteomeEntry6(ProteomeEntry proteomeEntry) {
+    }
+
 
     private ProteomeDocument getDoc0() {
         ProteomeDocument proteomeDocument = new ProteomeDocument();
@@ -416,7 +526,7 @@ class ProteomeDocumentsToHPSWriterIT {
                     .taxonId(taxonId)
                     .scientificName("scientificName for " + taxonId)
                     .commonName("commonName for " + taxonId)
-                    .rank(TaxonomyRank.FAMILY)
+                    .rank(FAMILY)
                     .build();
         }
     }
