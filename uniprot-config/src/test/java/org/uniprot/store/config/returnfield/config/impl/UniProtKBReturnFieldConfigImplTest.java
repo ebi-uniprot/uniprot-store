@@ -36,7 +36,7 @@ class UniProtKBReturnFieldConfigImplTest {
     void dynamicallyLoadedFields() {
         assertThat(
                 config.getReturnFields().stream()
-                        .filter(field -> field.getParentId().equals("protein_family/group"))
+                        .filter(field -> field.getParentId().equals("genome_annotation/group"))
                         .collect(Collectors.toList()),
                 hasSize(greaterThan(0)));
     }
