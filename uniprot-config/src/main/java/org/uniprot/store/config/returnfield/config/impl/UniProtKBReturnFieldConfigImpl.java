@@ -52,21 +52,23 @@ public class UniProtKBReturnFieldConfigImpl extends AbstractReturnFieldConfig {
     @Override
     public ReturnField getReturnFieldByName(String fieldName) {
         ReturnField result = null;
-        if (fieldName.endsWith("_full")) {
+        if (!fieldName.endsWith("_full")) {
+            result = super.getReturnFieldByName(fieldName);
+        } else {
             String internalFieldName = fieldName.substring(0, fieldName.indexOf("_full"));
             try {
                 ReturnField found = super.getReturnFieldByName(internalFieldName);
                 if (found.getIsMultiValueCrossReference()) {
                     result = found.toBuilder().name(fieldName).build();
                 } else {
-                    throw new IllegalArgumentException();
+                    throw new IllegalStateException(
+                            String.format(
+                                    "%s is not a multi value cross-reference and it does not support %s field name",
+                                    internalFieldName, fieldName));
                 }
             } catch (IllegalArgumentException iae) {
-                // This catch is to throw error message with correct field name
                 throw new IllegalArgumentException("Unknown field: " + fieldName);
             }
-        } else {
-            result = super.getReturnFieldByName(fieldName);
         }
         return result;
     }
@@ -98,13 +100,9 @@ public class UniProtKBReturnFieldConfigImpl extends AbstractReturnFieldConfig {
 
     private Boolean isMultiValueCrossReference(UniProtDatabaseDetail uniProtDatabaseDetail) {
         boolean result = false;
-        if (Utils.notNullNotEmpty(uniProtDatabaseDetail.getAttributes())) {
-            List<UniProtDatabaseAttribute> attributes = uniProtDatabaseDetail.getAttributes();
-            if (attributes.size() > 1) {
-                result = true;
-            } else if (!attributes.get(0).equals(UniProtDatabaseDetail.DEFAULT_ATTRIBUTE)) {
-                result = true;
-            }
+        List<UniProtDatabaseAttribute> attributes = uniProtDatabaseDetail.getAttributes();
+        if (Utils.notNullNotEmpty(attributes)) {
+            result = attributes.size() > 1 || !attributes.get(0).equals(UniProtDatabaseDetail.DEFAULT_ATTRIBUTE);
         }
         return result;
     }

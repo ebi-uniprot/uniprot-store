@@ -94,12 +94,25 @@ class UniProtKBReturnFieldConfigImplTest {
 
     @Test
     void getReturnFieldByNameForInvalidFullMultiValueThrowsIllegalArgumentException() {
+        IllegalStateException error =
+                assertThrows(
+                        IllegalStateException.class,
+                        () -> config.getReturnFieldByName("xref_kegg_full"));
+        assertThat(error, notNullValue());
+        assertThat(
+                error.getMessage(),
+                is(
+                        "xref_kegg is not a multi value cross-reference and it does not support xref_kegg_full field name"));
+    }
+
+    @Test
+    void getReturnFieldByNameForInvalidFullMultiValueThrowsIllegalArgumentExceptionX() {
         IllegalArgumentException error =
                 assertThrows(
                         IllegalArgumentException.class,
-                        () -> config.getReturnFieldByName("xref_kegg_full"));
+                        () -> config.getReturnFieldByName("xref_invalid_full"));
         assertThat(error, notNullValue());
-        assertThat(error.getMessage(), is("Unknown field: xref_kegg_full"));
+        assertThat(error.getMessage(), is("Unknown field: xref_invalid_full"));
     }
 
     @Test
