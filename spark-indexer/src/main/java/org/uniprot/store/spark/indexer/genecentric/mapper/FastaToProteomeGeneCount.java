@@ -22,7 +22,7 @@ public class FastaToProteomeGeneCount
                         InputSplit,
                         Iterator<Tuple2<LongWritable, Text>>,
                         Iterator<Tuple2<String, Integer>>>,
-        GeneCentricFileNameParser {
+                GeneCentricFileNameParser {
 
     private static final long serialVersionUID = -3930874101012298316L;
 

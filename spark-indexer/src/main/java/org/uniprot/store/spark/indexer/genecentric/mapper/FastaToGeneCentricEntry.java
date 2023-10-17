@@ -22,7 +22,7 @@ public abstract class FastaToGeneCentricEntry
                         InputSplit,
                         Iterator<Tuple2<LongWritable, Text>>,
                         Iterator<Tuple2<String, GeneCentricEntry>>>,
-        GeneCentricFileNameParser {
+                GeneCentricFileNameParser {
     private static final long serialVersionUID = -239002392285087820L;
 
     @Override

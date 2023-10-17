@@ -1,6 +1,11 @@
 package org.uniprot.store.spark.indexer.proteome.reader;
 
-import com.typesafe.config.Config;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+
+import java.util.List;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -9,13 +14,10 @@ import org.uniprot.core.proteome.ProteomeStatistics;
 import org.uniprot.core.proteome.impl.ProteomeStatisticsBuilder;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+
 import scala.Tuple2;
 
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+import com.typesafe.config.Config;
 
 class ProteomeStatisticsReaderIT {
     private static JavaRDD<String> proteinRDD;

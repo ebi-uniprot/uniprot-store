@@ -1,6 +1,27 @@
 package org.uniprot.store.spark.indexer.proteome;
 
-import com.typesafe.config.Config;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.uniprot.core.proteome.CPDStatus.STANDARD;
+import static org.uniprot.core.proteome.GenomeAssemblySource.ENA;
+import static org.uniprot.core.proteome.ProteomeType.*;
+import static org.uniprot.core.taxonomy.TaxonomyRank.FAMILY;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -25,29 +46,10 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyH2Utils;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
+
 import scala.Tuple2;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.uniprot.core.proteome.CPDStatus.STANDARD;
-import static org.uniprot.core.proteome.GenomeAssemblySource.ENA;
-import static org.uniprot.core.proteome.ProteomeType.*;
-import static org.uniprot.core.taxonomy.TaxonomyRank.FAMILY;
-import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+import com.typesafe.config.Config;
 
 class ProteomeDocumentsToHPSWriterIT {
     private static final String RELEASE_NAME = "2020_02";
@@ -73,7 +75,7 @@ class ProteomeDocumentsToHPSWriterIT {
     void writeIndexDocumentsToHPS() {
         Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
-                     SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter jobParameter =
                     JobParameter.builder()
                             .sparkContext(sparkContext)
@@ -218,14 +220,14 @@ class ProteomeDocumentsToHPSWriterIT {
                                                 new ArrayList<>(
                                                         List.of(
                                                                 new CrossReferenceBuilder<
-                                                                        CitationDatabase>()
+                                                                                CitationDatabase>()
                                                                         .database(
                                                                                 CitationDatabase
                                                                                         .PUBMED)
                                                                         .id("21813608")
                                                                         .build(),
                                                                 new CrossReferenceBuilder<
-                                                                        CitationDatabase>()
+                                                                                CitationDatabase>()
                                                                         .database(
                                                                                 CitationDatabase
                                                                                         .DOI)
@@ -257,7 +259,7 @@ class ProteomeDocumentsToHPSWriterIT {
                                                 new ArrayList<>(
                                                         List.of(
                                                                 new CrossReferenceBuilder<
-                                                                        ProteomeDatabase>()
+                                                                                ProteomeDatabase>()
                                                                         .database(
                                                                                 ProteomeDatabase
                                                                                         .GENOME_ACCESSION)
@@ -276,7 +278,14 @@ class ProteomeDocumentsToHPSWriterIT {
     }
 
     private void assertProteomeEntry3(ProteomeEntry proteomeEntry) {
-        assertEquals(new TaxonomyBuilder().taxonId(10116).mnemonic("RAT").scientificName("Rattus norvegicus").commonName("Rat").build(), proteomeEntry.getTaxonomy());
+        assertEquals(
+                new TaxonomyBuilder()
+                        .taxonId(10116)
+                        .mnemonic("RAT")
+                        .scientificName("Rattus norvegicus")
+                        .commonName("Rat")
+                        .build(),
+                proteomeEntry.getTaxonomy());
         assertEquals("BN; Sprague-Dawley", proteomeEntry.getStrain());
         assertEquals(NORMAL, proteomeEntry.getProteomeType());
         assertEquals(LocalDate.of(2021, 3, 7), proteomeEntry.getModified());
@@ -289,8 +298,20 @@ class ProteomeDocumentsToHPSWriterIT {
     }
 
     private void assertProteomeEntry4(ProteomeEntry proteomeEntry) {
-        assertEquals(new GenomeAnnotationBuilder().source("ENA/EMBL").url("https://www.ebi.ac.uk/ena/browser/view/GCA_000859945.1").build(), proteomeEntry.getGenomeAnnotation());
-        assertEquals(new TaxonomyBuilder().taxonId(60714).commonName("GaMV").scientificName("Galinsoga mosaic virus").mnemonic("GAMV").build(), proteomeEntry.getTaxonomy());
+        assertEquals(
+                new GenomeAnnotationBuilder()
+                        .source("ENA/EMBL")
+                        .url("https://www.ebi.ac.uk/ena/browser/view/GCA_000859945.1")
+                        .build(),
+                proteomeEntry.getGenomeAnnotation());
+        assertEquals(
+                new TaxonomyBuilder()
+                        .taxonId(60714)
+                        .commonName("GaMV")
+                        .scientificName("Galinsoga mosaic virus")
+                        .mnemonic("GAMV")
+                        .build(),
+                proteomeEntry.getTaxonomy());
         assertEquals(REFERENCE_AND_REPRESENTATIVE, proteomeEntry.getProteomeType());
         assertEquals(LocalDate.of(2020, 10, 17), proteomeEntry.getModified());
         assertEquals(1, proteomeEntry.getComponents().size());
@@ -300,8 +321,20 @@ class ProteomeDocumentsToHPSWriterIT {
     }
 
     private void assertProteomeEntry5(ProteomeEntry proteomeEntry) {
-        assertEquals(new GenomeAnnotationBuilder().source("ENA/EMBL").url("https://www.ebi.ac.uk/ena/browser/view/GCA_000887455.1").build(), proteomeEntry.getGenomeAnnotation());
-        assertEquals(new TaxonomyBuilder().taxonId(1559365).commonName("TCTV").scientificName("Turnip curly top virus isolate").mnemonic("TCTVB").build(), proteomeEntry.getTaxonomy());
+        assertEquals(
+                new GenomeAnnotationBuilder()
+                        .source("ENA/EMBL")
+                        .url("https://www.ebi.ac.uk/ena/browser/view/GCA_000887455.1")
+                        .build(),
+                proteomeEntry.getGenomeAnnotation());
+        assertEquals(
+                new TaxonomyBuilder()
+                        .taxonId(1559365)
+                        .commonName("TCTV")
+                        .scientificName("Turnip curly top virus isolate")
+                        .mnemonic("TCTVB")
+                        .build(),
+                proteomeEntry.getTaxonomy());
         assertEquals(REFERENCE, proteomeEntry.getProteomeType());
         assertEquals(LocalDate.of(2020, 10, 17), proteomeEntry.getModified());
         assertEquals("Isolate Turnip/South Africa/B11/2006", proteomeEntry.getStrain());
@@ -312,14 +345,27 @@ class ProteomeDocumentsToHPSWriterIT {
     }
 
     private void assertProteomeEntry6(ProteomeEntry proteomeEntry) {
-        assertEquals(new GenomeAnnotationBuilder().source("ENA/EMBL").url("https://www.ebi.ac.uk/ena/browser/view/GCA_000020985.1").build(), proteomeEntry.getGenomeAnnotation());
-        assertEquals(new TaxonomyBuilder().taxonId(289376).scientificName("Thermodesulfovibrio yellowstonii").mnemonic("THEYD").build(), proteomeEntry.getTaxonomy());
+        assertEquals(
+                new GenomeAnnotationBuilder()
+                        .source("ENA/EMBL")
+                        .url("https://www.ebi.ac.uk/ena/browser/view/GCA_000020985.1")
+                        .build(),
+                proteomeEntry.getGenomeAnnotation());
+        assertEquals(
+                new TaxonomyBuilder()
+                        .taxonId(289376)
+                        .scientificName("Thermodesulfovibrio yellowstonii")
+                        .mnemonic("THEYD")
+                        .build(),
+                proteomeEntry.getTaxonomy());
         assertEquals(REFERENCE_AND_REPRESENTATIVE, proteomeEntry.getProteomeType());
-        assertEquals("Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87) is a thermophilic\n" +
-                "            sulfate-reducing bacterium isolated from a thermal vent in Yellowstone Lake in Wyoming, USA. It has the\n" +
-                "            ability to use sulfate, thiosulfate, and sulfite as terminal electron acceptors. Pyruvate can support\n" +
-                "            fermentative growth.\n" +
-                "        ", proteomeEntry.getDescription());
+        assertEquals(
+                "Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87) is a thermophilic\n"
+                        + "            sulfate-reducing bacterium isolated from a thermal vent in Yellowstone Lake in Wyoming, USA. It has the\n"
+                        + "            ability to use sulfate, thiosulfate, and sulfite as terminal electron acceptors. Pyruvate can support\n"
+                        + "            fermentative growth.\n"
+                        + "        ",
+                proteomeEntry.getDescription());
         assertEquals(LocalDate.of(2020, 10, 17), proteomeEntry.getModified());
         assertEquals("ATCC 51303 / DSM 11347 / YP87", proteomeEntry.getStrain());
         assertEquals(1, proteomeEntry.getComponents().size());

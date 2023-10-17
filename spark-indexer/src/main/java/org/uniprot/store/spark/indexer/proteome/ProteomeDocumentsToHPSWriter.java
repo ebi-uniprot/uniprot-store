@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.proteome;
 
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.Optional;
@@ -20,9 +22,8 @@ import org.uniprot.store.spark.indexer.proteome.mapper.ProteomeStatisticsToProte
 import org.uniprot.store.spark.indexer.proteome.mapper.TaxonomyToProteomeEntryMapper;
 import org.uniprot.store.spark.indexer.proteome.reader.ProteomeStatisticsReader;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
-import scala.Tuple2;
 
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
+import scala.Tuple2;
 
 public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
     private final JobParameter jobParameter;
@@ -61,15 +62,13 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
                 .mapToPair(getProteomeGeneCountToProteomeEntryMapper());
     }
 
-    PairFunction<Tuple2<ProteomeEntry, Optional<Integer>>, String, ProteomeEntry> getProteomeGeneCountToProteomeEntryMapper() {
+    PairFunction<Tuple2<ProteomeEntry, Optional<Integer>>, String, ProteomeEntry>
+            getProteomeGeneCountToProteomeEntryMapper() {
         return proteomeEntryProteomeGeneCountTuple2 ->
                 new Tuple2<>(
                         proteomeEntryProteomeGeneCountTuple2._1.getId().getValue(),
-                        ProteomeEntryBuilder.from(
-                                        proteomeEntryProteomeGeneCountTuple2._1)
-                                .geneCount(
-                                        proteomeEntryProteomeGeneCountTuple2._2
-                                                .orElse(0))
+                        ProteomeEntryBuilder.from(proteomeEntryProteomeGeneCountTuple2._1)
+                                .geneCount(proteomeEntryProteomeGeneCountTuple2._2.orElse(0))
                                 .build());
     }
 
