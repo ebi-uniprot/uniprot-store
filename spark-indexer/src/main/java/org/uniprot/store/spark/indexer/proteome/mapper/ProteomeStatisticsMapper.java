@@ -1,10 +1,5 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.apache.spark.api.java.function.PairFlatMapFunction;
 import org.uniprot.core.flatfile.parser.impl.cc.CcLineTransformer;
 import org.uniprot.core.proteome.ProteomeStatistics;
@@ -14,8 +9,12 @@ import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.uniprotkb.comment.Comment;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil;
-
 import scala.Tuple2;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProteomeStatisticsMapper
         implements PairFlatMapFunction<String, String, ProteomeStatistics> {
@@ -26,11 +25,11 @@ public class ProteomeStatisticsMapper
     public Iterator<Tuple2<String, ProteomeStatistics>> call(String entryStr) {
         String[] lines = entryStr.split("\n");
         boolean accessionContainsDash = lines[1].split(";")[0].contains("-");
-        boolean reviewed = lines[0].contains("Reviewed;");
+        boolean unreviewed = lines[0].contains("Unreviewed;");
 
         int isoformCount = accessionContainsDash && !isCanonicalIsoform(lines) ? 1 : 0;
-        int reviewedCount = !accessionContainsDash && reviewed ? 1 : 0;
-        int unReviewedCount = !accessionContainsDash && !reviewed ? 1 : 0;
+        int unReviewedCount = !accessionContainsDash && unreviewed ? 1 : 0;
+        int reviewedCount = !accessionContainsDash && !unreviewed ? 1 : 0;
 
         ProteomeStatistics proteomeStatistics =
                 new ProteomeStatisticsBuilder()

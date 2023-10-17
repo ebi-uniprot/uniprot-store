@@ -1,16 +1,12 @@
 package org.uniprot.store.spark.indexer.proteome;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
-
-import java.util.List;
-import java.util.Objects;
-
+import com.typesafe.config.Config;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
+import org.apache.spark.api.java.function.PairFunction;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.proteome.ProteomeStatistics;
@@ -23,10 +19,13 @@ import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-
 import scala.Tuple2;
 
-import com.typesafe.config.Config;
+import java.util.List;
+import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 class ProteomeDocumentsToHPSWriterTest {
     private static final String PROTEOME_ID_0 = "proteomeId0";
@@ -244,6 +243,11 @@ class ProteomeDocumentsToHPSWriterTest {
         @Override
         JavaPairRDD<String, Integer> getProteomeGeneCountRDD() {
             return proteomeGeneCountRDD;
+        }
+
+        @Override
+        PairFunction<Tuple2<ProteomeEntry, Optional<Integer>>, String, ProteomeEntry> getProteomeGeneCountToProteomeEntryMapper() {
+            return super.getProteomeGeneCountToProteomeEntryMapper();
         }
 
         @Override
