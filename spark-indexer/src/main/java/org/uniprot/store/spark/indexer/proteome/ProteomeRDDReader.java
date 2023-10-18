@@ -7,13 +7,11 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-import org.apache.spark.sql.types.DataTypes;
-import org.apache.spark.sql.types.StructType;
 import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.proteome.converter.DatasetProteomeEntryConverter;
-import org.uniprot.store.spark.indexer.proteome.mapper.ProteomEntryToPair;
+import org.uniprot.store.spark.indexer.proteome.mapper.ProteomeEntryToPair;
 
 import com.typesafe.config.Config;
 
@@ -43,7 +41,7 @@ public class ProteomeRDDReader implements PairRDDReader<String, ProteomeEntry> {
 
         return proteomeEntryDataset
                 .map(new DatasetProteomeEntryConverter())
-                .mapToPair(new ProteomEntryToPair());
+                .mapToPair(new ProteomeEntryToPair());
     }
 
     private Dataset<Row> loadRawXml() {
@@ -54,21 +52,14 @@ public class ProteomeRDDReader implements PairRDDReader<String, ProteomeEntry> {
                         .getOrCreate();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
         String xmlFilePath = releaseInputDir + config.getString("proteome.xml.file");
+
         Dataset<Row> data =
                 spark.read()
                         .format("com.databricks.spark.xml")
+                        .schema(ProteomeXMLSchemaProvider.getProteomeXMLSchema())
                         .option("rowTag", "proteome")
-                        .schema(geProteomeXMLSchema())
                         .load(xmlFilePath);
         data.printSchema();
         return data;
-    }
-
-    private StructType geProteomeXMLSchema() {
-        StructType structType = new StructType();
-        structType = structType.add("upid", DataTypes.StringType, true);
-        structType = structType.add("taxonomy", DataTypes.IntegerType, true);
-        structType = structType.add("isReferenceProteome", DataTypes.BooleanType, true);
-        return structType;
     }
 }
