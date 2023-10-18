@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.uniparc.converter;
 
 import java.util.Map;
+import java.util.Objects;
 
 import org.uniprot.core.uniparc.SequenceFeature;
 import org.uniprot.core.uniparc.UniParcCrossReference;
@@ -36,6 +37,10 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
         UniParcDatabase type = xref.getDatabase();
 
         builder.dbId(xref.getId());
+
+        if (Objects.nonNull(xref.getVersion())) {
+            builder.dbId(xref.getId() + "." + xref.getVersion());
+        }
 
         Map.Entry<String, String> dbTypeData = UniParcConfigUtil.getDBNameValue(type);
         if (xref.isActive()) {

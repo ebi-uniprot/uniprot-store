@@ -166,6 +166,7 @@ CC       (3'UTR). Transport from dendrites to the nucleus is induced by
 CC       NMDA receptor activation and results in a rapid stripping of
 CC       synaptic contacts and a reduction of dendritic complexity.
 CC   -!- SIMILARITY: Belongs to the NSMF family. {ECO:0000305}.
+DR   Proteomes; UP000006687; Mitochondrion.
 DR   EMBL; AJ293697; CAC20866.1; -; mRNA.
 DR   EMBL; AJ293698; CAC20867.1; -; mRNA.
 DR   EMBL; AJ293699; CAC20868.1; -; mRNA.

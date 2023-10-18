@@ -142,8 +142,7 @@ class ProteomeSearchIT {
         try {
             ObjectMapper objectMapper = ProteomeJsonConfig.getInstance().getFullObjectMapper();
             return objectMapper.readValue(
-                    proteomeDoc.proteomeStored.array(),
-                    org.uniprot.core.proteome.ProteomeEntry.class);
+                    proteomeDoc.proteomeStored, org.uniprot.core.proteome.ProteomeEntry.class);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

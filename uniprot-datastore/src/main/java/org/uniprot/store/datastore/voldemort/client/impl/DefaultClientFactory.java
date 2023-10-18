@@ -1,5 +1,8 @@
 package org.uniprot.store.datastore.voldemort.client.impl;
 
+import static org.uniprot.store.datastore.voldemort.VoldemortRemoteJsonBinaryStore.BROTLI_ENABLED;
+import static org.uniprot.store.datastore.voldemort.VoldemortRemoteJsonBinaryStore.DEFAULT_BROTLI_COMPRESSION_LEVEL;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
@@ -10,11 +13,17 @@ import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEnt
 
 import com.google.inject.name.Named;
 
+/**
+ * Warning - This class is being used by AA team so if you make any change in {@link
+ * VoldemortRemoteUniProtKBEntryStore} make sure it is backward compatible. If it is breaking change
+ * please co-ordinate with AA team.
+ */
 public class DefaultClientFactory implements ClientFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultClientFactory.class);
     private static final int DEFAULT_MAX_CONNECTION = 20;
-    private final VoldemortClient<UniProtKBEntry> voldemortStore;
     private static final String VOLDEMORT_STORE = "avro-uniprot";
+
+    private final VoldemortClient<UniProtKBEntry> voldemortClient;
 
     public DefaultClientFactory(@Named("VoldemortURL") String voldemortUrl) {
         this(voldemortUrl, DEFAULT_MAX_CONNECTION);
@@ -25,27 +34,45 @@ public class DefaultClientFactory implements ClientFactory {
     }
 
     public DefaultClientFactory(String voldemortUrl, int numberOfConn, String storeName) {
-        VoldemortClient<UniProtKBEntry> store = null;
+        this(
+                voldemortUrl,
+                numberOfConn,
+                storeName,
+                BROTLI_ENABLED,
+                DEFAULT_BROTLI_COMPRESSION_LEVEL);
+    }
+
+    public DefaultClientFactory(
+            String voldemortUrl,
+            int numberOfConn,
+            String storeName,
+            boolean brotliEnabled,
+            int brotliCompressionLevel) {
+        VoldemortClient<UniProtKBEntry> vdClient = null;
         try {
-            store = new VoldemortRemoteUniProtKBEntryStore(numberOfConn, storeName, voldemortUrl);
+            vdClient =
+                    new VoldemortRemoteUniProtKBEntryStore(
+                            numberOfConn,
+                            brotliEnabled,
+                            brotliCompressionLevel,
+                            storeName,
+                            voldemortUrl);
         } catch (RuntimeException e) {
             LOGGER.error("Unable to get the store", e);
         }
-        this.voldemortStore = store;
+        this.voldemortClient = vdClient;
     }
 
     @Override
     public UniProtClient createUniProtClient() {
-        if (voldemortStore == null) {
+        if (this.voldemortClient == null) {
             throw new RuntimeException("Voldemort Store initialization failed.");
         }
-        return new UniProtClientImpl(voldemortStore);
+        return new UniProtClientImpl(this.voldemortClient);
     }
 
     @Override
     public void close() {
-        //    if(voldemortStore !=null)
-        //         voldemortStore.close();
-
+        // do nothing
     }
 }

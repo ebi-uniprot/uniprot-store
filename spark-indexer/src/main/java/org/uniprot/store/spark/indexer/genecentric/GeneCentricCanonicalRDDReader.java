@@ -2,9 +2,11 @@ package org.uniprot.store.spark.indexer.genecentric;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
+import org.apache.spark.api.java.JavaPairRDD;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.genecentric.mapper.FastaToCanonicalGeneCentricEntry;
 import org.uniprot.store.spark.indexer.genecentric.mapper.FastaToGeneCentricEntry;
+import org.uniprot.store.spark.indexer.genecentric.mapper.FastaToProteomeGeneCount;
 
 import com.typesafe.config.Config;
 
@@ -24,6 +26,10 @@ public class GeneCentricCanonicalRDDReader extends GeneCentricRDDReader {
     @Override
     public FastaToGeneCentricEntry getFastaMapper() {
         return new FastaToCanonicalGeneCentricEntry();
+    }
+
+    public JavaPairRDD<String, Integer> loadProteomeGeneCounts() {
+        return loadWithMapper(new FastaToProteomeGeneCount());
     }
 
     @Override
