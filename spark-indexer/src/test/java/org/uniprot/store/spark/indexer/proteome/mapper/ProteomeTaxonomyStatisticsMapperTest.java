@@ -1,5 +1,8 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.proteome.ProteomeType;
@@ -7,10 +10,8 @@ import org.uniprot.core.proteome.impl.ProteomeEntryBuilder;
 import org.uniprot.core.taxonomy.TaxonomyStatistics;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.model.TaxonomyStatisticsWrapper;
-import scala.Tuple2;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import scala.Tuple2;
 
 class ProteomeTaxonomyStatisticsMapperTest {
 
