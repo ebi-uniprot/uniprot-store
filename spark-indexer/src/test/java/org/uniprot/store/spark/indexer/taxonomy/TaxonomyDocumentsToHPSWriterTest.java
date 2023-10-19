@@ -1,19 +1,7 @@
 package org.uniprot.store.spark.indexer.taxonomy;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.typesafe.config.Config;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.AfterAll;
@@ -30,8 +18,19 @@ import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyH2Utils;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReaderFake;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.typesafe.config.Config;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class TaxonomyDocumentsToHPSWriterTest {
@@ -118,10 +117,11 @@ class TaxonomyDocumentsToHPSWriterTest {
         assertTrue(document.getOtherNames().contains("second name"));
 
         assertNotNull(document.getTaxonomiesWith());
-        assertEquals(4, document.getTaxonomiesWith().size());
+        assertEquals(5, document.getTaxonomiesWith().size());
         assertTrue(document.getTaxonomiesWith().contains("1_uniprotkb"));
         assertTrue(document.getTaxonomiesWith().contains("2_reviewed"));
         assertTrue(document.getTaxonomiesWith().contains("3_unreviewed"));
+        assertTrue(document.getTaxonomiesWith().contains("4_reference"));
         assertTrue(document.getTaxonomiesWith().contains("5_proteome"));
 
         TaxonomyEntry entry = getEntry(document.getTaxonomyObj());
@@ -178,7 +178,7 @@ class TaxonomyDocumentsToHPSWriterTest {
         assertEquals(2, stat.getReviewedProteinCount());
         assertEquals(2, stat.getUnreviewedProteinCount());
         assertEquals(2, stat.getProteomeCount());
-        assertEquals(0, stat.getReferenceProteomeCount());
+        assertEquals(1, stat.getReferenceProteomeCount());
 
         assertNull(entry.getInactiveReason());
     }

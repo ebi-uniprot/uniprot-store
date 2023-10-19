@@ -5,17 +5,20 @@ import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.proteome.ProteomeType;
 import org.uniprot.core.taxonomy.impl.TaxonomyStatisticsBuilder;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.model.TaxonomyStatisticsWrapper;
-
 import scala.Tuple2;
+
+import java.util.EnumSet;
+import java.util.Set;
 
 public class ProteomeTaxonomyStatisticsMapper
         implements PairFunction<ProteomeEntry, String, TaxonomyStatisticsWrapper> {
     private static final long serialVersionUID = -4013227058179840505L;
+    private static final Set<ProteomeType> REFERENCE_PROTEOME_TYPES = EnumSet.of(ProteomeType.REFERENCE, ProteomeType.REFERENCE_AND_REPRESENTATIVE);
 
     @Override
     public Tuple2<String, TaxonomyStatisticsWrapper> call(ProteomeEntry entry) throws Exception {
         TaxonomyStatisticsBuilder statisticsBuilder = new TaxonomyStatisticsBuilder();
-        if (entry.getProteomeType().equals(ProteomeType.REFERENCE)) {
+        if (REFERENCE_PROTEOME_TYPES.contains(entry.getProteomeType())) {
             statisticsBuilder.referenceProteomeCount(1);
         }
         statisticsBuilder.proteomeCount(1);
