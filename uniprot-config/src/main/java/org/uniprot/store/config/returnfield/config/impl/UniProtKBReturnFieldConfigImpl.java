@@ -102,7 +102,9 @@ public class UniProtKBReturnFieldConfigImpl extends AbstractReturnFieldConfig {
         boolean result = false;
         List<UniProtDatabaseAttribute> attributes = uniProtDatabaseDetail.getAttributes();
         if (Utils.notNullNotEmpty(attributes)) {
-            result = attributes.size() > 1 || !attributes.get(0).equals(UniProtDatabaseDetail.DEFAULT_ATTRIBUTE);
+            result =
+                    attributes.size() > 1
+                            || !attributes.get(0).equals(UniProtDatabaseDetail.DEFAULT_ATTRIBUTE);
         }
         return result;
     }
