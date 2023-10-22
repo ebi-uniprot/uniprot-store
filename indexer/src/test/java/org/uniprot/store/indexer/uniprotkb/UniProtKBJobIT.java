@@ -131,10 +131,10 @@ class UniProtKBJobIT {
         List<SuggestDocument> response =
                 solrClient.query(
                         SolrCollection.suggest,
-                        new SolrQuery("*:*").setRows(307),
+                        new SolrQuery("*:*").setRows(400),
                         SuggestDocument.class);
         assertThat(response, is(notNullValue()));
-        assertThat(response.size(), is(91));
+        assertThat(response.size(), is(reportedWriteCount));
     }
 
     private Set<String> readSourceAccessions() throws IOException {
