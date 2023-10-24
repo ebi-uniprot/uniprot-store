@@ -55,19 +55,19 @@ class UniParcDocumentConverterTest {
                 CoreMatchers.hasItems(
                         "Q02297-8",
                         "ENSP00000498811",
-                        "AAA27261",
-                        "A0A038DI27",
-                        "A0A038DND5",
-                        "KFT92747",
-                        "KFU20332",
-                        "WP_001001975",
-                        "YP_005181896",
-                        "YP_005233094",
+                        "AAA27261.1",
+                        "A0A038DI27.1",
+                        "A0A038DND5.1",
+                        "KFT92747.1",
+                        "KFU20332.1",
+                        "WP_001001975.1",
+                        "YP_005181896.1",
+                        "YP_005233094.1",
                         "ETC11569",
                         "fig|1218145.3.peg.2041",
                         "fig|99287.1.peg.1951",
                         "fig|99287.12.peg.2148",
-                        "A0A038DI37",
+                        "A0A038DI37.1",
                         "107675830"));
 
         assertEquals(9, uniParcDocument.getDatabases().size());
