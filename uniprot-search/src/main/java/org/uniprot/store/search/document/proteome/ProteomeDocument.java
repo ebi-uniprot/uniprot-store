@@ -1,6 +1,5 @@
 package org.uniprot.store.search.document.proteome;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +50,7 @@ public class ProteomeDocument implements Document {
     public List<String> genomeAssembly = new ArrayList<>();
 
     @Field("proteome_stored")
-    public ByteBuffer proteomeStored;
+    public byte[] proteomeStored;
 
     @Field("annotation_score")
     public int score = 0;

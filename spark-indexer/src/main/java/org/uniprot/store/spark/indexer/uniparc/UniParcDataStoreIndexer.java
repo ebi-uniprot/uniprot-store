@@ -95,7 +95,7 @@ public class UniParcDataStoreIndexer implements DataStoreIndexer {
         return taxReader.load();
     }
 
-    private DataStoreParameter getDataStoreParameter(Config config) {
+    DataStoreParameter getDataStoreParameter(Config config) {
         String numberOfConnections = config.getString("store.uniparc.numberOfConnections");
         String maxRetry = config.getString("store.uniparc.retry");
         String delay = config.getString("store.uniparc.delay");
@@ -105,6 +105,8 @@ public class UniParcDataStoreIndexer implements DataStoreIndexer {
                 .numberOfConnections(Integer.parseInt(numberOfConnections))
                 .maxRetry(Integer.parseInt(maxRetry))
                 .delay(Long.parseLong(delay))
+                .brotliEnabled(config.getBoolean(BROTLI_COMPRESSION_ENABLED))
+                .brotliLevel(config.getInt(BROTLI_COMPRESSION_LEVEL))
                 .build();
     }
 }

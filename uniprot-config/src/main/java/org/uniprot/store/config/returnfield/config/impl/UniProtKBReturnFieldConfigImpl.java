@@ -4,8 +4,10 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import org.uniprot.core.cv.xdb.UniProtDatabaseAttribute;
 import org.uniprot.core.cv.xdb.UniProtDatabaseCategory;
 import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
+import org.uniprot.core.util.Utils;
 import org.uniprot.cv.xdb.UniProtDatabaseTypes;
 import org.uniprot.store.config.returnfield.config.AbstractReturnFieldConfig;
 import org.uniprot.store.config.returnfield.model.ReturnField;
@@ -47,6 +49,30 @@ public class UniProtKBReturnFieldConfigImpl extends AbstractReturnFieldConfig {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public ReturnField getReturnFieldByName(String fieldName) {
+        ReturnField result = null;
+        if (!fieldName.endsWith("_full")) {
+            result = super.getReturnFieldByName(fieldName);
+        } else {
+            String internalFieldName = fieldName.substring(0, fieldName.indexOf("_full"));
+            try {
+                ReturnField found = super.getReturnFieldByName(internalFieldName);
+                if (found.getIsMultiValueCrossReference()) {
+                    result = found.toBuilder().name(fieldName).build();
+                } else {
+                    throw new IllegalStateException(
+                            String.format(
+                                    "%s is not a multi value cross-reference and it does not support %s field name",
+                                    internalFieldName, fieldName));
+                }
+            } catch (IllegalArgumentException iae) {
+                throw new IllegalArgumentException("Unknown field: " + fieldName);
+            }
+        }
+        return result;
+    }
+
     ReturnField databaseToReturnField(
             UniProtDatabaseDetail uniProtDatabaseDetail,
             ReturnField parent,
@@ -58,6 +84,8 @@ public class UniProtKBReturnFieldConfigImpl extends AbstractReturnFieldConfig {
         String dbName = uniProtDatabaseDetail.getName();
         String databaseNameLowercase = dbName.toLowerCase();
         returnField.setName("xref_" + databaseNameLowercase);
+        returnField.setIsMultiValueCrossReference(
+                isMultiValueCrossReference(uniProtDatabaseDetail));
         returnField.setLabel(dbName);
 
         if (isDBNotInUniProtKBCrossReferences(databaseNameLowercase)) {
@@ -68,6 +96,17 @@ public class UniProtKBReturnFieldConfigImpl extends AbstractReturnFieldConfig {
         returnField.setId(parent.getId() + "/" + databaseNameLowercase);
         returnField.setIncludeInSwagger(true);
         return returnField;
+    }
+
+    private Boolean isMultiValueCrossReference(UniProtDatabaseDetail uniProtDatabaseDetail) {
+        boolean result = false;
+        List<UniProtDatabaseAttribute> attributes = uniProtDatabaseDetail.getAttributes();
+        if (Utils.notNullNotEmpty(attributes)) {
+            result =
+                    attributes.size() > 1
+                            || !attributes.get(0).equals(UniProtDatabaseDetail.DEFAULT_ATTRIBUTE);
+        }
+        return result;
     }
 
     UniProtDatabaseCategory getDatabaseCategory(String groupName) {

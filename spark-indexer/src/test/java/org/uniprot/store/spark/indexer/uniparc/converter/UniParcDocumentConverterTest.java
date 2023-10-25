@@ -51,9 +51,9 @@ class UniParcDocumentConverterTest {
 
         assertNotNull(result.getDbIds());
         assertEquals(3, result.getDbIds().size());
-        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-ProtIdValue-true"));
-        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-ProtIdValue-false"));
-        assertTrue(result.getDbIds().contains("inactiveIdValue"));
+        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-ProtIdValue-true.1"));
+        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-ProtIdValue-false.1"));
+        assertTrue(result.getDbIds().contains("inactiveIdValue.99"));
 
         assertNotNull(result.getActives());
         assertEquals(1, result.getActives().size());
@@ -97,10 +97,11 @@ class UniParcDocumentConverterTest {
 
         assertNotNull(result.getDbIds());
         assertEquals(3, result.getDbIds().size());
-        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue-true"));
         assertTrue(
-                result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue-false"));
-        assertTrue(result.getDbIds().contains("inactiveIdValue"));
+                result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue-true.1"));
+        assertTrue(
+                result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue-false.1"));
+        assertTrue(result.getDbIds().contains("inactiveIdValue.99"));
 
         validateDocumentCommonValues(result);
     }
@@ -170,6 +171,7 @@ class UniParcDocumentConverterTest {
     private UniParcCrossReference getDatabaseCrossReferences(UniParcDatabase type, boolean active) {
         return new UniParcCrossReferenceBuilder()
                 .id(type.getName() + "IdValue-" + active)
+                .version(1)
                 .database(type)
                 .organism(getOrganism())
                 .geneName("geneNameValue")

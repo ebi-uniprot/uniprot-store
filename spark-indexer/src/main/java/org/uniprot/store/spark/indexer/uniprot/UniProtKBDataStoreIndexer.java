@@ -81,6 +81,8 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
                 .numberOfConnections(Integer.parseInt(numberOfConnections))
                 .maxRetry(Integer.parseInt(maxRetry))
                 .delay(Long.parseLong(delay))
+                .brotliEnabled(config.getBoolean(BROTLI_COMPRESSION_ENABLED))
+                .brotliLevel(config.getInt(BROTLI_COMPRESSION_LEVEL))
                 .build();
     }
 

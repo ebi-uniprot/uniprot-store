@@ -5,6 +5,7 @@ import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverte
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.uniprot.core.uniparc.SequenceFeature;
 import org.uniprot.core.uniparc.UniParcCrossReference;
@@ -66,7 +67,11 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
     private void processDbReference(UniParcCrossReference xref, UniParcDocumentBuilder builder) {
         UniParcDatabase type = xref.getDatabase();
 
-        builder.dbId(xref.getId());
+        String dbId = xref.getId();
+        if (Objects.nonNull(xref.getVersion()) && xref.getVersion() > 0) {
+            dbId += "." + xref.getVersion();
+        }
+        builder.dbId(dbId);
 
         Map.Entry<String, String> dbTypeData = UniParcConfigUtil.getDBNameValue(type);
         if (xref.isActive()) {

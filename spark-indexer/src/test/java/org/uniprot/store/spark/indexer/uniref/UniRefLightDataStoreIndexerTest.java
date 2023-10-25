@@ -37,6 +37,9 @@ class UniRefLightDataStoreIndexerTest {
                     new UniRefLightDataStoreIndexerTest.FakeUniRefLightDataStoreIndexer(parameter);
             assertNotNull(indexer);
             indexer.indexInDataStore();
+            DataStoreParameter dataStoreParams =
+                    indexer.getDataStoreParameter(parameter.getApplicationConfig());
+            assertNotNull(dataStoreParams);
         }
     }
 

@@ -1,8 +1,12 @@
 package org.uniprot.store.spark.indexer.genecentric;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+
+import java.util.List;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -56,6 +60,29 @@ class GeneCentricCanonicalRDDReaderTest {
             assertEquals("UP000478052", entry.getProteomeId());
             assertEquals(
                     "A0A6G0Z640_APHCR", entry.getCanonicalProtein().getUniProtkbId().getValue());
+        }
+    }
+
+    @Test
+    void loadProteomeGeneCounts() {
+        Config application = SparkUtils.loadApplicationProperty();
+        try (JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
+            JobParameter parameter =
+                    JobParameter.builder()
+                            .applicationConfig(application)
+                            .releaseName("2020_02")
+                            .sparkContext(sparkContext)
+                            .build();
+            GeneCentricCanonicalRDDReader reader = new GeneCentricCanonicalRDDReader(parameter);
+
+            JavaPairRDD<String, Integer> uniprotRdd = reader.loadProteomeGeneCounts();
+
+            List<Tuple2<String, Integer>> collect = uniprotRdd.collect();
+            assertThat(
+                    collect,
+                    containsInAnyOrder(
+                            new Tuple2<>("UP000478052", 10), new Tuple2<>("UP000000554", 30)));
         }
     }
 }

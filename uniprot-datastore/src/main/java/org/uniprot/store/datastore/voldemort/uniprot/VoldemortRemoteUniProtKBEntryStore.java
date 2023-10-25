@@ -9,7 +9,9 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 /**
- * This class contains methods to save Uniprot voldemort entry remotely.
+ * This class contains methods to save UniProt voldemort entry remotely. Mainly used by REST.
+ * Warning - See AA usage in {@link
+ * org.uniprot.store.datastore.voldemort.client.impl.DefaultClientFactory}
  *
  * <p>Created 05/10/2017
  *
@@ -30,6 +32,20 @@ public class VoldemortRemoteUniProtKBEntryStore
     public VoldemortRemoteUniProtKBEntryStore(
             int maxConnection, String storeName, String... voldemortUrl) {
         super(maxConnection, storeName, voldemortUrl);
+    }
+
+    public VoldemortRemoteUniProtKBEntryStore(
+            int maxConnection, boolean brotliEnabled, String storeName, String... voldemortUrl) {
+        super(maxConnection, brotliEnabled, storeName, voldemortUrl);
+    }
+
+    public VoldemortRemoteUniProtKBEntryStore(
+            int maxConnection,
+            boolean brotliEnabled,
+            int brotliLevel,
+            String storeName,
+            String... voldemortUrl) {
+        super(maxConnection, brotliEnabled, brotliLevel, storeName, voldemortUrl);
     }
 
     @Override

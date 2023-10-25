@@ -18,6 +18,11 @@ import voldemort.client.StoreClientFactory;
 import voldemort.versioning.ObsoleteVersionException;
 import voldemort.versioning.Versioned;
 
+import com.aayushatharva.brotli4j.Brotli4jLoader;
+import com.aayushatharva.brotli4j.decoder.Decoder;
+import com.aayushatharva.brotli4j.decoder.DecoderJNI;
+import com.aayushatharva.brotli4j.decoder.DirectDecompress;
+import com.aayushatharva.brotli4j.encoder.Encoder;
 import com.codahale.metrics.Timer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,22 +34,65 @@ import com.google.inject.Inject;
  */
 public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClient<T> {
 
+    public static final int DEFAULT_BROTLI_COMPRESSION_LEVEL = 11;
+    public static final boolean BROTLI_ENABLED = true;
     private static final Logger logger =
             LoggerFactory.getLogger(VoldemortRemoteJsonBinaryStore.class);
-    private static final int DEFAULT_MAX_CONNECTION = 20;
+    static final int DEFAULT_MAX_CONNECTION = 20;
     private static final String TIME_OUT_MILLIS = "60000";
     private final StoreClient<String, byte[]> client;
     private final StoreClientFactory factory;
     private final RetryPolicy<Object> retryPolicy;
     private final String storeName;
+    private final int brotliLevel;
+    private final boolean brotliEnabled;
 
     public VoldemortRemoteJsonBinaryStore(String storeName, String... voldemortUrl) {
-        this(DEFAULT_MAX_CONNECTION, storeName, voldemortUrl);
+        this(
+                DEFAULT_MAX_CONNECTION,
+                BROTLI_ENABLED,
+                DEFAULT_BROTLI_COMPRESSION_LEVEL,
+                storeName,
+                voldemortUrl);
     }
 
     @Inject
     public VoldemortRemoteJsonBinaryStore(
             int maxConnection, String storeName, String... voldemortUrl) {
+        this(
+                maxConnection,
+                BROTLI_ENABLED,
+                DEFAULT_BROTLI_COMPRESSION_LEVEL,
+                storeName,
+                voldemortUrl);
+    }
+
+    @Inject
+    public VoldemortRemoteJsonBinaryStore(
+            int maxConnection, boolean brotliEnabled, String storeName, String... voldemortUrl) {
+        this(
+                maxConnection,
+                brotliEnabled,
+                DEFAULT_BROTLI_COMPRESSION_LEVEL,
+                storeName,
+                voldemortUrl);
+    }
+
+    @Inject
+    public VoldemortRemoteJsonBinaryStore(
+            int maxConnection,
+            boolean brotliEnabled,
+            int brotliLevel,
+            String storeName,
+            String... voldemortUrl) {
+
+        if (brotliEnabled) {
+            Brotli4jLoader.ensureAvailability();
+        }
+
+        this.brotliEnabled = brotliEnabled;
+
+        this.brotliLevel = brotliLevel;
         this.storeName = storeName;
 
         Properties properties = getVoldemortProperties(maxConnection);
@@ -182,8 +230,20 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
 
     private T getEntryFromBinary(Versioned<byte[]> entryObjectVersioned) {
         try {
-            return getStoreObjectMapper()
-                    .readValue(entryObjectVersioned.getValue(), getEntryClass());
+            if (this.brotliEnabled) {
+                DirectDecompress directDecompress =
+                        Decoder.decompress(entryObjectVersioned.getValue());
+
+                if (directDecompress.getResultStatus() == DecoderJNI.Status.DONE) {
+                    return getStoreObjectMapper()
+                            .readValue(directDecompress.getDecompressedData(), getEntryClass());
+                }
+                throw new IOException("Unable to decompress the entry");
+            } else {
+                return getStoreObjectMapper()
+                        .readValue(entryObjectVersioned.getValue(), getEntryClass());
+            }
+
         } catch (IOException e) {
             throw new RetrievalException("Error getting entry from BDB store.", e);
         }
@@ -196,9 +256,18 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         byte[] binaryEntry;
         try {
             binaryEntry = getStoreObjectMapper().writeValueAsBytes(entry);
-            client.put(acc, binaryEntry);
+            if (this.brotliEnabled) {
+                byte[] compressed =
+                        Encoder.compress(
+                                binaryEntry, new Encoder.Parameters().setQuality(this.brotliLevel));
+                client.put(acc, compressed);
+            } else {
+                client.put(acc, binaryEntry);
+            }
         } catch (JsonProcessingException e) {
             throw new RetrievalException("Unable to parse entry to binary json: ", e);
+        } catch (IOException ioe) {
+            throw new RetrievalException("Unable to compress entry with id " + acc, ioe);
         }
         time.stop();
     }

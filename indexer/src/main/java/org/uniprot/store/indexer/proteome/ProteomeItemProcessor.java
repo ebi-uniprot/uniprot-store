@@ -2,7 +2,6 @@ package org.uniprot.store.indexer.proteome;
 
 import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.createSuggestionMapKey;
 
-import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -36,7 +35,7 @@ public class ProteomeItemProcessor implements ItemProcessor<Proteome, ProteomeDo
         ProteomeDocument document = documentConverter.convert(source);
 
         ProteomeEntry entry = entryAdapter.adaptEntry(source);
-        document.proteomeStored = ByteBuffer.wrap(documentConverter.getBinaryObject(entry));
+        document.proteomeStored = documentConverter.getBinaryObject(entry);
 
         addProteomeToSuggestMap(document.upid, document.organismSort);
         return document;

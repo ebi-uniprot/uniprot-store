@@ -22,6 +22,8 @@ public class UniRefLightDataStoreWriter extends AbstractDataStoreWriter<UniRefEn
     public VoldemortClient<UniRefEntryLight> getDataStoreClient() {
         return new VoldemortRemoteUniRefEntryLightStore(
                 parameter.getNumberOfConnections(),
+                parameter.isBrotliEnabled(),
+                parameter.getBrotliLevel(),
                 parameter.getStoreName(),
                 parameter.getConnectionURL());
     }

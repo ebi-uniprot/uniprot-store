@@ -19,10 +19,11 @@ import scala.Tuple2;
  */
 public abstract class FastaToGeneCentricEntry
         implements Function2<
-                InputSplit,
-                Iterator<Tuple2<LongWritable, Text>>,
-                Iterator<Tuple2<String, GeneCentricEntry>>> {
-    private static final long serialVersionUID = 6551029254949606256L;
+                        InputSplit,
+                        Iterator<Tuple2<LongWritable, Text>>,
+                        Iterator<Tuple2<String, GeneCentricEntry>>>,
+                GeneCentricFileNameParser {
+    private static final long serialVersionUID = -239002392285087820L;
 
     @Override
     public Iterator<Tuple2<String, GeneCentricEntry>> call(
@@ -33,11 +34,6 @@ public abstract class FastaToGeneCentricEntry
         entries.forEachRemaining(fastaTuple -> result.add(parseEntry(proteomeId, fastaTuple)));
 
         return result.iterator();
-    }
-
-    private String parseProteomeId(FileSplit fileSplit) {
-        String fileName = fileSplit.getPath().getName();
-        return fileName.substring(0, fileName.indexOf("_"));
     }
 
     abstract Tuple2<String, GeneCentricEntry> parseEntry(
