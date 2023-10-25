@@ -50,11 +50,10 @@ class UniParcDocumentConverterTest {
         assertTrue(result.getDatabasesFacets().contains(UniParcDatabase.EMBL.getIndex()));
 
         assertNotNull(result.getDbIds());
-        assertEquals(4, result.getDbIds().size());
-        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-ProtIdValue-true"));
-        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-ProtIdValue-false"));
+        assertEquals(3, result.getDbIds().size());
+        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-ProtIdValue-true.1"));
+        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-ProtIdValue-false.1"));
         assertTrue(result.getDbIds().contains("inactiveIdValue.99"));
-        assertTrue(result.getDbIds().contains("inactiveIdValue"));
 
         assertNotNull(result.getActives());
         assertEquals(1, result.getActives().size());
@@ -97,12 +96,12 @@ class UniParcDocumentConverterTest {
         assertTrue(result.getActives().contains("isoforms"));
 
         assertNotNull(result.getDbIds());
-        assertEquals(4, result.getDbIds().size());
-        assertTrue(result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue-true"));
+        assertEquals(3, result.getDbIds().size());
         assertTrue(
-                result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue-false"));
+                result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue-true.1"));
+        assertTrue(
+                result.getDbIds().contains("UniProtKB/Swiss-Prot protein isoformsIdValue-false.1"));
         assertTrue(result.getDbIds().contains("inactiveIdValue.99"));
-        assertTrue(result.getDbIds().contains("inactiveIdValue"));
 
         validateDocumentCommonValues(result);
     }
@@ -172,6 +171,7 @@ class UniParcDocumentConverterTest {
     private UniParcCrossReference getDatabaseCrossReferences(UniParcDatabase type, boolean active) {
         return new UniParcCrossReferenceBuilder()
                 .id(type.getName() + "IdValue-" + active)
+                .version(1)
                 .database(type)
                 .organism(getOrganism())
                 .geneName("geneNameValue")

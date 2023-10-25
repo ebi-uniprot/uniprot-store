@@ -20,7 +20,7 @@
 		stored="false" required="false" multiValued="true" docValues="true" />
 	<field name="database" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
-	<field name="dbid" type="basic_ci" indexed="true" stored="false"
+	<field name="dbid" type="dbid_ci" indexed="true" stored="false"
 		required="false" multiValued="true" />
 	<field name="active" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
@@ -67,6 +67,20 @@
 		</analyzer>
 		<analyzer type="query">
 			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
+
+	<fieldType name="dbid_ci" class="solr.TextField"
+		sortMissingLast="true" omitNorms="true" positionIncrementGap="100">
+		<analyzer type="index">
+			<tokenizer class="solr.PatternTokenizerFactory"
+				pattern="\.(?=[^.]*$)" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+		<analyzer type="query">
+			<tokenizer class="solr.PatternTokenizerFactory"
+				pattern="\.(?=[^.]*$)" />
 			<filter class="solr.LowerCaseFilterFactory" />
 		</analyzer>
 	</fieldType>

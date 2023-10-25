@@ -32,10 +32,15 @@ final class TestUtils {
     }
 
     static DbReferenceType createXref(String dbType, String id, String active) {
+        return createXref(dbType, id, active, 0);
+    }
+
+    static DbReferenceType createXref(String dbType, String id, String active, Integer version) {
         DbReferenceType xref = xmlFactory.createDbReferenceType();
         xref.setActive(active);
         xref.setType(dbType);
         xref.setId(id);
+        xref.setVersion(version);
         GregorianCalendar gcal = new GregorianCalendar();
         try {
             XMLGregorianCalendar xgcal =
