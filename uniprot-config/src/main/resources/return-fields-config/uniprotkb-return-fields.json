@@ -1264,6 +1264,18 @@
     ]
   },
   {
+    "parentId": "publications",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "name": "lit_doi_id",
+    "label": "DOI ID",
+    "id": "publications/lit_doi_id",
+    "paths": [
+      "references[*]"
+    ]
+  },
+  {
     "seqNumber": 12,
     "itemType": "GROUP",
     "groupName": "Date of",
