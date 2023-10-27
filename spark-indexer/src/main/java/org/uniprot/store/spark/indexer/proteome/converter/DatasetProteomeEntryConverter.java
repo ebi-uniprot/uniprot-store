@@ -1,22 +1,6 @@
 package org.uniprot.store.spark.indexer.proteome.converter;
 
-import static org.uniprot.core.util.Utils.notNullNotEmpty;
-import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
-import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
-
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import lombok.Data;
-
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.sql.Row;
 import org.uniprot.core.CrossReference;
@@ -31,8 +15,22 @@ import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.core.util.Utils;
-
 import scala.collection.mutable.WrappedArray;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.uniprot.core.util.Utils.notNullNotEmpty;
+import static org.uniprot.store.spark.indexer.common.util.RowUtils.hasFieldName;
+import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
 
 /**
  * Converts XML {@link Row} instances to {@link ProteomeEntry} instances.
@@ -106,9 +104,11 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
                     getAnnotationScore((Row) row.get(row.fieldIndex(ANNOTATION_SCORE)));
             builder.annotationScore(annotationScore);
         }
-        List<Row> componentRows = row.getList(row.fieldIndex(COMPONENT));
-        builder.componentsSet(
-                componentRows.stream().map(this::getComponent).collect(Collectors.toList()));
+        if (hasFieldName(COMPONENT, row)) {
+            List<Row> componentRows = row.getList(row.fieldIndex(COMPONENT));
+            builder.componentsSet(
+                    componentRows.stream().map(this::getComponent).collect(Collectors.toList()));
+        }
         if (hasFieldName(REFERENCE, row)) {
             List<Row> referenceRows = row.getList(row.fieldIndex(REFERENCE));
             builder.citationsSet(
