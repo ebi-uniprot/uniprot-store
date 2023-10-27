@@ -106,9 +106,11 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
                     getAnnotationScore((Row) row.get(row.fieldIndex(ANNOTATION_SCORE)));
             builder.annotationScore(annotationScore);
         }
-        List<Row> componentRows = row.getList(row.fieldIndex(COMPONENT));
-        builder.componentsSet(
-                componentRows.stream().map(this::getComponent).collect(Collectors.toList()));
+        if (hasFieldName(COMPONENT, row)) {
+            List<Row> componentRows = row.getList(row.fieldIndex(COMPONENT));
+            builder.componentsSet(
+                    componentRows.stream().map(this::getComponent).collect(Collectors.toList()));
+        }
         if (hasFieldName(REFERENCE, row)) {
             List<Row> referenceRows = row.getList(row.fieldIndex(REFERENCE));
             builder.citationsSet(

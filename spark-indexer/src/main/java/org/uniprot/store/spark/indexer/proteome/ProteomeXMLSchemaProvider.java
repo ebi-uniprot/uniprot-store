@@ -71,7 +71,7 @@ public class ProteomeXMLSchemaProvider {
         structType = structType.add(GENOME_ANNOTATION, getGenomeAnnotationSchema(), true);
         structType = structType.add(GENOME_ASSEMBLY, getGenomeAssemblySchema(), true);
         structType =
-                structType.add(COMPONENT, DataTypes.createArrayType(getComponentSchema()), false);
+                structType.add(COMPONENT, DataTypes.createArrayType(getComponentSchema()), true);
         structType = structType.add(SCORES, DataTypes.createArrayType(getScoresSchema()), true);
         structType =
                 structType.add(REFERENCE, DataTypes.createArrayType(getReferenceSchema()), true);
