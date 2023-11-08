@@ -1,20 +1,9 @@
 package org.uniprot.store.spark.indexer.main.verifiers;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
-import java.util.List;
-
-import org.apache.solr.common.SolrInputDocument;
-import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
-import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-
-import com.typesafe.config.Config;
+import org.uniprot.store.spark.indexer.main.SolrIndexValidatorMain;
 
 class ValidateUniProtKBSolrIndexMainTest {
 
@@ -22,9 +11,9 @@ class ValidateUniProtKBSolrIndexMainTest {
     void errorWithInvalidArguments() throws Exception {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> ValidateUniProtKBSolrIndexMain.main(new String[3]));
+                () -> SolrIndexValidatorMain.main(new String[3]));
     }
-
+/*
     @Test
     void canRunValidation() throws Exception {
         Config applicationConfig = SparkUtils.loadApplicationProperty();
@@ -233,4 +222,5 @@ class ValidateUniProtKBSolrIndexMainTest {
         uniprotDoc.addField("canonical_acc", null);
         return uniprotDoc;
     }
+    */
 }

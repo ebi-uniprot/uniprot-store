@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.main.verifiers;
+package org.uniprot.store.spark.indexer.validator;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getSolrCollection;
