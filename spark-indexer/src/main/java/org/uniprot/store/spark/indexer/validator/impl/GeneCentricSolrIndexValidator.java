@@ -19,7 +19,7 @@ public class GeneCentricSolrIndexValidator extends AbstractSolrIndexValidator {
         JavaPairRDD<String, GeneCentricEntry> canonicalRDD = canonicalRDDReader.load();
 
         GeneCentricRelatedRDDReader relatedRDDReader = new GeneCentricRelatedRDDReader(jobParameter);
-        JavaPairRDD<String, GeneCentricEntry> relatedRDD = relatedRDDReader.load();
+        JavaPairRDD<String, Iterable<GeneCentricEntry>> relatedRDD = relatedRDDReader.load().groupByKey();
 
         return canonicalRDD.leftOuterJoin(relatedRDD).count();
     }
