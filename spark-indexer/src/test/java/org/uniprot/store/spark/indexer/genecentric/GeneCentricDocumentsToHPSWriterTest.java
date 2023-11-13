@@ -42,7 +42,6 @@ class GeneCentricDocumentsToHPSWriterTest {
                             .releaseName("2020_02")
                             .sparkContext(sparkContext)
                             .build();
-
             GeneCentricDocumentsToHPSWriterFake writer =
                     new GeneCentricDocumentsToHPSWriterFake(parameter);
             writer.writeIndexDocumentsToHPS();
