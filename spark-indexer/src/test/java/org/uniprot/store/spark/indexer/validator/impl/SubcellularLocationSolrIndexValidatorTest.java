@@ -15,7 +15,7 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import com.typesafe.config.Config;
 
-class LiteratureSolrIndexValidatorTest {
+class SubcellularLocationSolrIndexValidatorTest {
 
     @Test
     void runValidationSuccess() throws Exception {
@@ -23,8 +23,8 @@ class LiteratureSolrIndexValidatorTest {
         try (JavaSparkContext context =
                 SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER)) {
 
-            LiteratureSolrIndexValidator validator =
-                    prepareValidator(applicationConfig, context, 15L, 15L);
+            SubcellularLocationSolrIndexValidator validator =
+                    prepareValidator(applicationConfig, context, 520L, 520L);
 
             assertDoesNotThrow(validator::runValidation);
         }
@@ -36,13 +36,13 @@ class LiteratureSolrIndexValidatorTest {
         try (JavaSparkContext context =
                 SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER)) {
 
-            LiteratureSolrIndexValidator validator =
-                    prepareValidator(applicationConfig, context, 14L, 15L);
+            SubcellularLocationSolrIndexValidator validator =
+                    prepareValidator(applicationConfig, context, 519L, 520L);
 
             SparkIndexException error =
                     assertThrows(SparkIndexException.class, validator::runValidation);
             assertEquals(
-                    "Total Entries does not match. Collection: literature, DocumentOutput COUNT: 14, RDD COUNT: 15, Solr COUNT: 15",
+                    "Total Entries does not match. Collection: subcellularlocation, DocumentOutput COUNT: 519, RDD COUNT: 520, Solr COUNT: 520",
                     error.getMessage());
         }
     }
@@ -53,18 +53,18 @@ class LiteratureSolrIndexValidatorTest {
         try (JavaSparkContext context =
                 SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER)) {
 
-            LiteratureSolrIndexValidator validator =
-                    prepareValidator(applicationConfig, context, 15L, 14L);
+            SubcellularLocationSolrIndexValidator validator =
+                    prepareValidator(applicationConfig, context, 520L, 519L);
 
             SparkIndexException error =
                     assertThrows(SparkIndexException.class, validator::runValidation);
             assertEquals(
-                    "Total Entries does not match. Collection: literature, DocumentOutput COUNT: 15, RDD COUNT: 15, Solr COUNT: 14",
+                    "Total Entries does not match. Collection: subcellularlocation, DocumentOutput COUNT: 520, RDD COUNT: 520, Solr COUNT: 519",
                     error.getMessage());
         }
     }
 
-    private LiteratureSolrIndexValidator prepareValidator(
+    private SubcellularLocationSolrIndexValidator prepareValidator(
             Config applicationConfig, JavaSparkContext context, long docCount, long solrCount)
             throws Exception {
         JobParameter jobParameter =
@@ -74,8 +74,8 @@ class LiteratureSolrIndexValidatorTest {
                         .sparkContext(context)
                         .build();
 
-        LiteratureSolrIndexValidator validator =
-                Mockito.spy(new LiteratureSolrIndexValidator(jobParameter));
+        SubcellularLocationSolrIndexValidator validator =
+                Mockito.spy(new SubcellularLocationSolrIndexValidator(jobParameter));
 
         Mockito.doReturn(docCount).when(validator).getOutputDocumentsCount();
 

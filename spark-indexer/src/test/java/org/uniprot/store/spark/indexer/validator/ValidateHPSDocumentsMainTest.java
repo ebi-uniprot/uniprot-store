@@ -1,9 +1,9 @@
 package org.uniprot.store.spark.indexer.validator;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+
+import org.junit.jupiter.api.Test;
 
 class ValidateHPSDocumentsMainTest {
     @Test

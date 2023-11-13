@@ -15,7 +15,7 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import com.typesafe.config.Config;
 
-class LiteratureSolrIndexValidatorTest {
+class PublicationSolrIndexValidatorTest {
 
     @Test
     void runValidationSuccess() throws Exception {
@@ -23,8 +23,8 @@ class LiteratureSolrIndexValidatorTest {
         try (JavaSparkContext context =
                 SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER)) {
 
-            LiteratureSolrIndexValidator validator =
-                    prepareValidator(applicationConfig, context, 15L, 15L);
+            PublicationSolrIndexValidator validator =
+                    prepareValidator(applicationConfig, context, 68L, 68L);
 
             assertDoesNotThrow(validator::runValidation);
         }
@@ -36,13 +36,13 @@ class LiteratureSolrIndexValidatorTest {
         try (JavaSparkContext context =
                 SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER)) {
 
-            LiteratureSolrIndexValidator validator =
-                    prepareValidator(applicationConfig, context, 14L, 15L);
+            PublicationSolrIndexValidator validator =
+                    prepareValidator(applicationConfig, context, 67L, 68L);
 
             SparkIndexException error =
                     assertThrows(SparkIndexException.class, validator::runValidation);
             assertEquals(
-                    "Total Entries does not match. Collection: literature, DocumentOutput COUNT: 14, RDD COUNT: 15, Solr COUNT: 15",
+                    "Total Entries does not match. Collection: publication, DocumentOutput COUNT: 67, RDD COUNT: 68, Solr COUNT: 68",
                     error.getMessage());
         }
     }
@@ -53,18 +53,18 @@ class LiteratureSolrIndexValidatorTest {
         try (JavaSparkContext context =
                 SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER)) {
 
-            LiteratureSolrIndexValidator validator =
-                    prepareValidator(applicationConfig, context, 15L, 14L);
+            PublicationSolrIndexValidator validator =
+                    prepareValidator(applicationConfig, context, 68L, 67L);
 
             SparkIndexException error =
                     assertThrows(SparkIndexException.class, validator::runValidation);
             assertEquals(
-                    "Total Entries does not match. Collection: literature, DocumentOutput COUNT: 15, RDD COUNT: 15, Solr COUNT: 14",
+                    "Total Entries does not match. Collection: publication, DocumentOutput COUNT: 68, RDD COUNT: 68, Solr COUNT: 67",
                     error.getMessage());
         }
     }
 
-    private LiteratureSolrIndexValidator prepareValidator(
+    private PublicationSolrIndexValidator prepareValidator(
             Config applicationConfig, JavaSparkContext context, long docCount, long solrCount)
             throws Exception {
         JobParameter jobParameter =
@@ -74,8 +74,8 @@ class LiteratureSolrIndexValidatorTest {
                         .sparkContext(context)
                         .build();
 
-        LiteratureSolrIndexValidator validator =
-                Mockito.spy(new LiteratureSolrIndexValidator(jobParameter));
+        PublicationSolrIndexValidator validator =
+                Mockito.spy(new PublicationSolrIndexValidator(jobParameter));
 
         Mockito.doReturn(docCount).when(validator).getOutputDocumentsCount();
 

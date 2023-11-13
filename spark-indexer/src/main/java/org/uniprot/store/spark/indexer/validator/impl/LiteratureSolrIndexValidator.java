@@ -18,8 +18,10 @@ public class LiteratureSolrIndexValidator extends AbstractSolrIndexValidator {
     protected long getRddCount(JobParameter jobParameter) {
         LiteratureRDDTupleReader reader = new LiteratureRDDTupleReader(jobParameter);
         JavaPairRDD<String, Literature> literatureRDD = reader.load();
-        LiteratureUniProtKBRDDReader literatureUniProtKBRDDReader = new LiteratureUniProtKBRDDReader(jobParameter);
-        JavaPairRDD<String, LiteratureEntry> literatureUniProtKBRDD = literatureUniProtKBRDDReader.load();
+        LiteratureUniProtKBRDDReader literatureUniProtKBRDDReader =
+                new LiteratureUniProtKBRDDReader(jobParameter);
+        JavaPairRDD<String, LiteratureEntry> literatureUniProtKBRDD =
+                literatureUniProtKBRDDReader.load();
         return literatureRDD.fullOuterJoin(literatureUniProtKBRDD).count();
     }
 

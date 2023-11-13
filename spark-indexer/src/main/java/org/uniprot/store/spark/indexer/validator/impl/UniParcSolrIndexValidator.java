@@ -28,5 +28,4 @@ public class UniParcSolrIndexValidator extends AbstractSolrIndexValidator {
     protected String getSolrFl() {
         return "upi";
     }
-
 }

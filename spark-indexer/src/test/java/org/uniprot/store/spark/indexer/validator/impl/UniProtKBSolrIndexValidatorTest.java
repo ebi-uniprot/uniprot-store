@@ -1,8 +1,10 @@
 package org.uniprot.store.spark.indexer.validator.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
-import com.typesafe.config.Config;
+import java.util.List;
+
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -12,32 +14,30 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
-import java.util.List;
-
-import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+import com.typesafe.config.Config;
 
 class UniProtKBSolrIndexValidatorTest {
 
     @Test
     void canRunValidation() throws Exception {
         Config applicationConfig = SparkUtils.loadApplicationProperty();
-        try(JavaSparkContext context =
-                    SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER)) {
+        try (JavaSparkContext context =
+                SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER)) {
 
-            JobParameter jobParameter = JobParameter.builder()
-                    .releaseName("2020_02")
-                    .applicationConfig(applicationConfig)
-                    .sparkContext(context)
-                    .build();
+            JobParameter jobParameter =
+                    JobParameter.builder()
+                            .releaseName("2020_02")
+                            .applicationConfig(applicationConfig)
+                            .sparkContext(context)
+                            .build();
 
-            UniProtKBSolrIndexValidator validator = Mockito.spy(new UniProtKBSolrIndexValidator(jobParameter));
+            UniProtKBSolrIndexValidator validator =
+                    Mockito.spy(new UniProtKBSolrIndexValidator(jobParameter));
 
             SolrInputDocument uniprotDoc = getUniprotDoc();
 
             JavaRDD<SolrInputDocument> outputDocs = context.parallelize(List.of(uniprotDoc));
-            Mockito.doReturn(outputDocs)
-                    .when(validator)
-                    .getOutputUniProtKBDocuments();
+            Mockito.doReturn(outputDocs).when(validator).getOutputUniProtKBDocuments();
 
             Mockito.doReturn(1L)
                     .when(validator)
@@ -46,7 +46,8 @@ class UniProtKBSolrIndexValidatorTest {
             Mockito.doReturn(0L)
                     .when(validator)
                     .getSolrCount(
-                            Mockito.any(), Mockito.eq(UniProtKBSolrIndexValidator.UNREVIEWED_QUERY));
+                            Mockito.any(),
+                            Mockito.eq(UniProtKBSolrIndexValidator.UNREVIEWED_QUERY));
             Mockito.doReturn(0L)
                     .when(validator)
                     .getSolrCount(
@@ -59,22 +60,22 @@ class UniProtKBSolrIndexValidatorTest {
     @Test
     void canRunInvalidReviewedValidation() throws Exception {
         Config applicationConfig = SparkUtils.loadApplicationProperty();
-        try(JavaSparkContext context =
-                    SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER)) {
+        try (JavaSparkContext context =
+                SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER)) {
 
-            JobParameter jobParameter = JobParameter.builder()
-                    .releaseName("2020_02")
-                    .applicationConfig(applicationConfig)
-                    .sparkContext(context)
-                    .build();
+            JobParameter jobParameter =
+                    JobParameter.builder()
+                            .releaseName("2020_02")
+                            .applicationConfig(applicationConfig)
+                            .sparkContext(context)
+                            .build();
 
-            UniProtKBSolrIndexValidator validator = Mockito.spy(new UniProtKBSolrIndexValidator(jobParameter));
+            UniProtKBSolrIndexValidator validator =
+                    Mockito.spy(new UniProtKBSolrIndexValidator(jobParameter));
             SolrInputDocument uniprotDoc = getUniprotDoc();
 
             JavaRDD<SolrInputDocument> outputDocs = context.parallelize(List.of(uniprotDoc));
-            Mockito.doReturn(outputDocs)
-                    .when(validator)
-                    .getOutputUniProtKBDocuments();
+            Mockito.doReturn(outputDocs).when(validator).getOutputUniProtKBDocuments();
 
             Mockito.doReturn(5L)
                     .when(validator)
@@ -83,7 +84,8 @@ class UniProtKBSolrIndexValidatorTest {
             Mockito.doReturn(0L)
                     .when(validator)
                     .getSolrCount(
-                            Mockito.any(), Mockito.eq(UniProtKBSolrIndexValidator.UNREVIEWED_QUERY));
+                            Mockito.any(),
+                            Mockito.eq(UniProtKBSolrIndexValidator.UNREVIEWED_QUERY));
             Mockito.doReturn(0L)
                     .when(validator)
                     .getSolrCount(
@@ -99,23 +101,23 @@ class UniProtKBSolrIndexValidatorTest {
     @Test
     void canRunInvalidUnreviewedValidation() throws Exception {
         Config applicationConfig = SparkUtils.loadApplicationProperty();
-        try(JavaSparkContext context =
+        try (JavaSparkContext context =
                 SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER)) {
 
-            JobParameter jobParameter = JobParameter.builder()
-                    .releaseName("2020_02")
-                    .applicationConfig(applicationConfig)
-                    .sparkContext(context)
-                    .build();
+            JobParameter jobParameter =
+                    JobParameter.builder()
+                            .releaseName("2020_02")
+                            .applicationConfig(applicationConfig)
+                            .sparkContext(context)
+                            .build();
 
-            UniProtKBSolrIndexValidator validator = Mockito.spy(new UniProtKBSolrIndexValidator(jobParameter));
+            UniProtKBSolrIndexValidator validator =
+                    Mockito.spy(new UniProtKBSolrIndexValidator(jobParameter));
 
             SolrInputDocument uniprotDoc = getUniprotDoc();
 
             JavaRDD<SolrInputDocument> outputDocs = context.parallelize(List.of(uniprotDoc));
-            Mockito.doReturn(outputDocs)
-                    .when(validator)
-                    .getOutputUniProtKBDocuments();
+            Mockito.doReturn(outputDocs).when(validator).getOutputUniProtKBDocuments();
 
             Mockito.doReturn(1L)
                     .when(validator)
@@ -124,7 +126,8 @@ class UniProtKBSolrIndexValidatorTest {
             Mockito.doReturn(5L)
                     .when(validator)
                     .getSolrCount(
-                            Mockito.any(), Mockito.eq(UniProtKBSolrIndexValidator.UNREVIEWED_QUERY));
+                            Mockito.any(),
+                            Mockito.eq(UniProtKBSolrIndexValidator.UNREVIEWED_QUERY));
             Mockito.doReturn(0L)
                     .when(validator)
                     .getSolrCount(
@@ -140,23 +143,23 @@ class UniProtKBSolrIndexValidatorTest {
     @Test
     void canRunInvalidIsoformValidation() throws Exception {
         Config applicationConfig = SparkUtils.loadApplicationProperty();
-        try(JavaSparkContext context =
-                    SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER)) {
+        try (JavaSparkContext context =
+                SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER)) {
 
-            JobParameter jobParameter = JobParameter.builder()
-                    .releaseName("2020_02")
-                    .applicationConfig(applicationConfig)
-                    .sparkContext(context)
-                    .build();
+            JobParameter jobParameter =
+                    JobParameter.builder()
+                            .releaseName("2020_02")
+                            .applicationConfig(applicationConfig)
+                            .sparkContext(context)
+                            .build();
 
-            UniProtKBSolrIndexValidator validator = Mockito.spy(new UniProtKBSolrIndexValidator(jobParameter));
+            UniProtKBSolrIndexValidator validator =
+                    Mockito.spy(new UniProtKBSolrIndexValidator(jobParameter));
 
             SolrInputDocument uniprotDoc = getUniprotDoc();
 
             JavaRDD<SolrInputDocument> outputDocs = context.parallelize(List.of(uniprotDoc));
-            Mockito.doReturn(outputDocs)
-                    .when(validator)
-                    .getOutputUniProtKBDocuments();
+            Mockito.doReturn(outputDocs).when(validator).getOutputUniProtKBDocuments();
 
             Mockito.doReturn(1L)
                     .when(validator)
@@ -165,7 +168,8 @@ class UniProtKBSolrIndexValidatorTest {
             Mockito.doReturn(0L)
                     .when(validator)
                     .getSolrCount(
-                            Mockito.any(), Mockito.eq(UniProtKBSolrIndexValidator.UNREVIEWED_QUERY));
+                            Mockito.any(),
+                            Mockito.eq(UniProtKBSolrIndexValidator.UNREVIEWED_QUERY));
             Mockito.doReturn(5L)
                     .when(validator)
                     .getSolrCount(
@@ -243,5 +247,4 @@ class UniProtKBSolrIndexValidatorTest {
         uniprotDoc.addField("canonical_acc", null);
         return uniprotDoc;
     }
-
 }

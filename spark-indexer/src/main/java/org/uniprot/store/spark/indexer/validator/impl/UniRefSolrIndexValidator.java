@@ -15,13 +15,16 @@ public class UniRefSolrIndexValidator extends AbstractSolrIndexValidator {
 
     @Override
     protected long getRddCount(JobParameter jobParameter) {
-        UniRefRDDTupleReader reader50 = new UniRefRDDTupleReader(UniRefType.UniRef50, jobParameter, false);
+        UniRefRDDTupleReader reader50 =
+                new UniRefRDDTupleReader(UniRefType.UniRef50, jobParameter, false);
         JavaRDD<UniRefEntry> uniref50RDD = reader50.load();
 
-        UniRefRDDTupleReader reader90 = new UniRefRDDTupleReader(UniRefType.UniRef90, jobParameter, false);
+        UniRefRDDTupleReader reader90 =
+                new UniRefRDDTupleReader(UniRefType.UniRef90, jobParameter, false);
         JavaRDD<UniRefEntry> uniref90RDD = reader90.load();
 
-        UniRefRDDTupleReader reader100 = new UniRefRDDTupleReader(UniRefType.UniRef100, jobParameter, false);
+        UniRefRDDTupleReader reader100 =
+                new UniRefRDDTupleReader(UniRefType.UniRef100, jobParameter, false);
         JavaRDD<UniRefEntry> uniref100RDD = reader100.load();
 
         return uniref50RDD.count() + uniref90RDD.count() + uniref100RDD.count();

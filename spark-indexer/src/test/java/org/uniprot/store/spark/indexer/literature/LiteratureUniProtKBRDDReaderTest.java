@@ -1,17 +1,18 @@
 package org.uniprot.store.spark.indexer.literature;
 
-import com.typesafe.config.Config;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.citation.Literature;
 import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
+
 import scala.Tuple2;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+import com.typesafe.config.Config;
 
 class LiteratureUniProtKBRDDReaderTest {
 
@@ -19,7 +20,7 @@ class LiteratureUniProtKBRDDReaderTest {
     void canLoadLiteratureUniProtKBRCitations() {
         Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
-                     SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)

@@ -1,7 +1,14 @@
 package org.uniprot.store.spark.indexer.validator.impl;
 
-import com.typesafe.config.Config;
+import static java.util.Collections.singletonList;
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -22,12 +29,7 @@ import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil;
 import org.uniprot.store.spark.indexer.validator.SolrIndexValidator;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static java.util.Collections.singletonList;
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
+import com.typesafe.config.Config;
 
 @Slf4j
 public class UniProtKBSolrIndexValidator implements SolrIndexValidator {
@@ -37,7 +39,7 @@ public class UniProtKBSolrIndexValidator implements SolrIndexValidator {
     static final String UNREVIEWED_QUERY = "reviewed:false AND active:true";
     private final JobParameter jobParameter;
 
-    public UniProtKBSolrIndexValidator(JobParameter jobParameter){
+    public UniProtKBSolrIndexValidator(JobParameter jobParameter) {
         this.jobParameter = jobParameter;
     }
 
@@ -50,7 +52,7 @@ public class UniProtKBSolrIndexValidator implements SolrIndexValidator {
             long reviewedIsoform = 0;
             long unReviewed = 0;
             try (CloudSolrClient client =
-                         new CloudSolrClient.Builder(singletonList(zkHost), Optional.empty()).build()) {
+                    new CloudSolrClient.Builder(singletonList(zkHost), Optional.empty()).build()) {
                 reviewed = getSolrCount(client, REVIEWED_QUERY);
                 log.info("reviewed Solr COUNT: " + reviewed);
 
@@ -70,8 +72,7 @@ public class UniProtKBSolrIndexValidator implements SolrIndexValidator {
             long rddReviewedIsoform = getRDDReviewedIsoformCount(flatFileRDD);
             long rddUnReviewed = getRDDUnreviewedCount(flatFileRDD);
 
-            JavaRDD<SolrInputDocument> outputDocuments =
-                    getOutputUniProtKBDocuments();
+            JavaRDD<SolrInputDocument> outputDocuments = getOutputUniProtKBDocuments();
 
             long outputReviewed = getOutputReviewedCount(outputDocuments);
             long outputReviewedIsoform = getOutputReviewedIsoformCount(outputDocuments);
@@ -143,8 +144,13 @@ public class UniProtKBSolrIndexValidator implements SolrIndexValidator {
     JavaRDD<SolrInputDocument> getOutputUniProtKBDocuments() {
         String hpsOutputFilePath =
                 getCollectionOutputReleaseDirPath(
-                        jobParameter.getApplicationConfig(), jobParameter.getReleaseName(), SolrCollection.uniprot);
-        return jobParameter.getSparkContext().objectFile(hpsOutputFilePath).map(obj -> (SolrInputDocument) obj);
+                        jobParameter.getApplicationConfig(),
+                        jobParameter.getReleaseName(),
+                        SolrCollection.uniprot);
+        return jobParameter
+                .getSparkContext()
+                .objectFile(hpsOutputFilePath)
+                .map(obj -> (SolrInputDocument) obj);
     }
 
     private long getOutputUnreviewedCount(JavaRDD<SolrInputDocument> outputDocuments) {

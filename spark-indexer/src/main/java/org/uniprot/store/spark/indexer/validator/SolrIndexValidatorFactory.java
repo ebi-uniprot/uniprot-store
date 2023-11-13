@@ -6,7 +6,8 @@ import org.uniprot.store.spark.indexer.validator.impl.*;
 
 public class SolrIndexValidatorFactory {
 
-    public SolrIndexValidator createSolrIndexValidator(SolrCollection collection, JobParameter jobParameter) {
+    public SolrIndexValidator createSolrIndexValidator(
+            SolrCollection collection, JobParameter jobParameter) {
         SolrIndexValidator validator = null;
         switch (collection) {
             case genecentric:
@@ -38,9 +39,9 @@ public class SolrIndexValidatorFactory {
                 break;
             default:
                 throw new UnsupportedOperationException(
-                        "Collection not yet supported by solr index validator: " + collection.name());
+                        "Collection not yet supported by solr index validator: "
+                                + collection.name());
         }
         return validator;
     }
-
 }

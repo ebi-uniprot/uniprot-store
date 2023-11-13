@@ -33,10 +33,10 @@ public abstract class AbstractSolrIndexValidator implements SolrIndexValidator {
 
     @Override
     public void runValidation() {
-        try{
+        try {
             long solrCount = getSolrCount();
             long rddCount = getRddCount(jobParameter);
-            long outputCount = getOutputUniParcDocumentsCount();
+            long outputCount = getOutputDocumentsCount();
 
             if (solrCount != rddCount || solrCount != outputCount) {
                 throw new SparkIndexException(
@@ -50,19 +50,21 @@ public abstract class AbstractSolrIndexValidator implements SolrIndexValidator {
                                 + ", Solr COUNT: "
                                 + solrCount);
             } else {
-                log.info("Collection: "
-                        + getCollection()
-                        + ", DocumentOutput COUNT: "
-                        + outputCount
-                        + ", RDD COUNT: "
-                        + rddCount
-                        + ", Solr COUNT: "
-                        + solrCount);
+                log.info(
+                        "Collection: "
+                                + getCollection()
+                                + ", DocumentOutput COUNT: "
+                                + outputCount
+                                + ", RDD COUNT: "
+                                + rddCount
+                                + ", Solr COUNT: "
+                                + solrCount);
             }
         } catch (SparkIndexException e) {
             throw e;
         } catch (Exception e) {
-            throw new IndexHPSDocumentsException("Unexpected error during " + getCollection() + " validation.", e);
+            throw new IndexHPSDocumentsException(
+                    "Unexpected error during " + getCollection() + " validation.", e);
         } finally {
             log.info("Finished check for " + getCollection());
         }
@@ -94,13 +96,16 @@ public abstract class AbstractSolrIndexValidator implements SolrIndexValidator {
         return new CloudSolrClient.Builder(singletonList(zkHost), Optional.empty()).build();
     }
 
-    long getOutputUniParcDocumentsCount() {
+    long getOutputDocumentsCount() {
         String hpsOutputFilePath =
                 getCollectionOutputReleaseDirPath(
-                        jobParameter.getApplicationConfig(),jobParameter.getReleaseName(),getCollection());
-        return jobParameter.getSparkContext().objectFile(hpsOutputFilePath)
+                        jobParameter.getApplicationConfig(),
+                        jobParameter.getReleaseName(),
+                        getCollection());
+        return jobParameter
+                .getSparkContext()
+                .objectFile(hpsOutputFilePath)
                 .map(obj -> (SolrInputDocument) obj)
                 .count();
     }
-
 }

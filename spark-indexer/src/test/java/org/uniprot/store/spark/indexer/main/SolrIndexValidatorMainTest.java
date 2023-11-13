@@ -1,18 +1,17 @@
 package org.uniprot.store.spark.indexer.main;
 
-import org.junit.jupiter.api.Test;
-import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+
+import org.junit.jupiter.api.Test;
+import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 
 class SolrIndexValidatorMainTest {
 
     @Test
     void errorWithInvalidArguments() {
         assertThrows(
-                IllegalArgumentException.class,
-                () -> SolrIndexValidatorMain.main(new String[2]));
+                IllegalArgumentException.class, () -> SolrIndexValidatorMain.main(new String[2]));
     }
 
     @Test
@@ -27,5 +26,4 @@ class SolrIndexValidatorMainTest {
         String[] args = {"2020_04", "uniparc", SPARK_LOCAL_MASTER};
         assertThrows(SparkIndexException.class, () -> SolrIndexValidatorMain.main(args));
     }
-
 }
