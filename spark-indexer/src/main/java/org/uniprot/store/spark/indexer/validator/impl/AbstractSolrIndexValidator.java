@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.validator;
+package org.uniprot.store.spark.indexer.validator.impl;
 
 import static java.util.Collections.singletonList;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
@@ -15,13 +15,14 @@ import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexHPSDocumentsException;
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
+import org.uniprot.store.spark.indexer.validator.SolrIndexValidator;
 
 /**
  * This class is used to validate UniParc Index. It queries solr and compare the result with count
  * retrieved from uniparc.xml and also saved documents in HPS.
  */
 @Slf4j
-public abstract class AbstractSolrIndexValidator implements SolrIndexValidator{
+public abstract class AbstractSolrIndexValidator implements SolrIndexValidator {
 
     private final JobParameter jobParameter;
     static final String SOLR_QUERY = "*:*";
@@ -48,6 +49,15 @@ public abstract class AbstractSolrIndexValidator implements SolrIndexValidator{
                                 + rddCount
                                 + ", Solr COUNT: "
                                 + solrCount);
+            } else {
+                log.info("Collection: "
+                        + getCollection()
+                        + ", DocumentOutput COUNT: "
+                        + outputCount
+                        + ", RDD COUNT: "
+                        + rddCount
+                        + ", Solr COUNT: "
+                        + solrCount);
             }
         } catch (SparkIndexException e) {
             throw e;
@@ -67,8 +77,7 @@ public abstract class AbstractSolrIndexValidator implements SolrIndexValidator{
     private long getSolrCount() {
         String zkHost = jobParameter.getApplicationConfig().getString("solr.zkhost");
         long solrCount = 0L;
-        try (CloudSolrClient client =
-                     new CloudSolrClient.Builder(singletonList(zkHost), Optional.empty()).build()) {
+        try (CloudSolrClient client = getSolrClient(zkHost)) {
             ModifiableSolrParams queryParams = new ModifiableSolrParams();
             queryParams.set("q", SOLR_QUERY);
             queryParams.set("fl", getSolrFl());
@@ -81,7 +90,11 @@ public abstract class AbstractSolrIndexValidator implements SolrIndexValidator{
         return solrCount;
     }
 
-    private long getOutputUniParcDocumentsCount() {
+    CloudSolrClient getSolrClient(String zkHost) {
+        return new CloudSolrClient.Builder(singletonList(zkHost), Optional.empty()).build();
+    }
+
+    long getOutputUniParcDocumentsCount() {
         String hpsOutputFilePath =
                 getCollectionOutputReleaseDirPath(
                         jobParameter.getApplicationConfig(),jobParameter.getReleaseName(),getCollection());

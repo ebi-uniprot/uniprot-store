@@ -7,7 +7,6 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.publication.MappedReferenceRDDReader;
 import org.uniprot.store.spark.indexer.publication.mapper.UniProtKBPublicationToMappedReference;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
-import org.uniprot.store.spark.indexer.validator.AbstractSolrIndexValidator;
 
 public class PublicationSolrIndexValidator extends AbstractSolrIndexValidator {
 

@@ -77,16 +77,8 @@ public class LiteratureDocumentsToHPSWriter implements DocumentsToHPSWriter {
     }
 
     private JavaPairRDD<String, LiteratureEntry> loadUniProtKBLiteratureEntryRDD() {
-        UniProtKBRDDTupleReader uniProtKBReader =
-                new UniProtKBRDDTupleReader(this.parameter, false);
-        JavaRDD<String> uniProtKBEntryStringsRDD = uniProtKBReader.loadFlatFileToRDD();
-
-        return uniProtKBEntryStringsRDD
-                .flatMapToPair(new LiteratureEntryUniProtKBMapper())
-                .aggregateByKey(
-                        null,
-                        new LiteratureEntryAggregationMapper(),
-                        new LiteratureEntryAggregationMapper());
+        LiteratureUniProtKBRDDReader literatureUniProtKBRDDReader = new LiteratureUniProtKBRDDReader(parameter);
+        return literatureUniProtKBRDDReader.load();
     }
 
     void saveToHPS(JavaRDD<LiteratureDocument> literatureDocsRDD) {

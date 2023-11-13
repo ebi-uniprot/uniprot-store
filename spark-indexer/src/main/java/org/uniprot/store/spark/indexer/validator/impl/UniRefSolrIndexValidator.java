@@ -6,7 +6,6 @@ import org.uniprot.core.uniref.UniRefType;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.uniref.UniRefRDDTupleReader;
-import org.uniprot.store.spark.indexer.validator.AbstractSolrIndexValidator;
 
 public class UniRefSolrIndexValidator extends AbstractSolrIndexValidator {
 

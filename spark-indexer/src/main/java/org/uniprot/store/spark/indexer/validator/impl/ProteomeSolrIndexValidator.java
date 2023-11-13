@@ -5,7 +5,6 @@ import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.proteome.ProteomeRDDReader;
-import org.uniprot.store.spark.indexer.validator.AbstractSolrIndexValidator;
 
 public class ProteomeSolrIndexValidator extends AbstractSolrIndexValidator {
 

@@ -6,7 +6,6 @@ import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.genecentric.GeneCentricCanonicalRDDReader;
 import org.uniprot.store.spark.indexer.genecentric.GeneCentricRelatedRDDReader;
-import org.uniprot.store.spark.indexer.validator.AbstractSolrIndexValidator;
 
 public class GeneCentricSolrIndexValidator extends AbstractSolrIndexValidator {
 
@@ -17,12 +16,12 @@ public class GeneCentricSolrIndexValidator extends AbstractSolrIndexValidator {
     @Override
     protected long getRddCount(JobParameter jobParameter) {
         GeneCentricCanonicalRDDReader canonicalRDDReader = new GeneCentricCanonicalRDDReader(jobParameter);
-        JavaPairRDD<String, GeneCentricEntry> cannonicalRDD = canonicalRDDReader.load();
+        JavaPairRDD<String, GeneCentricEntry> canonicalRDD = canonicalRDDReader.load();
 
         GeneCentricRelatedRDDReader relatedRDDReader = new GeneCentricRelatedRDDReader(jobParameter);
         JavaPairRDD<String, GeneCentricEntry> relatedRDD = relatedRDDReader.load();
 
-        return cannonicalRDD.count() + relatedRDD.count();
+        return canonicalRDD.leftOuterJoin(relatedRDD).count();
     }
 
     @Override

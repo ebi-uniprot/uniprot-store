@@ -6,6 +6,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexHPSDocumentsException;
+import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.validator.SolrIndexValidator;
 import org.uniprot.store.spark.indexer.validator.SolrIndexValidatorFactory;
@@ -41,7 +42,7 @@ public class SolrIndexValidatorMain {
                 validator.runValidation();
             }
         } catch (Exception e) {
-            throw new IndexHPSDocumentsException("Unexpected error validating solr index", e);
+            throw new SparkIndexException("Unexpected error validating solr index", e);
         } finally {
             log.info("Finished all Jobs!!!");
         }
