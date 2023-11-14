@@ -1,18 +1,17 @@
 package org.uniprot.store.config.returnfield.config.impl;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 import org.uniprot.core.cv.xdb.UniProtDatabaseCategory;
 import org.uniprot.core.cv.xdb.UniProtDatabaseDetail;
 import org.uniprot.cv.xdb.UniProtDatabaseTypes;
@@ -37,9 +36,92 @@ class UniProtKBReturnFieldConfigImplTest {
     void dynamicallyLoadedFields() {
         assertThat(
                 config.getReturnFields().stream()
-                        .filter(field -> field.getParentId().equals("protein_family/group"))
+                        .filter(field -> field.getParentId().equals("genome_annotation/group"))
                         .collect(Collectors.toList()),
                 hasSize(greaterThan(0)));
+    }
+
+    @Test
+    void loadMultiValueCrossReferenceWithMoreThanOnePropertyReturnTrue() {
+        ReturnField returnField =
+                config.getReturnFields().stream()
+                        .filter(field -> field.getName().equals("xref_ensembl"))
+                        .findFirst()
+                        .orElseThrow(AssertionFailedError::new);
+        assertThat(returnField, notNullValue());
+        assertThat(returnField.getIsMultiValueCrossReference(), is(true));
+    }
+
+    @Test
+    void loadMultiValueCrossReferenceWithOnePropertyReturnTrue() {
+        ReturnField returnField =
+                config.getReturnFields().stream()
+                        .filter(field -> field.getName().equals("xref_patric"))
+                        .findFirst()
+                        .orElseThrow(AssertionFailedError::new);
+        assertThat(returnField, notNullValue());
+        assertThat(returnField.getName(), is("xref_patric"));
+        assertThat(returnField.getIsMultiValueCrossReference(), is(true));
+    }
+
+    @Test
+    void loadMultiValueCrossReferenceWithOneDefaultPropertyReturnFalse() {
+        ReturnField returnField =
+                config.getReturnFields().stream()
+                        .filter(field -> field.getName().equals("xref_kegg"))
+                        .findFirst()
+                        .orElseThrow(AssertionFailedError::new);
+        assertThat(returnField, notNullValue());
+        assertThat(returnField.getName(), is("xref_kegg"));
+        assertThat(returnField.getIsMultiValueCrossReference(), is(false));
+    }
+
+    @Test
+    void getReturnFieldByNameForValidFullMultiValueReturnFieldWithCorrectFullName() {
+        ReturnField fullField = config.getReturnFieldByName("xref_ensembl_full");
+        assertThat(fullField, notNullValue());
+        assertThat(fullField.getName(), is("xref_ensembl_full"));
+        assertThat(fullField.getIsMultiValueCrossReference(), is(true));
+    }
+
+    @Test
+    void getReturnFieldByNameForValidFullMultiValueReturnFieldWithCorrectName() {
+        ReturnField field = config.getReturnFieldByName("xref_ensembl");
+        assertThat(field, notNullValue());
+        assertThat(field.getName(), is("xref_ensembl"));
+        assertThat(field.getIsMultiValueCrossReference(), is(true));
+    }
+
+    @Test
+    void getReturnFieldByNameForInvalidFullMultiValueThrowsIllegalArgumentException() {
+        IllegalStateException error =
+                assertThrows(
+                        IllegalStateException.class,
+                        () -> config.getReturnFieldByName("xref_kegg_full"));
+        assertThat(error, notNullValue());
+        assertThat(
+                error.getMessage(),
+                is(
+                        "xref_kegg is not a multi value cross-reference and it does not support xref_kegg_full field name"));
+    }
+
+    @Test
+    void getReturnFieldByNameForInvalidFullMultiValueThrowsIllegalArgumentExceptionX() {
+        IllegalArgumentException error =
+                assertThrows(
+                        IllegalArgumentException.class,
+                        () -> config.getReturnFieldByName("xref_invalid_full"));
+        assertThat(error, notNullValue());
+        assertThat(error.getMessage(), is("Unknown field: xref_invalid_full"));
+    }
+
+    @Test
+    void getReturnFieldByNameForInvalidFieldNameThrowsIllegalArgumentException() {
+        IllegalArgumentException error =
+                assertThrows(
+                        IllegalArgumentException.class, () -> config.getReturnFieldByName("XXXX"));
+        assertThat(error, notNullValue());
+        assertThat(error.getMessage(), is("Unknown field: XXXX"));
     }
 
     @Test
@@ -80,6 +162,7 @@ class UniProtKBReturnFieldConfigImplTest {
                 hasItems("uniProtKBCrossReferences[?(@.database=='" + dbName + "')]"));
         assertThat(returnField.getGroupName(), is(nullValue()));
         assertThat(returnField.getIsDatabaseGroup(), is(false));
+        assertThat(returnField.getIsMultiValueCrossReference(), is(true));
         assertThat(returnField.getId(), is(parent.getId() + "/" + dbNameLowercase));
     }
 }

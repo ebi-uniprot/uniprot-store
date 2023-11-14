@@ -1,5 +1,10 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.spark.api.java.function.PairFlatMapFunction;
 import org.uniprot.core.flatfile.parser.impl.cc.CcLineTransformer;
 import org.uniprot.core.proteome.ProteomeStatistics;
@@ -9,12 +14,8 @@ import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.uniprotkb.comment.Comment;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil;
-import scala.Tuple2;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
+import scala.Tuple2;
 
 public class ProteomeStatisticsMapper
         implements PairFlatMapFunction<String, String, ProteomeStatistics> {

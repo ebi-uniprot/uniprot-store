@@ -207,11 +207,6 @@ class DatasetProteomeEntryConverterTest {
         entryValues.add(false);
         entryValues.add(true);
         entryValues.add(new Date(EPOCH_MILLI_NOW));
-        entryValues.add(
-                (Seq)
-                        JavaConverters.asScalaIteratorConverter(Collections.emptyIterator())
-                                .asScala()
-                                .toSeq());
         return new GenericRowWithSchema(entryValues.toArray(), getProteomeMinimalXMLSchema());
     }
 
@@ -222,8 +217,6 @@ class DatasetProteomeEntryConverterTest {
         structType = structType.add(IS_REFERENCE_PROTEOME, DataTypes.BooleanType, false);
         structType = structType.add(IS_REPRESENTATIVE_PROTEOME, DataTypes.BooleanType, false);
         structType = structType.add(MODIFIED, DataTypes.DateType, false);
-        structType =
-                structType.add(COMPONENT, DataTypes.createArrayType(getComponentSchema()), false);
         return structType;
     }
 

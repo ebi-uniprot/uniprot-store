@@ -25,7 +25,7 @@ class AbstractReturnFieldConfigTest {
     private static final String TEST_RETURN_FIELD_CONFIG_PATH = "test-return-fields.json";
     // the protein_family/group in TEST_RETURN_FIELD_CONFIG_PATH has no defined children, because
     // its children are loaded dynamically in this test
-    private static final String PROTEIN_FAMILY_GROUP = "protein_family/group";
+    private static final String GENOME_ANNOTATION_GROUP = "genome_annotation/group";
     private static final String DYNAMICALLY_ADDED_ID = "ADDED DYNAMICALLY";
     private static FakeReturnFieldConfig config;
 
@@ -41,7 +41,7 @@ class AbstractReturnFieldConfigTest {
                         .filter(field -> field.getItemType().equals(ReturnFieldItemType.GROUP))
                         .map(ReturnField::getId)
                         .collect(Collectors.toList());
-        assertThat(groupIds, contains("names_&_taxonomy", "sequences", "protein_family/group"));
+        assertThat(groupIds, contains("names_&_taxonomy", "sequences", "genome_annotation/group"));
     }
 
     @Test
@@ -112,7 +112,7 @@ class AbstractReturnFieldConfigTest {
             ReturnField field = new ReturnField();
             field.setId(DYNAMICALLY_ADDED_ID);
             field.setItemType(ReturnFieldItemType.SINGLE);
-            field.setParentId(PROTEIN_FAMILY_GROUP);
+            field.setParentId(GENOME_ANNOTATION_GROUP);
             field.setChildNumber(0);
             return singletonList(field);
         }

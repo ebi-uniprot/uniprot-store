@@ -74,7 +74,7 @@ public abstract class AbstractReturnFieldConfig implements ReturnFieldConfig {
         boolean searchFieldExist = false;
         try {
             searchFieldExist = Objects.nonNull(this.getReturnFieldByName(fieldName));
-        } catch (IllegalArgumentException ile) {
+        } catch (IllegalArgumentException | IllegalStateException ile) {
             // it means that the field doesn't exist
         }
         return searchFieldExist;

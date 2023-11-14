@@ -24,7 +24,9 @@ class DatabaseSearchIT {
     private static final String ACC_P47986_1 = "P47986-1";
     private static final String ACC_P47988 = "P47988";
     private static final String ACC_ENSP00000226587 = "ENSP00000226587";
+    private static final Integer ACC_ENSP_VERSION = 5;
     private static final String ACC_NC_000004_1185_0 = "NC_000004_1185_0";
+    private static final String ACC_SEED = "fig|1218145.peg.2041";
 
     @BeforeAll
     static void populateIndexWithTestData() {
@@ -35,6 +37,8 @@ class DatabaseSearchIT {
             entry.getDbReference().clear();
             entry.getDbReference()
                     .add(TestUtils.createXref(UniParcDatabase.TREMBL.getName(), ACC_P47986, "Y"));
+            entry.getDbReference()
+                    .add(TestUtils.createXref(UniParcDatabase.SEED.getName(), ACC_SEED, "Y"));
             searchEngine.indexEntry(entry);
         }
 
@@ -48,7 +52,8 @@ class DatabaseSearchIT {
                             TestUtils.createXref(
                                     UniParcDatabase.ENSEMBL_VERTEBRATE.getName(),
                                     ACC_ENSP00000226587,
-                                    "Y"));
+                                    "Y",
+                                    ACC_ENSP_VERSION));
             entry.getDbReference()
                     .add(
                             TestUtils.createXref(
@@ -130,6 +135,69 @@ class DatabaseSearchIT {
         assertThat(retrievedAccessions, containsInAnyOrder(ID_3));
     }
 
+    @Test
+    void testDbIdWithoutVersionFound() {
+        String query = dbId(ACC_ENSP00000226587);
+
+        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
+
+        assertEquals(1, retrievedAccessions.size());
+        assertThat(retrievedAccessions, containsInAnyOrder(ID_2));
+    }
+
+    @Test
+    void testDbIdWithVersionFound() {
+        String query = dbId(ACC_ENSP00000226587 + "." + ACC_ENSP_VERSION);
+
+        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
+
+        assertEquals(1, retrievedAccessions.size());
+        assertThat(retrievedAccessions, containsInAnyOrder(ID_2));
+    }
+
+    @Test
+    void testDbIdWithInvalidVersionNotFound() {
+        String query = dbId(ACC_ENSP00000226587 + ".2");
+
+        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
+
+        assertEquals(0, retrievedAccessions.size());
+    }
+
+    @Test
+    void testDbIdWithMultipleDotsFound() {
+        String query = dbId(ACC_SEED);
+
+        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
+
+        assertEquals(1, retrievedAccessions.size());
+        assertThat(retrievedAccessions, containsInAnyOrder(ID_1));
+    }
+
+    @Test
+    void testDbIdWithMultipleDotsPartialNotFound() {
+        String query = dbId("fig|1218145");
+
+        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
+
+        assertEquals(0, retrievedAccessions.size());
+    }
+
+    @Test
+    void testDbIdWithMultipleDotsPartialEndNotFound() {
+        String query = dbId("peg.2041");
+
+        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
+        List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
+
+        assertEquals(0, retrievedAccessions.size());
+    }
+
     private String active(String dbname) {
         return QueryBuilder.query(
                 searchEngine
@@ -137,6 +205,12 @@ class DatabaseSearchIT {
                         .getSearchFieldItemByName("active")
                         .getFieldName(),
                 dbname);
+    }
+
+    private String dbId(String idId) {
+        return QueryBuilder.query(
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("dbid").getFieldName(),
+                idId);
     }
 
     private String database(String dbname) {
