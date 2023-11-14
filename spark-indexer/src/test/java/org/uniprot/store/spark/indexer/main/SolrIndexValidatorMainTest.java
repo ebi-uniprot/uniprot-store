@@ -15,15 +15,15 @@ class SolrIndexValidatorMainTest {
     }
 
     @Test
-    void testIndexHPSDocumentsInSolrMainInvalidCollection() {
+    void testSolrIndexValidatorMainInvalidCollection() {
         String[] args = {"invalid", "invalid", "invalid"};
         assertThrows(SparkIndexException.class, () -> SolrIndexValidatorMain.main(args));
     }
 
     @Test
-    void testIndexHPSDocumentsInSolrMainThrowExceptions() {
-        // valid arguments, but it will fail because we do not have the serialized document files.
-        String[] args = {"2020_04", "uniparc", SPARK_LOCAL_MASTER};
+    void testSolrIndexValidatorMainThrowExceptions() {
+        // valid arguments, but it will fail because it will not able to connect to zookeeper.
+        String[] args = {"2020_02", "uniparc", SPARK_LOCAL_MASTER};
         assertThrows(SparkIndexException.class, () -> SolrIndexValidatorMain.main(args));
     }
 }

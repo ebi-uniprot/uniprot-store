@@ -2,6 +2,8 @@ package org.uniprot.store.spark.indexer.validator.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
+import static org.uniprot.store.spark.indexer.validator.impl.SolrIndexValidatorUtil.getJobParameter;
+import static org.uniprot.store.spark.indexer.validator.impl.SolrIndexValidatorUtil.spyMockValidator;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -9,15 +11,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.apache.solr.client.solrj.impl.CloudSolrClient;
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.SolrDocumentList;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.Mockito;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
@@ -102,29 +100,7 @@ class TaxonomySolrIndexValidatorTest {
     private TaxonomySolrIndexValidator prepareValidator(
             Config applicationConfig, JavaSparkContext context, long docCount, long solrCount)
             throws Exception {
-        JobParameter jobParameter =
-                JobParameter.builder()
-                        .releaseName("2020_02")
-                        .applicationConfig(applicationConfig)
-                        .sparkContext(context)
-                        .build();
-
-        TaxonomySolrIndexValidator validator =
-                Mockito.spy(new TaxonomySolrIndexValidator(jobParameter));
-
-        Mockito.doReturn(docCount).when(validator).getOutputDocumentsCount();
-
-        CloudSolrClient solrClient = Mockito.mock(CloudSolrClient.class);
-
-        QueryResponse response = Mockito.mock(QueryResponse.class);
-        SolrDocumentList queryResult = Mockito.mock(SolrDocumentList.class);
-        Mockito.when(response.getResults()).thenReturn(queryResult);
-        Mockito.when(queryResult.getNumFound()).thenReturn(solrCount);
-
-        Mockito.when(solrClient.query(Mockito.eq(validator.getCollection().name()), Mockito.any()))
-                .thenReturn(response);
-
-        Mockito.doReturn(solrClient).when(validator).getSolrClient(Mockito.any());
-        return validator;
+        JobParameter jobParameter = getJobParameter(applicationConfig, context);
+        return spyMockValidator(new TaxonomySolrIndexValidator(jobParameter), docCount, solrCount);
     }
 }

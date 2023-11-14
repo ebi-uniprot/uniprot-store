@@ -18,8 +18,8 @@ import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 import org.uniprot.store.spark.indexer.validator.SolrIndexValidator;
 
 /**
- * This class is used to validate UniParc Index. It queries solr and compare the result with count
- * retrieved from uniparc.xml and also saved documents in HPS.
+ * This class is used to validate Solr index. It queries solr and compare the result with count
+ * retrieved from inputRDD and also saved documents in HPS.
  */
 @Slf4j
 public abstract class AbstractSolrIndexValidator implements SolrIndexValidator {

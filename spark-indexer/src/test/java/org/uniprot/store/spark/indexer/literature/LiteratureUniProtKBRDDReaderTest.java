@@ -17,7 +17,7 @@ import com.typesafe.config.Config;
 class LiteratureUniProtKBRDDReaderTest {
 
     @Test
-    void canLoadLiteratureUniProtKBRCitations() {
+    void canLoadLiteratureUniProtKBCitations() {
         Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
                 SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {

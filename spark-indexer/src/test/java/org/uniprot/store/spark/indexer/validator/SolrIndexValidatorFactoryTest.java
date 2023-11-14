@@ -51,16 +51,6 @@ class SolrIndexValidatorFactoryTest {
     }
 
     @Test
-    void createProteomeValidatorFactory() {
-        JobParameter jobParameter = Mockito.mock(JobParameter.class);
-        SolrIndexValidatorFactory factory = new SolrIndexValidatorFactory();
-        SolrIndexValidator validator =
-                factory.createSolrIndexValidator(SolrCollection.proteome, jobParameter);
-        assertNotNull(validator);
-        assertTrue(validator instanceof ProteomeSolrIndexValidator);
-    }
-
-    @Test
     void createNotSupportedCollectionThrowsException() {
         SolrIndexValidatorFactory factory = new SolrIndexValidatorFactory();
         assertThrows(
