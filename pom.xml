@@ -35,7 +35,6 @@
 		<hamcrest-core.version>2.2</hamcrest-core.version>
 		<solr.version>8.5.2</solr.version>
 		<http-uniprot-private-url>https://wwwdev.ebi.ac.uk/uniprot/artifactory</http-uniprot-private-url>
-		<jacoco.version>0.8.5</jacoco.version>
 		<jacoco.outputDir>${project.basedir}/../target</jacoco.outputDir>
 		<jacoco.out.ut.file>jacoco-ut.exec</jacoco.out.ut.file>
 		<jacoco.reportPath>${jacoco.outputDir}/${jacoco.out.ut.file}</jacoco.reportPath>
