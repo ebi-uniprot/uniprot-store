@@ -61,6 +61,16 @@ Server: http://www.arachnoserver.org
 Db_URL: http://www.arachnoserver.org/toxincard.html?id=%s
 Cat   : Organism-specific databases
 
+AC    : DB-0218
+Abbrev: DisGeNET
+Name  : DisGeNET
+Ref   : PubMed=31680165; DOI=10.1093/nar/gkz1021;
+LinkTp: Explicit
+Server: https://www.disgenet.org/
+        https://www.disgenetplus.com/
+Db_URL: https://www.disgenetplus.com/examples?view=GENES&idents=%s&source=ALL&tab=GDA&newSearch=false
+Cat   : Organism-specific databases
+
 AC    : DB-0221
 Abbrev: Araport
 Name  : Arabidopsis Information Portal

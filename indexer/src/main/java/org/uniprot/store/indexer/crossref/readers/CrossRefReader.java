@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -114,19 +116,24 @@ public class CrossRefReader implements ItemReader<CrossRefEntry> {
     private CrossRefEntry convertToDBXRef(String linesStr) {
         String[] lines = linesStr.split(LINE_SEP);
         String acc = null, abbr = null, name = null, pubMedId = null, doiId = null;
-        String lType = null, server = null, url = null, cat = null;
+        String lType = null, url = null, cat = null;
+        List<String> servers = null;
+        boolean processingServer = false;
 
         for (String line : lines) {
             String[] keyVal = line.split(KEY_VAL_SEPARATOR);
             switch (keyVal[0].trim()) {
                 case AC_STR:
                     acc = keyVal[1].trim();
+                    processingServer = false;
                     break;
                 case ABBREV_STR:
                     abbr = keyVal[1].trim();
+                    processingServer = false;
                     break;
                 case NAME_STR:
                     name = keyVal[1].trim();
+                    processingServer = false;
                     break;
                 case REF_STR:
                     String[] refIdPairs = keyVal[1].trim().split(REF_SEPARATOR);
@@ -157,29 +164,39 @@ public class CrossRefReader implements ItemReader<CrossRefEntry> {
                                             .trim();
                         }
                     }
+                    processingServer = false;
                     break;
                 case LINK_TP_STR:
                     lType = keyVal[1].trim();
                     if (lType.startsWith(IMPLICIT)) {
                         lType = IMPLICIT;
                     }
+                    processingServer = false;
                     break;
                 case SERVER_STR:
-                    server = keyVal[1].trim();
+                    servers = new ArrayList<>();
+                    servers.add(keyVal[1].trim());
+                    processingServer = true;
                     break;
                 case DB_URL_STR:
                     url = keyVal[1].trim();
+                    processingServer = false;
                     break;
                 case CAT_STR:
                     cat = keyVal[1].trim();
+                    processingServer = false;
                     break;
-                default: // do nothing
+                default:
+                    if (processingServer) {
+                        servers.add(keyVal[0].trim());
+                    }
+                    break;
             }
         }
 
         CrossRefEntryBuilder builder = new CrossRefEntryBuilder();
         builder.id(acc).abbrev(abbr).name(name);
-        builder.pubMedId(pubMedId).doiId(doiId).linkType(lType).server(server);
+        builder.pubMedId(pubMedId).doiId(doiId).linkType(lType).serversSet(servers);
         builder.dbUrl(url).category(cat);
 
         // update the reviewed and unreviewed protein count
