@@ -23,9 +23,4 @@ public class SubcellularLocationSolrIndexValidator extends AbstractSolrIndexVali
     protected SolrCollection getCollection() {
         return SolrCollection.subcellularlocation;
     }
-
-    @Override
-    protected String getSolrFl() {
-        return "id";
-    }
 }

@@ -23,9 +23,4 @@ public class UniParcSolrIndexValidator extends AbstractSolrIndexValidator {
     protected SolrCollection getCollection() {
         return SolrCollection.uniparc;
     }
-
-    @Override
-    protected String getSolrFl() {
-        return "upi";
-    }
 }

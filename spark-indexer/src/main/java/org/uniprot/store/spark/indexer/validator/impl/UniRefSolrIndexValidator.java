@@ -34,9 +34,4 @@ public class UniRefSolrIndexValidator extends AbstractSolrIndexValidator {
     protected SolrCollection getCollection() {
         return SolrCollection.uniref;
     }
-
-    @Override
-    protected String getSolrFl() {
-        return "id";
-    }
 }

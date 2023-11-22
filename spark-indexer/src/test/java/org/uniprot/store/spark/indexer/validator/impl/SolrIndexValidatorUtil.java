@@ -19,12 +19,12 @@ public class SolrIndexValidatorUtil {
                 .build();
     }
 
-    static <T extends AbstractSolrIndexValidator> T spyMockValidator(
+    static <T extends AbstractSolrIndexValidator> T wrapMockSolrIndexValidator(
             T validatorImpl, long docCount, long solrCount) throws Exception {
 
         T validator = Mockito.spy(validatorImpl);
 
-        Mockito.doReturn(docCount).when(validator).getOutputDocumentsCount();
+        Mockito.doReturn(docCount).when(validator).getSavedDocumentsCount();
 
         CloudSolrClient solrClient = Mockito.mock(CloudSolrClient.class);
 

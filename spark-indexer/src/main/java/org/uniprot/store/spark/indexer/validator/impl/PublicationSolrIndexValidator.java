@@ -26,21 +26,16 @@ public class PublicationSolrIndexValidator extends AbstractSolrIndexValidator {
                 mappedReferenceReader.loadComputationalMappedReference();
 
         UniProtKBRDDTupleReader uniProtKBReader = new UniProtKBRDDTupleReader(jobParameter, false);
-        JavaPairRDD<String, MappedReference> uniprotKBRDD =
+        JavaPairRDD<String, MappedReference> uniProtKBRDD =
                 uniProtKBReader
                         .loadFlatFileToRDD()
                         .flatMapToPair(new UniProtKBPublicationToMappedReference());
 
-        return communityRDD.union(computationalRDD).union(uniprotKBRDD).groupByKey().count();
+        return communityRDD.union(computationalRDD).union(uniProtKBRDD).groupByKey().count();
     }
 
     @Override
     protected SolrCollection getCollection() {
         return SolrCollection.publication;
-    }
-
-    @Override
-    protected String getSolrFl() {
-        return "id";
     }
 }

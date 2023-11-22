@@ -23,9 +23,4 @@ public class ProteomeSolrIndexValidator extends AbstractSolrIndexValidator {
     protected SolrCollection getCollection() {
         return SolrCollection.proteome;
     }
-
-    @Override
-    protected String getSolrFl() {
-        return "upid";
-    }
 }

@@ -29,9 +29,4 @@ public class LiteratureSolrIndexValidator extends AbstractSolrIndexValidator {
     protected SolrCollection getCollection() {
         return SolrCollection.literature;
     }
-
-    @Override
-    protected String getSolrFl() {
-        return "id";
-    }
 }

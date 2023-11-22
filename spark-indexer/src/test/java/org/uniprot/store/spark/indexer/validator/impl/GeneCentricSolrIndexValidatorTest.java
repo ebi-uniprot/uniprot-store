@@ -65,7 +65,7 @@ class GeneCentricSolrIndexValidatorTest {
             Config applicationConfig, JavaSparkContext context, long docCount, long solrCount)
             throws Exception {
         JobParameter jobParameter = getJobParameter(applicationConfig, context);
-        return spyMockValidator(
+        return wrapMockSolrIndexValidator(
                 new GeneCentricSolrIndexValidator(jobParameter), docCount, solrCount);
     }
 }

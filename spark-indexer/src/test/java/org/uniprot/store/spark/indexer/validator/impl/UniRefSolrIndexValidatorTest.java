@@ -3,7 +3,7 @@ package org.uniprot.store.spark.indexer.validator.impl;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 import static org.uniprot.store.spark.indexer.validator.impl.SolrIndexValidatorUtil.getJobParameter;
-import static org.uniprot.store.spark.indexer.validator.impl.SolrIndexValidatorUtil.spyMockValidator;
+import static org.uniprot.store.spark.indexer.validator.impl.SolrIndexValidatorUtil.wrapMockSolrIndexValidator;
 
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.Test;
@@ -66,6 +66,7 @@ class UniRefSolrIndexValidatorTest {
             Config applicationConfig, JavaSparkContext context, long docCount, long solrCount)
             throws Exception {
         JobParameter jobParameter = getJobParameter(applicationConfig, context);
-        return spyMockValidator(new UniRefSolrIndexValidator(jobParameter), docCount, solrCount);
+        return wrapMockSolrIndexValidator(
+                new UniRefSolrIndexValidator(jobParameter), docCount, solrCount);
     }
 }

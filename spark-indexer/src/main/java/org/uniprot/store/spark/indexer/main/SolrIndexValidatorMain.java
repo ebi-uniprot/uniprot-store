@@ -22,7 +22,7 @@ public class SolrIndexValidatorMain {
             throw new IllegalArgumentException(
                     "Invalid arguments. Expected "
                             + "args[0]= release name (for example: 2020_01)"
-                            + "args[1]= collection name (for example: uniprot, uniparc, uniref or suggest)"
+                            + "args[1]= collection name (for example: uniprot, uniparc or uniref)"
                             + "args[2]=spark master node url (e.g. spark://hl-codon-102-02.ebi.ac.uk:37550)");
         }
 
@@ -36,16 +36,16 @@ public class SolrIndexValidatorMain {
                             .sparkContext(sparkContext)
                             .build();
             List<SolrCollection> solrCollections = SparkUtils.getSolrCollection(args[1]);
+            SolrIndexValidatorFactory factory = new SolrIndexValidatorFactory();
             for (SolrCollection collection : solrCollections) {
-                SolrIndexValidatorFactory factory = new SolrIndexValidatorFactory();
                 SolrIndexValidator validator =
                         factory.createSolrIndexValidator(collection, jobParameter);
                 validator.runValidation();
             }
         } catch (Exception e) {
-            throw new SparkIndexException("Unexpected error validating solr index", e);
+            throw new SparkIndexException("Unexpected error while validating solr index", e);
         } finally {
-            log.info("Finished all Jobs!!!");
+            log.info("Finished all jobs!");
         }
     }
 }

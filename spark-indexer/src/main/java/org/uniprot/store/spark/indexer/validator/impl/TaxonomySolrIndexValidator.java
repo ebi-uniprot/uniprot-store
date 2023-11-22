@@ -31,9 +31,4 @@ public class TaxonomySolrIndexValidator extends AbstractSolrIndexValidator {
     protected SolrCollection getCollection() {
         return SolrCollection.taxonomy;
     }
-
-    @Override
-    protected String getSolrFl() {
-        return "id";
-    }
 }

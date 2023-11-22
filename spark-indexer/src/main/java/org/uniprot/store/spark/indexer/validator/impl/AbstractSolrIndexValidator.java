@@ -36,7 +36,7 @@ public abstract class AbstractSolrIndexValidator implements SolrIndexValidator {
         try {
             long solrCount = getSolrCount();
             long rddCount = getRddCount(jobParameter);
-            long outputCount = getOutputDocumentsCount();
+            long outputCount = getSavedDocumentsCount();
 
             if (solrCount != rddCount || solrCount != outputCount) {
                 throw new SparkIndexException(
@@ -74,15 +74,13 @@ public abstract class AbstractSolrIndexValidator implements SolrIndexValidator {
 
     protected abstract SolrCollection getCollection();
 
-    protected abstract String getSolrFl();
-
     private long getSolrCount() {
         String zkHost = jobParameter.getApplicationConfig().getString("solr.zkhost");
         long solrCount = 0L;
         try (CloudSolrClient client = getSolrClient(zkHost)) {
             ModifiableSolrParams queryParams = new ModifiableSolrParams();
             queryParams.set("q", SOLR_QUERY);
-            queryParams.set("fl", getSolrFl());
+            queryParams.set("rows", 0);
             QueryResponse result = client.query(getCollection().name(), queryParams);
             solrCount = result.getResults().getNumFound();
             log.info("totalEntries Solr COUNT: " + solrCount);
@@ -96,7 +94,7 @@ public abstract class AbstractSolrIndexValidator implements SolrIndexValidator {
         return new CloudSolrClient.Builder(singletonList(zkHost), Optional.empty()).build();
     }
 
-    long getOutputDocumentsCount() {
+    long getSavedDocumentsCount() {
         String hpsOutputFilePath =
                 getCollectionOutputReleaseDirPath(
                         jobParameter.getApplicationConfig(),

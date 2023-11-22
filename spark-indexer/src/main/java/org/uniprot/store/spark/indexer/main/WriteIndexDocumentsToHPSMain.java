@@ -40,8 +40,8 @@ public class WriteIndexDocumentsToHPSMain {
                             .sparkContext(sparkContext)
                             .build();
             List<SolrCollection> solrCollections = SparkUtils.getSolrCollection(args[1]);
+            DocumentsToHPSWriterFactory factory = new DocumentsToHPSWriterFactory();
             for (SolrCollection collection : solrCollections) {
-                DocumentsToHPSWriterFactory factory = new DocumentsToHPSWriterFactory();
                 DocumentsToHPSWriter writer =
                         factory.createDocumentsToHPSWriter(collection, jobParameter);
                 writer.writeIndexDocumentsToHPS();

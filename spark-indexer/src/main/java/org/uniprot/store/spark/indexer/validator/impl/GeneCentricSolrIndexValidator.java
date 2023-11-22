@@ -5,7 +5,6 @@ import org.uniprot.core.genecentric.GeneCentricEntry;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.genecentric.GeneCentricCanonicalRDDReader;
-import org.uniprot.store.spark.indexer.genecentric.GeneCentricRelatedRDDReader;
 
 public class GeneCentricSolrIndexValidator extends AbstractSolrIndexValidator {
 
@@ -19,21 +18,11 @@ public class GeneCentricSolrIndexValidator extends AbstractSolrIndexValidator {
                 new GeneCentricCanonicalRDDReader(jobParameter);
         JavaPairRDD<String, GeneCentricEntry> canonicalRDD = canonicalRDDReader.load();
 
-        GeneCentricRelatedRDDReader relatedRDDReader =
-                new GeneCentricRelatedRDDReader(jobParameter);
-        JavaPairRDD<String, Iterable<GeneCentricEntry>> relatedRDD =
-                relatedRDDReader.load().groupByKey();
-
-        return canonicalRDD.leftOuterJoin(relatedRDD).count();
+        return canonicalRDD.count();
     }
 
     @Override
     protected SolrCollection getCollection() {
         return SolrCollection.genecentric;
-    }
-
-    @Override
-    protected String getSolrFl() {
-        return "accession_id";
     }
 }
