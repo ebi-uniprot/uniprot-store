@@ -56,7 +56,6 @@ class CrossRefReaderTest {
     }
 
     private void verifyDBXRef(CrossRefEntry dbxRef) {
-        System.out.println(dbxRef.getId());
         assertNotNull(dbxRef.getId(), "id is null");
         assertNotNull(dbxRef.getAbbrev(), "Abbrev is null");
         assertNotNull(dbxRef.getName(), "Name is null");
