@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -34,18 +35,16 @@ class CrossRefReaderTest {
         assertNotNull(dbxRef, "Unable to read the dbxref file");
         verifyDBXRef(dbxRef);
         assertEquals("Implicit", dbxRef.getLinkType());
-        int count = 1;
-        String crossRefWithMultipleServers = "DB-0218";
-        boolean serversCrossRefVerified = false;
+        Map<String, CrossRefEntry> idXrefMap = new HashMap<>();
+        idXrefMap.put(dbxRef.getId(), dbxRef);
         while ((dbxRef = reader.read()) != null) {
-            count++;
-            if (crossRefWithMultipleServers.equals(dbxRef.getId())) {
-                verifyCrossRefWithMultipleServers(dbxRef);
-                serversCrossRefVerified = true;
-            }
+            idXrefMap.put(dbxRef.getId(), dbxRef);
         }
-        assertEquals(8, count);
-        assertTrue(serversCrossRefVerified, "multiple servers cross not found");
+
+        String crossRefWithMultipleServers = "DB-0218";
+        assertEquals(8, idXrefMap.size());
+        assertTrue(idXrefMap.containsKey(crossRefWithMultipleServers));
+        verifyCrossRefWithMultipleServers(idXrefMap.get(crossRefWithMultipleServers));
     }
 
     void verifyCrossRefWithMultipleServers(CrossRefEntry dbxRef) {

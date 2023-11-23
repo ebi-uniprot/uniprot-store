@@ -97,7 +97,7 @@ Server: http://www.bindingdb.org/
 Db_URL: http://www.bindingdb.org/uniprot/%s
 Cat   : Chemistry
 
-AC    : DB-0133
+AC    : DB-0134
 Abbrev: Bgee
 Name  : Bgee dataBase for Gene Expression Evolution
 Ref   : DOI=10.1007/978-3-540-69828-9;
