@@ -17,7 +17,6 @@ import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.literature.mapper.*;
 import org.uniprot.store.spark.indexer.publication.MappedReferenceRDDReader;
-import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
 /**
  * @author lgonzales
@@ -77,16 +76,9 @@ public class LiteratureDocumentsToHPSWriter implements DocumentsToHPSWriter {
     }
 
     private JavaPairRDD<String, LiteratureEntry> loadUniProtKBLiteratureEntryRDD() {
-        UniProtKBRDDTupleReader uniProtKBReader =
-                new UniProtKBRDDTupleReader(this.parameter, false);
-        JavaRDD<String> uniProtKBEntryStringsRDD = uniProtKBReader.loadFlatFileToRDD();
-
-        return uniProtKBEntryStringsRDD
-                .flatMapToPair(new LiteratureEntryUniProtKBMapper())
-                .aggregateByKey(
-                        null,
-                        new LiteratureEntryAggregationMapper(),
-                        new LiteratureEntryAggregationMapper());
+        LiteratureUniProtKBRDDReader literatureUniProtKBRDDReader =
+                new LiteratureUniProtKBRDDReader(parameter);
+        return literatureUniProtKBRDDReader.load();
     }
 
     void saveToHPS(JavaRDD<LiteratureDocument> literatureDocsRDD) {
