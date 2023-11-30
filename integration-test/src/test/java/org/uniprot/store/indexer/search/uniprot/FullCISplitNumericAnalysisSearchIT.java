@@ -726,6 +726,54 @@ public class FullCISplitNumericAnalysisSearchIT {
                 .canBeFound(field);
     }
 
+    @ParameterizedTest
+    @EnumSource(FullCISplitNumericAnalysisSearchIT.FieldType.class)
+    void canFindQuerySplitBeforeNumber(FullCISplitNumericAnalysisSearchIT.FieldType field) {
+        String accession = newAccession();
+
+        String indexFieldValue = "Delta-actitoxin-Axm1a";
+        String queryFieldValue = "Delta-actitoxin-Axm";
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
+
+        new FullCISplitNumericAnalysisSearchIT.EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(indexFieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FullCISplitNumericAnalysisSearchIT.FieldType.class)
+    void canFindQuerySplitAfterNumber(FullCISplitNumericAnalysisSearchIT.FieldType field) {
+        String accession = newAccession();
+
+        String indexFieldValue = "Delta-actitoxin-Axm1a";
+        String queryFieldValue = "Delta-actitoxin-Axm1";
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
+
+        new FullCISplitNumericAnalysisSearchIT.EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(indexFieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
+    @ParameterizedTest
+    @EnumSource(FullCISplitNumericAnalysisSearchIT.FieldType.class)
+    void canFindQueryAll(FullCISplitNumericAnalysisSearchIT.FieldType field) {
+        String accession = newAccession();
+
+        String indexFieldValue = "Delta-actitoxin-Axm1a";
+        String queryFieldValue = "Delta-actitoxin-Axm1a";
+        String query = fieldQuery(field.getQueryField(), queryFieldValue);
+
+        new FullCISplitNumericAnalysisSearchIT.EntryCheck()
+                .withAccession(accession)
+                .withFieldValue(indexFieldValue)
+                .usingQuery(query)
+                .canBeFound(field);
+    }
+
     private static void ensureInitialEntriesWereSaved() {
         String query = QueryBuilder.query("accession_id", "*");
 
