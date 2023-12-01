@@ -2302,6 +2302,10 @@
         "value": "mitochondrion"
       },
       {
+        "name": "Plasmid",
+        "value": "plasmid"
+      },
+      {
         "name": "Plastid",
         "value": "plastid"
       },
