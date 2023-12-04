@@ -15,7 +15,7 @@ import org.uniprot.store.search.document.Document;
 @Builder(builderClassName = "SuggestDocumentBuilder")
 public class SuggestDocument implements Document {
     public static final String DEFAULT_IMPORTANCE = "medium";
-    private static final long serialVersionUID = 2126936244930669278L;
+    private static final long serialVersionUID = -447760324653086807L;
 
     @Field("suggest_id")
     public String suggestId;
