@@ -73,10 +73,10 @@
     "childNumber": 6,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "label": "Database Server",
-    "name": "server",
-    "paths" : ["server"],
-    "id": "cross_reference/server"
+    "label": "Database Servers",
+    "name": "servers",
+    "paths" : ["servers"],
+    "id": "cross_reference/servers"
   },
   {
     "parentId": "cross_reference",

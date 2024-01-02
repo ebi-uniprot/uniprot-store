@@ -80,7 +80,8 @@ class SolrDocumentWriterTest {
         assertNotNull(dbxRef.getPubMedId(), "PUBMED ID is null");
         assertNotNull(dbxRef.getDoiId(), "DOI Id is null");
         assertNotNull(dbxRef.getLinkType(), "Link Type is null");
-        assertNotNull(dbxRef.getServer(), "Server is null");
+        assertNotNull(dbxRef.getServers(), "Server is null");
+        assertFalse(dbxRef.getServers().isEmpty());
         assertNotNull(dbxRef.getDbUrl(), "DB URL is null");
         assertNotNull(dbxRef.getCategory(), "Category is null");
     }
@@ -99,7 +100,7 @@ class SolrDocumentWriterTest {
 
         CrossRefDocument.CrossRefDocumentBuilder builder = CrossRefDocument.builder();
         builder.abbrev(ab).id(ac).category(ct).dbUrl(du);
-        builder.doiId(di).linkType(lt).name(nm).pubMedId(pb).server(sr);
+        builder.doiId(di).linkType(lt).name(nm).pubMedId(pb).servers(List.of(sr));
         return builder.build();
     }
 }
