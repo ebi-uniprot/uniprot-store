@@ -11,7 +11,7 @@
 
 	<groupId>org.uniprot</groupId>
 	<artifactId>uniprot-store-parent</artifactId>
-	<version>1.0.28-SNAPSHOT</version>
+	<version>1.0.27.4</version>
 	<name>UniProt Store Aggregator</name>
 	<packaging>pom</packaging>
 
