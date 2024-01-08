@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.main.verifiers;
+package org.uniprot.store.spark.indexer.validator.impl;
 
 import static java.util.Collections.singletonList;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
@@ -15,7 +15,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.flatfile.parser.impl.cc.CcLineTransformer;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
@@ -28,42 +27,27 @@ import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUtil;
+import org.uniprot.store.spark.indexer.validator.SolrIndexValidator;
 
 import com.typesafe.config.Config;
 
-/**
- * This class is used to validate UniProtKB Index. It counts and compare number of Swiss-Prot,
- * Trembl and Isoforms (except canonical isoforms) In order to compare, it queries solr and compare
- * the result with count retrieved from uniprot-release.dat.
- */
 @Slf4j
-public class ValidateUniProtKBSolrIndexMain {
+public class UniProtKBSolrIndexValidator implements SolrIndexValidator {
 
     static final String REVIEWED_QUERY = "reviewed:true AND active:true AND is_isoform:false";
     static final String ISOFORM_QUERY = "reviewed:true AND active:true AND is_isoform:true";
     static final String UNREVIEWED_QUERY = "reviewed:false AND active:true";
+    private final JobParameter jobParameter;
 
-    public static void main(String[] args) {
-        if (args == null || args.length != 2) {
-            throw new IllegalArgumentException(
-                    "Invalid arguments. Expected "
-                            + "args[0]= release name (for example: 2020_01)"
-                            + "args[1]=spark master node url (e.g. spark://hl-codon-102-02.ebi.ac.uk:37550)");
-        }
-        ValidateUniProtKBSolrIndexMain validator = new ValidateUniProtKBSolrIndexMain();
-        validator.runValidation(args[0], args[1]);
+    public UniProtKBSolrIndexValidator(JobParameter jobParameter) {
+        this.jobParameter = jobParameter;
     }
 
-    boolean runValidation(String releaseName, String sparkMaster) {
+    @Override
+    public void runValidation() {
         Config applicationConfig = SparkUtils.loadApplicationProperty();
         String zkHost = applicationConfig.getString("solr.zkhost");
-        try (JavaSparkContext sparkContext = getSparkContext(applicationConfig, sparkMaster)) {
-            JobParameter jobParameter =
-                    JobParameter.builder()
-                            .applicationConfig(applicationConfig)
-                            .releaseName(releaseName)
-                            .sparkContext(sparkContext)
-                            .build();
+        try {
             long reviewed = 0;
             long reviewedIsoform = 0;
             long unReviewed = 0;
@@ -88,11 +72,7 @@ public class ValidateUniProtKBSolrIndexMain {
             long rddReviewedIsoform = getRDDReviewedIsoformCount(flatFileRDD);
             long rddUnReviewed = getRDDUnreviewedCount(flatFileRDD);
 
-            String hpsOutputFilePath =
-                    getCollectionOutputReleaseDirPath(
-                            applicationConfig, releaseName, SolrCollection.uniprot);
-            JavaRDD<SolrInputDocument> outputDocuments =
-                    getOutputUniProtKBDocuments(sparkContext, hpsOutputFilePath);
+            JavaRDD<SolrInputDocument> outputDocuments = getOutputUniProtKBDocuments();
 
             long outputReviewed = getOutputReviewedCount(outputDocuments);
             long outputReviewedIsoform = getOutputReviewedIsoformCount(outputDocuments);
@@ -155,20 +135,22 @@ public class ValidateUniProtKBSolrIndexMain {
         } catch (SparkIndexException e) {
             throw e;
         } catch (Exception e) {
-            throw new IndexHPSDocumentsException("Unexpected error during index", e);
+            throw new IndexHPSDocumentsException("Unexpected error during uniprot validation.", e);
         } finally {
-            log.info("Finished all Jobs!!!");
+            log.info("Finished check for uniprot");
         }
-        return true;
     }
 
-    JavaSparkContext getSparkContext(Config applicationConfig, String sparkMaster) {
-        return SparkUtils.loadSparkContext(applicationConfig, sparkMaster);
-    }
-
-    JavaRDD<SolrInputDocument> getOutputUniProtKBDocuments(
-            JavaSparkContext sparkContext, String hpsOutputFilePath) {
-        return sparkContext.objectFile(hpsOutputFilePath).map(obj -> (SolrInputDocument) obj);
+    JavaRDD<SolrInputDocument> getOutputUniProtKBDocuments() {
+        String hpsOutputFilePath =
+                getCollectionOutputReleaseDirPath(
+                        jobParameter.getApplicationConfig(),
+                        jobParameter.getReleaseName(),
+                        SolrCollection.uniprot);
+        return jobParameter
+                .getSparkContext()
+                .objectFile(hpsOutputFilePath)
+                .map(obj -> (SolrInputDocument) obj);
     }
 
     private long getOutputUnreviewedCount(JavaRDD<SolrInputDocument> outputDocuments) {
@@ -180,7 +162,7 @@ public class ValidateUniProtKBSolrIndexMain {
     }
 
     private long getOutputReviewedIsoformCount(JavaRDD<SolrInputDocument> outputDocuments) {
-        return outputDocuments.filter(ValidateUniProtKBSolrIndexMain::filterIsoform).count();
+        return outputDocuments.filter(UniProtKBSolrIndexValidator::filterIsoform).count();
     }
 
     private static boolean filterIsoform(SolrInputDocument doc) {
@@ -197,7 +179,7 @@ public class ValidateUniProtKBSolrIndexMain {
     }
 
     private long getOutputReviewedCount(JavaRDD<SolrInputDocument> outputDocuments) {
-        return outputDocuments.filter(ValidateUniProtKBSolrIndexMain::filterReviewed).count();
+        return outputDocuments.filter(UniProtKBSolrIndexValidator::filterReviewed).count();
     }
 
     private static boolean filterReviewed(SolrInputDocument doc) {
@@ -228,7 +210,7 @@ public class ValidateUniProtKBSolrIndexMain {
                             String acc = linesArray[1].split(";")[0];
                             return idLine.contains("Reviewed;") && acc.contains("-");
                         })
-                .filter(ValidateUniProtKBSolrIndexMain::filterCanonicalIsoform)
+                .filter(UniProtKBSolrIndexValidator::filterCanonicalIsoform)
                 .count();
     }
 
