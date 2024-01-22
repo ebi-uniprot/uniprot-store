@@ -3,11 +3,11 @@ package org.uniprot.store.indexer;
 import static java.util.Arrays.asList;
 import static org.slf4j.LoggerFactory.getLogger;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,8 +71,8 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
         loadPropertiesAndSetAsSystemProperties();
         temporaryFolder = Files.createTempDirectory("solr");
         System.setProperty("solr.data.home", temporaryFolder.toString());
-        File solrHome = new File(System.getProperty(ClosableEmbeddedSolrClient.SOLR_HOME));
-        container = new CoreContainer(solrHome.getAbsolutePath());
+        Path solrHome = Paths.get(System.getProperty(ClosableEmbeddedSolrClient.SOLR_HOME));
+        container = new CoreContainer(solrHome, new Properties());
         container.load();
     }
 

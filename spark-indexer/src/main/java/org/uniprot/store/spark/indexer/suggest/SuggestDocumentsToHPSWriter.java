@@ -197,6 +197,7 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .map(
                                 doc -> {
                                     doc.dictionary = CHEBI.name();
+                                    doc.suggestId = CHEBI.name() + "_" + doc.id;
                                     return doc;
                                 })
                         .distinct();

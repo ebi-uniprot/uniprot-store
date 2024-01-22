@@ -2,8 +2,11 @@ package org.uniprot.store.indexer.search;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -178,10 +181,10 @@ public abstract class AbstractSearchEngine<E> implements BeforeAllCallback, Afte
         System.setProperty("solr.core.name", "uniprot");
         System.setProperty("solr.ulog.dir", indexHome.getAbsolutePath() + "/tlog");
 
-        File solrConfigDir = new File(SOLR_CONFIG_DIR);
+        Path solrConfigDir = Paths.get(SOLR_CONFIG_DIR);
 
-        logger.info(solrConfigDir.getAbsolutePath());
-        CoreContainer container = new CoreContainer(solrConfigDir.getAbsolutePath());
+        logger.info(solrConfigDir.toString());
+        CoreContainer container = new CoreContainer(solrConfigDir, new Properties());
 
         container.load();
         container.waitForLoadingCoresToFinish((long) 60 * 1000);
