@@ -42,8 +42,9 @@ public class ProteomeStatisticsMapper
         return Arrays.stream(lines)
                 .filter(line -> line.startsWith(DR_PROTEOMES))
                 .map(line -> line.split(";")[1].strip())
+                .distinct()
                 .map(proteomeId -> new Tuple2<>(proteomeId, proteomeStatistics))
-                .collect(Collectors.toList())
+                .toList()
                 .iterator();
     }
 
