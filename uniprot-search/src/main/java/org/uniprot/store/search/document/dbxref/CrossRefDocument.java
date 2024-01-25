@@ -1,5 +1,8 @@
 package org.uniprot.store.search.document.dbxref;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,7 +32,8 @@ public class CrossRefDocument implements Document {
     @Field("link_type")
     private String linkType;
 
-    @Field private String server;
+    @Field("server")
+    private List<String> servers = new ArrayList<>();
 
     @Field("db_url")
     private String dbUrl;

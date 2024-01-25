@@ -112,6 +112,27 @@ class SearchFieldConfigImplTest {
     }
 
     @Test
+    void testEncodedInSearchItem() {
+        Optional<SearchFieldItem> optionalItem =
+                searchFieldConfig.getSearchFieldItems().stream()
+                        .filter(val -> "Encoded in".equals(val.getLabel()))
+                        .findFirst();
+        assertTrue(optionalItem.isPresent());
+        SearchFieldItem item = optionalItem.get();
+        assertEquals("organelle", item.getFieldName());
+        assertEquals(SearchFieldDataType.ENUM, item.getDataType());
+        assertNull(item.getAutoComplete());
+        assertNotNull(item.getValues());
+        assertEquals(10, item.getValues().size());
+        Optional<SearchFieldItem.Value> plasmidValue =
+                item.getValues().stream()
+                        .filter(val -> val.getName().equals("Plasmid"))
+                        .findFirst();
+        assertTrue(plasmidValue.isPresent());
+        assertEquals("plasmid", plasmidValue.get().getValue());
+    }
+
+    @Test
     void testFunctionCatalyticActivity() {
         Optional<SearchFieldItem> functionItem =
                 searchFieldConfig.getAllFieldItems().stream()

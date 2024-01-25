@@ -149,7 +149,12 @@ class SuggestDocumentsToHPSWriterTest {
         assertNotNull(suggestRdd);
         long count = suggestRdd.count();
         assertEquals(8L, count);
-        SuggestDocument document = suggestRdd.first();
+        SuggestDocument document =
+                suggestRdd.collect().stream()
+                        .filter(c -> c.id.equals("0005719"))
+                        .findFirst()
+                        .orElseThrow(AssertionFailedError::new);
+        ;
 
         assertNotNull(document);
         assertEquals(GO.name(), document.dictionary);
@@ -242,21 +247,14 @@ class SuggestDocumentsToHPSWriterTest {
 
         assertEquals(0, document.altValues.size());
 
-        List<String> chebiIds =
-                chebiDocs.stream().map(SuggestDocument::getDocumentId).collect(Collectors.toList());
+        List<String> chebiIds = chebiDocs.stream().map(doc -> doc.id).collect(Collectors.toList());
         List<String> cofactorIds =
-                cofactorDocs.stream()
-                        .map(SuggestDocument::getDocumentId)
-                        .collect(Collectors.toList());
+                cofactorDocs.stream().map(doc -> doc.id).collect(Collectors.toList());
         List<String> catalyticIds =
-                catalyticDocs.stream()
-                        .map(SuggestDocument::getDocumentId)
-                        .collect(Collectors.toList());
+                catalyticDocs.stream().map(doc -> doc.id).collect(Collectors.toList());
 
         List<String> bindingIds =
-                catalyticDocs.stream()
-                        .map(SuggestDocument::getDocumentId)
-                        .collect(Collectors.toList());
+                catalyticDocs.stream().map(doc -> doc.id).collect(Collectors.toList());
 
         assertTrue(chebiIds.containsAll(cofactorIds));
         assertTrue(chebiIds.containsAll(catalyticIds));

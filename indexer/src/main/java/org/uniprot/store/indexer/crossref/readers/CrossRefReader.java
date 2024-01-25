@@ -113,74 +113,87 @@ public class CrossRefReader implements ItemReader<CrossRefEntry> {
 
     private CrossRefEntry convertToDBXRef(String linesStr) {
         String[] lines = linesStr.split(LINE_SEP);
-        String acc = null, abbr = null, name = null, pubMedId = null, doiId = null;
-        String lType = null, server = null, url = null, cat = null;
-
+        boolean processingServer = false;
+        CrossRefEntryBuilder builder = new CrossRefEntryBuilder();
+        String abbr = null;
         for (String line : lines) {
             String[] keyVal = line.split(KEY_VAL_SEPARATOR);
             switch (keyVal[0].trim()) {
                 case AC_STR:
-                    acc = keyVal[1].trim();
+                    builder.id(keyVal[1].trim());
+                    processingServer = false;
                     break;
                 case ABBREV_STR:
                     abbr = keyVal[1].trim();
+                    builder.abbrev(abbr);
+                    processingServer = false;
                     break;
                 case NAME_STR:
-                    name = keyVal[1].trim();
+                    builder.name(keyVal[1].trim());
+                    processingServer = false;
                     break;
                 case REF_STR:
                     String[] refIdPairs = keyVal[1].trim().split(REF_SEPARATOR);
                     if (refIdPairs.length == 2) {
-                        pubMedId =
+                        String pubMedId =
                                 refIdPairs[0]
                                         .split(EQUAL_CHAR)[1]
                                         .replace(SEMI_COLON, EMPTY_CHAR)
                                         .trim();
-                        doiId =
+                        builder.pubMedId(pubMedId);
+                        String doiId =
                                 refIdPairs[1]
                                         .split(EQUAL_CHAR)[1]
                                         .replace(SEMI_COLON, EMPTY_CHAR)
                                         .trim();
+                        builder.doiId(doiId);
                     } else if (refIdPairs.length == 1) {
                         String refIdType = refIdPairs[0].split(EQUAL_CHAR)[0].trim();
                         if (REF_TYPE_DOI.equalsIgnoreCase(refIdType)) {
-                            doiId =
+                            String doiId =
                                     refIdPairs[0]
                                             .split(EQUAL_CHAR)[1]
                                             .replace(SEMI_COLON, EMPTY_CHAR)
                                             .trim();
+                            builder.doiId(doiId);
                         } else if (REF_TYPE_PUBMED.equalsIgnoreCase(refIdType)) {
-                            pubMedId =
+                            String pubMedId =
                                     refIdPairs[0]
                                             .split(EQUAL_CHAR)[1]
                                             .replace(SEMI_COLON, EMPTY_CHAR)
                                             .trim();
+                            builder.pubMedId(pubMedId);
                         }
                     }
+                    processingServer = false;
                     break;
                 case LINK_TP_STR:
-                    lType = keyVal[1].trim();
+                    String lType = keyVal[1].trim();
                     if (lType.startsWith(IMPLICIT)) {
                         lType = IMPLICIT;
                     }
+                    builder.linkType(lType);
+                    processingServer = false;
                     break;
                 case SERVER_STR:
-                    server = keyVal[1].trim();
+                    builder.serversAdd(keyVal[1].trim());
+                    processingServer = true;
                     break;
                 case DB_URL_STR:
-                    url = keyVal[1].trim();
+                    builder.dbUrl(keyVal[1].trim());
+                    processingServer = false;
                     break;
                 case CAT_STR:
-                    cat = keyVal[1].trim();
+                    builder.category(keyVal[1].trim());
+                    processingServer = false;
                     break;
-                default: // do nothing
+                default:
+                    if (processingServer) {
+                        builder.serversAdd(keyVal[0].trim());
+                    }
+                    break;
             }
         }
-
-        CrossRefEntryBuilder builder = new CrossRefEntryBuilder();
-        builder.id(acc).abbrev(abbr).name(name);
-        builder.pubMedId(pubMedId).doiId(doiId).linkType(lType).server(server);
-        builder.dbUrl(url).category(cat);
 
         // update the reviewed and unreviewed protein count
         CrossRefUniProtCountReader.CrossRefProteinCount crossRefProteinCount =

@@ -14,7 +14,7 @@ public class CrossRefProcessor implements ItemProcessor<CrossRefEntry, CrossRefD
         builder.abbrev(crossRefEntry.getAbbrev()).id(crossRefEntry.getId());
         builder.dbUrl(crossRefEntry.getDbUrl()).doiId(crossRefEntry.getDoiId());
         builder.linkType(crossRefEntry.getLinkType()).name(crossRefEntry.getName());
-        builder.pubMedId(crossRefEntry.getPubMedId()).server(crossRefEntry.getServer());
+        builder.pubMedId(crossRefEntry.getPubMedId()).servers(crossRefEntry.getServers());
         if (Utils.notNull(crossRefEntry.getStatistics())) {
             Statistics statistics = crossRefEntry.getStatistics();
             builder.reviewedProteinCount(statistics.getReviewedProteinCount());

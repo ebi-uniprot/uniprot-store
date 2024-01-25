@@ -97,7 +97,11 @@ class CrossRefJobIT {
         assertThat(xrefDoc.getPubMedId(), is("19671381"));
         assertThat(xrefDoc.getDoiId(), is("10.1007/s11882-009-0055-9"));
         assertThat(xrefDoc.getLinkType(), is("Explicit"));
-        assertThat(xrefDoc.getServer(), is("http://www.allergome.org/"));
+        assertThat(xrefDoc.getServers(), notNullValue());
+        assertThat(xrefDoc.getServers().size(), is(3));
+        assertThat(xrefDoc.getServers().get(0), is("http://www.allergome.org/"));
+        assertThat(xrefDoc.getServers().get(1), is("http://www.allergomeplus.org/"));
+        assertThat(xrefDoc.getServers().get(2), is("http://www.allergomeplusplus.org/"));
         assertThat(
                 xrefDoc.getDbUrl(),
                 is("http://www.allergome.org/script/dettaglio.php?id_molecule=%s"));

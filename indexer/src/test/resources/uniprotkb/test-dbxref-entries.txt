@@ -40,6 +40,8 @@ Name  : Allergome; a platform for allergen knowledge
 Ref   : PubMed=19671381; DOI=10.1007/s11882-009-0055-9;
 LinkTp: Explicit
 Server: http://www.allergome.org/
+        http://www.allergomeplus.org/
+        http://www.allergomeplusplus.org/
 Db_URL: http://www.allergome.org/script/dettaglio.php?id_molecule=%s
 Cat   : Protein family/group databases
 

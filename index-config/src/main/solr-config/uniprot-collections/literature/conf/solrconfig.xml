@@ -14,7 +14,7 @@
 	file, see http://wiki.apache.org/solr/SolrConfigXml. -->
 <config>
 
-	<luceneMatchVersion>8.5.2</luceneMatchVersion>
+	<luceneMatchVersion>8.11.2</luceneMatchVersion>
 
 	<dataDir>${solr.data.home}/${solr.core.name}/data</dataDir>
 
@@ -29,8 +29,6 @@
 		<ramBufferSizeMB>${ram.buffer.size:512}</ramBufferSizeMB>
 		<lockType>${solr.lock.type:native}</lockType>
 	</indexConfig>
-
-	<jmx />
 
 	<updateHandler class="solr.DirectUpdateHandler2">
 		<updateLog>
