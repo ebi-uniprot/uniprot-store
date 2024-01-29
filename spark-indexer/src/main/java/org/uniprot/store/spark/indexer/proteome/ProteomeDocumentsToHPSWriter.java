@@ -1,5 +1,6 @@
 package org.uniprot.store.spark.indexer.proteome;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.Optional;
@@ -24,6 +25,7 @@ import scala.Tuple2;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
+@Slf4j
 public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
     private final JobParameter jobParameter;
     private final ProteomeRDDReader proteomeRDDReader;
@@ -88,11 +90,11 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
                                                         .getTaxonomy()
                                                         .getTaxonId()),
                                         proteomeIdProteomeEntryTuple2._1));
-        System.out.println("********proteome count" + proteomeIdProteomeEntryJavaPairRDD.values().count());
+        log.info("********proteome count" + proteomeIdProteomeEntryJavaPairRDD.values().count());
 
         // <taxId, taxEntry>
         JavaPairRDD<String, TaxonomyEntry> taxIdTaxEntryRDD = getTaxonomyRDD();
-        System.out.println("********** taxon count" + taxIdTaxEntryRDD.values().count());
+        log.info("********** taxon count" + taxIdTaxEntryRDD.values().count());
 
         // <proteomeId, taxonEntry>
         JavaPairRDD<String, Optional<TaxonomyEntry>> proteomeIdTaxonomyEntryJavaPairRDD =
@@ -109,7 +111,7 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
                 .join(proteomeIdTaxonomyEntryJavaPairRDD)
                 .mapValues(getTaxonomyToProteomeEntryMapper());
 
-        System.out.println("************Final count" + stringProteomeEntryJavaPairRDD.values().count());
+        log.info("************Final count" + stringProteomeEntryJavaPairRDD.values().count());
 
         return stringProteomeEntryJavaPairRDD;
     }
