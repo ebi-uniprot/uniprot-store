@@ -1,7 +1,5 @@
 package org.uniprot.store.spark.indexer.proteome;
 
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.Optional;
@@ -22,8 +20,9 @@ import org.uniprot.store.spark.indexer.proteome.mapper.ProteomeStatisticsToProte
 import org.uniprot.store.spark.indexer.proteome.mapper.TaxonomyToProteomeEntryMapper;
 import org.uniprot.store.spark.indexer.proteome.reader.ProteomeStatisticsReader;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
-
 import scala.Tuple2;
+
+import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
 public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
     private final JobParameter jobParameter;
@@ -63,7 +62,7 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
     }
 
     PairFunction<Tuple2<ProteomeEntry, Optional<Integer>>, String, ProteomeEntry>
-            getProteomeGeneCountToProteomeEntryMapper() {
+    getProteomeGeneCountToProteomeEntryMapper() {
         return proteomeEntryProteomeGeneCountTuple2 ->
                 new Tuple2<>(
                         proteomeEntryProteomeGeneCountTuple2._1.getId().getValue(),
@@ -81,16 +80,20 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
         // <organismId, proteomeId>
         JavaPairRDD<String, String> taxIdProteomeIdJavaRDD =
                 proteomeIdProteomeEntryJavaPairRDD.mapToPair(
-                        proteomeIdProteomeDocumentTuple2 ->
+                        proteomeIdProteomeEntryTuple2 ->
                                 new Tuple2<>(
                                         String.valueOf(
-                                                proteomeIdProteomeDocumentTuple2
+                                                proteomeIdProteomeEntryTuple2
                                                         ._2
                                                         .getTaxonomy()
                                                         .getTaxonId()),
-                                        proteomeIdProteomeDocumentTuple2._1));
+                                        proteomeIdProteomeEntryTuple2._1));
+        System.out.println("********proteome count" + proteomeIdProteomeEntryJavaPairRDD.values().count());
+
         // <taxId, taxEntry>
         JavaPairRDD<String, TaxonomyEntry> taxIdTaxEntryRDD = getTaxonomyRDD();
+        System.out.println("********** taxon count" + taxIdTaxEntryRDD.values().count());
+
         // <proteomeId, taxonEntry>
         JavaPairRDD<String, Optional<TaxonomyEntry>> proteomeIdTaxonomyEntryJavaPairRDD =
                 taxIdProteomeIdJavaRDD
@@ -101,13 +104,18 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
                                         new Tuple2<>(
                                                 proteomeIdTaxEntryOptTuple2._1,
                                                 proteomeIdTaxEntryOptTuple2._2));
-        return proteomeIdProteomeEntryJavaPairRDD
+
+        JavaPairRDD<String, ProteomeEntry> stringProteomeEntryJavaPairRDD = proteomeIdProteomeEntryJavaPairRDD
                 .join(proteomeIdTaxonomyEntryJavaPairRDD)
                 .mapValues(getTaxonomyToProteomeEntryMapper());
+
+        System.out.println("************Final count" + stringProteomeEntryJavaPairRDD.values().count());
+
+        return stringProteomeEntryJavaPairRDD;
     }
 
     Function<Tuple2<ProteomeEntry, Optional<TaxonomyEntry>>, ProteomeEntry>
-            getTaxonomyToProteomeEntryMapper() {
+    getTaxonomyToProteomeEntryMapper() {
         return new TaxonomyToProteomeEntryMapper();
     }
 
@@ -119,7 +127,7 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
     }
 
     Function<Tuple2<ProteomeEntry, Optional<ProteomeStatistics>>, ProteomeEntry>
-            getProteomeStatisticsToProteomeEntryMapper() {
+    getProteomeStatisticsToProteomeEntryMapper() {
         return new ProteomeStatisticsToProteomeEntryMapper();
     }
 
