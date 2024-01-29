@@ -1,17 +1,6 @@
 package org.uniprot.store.spark.indexer.proteome.mapper;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.core.proteome.CPDStatus.STANDARD;
-import static org.uniprot.core.proteome.ProteomeDatabase.BIOSAMPLE;
-import static org.uniprot.core.proteome.ProteomeDatabase.GENOME_ACCESSION;
-import static org.uniprot.core.proteome.ProteomeType.*;
-
-import java.util.List;
-
 import lombok.Data;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +13,16 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
+
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.core.proteome.CPDStatus.STANDARD;
+import static org.uniprot.core.proteome.ProteomeDatabase.BIOSAMPLE;
+import static org.uniprot.core.proteome.ProteomeDatabase.GENOME_ACCESSION;
+import static org.uniprot.core.proteome.ProteomeType.*;
 
 class ProteomeEntryToProteomeDocumentMapperTest {
 
@@ -38,8 +37,6 @@ class ProteomeEntryToProteomeDocumentMapperTest {
     private static final String GENOME_ASSEMBLY_ID = "genomeAssemblyId";
     private static final String GENOME_ACCESSION_0 = "genomeAccession0";
     private static final String BIO_SAMPLE_0 = "bioSample0";
-    private static final int PROTEIN_COUNT_0 = 23;
-    private static final int PROTEIN_COUNT_1 = 99;
     private static final int ANNOTATION_SCORE = 479;
     private static final CPDStatus cPDStatus = STANDARD;
     private static final ProteomeType PROTEOME_TYPE = NORMAL;
@@ -91,7 +88,6 @@ class ProteomeEntryToProteomeDocumentMapperTest {
             new ComponentBuilder()
                     .name(COMPONENT_NAME_0)
                     .genomeAnnotation(GENOMIC_ANNOTATION_0)
-                    .proteinCount(PROTEIN_COUNT_0)
                     .proteomeCrossReferencesAdd(
                             new CrossReferenceBuilder<ProteomeDatabase>()
                                     .database(GENOME_ACCESSION)
@@ -102,7 +98,6 @@ class ProteomeEntryToProteomeDocumentMapperTest {
             new ComponentBuilder()
                     .name(COMPONENT_NAME_1)
                     .genomeAnnotation(GENOMIC_ANNOTATION_1)
-                    .proteinCount(PROTEIN_COUNT_1)
                     .proteomeCrossReferencesAdd(
                             new CrossReferenceBuilder<ProteomeDatabase>()
                                     .database(BIOSAMPLE)
@@ -124,6 +119,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                     .build();
     private static final GenomeAssembly GENOME_ASSEMBLY =
             new GenomeAssemblyBuilder().assemblyId(GENOME_ASSEMBLY_ID).build();
+    public static final int PROTEIN_COUNT = 93;
     private final ProteomeEntryToProteomeDocumentMapper proteomeEntryToProteomeDocumentMapper =
             new ProteomeEntryToProteomeDocumentMapper();
     private ProteomeEntryBuilder proteomeEntryBuilder;
@@ -135,6 +131,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                         .proteomeId(ID)
                         .taxonomy(TAX_ENTRY_1)
                         .strain(STRAIN)
+                        .proteinCount(PROTEIN_COUNT)
                         .componentsSet(List.of(COMPONENT_0, COMPONENT_1, COMPONENT_2))
                         .genomeAssembly(GENOME_ASSEMBLY)
                         .annotationScore(ANNOTATION_SCORE)
@@ -172,7 +169,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
         assertEquals(ANNOTATION_SCORE, proteomeDocument.score);
         assertThat(proteomeDocument.genomeAccession, contains(GENOME_ACCESSION_0));
         assertEquals(genomeAssembly, proteomeDocument.genomeAssembly);
-        assertEquals(PROTEIN_COUNT_0 + PROTEIN_COUNT_1, proteomeDocument.proteinCount);
+        assertEquals(PROTEIN_COUNT, proteomeDocument.proteinCount);
         assertEquals(busco, proteomeDocument.busco);
         assertSame(cPDStatus.getId(), proteomeDocument.cpd);
         assertEquals(proteomeTypeInfo.proteomeType, proteomeDocument.proteomeType);
