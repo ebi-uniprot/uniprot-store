@@ -2,6 +2,8 @@ package org.uniprot.store.search.field.validator;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.uniprot.store.search.field.validator.FieldRegexConstants.UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE;
+import static org.uniprot.store.search.field.validator.FieldRegexConstants.UNIPROTKB_ACCESSION_SEQUENCE_RANGE_REGEX;
 
 import org.junit.jupiter.api.Test;
 
@@ -106,7 +108,11 @@ class FieldRegexConstantsTest {
     }
 
     @Test
-    void testUniProtKBAccessionWithSequence() {
+    void testUniProtKBAccessionOrIdWithOptionalSequence() {
+        assertTrue("P21802".matches(FieldRegexConstants.UNIPROTKB_ACCESSION_OR_ID));
+        assertTrue("P21802.4".matches(FieldRegexConstants.UNIPROTKB_ACCESSION_OR_ID));
+        assertTrue("MOTSC_HUMAN".matches(FieldRegexConstants.UNIPROTKB_ACCESSION_OR_ID));
+        assertTrue("P21802-4".matches(FieldRegexConstants.UNIPROTKB_ACCESSION_OR_ID));
         assertTrue("P21802[10-20]".matches(FieldRegexConstants.UNIPROTKB_ACCESSION_OR_ID));
         assertTrue("P21802[20-30]".matches(FieldRegexConstants.UNIPROTKB_ACCESSION_OR_ID));
         assertTrue("P21802-1[10-20]".matches(FieldRegexConstants.UNIPROTKB_ACCESSION_OR_ID));
@@ -122,5 +128,34 @@ class FieldRegexConstantsTest {
         assertFalse("PHOSP_1[10-20]".matches(FieldRegexConstants.UNIPROTKB_ACCESSION_OR_ID));
         // Need to validate this kind of invalid range in application code
         assertTrue("P21802[40-30]".matches(FieldRegexConstants.UNIPROTKB_ACCESSION_OR_ID));
+    }
+
+    @Test
+    void testUniProtKBAccessionWithSequenceOnlyRegex() {
+        assertTrue(UNIPROTKB_ACCESSION_SEQUENCE_RANGE_REGEX.matcher("P21802[10-20]").matches());
+        assertTrue(UNIPROTKB_ACCESSION_SEQUENCE_RANGE_REGEX.matcher("P21802-1[10-20]").matches());
+        assertFalse(UNIPROTKB_ACCESSION_SEQUENCE_RANGE_REGEX.matcher("P21802").matches());
+        assertFalse(UNIPROTKB_ACCESSION_SEQUENCE_RANGE_REGEX.matcher("P21802-1").matches());
+        assertFalse(UNIPROTKB_ACCESSION_SEQUENCE_RANGE_REGEX.matcher("P21802.3").matches());
+        assertFalse(UNIPROTKB_ACCESSION_SEQUENCE_RANGE_REGEX.matcher("P21802.3[10-20]").matches());
+        assertFalse(UNIPROTKB_ACCESSION_SEQUENCE_RANGE_REGEX.matcher("PPNP_BURCJ").matches());
+    }
+
+    @Test
+    void testUniProtKBAccessionWithOptionalSequenceRegex() {
+        assertTrue(UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE.matcher("P21802[10-20]").matches());
+        assertTrue(UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE.matcher("P21802-1[10-20]").matches());
+        assertTrue(UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE.matcher("P21802").matches());
+        assertTrue(UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE.matcher("P21802-1").matches());
+        assertFalse(UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE.matcher("P21802.3").matches());
+        assertFalse(UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE.matcher("P21802.3[10-20]").matches());
+        assertFalse(UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE.matcher("MOTSC_HUMAN").matches());
+        assertFalse(UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE.matcher("P21802[10-]").matches());
+        assertFalse(UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE.matcher("P21802[-20]").matches());
+        assertFalse(UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE.matcher("P21802[-]").matches());
+        assertFalse(UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE.matcher("P21802[]").matches());
+        assertFalse(UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE.matcher("P21802[1.2-2]").matches());
+        assertFalse(UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE.matcher("P21802[1-2.3]").matches());
+        assertFalse(UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE.matcher("P21802[1.0-2.3]").matches());
     }
 }
