@@ -50,17 +50,21 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
         JavaPairRDD<String, ProteomeDocument> idProteomeDocumentJavaPairRDD =
                 proteomeIdProteomeEntryJavaPairRDD.mapValues(
                         getProteomeEntryToProteomeDocumentMapper());
-
+        log.info("*************just before saving"+idProteomeDocumentJavaPairRDD.values().count());
         saveToHPS(idProteomeDocumentJavaPairRDD.values());
     }
 
     private JavaPairRDD<String, ProteomeEntry> joinGeneCounts(
             JavaPairRDD<String, ProteomeEntry> proteomeIdProteomeEntryJavaPairRDD) {
+        log.info("*********proteomes total"+proteomeIdProteomeEntryJavaPairRDD.values().count());
         JavaPairRDD<String, Integer> proteomeIdToProteomeGeneCount = getProteomeGeneCountRDD();
-        return proteomeIdProteomeEntryJavaPairRDD
+        log.info("*********genecount total"+proteomeIdToProteomeGeneCount.values().count());
+        JavaPairRDD<String, ProteomeEntry> stringProteomeEntryJavaPairRDD = proteomeIdProteomeEntryJavaPairRDD
                 .leftOuterJoin(proteomeIdToProteomeGeneCount)
                 .values()
                 .mapToPair(getProteomeGeneCountToProteomeEntryMapper());
+        log.info("******************after adding gene counts "+stringProteomeEntryJavaPairRDD.values().count());
+        return stringProteomeEntryJavaPairRDD;
     }
 
     PairFunction<Tuple2<ProteomeEntry, Optional<Integer>>, String, ProteomeEntry>
@@ -90,11 +94,9 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
                                                         .getTaxonomy()
                                                         .getTaxonId()),
                                         proteomeIdProteomeEntryTuple2._1));
-        log.info("********proteome count" + proteomeIdProteomeEntryJavaPairRDD.values().count());
 
         // <taxId, taxEntry>
         JavaPairRDD<String, TaxonomyEntry> taxIdTaxEntryRDD = getTaxonomyRDD();
-        log.info("********** taxon count" + taxIdTaxEntryRDD.values().count());
 
         // <proteomeId, taxonEntry>
         JavaPairRDD<String, Optional<TaxonomyEntry>> proteomeIdTaxonomyEntryJavaPairRDD =
@@ -107,13 +109,9 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
                                                 proteomeIdTaxEntryOptTuple2._1,
                                                 proteomeIdTaxEntryOptTuple2._2));
 
-        JavaPairRDD<String, ProteomeEntry> stringProteomeEntryJavaPairRDD = proteomeIdProteomeEntryJavaPairRDD
+        return proteomeIdProteomeEntryJavaPairRDD
                 .join(proteomeIdTaxonomyEntryJavaPairRDD)
                 .mapValues(getTaxonomyToProteomeEntryMapper());
-
-        log.info("************Final count" + stringProteomeEntryJavaPairRDD.values().count());
-
-        return stringProteomeEntryJavaPairRDD;
     }
 
     Function<Tuple2<ProteomeEntry, Optional<TaxonomyEntry>>, ProteomeEntry>
