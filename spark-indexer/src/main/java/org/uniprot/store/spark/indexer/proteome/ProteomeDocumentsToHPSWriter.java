@@ -50,21 +50,21 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
         JavaPairRDD<String, ProteomeDocument> idProteomeDocumentJavaPairRDD =
                 proteomeIdProteomeEntryJavaPairRDD.mapValues(
                         getProteomeEntryToProteomeDocumentMapper());
-        log.info("*************just before saving"+idProteomeDocumentJavaPairRDD.values().count());
+
         saveToHPS(idProteomeDocumentJavaPairRDD.values());
     }
 
     private JavaPairRDD<String, ProteomeEntry> joinGeneCounts(
             JavaPairRDD<String, ProteomeEntry> proteomeIdProteomeEntryJavaPairRDD) {
-        log.info("*********proteomes total"+proteomeIdProteomeEntryJavaPairRDD.values().count());
+        log.info("*********proteomes total"+proteomeIdProteomeEntryJavaPairRDD.count());
         JavaPairRDD<String, Integer> proteomeIdToProteomeGeneCount = getProteomeGeneCountRDD();
-        log.info("*********genecount total"+proteomeIdToProteomeGeneCount.values().count());
-        log.info("*********genecount distinct total"+proteomeIdToProteomeGeneCount.distinct().values().count());
+        log.info("*********genecount total"+proteomeIdToProteomeGeneCount.count());
+        log.info("*********genecount distinct total"+proteomeIdToProteomeGeneCount.distinct().count());
         JavaPairRDD<String, ProteomeEntry> stringProteomeEntryJavaPairRDD = proteomeIdProteomeEntryJavaPairRDD
                 .leftOuterJoin(proteomeIdToProteomeGeneCount)
                 .values()
                 .mapToPair(getProteomeGeneCountToProteomeEntryMapper());
-        log.info("******************after adding gene counts "+stringProteomeEntryJavaPairRDD.values().count());
+        log.info("******************after adding gene total "+stringProteomeEntryJavaPairRDD.count());
         return stringProteomeEntryJavaPairRDD;
     }
 
