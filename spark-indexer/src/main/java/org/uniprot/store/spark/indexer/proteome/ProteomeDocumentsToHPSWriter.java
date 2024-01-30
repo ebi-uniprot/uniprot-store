@@ -59,6 +59,7 @@ public class ProteomeDocumentsToHPSWriter implements DocumentsToHPSWriter {
         log.info("*********proteomes total"+proteomeIdProteomeEntryJavaPairRDD.values().count());
         JavaPairRDD<String, Integer> proteomeIdToProteomeGeneCount = getProteomeGeneCountRDD();
         log.info("*********genecount total"+proteomeIdToProteomeGeneCount.values().count());
+        log.info("*********genecount distinct total"+proteomeIdToProteomeGeneCount.distinct().values().count());
         JavaPairRDD<String, ProteomeEntry> stringProteomeEntryJavaPairRDD = proteomeIdProteomeEntryJavaPairRDD
                 .leftOuterJoin(proteomeIdToProteomeGeneCount)
                 .values()
