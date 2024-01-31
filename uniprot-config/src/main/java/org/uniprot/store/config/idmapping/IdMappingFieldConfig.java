@@ -312,6 +312,17 @@ public class IdMappingFieldConfig {
                         null,
                         "ENSEMBLGENOME_TRS_ID");
 
+        UniProtDatabaseDetail wbParasiteTranscript =
+                new UniProtDatabaseDetail(
+                        "WBParaSite Transcript/Protein",
+                        "WBParaSite Transcript/Protein",
+                        gma,
+                        "https://parasite.wormbase.org/id/%id",
+                        null,
+                        false,
+                        null,
+                        "WBPARASITE_TRS_PRO_ID");
+
         UniProtDatabaseCategory org = UniProtDatabaseCategory.ORGANISM_SPECIFIC_DATABASES;
         UniProtDatabaseDetail wormBaseProtein =
                 new UniProtDatabaseDetail(
@@ -344,6 +355,7 @@ public class IdMappingFieldConfig {
                 ensemblGenome,
                 ensemblGenomeProtein,
                 ensemblGenomeTrans,
+                wbParasiteTranscript,
                 wormBaseProtein,
                 wormBaseTranscript);
     }

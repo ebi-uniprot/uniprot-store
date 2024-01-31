@@ -2302,6 +2302,10 @@
         "value": "mitochondrion"
       },
       {
+        "name": "Plasmid",
+        "value": "plasmid"
+      },
+      {
         "name": "Plastid",
         "value": "plastid"
       },
@@ -2979,7 +2983,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by feature compositional bias",
-    "example": "glu-rich"
+    "example": "basic residues"
   },
   {
     "parentId": "compositional_bias",
@@ -2990,7 +2994,7 @@
     "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
     "description": "Search by experimental feature compositional bias",
-    "example": "glu-rich"
+    "example": "basic residues"
   },
   {
     "parentId": "family_domains",

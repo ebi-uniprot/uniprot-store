@@ -17,6 +17,7 @@
 
 <solr>
 
+	<str name="allowPaths">${solr.allowPaths:}</str>
 	<solrcloud>
 
 		<str name="host">${host:}</str>

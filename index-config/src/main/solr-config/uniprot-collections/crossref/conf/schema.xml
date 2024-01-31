@@ -32,7 +32,7 @@
 	<field name="link_type" type="string" indexed="false"
 		stored="true" multiValued="false" docValues="true" />
 	<field name="server" type="string" indexed="false" stored="true"
-		multiValued="false" />
+		multiValued="true" />
 	<field name="db_url" type="string" indexed="false" stored="true"
 		multiValued="false" />
 	<field name="category_str" type="full_ci" indexed="true"

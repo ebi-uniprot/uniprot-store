@@ -1,10 +1,10 @@
 package org.uniprot.store.indexer.crossref;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -35,12 +35,23 @@ class CrossRefReaderTest {
         assertNotNull(dbxRef, "Unable to read the dbxref file");
         verifyDBXRef(dbxRef);
         assertEquals("Implicit", dbxRef.getLinkType());
-        int count = 1;
-        while (reader.read() != null) {
-            count++;
+        Map<String, CrossRefEntry> idXrefMap = new HashMap<>();
+        idXrefMap.put(dbxRef.getId(), dbxRef);
+        while ((dbxRef = reader.read()) != null) {
+            idXrefMap.put(dbxRef.getId(), dbxRef);
         }
 
-        assertEquals(7, count);
+        String crossRefWithMultipleServers = "DB-0218";
+        assertEquals(8, idXrefMap.size());
+        assertTrue(idXrefMap.containsKey(crossRefWithMultipleServers));
+        verifyCrossRefWithMultipleServers(idXrefMap.get(crossRefWithMultipleServers));
+    }
+
+    void verifyCrossRefWithMultipleServers(CrossRefEntry dbxRef) {
+        assertFalse(dbxRef.getServers().isEmpty());
+        assertEquals(2, dbxRef.getServers().size());
+        assertEquals("https://www.disgenet.org/", dbxRef.getServers().get(0));
+        assertEquals("https://www.disgenetplus.com/", dbxRef.getServers().get(1));
     }
 
     private void verifyDBXRef(CrossRefEntry dbxRef) {
@@ -50,7 +61,8 @@ class CrossRefReaderTest {
         assertNotNull(dbxRef.getPubMedId(), "PUBMED ID is null");
         assertNotNull(dbxRef.getDoiId(), "DOI Id is null");
         assertNotNull(dbxRef.getLinkType(), "Link Type is null");
-        assertNotNull(dbxRef.getServer(), "Server is null");
+        assertNotNull(dbxRef.getServers(), "Server is null");
+        assertFalse(dbxRef.getServers().isEmpty());
         assertNotNull(dbxRef.getDbUrl(), "DB URL is null");
         assertNotNull(dbxRef.getCategory(), "Category is null");
     }
