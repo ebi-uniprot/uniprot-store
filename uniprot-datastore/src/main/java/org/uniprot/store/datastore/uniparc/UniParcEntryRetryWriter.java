@@ -2,9 +2,6 @@ package org.uniprot.store.datastore.uniparc;
 
 import java.io.StringWriter;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-
 import lombok.extern.slf4j.Slf4j;
 import net.jodah.failsafe.RetryPolicy;
 
@@ -13,6 +10,9 @@ import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.core.xml.uniparc.UniParcEntryConverter;
 import org.uniprot.store.job.common.store.Store;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
+
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.Marshaller;
 
 /**
  * @author lgonzales
