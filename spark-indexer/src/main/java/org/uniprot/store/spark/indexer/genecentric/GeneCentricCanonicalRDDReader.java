@@ -29,7 +29,8 @@ public class GeneCentricCanonicalRDDReader extends GeneCentricRDDReader {
     }
 
     public JavaPairRDD<String, Integer> loadProteomeGeneCounts() {
-        return loadWithMapper(new FastaToProteomeGeneCount());
+        return loadWithMapper(new FastaToProteomeGeneCount())
+                .aggregateByKey(0, Integer::sum,Integer::sum);
     }
 
     @Override
