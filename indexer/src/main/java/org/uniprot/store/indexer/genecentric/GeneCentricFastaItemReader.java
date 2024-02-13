@@ -63,7 +63,7 @@ public class GeneCentricFastaItemReader
     private GeneCentricEntry buildGeneCentricEntry(String fastaEntry) {
         String fileName = this.delegate.getResourceFileName();
         String upId = fileName.substring(0, fileName.indexOf("_"));
-        UniProtKBFasta fasta = UniProtKBFastaParser.fromFasta(fastaEntry);
+        UniProtKBFasta fasta = UniProtKBFastaParser.fromFastaString(fastaEntry);
         return new GeneCentricEntryBuilder()
                 .proteomeId(upId)
                 .canonicalProtein(ProteinBuilder.from(fasta).build())
