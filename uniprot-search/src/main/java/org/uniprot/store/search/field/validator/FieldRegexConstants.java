@@ -1,5 +1,7 @@
 package org.uniprot.store.search.field.validator;
 
+import java.util.regex.Pattern;
+
 /**
  * This class defines regular expressions as constants, for reference by other classes if needed.
  * Note that this provides static, compile time access to some regular expressions for fields.
@@ -14,7 +16,14 @@ public class FieldRegexConstants {
     public static final String UNIPROTKB_ACCESSION_REGEX =
             "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])(-[0-9]+)?";
     public static final String UNIPROTKB_ACCESSION_OR_ID =
-            "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])((-[0-9]{1,3})|(\\.[0-9]{1,3})|(_[A-Z0-9]{2,5}))?|[A-Z0-9]{2,5}_[A-Z0-9]{2,5}";
+            "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])(((-[0-9]{1,3})?(\\[\\d+-\\d+\\])?)|(\\.[0-9]{1,3})|(_[A-Z0-9]{2,5}))?|[A-Z0-9]{2,5}_[A-Z0-9]{2,5}";
+
+    public static final Pattern UNIPROTKB_ACCESSION_SEQUENCE_RANGE_REGEX =
+            Pattern.compile(UNIPROTKB_ACCESSION_REGEX + "(\\[\\d+-\\d+\\])");
+
+    public static final Pattern UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE =
+            Pattern.compile(
+                    "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])((-[0-9]{1,3})?)(\\[\\d+-\\d+\\])?");
 
     public static final String PROTEOME_ID_REGEX = "UP[0-9]{9}";
     public static final String UNIPARC_UPI_REGEX = "UPI[\\w]{10}";

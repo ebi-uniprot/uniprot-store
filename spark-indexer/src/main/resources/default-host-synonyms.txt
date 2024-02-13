@@ -12,7 +12,7 @@
 9615	Dog,Domestic dog,Beagle dog,Canis familiaris	high
 10036	Hamster,Golden hamster,Syrian hamster,M. auratus	high
 9793	Donkey,Ass,African donkey,African ass,E. asinus	high
-9989	Rabbit,Domestic rabbit,European rabbit,O. cuniculus	high
+9986	Rabbit,Domestic rabbit,European rabbit,O. cuniculus	high
 9823	Pig,Swine,Wild boar,S. scrofa	high
 9940	Sheep,Lamb,O. aries	high
 9544	Rhesus monkey,Rhesus macaque,M. mulatta	high

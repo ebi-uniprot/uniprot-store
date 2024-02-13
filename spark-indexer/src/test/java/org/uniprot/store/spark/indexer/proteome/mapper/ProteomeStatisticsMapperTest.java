@@ -51,6 +51,21 @@ class ProteomeStatisticsMapperTest {
     }
 
     @Test
+    void call_multipleProteomesComponents() {
+        Iterator<Tuple2<String, ProteomeStatistics>> iterator =
+                proteomeStatisticsMapper.call(getProteinWithTwoProteomeComponents());
+        List<Tuple2<String, ProteomeStatistics>> result = new LinkedList<>();
+        iterator.forEachRemaining(result::add);
+
+        assertThat(
+                result,
+                contains(
+                        new Tuple2<>(
+                                "UP000005640",
+                                new ProteomeStatisticsBuilder().reviewedProteinCount(1).build())));
+    }
+
+    @Test
     void call_singleUnreviewedProtein() {
         Iterator<Tuple2<String, ProteomeStatistics>> iterator =
                 proteomeStatisticsMapper.call(getUnreviewedProtein());
@@ -80,6 +95,15 @@ class ProteomeStatisticsMapperTest {
                 + "AC   A0A0C5B5G7;\n"
                 + "DR   Proteomes; UP000005640; Mitochondrion.\n"
                 + "DR   Proteomes; UP000005641; Mitochondrion.\n"
+                + "CC   -!- FUNCTION: Regulates insulin sensitivity and metabolic homeostasis\n"
+                + "CC       (PubMed:25738459, PubMed:33468709). Inhibits the folate cycle, thereby.";
+    }
+
+    private static String getProteinWithTwoProteomeComponents() {
+        return "ID   MOTSC_HUMAN             Reviewed;          16 AA.\n"
+                + "AC   A0A0C5B5G7;\n"
+                + "DR   Proteomes; UP000005640; Mitochondrion 1.\n"
+                + "DR   Proteomes; UP000005640; Mitochondrion 2.\n"
                 + "CC   -!- FUNCTION: Regulates insulin sensitivity and metabolic homeostasis\n"
                 + "CC       (PubMed:25738459, PubMed:33468709). Inhibits the folate cycle, thereby.";
     }
