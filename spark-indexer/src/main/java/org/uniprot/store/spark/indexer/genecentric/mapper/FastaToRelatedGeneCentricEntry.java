@@ -33,7 +33,7 @@ public class FastaToRelatedGeneCentricEntry extends FastaToGeneCentricEntry {
 
         UniProtKBFasta uniProtKBFasta;
         try {
-            uniProtKBFasta = UniProtKBFastaParser.fromFasta(fastaInput);
+            uniProtKBFasta = UniProtKBFastaParser.fromFastaString(fastaInput);
         } catch (Exception e) {
             throw new IndexHPSDocumentsException(
                     "In Proteome: " + proteomeId + ", unable to parse fastaInput: " + fastaInput,
