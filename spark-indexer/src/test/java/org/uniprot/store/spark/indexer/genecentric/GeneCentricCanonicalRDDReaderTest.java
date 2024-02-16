@@ -20,7 +20,6 @@ import org.uniprot.core.genecentric.GeneCentricEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
-import org.uniprot.store.spark.indexer.genecentric.mapper.FastaToProteomeGeneCount;
 import scala.Tuple2;
 
 import com.typesafe.config.Config;
@@ -96,14 +95,15 @@ class GeneCentricCanonicalRDDReaderTest {
     void loadProteomeGeneWithSplittedInputFileCounts() {
         Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
-                     SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)
                             .releaseName("2020_02")
                             .sparkContext(sparkContext)
                             .build();
-            FakeSliptGeneCentricCanonicalRDDReader reader = new FakeSliptGeneCentricCanonicalRDDReader(parameter);
+            FakeSliptGeneCentricCanonicalRDDReader reader =
+                    new FakeSliptGeneCentricCanonicalRDDReader(parameter);
 
             JavaPairRDD<String, Integer> uniprotRdd = reader.loadProteomeGeneCounts();
 
@@ -115,14 +115,20 @@ class GeneCentricCanonicalRDDReaderTest {
         }
     }
 
-    private static class FakeSliptGeneCentricCanonicalRDDReader extends GeneCentricCanonicalRDDReader{
+    private static class FakeSliptGeneCentricCanonicalRDDReader
+            extends GeneCentricCanonicalRDDReader {
 
         public FakeSliptGeneCentricCanonicalRDDReader(JobParameter jobParameter) {
             super(jobParameter);
         }
 
         @Override
-        protected <T> JavaPairRDD<String, T> loadWithMapper(Function2<InputSplit, Iterator<Tuple2<LongWritable, Text>>, Iterator<Tuple2<String, T>>> mapper) {
+        protected <T> JavaPairRDD<String, T> loadWithMapper(
+                Function2<
+                                InputSplit,
+                                Iterator<Tuple2<LongWritable, Text>>,
+                                Iterator<Tuple2<String, T>>>
+                        mapper) {
             return super.loadWithMapper(mapper).union(super.loadWithMapper(mapper));
         }
     }

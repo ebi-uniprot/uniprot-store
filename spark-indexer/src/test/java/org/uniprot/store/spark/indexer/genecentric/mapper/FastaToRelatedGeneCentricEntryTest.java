@@ -96,7 +96,7 @@ class FastaToRelatedGeneCentricEntryTest {
 
     @Test
     void readErrorInvalidFastaInput() {
-        String fastaInput = ">tr|A0A0G2KK10|A0A0G2KK10_DANRE\n" + "AVEEKIEWLESHQDADIEDFKA";
+        String fastaInput = ">tr|A0A0G2KK10\n" + "AVEEKIEWLESHQDADIEDFKA";
 
         FastaToRelatedGeneCentricEntry mapper = new FastaToRelatedGeneCentricEntry();
         String proteomeId = "UP000000554";
