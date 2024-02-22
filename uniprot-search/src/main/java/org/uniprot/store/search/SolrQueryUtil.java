@@ -224,18 +224,24 @@ public class SolrQueryUtil {
      * Although '/' is a special lucene character, the old uniprot website allows users to *not*
      * escape it. That is, they allow queries like, "hello/world", to pass unescaped through to
      * lucene. Therefore, in order to allow it, we should escape it here, allowing validation to
-     * "ignore" the forward slash.
+     * "ignore" the forward slash. lucene is converting less than < and > sign in range queries e.g.
+     * name<zzz is being converted to name:[* TO zzz} and name>aaa is being converted to name:{aaa
+     * TO *] So we are escaping > and < too.
      *
      * @param queryString the query string from the client
      * @return the query string with forward slashes appropriately escaped
      */
-    public static String replaceForwardSlashes(String queryString) {
+    public static String replaceForwardSlashesLessThanAndGreaterThan(String queryString) {
         StringBuilder sb = new StringBuilder();
         char prev = '\u00A0'; // an unprintable character very unlikely to be input
         for (int i = 0; i < queryString.length(); i++) {
             char curr = queryString.charAt(i);
             if (curr == '/' && prev != '\\') {
                 sb.append("\\/");
+            } else if (curr == '>' && prev != '\\') {
+                sb.append("\\>");
+            } else if (curr == '<' && prev != '\\') {
+                sb.append("\\<");
             } else {
                 sb.append(curr);
             }
