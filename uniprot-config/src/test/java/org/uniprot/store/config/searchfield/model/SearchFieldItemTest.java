@@ -5,6 +5,8 @@ import static org.uniprot.store.config.searchfield.model.SearchFieldItem.CONTEXT
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 /**
  * @author sahmad
  * @created 10/06/2021
@@ -23,6 +25,14 @@ class SearchFieldItemTest {
         String sampleAutoComplete = "sample/url";
         item.setAutoComplete(sampleAutoComplete);
         Assertions.assertEquals(sampleAutoComplete, item.getAutoComplete());
+    }
+
+    @Test
+    void testGetAliases() {
+        SearchFieldItem item = new SearchFieldItem();
+        List<String> aliases = List.of("a1","a2");
+        item.setAliases(aliases);
+        Assertions.assertEquals(aliases, item.getAliases());
     }
 
     @Test

@@ -1,10 +1,8 @@
 package org.uniprot.store.config.searchfield.common;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.lang3.StringUtils;
 import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.common.JsonLoader;
@@ -13,8 +11,8 @@ import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldType;
 import org.uniprot.store.config.searchfield.schema.SearchFieldDataValidator;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
@@ -54,11 +52,24 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
                 .collect(Collectors.toSet());
     }
 
+    @Override
     public SearchFieldItem getSearchFieldItemByName(String fieldName) {
+        return this.findSearchFieldItemByName(fieldName)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown field: " + fieldName));
+    }
+
+    @Override
+    public Optional<SearchFieldItem> findSearchFieldItemByName(String fieldName) {
         return this.getSearchFieldItems().stream()
                 .filter(fi -> fieldName.equalsIgnoreCase(fi.getFieldName()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Unknown field: " + fieldName));
+                .findFirst();
+    }
+
+    @Override
+    public Optional<SearchFieldItem> findSearchFieldItemByAlias(String alias) {
+        return this.getSearchFieldItems().stream()
+                .filter(fi -> fi.getAliases().stream().anyMatch(alias::equalsIgnoreCase))
+                .findFirst();
     }
 
     @Override
@@ -74,13 +85,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
 
     @Override
     public boolean searchFieldItemExists(String fieldName) {
-        boolean searchFieldExist = false;
-        try {
-            searchFieldExist = Objects.nonNull(this.getSearchFieldItemByName(fieldName));
-        } catch (IllegalArgumentException ile) {
-            // it means, search field doesn't exist
-        }
-        return searchFieldExist;
+        return this.findSearchFieldItemByName(fieldName).isPresent() || this.findSearchFieldItemByAlias(fieldName).isPresent();
     }
 
     @Override

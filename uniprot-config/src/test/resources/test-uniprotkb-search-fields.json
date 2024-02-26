@@ -676,6 +676,7 @@
     "parentId": "gene_ontology",
     "itemType": "SINGLE",
     "fieldName": "go",
+    "aliases": ["go_alias"],
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "autoComplete": "/uniprot/api/suggester?dict=go&query=?",

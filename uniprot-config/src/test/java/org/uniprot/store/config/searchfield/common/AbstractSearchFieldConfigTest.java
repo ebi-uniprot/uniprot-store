@@ -88,6 +88,12 @@ public class AbstractSearchFieldConfigTest {
     }
 
     @Test
+    void testDoesSearchFieldItemExist_givenAlias() {
+        String fieldName = "go_alias";
+        Assertions.assertTrue(testFieldConfig.searchFieldItemExists(fieldName));
+    }
+
+    @Test
     void testDoesSearchFieldItemExistWithNonExistingField() {
         String fieldName = "some random non-existing field";
         Assertions.assertFalse(testFieldConfig.searchFieldItemExists(fieldName));

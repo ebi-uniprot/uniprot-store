@@ -40,6 +40,12 @@
             "type": "string"
           }
         },
+        "aliases" : {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "fieldName" : {
           "type" : "string"
         },
