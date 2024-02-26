@@ -2,10 +2,10 @@ package org.uniprot.store.config.searchfield.model;
 
 import static org.uniprot.store.config.searchfield.model.SearchFieldItem.CONTEXT_PATH_TOKEN;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 /**
  * @author sahmad
@@ -30,7 +30,7 @@ class SearchFieldItemTest {
     @Test
     void testGetAliases() {
         SearchFieldItem item = new SearchFieldItem();
-        List<String> aliases = List.of("a1","a2");
+        List<String> aliases = List.of("a1", "a2");
         item.setAliases(aliases);
         Assertions.assertEquals(aliases, item.getAliases());
     }
