@@ -242,22 +242,20 @@ class SolrQueryUtilTest {
     void checkForwardSlashReplacements(String desc, String queryString, String expected) {
         assertThat(
                 desc,
-                SolrQueryUtil.replaceForwardSlashesLessThanAndGreaterThan(queryString),
+                SolrQueryUtil.escapeSpecialCharacters(queryString),
                 CoreMatchers.is(expected));
     }
 
     @Test
     void checkLessThanGreaterThanReplacements() {
         assertThat(
-                SolrQueryUtil.replaceForwardSlashesLessThanAndGreaterThan("name>aaa"),
-                CoreMatchers.is("name\\>aaa"));
+                SolrQueryUtil.escapeSpecialCharacters("name>aaa"), CoreMatchers.is("name\\>aaa"));
 
         assertThat(
-                SolrQueryUtil.replaceForwardSlashesLessThanAndGreaterThan("name<zzz"),
-                CoreMatchers.is("name\\<zzz"));
+                SolrQueryUtil.escapeSpecialCharacters("name<zzz"), CoreMatchers.is("name\\<zzz"));
 
         assertThat(
-                SolrQueryUtil.replaceForwardSlashesLessThanAndGreaterThan("name<>zzz"),
+                SolrQueryUtil.escapeSpecialCharacters("name<>zzz"),
                 CoreMatchers.is("name\\<\\>zzz"));
     }
 
