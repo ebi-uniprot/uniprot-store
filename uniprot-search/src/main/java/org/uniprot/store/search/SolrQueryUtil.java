@@ -231,7 +231,7 @@ public class SolrQueryUtil {
      * @param queryString the query string from the client
      * @return the query string with forward slashes appropriately escaped
      */
-    public static String replaceForwardSlashesLessThanAndGreaterThan(String queryString) {
+    public static String escapeSpecialCharacters(String queryString) {
         StringBuilder sb = new StringBuilder();
         char prev = '\u00A0'; // an unprintable character very unlikely to be input
         for (int i = 0; i < queryString.length(); i++) {
