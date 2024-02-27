@@ -596,6 +596,7 @@
   {
     "seqNumber": 7,
     "id": "existence",
+    "validRegex": "[1-5]",
     "label": "Protein Existence [PE]",
     "fieldName": "existence",
     "fieldType": "GENERAL",
