@@ -1,15 +1,17 @@
 package org.uniprot.store.config.searchfield.common;
 
-import java.util.List;
-import java.util.Set;
-
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldType;
 
-public class AbstractSearchFieldConfigTest {
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class AbstractSearchFieldConfigTest {
 
     private static SearchFieldConfig testFieldConfig;
 
@@ -21,32 +23,32 @@ public class AbstractSearchFieldConfigTest {
     @Test
     void testGetAllFieldItems() {
         List<SearchFieldItem> fieldItems = testFieldConfig.getAllFieldItems();
-        Assertions.assertNotNull(fieldItems);
-        Assertions.assertFalse(fieldItems.isEmpty());
-        Assertions.assertEquals(333, fieldItems.size());
+        assertNotNull(fieldItems);
+        assertFalse(fieldItems.isEmpty());
+        assertEquals(333, fieldItems.size());
     }
 
     @Test
     void testSearchFieldNames() {
         Set<String> fieldNames = testFieldConfig.getSearchFieldNames();
-        Assertions.assertNotNull(fieldNames);
-        Assertions.assertFalse(fieldNames.isEmpty());
-        Assertions.assertEquals(218, fieldNames.size());
+        assertNotNull(fieldNames);
+        assertFalse(fieldNames.isEmpty());
+        assertEquals(218, fieldNames.size());
     }
 
     @Test
     void testGetSearchFieldItemByName() {
         String fieldName = "annotation_score";
         SearchFieldItem annotScore = testFieldConfig.getSearchFieldItemByName(fieldName);
-        Assertions.assertNotNull(annotScore);
-        Assertions.assertEquals(SearchFieldType.GENERAL, annotScore.getFieldType());
-        Assertions.assertEquals(fieldName, annotScore.getFieldName());
+        assertNotNull(annotScore);
+        assertEquals(SearchFieldType.GENERAL, annotScore.getFieldType());
+        assertEquals(fieldName, annotScore.getFieldName());
     }
 
     @Test
     void testGetSearchFieldItemByNameWithNonExistentField() {
         String fieldName = "some random field name";
-        Assertions.assertThrows(
+        assertThrows(
                 IllegalArgumentException.class,
                 () -> testFieldConfig.getSearchFieldItemByName(fieldName));
     }
@@ -55,21 +57,21 @@ public class AbstractSearchFieldConfigTest {
     void testIsSearchFieldValueValid() {
         String fieldName = "accession_id";
         String value = "P12345";
-        Assertions.assertTrue(testFieldConfig.isSearchFieldValueValid(fieldName, value));
+        assertTrue(testFieldConfig.isSearchFieldValueValid(fieldName, value));
     }
 
     @Test
     void testIsSearchFieldValueValidWithInvalidValue() {
         String fieldName = "accession_id";
         String invalidValue = "PP12345";
-        Assertions.assertFalse(testFieldConfig.isSearchFieldValueValid(fieldName, invalidValue));
+        assertFalse(testFieldConfig.isSearchFieldValueValid(fieldName, invalidValue));
     }
 
     @Test
     void testIsSearchFieldValueValidWithInvalidField() {
         String fieldName = "some random field";
         String invalidValue = "PP12345";
-        Assertions.assertThrows(
+        assertThrows(
                 IllegalArgumentException.class,
                 () -> testFieldConfig.isSearchFieldValueValid(fieldName, invalidValue));
     }
@@ -78,25 +80,25 @@ public class AbstractSearchFieldConfigTest {
     void testIsSearchFieldValueValidWithoutRegex() {
         String fieldName = "content";
         String value = "some random value";
-        Assertions.assertTrue(testFieldConfig.isSearchFieldValueValid(fieldName, value));
+        assertTrue(testFieldConfig.isSearchFieldValueValid(fieldName, value));
     }
 
     @Test
     void testDoesSearchFieldItemExist() {
         String fieldName = "go";
-        Assertions.assertTrue(testFieldConfig.searchFieldItemExists(fieldName));
+        assertTrue(testFieldConfig.searchFieldItemExists(fieldName));
     }
 
     @Test
     void testDoesSearchFieldItemExist_givenAlias() {
         String fieldName = "go_alias";
-        Assertions.assertTrue(testFieldConfig.searchFieldItemExists(fieldName));
+        assertTrue(testFieldConfig.searchFieldItemExists(fieldName));
     }
 
     @Test
     void testDoesSearchFieldItemExistWithNonExistingField() {
         String fieldName = "some random non-existing field";
-        Assertions.assertFalse(testFieldConfig.searchFieldItemExists(fieldName));
+        assertFalse(testFieldConfig.searchFieldItemExists(fieldName));
     }
 
     @Test
@@ -104,15 +106,15 @@ public class AbstractSearchFieldConfigTest {
         String searchFieldName = "id";
         String expectedSortFieldName = "id_sort";
         SearchFieldItem sortField = testFieldConfig.getCorrespondingSortField(searchFieldName);
-        Assertions.assertNotNull(sortField);
-        Assertions.assertEquals(SearchFieldType.SORT, sortField.getFieldType());
-        Assertions.assertEquals(expectedSortFieldName, sortField.getFieldName());
+        assertNotNull(sortField);
+        assertEquals(SearchFieldType.SORT, sortField.getFieldType());
+        assertEquals(expectedSortFieldName, sortField.getFieldName());
     }
 
     @Test
     void testGetCorrespondingSortFieldWithNonExistingSortField() {
         String searchFieldName = "some random search field";
-        Assertions.assertThrows(
+        assertThrows(
                 IllegalArgumentException.class,
                 () -> testFieldConfig.getCorrespondingSortField(searchFieldName));
     }
@@ -120,48 +122,48 @@ public class AbstractSearchFieldConfigTest {
     @Test
     void testDoesCorrespondingSortFieldExist() {
         String searchFieldName = "id";
-        Assertions.assertTrue(testFieldConfig.correspondingSortFieldExists(searchFieldName));
+        assertTrue(testFieldConfig.correspondingSortFieldExists(searchFieldName));
     }
 
     @Test
     void testDoesCorrespondingSortFieldExistWithNonExistingSortField() {
         String searchFieldName = "some random search field";
-        Assertions.assertFalse(testFieldConfig.correspondingSortFieldExists(searchFieldName));
+        assertFalse(testFieldConfig.correspondingSortFieldExists(searchFieldName));
     }
 
     @Test
     void testGetSortFieldItems() {
         List<SearchFieldItem> sortFields = testFieldConfig.getSortFieldItems();
-        Assertions.assertNotNull(sortFields);
-        Assertions.assertFalse(sortFields.isEmpty());
-        sortFields.forEach(fi -> Assertions.assertSame(SearchFieldType.SORT, fi.getFieldType()));
+        assertNotNull(sortFields);
+        assertFalse(sortFields.isEmpty());
+        sortFields.forEach(fi -> assertSame(SearchFieldType.SORT, fi.getFieldType()));
     }
 
     @Test
     void testGetFieldTypeByFieldNameOfGeneral() {
         String fieldName = "cc_webresource";
         SearchFieldType fieldType = testFieldConfig.getFieldTypeBySearchFieldName(fieldName);
-        Assertions.assertEquals(SearchFieldType.GENERAL, fieldType);
+        assertEquals(SearchFieldType.GENERAL, fieldType);
     }
 
     @Test
     void testGetFieldTypeByFieldNameOfExperimentalEvidence() {
         String fieldName = "cc_webresource_exp";
         SearchFieldType fieldType = testFieldConfig.getFieldTypeBySearchFieldName(fieldName);
-        Assertions.assertEquals(SearchFieldType.GENERAL, fieldType);
+        assertEquals(SearchFieldType.GENERAL, fieldType);
     }
 
     @Test
     void testGetFieldTypeByFieldNameOfRange() {
         String fieldName = "lit_pubdate";
         SearchFieldType fieldType = testFieldConfig.getFieldTypeBySearchFieldName(fieldName);
-        Assertions.assertEquals(SearchFieldType.RANGE, fieldType);
+        assertEquals(SearchFieldType.RANGE, fieldType);
     }
 
     @Test
     void testGetFieldTypeByFieldNameOfSort() {
         String fieldName = "name_sort";
-        Assertions.assertThrows(
+        assertThrows(
                 IllegalArgumentException.class,
                 () -> testFieldConfig.getFieldTypeBySearchFieldName(fieldName));
     }
@@ -169,8 +171,37 @@ public class AbstractSearchFieldConfigTest {
     @Test
     void testGetFieldTypeByFieldNameOfInvalidName() {
         String fieldName = "some random field name";
-        Assertions.assertThrows(
+        assertThrows(
                 IllegalArgumentException.class,
                 () -> testFieldConfig.getFieldTypeBySearchFieldName(fieldName));
+    }
+
+    @Test
+    void findSearchFieldItemByName_whenExist() {
+        String fieldName = "go";
+
+        Optional<SearchFieldItem> searchFieldItemByName = testFieldConfig.findSearchFieldItemByName(fieldName);
+
+        assertEquals(fieldName, searchFieldItemByName.get().getFieldName());
+    }
+
+    @Test
+    void findSearchFieldItemByName_whenNotExist() {
+        assertFalse(testFieldConfig.findSearchFieldItemByName("fieldNotExist").isPresent());
+    }
+
+    @Test
+    void findSearchFieldItemByAlias_whenExist() {
+        String fieldNameAlias = "go_alias";
+
+        Optional<SearchFieldItem> searchFieldItemByAlias = testFieldConfig.findSearchFieldItemByAlias(fieldNameAlias);
+
+        assertEquals("go", searchFieldItemByAlias.get().getFieldName());
+    }
+
+    @Test
+    void findSearchFieldItemByAlias_whenNotExist() {
+        assertFalse(testFieldConfig.findSearchFieldItemByAlias("aliasNotExist").isPresent());
+
     }
 }
