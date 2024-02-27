@@ -1,15 +1,15 @@
 package org.uniprot.store.config.searchfield.common;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.uniprot.store.config.searchfield.model.SearchFieldItem;
-import org.uniprot.store.config.searchfield.model.SearchFieldType;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.uniprot.store.config.searchfield.model.SearchFieldItem;
+import org.uniprot.store.config.searchfield.model.SearchFieldType;
 
 class AbstractSearchFieldConfigTest {
 
@@ -180,7 +180,8 @@ class AbstractSearchFieldConfigTest {
     void findSearchFieldItemByName_whenExist() {
         String fieldName = "go";
 
-        Optional<SearchFieldItem> searchFieldItemByName = testFieldConfig.findSearchFieldItemByName(fieldName);
+        Optional<SearchFieldItem> searchFieldItemByName =
+                testFieldConfig.findSearchFieldItemByName(fieldName);
 
         assertEquals(fieldName, searchFieldItemByName.get().getFieldName());
     }
@@ -194,7 +195,8 @@ class AbstractSearchFieldConfigTest {
     void findSearchFieldItemByAlias_whenExist() {
         String fieldNameAlias = "go_alias";
 
-        Optional<SearchFieldItem> searchFieldItemByAlias = testFieldConfig.findSearchFieldItemByAlias(fieldNameAlias);
+        Optional<SearchFieldItem> searchFieldItemByAlias =
+                testFieldConfig.findSearchFieldItemByAlias(fieldNameAlias);
 
         assertEquals("go", searchFieldItemByAlias.get().getFieldName());
     }
@@ -202,6 +204,5 @@ class AbstractSearchFieldConfigTest {
     @Test
     void findSearchFieldItemByAlias_whenNotExist() {
         assertFalse(testFieldConfig.findSearchFieldItemByAlias("aliasNotExist").isPresent());
-
     }
 }
