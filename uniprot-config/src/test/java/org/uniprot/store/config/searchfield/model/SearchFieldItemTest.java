@@ -2,6 +2,8 @@ package org.uniprot.store.config.searchfield.model;
 
 import static org.uniprot.store.config.searchfield.model.SearchFieldItem.CONTEXT_PATH_TOKEN;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +25,14 @@ class SearchFieldItemTest {
         String sampleAutoComplete = "sample/url";
         item.setAutoComplete(sampleAutoComplete);
         Assertions.assertEquals(sampleAutoComplete, item.getAutoComplete());
+    }
+
+    @Test
+    void testGetAliases() {
+        SearchFieldItem item = new SearchFieldItem();
+        List<String> aliases = List.of("a1", "a2");
+        item.setAliases(aliases);
+        Assertions.assertEquals(aliases, item.getAliases());
     }
 
     @Test

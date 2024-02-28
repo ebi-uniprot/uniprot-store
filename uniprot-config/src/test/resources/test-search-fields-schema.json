@@ -43,6 +43,12 @@
             "type": "string"
           }
         },
+        "aliases" : {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "dataType" : {
           "type" : "string",
           "enum" : [ "STRING", "INTEGER", "ENUM", "DATE", "BOOLEAN" ]

@@ -1,6 +1,7 @@
 package org.uniprot.store.config.searchfield.common;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
@@ -18,6 +19,10 @@ public interface SearchFieldConfig {
     Set<String> getSearchFieldNames();
 
     SearchFieldItem getSearchFieldItemByName(String fieldName);
+
+    Optional<SearchFieldItem> findSearchFieldItemByName(String fieldName);
+
+    Optional<SearchFieldItem> findSearchFieldItemByAlias(String alias);
 
     boolean isSearchFieldValueValid(String fieldName, String value);
 

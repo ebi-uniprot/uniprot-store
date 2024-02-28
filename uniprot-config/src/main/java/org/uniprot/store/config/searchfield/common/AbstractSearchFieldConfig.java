@@ -54,11 +54,24 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
                 .collect(Collectors.toSet());
     }
 
+    @Override
     public SearchFieldItem getSearchFieldItemByName(String fieldName) {
+        return this.findSearchFieldItemByName(fieldName)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown field: " + fieldName));
+    }
+
+    @Override
+    public Optional<SearchFieldItem> findSearchFieldItemByName(String fieldName) {
         return this.getSearchFieldItems().stream()
                 .filter(fi -> fieldName.equalsIgnoreCase(fi.getFieldName()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Unknown field: " + fieldName));
+                .findFirst();
+    }
+
+    @Override
+    public Optional<SearchFieldItem> findSearchFieldItemByAlias(String alias) {
+        return this.getSearchFieldItems().stream()
+                .filter(fi -> fi.getAliases().stream().anyMatch(alias::equalsIgnoreCase))
+                .findFirst();
     }
 
     @Override
@@ -74,13 +87,8 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
 
     @Override
     public boolean searchFieldItemExists(String fieldName) {
-        boolean searchFieldExist = false;
-        try {
-            searchFieldExist = Objects.nonNull(this.getSearchFieldItemByName(fieldName));
-        } catch (IllegalArgumentException ile) {
-            // it means, search field doesn't exist
-        }
-        return searchFieldExist;
+        return this.findSearchFieldItemByName(fieldName).isPresent()
+                || this.findSearchFieldItemByAlias(fieldName).isPresent();
     }
 
     @Override
