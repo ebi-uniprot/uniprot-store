@@ -1,15 +1,15 @@
 package org.uniprot.store.config.searchfield.schema;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.uniprot.store.config.schema.FieldDataValidator;
 import org.uniprot.store.config.schema.SchemaValidationException;
 import org.uniprot.store.config.searchfield.model.SearchFieldDataType;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class SearchFieldDataValidator extends FieldDataValidator<SearchFieldItem> {
     @Override
@@ -19,8 +19,8 @@ public class SearchFieldDataValidator extends FieldDataValidator<SearchFieldItem
                         field ->
                                 field.getItemType() != null
                                         && (field.getItemType().equals(SearchFieldItemType.GROUP)
-                                        || field.getItemType()
-                                        .equals(SearchFieldItemType.SIBLING_GROUP)))
+                                                || field.getItemType()
+                                                        .equals(SearchFieldItemType.SIBLING_GROUP)))
                 .collect(Collectors.toList());
     }
 
@@ -36,9 +36,11 @@ public class SearchFieldDataValidator extends FieldDataValidator<SearchFieldItem
                 .filter(fi -> fi.getValues() != null && !fi.getValues().isEmpty())
                 .filter(fi -> !SearchFieldDataType.ENUM.equals(fi.getDataType()))
                 .findFirst()
-                .ifPresent(fi -> {
-                    throw new SchemaValidationException("Field item " + fi.getFieldName() + "should be an ENUM");
-                });
+                .ifPresent(
+                        fi -> {
+                            throw new SchemaValidationException(
+                                    "Field item " + fi.getFieldName() + "should be an ENUM");
+                        });
     }
 
     private void validateSortFieldIds(List<SearchFieldItem> fieldItems, Set<String> ids) {
