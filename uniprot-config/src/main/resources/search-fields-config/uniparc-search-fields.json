@@ -70,7 +70,7 @@
     "fieldType": "GENERAL",
     "dataType": "INTEGER",
     "description": "Search by taxonomy id",
-    "example": "1234565",
+    "example": "9606",
     "includeInSwagger": true
   },
   {
@@ -82,7 +82,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by taxonomy name",
-    "example": "sample name",
+    "example": "Human",
     "includeInSwagger": true,
     "autoComplete": "{CONTEXT_PATH}/suggester?dict=uniparc_taxonomy&query=?",
     "autoCompleteQueryField": "taxonomy_id",
@@ -97,7 +97,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by gene name",
-    "example": "sample gene",
+    "example": "PROZ",
     "includeInSwagger": true
   },
   {
@@ -110,7 +110,7 @@
     "dataType": "STRING",
     "description": "Search by protein name",
     "aliases": ["protein_name"],
-    "example": "sample protein",
+    "example": "Protein Z",
     "includeInSwagger": true
   },
   {
@@ -120,9 +120,9 @@
     "label": "Database",
     "itemType": "SINGLE",
     "fieldType": "GENERAL",
-    "dataType": "STRING",
+    "dataType": "ENUM",
     "description": "Search by database name",
-    "example": "sample database",
+    "example": "Gene3D",
     "includeInSwagger": true
   },
   {
@@ -132,9 +132,9 @@
     "label": "Active",
     "itemType": "SINGLE",
     "fieldType": "GENERAL",
-    "dataType": "STRING",
+    "dataType": "ENUM",
     "description": "Search by active name",
-    "example": "sample active",
+    "example": "Yes",
     "includeInSwagger": true
   },
   {
@@ -146,7 +146,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by checksum name",
-    "example": "sample checksum",
+    "example": "B8824CE1ECAEEEAE",
     "includeInSwagger": true
   },
   {
