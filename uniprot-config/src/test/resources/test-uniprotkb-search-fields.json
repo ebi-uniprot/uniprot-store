@@ -2797,16 +2797,6 @@
     "validRegex": "^true|false$",
     "dataType": "BOOLEAN",
     "description": "Search by having PDB cross reference or not",
-    "values": [
-      {
-        "name": "Yes",
-        "value": "true"
-      },
-      {
-        "name": "No",
-        "value": "false"
-      }
-    ],
     "example": "true"
   },
   {

@@ -266,17 +266,7 @@
     "validRegex": "^true|false$",
     "description": "Search if taxonomy is linked",
     "example": "true",
-    "includeInSwagger": true,
-    "values": [
-      {
-        "name": "Yes",
-        "value": "true"
-      },
-      {
-        "name": "No",
-        "value": "false"
-      }
-    ]
+    "includeInSwagger": true
   },
   {
     "seqNumber": 8,

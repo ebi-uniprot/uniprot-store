@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.uniprot.store.config.schema.FieldDataValidator;
 import org.uniprot.store.config.schema.SchemaValidationException;
+import org.uniprot.store.config.searchfield.model.SearchFieldDataType;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
 
@@ -26,7 +27,20 @@ public class SearchFieldDataValidator extends FieldDataValidator<SearchFieldItem
     @Override
     public void validateContent(List<SearchFieldItem> fieldItems) {
         super.validateContent(fieldItems);
+        validateSearchFieldDataType(fieldItems);
         validateSortFieldIds(fieldItems, extractIds(fieldItems));
+    }
+
+    private void validateSearchFieldDataType(List<SearchFieldItem> fieldItems) {
+        fieldItems.stream()
+                .filter(fi -> fi.getValues() != null && !fi.getValues().isEmpty())
+                .filter(fi -> !SearchFieldDataType.ENUM.equals(fi.getDataType()))
+                .findFirst()
+                .ifPresent(
+                        fi -> {
+                            throw new SchemaValidationException(
+                                    "Field item " + fi.getFieldName() + " should be an ENUM");
+                        });
     }
 
     private void validateSortFieldIds(List<SearchFieldItem> fieldItems, Set<String> ids) {

@@ -49,7 +49,7 @@
     "fieldName": "category",
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
-    "dataType": "STRING",
+    "dataType": "ENUM",
     "description": "Search by category",
     "example": "Domain",
     "includeInSwagger": true,
