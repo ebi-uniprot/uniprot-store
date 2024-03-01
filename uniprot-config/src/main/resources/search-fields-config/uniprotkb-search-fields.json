@@ -894,16 +894,6 @@
     "validRegex": "^true|false$",
     "dataType": "BOOLEAN",
     "itemType": "SINGLE",
-    "values": [
-      {
-        "name": "Yes",
-        "value": "true"
-      },
-      {
-        "name": "No",
-        "value": "false"
-      }
-    ],
     "description": "Search by reviewed",
     "example": "true",
     "includeInSwagger": true
@@ -917,16 +907,6 @@
     "itemType": "SINGLE",
     "validRegex": "^true|false$",
     "dataType": "BOOLEAN",
-    "values": [
-      {
-        "name": "Yes",
-        "value": "true"
-      },
-      {
-        "name": "No",
-        "value": "false"
-      }
-    ],
     "description": "Search by active or not",
     "example": "true"
   },
@@ -2274,16 +2254,6 @@
     "fieldType": "GENERAL",
     "validRegex": "^true|false$",
     "dataType": "BOOLEAN",
-    "values": [
-      {
-        "name": "Yes",
-        "value": "true"
-      },
-      {
-        "name": "No",
-        "value": "false"
-      }
-    ],
     "description": "Search by fragment",
     "example": "true",
     "includeInSwagger": true
@@ -2353,16 +2323,6 @@
     "fieldType": "GENERAL",
     "validRegex": "^true|false$",
     "dataType": "BOOLEAN",
-    "values": [
-      {
-        "name": "Yes",
-        "value": "true"
-      },
-      {
-        "name": "No",
-        "value": "false"
-      }
-    ],
     "description": "Search by precursor",
     "example": "true"
   },
@@ -3300,16 +3260,6 @@
     "validRegex": "^true|false$",
     "dataType": "BOOLEAN",
     "description": "Search by having PDB cross reference or not",
-    "values": [
-      {
-        "name": "Yes",
-        "value": "true"
-      },
-      {
-        "name": "No",
-        "value": "false"
-      }
-    ],
     "example": "true",
     "includeInSwagger": true
   },

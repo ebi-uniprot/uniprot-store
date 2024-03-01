@@ -39,7 +39,7 @@ public class SearchFieldDataValidator extends FieldDataValidator<SearchFieldItem
                 .ifPresent(
                         fi -> {
                             throw new SchemaValidationException(
-                                    "Field item " + fi.getFieldName() + "should be an ENUM");
+                                    "Field item " + fi.getFieldName() + " should be an ENUM");
                         });
     }
 

@@ -134,7 +134,7 @@
     "fieldType": "GENERAL",
     "dataType": "ENUM",
     "description": "Search by active name",
-    "example": "Yes",
+    "example": "Gene3D",
     "includeInSwagger": true
   },
   {
