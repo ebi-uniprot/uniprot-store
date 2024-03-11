@@ -37,13 +37,15 @@
 	<field name="isoform" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="checksum" type="basic_ci" indexed="true"
-		stored="false" required="false" multiValued="false" />
+		stored="false" required="false" multiValued="true" />
 	<field name="md5" type="basic_ci" indexed="true" stored="false"
 		required="false" multiValued="false" />
 	<field name="feature_id" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="length" type="int" indexed="true" stored="false"
 		required="false" multiValued="false" />
+	<field name="organism_id" type="int" indexed="true"
+		stored="false" required="false" multiValued="true" />
 	<!-- suggester definition -->
 	<field name="suggest" type="text_suggest" indexed="true"
 		stored="false" multiValued="true" />

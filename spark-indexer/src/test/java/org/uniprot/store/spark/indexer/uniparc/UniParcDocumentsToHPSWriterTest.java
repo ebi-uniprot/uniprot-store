@@ -5,6 +5,7 @@ import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -48,9 +49,11 @@ class UniParcDocumentsToHPSWriterTest {
             assertEquals(2, savedDocuments.size());
             UniParcDocument uniParcDocument = savedDocuments.get(0);
             assertEquals("UPI00000E8551", uniParcDocument.getUpi());
-            assertEquals("01AEF4B6A09EB753", uniParcDocument.getSequenceChecksum());
+            assertEquals(Set.of("01AEF4B6A09EB753"), uniParcDocument.getSequenceChecksums());
             assertTrue(uniParcDocument.getTaxLineageIds().contains(100));
             assertTrue(uniParcDocument.getOrganismTaxons().contains("lineageSC"));
+            assertEquals(1, uniParcDocument.getOrganismIds().size());
+            assertEquals(Set.of(10116), uniParcDocument.getOrganismIds());
 
             uniParcDocument = savedDocuments.get(1);
             assertEquals("UPI000000017F", uniParcDocument.getUpi());
