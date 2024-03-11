@@ -93,7 +93,7 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .union(getChebi(flatFileRDD))
                         .union(getRheaComp(flatFileRDD))
                         .union(getGo(flatFileRDD))
-                        .union(getUniprotKbOrganism(flatFileRDD, organismWithLineageRDD))
+                        .union(getUniProtKbOrganism(flatFileRDD, organismWithLineageRDD))
                         .union(getProteome(organismWithLineageRDD))
                         .union(getUniParcTaxonomy(organismWithLineageRDD))
                         .repartition(suggestPartition);
@@ -284,7 +284,7 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
      * @return JavaRDD of SuggestDocument with Organism/Organism Host and Taxonomy information
      *     mapped from UniprotKB flat file entries
      */
-    JavaRDD<SuggestDocument> getUniprotKbOrganism(
+    JavaRDD<SuggestDocument> getUniProtKbOrganism(
             JavaRDD<String> flatFileRDD,
             JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage) {
         JavaPairRDD<String, String> flatFileOrganismRDD =
@@ -347,6 +347,7 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
     JavaRDD<SuggestDocument> getUniParcTaxonomy(
             JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineageRDD) {
+
         // load the uniparc input file
         UniParcRDDTupleReader uniParcRDDReader = new UniParcRDDTupleReader(jobParameter, false);
         JavaRDD<UniParcEntry> uniParcRDD = uniParcRDDReader.load();
@@ -365,8 +366,16 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .mapToPair(taxonId -> new Tuple2<>(taxonId, taxonId))
                         .reduceByKey((taxId1, taxId2) -> taxId1);
 
-        return getTaxonomy(
-                taxonIdTaxonIdPair, organismWithLineageRDD, SuggestDictionary.UNIPARC_TAXONOMY);
+        JavaRDD<SuggestDocument> organismSuggester =
+                getOrganism(taxonIdTaxonIdPair, organismWithLineageRDD, UNIPARC_ORGANISM);
+
+        JavaRDD<SuggestDocument> taxonomySuggester =
+                getTaxonomy(
+                        taxonIdTaxonIdPair,
+                        organismWithLineageRDD,
+                        SuggestDictionary.UNIPARC_TAXONOMY);
+
+        return organismSuggester.union(taxonomySuggester);
     }
 
     JavaPairRDD<String, List<TaxonomyLineage>> getOrganismWithLineageRDD() {
