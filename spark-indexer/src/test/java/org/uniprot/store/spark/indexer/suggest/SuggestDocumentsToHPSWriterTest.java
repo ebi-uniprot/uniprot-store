@@ -376,7 +376,7 @@ class SuggestDocumentsToHPSWriterTest {
     }
 
     @Test
-    void getUniProtKbOrganism() {
+    void getUniProtKBOrganism() {
         SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
 
         JavaRDD<SuggestDocument> suggestRdd =
