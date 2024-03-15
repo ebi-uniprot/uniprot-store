@@ -14,7 +14,7 @@
     "isRequiredForJson": true,
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 0,
-    "label": "UniRule ID",
+    "label": "Unirule Id",
     "name": "rule_id",
     "paths" : ["uniRuleId","information.oldRuleNum"],
     "id": "unirule_id",
