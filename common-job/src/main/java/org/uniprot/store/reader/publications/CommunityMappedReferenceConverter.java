@@ -18,10 +18,10 @@ import org.uniprot.core.util.Utils;
  */
 public class CommunityMappedReferenceConverter
         extends AbstractMappedReferenceConverter<CommunityMappedReference> {
-    private static final String PROTEIN_GENE_DELIMITER = "Protein/gene_name: ";
-    private static final String FUNCTION_DELIMITER = "Function: ";
-    private static final String DISEASE_DELIMITER = "Disease: ";
-    private static final String COMMENT_DELIMITER = "Comments: ";
+    private static final String PROTEIN_GENE_DELIMITER = "Protein/gene_name:";
+    private static final String FUNCTION_DELIMITER = "Function:";
+    private static final String DISEASE_DELIMITER = "Disease:";
+    private static final String COMMENT_DELIMITER = "Comments:";
     private static final Pattern SECTION_DELIMITER_PATTERN =
             Pattern.compile(
                     "(("
