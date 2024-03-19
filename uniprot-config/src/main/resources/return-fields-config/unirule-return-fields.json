@@ -14,10 +14,10 @@
     "isRequiredForJson": true,
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 0,
-    "label": "Unirule Id",
+    "label": "UniRule ID",
     "name": "rule_id",
     "paths" : ["uniRuleId","information.oldRuleNum"],
-    "id": "unirule_id",
+    "id": "rule_id",
     "sortField": "unirule_id"
   },
   {
