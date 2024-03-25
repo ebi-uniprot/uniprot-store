@@ -432,7 +432,8 @@ class SuggestDocumentsToHPSWriterTest {
         var taxonomyDocsCount = organismDocsCount + extraLineageFromTaxonomyRDDReaderFake;
         assertEquals(taxonomyDocsCount, suggests.size() - 1);
 
-        Map<String, List<SuggestDocument>> organismResultMap = getResultMap(suggests.subList(0, 1), doc -> doc.id);
+        Map<String, List<SuggestDocument>> organismResultMap =
+                getResultMap(suggests.subList(0, 1), doc -> doc.id);
         assertEquals(1, organismResultMap.size());
         assertTrue(organismResultMap.containsKey("10116"));
         assertEquals("10116", organismResultMap.get("10116").get(0).id);
@@ -440,13 +441,13 @@ class SuggestDocumentsToHPSWriterTest {
 
         var resultMap = getResultMap(suggests.subList(1, suggests.size()), doc -> doc.id);
         Map<String, List<SuggestDocument>> finalResultMap = resultMap;
-        finalResultMap.values().stream().flatMap(Collection::stream).forEach(v -> assertEquals(UNIPARC_TAXONOMY.name(), v.dictionary));
+        finalResultMap.values().stream()
+                .flatMap(Collection::stream)
+                .forEach(v -> assertEquals(UNIPARC_TAXONOMY.name(), v.dictionary));
         assertAll(
                 () -> assertTrue(resultMap.containsKey("10114")),
                 () -> assertTrue(resultMap.containsKey("39107")),
                 () -> assertTrue(resultMap.containsKey("10066")));
-
-
     }
 
     @Nested
