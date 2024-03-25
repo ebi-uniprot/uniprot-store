@@ -49,7 +49,9 @@ class UniParcDocumentsToHPSWriterTest {
             assertEquals(2, savedDocuments.size());
             UniParcDocument uniParcDocument = savedDocuments.get(0);
             assertEquals("UPI00000E8551", uniParcDocument.getUpi());
-            assertEquals(Set.of("01AEF4B6A09EB753"), uniParcDocument.getSequenceChecksums());
+            assertEquals(
+                    Set.of("01AEF4B6A09EB753", "0A5293FF0AF8EF6FB9A94942D835DAFC"),
+                    uniParcDocument.getSequenceChecksums());
             assertTrue(uniParcDocument.getTaxLineageIds().contains(100));
             assertTrue(uniParcDocument.getOrganismTaxons().contains("lineageSC"));
             assertEquals(1, uniParcDocument.getOrganismIds().size());

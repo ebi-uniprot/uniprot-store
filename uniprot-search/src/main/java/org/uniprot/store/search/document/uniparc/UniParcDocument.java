@@ -84,9 +84,7 @@ public class UniParcDocument implements Document {
     @Field("isoform")
     private List<String> uniprotIsoforms;
 
-    @Singular
-    @Field("organism_id")
-    private Set<Integer> organismIds;
+    @Singular private Set<Integer> organismIds;
 
     @Override
     public String getDocumentId() {
@@ -101,6 +99,11 @@ public class UniParcDocument implements Document {
     @Field("organism_name")
     public void setOrganismNames(List<String> organismNames) {
         this.organismNames = new HashSet<>(organismNames);
+    }
+
+    @Field("organism_id")
+    public void setOrganismIds(List<Integer> organismIds) {
+        this.organismIds = new HashSet<>(organismIds);
     }
 
     public static class UniParcDocumentBuilder implements Serializable {
