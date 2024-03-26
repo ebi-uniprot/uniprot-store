@@ -46,6 +46,8 @@
 		<skipUTs>false</skipUTs>
 		<java.version>17</java.version>
 		<lombok.version>1.18.22</lombok.version>
+		<slf4j.version>1.7.36</slf4j.version>
+		<logback.version>1.2.12</logback.version>
 
 		<!-- Auto-formatting -->
 		<spotless.version>1.24.1</spotless.version>
