@@ -111,16 +111,6 @@
 			<groupId>org.uniprot</groupId>
 			<artifactId>tools-entry-scorer</artifactId>
 			<version>${uniprot-core.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>ch.qos.logback</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.typesafe</groupId>

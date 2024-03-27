@@ -23,12 +23,6 @@
 			<groupId>org.uniprot</groupId>
 			<artifactId>core-domain</artifactId>
 			<version>${uniprot-core.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.uniprot</groupId>
