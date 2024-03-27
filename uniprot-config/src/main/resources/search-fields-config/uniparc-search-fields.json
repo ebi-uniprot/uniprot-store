@@ -198,6 +198,21 @@
     "example": "chromosome"
   },
   {
+    "seqNumber": 14,
+    "id": "organism_id",
+    "fieldName": "organism_id",
+    "label": "Organism ID",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "INTEGER",
+    "description": "Search by organism id",
+    "example": "10254",
+    "includeInSwagger": true,
+    "autoComplete": "{CONTEXT_PATH}/suggester?dict=uniparc_organism&query=?",
+    "autoCompleteQueryField": "organism_id",
+    "autoCompleteQueryFieldValidRegex": "^[0-9]+$"
+  },
+  {
     "id": "length_sort",
     "fieldName": "length",
     "fieldType": "SORT",

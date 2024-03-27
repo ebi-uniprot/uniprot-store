@@ -2,6 +2,7 @@ package org.uniprot.store.spark.indexer.uniparc.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Set;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -135,8 +136,11 @@ class UniParcDocumentConverterTest {
         assertEquals(1, result.getTaxLineageIds().size());
         assertTrue(result.getTaxLineageIds().contains(10));
 
-        assertEquals("62C549AB5E41E99D", result.getSequenceChecksum());
+        assertEquals(
+                Set.of("62C549AB5E41E99D", "4F6304DA8CC16779B3B5CCDDBC663292"),
+                result.getSequenceChecksums());
         assertEquals("4F6304DA8CC16779B3B5CCDDBC663292", result.getSequenceMd5());
+        assertTrue(result.getSequenceChecksums().contains(result.getSequenceMd5()));
 
         assertEquals(2, result.getFeatureIds().size());
         assertTrue(result.getFeatureIds().contains("signatureDbIdValue"));

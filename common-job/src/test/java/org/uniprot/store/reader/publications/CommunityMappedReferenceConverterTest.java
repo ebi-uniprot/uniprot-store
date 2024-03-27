@@ -4,8 +4,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.core.Is.is;
 
-import java.io.IOException;
-
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.publication.CommunityAnnotation;
 import org.uniprot.core.publication.CommunityMappedReference;
@@ -90,7 +88,8 @@ class CommunityMappedReferenceConverterTest {
     }
 
     @Test
-    void convertsCorrectlyMultipleAnnotationsAndMultipleCategoriesWithoutSpaceAfterTheCategoryNameColon() {
+    void
+            convertsCorrectlyMultipleAnnotationsAndMultipleCategoriesWithoutSpaceAfterTheCategoryNameColon() {
         CommunityMappedReferenceConverter mapper = new CommunityMappedReferenceConverter();
         CommunityMappedReference reference =
                 mapper.convert(
@@ -99,7 +98,8 @@ class CommunityMappedReferenceConverterTest {
         validateMultipleAnnotationsAndMultipleCategories(reference);
     }
 
-    private static void validateMultipleAnnotationsAndMultipleCategories(CommunityMappedReference reference) {
+    private static void validateMultipleAnnotationsAndMultipleCategories(
+            CommunityMappedReference reference) {
         assertThat(reference.getUniProtKBAccession().getValue(), is("COMM03"));
         assertThat(
                 reference.getSource(),

@@ -48,6 +48,13 @@ public class UniParcDocTaxonomyJoin
             builder.organismTaxon(organism.getCommonName());
         }
         organism.getLineages().forEach(lineage -> mapLineage(builder, lineage));
+        addOrganismId(builder, organism);
+    }
+
+    private void addOrganismId(
+            UniParcDocument.UniParcDocumentBuilder builder, TaxonomyEntry organism) {
+        int taxonId = Math.toIntExact(organism.getTaxonId());
+        builder.organismId(taxonId);
     }
 
     private void mapLineage(
