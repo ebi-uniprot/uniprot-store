@@ -1106,7 +1106,6 @@ DR   PhylomeDB; P48347; -.
 DR   PRO; PR:P48347; -.
 DR   Proteomes; UP000006548; Chromosome 1.
 DR   ExpressionAtlas; P48347; baseline and differential.
-DR   Genevisible; P48347; AT.
 DR   GO; GO:0005829; C:cytosol; IDA:TAIR.
 DR   GO; GO:0005739; C:mitochondrion; IDA:TAIR.
 DR   GO; GO:0005634; C:nucleus; HDA:TAIR.

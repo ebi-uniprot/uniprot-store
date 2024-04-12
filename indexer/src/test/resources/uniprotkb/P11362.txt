@@ -1381,7 +1381,6 @@ DR   Proteomes; UP000005640; Chromosome 8.
 DR   RNAct; P11362; protein.
 DR   Bgee; ENSG00000077782; Expressed in body of pancreas and 251 other tissues.
 DR   ExpressionAtlas; P11362; baseline and differential.
-DR   Genevisible; P11362; HS.
 DR   GO; GO:0031410; C:cytoplasmic vesicle; IEA:UniProtKB-KW.
 DR   GO; GO:0005829; C:cytosol; IEA:UniProtKB-SubCell.
 DR   GO; GO:0005576; C:extracellular region; NAS:UniProtKB.
