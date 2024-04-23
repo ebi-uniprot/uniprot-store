@@ -23,6 +23,15 @@ public class UniProtDocMocker {
         return document;
     }
 
+    public static UniProtDocument createInactiveDoc(String accession, String inactiveReason) {
+        UniProtDocument document = new UniProtDocument();
+        document.accession = accession;
+        document.id.add(accession + "_ID");
+        document.active = false;
+        document.inactiveReason = inactiveReason;
+        return document;
+    }
+
     public static List<UniProtDocument> createDocs(int count) {
         List<UniProtDocument> docs = new ArrayList<>();
         for (int i = 0; i < count; i++) {

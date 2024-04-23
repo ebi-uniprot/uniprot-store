@@ -32,6 +32,9 @@ public class InactiveUniprotEntryConverter
         if (Utils.notNullNotEmpty(inactiveReason.getMergeDemergeTos())) {
             document.inactiveReason += ":" + String.join(",", inactiveReason.getMergeDemergeTos());
         }
+        if (Utils.notNull(inactiveReason.getDeletedReason())) {
+            document.inactiveReason += ":" + inactiveReason.getDeletedReason();
+        }
         document.active = false;
 
         return document;

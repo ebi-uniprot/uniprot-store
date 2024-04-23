@@ -25,6 +25,9 @@ public class InactiveEntryConverter
         }
 
         document.inactiveReason = source.getInactiveReason();
+        if (source.getDeletedReason() != null && !source.getDeletedReason().isEmpty()) {
+            document.inactiveReason += ":" + source.getDeletedReason();
+        }
         document.active = false;
 
         return document;

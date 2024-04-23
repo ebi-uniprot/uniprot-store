@@ -3,6 +3,7 @@ package org.uniprot.store.spark.indexer.uniprot.converter;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import org.uniprot.core.uniprotkb.DeletedReason;
 import org.uniprot.core.uniprotkb.EntryInactiveReason;
 import org.uniprot.core.uniprotkb.InactiveReasonType;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
@@ -21,7 +22,10 @@ class InactiveUniprotEntryConverterTest {
     void convertDeleted() {
         InactiveUniprotEntryConverter converter = new InactiveUniprotEntryConverter();
         EntryInactiveReason inactiveReason =
-                new EntryInactiveReasonBuilder().type(InactiveReasonType.DELETED).build();
+                new EntryInactiveReasonBuilder()
+                        .type(InactiveReasonType.DELETED)
+                        .deletedReason(DeletedReason.SOURCE_DELETION)
+                        .build();
         UniProtKBEntry entry = new UniProtKBEntryBuilder("P12345", inactiveReason).build();
         UniProtDocument result = converter.convert(entry);
         assertNotNull(result);
@@ -30,12 +34,12 @@ class InactiveUniprotEntryConverterTest {
         assertTrue(Utils.nullOrEmpty(result.id));
         assertTrue(Utils.nullOrEmpty(result.idDefault));
         assertNull(result.idInactive);
-        assertEquals("DELETED", result.inactiveReason);
+        assertEquals("DELETED:SOURCE_DELETION", result.inactiveReason);
         assertFalse(result.active);
     }
 
     @Test
-    void convertDeletedWithId() {
+    void convertDeletedWithIdAndWithoutDeleteReason() {
         InactiveUniprotEntryConverter converter = new InactiveUniprotEntryConverter();
         EntryInactiveReason inactiveReason =
                 new EntryInactiveReasonBuilder().type(InactiveReasonType.DELETED).build();
