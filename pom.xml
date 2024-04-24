@@ -49,8 +49,6 @@
 
 		<!-- Auto-formatting -->
 		<spotless.version>1.24.1</spotless.version>
-		<jakarta-xml-bind.version>4.0.0</jakarta-xml-bind.version>
-		<jakarta-activation.version>2.0.1</jakarta-activation.version>
 	</properties>
 
 	<dependencyManagement>
