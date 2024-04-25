@@ -26,9 +26,6 @@ public class UniParcDocument implements Document {
     @Field("checksum")
     private Set<String> sequenceChecksums; // crc64 and md5
 
-    @Field("md5")
-    private String sequenceMd5;
-
     @Field("length")
     private int seqLength;
 

@@ -140,7 +140,6 @@ class UniParcDocumentConverterTest {
         assertEquals(1, uniParcDocument.getProteomeComponents().size());
         assertTrue(uniParcDocument.getProteomeComponents().contains("Chromosome 8"));
 
-        assertEquals("9A48E062FF6285782553081B4EDEF768", uniParcDocument.getSequenceMd5());
         assertEquals(
                 Set.of("79E8A4FC5967031C", "9A48E062FF6285782553081B4EDEF768"),
                 uniParcDocument.getSequenceChecksums());

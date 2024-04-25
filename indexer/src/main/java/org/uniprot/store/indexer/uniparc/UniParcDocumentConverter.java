@@ -51,8 +51,7 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
         builder.upi(item.getAccession())
                 .seqLength(item.getSequence().getLength())
                 .sequenceChecksum(item.getSequence().getChecksum())
-                .sequenceChecksum(uniparcEntry.getSequence().getMd5())
-                .sequenceMd5(uniparcEntry.getSequence().getMd5());
+                .sequenceChecksum(uniparcEntry.getSequence().getMd5());
         uniparcEntry.getUniParcCrossReferences().forEach(val -> processDbReference(val, builder));
         uniparcEntry
                 .getSequenceFeatures()

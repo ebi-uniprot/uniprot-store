@@ -139,8 +139,7 @@ class UniParcDocumentConverterTest {
         assertEquals(
                 Set.of("62C549AB5E41E99D", "4F6304DA8CC16779B3B5CCDDBC663292"),
                 result.getSequenceChecksums());
-        assertEquals("4F6304DA8CC16779B3B5CCDDBC663292", result.getSequenceMd5());
-        assertTrue(result.getSequenceChecksums().contains(result.getSequenceMd5()));
+        assertTrue(result.getSequenceChecksums().contains("4F6304DA8CC16779B3B5CCDDBC663292"));
 
         assertEquals(2, result.getFeatureIds().size());
         assertTrue(result.getFeatureIds().contains("signatureDbIdValue"));
