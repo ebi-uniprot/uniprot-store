@@ -38,8 +38,6 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="checksum" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
-	<field name="md5" type="basic_ci" indexed="true" stored="false"
-		required="false" multiValued="false" />
 	<field name="feature_id" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="length" type="int" indexed="true" stored="false"
