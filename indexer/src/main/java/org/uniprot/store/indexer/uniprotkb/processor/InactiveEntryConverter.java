@@ -1,9 +1,10 @@
 package org.uniprot.store.indexer.uniprotkb.processor;
 
-import org.uniprot.core.util.Utils;
 import org.uniprot.store.indexer.uniprot.inactiveentry.InactiveUniProtEntry;
 import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+
+import static org.uniprot.core.util.Utils.*;
 
 /**
  * Created 18/04/19
@@ -17,7 +18,7 @@ public class InactiveEntryConverter
         UniProtDocument document = new UniProtDocument();
 
         document.accession = source.getAccession();
-        if (Utils.notNull(source.getId())) {
+        if (notNull(source.getId())) {
             document.id.add(source.getId());
             if (!source.getReason().equalsIgnoreCase("demerged")) {
                 document.idInactive = source.getId();
@@ -25,7 +26,7 @@ public class InactiveEntryConverter
         }
 
         document.inactiveReason = source.getInactiveReason();
-        if (source.getDeletedReason() != null && !source.getDeletedReason().isEmpty()) {
+        if (notNullNotEmpty(source.getDeletedReason())) {
             document.inactiveReason += ":" + source.getDeletedReason();
         }
         document.active = false;
