@@ -20,6 +20,7 @@ public enum SuggestDictionary {
     CHEBI,
     PROTEOME_UPID,
     UNIPARC_TAXONOMY,
+    UNIPARC_ORGANISM,
     PROTEOME_TAXONOMY,
     PROTEOME_ORGANISM
 }

@@ -17,16 +17,14 @@ import org.uniprot.store.search.document.Document;
 @AllArgsConstructor
 public class UniParcDocument implements Document {
 
-    private static final long serialVersionUID = 6897342859069571092L;
+    private static final long serialVersionUID = 1282262932688163225L;
 
     @Field("upi")
     private String upi;
 
+    @Singular
     @Field("checksum")
-    private String sequenceChecksum;
-
-    @Field("md5")
-    private String sequenceMd5;
+    private Set<String> sequenceChecksums; // crc64 and md5
 
     @Field("length")
     private int seqLength;
@@ -83,6 +81,8 @@ public class UniParcDocument implements Document {
     @Field("isoform")
     private List<String> uniprotIsoforms;
 
+    @Singular private Set<Integer> organismIds;
+
     @Override
     public String getDocumentId() {
         return upi;
@@ -96,6 +96,11 @@ public class UniParcDocument implements Document {
     @Field("organism_name")
     public void setOrganismNames(List<String> organismNames) {
         this.organismNames = new HashSet<>(organismNames);
+    }
+
+    @Field("organism_id")
+    public void setOrganismIds(List<Integer> organismIds) {
+        this.organismIds = new HashSet<>(organismIds);
     }
 
     public static class UniParcDocumentBuilder implements Serializable {

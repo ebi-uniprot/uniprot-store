@@ -15,6 +15,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -99,7 +100,7 @@ class SuggestDocumentsToHPSWriterTest {
         Mockito.when(writer.getChebi(Mockito.any())).thenReturn(emptyRDD);
         Mockito.when(writer.getRheaComp(Mockito.any())).thenReturn(emptyRDD);
         Mockito.when(writer.getGo(Mockito.any())).thenReturn(emptyRDD);
-        Mockito.when(writer.getUniprotKbOrganism(Mockito.any(), Mockito.any()))
+        Mockito.when(writer.getUniProtKbOrganism(Mockito.any(), Mockito.any()))
                 .thenReturn(emptyRDD);
         Mockito.when(writer.getProteome(Mockito.any())).thenReturn(emptyRDD);
         Mockito.when(writer.getUniParcTaxonomy(Mockito.any())).thenReturn(emptyRDD);
@@ -115,7 +116,7 @@ class SuggestDocumentsToHPSWriterTest {
         Mockito.verify(writer, Mockito.atMostOnce()).getRheaComp(Mockito.any());
         Mockito.verify(writer, Mockito.atMostOnce()).getGo(Mockito.any());
         Mockito.verify(writer, Mockito.atMostOnce())
-                .getUniprotKbOrganism(Mockito.any(), Mockito.any());
+                .getUniProtKbOrganism(Mockito.any(), Mockito.any());
         Mockito.verify(writer, Mockito.atMostOnce()).getProteome(Mockito.any());
         Mockito.verify(writer, Mockito.atMostOnce()).getUniParcTaxonomy(Mockito.any());
     }
@@ -375,11 +376,11 @@ class SuggestDocumentsToHPSWriterTest {
     }
 
     @Test
-    void getUniprotKbOrganism() {
+    void getUniProtKBOrganism() {
         SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
 
         JavaRDD<SuggestDocument> suggestRdd =
-                writer.getUniprotKbOrganism(
+                writer.getUniProtKbOrganism(
                         flatFileRDD,
                         new TaxonomyRDDReaderFake(parameter, true, true).loadTaxonomyLineage());
         assertNotNull(suggestRdd);
@@ -429,9 +430,20 @@ class SuggestDocumentsToHPSWriterTest {
                         + totalEntriesInXmlFile
                         - alreadyPresentInSynonymsFile;
         var taxonomyDocsCount = organismDocsCount + extraLineageFromTaxonomyRDDReaderFake;
-        assertEquals(taxonomyDocsCount, suggests.size());
+        assertEquals(taxonomyDocsCount, suggests.size() - 1);
 
-        var resultMap = getResultMap(suggests, doc -> doc.id);
+        Map<String, List<SuggestDocument>> organismResultMap =
+                getResultMap(suggests.subList(0, 1), doc -> doc.id);
+        assertEquals(1, organismResultMap.size());
+        assertTrue(organismResultMap.containsKey("10116"));
+        assertEquals("10116", organismResultMap.get("10116").get(0).id);
+        assertEquals(UNIPARC_ORGANISM.name(), organismResultMap.get("10116").get(0).dictionary);
+
+        var resultMap = getResultMap(suggests.subList(1, suggests.size()), doc -> doc.id);
+        Map<String, List<SuggestDocument>> finalResultMap = resultMap;
+        finalResultMap.values().stream()
+                .flatMap(Collection::stream)
+                .forEach(v -> assertEquals(UNIPARC_TAXONOMY.name(), v.dictionary));
         assertAll(
                 () -> assertTrue(resultMap.containsKey("10114")),
                 () -> assertTrue(resultMap.containsKey("39107")),
