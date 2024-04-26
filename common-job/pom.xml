@@ -14,8 +14,21 @@
 	<properties>
 		<ojdbc.version>19.3.0.0</ojdbc.version>
 		<failsafe.version>2.0.1</failsafe.version>
+		<spring.version>2.7.3</spring.version>
 	</properties>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<!-- Import dependency management from Spring Boot -->
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.uniprot</groupId>
