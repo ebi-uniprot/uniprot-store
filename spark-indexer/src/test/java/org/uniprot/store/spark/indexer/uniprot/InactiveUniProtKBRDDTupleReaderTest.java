@@ -37,28 +37,30 @@ class InactiveUniProtKBRDDTupleReaderTest {
             assertNotNull(uniprotRdd);
 
             long count = uniprotRdd.count();
-            assertEquals(22L, count);
-            Tuple2<String, UniProtDocument> deleted =
+            assertEquals(23L, count);
+            Tuple2<String, UniProtDocument> inactive =
                     uniprotRdd.filter(tuple2 -> tuple2._1.equals("I8FBX0")).first();
+            validateInactiveEntry(inactive, "I8FBX0", "DELETED:UNKNOWN");
 
-            assertNotNull(deleted);
-            assertEquals("I8FBX0", deleted._1);
-            assertEquals("DELETED", deleted._2.inactiveReason);
-            assertFalse(deleted._2.active);
+            inactive = uniprotRdd.filter(tuple2 -> tuple2._1.equals("I8FBX1")).first();
+            validateInactiveEntry(inactive, "I8FBX1", "DELETED:PROTEOME_REDUNDANCY");
 
-            Tuple2<String, UniProtDocument> merged =
-                    uniprotRdd.filter(tuple2 -> tuple2._1.equals("Q00015")).first();
-            assertNotNull(merged);
-            assertEquals("Q00015", merged._1);
-            assertEquals("MERGED:P23141", merged._2.inactiveReason);
-            assertFalse(merged._2.active);
+            inactive = uniprotRdd.filter(tuple2 -> tuple2._1.equals("I8FBX2")).first();
+            validateInactiveEntry(inactive, "I8FBX2", "DELETED:UNKNOWN");
 
-            Tuple2<String, UniProtDocument> demerged =
-                    uniprotRdd.filter(tuple2 -> tuple2._1.equals("Q00007")).first();
-            assertNotNull(demerged);
-            assertEquals("Q00007", demerged._1);
-            assertEquals("DEMERGED:P63150,P63151", demerged._2.inactiveReason);
-            assertFalse(demerged._2.active);
+            inactive = uniprotRdd.filter(tuple2 -> tuple2._1.equals("Q00015")).first();
+            validateInactiveEntry(inactive, "Q00015", "MERGED:P23141");
+
+            inactive = uniprotRdd.filter(tuple2 -> tuple2._1.equals("Q00007")).first();
+            validateInactiveEntry(inactive, "Q00007", "DEMERGED:P63150,P63151");
         }
+    }
+
+    private static void validateInactiveEntry(
+            Tuple2<String, UniProtDocument> deleted, String I8FBX0, String expected) {
+        assertNotNull(deleted);
+        assertEquals(I8FBX0, deleted._1);
+        assertEquals(expected, deleted._2.inactiveReason);
+        assertFalse(deleted._2.active);
     }
 }

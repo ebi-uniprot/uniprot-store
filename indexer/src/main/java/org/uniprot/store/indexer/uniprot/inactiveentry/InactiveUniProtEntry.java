@@ -10,16 +10,22 @@ public class InactiveUniProtEntry {
     private final String accession;
     private final String id;
     private final String reason;
+    private final String deletedReason;
     private final List<String> mergedOrDemergedAccessions;
     private static final String DEMERGED = "demerged";
 
     public InactiveUniProtEntry(
-            String accession, String id, String reason, List<String> mergedOrDemergedAccessions) {
+            String accession,
+            String id,
+            String reason,
+            List<String> mergedOrDemergedAccessions,
+            String deletedReason) {
         super();
         this.accession = accession;
         this.id = id;
         this.reason = reason;
         this.mergedOrDemergedAccessions = mergedOrDemergedAccessions;
+        this.deletedReason = deletedReason;
     }
 
     public String getAccession() {
@@ -36,6 +42,10 @@ public class InactiveUniProtEntry {
 
     public List<String> getMergedOrDemergedAccessions() {
         return mergedOrDemergedAccessions;
+    }
+
+    public String getDeletedReason() {
+        return deletedReason;
     }
 
     public String getInactiveReason() {
@@ -61,7 +71,11 @@ public class InactiveUniProtEntry {
     }
 
     public static InactiveUniProtEntry from(
-            String accession, String id, String reason, String mergedToAccesion) {
+            String accession,
+            String id,
+            String reason,
+            String mergedToAccesion,
+            String deletedReason) {
         String name = id;
         if (accession.equals(name)) {
             name = "";
@@ -72,7 +86,8 @@ public class InactiveUniProtEntry {
         if (!Strings.isNullOrEmpty(mergedToAccesion) && !mergedToAccesion.equalsIgnoreCase("-")) {
             mergedToAccesionList.add(mergedToAccesion);
         }
-        return new InactiveUniProtEntry(accession, name, reason, mergedToAccesionList);
+        return new InactiveUniProtEntry(
+                accession, name, reason, mergedToAccesionList, deletedReason);
     }
 
     public static InactiveUniProtEntry merge(List<InactiveUniProtEntry> demergedEntries) {
@@ -89,7 +104,8 @@ public class InactiveUniProtEntry {
                     demergedEntries.get(0).getAccession(),
                     demergedEntries.get(0).getId(),
                     DEMERGED,
-                    accessions);
+                    accessions,
+                    null);
         }
     }
 }
