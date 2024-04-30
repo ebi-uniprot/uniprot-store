@@ -7,7 +7,9 @@ import org.springframework.batch.item.ItemReader;
 import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.cv.keyword.KeywordFileReader;
 
-/** @author lgonzales */
+/**
+ * @author lgonzales
+ */
 public class KeywordLoadItemReader implements ItemReader<KeywordEntry> {
     private Iterator<KeywordEntry> keywordIterator;
 

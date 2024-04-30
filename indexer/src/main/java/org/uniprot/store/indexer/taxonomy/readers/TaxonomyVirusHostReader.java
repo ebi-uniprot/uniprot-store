@@ -7,7 +7,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 
-/** @author lgonzales */
+/**
+ * @author lgonzales
+ */
 public class TaxonomyVirusHostReader implements RowMapper<Taxonomy> {
 
     @Override

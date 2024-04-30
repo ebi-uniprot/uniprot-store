@@ -17,7 +17,9 @@ import org.uniprot.store.search.document.proteome.ProteomeDocument;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 
-/** @author jluo */
+/**
+ * @author jluo
+ */
 public class ProteomeItemProcessor implements ItemProcessor<Proteome, ProteomeDocument> {
     private final ProteomeDocumentConverter documentConverter;
     private final ProteomeEntryAdapter entryAdapter;

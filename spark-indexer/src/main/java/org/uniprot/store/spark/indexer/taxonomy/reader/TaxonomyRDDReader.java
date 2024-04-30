@@ -34,7 +34,9 @@ public class TaxonomyRDDReader implements PairRDDReader<String, TaxonomyEntry> {
         this.taxonomyLineageReader = new TaxonomyLineageReader(jobParameter, false);
     }
 
-    /** @return return a JavaPairRDD{key=taxId, value=TaxonomyEntry} */
+    /**
+     * @return return a JavaPairRDD{key=taxId, value=TaxonomyEntry}
+     */
     public JavaPairRDD<String, TaxonomyEntry> load() {
         JavaPairRDD<String, TaxonomyEntry> taxonomy =
                 loadTaxonomyNodeRow().toJavaRDD().mapToPair(new TaxonomyRowMapper());

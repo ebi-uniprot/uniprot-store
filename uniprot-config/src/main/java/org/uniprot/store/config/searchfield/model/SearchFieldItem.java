@@ -7,11 +7,13 @@ import java.util.Objects;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
-import lombok.Data;
-
 import org.uniprot.store.config.model.Field;
 
-/** @author sahmad */
+import lombok.Data;
+
+/**
+ * @author sahmad
+ */
 @Data
 public class SearchFieldItem implements Field, Serializable {
     private static final long serialVersionUID = -1835246966684124878L;

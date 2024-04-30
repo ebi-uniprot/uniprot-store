@@ -5,8 +5,6 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollecti
 
 import java.util.*;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrInputDocument;
@@ -16,6 +14,8 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexHPSDocumentsException;
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 import org.uniprot.store.spark.indexer.validator.SolrIndexValidator;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This class is used to validate Solr index. It queries solr and compare the result with count

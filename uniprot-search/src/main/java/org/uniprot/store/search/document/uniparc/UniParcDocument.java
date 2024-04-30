@@ -6,10 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import lombok.*;
-
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
+
+import lombok.*;
 
 @Builder(toBuilder = true)
 @Getter

@@ -2,8 +2,6 @@ package org.uniprot.store.spark.indexer.taxonomy.reader;
 
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
@@ -15,6 +13,8 @@ import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyLineageRowMapper;
 
 import com.typesafe.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This class is responsible to read values from Lineage into an a JavaPairRDD{key=taxId, value=List
@@ -56,7 +56,9 @@ public class TaxonomyLineageReader implements PairRDDReader<String, List<Taxonom
                     + " START WITH TAX_ID >= {start} AND TAX_ID <= {end} "
                     + " CONNECT BY PRIOR PARENT_ID = TAX_ID";
 
-    /** @return JavaPairRDD{key=taxId, value=List of TaxonomyLineage} */
+    /**
+     * @return JavaPairRDD{key=taxId, value=List of TaxonomyLineage}
+     */
     public JavaPairRDD<String, List<TaxonomyLineage>> load() {
         JavaSparkContext sparkContext = jobParameter.getSparkContext();
         Config applicationConfig = jobParameter.getApplicationConfig();

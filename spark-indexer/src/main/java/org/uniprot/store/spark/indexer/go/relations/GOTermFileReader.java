@@ -9,13 +9,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.hadoop.conf.Configuration;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Class responsible to Load GO Terms from Hadoop File System

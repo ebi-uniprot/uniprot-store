@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import lombok.Data;
-
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.config.model.Field;
 import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
+
+import lombok.Data;
 
 /**
  * Created 11/03/2020

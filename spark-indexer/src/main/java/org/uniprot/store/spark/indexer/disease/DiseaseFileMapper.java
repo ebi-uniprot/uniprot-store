@@ -3,14 +3,13 @@ package org.uniprot.store.spark.indexer.disease;
 import java.util.Arrays;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.core.util.Utils;
 import org.uniprot.cv.disease.DiseaseFileReader;
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 
+import lombok.extern.slf4j.Slf4j;
 import scala.Tuple2;
 
 /**

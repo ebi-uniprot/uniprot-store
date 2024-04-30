@@ -15,7 +15,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.store.indexer.common.utils.Constants;
 
-/** @author sahmad */
+/**
+ * @author sahmad
+ */
 @Configuration
 public class DiseaseProteinCountStep {
     private static final String QUERY_TO_GET_COUNT_PER_DISEASE =

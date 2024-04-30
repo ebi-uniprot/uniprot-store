@@ -1,6 +1,8 @@
 package org.uniprot.store.search.field;
 
-/** @author lgonzales */
+/**
+ * @author lgonzales
+ */
 public interface ReturnField {
 
     boolean hasReturnField(String fieldName);

@@ -13,7 +13,9 @@ import org.uniprot.store.indexer.common.config.DataSourceConfig;
 import org.uniprot.store.indexer.common.config.SolrRepositoryConfig;
 import org.uniprot.store.indexer.common.utils.Constants;
 
-/** @author lgonzales */
+/**
+ * @author lgonzales
+ */
 @Configuration
 @Import({DataSourceConfig.class, SolrRepositoryConfig.class})
 public class LiteratureJob {

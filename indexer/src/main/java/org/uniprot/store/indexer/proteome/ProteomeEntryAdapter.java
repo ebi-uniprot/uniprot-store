@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.proteome.Superkingdom;
 import org.uniprot.core.proteome.impl.ProteomeEntryBuilder;
@@ -29,6 +27,8 @@ import org.uniprot.store.job.common.StoringException;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author lgonzales

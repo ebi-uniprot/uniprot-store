@@ -11,7 +11,9 @@ import org.uniprot.core.taxonomy.TaxonomyRank;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.core.util.Utils;
 
-/** @author lgonzales */
+/**
+ * @author lgonzales
+ */
 public class TaxonomyLineageReader implements RowMapper<List<TaxonomyLineage>> {
 
     @Override

@@ -20,7 +20,9 @@ public class TaxonomyLinksRDDReader implements PairRDDReader<String, TaxonomyEnt
         this.jobParameter = jobParameter;
     }
 
-    /** @return return a JavaPairRDD{key=taxId, value=TaxonomyEntry} */
+    /**
+     * @return return a JavaPairRDD{key=taxId, value=TaxonomyEntry}
+     */
     public JavaPairRDD<String, TaxonomyEntry> load() {
         return loadNodeRow().toJavaRDD().mapToPair(new TaxonomyLinksRowMapper());
     }

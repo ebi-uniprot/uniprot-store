@@ -4,8 +4,6 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.params.CursorMarkParams;
@@ -18,6 +16,8 @@ import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.DocumentConversionException;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author lgonzales

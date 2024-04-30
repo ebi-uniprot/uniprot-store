@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.jsoup.Jsoup;
 import org.uniprot.store.search.document.help.HelpDocument;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author sahmad

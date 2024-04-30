@@ -11,9 +11,9 @@ import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 import org.uniprot.store.spark.indexer.literature.mapper.LiteratureMappedFileMapper;
 import org.uniprot.store.spark.indexer.literature.mapper.LiteraturePubmedFileMapper;
 
-import scala.Tuple2;
-
 import com.typesafe.config.Config;
+
+import scala.Tuple2;
 
 /**
  * Class responsible to load JavaPairRDD from PIR mapped files.

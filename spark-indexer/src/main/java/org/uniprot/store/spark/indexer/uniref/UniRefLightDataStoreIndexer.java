@@ -2,8 +2,6 @@ package org.uniprot.store.spark.indexer.uniref;
 
 import java.util.Iterator;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.JavaFutureAction;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.VoidFunction;
@@ -16,6 +14,8 @@ import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.uniref.writer.UniRefLightDataStoreWriter;
 
 import com.typesafe.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created 08/07/2020

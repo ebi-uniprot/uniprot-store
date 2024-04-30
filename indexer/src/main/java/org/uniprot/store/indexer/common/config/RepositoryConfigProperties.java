@@ -1,9 +1,9 @@
 package org.uniprot.store.indexer.common.config;
 
-import lombok.Data;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+
+import lombok.Data;
 
 /**
  * Solr properties bean that will be injected with values from application.properties.

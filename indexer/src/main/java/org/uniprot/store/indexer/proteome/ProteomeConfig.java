@@ -2,8 +2,6 @@ package org.uniprot.store.indexer.proteome;
 
 import java.io.File;
 
-import lombok.Data;
-
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
@@ -19,6 +17,8 @@ import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.job.common.util.CommonConstants;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
+
+import lombok.Data;
 
 /**
  * @author jluo

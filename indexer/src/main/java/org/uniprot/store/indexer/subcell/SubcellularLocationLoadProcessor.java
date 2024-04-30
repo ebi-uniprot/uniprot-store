@@ -2,8 +2,6 @@ package org.uniprot.store.indexer.subcell;
 
 import java.util.Map;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemProcessor;
@@ -17,6 +15,8 @@ import org.uniprot.store.search.document.subcell.SubcellularLocationDocument;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author lgonzales

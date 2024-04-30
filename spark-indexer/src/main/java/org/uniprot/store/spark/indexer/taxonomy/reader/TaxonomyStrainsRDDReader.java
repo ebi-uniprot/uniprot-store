@@ -20,7 +20,9 @@ public class TaxonomyStrainsRDDReader implements PairRDDReader<String, Strain> {
         this.jobParameter = jobParameter;
     }
 
-    /** @return return a JavaPairRDD{key=taxId, value=Strain} */
+    /**
+     * @return return a JavaPairRDD{key=taxId, value=Strain}
+     */
     public JavaPairRDD<String, Strain> load() {
         return loadNodeRow().toJavaRDD().mapToPair(new TaxonomyStrainsRowMapper());
     }

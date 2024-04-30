@@ -1,9 +1,9 @@
 package org.uniprot.store.search.domain.impl;
 
+import org.uniprot.store.search.domain.EvidenceItem;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import org.uniprot.store.search.domain.EvidenceItem;
 
 @Data
 @NoArgsConstructor

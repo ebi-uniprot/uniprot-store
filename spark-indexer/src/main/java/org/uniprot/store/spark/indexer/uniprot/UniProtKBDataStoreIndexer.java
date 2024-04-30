@@ -2,8 +2,6 @@ package org.uniprot.store.spark.indexer.uniprot;
 
 import java.util.Iterator;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
@@ -20,6 +18,8 @@ import org.uniprot.store.spark.indexer.uniprot.mapper.UniProtKBAnnotationScoreMa
 import org.uniprot.store.spark.indexer.uniprot.writer.UniProtKBDataStoreWriter;
 
 import com.typesafe.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author lgonzales

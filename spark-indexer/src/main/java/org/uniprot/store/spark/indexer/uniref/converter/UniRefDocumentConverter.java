@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefMember;
 import org.uniprot.core.uniref.UniRefMemberIdType;
@@ -13,6 +11,8 @@ import org.uniprot.core.util.Utils;
 import org.uniprot.store.indexer.util.DateUtils;
 import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.uniref.UniRefDocument;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This class convert an UniRefEntry to UniRefDocument

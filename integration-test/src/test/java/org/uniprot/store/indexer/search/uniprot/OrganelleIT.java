@@ -41,7 +41,8 @@ class OrganelleIT {
     // Entry 4
     private static final String ACCESSION4 = "Q197F7";
     private static final String ORGANELLE6 =
-            PLASTID.getName() + "; " + ORGANELLAR_CHROMATOPHORE.getName();;
+            PLASTID.getName() + "; " + ORGANELLAR_CHROMATOPHORE.getName();
+    ;
     @RegisterExtension static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
 
     @BeforeAll

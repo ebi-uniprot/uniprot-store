@@ -4,8 +4,6 @@ import static org.uniprot.store.indexer.common.utils.Constants.INACTIVEENTRY_IND
 
 import java.util.concurrent.Future;
 
-import net.jodah.failsafe.RetryPolicy;
-
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.Step;
@@ -36,6 +34,8 @@ import org.uniprot.store.indexer.uniprotkb.writer.InactiveEntryDocumentPairWrite
 import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.job.common.listener.WriteRetrierLogStepListener;
 import org.uniprot.store.search.SolrCollection;
+
+import net.jodah.failsafe.RetryPolicy;
 
 /**
  * @author jluo

@@ -5,8 +5,6 @@ import static org.uniprot.core.util.Utils.notNull;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.CrossReference;
@@ -16,6 +14,8 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ProteomeEntryToProteomeDocumentMapper

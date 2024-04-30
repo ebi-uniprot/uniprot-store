@@ -21,9 +21,9 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
-import scala.Tuple2;
-
 import com.typesafe.config.Config;
+
+import scala.Tuple2;
 
 /**
  * @author lgonzales

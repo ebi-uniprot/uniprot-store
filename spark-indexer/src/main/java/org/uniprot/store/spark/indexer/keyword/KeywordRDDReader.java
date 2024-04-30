@@ -28,7 +28,9 @@ public class KeywordRDDReader implements PairRDDReader<String, KeywordEntry> {
         this.jobParameter = jobParameter;
     }
 
-    /** @return JavaPairRDD{key=keywordId, value={@link KeywordEntry}} */
+    /**
+     * @return JavaPairRDD{key=keywordId, value={@link KeywordEntry}}
+     */
     @Override
     public JavaPairRDD<String, KeywordEntry> load() {
         Config config = jobParameter.getApplicationConfig();

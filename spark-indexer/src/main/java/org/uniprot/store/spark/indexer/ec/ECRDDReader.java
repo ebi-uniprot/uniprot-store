@@ -29,7 +29,9 @@ public class ECRDDReader implements PairRDDReader<String, ECEntry> {
         this.jobParameter = jobParameter;
     }
 
-    /** @return JavaPairRDD{key=ecId, value={@link ECEntry}} */
+    /**
+     * @return JavaPairRDD{key=ecId, value={@link ECEntry}}
+     */
     @Override
     public JavaPairRDD<String, ECEntry> load() {
         Config config = jobParameter.getApplicationConfig();

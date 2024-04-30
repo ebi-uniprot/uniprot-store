@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -44,9 +42,10 @@ import org.uniprot.store.spark.indexer.uniprot.mapper.UniRefMappedToUniprotDocum
 import org.uniprot.store.spark.indexer.uniprot.mapper.model.MappedUniRef;
 import org.uniprot.store.spark.indexer.uniref.UniRefRDDTupleReader;
 
-import scala.Tuple2;
-
 import com.typesafe.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
+import scala.Tuple2;
 
 /**
  * This class is responsible to load all the data for UniProtDocument and save it into HPS
@@ -256,7 +255,9 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
         return uniProtDocumentRDD;
     }
 
-    /** @return JavaPairRDD{Key=accession, value=MappedUniRef} for UniRefType.UniRef90 */
+    /**
+     * @return JavaPairRDD{Key=accession, value=MappedUniRef} for UniRefType.UniRef90
+     */
     private JavaPairRDD<String, MappedUniRef> loadUniRefMap(UniRefType uniRefType) {
         UniRefRDDTupleReader unirefReader = new UniRefRDDTupleReader(uniRefType, parameter, true);
         JavaRDD<UniRefEntry> uniRefEntryJavaRDD = unirefReader.load();

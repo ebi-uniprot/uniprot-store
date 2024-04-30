@@ -40,7 +40,9 @@ import org.uniprot.store.search.document.literature.LiteratureDocument;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-/** @author lgonzales */
+/**
+ * @author lgonzales
+ */
 @ActiveProfiles(profiles = {"job", "offline"})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(

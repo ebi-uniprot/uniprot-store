@@ -2,14 +2,13 @@ package org.uniprot.store.spark.indexer.go.evidence;
 
 import java.util.Arrays;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.uniprotkb.evidence.Evidence;
 import org.uniprot.core.uniprotkb.evidence.EvidenceCode;
 import org.uniprot.cv.evidence.EvidenceHelper;
 import org.uniprot.cv.evidence.GOEvidences;
 
+import lombok.extern.slf4j.Slf4j;
 import scala.Tuple2;
 
 /**

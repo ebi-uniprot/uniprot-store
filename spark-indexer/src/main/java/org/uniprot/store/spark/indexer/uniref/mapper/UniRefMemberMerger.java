@@ -2,14 +2,13 @@ package org.uniprot.store.spark.indexer.uniref.mapper;
 
 import java.util.Objects;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.uniref.impl.RepresentativeMemberBuilder;
 import org.uniprot.core.util.Utils;
 
+import lombok.extern.slf4j.Slf4j;
 import scala.Tuple2;
 
 /**

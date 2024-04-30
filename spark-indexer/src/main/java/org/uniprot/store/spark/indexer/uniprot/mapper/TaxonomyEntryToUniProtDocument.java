@@ -5,8 +5,6 @@ import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConv
 import java.util.*;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
@@ -14,6 +12,7 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
+import lombok.extern.slf4j.Slf4j;
 import scala.Tuple2;
 
 /**

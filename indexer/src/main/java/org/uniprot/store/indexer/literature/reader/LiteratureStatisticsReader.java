@@ -3,11 +3,13 @@ package org.uniprot.store.indexer.literature.reader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import lombok.Getter;
-
 import org.springframework.jdbc.core.RowMapper;
 
-/** @author lgonzales */
+import lombok.Getter;
+
+/**
+ * @author lgonzales
+ */
 public class LiteratureStatisticsReader
         implements RowMapper<LiteratureStatisticsReader.LiteratureCount> {
 

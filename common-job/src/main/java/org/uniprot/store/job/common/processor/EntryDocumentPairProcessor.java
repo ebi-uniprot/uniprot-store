@@ -1,7 +1,5 @@
 package org.uniprot.store.job.common.processor;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
@@ -9,6 +7,8 @@ import org.uniprot.store.job.common.model.EntryDocumentPair;
 import org.uniprot.store.search.document.Document;
 import org.uniprot.store.search.document.DocumentConversionException;
 import org.uniprot.store.search.document.DocumentConverter;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This class represents an {@link ItemProcessor} of {@link EntryDocumentPair}s, where conversion is

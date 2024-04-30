@@ -26,7 +26,9 @@ import org.uniprot.store.indexer.taxonomy.readers.TaxonomyStatisticsReader;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 
-/** @author lgonzales */
+/**
+ * @author lgonzales
+ */
 @Configuration
 public class TaxonomyStatisticsStep {
 

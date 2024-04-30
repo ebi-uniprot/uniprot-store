@@ -1,10 +1,9 @@
 package org.uniprot.store.spark.indexer.subcell;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 
+import lombok.extern.slf4j.Slf4j;
 import scala.Tuple2;
 
 /**

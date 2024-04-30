@@ -47,9 +47,9 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyH2Utils;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
 
-import scala.Tuple2;
-
 import com.typesafe.config.Config;
+
+import scala.Tuple2;
 
 class ProteomeDocumentsToHPSWriterIT {
     private static final String RELEASE_NAME = "2020_02";

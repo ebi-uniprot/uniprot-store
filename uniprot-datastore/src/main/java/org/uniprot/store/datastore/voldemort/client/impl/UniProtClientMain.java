@@ -4,14 +4,14 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import joptsimple.internal.Strings;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.uniprot.core.flatfile.writer.impl.UniProtFlatfileWriter;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.datastore.voldemort.client.ClientFactory;
 import org.uniprot.store.datastore.voldemort.client.UniProtClient;
+
+import joptsimple.internal.Strings;
 
 public class UniProtClientMain {
     private static final String DEFAULT_VOLDEMORT_URL = "tcp://ves-hx-c3.ebi.ac.uk:6666";

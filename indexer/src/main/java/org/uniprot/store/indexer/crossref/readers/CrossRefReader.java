@@ -11,8 +11,6 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemReader;
@@ -20,6 +18,8 @@ import org.uniprot.core.cv.xdb.CrossRefEntry;
 import org.uniprot.core.cv.xdb.impl.CrossRefEntryBuilder;
 import org.uniprot.core.impl.StatisticsBuilder;
 import org.uniprot.store.indexer.common.utils.Constants;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class CrossRefReader implements ItemReader<CrossRefEntry> {

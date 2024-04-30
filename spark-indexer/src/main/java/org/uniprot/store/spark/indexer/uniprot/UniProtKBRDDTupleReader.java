@@ -33,7 +33,9 @@ public class UniProtKBRDDTupleReader implements PairRDDReader<String, UniProtKBE
 
     private static final String SPLITTER = "\n//\n";
 
-    /** @return an JavaPairRDD with <accession, UniProtKBEntry> */
+    /**
+     * @return an JavaPairRDD with <accession, UniProtKBEntry>
+     */
     @Override
     public JavaPairRDD<String, UniProtKBEntry> load() {
         Config config = jobParameter.getApplicationConfig();
@@ -64,7 +66,9 @@ public class UniProtKBRDDTupleReader implements PairRDDReader<String, UniProtKBE
         return splittedFileRDD.map(e -> e + SPLITTER).mapToPair(mapper);
     }
 
-    /** @return Return an RDD with the entry in String format */
+    /**
+     * @return Return an RDD with the entry in String format
+     */
     public JavaRDD<String> loadFlatFileToRDD() {
         Config config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();

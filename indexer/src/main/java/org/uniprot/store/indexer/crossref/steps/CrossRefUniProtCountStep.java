@@ -18,7 +18,9 @@ import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.crossref.readers.CrossRefUniProtCountReader;
 import org.uniprot.store.indexer.crossref.writers.CrossRefUniProtCountWriter;
 
-/** @author sahmad */
+/**
+ * @author sahmad
+ */
 @Configuration
 public class CrossRefUniProtCountStep {
 

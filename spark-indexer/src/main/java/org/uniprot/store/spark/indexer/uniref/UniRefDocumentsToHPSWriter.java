@@ -2,8 +2,6 @@ package org.uniprot.store.spark.indexer.uniref;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.*;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
@@ -16,6 +14,8 @@ import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniref.mapper.UniRefTaxonomyJoin;
 import org.uniprot.store.spark.indexer.uniref.mapper.UniRefToDocument;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This class is responsible to load all the data for UniRefDocument and save it into HPS

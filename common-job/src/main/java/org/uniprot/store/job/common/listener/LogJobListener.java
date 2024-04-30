@@ -2,11 +2,11 @@ package org.uniprot.store.job.common.listener;
 
 import java.util.concurrent.TimeUnit;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.StepExecution;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class LogJobListener implements JobExecutionListener {

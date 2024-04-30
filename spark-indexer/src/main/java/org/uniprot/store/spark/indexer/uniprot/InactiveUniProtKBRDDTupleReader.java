@@ -24,7 +24,9 @@ public class InactiveUniProtKBRDDTupleReader {
 
     private InactiveUniProtKBRDDTupleReader() {}
 
-    /** @return an JavaPairRDD with <accession, UniProtDocument> for Inactive UniProt Entries. */
+    /**
+     * @return an JavaPairRDD with <accession, UniProtDocument> for Inactive UniProt Entries.
+     */
     public static JavaPairRDD<String, UniProtDocument> load(JobParameter jobParameter) {
         Config config = jobParameter.getApplicationConfig();
 

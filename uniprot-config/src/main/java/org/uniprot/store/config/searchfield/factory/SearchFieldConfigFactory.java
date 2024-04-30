@@ -4,11 +4,11 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 
-import lombok.NonNull;
-
 import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.config.searchfield.impl.SearchFieldConfigImpl;
+
+import lombok.NonNull;
 
 public class SearchFieldConfigFactory {
     public static final String CROSSREF_CONFIG_FILE =

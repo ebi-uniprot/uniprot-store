@@ -1,7 +1,5 @@
 package org.uniprot.store.indexer.literature.processor;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.CitationDatabase;
@@ -20,7 +18,11 @@ import org.uniprot.store.search.document.literature.LiteratureDocument;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-/** @author lgonzales */
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * @author lgonzales
+ */
 @Slf4j
 public class LiteratureStatisticsProcessor
         implements ItemProcessor<LiteratureStatisticsReader.LiteratureCount, LiteratureDocument> {

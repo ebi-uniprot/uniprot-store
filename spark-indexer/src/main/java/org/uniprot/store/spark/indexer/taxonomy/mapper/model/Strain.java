@@ -2,9 +2,9 @@ package org.uniprot.store.spark.indexer.taxonomy.mapper.model;
 
 import java.io.Serializable;
 
-import lombok.Getter;
-
 import org.uniprot.core.util.Utils;
+
+import lombok.Getter;
 
 @Getter
 public class Strain implements Serializable {

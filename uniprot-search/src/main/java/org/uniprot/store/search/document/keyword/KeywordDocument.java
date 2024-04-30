@@ -3,13 +3,13 @@ package org.uniprot.store.search.document.keyword;
 import java.nio.ByteBuffer;
 import java.util.List;
 
+import org.apache.solr.client.solrj.beans.Field;
+import org.uniprot.store.search.document.Document;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import org.apache.solr.client.solrj.beans.Field;
-import org.uniprot.store.search.document.Document;
 
 @Getter
 @Builder

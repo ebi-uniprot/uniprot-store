@@ -4,13 +4,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.beans.Field;
+import org.uniprot.store.search.document.Document;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import org.apache.solr.client.solrj.beans.Field;
-import org.uniprot.store.search.document.Document;
 
 /**
  * @author sahmad

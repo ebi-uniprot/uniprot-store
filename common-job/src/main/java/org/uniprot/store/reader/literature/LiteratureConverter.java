@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.Author;
 import org.uniprot.core.citation.CitationDatabase;
@@ -17,6 +15,8 @@ import org.uniprot.core.citation.impl.PublicationDateBuilder;
 import org.uniprot.core.impl.CrossReferenceBuilder;
 import org.uniprot.core.util.Utils;
 import org.uniprot.cv.FileParseException;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author lgonzales

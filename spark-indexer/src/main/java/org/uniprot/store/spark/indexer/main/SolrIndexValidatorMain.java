@@ -2,8 +2,6 @@ package org.uniprot.store.spark.indexer.main;
 
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.JobParameter;
@@ -13,6 +11,8 @@ import org.uniprot.store.spark.indexer.validator.SolrIndexValidator;
 import org.uniprot.store.spark.indexer.validator.SolrIndexValidatorFactory;
 
 import com.typesafe.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class SolrIndexValidatorMain {

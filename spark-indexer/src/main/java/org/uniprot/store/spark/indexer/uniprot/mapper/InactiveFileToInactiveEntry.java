@@ -1,14 +1,14 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.function.PairFunction;
+import org.uniprot.core.uniprotkb.DeletedReason;
 import org.uniprot.core.uniprotkb.InactiveReasonType;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.impl.EntryInactiveReasonBuilder;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.core.util.Utils;
 
+import lombok.extern.slf4j.Slf4j;
 import scala.Serializable;
 import scala.Tuple2;
 
@@ -37,8 +37,11 @@ public class InactiveFileToInactiveEntry
         String reasonType = tokens[2].trim();
 
         EntryInactiveReasonBuilder reasonBuilder = new EntryInactiveReasonBuilder();
-        reasonBuilder.type(InactiveReasonType.valueOf(reasonType.toUpperCase()));
-        if (tokens.length == 4 && !tokens[3].equals("-")) {
+        InactiveReasonType type = InactiveReasonType.valueOf(reasonType.toUpperCase());
+        reasonBuilder.type(type);
+        if (InactiveReasonType.DELETED == type) {
+            reasonBuilder.deletedReason(getDeletedReason(tokens));
+        } else if (tokens.length == 4 && !tokens[3].equals("-")) {
             reasonBuilder.mergeDemergeTosAdd(tokens[3]);
         }
         UniProtKBEntry inactiveEntry;
@@ -50,5 +53,13 @@ public class InactiveFileToInactiveEntry
             inactiveEntry = new UniProtKBEntryBuilder(accession, reasonBuilder.build()).build();
         }
         return new Tuple2<>(accession, inactiveEntry);
+    }
+
+    private static DeletedReason getDeletedReason(String[] tokens) {
+        DeletedReason deletedReason = DeletedReason.UNKNOWN;
+        if (tokens.length == 5 && !tokens[4].isBlank()) {
+            deletedReason = DeletedReason.fromId(tokens[4]);
+        }
+        return deletedReason;
     }
 }

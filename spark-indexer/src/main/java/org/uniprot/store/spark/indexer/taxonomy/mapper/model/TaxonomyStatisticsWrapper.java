@@ -2,11 +2,11 @@ package org.uniprot.store.spark.indexer.taxonomy.mapper.model;
 
 import java.io.Serializable;
 
+import org.uniprot.core.taxonomy.TaxonomyStatistics;
+
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-
-import org.uniprot.core.taxonomy.TaxonomyStatistics;
 
 @Getter
 @EqualsAndHashCode

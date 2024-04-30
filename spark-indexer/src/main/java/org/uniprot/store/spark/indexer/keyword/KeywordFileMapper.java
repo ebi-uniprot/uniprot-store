@@ -1,10 +1,9 @@
 package org.uniprot.store.spark.indexer.keyword;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.cv.keyword.KeywordEntry;
 
+import lombok.extern.slf4j.Slf4j;
 import scala.Tuple2;
 
 /**

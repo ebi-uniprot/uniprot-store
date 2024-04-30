@@ -20,7 +20,9 @@ public class TaxonomyDeletedRDDReader implements RDDReader<TaxonomyDocument> {
         this.jobParameter = jobParameter;
     }
 
-    /** @return return a JavaRDD{TaxonomyDocument} */
+    /**
+     * @return return a JavaRDD{TaxonomyDocument}
+     */
     public JavaRDD<TaxonomyDocument> load() {
         return loadNodeRow().toJavaRDD().map(new TaxonomyDeletedRowMapper());
     }

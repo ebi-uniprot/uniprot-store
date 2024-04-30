@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -30,6 +28,8 @@ import org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConverterUt
 import org.uniprot.store.spark.indexer.validator.SolrIndexValidator;
 
 import com.typesafe.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class UniProtKBSolrIndexValidator implements SolrIndexValidator {

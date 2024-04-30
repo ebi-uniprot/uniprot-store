@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.config.common.JsonLoader;
 import org.uniprot.store.config.returnfield.model.ReturnField;
@@ -16,6 +14,8 @@ import org.uniprot.store.config.schema.SchemaValidator;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public abstract class AbstractReturnFieldConfig implements ReturnFieldConfig {

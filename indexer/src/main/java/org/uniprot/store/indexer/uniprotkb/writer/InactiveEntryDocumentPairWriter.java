@@ -1,12 +1,12 @@
 package org.uniprot.store.indexer.uniprotkb.writer;
 
-import net.jodah.failsafe.RetryPolicy;
-
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
 import org.uniprot.store.indexer.uniprotkb.model.InactiveEntryDocumentPair;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+
+import net.jodah.failsafe.RetryPolicy;
 
 /**
  * @author jluo

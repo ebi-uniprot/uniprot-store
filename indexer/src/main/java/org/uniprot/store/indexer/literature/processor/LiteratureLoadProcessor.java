@@ -2,8 +2,6 @@ package org.uniprot.store.indexer.literature.processor;
 
 import java.util.Optional;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.solr.client.solrj.SolrQuery;
 import org.springframework.batch.item.ItemProcessor;
 import org.uniprot.core.citation.Citation;
@@ -18,7 +16,11 @@ import org.uniprot.store.search.document.literature.LiteratureDocument;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-/** @author lgonzales */
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * @author lgonzales
+ */
 @Slf4j
 public class LiteratureLoadProcessor implements ItemProcessor<LiteratureEntry, LiteratureDocument> {
 

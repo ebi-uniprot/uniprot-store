@@ -4,14 +4,14 @@ import static java.util.Collections.singletonList;
 
 import java.util.Optional;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.solr.client.solrj.beans.DocumentObjectBinder;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.uniprot.store.search.document.Document;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author lgonzales

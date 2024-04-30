@@ -18,9 +18,9 @@ import org.uniprot.store.spark.indexer.chebi.mapper.*;
 import org.uniprot.store.spark.indexer.chebi.mapper.ChebiEntryRowAggregator;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 
-import scala.collection.JavaConverters;
-
 import com.typesafe.config.Config;
+
+import scala.collection.JavaConverters;
 
 public class ChebiOwlReader {
 

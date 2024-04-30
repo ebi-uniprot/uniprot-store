@@ -3,8 +3,6 @@ package org.uniprot.store.spark.indexer.validator;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getSolrCollection;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -12,6 +10,8 @@ import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import com.typesafe.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This class is used to print first 200 solr document saved in HPS. it is helpful during the

@@ -3,8 +3,6 @@ package org.uniprot.store.spark.indexer.publication;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 import static org.uniprot.store.spark.indexer.publication.MappedReferenceRDDReader.*;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.uniprot.core.publication.MappedReference;
@@ -17,6 +15,8 @@ import org.uniprot.store.spark.indexer.publication.mapper.*;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
 import com.typesafe.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The purpose of this class is to load all publication sources (UniProtKB references, PIR

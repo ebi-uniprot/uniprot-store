@@ -4,10 +4,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import lombok.*;
-
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
+
+import lombok.*;
 
 /**
  * @author jluo

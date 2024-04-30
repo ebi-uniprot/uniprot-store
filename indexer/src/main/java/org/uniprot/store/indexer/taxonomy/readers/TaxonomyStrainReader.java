@@ -3,12 +3,14 @@ package org.uniprot.store.indexer.taxonomy.readers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import lombok.Getter;
-
 import org.springframework.jdbc.core.RowMapper;
 import org.uniprot.core.util.Utils;
 
-/** @author lgonzales */
+import lombok.Getter;
+
+/**
+ * @author lgonzales
+ */
 public class TaxonomyStrainReader implements RowMapper<TaxonomyStrainReader.Strain> {
 
     @Override

@@ -22,9 +22,9 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniProtEntryToSolrDocument;
 
-import scala.Tuple2;
-
 import com.typesafe.config.Config;
+
+import scala.Tuple2;
 
 /**
  * @author lgonzales
