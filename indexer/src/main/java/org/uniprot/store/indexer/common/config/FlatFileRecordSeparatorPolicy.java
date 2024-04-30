@@ -2,7 +2,9 @@ package org.uniprot.store.indexer.common.config;
 
 import org.springframework.batch.item.file.separator.SuffixRecordSeparatorPolicy;
 
-/** @author lgonzales */
+/**
+ * @author lgonzales
+ */
 public class FlatFileRecordSeparatorPolicy extends SuffixRecordSeparatorPolicy {
 
     private String suffix;

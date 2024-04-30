@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -49,9 +47,10 @@ import org.uniprot.store.spark.indexer.uniparc.UniParcRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniprot.mapper.GoRelationsJoinMapper;
 
-import scala.Tuple2;
-
 import com.typesafe.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
+import scala.Tuple2;
 
 /**
  * This class is responsible to load all the data for SuggestDocument and write it into HPS
@@ -106,7 +105,9 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
         return flatFileReader.loadFlatFileToRDD();
     }
 
-    /** @return JavaRDD of SuggestDocument for uniprotkb main text search field */
+    /**
+     * @return JavaRDD of SuggestDocument for uniprotkb main text search field
+     */
     JavaRDD<SuggestDocument> getMain() {
         List<SuggestDocument> mainList = SuggestionConfig.databaseSuggestions();
         return sparkContext.parallelize(mainList);
@@ -269,7 +270,9 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                 .distinct();
     }
 
-    /** @return JavaRDD of SuggestDocument with Keyword information mapped from keywlist.txt file */
+    /**
+     * @return JavaRDD of SuggestDocument with Keyword information mapped from keywlist.txt file
+     */
     JavaRDD<SuggestDocument> getKeyword() {
 
         // JavaPairRDD<keywordId,KeywordEntry> keyword --> extracted from keywlist.txt
@@ -322,7 +325,9 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
         return organismSuggester.union(taxonomySuggester).union(organismHostSuggester);
     }
 
-    /** @return JavaRDD of SuggestDocument built from Proteome input file */
+    /**
+     * @return JavaRDD of SuggestDocument built from Proteome input file
+     */
     JavaRDD<SuggestDocument> getProteome(
             JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineageRDD) {
         ProteomeRDDReader proteomeRDDReader = new ProteomeRDDReader(jobParameter, false);

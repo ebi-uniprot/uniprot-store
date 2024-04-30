@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.core.xml.jaxb.uniref.MemberType;
 import org.uniprot.store.datastore.UniProtStoreClient;
 import org.uniprot.store.datastore.voldemort.member.uniref.VoldemortRemoteUniRefMemberStore;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author sahmad

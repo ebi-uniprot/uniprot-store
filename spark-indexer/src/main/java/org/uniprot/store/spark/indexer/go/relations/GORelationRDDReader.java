@@ -4,8 +4,6 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputRel
 
 import java.util.*;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
@@ -13,9 +11,10 @@ import org.uniprot.core.cv.go.impl.GeneOntologyEntryBuilder;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 
-import scala.Tuple2;
-
 import com.typesafe.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
+import scala.Tuple2;
 
 /**
  * This class load GoRelation to a JavaPairRDD{key=goTermId, value={@link GeneOntologyEntry with

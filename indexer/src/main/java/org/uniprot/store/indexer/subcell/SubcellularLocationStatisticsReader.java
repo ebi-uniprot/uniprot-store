@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.jdbc.core.RowMapper;
+
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.jdbc.core.RowMapper;
 
 /**
  * @author lgonzales

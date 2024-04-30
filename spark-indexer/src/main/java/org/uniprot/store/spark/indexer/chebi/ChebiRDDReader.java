@@ -14,10 +14,10 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 
+import com.typesafe.config.Config;
+
 import scala.Tuple2;
 import scala.reflect.ClassTag;
-
-import com.typesafe.config.Config;
 
 /**
  * ChebiRDDReader loads CHEBI data and also its related ids "is_a","is_conjugate_base_of" and
@@ -44,7 +44,9 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
         this.jobParameter = jobParameter;
     }
 
-    /** @return JavaPairRDD{key=chebiId, value={@link ChebiEntry}} */
+    /**
+     * @return JavaPairRDD{key=chebiId, value={@link ChebiEntry}}
+     */
     @Override
     public JavaPairRDD<String, ChebiEntry> load() {
         Config config = jobParameter.getApplicationConfig();

@@ -27,7 +27,9 @@ public class SubcellularLocationRDDReader
         this.jobParameter = jobParameter;
     }
 
-    /** @return JavaPairRDD{key=subcellId, value={@link SubcellularLocationEntry}} */
+    /**
+     * @return JavaPairRDD{key=subcellId, value={@link SubcellularLocationEntry}}
+     */
     @Override
     public JavaPairRDD<String, SubcellularLocationEntry> load() {
         Config config = jobParameter.getApplicationConfig();

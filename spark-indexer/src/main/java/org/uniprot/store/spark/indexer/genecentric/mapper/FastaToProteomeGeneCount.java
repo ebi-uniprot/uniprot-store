@@ -9,9 +9,9 @@ import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.apache.spark.api.java.function.Function2;
 
-import scala.Tuple2;
-
 import com.google.common.collect.Iterators;
+
+import scala.Tuple2;
 
 /**
  * @author lgonzales

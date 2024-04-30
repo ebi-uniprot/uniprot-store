@@ -2,8 +2,6 @@ package org.uniprot.store.spark.indexer.genecentric;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.uniprot.core.genecentric.GeneCentricEntry;
@@ -16,6 +14,8 @@ import org.uniprot.store.spark.indexer.genecentric.mapper.GeneCentricJoin;
 import org.uniprot.store.spark.indexer.genecentric.mapper.GeneCentricToDocument;
 
 import com.typesafe.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author lgonzales

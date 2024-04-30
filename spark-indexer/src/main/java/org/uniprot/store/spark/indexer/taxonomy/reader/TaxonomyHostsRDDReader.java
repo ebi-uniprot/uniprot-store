@@ -19,7 +19,9 @@ public class TaxonomyHostsRDDReader implements PairRDDReader<String, String> {
         this.jobParameter = jobParameter;
     }
 
-    /** @return return a JavaPairRDD{key=taxId, value=hostId} */
+    /**
+     * @return return a JavaPairRDD{key=taxId, value=hostId}
+     */
     public JavaPairRDD<String, String> load() {
         return loadNodeRow().toJavaRDD().mapToPair(new TaxonomyHostsRowMapper());
     }

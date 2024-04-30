@@ -18,8 +18,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import net.jodah.failsafe.RetryPolicy;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.batch.core.BatchStatus;
@@ -46,6 +44,8 @@ import org.uniprot.store.indexer.uniprotkb.writer.UniProtEntryDocumentPairWriter
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.job.common.util.CommonConstants;
 import org.uniprot.store.search.SolrCollection;
+
+import net.jodah.failsafe.RetryPolicy;
 
 /**
  * Created 12/04/19

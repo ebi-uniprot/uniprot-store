@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-import lombok.*;
-
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
+
+import lombok.*;
 
 @EqualsAndHashCode
 @AllArgsConstructor

@@ -4,8 +4,6 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.*;
 
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
@@ -15,6 +13,8 @@ import org.uniprot.store.spark.indexer.common.writer.SolrIndexParameter;
 import org.uniprot.store.spark.indexer.common.writer.SolrIndexWriter;
 
 import com.typesafe.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This class is responsible to load data from saved SolrDocuments and Index in Solr

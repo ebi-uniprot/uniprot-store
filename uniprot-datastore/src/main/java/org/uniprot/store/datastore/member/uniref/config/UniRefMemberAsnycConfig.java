@@ -4,8 +4,6 @@ import static org.uniprot.store.job.common.concurrent.TaskExecutorPropertiesConv
 
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +12,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.uniprot.core.util.concurrency.TaskExecutorProperties;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author sahmad

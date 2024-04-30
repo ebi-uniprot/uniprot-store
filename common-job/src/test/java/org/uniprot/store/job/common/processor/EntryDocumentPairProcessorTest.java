@@ -7,8 +7,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import lombok.Getter;
-
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsIterableContainingInOrder;
@@ -18,6 +16,8 @@ import org.uniprot.store.job.common.model.AbstractEntryDocumentPair;
 import org.uniprot.store.search.document.Document;
 import org.uniprot.store.search.document.DocumentConversionException;
 import org.uniprot.store.search.document.DocumentConverter;
+
+import lombok.Getter;
 
 /**
  * Created 22/08/19

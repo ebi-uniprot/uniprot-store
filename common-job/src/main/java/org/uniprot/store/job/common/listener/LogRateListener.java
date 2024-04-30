@@ -5,11 +5,11 @@ import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.batch.core.ItemWriteListener;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Class used to log statistics of the rate of writing. The primary purpose is to provide a basis

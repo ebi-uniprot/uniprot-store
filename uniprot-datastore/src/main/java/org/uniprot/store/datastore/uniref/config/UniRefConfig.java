@@ -4,14 +4,14 @@ import static java.util.Collections.singletonList;
 
 import java.time.temporal.ChronoUnit;
 
-import net.jodah.failsafe.RetryPolicy;
-
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uniprot.store.datastore.utils.Constants;
+
+import net.jodah.failsafe.RetryPolicy;
 
 /**
  * @author jluo

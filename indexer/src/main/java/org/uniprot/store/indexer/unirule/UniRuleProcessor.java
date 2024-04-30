@@ -3,8 +3,6 @@ package org.uniprot.store.indexer.unirule;
 import java.util.Map;
 import java.util.Objects;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
@@ -13,6 +11,8 @@ import org.uniprot.core.xml.jaxb.unirule.UniRuleType;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.search.document.unirule.UniRuleDocument;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author sahmad

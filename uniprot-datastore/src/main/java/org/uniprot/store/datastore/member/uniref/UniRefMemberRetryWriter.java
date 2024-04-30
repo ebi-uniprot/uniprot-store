@@ -2,12 +2,12 @@ package org.uniprot.store.datastore.member.uniref;
 
 import static org.uniprot.store.datastore.voldemort.member.uniref.VoldemortRemoteUniRefMemberStore.getVoldemortKey;
 
-import lombok.extern.slf4j.Slf4j;
-import net.jodah.failsafe.RetryPolicy;
-
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.store.job.common.store.Store;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
+
+import lombok.extern.slf4j.Slf4j;
+import net.jodah.failsafe.RetryPolicy;
 
 /**
  * @author sahmad

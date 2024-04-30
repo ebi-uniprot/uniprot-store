@@ -5,8 +5,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
@@ -16,6 +14,8 @@ import org.uniprot.store.spark.indexer.common.store.DataStoreIndexerFactory;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import com.typesafe.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author lgonzales

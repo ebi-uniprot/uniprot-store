@@ -25,7 +25,9 @@ import org.uniprot.store.indexer.literature.reader.LiteratureStatisticsReader;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.literature.LiteratureDocument;
 
-/** @author lgonzales */
+/**
+ * @author lgonzales
+ */
 @Configuration
 public class LiteratureStatisticsStep {
 

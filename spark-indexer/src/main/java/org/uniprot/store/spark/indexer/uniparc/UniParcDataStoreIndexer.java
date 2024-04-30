@@ -1,7 +1,5 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
@@ -15,6 +13,8 @@ import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryTaxonomyJoin;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyMapper;
 
 import com.typesafe.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author lgonzales

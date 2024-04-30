@@ -2,12 +2,12 @@ package org.uniprot.store.spark.indexer.uniprot.mapper.model;
 
 import java.io.Serializable;
 
+import org.uniprot.core.uniref.UniRefType;
+
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-
-import org.uniprot.core.uniref.UniRefType;
 
 /**
  * Model used to Map UniRef data into UniprotDocument

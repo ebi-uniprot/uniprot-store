@@ -4,8 +4,6 @@ import static java.util.Collections.singletonList;
 
 import java.time.temporal.ChronoUnit;
 
-import net.jodah.failsafe.RetryPolicy;
-
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +12,8 @@ import org.springframework.context.annotation.Import;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.job.common.listener.ListenerConfig;
 import org.uniprot.store.job.common.util.CommonConstants;
+
+import net.jodah.failsafe.RetryPolicy;
 
 /**
  * Created 10/04/19

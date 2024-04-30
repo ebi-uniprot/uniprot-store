@@ -1,8 +1,8 @@
 package org.uniprot.store.search.domain.impl;
 
-import lombok.Data;
-
 import org.uniprot.store.search.domain.Field;
+
+import lombok.Data;
 
 @Data
 public class FieldImpl implements Field {

@@ -1,7 +1,5 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.uniprotkb.DeletedReason;
 import org.uniprot.core.uniprotkb.InactiveReasonType;
@@ -10,6 +8,7 @@ import org.uniprot.core.uniprotkb.impl.EntryInactiveReasonBuilder;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.core.util.Utils;
 
+import lombok.extern.slf4j.Slf4j;
 import scala.Serializable;
 import scala.Tuple2;
 

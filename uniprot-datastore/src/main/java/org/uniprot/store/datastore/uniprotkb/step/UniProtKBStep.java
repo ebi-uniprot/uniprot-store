@@ -2,9 +2,6 @@ package org.uniprot.store.datastore.uniprotkb.step;
 
 import static org.uniprot.store.datastore.utils.Constants.UNIPROTKB_STORE_STEP;
 
-import lombok.extern.slf4j.Slf4j;
-import net.jodah.failsafe.RetryPolicy;
-
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.Step;
@@ -29,6 +26,9 @@ import org.uniprot.store.datastore.uniprotkb.reader.UniProtEntryItemReader;
 import org.uniprot.store.datastore.uniprotkb.writer.UniProtEntryRetryWriter;
 import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.job.common.listener.WriteRetrierLogStepListener;
+
+import lombok.extern.slf4j.Slf4j;
+import net.jodah.failsafe.RetryPolicy;
 
 /**
  * The main UniProtKB store step.

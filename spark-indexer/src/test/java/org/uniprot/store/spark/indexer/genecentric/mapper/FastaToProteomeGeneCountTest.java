@@ -14,9 +14,9 @@ import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.junit.jupiter.api.Test;
 
-import scala.Tuple2;
-
 import com.google.common.collect.Lists;
+
+import scala.Tuple2;
 
 class FastaToProteomeGeneCountTest {
     private final FastaToProteomeGeneCount fastaToProteomeGeneCount =

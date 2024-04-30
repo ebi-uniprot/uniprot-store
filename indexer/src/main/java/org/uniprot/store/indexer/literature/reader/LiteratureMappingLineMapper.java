@@ -1,7 +1,5 @@
 package org.uniprot.store.indexer.literature.reader;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.CitationDatabase;
@@ -13,7 +11,11 @@ import org.uniprot.core.literature.LiteratureStatistics;
 import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
 import org.uniprot.core.literature.impl.LiteratureStatisticsBuilder;
 
-/** @author lgonzales */
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * @author lgonzales
+ */
 @Slf4j
 public class LiteratureMappingLineMapper extends DefaultLineMapper<LiteratureEntry> {
 

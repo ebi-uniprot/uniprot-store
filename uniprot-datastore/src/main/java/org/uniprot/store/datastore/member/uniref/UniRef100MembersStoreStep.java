@@ -3,8 +3,6 @@ package org.uniprot.store.datastore.member.uniref;
 import static org.uniprot.store.datastore.member.uniref.UniRefMemberStoreJob.unwrapProxy;
 import static org.uniprot.store.datastore.utils.Constants.UNIREF100_MEMBER_STORE_STEP;
 
-import net.jodah.failsafe.RetryPolicy;
-
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
@@ -26,6 +24,8 @@ import org.uniprot.store.datastore.member.uniref.config.UniRefMemberStorePropert
 import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.job.common.listener.WriteRetrierLogStepListener;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
+
+import net.jodah.failsafe.RetryPolicy;
 
 /**
  * @author sahmad

@@ -10,8 +10,6 @@ import static org.uniprot.core.proteome.ProteomeType.*;
 
 import java.util.List;
 
-import lombok.Data;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +22,8 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
+
+import lombok.Data;
 
 class ProteomeEntryToProteomeDocumentMapperTest {
 

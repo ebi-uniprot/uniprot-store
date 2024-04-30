@@ -11,10 +11,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.hadoop.conf.Configuration;
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Class responsible to Load GO Terms Relations from Hadoop File System

@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -15,6 +13,8 @@ import org.uniprot.store.spark.indexer.common.store.DataStore;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author lgonzales

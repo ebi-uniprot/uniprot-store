@@ -6,10 +6,10 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.store.job.common.listener.LogRateListener;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @@author sahmad

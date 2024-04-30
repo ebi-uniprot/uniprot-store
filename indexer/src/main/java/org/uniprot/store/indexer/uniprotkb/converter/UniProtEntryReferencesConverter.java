@@ -6,8 +6,6 @@ import static org.uniprot.core.publication.MappedReferenceType.UNIPROTKB_UNREVIE
 import java.io.Serializable;
 import java.util.*;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.uniprot.core.citation.Citation;
 import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.citation.JournalArticle;
@@ -30,6 +28,8 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author lgonzales

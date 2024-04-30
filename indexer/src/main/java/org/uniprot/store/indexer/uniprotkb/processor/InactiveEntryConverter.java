@@ -1,10 +1,10 @@
 package org.uniprot.store.indexer.uniprotkb.processor;
 
+import static org.uniprot.core.util.Utils.*;
+
 import org.uniprot.store.indexer.uniprot.inactiveentry.InactiveUniProtEntry;
 import org.uniprot.store.search.document.DocumentConverter;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
-import static org.uniprot.core.util.Utils.*;
 
 /**
  * Created 18/04/19

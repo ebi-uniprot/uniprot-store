@@ -7,14 +7,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.io.IOException;
 import java.util.Set;
 
-import lombok.Getter;
-
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.publication.MappedReference;
 import org.uniprot.core.publication.MappedSource;
 import org.uniprot.core.publication.impl.MappedSourceBuilder;
 import org.uniprot.core.uniprotkb.UniProtKBAccession;
 import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
+
+import lombok.Getter;
 
 /**
  * Created 07/12/2020

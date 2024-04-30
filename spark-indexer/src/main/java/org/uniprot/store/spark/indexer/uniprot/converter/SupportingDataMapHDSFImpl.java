@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.hadoop.conf.Configuration;
 import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.core.cv.keyword.KeywordCategory;
@@ -22,6 +20,8 @@ import org.uniprot.core.util.Utils;
 import org.uniprot.cv.disease.DiseaseFileReader;
 import org.uniprot.cv.keyword.KeywordFileReader;
 import org.uniprot.cv.subcell.SubcellularLocationFileReader;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Class responsible to load SupportingData from Hadoop FileSystem.

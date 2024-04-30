@@ -3,14 +3,13 @@ package org.uniprot.store.spark.indexer.uniprot.mapper;
 import java.util.Collection;
 import java.util.Map;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 
+import lombok.extern.slf4j.Slf4j;
 import scala.Tuple2;
 
 /**

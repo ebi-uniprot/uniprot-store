@@ -3,14 +3,14 @@ package org.uniprot.store.datastore.uniprotkb.writer;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import net.jodah.failsafe.RetryPolicy;
-
 import org.uniprot.core.flatfile.writer.impl.UniProtFlatfileWriter;
 import org.uniprot.core.scorer.uniprotkb.UniProtEntryScored;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.store.job.common.store.Store;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
+
+import net.jodah.failsafe.RetryPolicy;
 
 /**
  * Created 25/07/19

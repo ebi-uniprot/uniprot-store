@@ -1,11 +1,11 @@
 package org.uniprot.store.spark.indexer.common;
 
-import lombok.Builder;
-import lombok.Getter;
-
 import org.apache.spark.api.java.JavaSparkContext;
 
 import com.typesafe.config.Config;
+
+import lombok.Builder;
+import lombok.Getter;
 
 /**
  * @author lgonzales

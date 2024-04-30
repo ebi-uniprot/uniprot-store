@@ -23,7 +23,9 @@ import org.uniprot.store.indexer.common.writer.SolrDocumentWriter;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.keyword.KeywordDocument;
 
-/** @author lgonzales */
+/**
+ * @author lgonzales
+ */
 @Configuration
 public class KeywordStatisticsStep {
     private static final String KEYWORD_STATISTICS_URL =

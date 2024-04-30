@@ -2,7 +2,9 @@ package org.uniprot.store.search.document;
 
 import java.io.Serializable;
 
-/** @author lgonzales */
+/**
+ * @author lgonzales
+ */
 public interface Document extends Serializable {
     String getDocumentId();
 }

@@ -2,8 +2,6 @@ package org.uniprot.store.datastore.light.uniref;
 
 import static org.uniprot.store.datastore.utils.Constants.UNIREF_LIGHT_STORE_STEP;
 
-import net.jodah.failsafe.RetryPolicy;
-
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.Step;
@@ -27,6 +25,8 @@ import org.uniprot.store.datastore.light.uniref.config.UniRefLightStorePropertie
 import org.uniprot.store.job.common.listener.LogRateListener;
 import org.uniprot.store.job.common.listener.WriteRetrierLogStepListener;
 import org.uniprot.store.job.common.writer.ItemRetryWriter;
+
+import net.jodah.failsafe.RetryPolicy;
 
 /**
  * @author lgonzales

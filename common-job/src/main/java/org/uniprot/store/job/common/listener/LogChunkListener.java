@@ -2,12 +2,14 @@ package org.uniprot.store.job.common.listener;
 
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 
-/** @author lgonzales */
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * @author lgonzales
+ */
 @Slf4j
 public class LogChunkListener implements ChunkListener {
 

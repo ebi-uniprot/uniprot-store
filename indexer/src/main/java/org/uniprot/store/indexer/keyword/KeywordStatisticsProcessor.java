@@ -13,7 +13,9 @@ import org.uniprot.store.search.document.keyword.KeywordDocument;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-/** @author lgonzales */
+/**
+ * @author lgonzales
+ */
 public class KeywordStatisticsProcessor
         implements ItemProcessor<KeywordStatisticsReader.KeywordCount, KeywordDocument> {
 

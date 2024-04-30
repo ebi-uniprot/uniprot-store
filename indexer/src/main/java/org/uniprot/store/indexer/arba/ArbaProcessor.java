@@ -3,8 +3,6 @@ package org.uniprot.store.indexer.arba;
 import java.util.Map;
 import java.util.Objects;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ItemProcessor;
@@ -12,6 +10,8 @@ import org.uniprot.core.xml.jaxb.unirule.UniRuleType;
 import org.uniprot.cv.taxonomy.TaxonomyRepo;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.search.document.arba.ArbaDocument;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author lgonzales

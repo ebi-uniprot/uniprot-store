@@ -36,7 +36,9 @@ public class TaxonomyToSuggestDocument
     public Iterator<Tuple2<String, SuggestDocument>> call(
             Tuple2<String, Tuple2<String, Optional<List<TaxonomyLineage>>>> tuple)
             throws Exception {
-        return tuple._2._2
+        return tuple
+                ._2
+                ._2
                 .or(
                         Collections.singletonList(
                                 new TaxonomyLineageBuilder()

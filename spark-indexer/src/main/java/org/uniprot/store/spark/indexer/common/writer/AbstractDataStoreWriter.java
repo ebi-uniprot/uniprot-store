@@ -3,14 +3,13 @@ package org.uniprot.store.spark.indexer.common.writer;
 import java.time.Duration;
 import java.util.Iterator;
 
-import lombok.extern.slf4j.Slf4j;
-import net.jodah.failsafe.Failsafe;
-import net.jodah.failsafe.RetryPolicy;
-
 import org.apache.spark.api.java.function.VoidFunction;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 
+import lombok.extern.slf4j.Slf4j;
+import net.jodah.failsafe.Failsafe;
+import net.jodah.failsafe.RetryPolicy;
 import voldemort.VoldemortException;
 
 /**

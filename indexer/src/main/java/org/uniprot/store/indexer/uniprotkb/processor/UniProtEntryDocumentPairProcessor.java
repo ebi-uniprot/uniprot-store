@@ -1,7 +1,5 @@
 package org.uniprot.store.indexer.uniprotkb.processor;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.ExecutionContext;
@@ -12,6 +10,8 @@ import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverter;
 import org.uniprot.store.indexer.uniprotkb.model.UniProtEntryDocumentPair;
 import org.uniprot.store.job.common.processor.EntryDocumentPairProcessor;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created 10/04/19

@@ -20,16 +20,16 @@ import org.uniprot.store.datastore.voldemort.member.uniref.VoldemortRemoteUniRef
 import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
 import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
 
+import com.aayushatharva.brotli4j.encoder.Encoder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import voldemort.client.ClientConfig;
 import voldemort.client.SocketStoreClientFactory;
 import voldemort.client.StoreClient;
 import voldemort.cluster.failuredetector.FailureDetector;
 import voldemort.versioning.ObsoleteVersionException;
 import voldemort.versioning.Versioned;
-
-import com.aayushatharva.brotli4j.encoder.Encoder;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author lgonzales

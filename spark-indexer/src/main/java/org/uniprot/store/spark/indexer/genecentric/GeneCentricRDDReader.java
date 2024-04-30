@@ -31,7 +31,9 @@ public abstract class GeneCentricRDDReader implements PairRDDReader<String, Gene
         this.jobParameter = jobParameter;
     }
 
-    /** @return an JavaPairRDD with <accession, GeneCentricEntry> */
+    /**
+     * @return an JavaPairRDD with <accession, GeneCentricEntry>
+     */
     @Override
     public JavaPairRDD<String, GeneCentricEntry> load() {
         return loadWithMapper(getFastaMapper());

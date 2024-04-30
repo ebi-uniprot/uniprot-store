@@ -24,7 +24,9 @@ public class DiseaseRDDReader implements PairRDDReader<String, DiseaseEntry> {
         this.jobParameter = jobParameter;
     }
 
-    /** @return JavaPairRDD{key=diseaseId, value={@link DiseaseEntry}} */
+    /**
+     * @return JavaPairRDD{key=diseaseId, value={@link DiseaseEntry}}
+     */
     @Override
     public JavaPairRDD<String, DiseaseEntry> load() {
         Config config = jobParameter.getApplicationConfig();

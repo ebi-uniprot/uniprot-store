@@ -3,13 +3,15 @@ package org.uniprot.store.indexer.disease;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.jdbc.core.RowMapper;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import org.springframework.jdbc.core.RowMapper;
-
-/** @author sahmad */
+/**
+ * @author sahmad
+ */
 public class DiseaseProteinCountReader
         implements RowMapper<DiseaseProteinCountReader.DiseaseProteinCount> {
 

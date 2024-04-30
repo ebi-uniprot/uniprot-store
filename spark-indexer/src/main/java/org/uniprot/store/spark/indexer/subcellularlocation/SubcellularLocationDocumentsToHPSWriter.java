@@ -4,8 +4,6 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollecti
 
 import java.util.HashSet;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.uniprot.core.Statistics;
@@ -27,6 +25,8 @@ import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SubcellularLoc
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
 import com.typesafe.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author sahmad

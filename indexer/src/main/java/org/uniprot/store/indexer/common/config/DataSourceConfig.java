@@ -2,8 +2,6 @@ package org.uniprot.store.indexer.common.config;
 
 import javax.sql.DataSource;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +12,11 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-/** @author lgonzales */
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * @author lgonzales
+ */
 @Configuration
 @Slf4j
 @Profile("online")

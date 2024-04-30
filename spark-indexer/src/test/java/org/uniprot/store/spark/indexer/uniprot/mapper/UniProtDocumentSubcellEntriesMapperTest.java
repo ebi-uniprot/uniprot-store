@@ -16,9 +16,9 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.subcell.SubcellularLocationRDDReader;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
-import scala.Tuple2;
-
 import com.typesafe.config.Config;
+
+import scala.Tuple2;
 
 /**
  * @author sahmad

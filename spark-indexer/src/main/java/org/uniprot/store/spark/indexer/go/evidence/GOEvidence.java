@@ -2,11 +2,11 @@ package org.uniprot.store.spark.indexer.go.evidence;
 
 import java.io.Serializable;
 
+import org.uniprot.core.uniprotkb.evidence.Evidence;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-
-import org.uniprot.core.uniprotkb.evidence.Evidence;
 
 /**
  * Model class for the mapped GO Evidence

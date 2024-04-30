@@ -1,12 +1,11 @@
 package org.uniprot.store.spark.indexer.uniref.mapper;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.uniref.RepresentativeMember;
 import org.uniprot.store.datastore.member.uniref.UniRefRepMemberPairMerger;
 
+import lombok.extern.slf4j.Slf4j;
 import scala.Tuple2;
 
 /**

@@ -1,9 +1,9 @@
 package org.uniprot.store.datastore.uniref.config;
 
-import lombok.Data;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.uniprot.core.util.concurrency.TaskExecutorProperties;
+
+import lombok.Data;
 
 /**
  * @author jluo

@@ -15,8 +15,6 @@ import java.net.URLDecoder;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.solr.client.solrj.SolrClient;
@@ -29,6 +27,8 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
+
+import lombok.extern.slf4j.Slf4j;
 
 @TestConfiguration
 @Slf4j

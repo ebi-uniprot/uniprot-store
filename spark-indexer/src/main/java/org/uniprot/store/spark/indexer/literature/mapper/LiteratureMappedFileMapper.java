@@ -7,12 +7,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.literature.LiteratureMappedReference;
 import org.uniprot.core.literature.impl.LiteratureMappedReferenceBuilder;
 
+import lombok.extern.slf4j.Slf4j;
 import scala.Tuple2;
 
 /**

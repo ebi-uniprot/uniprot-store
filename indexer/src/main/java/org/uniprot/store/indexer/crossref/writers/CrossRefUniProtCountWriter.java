@@ -14,7 +14,9 @@ import org.springframework.batch.item.ItemWriter;
 import org.uniprot.store.indexer.common.utils.Constants;
 import org.uniprot.store.indexer.crossref.readers.CrossRefUniProtCountReader;
 
-/** @author sahmad */
+/**
+ * @author sahmad
+ */
 public class CrossRefUniProtCountWriter
         implements ItemWriter<CrossRefUniProtCountReader.CrossRefProteinCount> {
     private StepExecution stepExecution;

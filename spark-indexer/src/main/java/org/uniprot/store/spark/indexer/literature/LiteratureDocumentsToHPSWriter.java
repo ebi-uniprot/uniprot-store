@@ -4,8 +4,6 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollecti
 import static org.uniprot.store.spark.indexer.literature.mapper.LiteratureEntryStatisticsJoin.*;
 import static org.uniprot.store.spark.indexer.publication.MappedReferenceRDDReader.*;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.uniprot.core.citation.Literature;
@@ -17,6 +15,8 @@ import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.literature.mapper.*;
 import org.uniprot.store.spark.indexer.publication.MappedReferenceRDDReader;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author lgonzales

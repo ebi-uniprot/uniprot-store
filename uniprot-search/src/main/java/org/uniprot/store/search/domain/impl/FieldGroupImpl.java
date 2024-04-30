@@ -3,10 +3,10 @@ package org.uniprot.store.search.domain.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.Data;
-
 import org.uniprot.store.search.domain.Field;
 import org.uniprot.store.search.domain.FieldGroup;
+
+import lombok.Data;
 
 @Data
 public class FieldGroupImpl implements FieldGroup {

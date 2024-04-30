@@ -12,7 +12,9 @@ import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemWriter;
 import org.uniprot.store.indexer.common.utils.Constants;
 
-/** @author sahmad put the disease protein count in a map to be used by next step */
+/**
+ * @author sahmad put the disease protein count in a map to be used by next step
+ */
 public class DiseaseProteinCountWriter
         implements ItemWriter<DiseaseProteinCountReader.DiseaseProteinCount> {
 

@@ -13,7 +13,9 @@ import org.uniprot.core.literature.LiteratureEntry;
 import org.uniprot.core.literature.impl.LiteratureEntryBuilder;
 import org.uniprot.core.literature.impl.LiteratureStatisticsBuilder;
 
-/** @author lgonzales */
+/**
+ * @author lgonzales
+ */
 public class LiteratureMappingItemReader implements ItemReader<LiteratureEntry>, ItemStream {
 
     private FlatFileItemReader<LiteratureEntry> delegate;

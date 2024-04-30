@@ -13,9 +13,9 @@ import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 import org.uniprot.store.search.document.taxonomy.TaxonomyDocumentConverter;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.model.TaxonomyStatisticsWrapper;
 
-import scala.Tuple2;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import scala.Tuple2;
 
 public class TaxonomyEntryToDocumentMapper
         implements Function<

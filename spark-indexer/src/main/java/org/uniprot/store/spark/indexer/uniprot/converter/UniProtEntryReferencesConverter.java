@@ -3,8 +3,6 @@ package org.uniprot.store.spark.indexer.uniprot.converter;
 import java.util.List;
 import java.util.Optional;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.citation.Citation;
 import org.uniprot.core.citation.CitationDatabase;
@@ -14,6 +12,8 @@ import org.uniprot.core.uniprotkb.UniProtKBReference;
 import org.uniprot.core.util.PublicationDateFormatter;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author lgonzales

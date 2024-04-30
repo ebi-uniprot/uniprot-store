@@ -5,7 +5,9 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-/** @author lgonzales */
+/**
+ * @author lgonzales
+ */
 public class TaxonomyURLReader implements RowMapper<String> {
 
     @Override
