@@ -21,14 +21,14 @@ import org.uniprot.store.search.document.uniparc.UniParcDocument;
 public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry, UniParcDocument> {
 
     @Override
-    public UniParcDocument convert(UniParcEntry uniparcEntry) {
+    public UniParcDocument convert(UniParcEntry uniParcEntry) {
         UniParcDocument.UniParcDocumentBuilder builder = UniParcDocument.builder();
-        builder.upi(uniparcEntry.getUniParcId().getValue())
-                .seqLength(uniparcEntry.getSequence().getLength())
-                .sequenceChecksum(uniparcEntry.getSequence().getCrc64())
-                .sequenceMd5(uniparcEntry.getSequence().getMd5());
-        uniparcEntry.getUniParcCrossReferences().forEach(val -> processDbReference(val, builder));
-        uniparcEntry.getSequenceFeatures().forEach(val -> processSequenceFeature(val, builder));
+        builder.upi(uniParcEntry.getUniParcId().getValue())
+                .seqLength(uniParcEntry.getSequence().getLength())
+                .sequenceChecksum(uniParcEntry.getSequence().getCrc64())
+                .sequenceChecksum(uniParcEntry.getSequence().getMd5());
+        uniParcEntry.getUniParcCrossReferences().forEach(val -> processDbReference(val, builder));
+        uniParcEntry.getSequenceFeatures().forEach(val -> processSequenceFeature(val, builder));
         return builder.build();
     }
 

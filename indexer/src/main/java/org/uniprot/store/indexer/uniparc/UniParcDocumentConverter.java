@@ -28,7 +28,9 @@ import org.uniprot.store.search.document.uniparc.UniParcDocument.UniParcDocument
 
 /**
  * @author jluo
- * @date: 19 Jun 2019
+ * @date: 19 Jun 2019 FIXME Ideally, we should UniParcDocumentConverter of spark-indexer module.
+ *     Once we migrate spring batch job to spark, we should start using spark-indexer module'S
+ *     UniParcDocumentConverter
  */
 public class UniParcDocumentConverter implements DocumentConverter<Entry, UniParcDocument> {
     private final UniParcEntryConverter converter;
@@ -49,7 +51,7 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
         builder.upi(item.getAccession())
                 .seqLength(item.getSequence().getLength())
                 .sequenceChecksum(item.getSequence().getChecksum())
-                .sequenceMd5(uniparcEntry.getSequence().getMd5());
+                .sequenceChecksum(uniparcEntry.getSequence().getMd5());
         uniparcEntry.getUniParcCrossReferences().forEach(val -> processDbReference(val, builder));
         uniparcEntry
                 .getSequenceFeatures()
@@ -132,6 +134,8 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
                     List<String> names = TaxonomyRepoUtil.extractTaxonFromNode(node);
                     names.forEach(builder::organismTaxon);
                 });
+        int taxonId = Math.toIntExact(taxon.getTaxonId());
+        builder.organismId(taxonId);
     }
 
     private void populateSuggestions(UniParcEntry uniparcEntry) {

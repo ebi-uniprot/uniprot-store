@@ -7,6 +7,7 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.Set;
 
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
@@ -139,8 +140,9 @@ class UniParcDocumentConverterTest {
         assertEquals(1, uniParcDocument.getProteomeComponents().size());
         assertTrue(uniParcDocument.getProteomeComponents().contains("Chromosome 8"));
 
-        assertEquals("9A48E062FF6285782553081B4EDEF768", uniParcDocument.getSequenceMd5());
-        assertEquals("79E8A4FC5967031C", uniParcDocument.getSequenceChecksum());
+        assertEquals(
+                Set.of("79E8A4FC5967031C", "9A48E062FF6285782553081B4EDEF768"),
+                uniParcDocument.getSequenceChecksums());
         assertEquals(263, uniParcDocument.getSeqLength());
 
         assertNotNull(uniParcDocument.getFeatureIds());
