@@ -41,6 +41,10 @@ public class FieldRegexConstants {
                     + ")$";
     public static final String KEYWORD_ID_REGEX = "^KW-\\d{4}$";
     public static final String TAXONOMY_ID_REGEX = "^\\d+$";
+    public static final String CROSS_REF_REGEX = "DB-(\\d{4})";
+    public static final String DISEASE_REGEX = "DI-(\\d{5})";
+
+    public static final String SUBCELLULAR_LOCATION_ID_REGEX = "^SL-[0-9]{4}";
 
     private FieldRegexConstants() {}
 }
