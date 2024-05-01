@@ -2,9 +2,11 @@ package org.uniprot.store.datastore.voldemort.client.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.lang.reflect.Field;
+
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.util.ReflectionUtils;
 import org.mockito.Mockito;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.client.UniProtClient;
@@ -12,11 +14,19 @@ import org.uniprot.store.datastore.voldemort.client.UniProtClient;
 class DefaultClientFactoryTest {
 
     @Test
-    void testGetUniProtClient() {
+    void testGetUniProtClient() throws IllegalAccessException {
         // When
         DefaultClientFactory factory = new DefaultClientFactory("url");
         VoldemortClient<UniProtKBEntry> voldemortClient = Mockito.mock(VoldemortClient.class);
-        ReflectionTestUtils.setField(factory, "voldemortClient", voldemortClient);
+        Field field =
+                ReflectionUtils.findFields(
+                                DefaultClientFactory.class,
+                                f -> f.getName().equals("voldemortClient"),
+                                ReflectionUtils.HierarchyTraversalMode.TOP_DOWN)
+                        .get(0);
+
+        field.setAccessible(true);
+        field.set(factory, voldemortClient);
         // then
         UniProtClient uniProtClient = factory.createUniProtClient();
         assertNotNull(uniProtClient);
