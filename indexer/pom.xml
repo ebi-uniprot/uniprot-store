@@ -17,8 +17,21 @@
 		<chronicle-map.version>3.17.2</chronicle-map.version>
 		<ehcache.version>3.6.2</ehcache.version>
 		<cache-api.version>1.1.1</cache-api.version>
+		<spring.version>2.7.3</spring.version>
+		<maven-dependency-plugin.version>3.3.0</maven-dependency-plugin.version>
 	</properties>
-
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<!-- Import dependency management from Spring Boot -->
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.uniprot</groupId>
@@ -167,13 +180,11 @@
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
-					<groupId>org.junit.vintage</groupId>
-					<artifactId>junit-vintage-engine</artifactId>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- <dependency> <groupId>io.dropwizard.metrics</groupId> <artifactId>metrics-core</artifactId> 
-			<version>3.2.6</version> <scope>test</scope> </dependency> -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -206,11 +217,30 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<classifier>exec</classifier>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${spring.version}</version>
 				<executions>
 					<execution>
 						<id>repackage</id>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
 						<configuration>
 							<classifier>exec</classifier>
 						</configuration>
