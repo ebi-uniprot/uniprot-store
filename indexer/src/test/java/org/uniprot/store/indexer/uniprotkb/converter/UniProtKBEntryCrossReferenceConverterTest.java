@@ -93,7 +93,11 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         assertEquals(Set.of("apical dendrite"), document.content);
 
-        assertEquals(new HashSet<>(Arrays.asList("go-GO:12345", "GO:12345")), document.crossRefs);
+        assertEquals(
+                new HashSet<>(
+                        Arrays.asList(
+                                "go-GO:12345", "GO:12345", "go-GO", "GO", "12345", "go-12345")),
+                document.crossRefs);
 
         assertEquals(Collections.singleton("go"), document.databases);
 
@@ -170,7 +174,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         assertTrue(document.xrefCountMap.containsKey("xref_count_embl"));
         assertEquals(1L, document.xrefCountMap.get("xref_count_embl"));
-        assertEquals(Set.of("notIndexed"), document.content);
+        assertEquals(Set.of(), document.content);
     }
 
     @Test

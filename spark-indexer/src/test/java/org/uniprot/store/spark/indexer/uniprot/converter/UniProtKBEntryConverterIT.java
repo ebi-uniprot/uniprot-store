@@ -80,13 +80,57 @@ class UniProtKBEntryConverterIT {
         assertEquals(1, doc.organismHostIds.size());
         assertEquals(9539, doc.organismHostIds.get(0).intValue());
 
-        assertEquals(52, doc.crossRefs.size());
+        assertEquals(96, doc.crossRefs.size());
         assertTrue(doc.crossRefs.contains("embl-AAY21541.1"));
+        assertTrue(doc.crossRefs.contains("embl-AAY21540.1"));
+        assertTrue(doc.crossRefs.contains("embl-AAY21540"));
         assertTrue(doc.crossRefs.contains("embl-AAY21541"));
+        assertTrue(doc.crossRefs.contains("embl-Genomic_DNA"));
+        assertTrue(doc.crossRefs.contains("embl-JOINED"));
         assertTrue(doc.crossRefs.contains("AAY21541.1"));
         assertTrue(doc.crossRefs.contains("AAY21541"));
+        assertTrue(doc.crossRefs.contains("JOINED"));
+        assertTrue(doc.crossRefs.contains("AAY21540.1"));
+        assertTrue(doc.crossRefs.contains("AAY21540"));
 
-        assertEquals(8, doc.databases.size());
+        // mim
+        assertTrue(doc.crossRefs.contains("mim-phenotype"));
+        assertTrue(doc.crossRefs.contains("mim-616754"));
+        assertTrue(doc.crossRefs.contains("phenotype"));
+        assertTrue(doc.crossRefs.contains("616754"));
+
+        // tcdb
+        assertTrue(doc.crossRefs.contains("tcdb-8"));
+        assertTrue(doc.crossRefs.contains("tcdb-8.A.94.1.2"));
+        assertTrue(doc.crossRefs.contains("8.A.94.1.2"));
+        assertTrue(doc.crossRefs.contains("8"));
+        assertTrue(doc.content.contains("the adiponectin (adiponectin) family"));
+
+        // hgnc
+        assertTrue(doc.crossRefs.contains("hgnc-5984"));
+        assertTrue(doc.crossRefs.contains("hgnc-HGNC:5984"));
+        assertTrue(doc.crossRefs.contains("hgnc-HGNC"));
+        assertTrue(doc.crossRefs.contains("5984"));
+        assertTrue(doc.crossRefs.contains("HGNC:5984"));
+        assertTrue(doc.crossRefs.contains("HGNC"));
+
+        // cdd
+        assertTrue(doc.crossRefs.contains("cdd-1"));
+        assertTrue(doc.crossRefs.contains("cdd-TM_EGFR-like"));
+        assertTrue(doc.crossRefs.contains("cdd-cd12087"));
+        assertTrue(doc.crossRefs.contains("1"));
+        assertTrue(doc.crossRefs.contains("TM_EGFR-like"));
+        assertTrue(doc.crossRefs.contains("cd12087"));
+
+        // pirsf
+        assertTrue(doc.crossRefs.contains("pirsf-PIRSF001138"));
+        assertTrue(doc.crossRefs.contains("pirsf-1"));
+        assertTrue(doc.crossRefs.contains("pirsf-Enteropeptidase"));
+        assertTrue(doc.crossRefs.contains("1"));
+        assertTrue(doc.crossRefs.contains("Enteropeptidase"));
+        assertTrue(doc.crossRefs.contains("PIRSF001138"));
+
+        assertEquals(13, doc.databases.size());
         assertTrue(doc.databases.contains("go"));
         assertTrue(doc.databases.contains("interpro"));
 
@@ -219,7 +263,7 @@ class UniProtKBEntryConverterIT {
         assertEquals(0, doc.organismHostNames.size());
         assertEquals(0, doc.organismHostIds.size());
 
-        assertEquals(153, doc.crossRefs.size());
+        assertEquals(213, doc.crossRefs.size());
         assertTrue(doc.crossRefs.contains("refseq-NM_001270626.1"));
         assertTrue(doc.crossRefs.contains("refseq-NM_001270626"));
         assertTrue(doc.crossRefs.contains("NM_001270626.1"));
@@ -390,7 +434,7 @@ class UniProtKBEntryConverterIT {
         assertEquals(0, doc.organelles.size());
         assertEquals(0, doc.organismHostIds.size());
 
-        assertEquals(56, doc.crossRefs.size());
+        assertEquals(110, doc.crossRefs.size());
         assertTrue(doc.crossRefs.contains("embl-CAC20867.1"));
         assertTrue(doc.crossRefs.contains("embl-CAC20867"));
         assertTrue(doc.crossRefs.contains("CAC20867.1"));

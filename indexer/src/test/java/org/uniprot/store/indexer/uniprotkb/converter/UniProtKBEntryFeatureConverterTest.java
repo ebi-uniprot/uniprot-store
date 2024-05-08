@@ -119,14 +119,20 @@ class UniProtKBEntryFeatureConverterTest {
         assertTrue(document.featuresMap.containsKey("ft_binding"));
         List<String> chainValue =
                 List.of(
+                        "ChEBI-29180",
+                        "83071",
+                        "ChEBI-83071",
+                        "nucleotidyl-adenosine residue",
+                        "tRNA(Thr)",
                         "A1",
                         "CHEBI:29180",
+                        "ChEBI-CHEBI",
                         "CHEBI:83071",
                         "ChEBI-CHEBI:29180",
-                        "nucleotidyl-adenosine residue",
+                        "CHEBI",
                         "ChEBI-CHEBI:83071",
-                        "BINDING",
-                        "tRNA(Thr)");
+                        "29180",
+                        "BINDING");
         assertEquals(new HashSet<>(chainValue), document.featuresMap.get("ft_binding"));
 
         assertTrue(document.featureEvidenceMap.containsKey("ftev_binding"));
@@ -139,18 +145,24 @@ class UniProtKBEntryFeatureConverterTest {
         assertEquals(
                 new HashSet<>(bindingLengthValue), document.featureLengthMap.get("ftlen_binding"));
 
-        assertEquals(8, document.content.size());
+        assertEquals(14, document.content.size());
         assertEquals(
                 new HashSet<>(
                         List.of(
+                                "ChEBI-29180",
+                                "83071",
+                                "ChEBI-83071",
+                                "nucleotidyl-adenosine residue",
+                                "tRNA(Thr)",
                                 "A1",
                                 "CHEBI:29180",
+                                "ChEBI-CHEBI",
                                 "CHEBI:83071",
                                 "ChEBI-CHEBI:29180",
-                                "nucleotidyl-adenosine residue",
+                                "CHEBI",
                                 "ChEBI-CHEBI:83071",
-                                "BINDING",
-                                "tRNA(Thr)")),
+                                "29180",
+                                "BINDING")),
                 document.content);
 
         assertEquals(

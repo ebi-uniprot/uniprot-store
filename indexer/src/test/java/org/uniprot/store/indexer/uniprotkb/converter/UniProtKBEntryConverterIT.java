@@ -144,7 +144,7 @@ class UniProtKBEntryConverterIT {
         assertEquals(1, doc.organismHostNames.size());
         assertEquals("Cichlasoma festae", doc.organismHostNames.get(0));
 
-        assertEquals(52, doc.crossRefs.size());
+        assertEquals(70, doc.crossRefs.size());
         assertTrue(doc.crossRefs.contains("embl-AAY21541.1"));
         assertTrue(doc.crossRefs.contains("embl-AAY21541"));
         assertTrue(doc.crossRefs.contains("AAY21541.1"));
@@ -325,7 +325,7 @@ class UniProtKBEntryConverterIT {
         assertEquals(0, doc.organismHostNames.size());
         assertEquals(0, doc.organismHostIds.size());
 
-        assertEquals(151, doc.crossRefs.size());
+        assertEquals(211, doc.crossRefs.size());
         assertTrue(doc.crossRefs.contains("refseq-NM_001270626.1"));
         assertTrue(doc.crossRefs.contains("refseq-NM_001270626"));
         assertTrue(doc.crossRefs.contains("NM_001270626.1"));
@@ -539,7 +539,7 @@ class UniProtKBEntryConverterIT {
         assertEquals(0, doc.organismHostNames.size());
         assertEquals(0, doc.organismHostIds.size());
 
-        assertEquals(56, doc.crossRefs.size());
+        assertEquals(110, doc.crossRefs.size());
         assertTrue(doc.crossRefs.contains("embl-CAC20867.1"));
         assertTrue(doc.crossRefs.contains("embl-CAC20867"));
         assertTrue(doc.crossRefs.contains("CAC20867.1"));

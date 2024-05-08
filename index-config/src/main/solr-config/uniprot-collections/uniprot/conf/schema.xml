@@ -161,7 +161,7 @@
 		required="false" multiValued="true" />
 
 	<!-- Cross-references -->
-	<field name="xref" type="lowercase" indexed="true" stored="false"
+	<field name="xref" type="basic_ci" indexed="true" stored="false"
 		required="false" multiValued="true" />
 	<field name="database" type="lowercase" indexed="true"
 		stored="false" required="false" multiValued="true" />

@@ -1,10 +1,6 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -64,6 +60,13 @@ public class UniProtEntryConverterUtil {
             String idMain = id.substring(0, id.indexOf("."));
             values.add(idMain);
             values.add(dbname + "-" + idMain);
+        }
+        if (id.indexOf(":") > 0) {
+            String[] tokens = id.split(":");
+            for (String t : tokens) {
+                values.add(t);
+                values.add(dbname + "-" + t);
+            }
         }
         return values;
     }
@@ -198,21 +201,20 @@ public class UniProtEntryConverterUtil {
     public static void addEmblXrefToDocument(
             UniProtDocument document, UniProtKBCrossReference xref, String dbname) {
         if (xref.hasProperties()) {
-            Optional<String> proteinId =
-                    xref.getProperties().stream()
-                            .filter(property -> property.getKey().equalsIgnoreCase("ProteinId"))
-                            .filter(property -> !property.getValue().equalsIgnoreCase("-"))
-                            .map(Property::getValue)
-                            .findFirst();
-            proteinId.ifPresent(s -> convertXRefId(document, dbname, s));
-            // add other property values to content
-            Set<String> propValues =
-                    xref.getProperties().stream()
-                            .filter(prop -> !"ProteinId".equalsIgnoreCase(prop.getKey()))
-                            .filter(property -> !property.getValue().equalsIgnoreCase("-"))
-                            .map(Property::getValue)
-                            .collect(Collectors.toSet());
-            document.content.addAll(propValues);
+            String proteinId = getPropertyValue("ProteinId", xref);
+            if (Objects.nonNull(proteinId)) {
+                convertXRefId(document, dbname, proteinId);
+            }
+
+            String status = getPropertyValue("Status", xref);
+            if (Objects.nonNull(status) && !status.contains("\\s")) {
+                convertXRefId(document, dbname, status);
+            }
+
+            String moleculeType = getPropertyValue("MoleculeType", xref);
+            if (Objects.nonNull(moleculeType)) {
+                convertXRefId(document, dbname, moleculeType);
+            }
         }
     }
 
@@ -239,5 +241,15 @@ public class UniProtEntryConverterUtil {
                 .filter(property -> !property.getValue().equalsIgnoreCase("-"))
                 .map(Property::getValue)
                 .collect(Collectors.toSet());
+    }
+
+    private static String getPropertyValue(String propName, UniProtKBCrossReference xref) {
+        Optional<String> optPropVal =
+                xref.getProperties().stream()
+                        .filter(property -> property.getKey().equalsIgnoreCase(propName))
+                        .filter(property -> !property.getValue().equalsIgnoreCase("-"))
+                        .map(Property::getValue)
+                        .findFirst();
+        return optPropVal.orElse(null);
     }
 }

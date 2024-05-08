@@ -36,7 +36,12 @@ CC       Note=Binds 2 heme groups non-covalently.
 CC       {ECO:0000256|RuleBase:RU000300};
 CC   -!- SIMILARITY: Belongs to the cytochrome b family.
 CC       {ECO:0000256|RuleBase:RU000300}.
-DR   EMBL; AY843351; AAY21540.1; -; Genomic_DNA.
+DR   MIM; 616754; phenotype.
+DR   TCDB; 8.A.94.1.2; the adiponectin (adiponectin) family.
+DR   HGNC; HGNC:5984; IL17D.
+DR   CDD; cd12087; TM_EGFR-like; 1.
+DR   PIRSF; PIRSF001138; Enteropeptidase; 1.
+DR   EMBL; AY843351; AAY21540.1; JOINED; Genomic_DNA.
 DR   EMBL; AY843352; AAY21541.1; -; Genomic_DNA.
 DR   SMR; A0PHU1; 3-378.
 DR   GO; GO:0016021; C:integral component of membrane; IDA:UniProtKB-KW.

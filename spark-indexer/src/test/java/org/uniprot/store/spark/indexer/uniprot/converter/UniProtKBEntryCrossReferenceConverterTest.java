@@ -73,7 +73,11 @@ class UniProtKBEntryCrossReferenceConverterTest {
 
         assertEquals(Set.of("apical dendrite"), document.content);
 
-        assertEquals(new HashSet<>(Arrays.asList("go-GO:12345", "GO:12345")), document.crossRefs);
+        assertEquals(
+                new HashSet<>(
+                        Arrays.asList(
+                                "go-GO:12345", "GO:12345", "go-GO", "GO", "12345", "go-12345")),
+                document.crossRefs);
 
         assertEquals(Collections.singleton("go"), document.databases);
 
@@ -127,21 +131,30 @@ class UniProtKBEntryCrossReferenceConverterTest {
                         new UniProtKBDatabaseImpl("EMBL"),
                         "id value",
                         new Property("ProteinId", "EMBL12345"),
-                        new Property("NotProteinId", "notIndexed"));
+                        new Property("Status", "JOINED"),
+                        new Property("MoleculeType", "Genomic_DNA"));
         List<UniProtKBCrossReference> references = Collections.singletonList(xref);
 
         converter.convertCrossReferences(references, document);
 
         assertEquals(
                 new HashSet<>(
-                        Arrays.asList("embl-id value", "embl-EMBL12345", "EMBL12345", "id value")),
+                        Arrays.asList(
+                                "embl-Genomic_DNA",
+                                "embl-id value",
+                                "EMBL12345",
+                                "Genomic_DNA",
+                                "embl-EMBL12345",
+                                "JOINED",
+                                "id value",
+                                "embl-JOINED")),
                 document.crossRefs);
 
         assertEquals(Collections.singleton("embl"), document.databases);
 
         assertTrue(document.xrefCountMap.containsKey("xref_count_embl"));
         assertEquals(1L, document.xrefCountMap.get("xref_count_embl"));
-        assertEquals(Set.of("notIndexed"), document.content);
+        assertTrue(document.content.isEmpty());
     }
 
     @Test
@@ -196,6 +209,68 @@ class UniProtKBEntryCrossReferenceConverterTest {
         assertEquals(1L, document.xrefCountMap.get("xref_count_tcdb"));
         assertEquals(1, document.content.size());
         assertEquals("[the adiponectin (adiponectin) family]", document.content.toString());
+    }
+
+    @Test
+    void convertCDDCrossReferencesWithProperty() {
+        UniProtDocument document = new UniProtDocument();
+
+        UniProtEntryCrossReferenceConverter converter = new UniProtEntryCrossReferenceConverter();
+
+        UniProtKBCrossReference xref =
+                getUniProtDBCrossReference(
+                        new UniProtKBDatabaseImpl("CDD"),
+                        "cd12087",
+                        new Property("EntryName", "TM_EGFR-like"));
+        List<UniProtKBCrossReference> references = Collections.singletonList(xref);
+
+        converter.convertCrossReferences(references, document);
+
+        assertEquals(
+                new HashSet<>(
+                        Arrays.asList(
+                                "TM_EGFR-like", "cd12087", "cdd-cd12087", "cdd-TM_EGFR-like")),
+                document.crossRefs);
+
+        assertEquals(Collections.singleton("cdd"), document.databases);
+
+        assertTrue(document.xrefCountMap.containsKey("xref_count_cdd"));
+        assertEquals(1L, document.xrefCountMap.get("xref_count_cdd"));
+        assertEquals(0, document.content.size());
+    }
+
+    @Test
+    void convertHGNCCrossReferencesWithProperty() {
+        UniProtDocument document = new UniProtDocument();
+
+        UniProtEntryCrossReferenceConverter converter = new UniProtEntryCrossReferenceConverter();
+
+        UniProtKBCrossReference xref =
+                getUniProtDBCrossReference(
+                        new UniProtKBDatabaseImpl("HGNC"),
+                        "HGNC:5984",
+                        new Property("GeneName", "IL17D"));
+        List<UniProtKBCrossReference> references = Collections.singletonList(xref);
+
+        converter.convertCrossReferences(references, document);
+
+        assertEquals(
+                new HashSet<>(
+                        Arrays.asList(
+                                "HGNC:5984",
+                                "hgnc-HGNC",
+                                "hgnc-HGNC:5984",
+                                "HGNC",
+                                "5984",
+                                "hgnc-5984")),
+                document.crossRefs);
+
+        assertEquals(Collections.singleton("hgnc"), document.databases);
+
+        assertTrue(document.xrefCountMap.containsKey("xref_count_hgnc"));
+        assertEquals(1L, document.xrefCountMap.get("xref_count_hgnc"));
+        assertEquals(1, document.content.size());
+        assertEquals("[IL17D]", document.content.toString());
     }
 
     private static UniProtKBCrossReference getUniProtDBCrossReference(

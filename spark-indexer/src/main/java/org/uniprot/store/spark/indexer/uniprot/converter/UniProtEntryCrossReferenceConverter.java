@@ -54,6 +54,9 @@ class UniProtEntryCrossReferenceConverter {
                 case "pir":
                 case "unipathway":
                 case "ensembl":
+                case "pirsf":
+                case "cdd":
+                case "mim":
                     if (xref.hasProperties()) {
                         Set<String> properties = getCrossRefPropertiesValues(xref);
                         properties.forEach(s -> convertXRefId(document, dbname, s));
