@@ -158,6 +158,34 @@ class UniProtKBEntryCrossReferenceConverterTest {
     }
 
     @Test
+    void convertPIRSFCrossReferencesWithProperty() {
+        UniProtDocument document = new UniProtDocument();
+
+        UniProtEntryCrossReferenceConverter converter = new UniProtEntryCrossReferenceConverter();
+
+        UniProtKBCrossReference xref =
+                getUniProtDBCrossReference(
+                        new UniProtKBDatabaseImpl("PIRSF"),
+                        "PIRSF001138",
+                        new Property("EntryName", "Enteropeptidase"));
+        List<UniProtKBCrossReference> references = Collections.singletonList(xref);
+
+        converter.convertCrossReferences(references, document);
+
+        assertEquals(
+                new HashSet<>(
+                        Arrays.asList(
+                                "pirsf-Enteropeptidase", "Enteropeptidase", "pirsf-PIRSF001138", "PIRSF001138")),
+                document.crossRefs);
+
+        assertEquals(Collections.singleton("pirsf"), document.databases);
+
+        assertTrue(document.xrefCountMap.containsKey("xref_count_pirsf"));
+        assertEquals(1L, document.xrefCountMap.get("xref_count_pirsf"));
+        assertEquals(0, document.content.size());
+    }
+
+    @Test
     void convertCrossReferencesWithProperty() {
         UniProtDocument document = new UniProtDocument();
 
