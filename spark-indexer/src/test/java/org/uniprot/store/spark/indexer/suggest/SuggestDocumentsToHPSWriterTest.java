@@ -473,6 +473,7 @@ class SuggestDocumentsToHPSWriterTest {
         assertTrue(document.altValues.contains("Baker’s yeast"));
         assertTrue(document.altValues.contains("S. cerevisiae"));
     }
+
     @Nested
     class GetDefaultHighImportantTaxonTest {
         private final SuggestDocumentsToHPSWriter writer =
