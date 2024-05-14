@@ -450,6 +450,29 @@ class SuggestDocumentsToHPSWriterTest {
                 () -> assertTrue(resultMap.containsKey("10066")));
     }
 
+    @Test
+    void testGet559292() {
+        SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
+
+        JavaRDD<SuggestDocument> suggestRdd =
+                writer.getUniProtKbOrganism(
+                        flatFileRDD,
+                        new TaxonomyRDDReaderFake(parameter, true, true).loadTaxonomyLineage());
+        assertNotNull(suggestRdd);
+        List<SuggestDocument> suggests = suggestRdd.collect();
+        assertEquals(91L, suggests.size());
+        SuggestDocument document =
+                suggests.stream()
+                        .filter(doc -> doc.id.equals("559292"))
+                        .findFirst()
+                        .orElseThrow(AssertionFailedError::new);
+        assertNotNull(document);
+        assertEquals(ORGANISM.name(), document.dictionary);
+        assertEquals("559292", document.id);
+        assertTrue(document.altValues.contains("Baker’s yeast"));
+        assertTrue(document.altValues.contains("Baker’s yeast"));
+        assertTrue(document.altValues.contains("S. cerevisiae"));
+    }
     @Nested
     class GetDefaultHighImportantTaxonTest {
         private final SuggestDocumentsToHPSWriter writer =
