@@ -470,7 +470,7 @@ class SuggestDocumentsToHPSWriterTest {
         assertEquals(ORGANISM.name(), document.dictionary);
         assertEquals("559292", document.id);
         assertTrue(document.altValues.contains("Baker’s yeast"));
-        assertTrue(document.altValues.contains("Baker’s yeast"));
+        assertTrue(document.altValues.contains("Brewer’s yeast"));
         assertTrue(document.altValues.contains("S. cerevisiae"));
     }
 
