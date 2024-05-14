@@ -28,13 +28,12 @@ public class InactiveEntryMocker {
         List<InactiveUniProtEntry> deletedEntries = new ArrayList<>();
         deletedEntries.add(
                 InactiveUniProtEntry.from(
-                        "I8FBX0", "I8FBX0_MYCAB", DELETED, null, "SWISSPROT_DELETION"));
+                        "I8FBX0", "I8FBX0_MYCAB", DELETED, null, "SOURCE_DELETION_EMBL"));
         deletedEntries.add(
                 InactiveUniProtEntry.from(
                         "I8FBX1", "I8FBX1_YERPE", DELETED, null, "PROTEOME_REDUNDANCY"));
         deletedEntries.add(
-                InactiveUniProtEntry.from(
-                        "I8FBX2", "I8FBX2_YERPE", DELETED, null, "SOURCE_DELETION"));
+                InactiveUniProtEntry.from("I8FBX2", "I8FBX2_YERPE", DELETED, null, null));
         entryMap.put(InactiveType.DELETED, deletedEntries);
 
         List<InactiveUniProtEntry> mergedEntries = new ArrayList<>();

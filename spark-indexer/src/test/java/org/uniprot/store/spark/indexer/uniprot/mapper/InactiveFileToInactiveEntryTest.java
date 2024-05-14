@@ -21,7 +21,15 @@ class InactiveFileToInactiveEntryTest {
         InactiveFileToInactiveEntry mapper = new InactiveFileToInactiveEntry();
 
         Tuple2<String, UniProtKBEntry> result = mapper.call("I8FBX0,I8FBX0_MYCAB,deleted,-, ");
-        validateDeleted(result, "I8FBX0", "I8FBX0_MYCAB", DeletedReason.UNKNOWN);
+        validateDeleted(result, "I8FBX0", "I8FBX0_MYCAB", null);
+    }
+
+    @Test
+    void testDeletedEntryWithUnknownReasonIsNull() throws Exception {
+        InactiveFileToInactiveEntry mapper = new InactiveFileToInactiveEntry();
+
+        Tuple2<String, UniProtKBEntry> result = mapper.call("I8FBX0,I8FBX0_MYCAB,deleted,-,10");
+        validateDeleted(result, "I8FBX0", "I8FBX0_MYCAB", null);
     }
 
     @Test
@@ -29,7 +37,7 @@ class InactiveFileToInactiveEntryTest {
         InactiveFileToInactiveEntry mapper = new InactiveFileToInactiveEntry();
 
         Tuple2<String, UniProtKBEntry> result = mapper.call("I8FBX1,I8FBX1_MYCAB,deleted,-,8");
-        validateDeleted(result, "I8FBX1", "I8FBX1_MYCAB", DeletedReason.SOURCE_DELETION);
+        validateDeleted(result, "I8FBX1", "I8FBX1_MYCAB", DeletedReason.SOURCE_DELETION_PDB);
     }
 
     @Test
