@@ -64,8 +64,10 @@ public class UniProtEntryConverterUtil {
         if (id.indexOf(":") > 0) {
             String[] tokens = id.split(":");
             for (String t : tokens) {
-                values.add(t);
-                values.add(dbname + "-" + t);
+                if (!dbname.equalsIgnoreCase(t)) {
+                    values.add(t);
+                    values.add(dbname + "-" + t);
+                }
             }
         }
         return values;

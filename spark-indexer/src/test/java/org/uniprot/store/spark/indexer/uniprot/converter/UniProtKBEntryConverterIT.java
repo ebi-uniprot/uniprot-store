@@ -80,7 +80,7 @@ class UniProtKBEntryConverterIT {
         assertEquals(1, doc.organismHostIds.size());
         assertEquals(9539, doc.organismHostIds.get(0).intValue());
 
-        assertEquals(96, doc.crossRefs.size());
+        assertEquals(92, doc.crossRefs.size());
         assertTrue(doc.crossRefs.contains("embl-AAY21541.1"));
         assertTrue(doc.crossRefs.contains("embl-AAY21540.1"));
         assertTrue(doc.crossRefs.contains("embl-AAY21540"));
@@ -109,10 +109,8 @@ class UniProtKBEntryConverterIT {
         // hgnc
         assertTrue(doc.crossRefs.contains("hgnc-5984"));
         assertTrue(doc.crossRefs.contains("hgnc-HGNC:5984"));
-        assertTrue(doc.crossRefs.contains("hgnc-HGNC"));
         assertTrue(doc.crossRefs.contains("5984"));
         assertTrue(doc.crossRefs.contains("HGNC:5984"));
-        assertTrue(doc.crossRefs.contains("HGNC"));
 
         // cdd
         assertTrue(doc.crossRefs.contains("cdd-1"));
@@ -263,7 +261,7 @@ class UniProtKBEntryConverterIT {
         assertEquals(0, doc.organismHostNames.size());
         assertEquals(0, doc.organismHostIds.size());
 
-        assertEquals(213, doc.crossRefs.size());
+        assertEquals(211, doc.crossRefs.size());
         assertTrue(doc.crossRefs.contains("refseq-NM_001270626.1"));
         assertTrue(doc.crossRefs.contains("refseq-NM_001270626"));
         assertTrue(doc.crossRefs.contains("NM_001270626.1"));
@@ -434,7 +432,7 @@ class UniProtKBEntryConverterIT {
         assertEquals(0, doc.organelles.size());
         assertEquals(0, doc.organismHostIds.size());
 
-        assertEquals(110, doc.crossRefs.size());
+        assertEquals(108, doc.crossRefs.size());
         assertTrue(doc.crossRefs.contains("embl-CAC20867.1"));
         assertTrue(doc.crossRefs.contains("embl-CAC20867"));
         assertTrue(doc.crossRefs.contains("CAC20867.1"));

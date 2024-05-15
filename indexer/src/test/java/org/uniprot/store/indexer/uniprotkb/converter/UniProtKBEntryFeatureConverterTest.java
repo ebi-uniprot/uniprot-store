@@ -126,10 +126,8 @@ class UniProtKBEntryFeatureConverterTest {
                         "tRNA(Thr)",
                         "A1",
                         "CHEBI:29180",
-                        "ChEBI-CHEBI",
                         "CHEBI:83071",
                         "ChEBI-CHEBI:29180",
-                        "CHEBI",
                         "ChEBI-CHEBI:83071",
                         "29180",
                         "BINDING");
@@ -145,7 +143,7 @@ class UniProtKBEntryFeatureConverterTest {
         assertEquals(
                 new HashSet<>(bindingLengthValue), document.featureLengthMap.get("ftlen_binding"));
 
-        assertEquals(14, document.content.size());
+        assertEquals(12, document.content.size());
         assertEquals(
                 new HashSet<>(
                         List.of(
@@ -156,10 +154,8 @@ class UniProtKBEntryFeatureConverterTest {
                                 "tRNA(Thr)",
                                 "A1",
                                 "CHEBI:29180",
-                                "ChEBI-CHEBI",
                                 "CHEBI:83071",
                                 "ChEBI-CHEBI:29180",
-                                "CHEBI",
                                 "ChEBI-CHEBI:83071",
                                 "29180",
                                 "BINDING")),

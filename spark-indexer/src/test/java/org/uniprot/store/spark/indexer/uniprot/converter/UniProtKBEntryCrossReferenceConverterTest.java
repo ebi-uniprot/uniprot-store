@@ -74,9 +74,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
         assertEquals(Set.of("apical dendrite"), document.content);
 
         assertEquals(
-                new HashSet<>(
-                        Arrays.asList(
-                                "go-GO:12345", "GO:12345", "go-GO", "GO", "12345", "go-12345")),
+                new HashSet<>(Arrays.asList("go-GO:12345", "GO:12345", "12345", "go-12345")),
                 document.crossRefs);
 
         assertEquals(Collections.singleton("go"), document.databases);
@@ -175,7 +173,10 @@ class UniProtKBEntryCrossReferenceConverterTest {
         assertEquals(
                 new HashSet<>(
                         Arrays.asList(
-                                "pirsf-Enteropeptidase", "Enteropeptidase", "pirsf-PIRSF001138", "PIRSF001138")),
+                                "pirsf-Enteropeptidase",
+                                "Enteropeptidase",
+                                "pirsf-PIRSF001138",
+                                "PIRSF001138")),
                 document.crossRefs);
 
         assertEquals(Collections.singleton("pirsf"), document.databases);
@@ -283,14 +284,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
         converter.convertCrossReferences(references, document);
 
         assertEquals(
-                new HashSet<>(
-                        Arrays.asList(
-                                "HGNC:5984",
-                                "hgnc-HGNC",
-                                "hgnc-HGNC:5984",
-                                "HGNC",
-                                "5984",
-                                "hgnc-5984")),
+                new HashSet<>(Arrays.asList("HGNC:5984", "hgnc-HGNC:5984", "5984", "hgnc-5984")),
                 document.crossRefs);
 
         assertEquals(Collections.singleton("hgnc"), document.databases);
