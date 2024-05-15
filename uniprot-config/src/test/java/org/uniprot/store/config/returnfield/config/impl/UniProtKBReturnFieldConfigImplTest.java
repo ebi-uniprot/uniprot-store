@@ -68,11 +68,11 @@ class UniProtKBReturnFieldConfigImplTest {
     void loadMultiValueCrossReferenceWithOneDefaultPropertyReturnFalse() {
         ReturnField returnField =
                 config.getReturnFields().stream()
-                        .filter(field -> field.getName().equals("xref_geneid"))
+                        .filter(field -> field.getName().equals("xref_kegg"))
                         .findFirst()
                         .orElseThrow(AssertionFailedError::new);
         assertThat(returnField, notNullValue());
-        assertThat(returnField.getName(), is("xref_geneid"));
+        assertThat(returnField.getName(), is("xref_kegg"));
         assertThat(returnField.getIsMultiValueCrossReference(), is(false));
     }
 
@@ -97,12 +97,12 @@ class UniProtKBReturnFieldConfigImplTest {
         IllegalStateException error =
                 assertThrows(
                         IllegalStateException.class,
-                        () -> config.getReturnFieldByName("xref_geneid_full"));
+                        () -> config.getReturnFieldByName("xref_kegg_full"));
         assertThat(error, notNullValue());
         assertThat(
                 error.getMessage(),
                 is(
-                        "xref_geneid is not a multi value cross-reference and it does not support xref_geneid_full field name"));
+                        "xref_kegg is not a multi value cross-reference and it does not support xref_kegg_full field name"));
     }
 
     @Test
