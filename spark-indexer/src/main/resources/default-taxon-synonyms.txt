@@ -8,7 +8,7 @@
 8364	Western clawed frog,Tropical clawed frog,X. tropicalis,Xenopus laevis tropicalis,Silurana tropicalis	high
 10090	Mouse,Laboratory mouse,House mouse	high
 10116	Rat,Brown rat,Laboratory rat,Norway rat,Buffalo rat,R. norvegicus	high
-4932	Baker’s yeast,Brewer’s yeast,S. cerevisiae	high
+559292	Baker’s yeast,Brewer’s yeast,S. cerevisiae	high
 4896	Fission yeast,S. pombe	high
 5476	Yeast,C. albicans	high
 3702	Mouse-ear cress,Thale cress,Arabidopsis,A. Thaliana	high

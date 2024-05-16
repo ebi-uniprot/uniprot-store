@@ -1146,6 +1146,12 @@
         "mandatoryJsonField": false
       },
       {
+        "label": "KEGG",
+        "name": "dr_kegg",
+        "javaFieldName": "dr_kegg",
+        "mandatoryJsonField": false
+      },
+      {
         "label": "PATRIC",
         "name": "dr_patric",
         "javaFieldName": "dr_patric",
