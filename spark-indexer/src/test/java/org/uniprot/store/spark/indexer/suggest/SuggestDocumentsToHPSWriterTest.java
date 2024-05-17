@@ -26,6 +26,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.Mockito;
 import org.opentest4j.AssertionFailedError;
@@ -341,7 +342,7 @@ class SuggestDocumentsToHPSWriterTest {
         var suggests = suggestRdd.collect();
 
         var totalEntriesInXmlFile = 7;
-        var totalNumbersOfDefaultTaxonSynonyms = 28;
+        var totalNumbersOfDefaultTaxonSynonyms = 29;
         var upidTaxonomyDocsCount = 7;
         var duplicateTaxonIdInXmlFile = 1;
         var alreadyPresentInSynonymsFile = 1;
@@ -387,9 +388,9 @@ class SuggestDocumentsToHPSWriterTest {
         var suggests = suggestRdd.collect();
 
         var totalEntriesInXmlFile = 1;
-        var totalNumbersOfDefaultTaxonSynonyms = 35;
+        var totalNumbersOfDefaultTaxonSynonyms = 37;
         var totalHostEntriesInXmlFile = 0;
-        var totalNumbersOfDefaultHostSynonyms = 18;
+        var totalNumbersOfDefaultHostSynonyms = 19;
         var totalHostSynonymsDocs = totalNumbersOfDefaultHostSynonyms + totalHostEntriesInXmlFile;
         var alreadyPresentInSynonymsFile = 1;
         var extraLineageFromTaxonomyRDDReaderFake = 3;
@@ -422,7 +423,7 @@ class SuggestDocumentsToHPSWriterTest {
         var suggests = suggestRdd.collect();
 
         var totalEntriesInXmlFile = 2;
-        var totalNumbersOfDefaultTaxonSynonyms = 35;
+        var totalNumbersOfDefaultTaxonSynonyms = 37;
         var alreadyPresentInSynonymsFile = 1;
         var extraLineageFromTaxonomyRDDReaderFake = 3;
         var organismDocsCount =
@@ -450,8 +451,9 @@ class SuggestDocumentsToHPSWriterTest {
                 () -> assertTrue(resultMap.containsKey("10066")));
     }
 
-    @Test
-    void testGet559292() {
+    @ParameterizedTest
+    @CsvSource({"559292,high", "4932,medium"})
+    void testGetSCerevisiae(String docId, String importance) {
         SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
 
         JavaRDD<SuggestDocument> suggestRdd =
@@ -460,15 +462,16 @@ class SuggestDocumentsToHPSWriterTest {
                         new TaxonomyRDDReaderFake(parameter, true, true).loadTaxonomyLineage());
         assertNotNull(suggestRdd);
         List<SuggestDocument> suggests = suggestRdd.collect();
-        assertEquals(91L, suggests.size());
+        assertEquals(96L, suggests.size());
         SuggestDocument document =
                 suggests.stream()
-                        .filter(doc -> doc.id.equals("559292"))
+                        .filter(doc -> doc.id.equals(docId))
                         .findFirst()
                         .orElseThrow(AssertionFailedError::new);
         assertNotNull(document);
         assertEquals(ORGANISM.name(), document.dictionary);
-        assertEquals("559292", document.id);
+        assertEquals(importance, document.importance);
+        assertEquals(docId, document.id);
         assertTrue(document.altValues.contains("Baker’s yeast"));
         assertTrue(document.altValues.contains("Brewer’s yeast"));
         assertTrue(document.altValues.contains("S. cerevisiae"));
@@ -486,13 +489,13 @@ class SuggestDocumentsToHPSWriterTest {
                 mode = EnumSource.Mode.INCLUDE)
         void canLoadDefaultHighImportantTaxonomy(SuggestDictionary dict) {
             var dicRDD = writer.getDefaultHighImportantTaxon(dict);
-            assertEquals(35, dicRDD.count());
+            assertEquals(37, dicRDD.count());
         }
 
         @Test
         void canLoadDefaultHighImportantHost() {
             var dicRDD = writer.getDefaultHighImportantTaxon(HOST);
-            assertEquals(18, dicRDD.count());
+            assertEquals(19, dicRDD.count());
         }
 
         @ParameterizedTest
@@ -502,7 +505,7 @@ class SuggestDocumentsToHPSWriterTest {
                 mode = EnumSource.Mode.INCLUDE)
         void canLoadDefaultHighImportantProteome(SuggestDictionary dict) {
             var dicRDD = writer.getDefaultHighImportantTaxon(dict);
-            assertEquals(28, dicRDD.count());
+            assertEquals(29, dicRDD.count());
         }
     }
 
