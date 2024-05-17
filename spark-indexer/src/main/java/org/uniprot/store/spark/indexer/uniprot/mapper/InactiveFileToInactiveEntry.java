@@ -40,7 +40,10 @@ public class InactiveFileToInactiveEntry
         InactiveReasonType type = InactiveReasonType.valueOf(reasonType.toUpperCase());
         reasonBuilder.type(type);
         if (InactiveReasonType.DELETED == type) {
-            reasonBuilder.deletedReason(getDeletedReason(tokens));
+            DeletedReason deletedReason = getDeletedReason(tokens);
+            if (deletedReason != DeletedReason.UNKNOWN) {
+                reasonBuilder.deletedReason(deletedReason);
+            }
         } else if (tokens.length == 4 && !tokens[3].equals("-")) {
             reasonBuilder.mergeDemergeTosAdd(tokens[3]);
         }

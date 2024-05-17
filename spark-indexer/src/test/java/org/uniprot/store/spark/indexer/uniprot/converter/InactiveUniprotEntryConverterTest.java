@@ -24,7 +24,7 @@ class InactiveUniprotEntryConverterTest {
         EntryInactiveReason inactiveReason =
                 new EntryInactiveReasonBuilder()
                         .type(InactiveReasonType.DELETED)
-                        .deletedReason(DeletedReason.SOURCE_DELETION)
+                        .deletedReason(DeletedReason.SOURCE_DELETION_EMBL)
                         .build();
         UniProtKBEntry entry = new UniProtKBEntryBuilder("P12345", inactiveReason).build();
         UniProtDocument result = converter.convert(entry);
@@ -34,7 +34,7 @@ class InactiveUniprotEntryConverterTest {
         assertTrue(Utils.nullOrEmpty(result.id));
         assertTrue(Utils.nullOrEmpty(result.idDefault));
         assertNull(result.idInactive);
-        assertEquals("DELETED:SOURCE_DELETION", result.inactiveReason);
+        assertEquals("DELETED:SOURCE_DELETION_EMBL", result.inactiveReason);
         assertFalse(result.active);
     }
 

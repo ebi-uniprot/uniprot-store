@@ -40,13 +40,13 @@ class InactiveUniProtKBRDDTupleReaderTest {
             assertEquals(23L, count);
             Tuple2<String, UniProtDocument> inactive =
                     uniprotRdd.filter(tuple2 -> tuple2._1.equals("I8FBX0")).first();
-            validateInactiveEntry(inactive, "I8FBX0", "DELETED:UNKNOWN");
+            validateInactiveEntry(inactive, "I8FBX0", "DELETED");
 
             inactive = uniprotRdd.filter(tuple2 -> tuple2._1.equals("I8FBX1")).first();
             validateInactiveEntry(inactive, "I8FBX1", "DELETED:PROTEOME_REDUNDANCY");
 
             inactive = uniprotRdd.filter(tuple2 -> tuple2._1.equals("I8FBX2")).first();
-            validateInactiveEntry(inactive, "I8FBX2", "DELETED:UNKNOWN");
+            validateInactiveEntry(inactive, "I8FBX2", "DELETED");
 
             inactive = uniprotRdd.filter(tuple2 -> tuple2._1.equals("Q00015")).first();
             validateInactiveEntry(inactive, "Q00015", "MERGED:P23141");
