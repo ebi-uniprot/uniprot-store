@@ -1,8 +1,7 @@
 9606	Man	highest
 7227	Fruit fly,D. melanogaster	high
 10116	Rat,Brown rat,Laboratory rat,Norway rat,Buffalo rat,R. norvegicus	high
-559292	Baker’s yeast,Brewer’s yeast,S. cerevisiae	high
-4932	Baker’s yeast,Brewer’s yeast,S. cerevisiae	medium
+4932	Baker’s yeast,Brewer’s yeast,S. cerevisiae	high
 3702	Mouse-ear cress,Thale cress,Arabidopsis,A. Thaliana	high
 39947	Rice,Japanese rice,Japonica rice,O. sativa	high
 83333	E. coli	high
