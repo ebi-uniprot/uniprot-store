@@ -342,7 +342,7 @@ class SuggestDocumentsToHPSWriterTest {
         var suggests = suggestRdd.collect();
 
         var totalEntriesInXmlFile = 7;
-        var totalNumbersOfDefaultTaxonSynonyms = 29;
+        var totalNumbersOfDefaultTaxonSynonyms = 31;
         var upidTaxonomyDocsCount = 7;
         var duplicateTaxonIdInXmlFile = 1;
         var alreadyPresentInSynonymsFile = 1;
@@ -390,7 +390,7 @@ class SuggestDocumentsToHPSWriterTest {
         var totalEntriesInXmlFile = 1;
         var totalNumbersOfDefaultTaxonSynonyms = 37;
         var totalHostEntriesInXmlFile = 0;
-        var totalNumbersOfDefaultHostSynonyms = 19;
+        var totalNumbersOfDefaultHostSynonyms = 18;
         var totalHostSynonymsDocs = totalNumbersOfDefaultHostSynonyms + totalHostEntriesInXmlFile;
         var alreadyPresentInSynonymsFile = 1;
         var extraLineageFromTaxonomyRDDReaderFake = 3;
@@ -462,7 +462,7 @@ class SuggestDocumentsToHPSWriterTest {
                         new TaxonomyRDDReaderFake(parameter, true, true).loadTaxonomyLineage());
         assertNotNull(suggestRdd);
         List<SuggestDocument> suggests = suggestRdd.collect();
-        assertEquals(96L, suggests.size());
+        assertEquals(95L, suggests.size());
         SuggestDocument document =
                 suggests.stream()
                         .filter(doc -> doc.id.equals(docId))
@@ -495,7 +495,7 @@ class SuggestDocumentsToHPSWriterTest {
         @Test
         void canLoadDefaultHighImportantHost() {
             var dicRDD = writer.getDefaultHighImportantTaxon(HOST);
-            assertEquals(19, dicRDD.count());
+            assertEquals(18, dicRDD.count());
         }
 
         @ParameterizedTest
@@ -505,7 +505,7 @@ class SuggestDocumentsToHPSWriterTest {
                 mode = EnumSource.Mode.INCLUDE)
         void canLoadDefaultHighImportantProteome(SuggestDictionary dict) {
             var dicRDD = writer.getDefaultHighImportantTaxon(dict);
-            assertEquals(29, dicRDD.count());
+            assertEquals(31, dicRDD.count());
         }
     }
 
