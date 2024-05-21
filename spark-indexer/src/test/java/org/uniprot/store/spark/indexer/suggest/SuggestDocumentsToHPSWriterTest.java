@@ -342,7 +342,7 @@ class SuggestDocumentsToHPSWriterTest {
         var suggests = suggestRdd.collect();
 
         var totalEntriesInXmlFile = 7;
-        var totalNumbersOfDefaultTaxonSynonyms = 31;
+        var totalNumbersOfDefaultTaxonSynonyms = 32;
         var upidTaxonomyDocsCount = 7;
         var duplicateTaxonIdInXmlFile = 1;
         var alreadyPresentInSynonymsFile = 1;
@@ -388,7 +388,7 @@ class SuggestDocumentsToHPSWriterTest {
         var suggests = suggestRdd.collect();
 
         var totalEntriesInXmlFile = 1;
-        var totalNumbersOfDefaultTaxonSynonyms = 37;
+        var totalNumbersOfDefaultTaxonSynonyms = 38;
         var totalHostEntriesInXmlFile = 0;
         var totalNumbersOfDefaultHostSynonyms = 18;
         var totalHostSynonymsDocs = totalNumbersOfDefaultHostSynonyms + totalHostEntriesInXmlFile;
@@ -423,7 +423,7 @@ class SuggestDocumentsToHPSWriterTest {
         var suggests = suggestRdd.collect();
 
         var totalEntriesInXmlFile = 2;
-        var totalNumbersOfDefaultTaxonSynonyms = 37;
+        var totalNumbersOfDefaultTaxonSynonyms = 38;
         var alreadyPresentInSynonymsFile = 1;
         var extraLineageFromTaxonomyRDDReaderFake = 3;
         var organismDocsCount =
@@ -462,7 +462,7 @@ class SuggestDocumentsToHPSWriterTest {
                         new TaxonomyRDDReaderFake(parameter, true, true).loadTaxonomyLineage());
         assertNotNull(suggestRdd);
         List<SuggestDocument> suggests = suggestRdd.collect();
-        assertEquals(95L, suggests.size());
+        assertEquals(97L, suggests.size());
         SuggestDocument document =
                 suggests.stream()
                         .filter(doc -> doc.id.equals(docId))
@@ -489,7 +489,7 @@ class SuggestDocumentsToHPSWriterTest {
                 mode = EnumSource.Mode.INCLUDE)
         void canLoadDefaultHighImportantTaxonomy(SuggestDictionary dict) {
             var dicRDD = writer.getDefaultHighImportantTaxon(dict);
-            assertEquals(37, dicRDD.count());
+            assertEquals(38, dicRDD.count());
         }
 
         @Test
@@ -505,7 +505,7 @@ class SuggestDocumentsToHPSWriterTest {
                 mode = EnumSource.Mode.INCLUDE)
         void canLoadDefaultHighImportantProteome(SuggestDictionary dict) {
             var dicRDD = writer.getDefaultHighImportantTaxon(dict);
-            assertEquals(31, dicRDD.count());
+            assertEquals(32, dicRDD.count());
         }
     }
 

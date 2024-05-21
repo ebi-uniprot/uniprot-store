@@ -12,7 +12,8 @@
 4932	Baker’s yeast,Brewer’s yeast,S. cerevisiae	medium
 284812	Fission yeast,S. pombe	high
 4896	Fission yeast,S. pombe	medium
-5476	Yeast,C. albicans	high
+237561	Yeast,C. albicans	high
+5476	Yeast,C. albicans	medium
 3702	Mouse-ear cress,Thale cress,Arabidopsis,A. Thaliana	high
 39947	Rice,Japanese rice,Japonica rice,O. sativa	high
 83333	E. coli	high
