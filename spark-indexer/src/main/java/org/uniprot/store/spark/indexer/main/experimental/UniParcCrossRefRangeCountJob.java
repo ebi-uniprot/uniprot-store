@@ -35,7 +35,7 @@ public class UniParcCrossRefRangeCountJob {
     }
 
     public static void main(String[] args) {
-        if (args == null || args.length != 3) {
+        if (args == null || args.length != 2) {
             throw new IllegalArgumentException(
                     "Invalid arguments. Expected "
                             + "args[0]= release name"

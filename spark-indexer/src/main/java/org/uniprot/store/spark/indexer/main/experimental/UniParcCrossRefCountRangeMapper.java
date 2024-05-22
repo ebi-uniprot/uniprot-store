@@ -17,6 +17,7 @@ public class UniParcCrossRefCountRangeMapper implements PairFunction<UniParcEntr
     public Tuple2<String, Long> call(UniParcEntry entry) throws Exception {
         int size = entry.getUniParcCrossReferences().size();
         int index = size / 1000;
+        index = index >= RANGES.length ? RANGES.length-1 : index;
         return new Tuple2<>(RANGES[index], 1L);
     }
 }
