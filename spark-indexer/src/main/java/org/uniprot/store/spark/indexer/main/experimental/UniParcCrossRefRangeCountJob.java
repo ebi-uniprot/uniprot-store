@@ -30,7 +30,7 @@ public class UniParcCrossRefRangeCountJob {
         Map<String, Long> rangeCountMap = rangeCountRDD.collectAsMap();
         log.info("Summary of UniParc entries by cross-reference count ranges: [Range] => [Count]");
         for(Map.Entry<String, Long> entry:rangeCountMap.entrySet()){
-            log.info("[{}] ==> {}", entry.getValue(), entry.getValue());
+            log.info("[{}] ==> {}", entry.getKey(), entry.getValue());
         }
     }
 
