@@ -10,8 +10,10 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.uniparc.UniParcRDDTupleReader;
+import scala.Tuple2;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 @Slf4j
 public class UniParcCrossRefRangeCountJob {
@@ -26,12 +28,23 @@ public class UniParcCrossRefRangeCountJob {
     public void countCrossRefByRange(){
         UniParcRDDTupleReader reader = new UniParcRDDTupleReader(parameter, false);
         JavaRDD<UniParcEntry> uniParcRDD = reader.load();
-        JavaPairRDD<String, Long> rangeCountRDD = uniParcRDD.mapToPair(new UniParcCrossRefCountRangeMapper()).reduceByKey(Long::sum);
+
+        log.info("Total UniParc Entry count in input file {}", uniParcRDD.count());
+
+        JavaPairRDD<String, Integer> idCount = uniParcRDD.mapToPair(entry -> new Tuple2<>(entry.getUniParcId().getValue(), entry.getUniParcCrossReferences().size()))
+                .aggregateByKey(null, (e1, e2) -> e1 != null ? e1 : e2, (e1, e2) -> e1 != null ? e1 : e2);
+
+        JavaPairRDD<String, Long> rangeCountRDD = idCount.mapToPair(new UniParcCrossRefCountRangeMapper()).reduceByKey(Long::sum);
+
         Map<String, Long> rangeCountMap = rangeCountRDD.collectAsMap();
+        Map<String, Long> sortedByKeyMap = new TreeMap<>(rangeCountMap);
         log.info("Summary of UniParc entries by cross-reference count ranges: [Range] => [Count]");
-        for(Map.Entry<String, Long> entry:rangeCountMap.entrySet()){
+        long total = 0;
+        for(Map.Entry<String, Long> entry:sortedByKeyMap.entrySet()){
             log.info("[{}] ==> {}", entry.getKey(), entry.getValue());
+            total += entry.getValue();
         }
+        log.info("Total unique UniParc entry count {}", total);
     }
 
     public static void main(String[] args) {
