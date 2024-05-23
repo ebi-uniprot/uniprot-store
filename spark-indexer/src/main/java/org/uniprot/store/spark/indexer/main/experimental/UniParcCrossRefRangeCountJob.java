@@ -1,19 +1,24 @@
 package org.uniprot.store.spark.indexer.main.experimental;
 
-import com.typesafe.config.Config;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.uniparc.UniParcRDDTupleReader;
-import scala.Tuple2;
 
-import java.util.Map;
-import java.util.TreeMap;
+import com.typesafe.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
+import scala.Tuple2;
 
 @Slf4j
 public class UniParcCrossRefRangeCountJob {
@@ -24,23 +29,70 @@ public class UniParcCrossRefRangeCountJob {
         this.parameter = parameter;
     }
 
-    //cross ref range -> uniparc entry count. e.g. 1000-2000 --> 200
-    public void countCrossRefByRange(){
+    public void countMostRepeatedTaxonomyIdByUniRefId() {
+        // find entries with more than 1000 cross refs
+        // group by active taxonomy id
+        // sort by count in descending order and return first 500
+        UniParcRDDTupleReader reader = new UniParcRDDTupleReader(parameter, false);
+        JavaRDD<UniParcEntry> uniParcRDD = reader.load();
+        // group by taxonomy id
+        Function<UniParcEntry, Boolean> entryWithMoreXrefs =
+                entry -> entry.getUniParcCrossReferences().size() > 1000;
+        JavaRDD<Iterable<Tuple2<String, Tuple2<Long, Long>>>> uniParcEntry1000PlusXrefRDD =
+                uniParcRDD.filter(entryWithMoreXrefs).map(new UniParcGroupByTaxonomyId());
+        // flatten the iterable to have <uniparcid, <taxonId, count>>
+        JavaRDD<Tuple2<String, Tuple2<Long, Long>>> flattenedUniParcRDD =
+                uniParcEntry1000PlusXrefRDD.flatMap(
+                        iterable -> {
+                            List<Tuple2<String, Tuple2<Long, Long>>> flattenedList =
+                                    new ArrayList<>();
+                            for (Tuple2<String, Tuple2<Long, Long>> tuple : iterable) {
+                                flattenedList.add(tuple);
+                            }
+                            return flattenedList.iterator();
+                        });
+        // sort by repetition count of taxonomy id in descending order
+        JavaRDD<Tuple2<String, Tuple2<Long, Long>>> sortedUniParcRDD =
+                flattenedUniParcRDD.sortBy(
+                        (Function<Tuple2<String, Tuple2<Long, Long>>, Long>) tuple -> tuple._2._2,
+                        false,
+                        1);
+        // take top 500 and print them
+        List<Tuple2<String, Tuple2<Long, Long>>> top500CrossRefs = sortedUniParcRDD.take(500);
+        log.info("Top 500 taxonomies repeated most number of times");
+        log.info("UniParcId \t TaxonomyId \t Repetition");
+        for (Tuple2<String, Tuple2<Long, Long>> tuple : top500CrossRefs) {
+            log.info("{} \t {} \t {}", tuple._1, tuple._2._1, tuple._2._2);
+        }
+    }
+
+    // cross ref range -> uniparc entry count. e.g. 1000-2000 --> 200
+    public void countCrossRefByRange() {
         UniParcRDDTupleReader reader = new UniParcRDDTupleReader(parameter, false);
         JavaRDD<UniParcEntry> uniParcRDD = reader.load();
 
         log.info("Total UniParc Entry count in input file {}", uniParcRDD.count());
 
-        JavaPairRDD<String, Integer> idCount = uniParcRDD.mapToPair(entry -> new Tuple2<>(entry.getUniParcId().getValue(), entry.getUniParcCrossReferences().size()))
-                .aggregateByKey(null, (e1, e2) -> e1 != null ? e1 : e2, (e1, e2) -> e1 != null ? e1 : e2);
+        JavaPairRDD<String, Integer> idCount =
+                uniParcRDD
+                        .mapToPair(
+                                entry ->
+                                        new Tuple2<>(
+                                                entry.getUniParcId().getValue(),
+                                                entry.getUniParcCrossReferences().size()))
+                        .aggregateByKey(
+                                null,
+                                (e1, e2) -> e1 != null ? e1 : e2,
+                                (e1, e2) -> e1 != null ? e1 : e2);
 
-        JavaPairRDD<String, Long> rangeCountRDD = idCount.mapToPair(new UniParcCrossRefCountRangeMapper()).reduceByKey(Long::sum);
+        JavaPairRDD<String, Long> rangeCountRDD =
+                idCount.mapToPair(new UniParcCrossRefCountRangeMapper()).reduceByKey(Long::sum);
 
         Map<String, Long> rangeCountMap = rangeCountRDD.collectAsMap();
         Map<String, Long> sortedByKeyMap = new TreeMap<>(rangeCountMap);
         log.info("Summary of UniParc entries by cross-reference count ranges: [Range] => [Count]");
         long total = 0;
-        for(Map.Entry<String, Long> entry:sortedByKeyMap.entrySet()){
+        for (Map.Entry<String, Long> entry : sortedByKeyMap.entrySet()) {
             log.info("[{}] ==> {}", entry.getKey(), entry.getValue());
             total += entry.getValue();
         }
@@ -57,7 +109,7 @@ public class UniParcCrossRefRangeCountJob {
 
         Config applicationConfig = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
-                     SparkUtils.loadSparkContext(applicationConfig, args[1])) {
+                SparkUtils.loadSparkContext(applicationConfig, args[1])) {
             JobParameter jobParameter =
                     JobParameter.builder()
                             .applicationConfig(applicationConfig)
@@ -65,12 +117,15 @@ public class UniParcCrossRefRangeCountJob {
                             .sparkContext(sparkContext)
                             .build();
             UniParcCrossRefRangeCountJob job = new UniParcCrossRefRangeCountJob(jobParameter);
-            job.countCrossRefByRange();
+            //            job.countCrossRefByRange();
+            job.countMostRepeatedTaxonomyIdByUniRefId();
             log.info("The cross ref range job submitted!");
         } catch (Exception e) {
-            throw new IndexDataStoreException("Unexpected error during counting cross reference", e);
+            throw new IndexDataStoreException(
+                    "Unexpected error during counting cross reference", e);
         } finally {
-            log.info("Finished preparing cross reference range and corresponding uniparc entry count.");
+            log.info(
+                    "Finished preparing cross reference range and corresponding uniparc entry count.");
             log.info("See the logs for result summary.");
         }
     }
