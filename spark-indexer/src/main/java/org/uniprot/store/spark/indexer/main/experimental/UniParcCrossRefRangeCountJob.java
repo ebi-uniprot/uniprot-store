@@ -1,9 +1,7 @@
 package org.uniprot.store.spark.indexer.main.experimental;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.stream.StreamSupport;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -27,6 +25,60 @@ public class UniParcCrossRefRangeCountJob {
 
     public UniParcCrossRefRangeCountJob(JobParameter parameter) {
         this.parameter = parameter;
+    }
+
+    public void findMostRepeatedTaxonomy() {
+        // find entries with more than 1000 cross refs
+        // group by active taxonomy id
+        // then pick maximum repetition count for each taxonomy
+        // sort by count in descending order and return first 500
+        UniParcRDDTupleReader reader = new UniParcRDDTupleReader(parameter, false);
+        JavaRDD<UniParcEntry> uniParcRDD = reader.load();
+        // group by taxonomy id
+        Function<UniParcEntry, Boolean> entryWithMoreXrefs =
+                entry -> entry.getUniParcCrossReferences().size() > 1000;
+        JavaRDD<Iterable<Tuple2<String, Tuple2<Long, Long>>>> uniParcEntry1000PlusXrefRDD =
+                uniParcRDD.filter(entryWithMoreXrefs).map(new UniParcGroupByTaxonomyId());
+        // flatten the iterable to have <uniparcid, <taxonId, count>>
+        JavaRDD<Tuple2<String, Tuple2<Long, Long>>> flattenedUniParcRDD =
+                uniParcEntry1000PlusXrefRDD.flatMap(
+                        iterable -> {
+                            List<Tuple2<String, Tuple2<Long, Long>>> flattenedList =
+                                    new ArrayList<>();
+                            for (Tuple2<String, Tuple2<Long, Long>> tuple : iterable) {
+                                flattenedList.add(tuple);
+                            }
+                            return flattenedList.iterator();
+                        });
+        // Step 1: Convert to PairRDD with taxonomy as key and the original Tuple as value i.e.
+        // <taxonId, <uniparcid, <taxonId, count>>>
+        JavaPairRDD<Long, Tuple2<String, Tuple2<Long, Long>>> pairRDD =
+                flattenedUniParcRDD.mapToPair(tuple -> new Tuple2<>(tuple._2()._1(), tuple));
+
+        // Step 2: Group by the first taxonomy
+        JavaPairRDD<Long, Iterable<Tuple2<String, Tuple2<Long, Long>>>> groupedRDD =
+                pairRDD.groupByKey();
+
+        // Step 3: Within each group, pick the Tuple with the largest count
+        JavaRDD<Tuple2<String, Tuple2<Long, Long>>> maxInGroupRDD =
+                groupedRDD
+                        .mapValues(
+                                iterable ->
+                                        StreamSupport.stream(iterable.spliterator(), false)
+                                                .max(Comparator.comparing(tuple -> tuple._2()._2()))
+                                                .get())
+                        .values();
+
+        // Step 4: Sort by the count in descending order
+        JavaRDD<Tuple2<String, Tuple2<Long, Long>>> sortedUniParcRDD =
+                maxInGroupRDD.sortBy(tuple -> tuple._2()._2(), false, 1);
+        // Step 5: Take top 500 and print them
+        List<Tuple2<String, Tuple2<Long, Long>>> top500CrossRefs = sortedUniParcRDD.take(500);
+        log.info("Top 500 taxonomies repeated most number of times");
+        log.info("UniParcId \t TaxonomyId \t Repetition");
+        for (Tuple2<String, Tuple2<Long, Long>> tuple : top500CrossRefs) {
+            log.info("{} \t {} \t {}", tuple._1, tuple._2._1, tuple._2._2);
+        }
     }
 
     public void countMostRepeatedTaxonomyIdByUniRefId() {
@@ -118,7 +170,8 @@ public class UniParcCrossRefRangeCountJob {
                             .build();
             UniParcCrossRefRangeCountJob job = new UniParcCrossRefRangeCountJob(jobParameter);
             //            job.countCrossRefByRange();
-            job.countMostRepeatedTaxonomyIdByUniRefId();
+            //            job.countMostRepeatedTaxonomyIdByUniRefId();
+            job.findMostRepeatedTaxonomy();
             log.info("The cross ref range job submitted!");
         } catch (Exception e) {
             throw new IndexDataStoreException(
