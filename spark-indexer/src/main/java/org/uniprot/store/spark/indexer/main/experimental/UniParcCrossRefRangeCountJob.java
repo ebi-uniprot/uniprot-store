@@ -7,6 +7,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function;
+import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
@@ -162,6 +163,48 @@ public class UniParcCrossRefRangeCountJob {
         log.info("Total number of cross references {}", total);
     }
 
+    public void countIdsByDBType() {
+        UniParcRDDTupleReader reader = new UniParcRDDTupleReader(parameter, false);
+        JavaRDD<UniParcEntry> uniParcRDD = reader.load();
+        // get dbtype and its unique ids
+        JavaRDD<Tuple2<String, String>> crossrefRDD =
+                uniParcRDD
+                        .map(UniParcEntry::getUniParcCrossReferences)
+                        .flatMap(
+                                iterable -> {
+                                    List<Tuple2<String, String>> flattenedList = new ArrayList<>();
+                                    for (UniParcCrossReference xref : iterable) {
+                                        flattenedList.add(
+                                                new Tuple2<>(
+                                                        xref.getDatabase().getName(),
+                                                        xref.getId()));
+                                    }
+                                    return flattenedList.iterator();
+                                })
+                        .distinct();
+        // group by db type
+        JavaPairRDD<String, Iterable<String>> groupedByDBType =
+                crossrefRDD.mapToPair(tuple -> new Tuple2<>(tuple._1, tuple._2)).groupByKey();
+        // count ids by db type
+        JavaPairRDD<String, Long> sizeOfEachDBType =
+                groupedByDBType.mapValues(
+                        iterable -> {
+                            long size = 0L;
+                            for (String s : iterable) {
+                                size++;
+                            }
+                            return size;
+                        });
+        Map<String, Long> dbTypeSize = sizeOfEachDBType.collectAsMap();
+        // collect all unique db ids across all db types
+        JavaRDD<String> allDBIds = crossrefRDD.map(tuple -> tuple._2).distinct();
+        log.info("DB Name \t Total Unique Ids ");
+        for (Map.Entry<String, Long> entry : dbTypeSize.entrySet()) {
+            log.info("{} \t {}", entry.getKey(), entry.getValue());
+        }
+        log.info("Total unique dbids of all db types {}", allDBIds.count());
+    }
+
     public static void main(String[] args) {
         if (args == null || args.length != 2) {
             throw new IllegalArgumentException(
@@ -183,7 +226,8 @@ public class UniParcCrossRefRangeCountJob {
             //            job.countCrossRefByRange();
             //            job.countMostRepeatedTaxonomyIdByUniRefId();
             //            job.findMostRepeatedTaxonomy();
-            job.countTotalCrossRefs();
+//            job.countTotalCrossRefs();
+            job.countIdsByDBType();
             log.info("The cross ref range job submitted!");
         } catch (Exception e) {
             throw new IndexDataStoreException(
