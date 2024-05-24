@@ -151,6 +151,17 @@ public class UniParcCrossRefRangeCountJob {
         log.info("Total unique UniParc entry count {}", total);
     }
 
+    public void countTotalCrossRefs() {
+        UniParcRDDTupleReader reader = new UniParcRDDTupleReader(parameter, false);
+        JavaRDD<UniParcEntry> uniParcRDD = reader.load();
+        Long total =
+                uniParcRDD
+                        .map(entry -> entry.getUniParcCrossReferences().size())
+                        .map(Integer::longValue)
+                        .reduce(Long::sum);
+        log.info("Total number of cross references {}", total);
+    }
+
     public static void main(String[] args) {
         if (args == null || args.length != 2) {
             throw new IllegalArgumentException(
@@ -171,7 +182,8 @@ public class UniParcCrossRefRangeCountJob {
             UniParcCrossRefRangeCountJob job = new UniParcCrossRefRangeCountJob(jobParameter);
             //            job.countCrossRefByRange();
             //            job.countMostRepeatedTaxonomyIdByUniRefId();
-            job.findMostRepeatedTaxonomy();
+            //            job.findMostRepeatedTaxonomy();
+            job.countTotalCrossRefs();
             log.info("The cross ref range job submitted!");
         } catch (Exception e) {
             throw new IndexDataStoreException(
