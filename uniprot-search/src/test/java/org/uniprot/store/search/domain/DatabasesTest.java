@@ -89,7 +89,7 @@ class DatabasesTest {
                         .findFirst();
 
         assertTrue(ppGroup.isPresent());
-        assertEquals(12, ppGroup.get().getItems().size());
+        assertEquals(11, ppGroup.get().getItems().size());
         Optional<Tuple> item =
                 ppGroup.get().getItems().stream()
                         .filter(val -> val.getName().equals("MoonProt"))

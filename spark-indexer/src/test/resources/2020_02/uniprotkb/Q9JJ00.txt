@@ -225,9 +225,7 @@ DR   SwissLipids; SLP:000000348; -.
 DR   iPTMnet; Q9JJ00; -.
 DR   PhosphoSitePlus; Q9JJ00; -.
 DR   SwissPalm; Q9JJ00; -.
-DR   EPD; Q9JJ00; -.
 DR   jPOST; Q9JJ00; -.
-DR   MaxQB; Q9JJ00; -.
 DR   PaxDb; Q9JJ00; -.
 DR   PRIDE; Q9JJ00; -.
 DR   ProteomicsDB; 289625; -.
