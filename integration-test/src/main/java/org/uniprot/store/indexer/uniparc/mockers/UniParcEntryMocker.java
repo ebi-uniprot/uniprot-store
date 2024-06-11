@@ -42,6 +42,28 @@ public class UniParcEntryMocker {
                 .build();
     }
 
+    public static UniParcEntry createSimpleEntry(int i, String upiRef) {
+        StringBuilder seq = new StringBuilder("MLMPKRTKYR");
+        IntStream.range(0, i).forEach(j -> seq.append("A"));
+        Sequence sequence = new SequenceBuilder(seq.toString()).build();
+        UniParcCrossReference xref =
+                new UniParcCrossReferenceBuilder()
+                        .versionI(1)
+                        .database(UniParcDatabase.ENSEMBL_VERTEBRATE)
+                        .id(getName("WP_1688932", i))
+                        .version(7)
+                        .active(true)
+                        .created(LocalDate.of(2017, 2, 12))
+                        .lastUpdated(LocalDate.of(2017, 4, 23))
+                        .build();
+
+        return new UniParcEntryBuilder()
+                .uniParcId(new UniParcIdBuilder(getName(upiRef, i)).build())
+                .uniParcCrossReferencesAdd(xref)
+                .sequence(sequence)
+                .build();
+    }
+
     static Organism getOrganism(long taxId) {
         return new OrganismBuilder().taxonId(taxId).scientificName("Name " + taxId).build();
     }
