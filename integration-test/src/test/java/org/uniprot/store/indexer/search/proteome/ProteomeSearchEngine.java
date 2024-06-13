@@ -13,7 +13,7 @@ import org.uniprot.cv.taxonomy.impl.TaxonomyMapRepo;
 import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
-import org.uniprot.store.indexer.proteome.ProteomeDocumentConverter;
+import org.uniprot.store.indexer.converters.ProteomeDocumentConverter;
 import org.uniprot.store.indexer.search.AbstractSearchEngine;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
