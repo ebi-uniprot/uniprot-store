@@ -2,15 +2,12 @@ package org.uniprot.store.spark.indexer.uniprot;
 
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
-import java.util.Collections;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.sql.SparkSession;
-import org.uniprot.store.search.document.uniprot.UniProtDocument;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.uniprot.mapper.InactiveEntryAggregationMapper;
 import org.uniprot.store.spark.indexer.uniprot.mapper.InactiveFileToInactiveEntry;
-import org.uniprot.store.spark.indexer.uniprot.mapper.UniProtEntryToSolrDocument;
 
 import com.typesafe.config.Config;
 
@@ -27,7 +24,7 @@ public class InactiveUniProtKBRDDTupleReader {
     /**
      * @return an JavaPairRDD with <accession, UniProtDocument> for Inactive UniProt Entries.
      */
-    public static JavaPairRDD<String, UniProtDocument> load(JobParameter jobParameter) {
+    public static JavaPairRDD<String, UniProtKBEntry> load(JobParameter jobParameter) {
         Config config = jobParameter.getApplicationConfig();
 
         SparkSession spark =
@@ -41,7 +38,6 @@ public class InactiveUniProtKBRDDTupleReader {
                 .textFile(inactiveFile)
                 .toJavaRDD()
                 .mapToPair(new InactiveFileToInactiveEntry())
-                .aggregateByKey(null, aggregationMapper, aggregationMapper)
-                .mapValues(new UniProtEntryToSolrDocument(Collections.emptyMap()));
+                .aggregateByKey(null, aggregationMapper, aggregationMapper);
     }
 }

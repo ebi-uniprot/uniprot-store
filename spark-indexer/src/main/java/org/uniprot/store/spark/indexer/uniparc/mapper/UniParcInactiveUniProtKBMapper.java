@@ -1,0 +1,32 @@
+package org.uniprot.store.spark.indexer.uniparc.mapper;
+
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.spark.api.java.function.PairFlatMapFunction;
+import org.uniprot.core.uniparc.UniParcDatabase;
+import org.uniprot.core.uniparc.UniParcEntry;
+
+import scala.Tuple2;
+
+public class UniParcInactiveUniProtKBMapper
+        implements PairFlatMapFunction<UniParcEntry, String, String> {
+
+    @Override
+    public Iterator<Tuple2<String, String>> call(UniParcEntry uniParcEntry) {
+        String uniParcID = uniParcEntry.getUniParcId().getValue();
+        List<Tuple2<String, String>> result =
+                uniParcEntry.getUniParcCrossReferences().stream()
+                        .filter(xref -> !xref.isActive())
+                        .filter(
+                                xref ->
+                                        UniParcDatabase.TREMBL.equals(xref.getDatabase())
+                                                || UniParcDatabase.SWISSPROT.equals(
+                                                        xref.getDatabase())
+                                                || UniParcDatabase.SWISSPROT_VARSPLIC.equals(
+                                                        xref.getDatabase()))
+                        .map(xref -> new Tuple2<>(xref.getId(), uniParcID))
+                        .toList();
+        return result.iterator();
+    }
+}

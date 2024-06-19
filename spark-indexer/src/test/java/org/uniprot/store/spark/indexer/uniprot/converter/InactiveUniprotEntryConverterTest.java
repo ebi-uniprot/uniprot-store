@@ -26,7 +26,11 @@ class InactiveUniprotEntryConverterTest {
                         .type(InactiveReasonType.DELETED)
                         .deletedReason(DeletedReason.SOURCE_DELETION_EMBL)
                         .build();
-        UniProtKBEntry entry = new UniProtKBEntryBuilder("P12345", inactiveReason).build();
+        String uniParcID = "UPI00000E8551";
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder("P12345", inactiveReason)
+                        .extraAttributesAdd(UniProtKBEntryBuilder.UNIPARC_ID_ATTRIB, uniParcID)
+                        .build();
         UniProtDocument result = converter.convert(entry);
         assertNotNull(result);
 
@@ -36,6 +40,7 @@ class InactiveUniprotEntryConverterTest {
         assertNull(result.idInactive);
         assertEquals("DELETED:SOURCE_DELETION_EMBL", result.inactiveReason);
         assertFalse(result.active);
+        assertEquals(uniParcID, result.uniparcDeleted);
     }
 
     @Test
@@ -43,7 +48,11 @@ class InactiveUniprotEntryConverterTest {
         InactiveUniprotEntryConverter converter = new InactiveUniprotEntryConverter();
         EntryInactiveReason inactiveReason =
                 new EntryInactiveReasonBuilder().type(InactiveReasonType.DELETED).build();
-        UniProtKBEntry entry = new UniProtKBEntryBuilder("P12345", "ID", inactiveReason).build();
+        String uniParcID = "UPI00000E8551";
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder("P12345", "ID", inactiveReason)
+                        .extraAttributesAdd(UniProtKBEntryBuilder.UNIPARC_ID_ATTRIB, uniParcID)
+                        .build();
         UniProtDocument result = converter.convert(entry);
         assertNotNull(result);
 
@@ -54,6 +63,7 @@ class InactiveUniprotEntryConverterTest {
         assertEquals("ID", result.idInactive);
         assertEquals("DELETED", result.inactiveReason);
         assertFalse(result.active);
+        assertEquals(uniParcID, result.uniparcDeleted);
     }
 
     @Test

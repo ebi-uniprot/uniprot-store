@@ -303,6 +303,66 @@ class UniProtKBDocumentsToHPSWriterTest {
         assertTrue(documentAfterJoin.subcellLocationTerm.containsAll(slTerms));
     }
 
+    @Test
+    void canGetInactiveEntries() {
+        UniProtKBDocumentsToHPSWriter writer = new UniProtKBDocumentsToHPSWriter(parameter);
+        JavaPairRDD<String, UniProtDocument> inactiveRDD = writer.getInactiveEntryRDD();
+        assertNotNull(inactiveRDD);
+        List<Tuple2<String, UniProtDocument>> inactiveEntries = inactiveRDD.collect();
+        assertFalse(inactiveEntries.isEmpty());
+        assertEquals(23L, inactiveEntries.size());
+        Tuple2<String, UniProtDocument> inactive =
+                inactiveEntries.stream()
+                        .filter(tuple2 -> tuple2._1.equals("I8FBX0"))
+                        .findFirst()
+                        .orElseThrow(AssertionError::new);
+        validateInactiveEntry(inactive, "I8FBX0", "DELETED", "UPI00000E8551");
+
+        inactive =
+                inactiveEntries.stream()
+                        .filter(tuple2 -> tuple2._1.equals("I8FBX1"))
+                        .findFirst()
+                        .orElseThrow(AssertionError::new);
+        validateInactiveEntry(inactive, "I8FBX1", "DELETED:PROTEOME_REDUNDANCY", "UPI000000017F");
+
+        inactive =
+                inactiveEntries.stream()
+                        .filter(tuple2 -> tuple2._1.equals("I8FBX2"))
+                        .findFirst()
+                        .orElseThrow(AssertionError::new);
+        validateInactiveEntry(inactive, "I8FBX2", "DELETED", "UPI00000E8551");
+
+        inactive =
+                inactiveEntries.stream()
+                        .filter(tuple2 -> tuple2._1.equals("Q00015"))
+                        .findFirst()
+                        .orElseThrow(AssertionError::new);
+        validateInactiveEntry(inactive, "Q00015", "MERGED:P23141", null);
+
+        inactive =
+                inactiveEntries.stream()
+                        .filter(tuple2 -> tuple2._1.equals("Q00007"))
+                        .findFirst()
+                        .orElseThrow(AssertionError::new);
+        validateInactiveEntry(inactive, "Q00007", "DEMERGED:P63150,P63151", null);
+    }
+
+    private static void validateInactiveEntry(
+            Tuple2<String, UniProtDocument> tuple,
+            String accession,
+            String inactiveReason,
+            String uniparcId) {
+        assertNotNull(tuple);
+        assertNotNull(tuple._1);
+        assertNotNull(tuple._2);
+        assertEquals(accession, tuple._1);
+        UniProtDocument obsoleteDoc = tuple._2;
+        assertFalse(obsoleteDoc.active);
+        assertEquals(accession, obsoleteDoc.accession);
+        assertEquals(inactiveReason, obsoleteDoc.inactiveReason);
+        assertEquals(uniparcId, obsoleteDoc.uniparcDeleted);
+    }
+
     private UniProtDocument createUniProtDoc(String accession) {
         UniProtDocument document = new UniProtDocument();
         document.accession = accession;
