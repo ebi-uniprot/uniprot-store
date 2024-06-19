@@ -81,9 +81,10 @@ public class IdMappingFieldConfig {
                                                     detail.getLinkedReason(),
                                                     detail.getIdMappingName()))
                             .collect(Collectors.toList());
+            idMappingTypes = new ArrayList<>(new LinkedHashSet<>(idMappingTypes));// to avoid duplicate due to race condition
         }
 
-        return new ArrayList<>(new LinkedHashSet<>(idMappingTypes));
+        return idMappingTypes;
     }
 
     public static String convertDbNameToPIRDbName(String database) {
