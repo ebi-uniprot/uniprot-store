@@ -2,6 +2,7 @@ package org.uniprot.store.spark.indexer.uniparc.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.store.spark.indexer.uniparc.converter.DatasetUniParcEntryConverter.*;
+import static org.uniprot.store.spark.indexer.uniparc.converter.UniParcConverterUtils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.uniprot.core.Location;
 import org.uniprot.core.Property;
 import org.uniprot.core.uniparc.*;
-import org.uniprot.store.spark.indexer.common.util.RowUtils;
 
 import scala.collection.JavaConverters;
 import scala.collection.Seq;
@@ -24,7 +24,7 @@ import scala.collection.Seq;
 class DatasetUniParcEntryConverterTest {
 
     @Test
-    void testCompleteUniparcEntry() throws Exception {
+    void testCompleteUniParcEntry() throws Exception {
         Row completeUniparcRow = getFullUniParcRow(true);
         DatasetUniParcEntryConverter converter = new DatasetUniParcEntryConverter();
         UniParcEntry entry = converter.call(completeUniparcRow);
@@ -173,87 +173,5 @@ class DatasetUniParcEntryConverterTest {
         assertEquals("MVSWGRFICLVVVTMATLSLAR", entry.getSequence().getValue());
         assertEquals(22, entry.getSequence().getLength());
         assertEquals("62C549AB5E41E99D", entry.getSequence().getCrc64());
-    }
-
-    private Seq getPropertiesSeq() {
-        List<Object> properties = new ArrayList<>();
-        properties.add(getPropertyRow(PROPERTY_NCBI_TAXONOMY_ID, "100"));
-        properties.add(getPropertyRow(PROPERTY_GENE_NAME, "geneNameValue"));
-        properties.add(getPropertyRow(PROPERTY_PROTEIN_NAME, "proteinNameValue"));
-        properties.add(getPropertyRow(PROPERTY_PROTEOME_ID, "proteomeIdValue"));
-        properties.add(getPropertyRow(PROPERTY_COMPONENT, "componentValue"));
-        properties.add(getPropertyRow(PROPERTY_CHAIN, "chainValue"));
-        properties.add(getPropertyRow(PROPERTY_NCBI_GI, "ncbiGiValue"));
-        properties.add(getPropertyRow(PROPERTY_UNIPROTKB_ACCESSION, "P12345"));
-        return (Seq)
-                JavaConverters.asScalaIteratorConverter(properties.iterator()).asScala().toSeq();
-    }
-
-    private Seq getInvalidPropertiesSeq() {
-        List<Object> properties = new ArrayList<>();
-        properties.add(getPropertyRow(PROPERTY_NCBI_TAXONOMY_ID, "100"));
-        properties.add(getPropertyRow(PROPERTY_GENE_NAME, "geneNameValue"));
-        properties.add(getPropertyRow(PROPERTY_PROTEIN_NAME, "proteinNameValue"));
-        properties.add(getPropertyRow("INVALID", "INVALID"));
-        return (Seq)
-                JavaConverters.asScalaIteratorConverter(properties.iterator()).asScala().toSeq();
-    }
-
-    private Row getPropertyRow(String name, Object value) {
-        List<Object> propertyValues = new ArrayList<>();
-        propertyValues.add("_VALUE");
-        propertyValues.add(name);
-        propertyValues.add(value);
-        return new GenericRowWithSchema(propertyValues.toArray(), RowUtils.getPropertySchema());
-    }
-
-    private Row getSequenceRow() {
-        List<Object> sequenceValues = new ArrayList<>();
-        sequenceValues.add("MVSWGRFICLVVVTMATLSLAR");
-        sequenceValues.add("6CD5001C960ED82F");
-        sequenceValues.add("821");
-        return new GenericRowWithSchema(sequenceValues.toArray(), RowUtils.getSequenceSchema());
-    }
-
-    private Seq getSignatureSequenceMatchSeq() {
-        List<Object> signatureSequences = new ArrayList<>();
-        signatureSequences.add("idValue"); // _id
-        signatureSequences.add(SignatureDbType.PFAM.getDisplayName()); // _database
-        signatureSequences.add(getFeatureGroupRow()); // ipr
-        signatureSequences.add(getLocationSeq()); // lcn
-
-        Row signatureSequenceRow =
-                new GenericRowWithSchema(signatureSequences.toArray(), getSignatureSchema());
-
-        List<Object> signatureSequenceSeq = new ArrayList<>();
-        signatureSequenceSeq.add(signatureSequenceRow);
-
-        return (Seq)
-                JavaConverters.asScalaIteratorConverter(signatureSequenceSeq.iterator())
-                        .asScala()
-                        .toSeq();
-    }
-
-    private Row getFeatureGroupRow() {
-        List<Object> featureGroup = new ArrayList<>();
-        featureGroup.add("idValue"); // _id
-        featureGroup.add("nameValue"); // _name
-        return new GenericRowWithSchema(featureGroup.toArray(), getSeqFeatureGroupSchema());
-    }
-
-    private Seq getLocationSeq() {
-        List<Object> location = new ArrayList<>();
-        location.add(10L); // _start
-        location.add(20L); // _end
-
-        Row locationRow = new GenericRowWithSchema(location.toArray(), getLocationSchema());
-
-        List<Object> locationRowSeq = new ArrayList<>();
-        locationRowSeq.add(locationRow);
-
-        return (Seq)
-                JavaConverters.asScalaIteratorConverter(locationRowSeq.iterator())
-                        .asScala()
-                        .toSeq();
     }
 }

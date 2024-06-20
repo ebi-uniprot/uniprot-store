@@ -3,7 +3,8 @@ package org.uniprot.store.datastore.voldemort.light.uniparc;
 import org.uniprot.core.uniparc.UniParcEntryLight;
 import org.uniprot.store.datastore.voldemort.VoldemortInMemoryEntryStore;
 
-public class VoldemortInMemoryUniParcEntryLightStore extends VoldemortInMemoryEntryStore<UniParcEntryLight> {
+public class VoldemortInMemoryUniParcEntryLightStore
+        extends VoldemortInMemoryEntryStore<UniParcEntryLight> {
     private static VoldemortInMemoryUniParcEntryLightStore instance;
 
     public static VoldemortInMemoryUniParcEntryLightStore getInstance(String storeName) {

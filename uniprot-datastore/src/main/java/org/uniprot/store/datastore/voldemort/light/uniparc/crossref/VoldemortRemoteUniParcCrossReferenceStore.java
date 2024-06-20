@@ -1,24 +1,24 @@
-package org.uniprot.store.datastore.voldemort.light.uniparc;
+package org.uniprot.store.datastore.voldemort.light.uniparc.crossref;
 
-import org.uniprot.core.json.parser.uniparc.UniParcEntryLightJsonConfig;
-import org.uniprot.core.uniparc.UniParcEntryLight;
+import org.uniprot.core.json.parser.uniparc.UniParcCrossRefJsonConfig;
+import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.store.datastore.voldemort.VoldemortRemoteJsonBinaryStore;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class VoldemortRemoteUniParcEntryLightStore
-        extends VoldemortRemoteJsonBinaryStore<UniParcEntryLight> {
-    public VoldemortRemoteUniParcEntryLightStore(
+public class VoldemortRemoteUniParcCrossReferenceStore
+        extends VoldemortRemoteJsonBinaryStore<UniParcCrossReference> {
+    public VoldemortRemoteUniParcCrossReferenceStore(
             int maxConnection, String storeName, String... voldemortUrl) {
         super(maxConnection, storeName, voldemortUrl);
     }
 
-    public VoldemortRemoteUniParcEntryLightStore(
+    public VoldemortRemoteUniParcCrossReferenceStore(
             int maxConnection, boolean brotliEnabled, String storeName, String... voldemortUrl) {
         super(maxConnection, brotliEnabled, storeName, voldemortUrl);
     }
 
-    public VoldemortRemoteUniParcEntryLightStore(
+    public VoldemortRemoteUniParcCrossReferenceStore(
             int maxConnection,
             boolean brotliEnabled,
             int brotliLevel,
@@ -28,17 +28,17 @@ public class VoldemortRemoteUniParcEntryLightStore
     }
 
     @Override
-    public String getStoreId(UniParcEntryLight entry) {
-        return entry.getUniParcId().getValue();
+    public String getStoreId(UniParcCrossReference entry) {
+        return entry.getId();
     }
 
     @Override
     public ObjectMapper getStoreObjectMapper() {
-        return UniParcEntryLightJsonConfig.getInstance().getFullObjectMapper();
+        return UniParcCrossRefJsonConfig.getInstance().getFullObjectMapper();
     }
 
     @Override
-    public Class<UniParcEntryLight> getEntryClass() {
-        return UniParcEntryLight.class;
+    public Class<UniParcCrossReference> getEntryClass() {
+        return UniParcCrossReference.class;
     }
 }
