@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.uniparc.mapper;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.core.uniparc.UniParcDatabase.*;
 
 import java.util.*;
 
@@ -22,24 +23,17 @@ class UniParcInactiveUniProtKBMapperTest {
         UniParcEntry uniParcEntry =
                 new UniParcEntryBuilder()
                         .uniParcId(uniParcId)
+                        .uniParcCrossReferencesAdd(getUniParcCrossReference(EMBL, "ID1", true))
+                        .uniParcCrossReferencesAdd(getUniParcCrossReference(EMBL, "ID2", false))
+                        .uniParcCrossReferencesAdd(getUniParcCrossReference(TREMBL, "ID3", true))
+                        .uniParcCrossReferencesAdd(getUniParcCrossReference(TREMBL, "ID4", false))
+                        .uniParcCrossReferencesAdd(getUniParcCrossReference(SWISSPROT, "ID5", true))
                         .uniParcCrossReferencesAdd(
-                                getUniParcCrossReference(UniParcDatabase.EMBL, "ID1", true))
+                                getUniParcCrossReference(SWISSPROT, "ID6", false))
                         .uniParcCrossReferencesAdd(
-                                getUniParcCrossReference(UniParcDatabase.EMBL, "ID2", false))
+                                getUniParcCrossReference(SWISSPROT_VARSPLIC, "ID7", true))
                         .uniParcCrossReferencesAdd(
-                                getUniParcCrossReference(UniParcDatabase.TREMBL, "ID3", true))
-                        .uniParcCrossReferencesAdd(
-                                getUniParcCrossReference(UniParcDatabase.TREMBL, "ID4", false))
-                        .uniParcCrossReferencesAdd(
-                                getUniParcCrossReference(UniParcDatabase.SWISSPROT, "ID5", true))
-                        .uniParcCrossReferencesAdd(
-                                getUniParcCrossReference(UniParcDatabase.SWISSPROT, "ID6", false))
-                        .uniParcCrossReferencesAdd(
-                                getUniParcCrossReference(
-                                        UniParcDatabase.SWISSPROT_VARSPLIC, "ID7", true))
-                        .uniParcCrossReferencesAdd(
-                                getUniParcCrossReference(
-                                        UniParcDatabase.SWISSPROT_VARSPLIC, "ID8", false))
+                                getUniParcCrossReference(SWISSPROT_VARSPLIC, "ID8", false))
                         .build();
         Iterator<Tuple2<String, String>> resultIterator = mapper.call(uniParcEntry);
         assertNotNull(resultIterator);
@@ -59,12 +53,9 @@ class UniParcInactiveUniProtKBMapperTest {
         UniParcEntry uniParcEntry =
                 new UniParcEntryBuilder()
                         .uniParcId(uniParcId)
-                        .uniParcCrossReferencesAdd(
-                                getUniParcCrossReference(UniParcDatabase.EMBL, "ID1", false))
-                        .uniParcCrossReferencesAdd(
-                                getUniParcCrossReference(UniParcDatabase.TREMBL, "ID2", true))
-                        .uniParcCrossReferencesAdd(
-                                getUniParcCrossReference(UniParcDatabase.SWISSPROT, "ID3", true))
+                        .uniParcCrossReferencesAdd(getUniParcCrossReference(EMBL, "ID1", false))
+                        .uniParcCrossReferencesAdd(getUniParcCrossReference(TREMBL, "ID2", true))
+                        .uniParcCrossReferencesAdd(getUniParcCrossReference(SWISSPROT, "ID3", true))
                         .build();
         Iterator<Tuple2<String, String>> resultIterator = mapper.call(uniParcEntry);
         assertNotNull(resultIterator);

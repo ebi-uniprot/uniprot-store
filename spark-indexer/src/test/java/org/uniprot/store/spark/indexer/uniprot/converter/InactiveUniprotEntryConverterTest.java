@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder.*;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprotkb.DeletedReason;
@@ -29,7 +30,7 @@ class InactiveUniprotEntryConverterTest {
         String uniParcID = "UPI00000E8551";
         UniProtKBEntry entry =
                 new UniProtKBEntryBuilder("P12345", inactiveReason)
-                        .extraAttributesAdd(UniProtKBEntryBuilder.UNIPARC_ID_ATTRIB, uniParcID)
+                        .extraAttributesAdd(UNIPARC_ID_ATTRIB, uniParcID)
                         .build();
         UniProtDocument result = converter.convert(entry);
         assertNotNull(result);
@@ -51,7 +52,7 @@ class InactiveUniprotEntryConverterTest {
         String uniParcID = "UPI00000E8551";
         UniProtKBEntry entry =
                 new UniProtKBEntryBuilder("P12345", "ID", inactiveReason)
-                        .extraAttributesAdd(UniProtKBEntryBuilder.UNIPARC_ID_ATTRIB, uniParcID)
+                        .extraAttributesAdd(UNIPARC_ID_ATTRIB, uniParcID)
                         .build();
         UniProtDocument result = converter.convert(entry);
         assertNotNull(result);
