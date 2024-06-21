@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
+import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
 
@@ -18,15 +19,15 @@ public class UniParcInactiveUniProtKBMapper
         List<Tuple2<String, String>> result =
                 uniParcEntry.getUniParcCrossReferences().stream()
                         .filter(xref -> !xref.isActive())
-                        .filter(
-                                xref ->
-                                        UniParcDatabase.TREMBL.equals(xref.getDatabase())
-                                                || UniParcDatabase.SWISSPROT.equals(
-                                                        xref.getDatabase())
-                                                || UniParcDatabase.SWISSPROT_VARSPLIC.equals(
-                                                        xref.getDatabase()))
+                        .filter(UniParcInactiveUniProtKBMapper::isUniProtKBDatabase)
                         .map(xref -> new Tuple2<>(xref.getId(), uniParcID))
                         .toList();
         return result.iterator();
+    }
+
+    private static boolean isUniProtKBDatabase(UniParcCrossReference xref) {
+        return UniParcDatabase.TREMBL.equals(xref.getDatabase())
+                || UniParcDatabase.SWISSPROT.equals(xref.getDatabase())
+                || UniParcDatabase.SWISSPROT_VARSPLIC.equals(xref.getDatabase());
     }
 }
