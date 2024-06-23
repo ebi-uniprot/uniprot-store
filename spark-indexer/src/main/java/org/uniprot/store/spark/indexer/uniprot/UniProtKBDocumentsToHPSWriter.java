@@ -119,14 +119,13 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
         JavaPairRDD<String, String> inactiveUniParc =
                 uniParcRDDTupleReader.load().flatMapToPair(new UniParcInactiveUniProtKBMapper());
 
-        int repartition = Integer.parseInt(config.getString("uniprot.inactive.repartition"));
         JavaPairRDD<String, UniProtDocument> inactiveEntryRDD =
                 InactiveUniProtKBRDDTupleReader.load(parameter)
                         .leftOuterJoin(inactiveUniParc)
                         .mapValues(new UniParcDeletedUniProtKBJoin())
-                        .mapValues(new UniProtEntryToSolrDocument(Collections.emptyMap()))
-                        .repartition(repartition);
-        return inactiveEntryRDD;
+                        .mapValues(new UniProtEntryToSolrDocument(Collections.emptyMap()));
+
+        return inactiveEntryRDD.repartition(inactiveEntryRDD.getNumPartitions() / 8);
     }
 
     /**
