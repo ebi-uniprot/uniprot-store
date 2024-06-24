@@ -370,6 +370,9 @@ public class UniProtDocument implements Document {
     @Field("uniparc")
     public String uniparc;
 
+    @Field("uniparc_deleted")
+    public String uniparcDeleted;
+
     @Field("suggest")
     public Set<String> suggests = new HashSet<>();
 
@@ -612,6 +615,7 @@ public class UniProtDocument implements Document {
                 computationalPubmedIds,
                 communityPubmedIds,
                 uniparc,
+                uniparcDeleted,
                 rheaIds,
                 suggests);
     }
@@ -854,6 +858,9 @@ public class UniProtDocument implements Document {
                 + communityPubmedIds
                 + ", uniparc='"
                 + uniparc
+                + '\''
+                + ", uniparcDeleted='"
+                + uniparcDeleted
                 + '\''
                 + ", rheaIds='"
                 + rheaIds

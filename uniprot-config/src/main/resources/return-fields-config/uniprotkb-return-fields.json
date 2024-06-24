@@ -728,6 +728,7 @@
     "name": "uniparc_id",
     "label": "UniParc",
     "id": "miscellaneous/uniparc",
+    "isRequiredForJson": true,
     "paths": [
       "extraAttributes.uniParcId"
     ]
