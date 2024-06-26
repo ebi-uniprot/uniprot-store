@@ -1,6 +1,8 @@
 package org.uniprot.store.config.returnfield.schema;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.uniprot.core.util.Utils;
@@ -21,6 +23,26 @@ public class ReturnFieldDataValidator extends FieldDataValidator<ReturnField> {
         onlySingleFieldsCanHaveSortFields(fieldItems);
         mustHaveAtLeastOneRequiredJsonField(fieldItems);
         defaultTsvFieldsMustHaveValidOrder(fieldItems);
+        mustNotHaveDuplicatedNames(fieldItems);
+    }
+
+    void mustNotHaveDuplicatedNames(List<ReturnField> fieldItems) {
+        List<String> names =
+                fieldItems.stream()
+                        .map(ReturnField::getName)
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toCollection(ArrayList::new));
+        validateDuplicated("name", names);
+
+        List<String> aliases =
+                fieldItems.stream()
+                        .filter(f -> Utils.notNullNotEmpty(f.getAliases()))
+                        .flatMap(f -> f.getAliases().stream())
+                        .toList();
+        validateDuplicated("alias", aliases);
+
+        names.addAll(aliases);
+        validateDuplicated("alias and name", names);
     }
 
     private void defaultTsvFieldsMustHaveValidOrder(List<ReturnField> fieldItems) {

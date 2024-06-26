@@ -12,6 +12,7 @@ import org.uniprot.store.config.schema.SchemaValidationException;
 import org.uniprot.store.config.searchfield.model.SearchFieldDataType;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
 import org.uniprot.store.config.searchfield.model.SearchFieldItemType;
+import org.uniprot.store.config.searchfield.model.SearchFieldType;
 
 class SearchFieldDataValidatorTest {
     public static final String SORT_ID_0 = "sortId0";
@@ -101,5 +102,80 @@ class SearchFieldDataValidatorTest {
         } catch (SchemaValidationException e) {
             assertTrue(e.getMessage().contains("ENUM"));
         }
+    }
+
+    @Test
+    void doNotHaveDuplicatedNamesReturnSuccess() {
+        searchFieldItem0.setFieldName("name1");
+        searchFieldItem0.setAliases(List.of("alias1"));
+        searchFieldItem0.setFieldType(SearchFieldType.GENERAL);
+
+        searchFieldItem1.setFieldName("name2");
+        searchFieldItem1.setAliases(List.of("alias2"));
+        searchFieldItem1.setFieldType(SearchFieldType.GENERAL);
+
+        assertDoesNotThrow(
+                () ->
+                        searchFieldDataValidator.mustNotHaveDuplicatedNames(
+                                List.of(searchFieldItem0, searchFieldItem1)));
+    }
+
+    @Test
+    void duplicatedFieldNamesCausesException() {
+        String duplicatedValue = "name";
+        searchFieldItem0.setFieldName(duplicatedValue);
+        searchFieldItem0.setFieldType(SearchFieldType.GENERAL);
+
+        searchFieldItem1.setFieldName(duplicatedValue);
+        searchFieldItem1.setFieldType(SearchFieldType.GENERAL);
+        SchemaValidationException error =
+                assertThrows(
+                        SchemaValidationException.class,
+                        () ->
+                                searchFieldDataValidator.mustNotHaveDuplicatedNames(
+                                        List.of(searchFieldItem0, searchFieldItem1)));
+        assertEquals(
+                "Must have unique fieldName. Duplicated values are: " + duplicatedValue,
+                error.getMessage());
+    }
+
+    @Test
+    void duplicatedAliasCausesException() {
+        String duplicatedValue = "alias1";
+        searchFieldItem0.setAliases(List.of(duplicatedValue));
+        searchFieldItem0.setFieldType(SearchFieldType.GENERAL);
+
+        searchFieldItem1.setAliases(List.of(duplicatedValue));
+        searchFieldItem1.setFieldType(SearchFieldType.GENERAL);
+
+        SchemaValidationException error =
+                assertThrows(
+                        SchemaValidationException.class,
+                        () ->
+                                searchFieldDataValidator.mustNotHaveDuplicatedNames(
+                                        List.of(searchFieldItem0, searchFieldItem1)));
+        assertEquals(
+                "Must have unique alias. Duplicated values are: " + duplicatedValue,
+                error.getMessage());
+    }
+
+    @Test
+    void duplicatedAliasAndFieldNameCausesException() {
+        String duplicatedValue = "name";
+        searchFieldItem0.setFieldName(duplicatedValue);
+        searchFieldItem0.setFieldType(SearchFieldType.GENERAL);
+
+        searchFieldItem1.setAliases(List.of(duplicatedValue));
+        searchFieldItem1.setFieldType(SearchFieldType.GENERAL);
+
+        SchemaValidationException error =
+                assertThrows(
+                        SchemaValidationException.class,
+                        () ->
+                                searchFieldDataValidator.mustNotHaveDuplicatedNames(
+                                        List.of(searchFieldItem0, searchFieldItem1)));
+        assertEquals(
+                "Must have unique alias and fieldName. Duplicated values are: " + duplicatedValue,
+                error.getMessage());
     }
 }

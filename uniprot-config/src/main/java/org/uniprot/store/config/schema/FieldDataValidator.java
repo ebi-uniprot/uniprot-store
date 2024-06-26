@@ -21,6 +21,21 @@ public class FieldDataValidator<T extends Field> {
         return fieldItems.stream().map(Field::getId).collect(Collectors.toSet());
     }
 
+    protected static void validateDuplicated(String type, List<String> names) {
+        Set<String> duplicatedNames =
+                names.stream()
+                        .filter(i -> Collections.frequency(names, i) > 1)
+                        .collect(Collectors.toSet());
+
+        if (!duplicatedNames.isEmpty()) {
+            throw new SchemaValidationException(
+                    "Must have unique "
+                            + type
+                            + ". Duplicated values are: "
+                            + String.join(",", duplicatedNames));
+        }
+    }
+
     void validateParentExists(List<T> fieldItems, Set<String> ids) {
         fieldItems.stream()
                 .filter(fi -> StringUtils.isNotBlank(fi.getParentId()))

@@ -33,7 +33,8 @@
   {
     "id": "organism_sort_id",
     "fieldName": "organism_sort",
-    "fieldType": "GENERAL",
+    "fieldType": "SORT",
+    "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "Sort by name",
     "example": "organism_sort asc"
@@ -120,24 +121,25 @@
   },
   {
     "seqNumber": 5,
-    "id": "created",
-    "fieldName": "created",
-    "label": "Date published",
+    "id": "updated",
+    "fieldName": "updated",
+    "label": "Date updated",
     "itemType": "SINGLE",
     "fieldType": "RANGE",
     "dataType": "DATE",
-    "sortFieldId": "created_sort",
-    "description": "Search by created",
+    "sortFieldId": "updated_sort",
+    "description": "Search by updated",
     "example": "[2011-10-10 TO 2019-10-10]",
-    "includeInSwagger": true
+    "includeInSwagger": true,
+    "aliases": ["created"]
   },
   {
-    "id": "created_sort",
-    "fieldName": "created_sort",
+    "id": "updated_sort",
+    "fieldName": "updated_sort",
     "fieldType": "SORT",
     "dataType": "DATE",
-    "description": "Sort by created",
-    "example": "created asc"
+    "description": "Sort by updated",
+    "example": "updated asc"
   },
   {
     "seqNumber": 6,

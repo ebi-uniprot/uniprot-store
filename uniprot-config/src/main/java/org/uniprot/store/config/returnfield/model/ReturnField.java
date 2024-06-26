@@ -48,6 +48,7 @@ public class ReturnField implements Field, Serializable {
     @NotNull private String id;
     private String sortField;
     private boolean includeInSwagger;
+    private List<String> aliases = List.of();
 
     public void addPath(String path) {
         if (Utils.notNullNotEmpty(path)) {

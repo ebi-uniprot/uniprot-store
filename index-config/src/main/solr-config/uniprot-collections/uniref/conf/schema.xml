@@ -19,9 +19,9 @@
 		required="false" multiValued="false" />
 	<field name="length" type="int" indexed="true" stored="false"
 		required="false" multiValued="false" />
-	<field name="created_sort" type="date" indexed="true"
+	<field name="updated_sort" type="date" indexed="true"
 		stored="false" required="false" docValues="true" />
-	<field name="created" type="rdates" indexed="true" stored="false"
+	<field name="updated" type="rdates" indexed="true" stored="false"
 		required="false" />
 	<field name="uniprot_id" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />

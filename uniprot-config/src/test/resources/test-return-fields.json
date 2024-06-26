@@ -49,7 +49,8 @@
     "id": "sequences/alternative_products_(isoforms)",
     "paths": [
       "comments[?(@.commentType=='ALTERNATIVE PRODUCTS')]"
-    ]
+    ],
+    "aliases": ["cc_ap"]
   },
   {
   "seqNumber": 2,

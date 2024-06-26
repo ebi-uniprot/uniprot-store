@@ -66,6 +66,13 @@ class AbstractReturnFieldConfigTest {
     }
 
     @Test
+    void canGetFieldByAlias() {
+        ReturnField field = config.getReturnFieldByName("cc_ap");
+        assertThat(field, is(notNullValue()));
+        assertEquals("cc_alternative_products", field.getName());
+    }
+
+    @Test
     void canGetDefaultFields() {
         List<ReturnField> field = config.getDefaultReturnFields();
         assertThat(field, is(notNullValue()));
