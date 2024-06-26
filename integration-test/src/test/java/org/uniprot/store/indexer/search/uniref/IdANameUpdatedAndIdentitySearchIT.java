@@ -15,7 +15,7 @@ import org.uniprot.core.xml.jaxb.uniref.Entry;
 import org.uniprot.core.xml.uniprot.XmlConverterHelper;
 import org.uniprot.store.search.field.QueryBuilder;
 
-class IdANameCreatedAndIdentitySearchIT {
+class IdANameUpdatedAndIdentitySearchIT {
     private static final String ID_1 = "UniRef100_A0A007";
     private static final String ID_2 = "UniRef100_A0A009DWI3";
     private static final String ID_3 = "UniRef90_A0A007";
@@ -196,14 +196,14 @@ class IdANameCreatedAndIdentitySearchIT {
     }
 
     @Test
-    void unirefCreatedSingle() {
+    void unirefUpdatedSingle() {
         LocalDate start = LocalDate.of(2015, 9, 11);
         LocalDate end = LocalDate.of(2015, 9, 12);
         String query =
                 QueryBuilder.rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("updated")
                                 .getFieldName(),
                         start,
                         end);
@@ -215,14 +215,14 @@ class IdANameCreatedAndIdentitySearchIT {
     }
 
     @Test
-    void unirefCreatedRange() {
+    void unirefUpdatedRange() {
         LocalDate start = LocalDate.of(2015, 8, 8);
         LocalDate end = LocalDate.of(2015, 10, 9);
         String query =
                 QueryBuilder.rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("created")
+                                .getSearchFieldItemByName("updated")
                                 .getFieldName(),
                         start,
                         end);

@@ -36,11 +36,11 @@ public class UniRefDocument implements Document {
     @Field("length")
     private int length;
 
-    @Field("created")
-    private Date created;
+    @Field("updated")
+    private Date updated;
 
-    @Field("created_sort")
-    private Date createdSort;
+    @Field("updated_sort")
+    private Date updatedSort;
 
     @Singular
     @Field("uniprot_id")
