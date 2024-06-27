@@ -32,6 +32,9 @@
         <property type="NCBI_taxonomy_id" value="28141"/>
     </dbReference>
     <dbReference type="TREMBLNEW" id="AAC13493" version_i="1" active="N" created="2003-03-29" last="2004-06-11"/>
+    <dbReference type="JPO" id="DJ891176" version_i="12" active="Y" created="2013-01-07" last="2022-02-24">
+        <property type="NCBI_taxonomy_id" value="1111"/>
+    </dbReference>
     <signatureSequenceMatch database="Gene3D" id="G3DSA:3.90.199.10">
         <ipr name="DNA topoisomerase, type IIA, domain A, alpha-beta" id="IPR013758"/>
         <lcn start="7" end="109"/>

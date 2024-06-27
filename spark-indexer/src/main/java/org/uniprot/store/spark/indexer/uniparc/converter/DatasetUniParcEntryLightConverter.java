@@ -5,7 +5,10 @@ import static org.uniprot.store.spark.indexer.uniparc.converter.DatasetUniParcEn
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.*;
 
 import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.sql.Row;
@@ -14,29 +17,69 @@ import org.uniprot.core.uniparc.*;
 import org.uniprot.core.uniparc.impl.InterProGroupBuilder;
 import org.uniprot.core.uniparc.impl.SequenceFeatureBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryLightBuilder;
+import org.uniprot.core.util.PairImpl;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class DatasetUniParcEntryLightConverter
         implements MapFunction<Row, UniParcEntryLight>, Serializable {
     @Serial private static final long serialVersionUID = 2705637837095269737L;
 
     @Override
     public UniParcEntryLight call(Row rowValue) throws Exception {
+        // TODO remove temp set to check duplicate crossref composite key
+        Set<String> xrefIds = new HashSet<>();
+        Set<String> taxonIds = new HashSet<>();
+        // temp code ends
         UniParcEntryLightBuilder builder = new UniParcEntryLightBuilder();
-        if (hasFieldName(UNIPROTKB_EXCLUSION, rowValue)) {
-            builder.uniProtExclusionReason(
-                    rowValue.getString(rowValue.fieldIndex(UNIPROTKB_EXCLUSION)));
-        }
         String uniParcId = rowValue.getString(rowValue.fieldIndex(ACCESSION));
         builder.uniParcId(uniParcId);
+        LocalDate mostRecentUpdated = LocalDate.MIN;
+        LocalDate oldestCreated = LocalDate.MAX;
         if (hasFieldName(DB_REFERENCE, rowValue)) {
             List<Row> dbReferences = rowValue.getList(rowValue.fieldIndex(DB_REFERENCE));
             for (Row dbReference : dbReferences) {
                 String uniProtKBAccession = getUniProtKBAccession(dbReference);
                 builder.uniProtKBAccessionsAdd(uniProtKBAccession);
                 String uniParcXrefId = getUniParcXRefId(uniParcId, dbReference);
+                // get most recent updated xref
+                LocalDate createdDate = getMostRecentCrossRefUpdated(dbReference);
+                mostRecentUpdated =
+                        Objects.isNull(createdDate) || mostRecentUpdated.isAfter(createdDate)
+                                ? mostRecentUpdated
+                                : createdDate;
+
+                // get oldest xref created
+                LocalDate lastDate = getOldestCrossRefCreated(dbReference);
+                oldestCreated =
+                        Objects.isNull(lastDate) || oldestCreated.isBefore(lastDate)
+                                ? oldestCreated
+                                : lastDate;
+                // TODO remove this code temp code starts
+                if (xrefIds.contains(uniParcXrefId)) {
+                    log.warn(
+                            "************* Duplicate cross reference id {} for UniParc {}",
+                            uniParcXrefId,
+                            uniParcId);
+                }
+                xrefIds.add(uniParcXrefId);
+                // temp code ends
                 builder.uniParcCrossReferencesAdd(uniParcXrefId);
+                String taxonId = getTaxonomyId(dbReference);
+                if (Objects.nonNull(taxonId) && !taxonIds.contains(taxonId)) {
+                    builder.commonTaxonsAdd(new PairImpl<>(taxonId, ""));
+                }
+                taxonIds.add(taxonId);
             }
+        }
+        // do not update if they have initial value
+        if (!LocalDate.MIN.equals(mostRecentUpdated)) {
+            builder.mostRecentCrossRefUpdated(mostRecentUpdated);
+        }
+        if (!LocalDate.MAX.equals(oldestCreated)) {
+            builder.oldestCrossRefCreated(oldestCreated);
         }
 
         if (hasFieldName(SIGNATURE_SEQUENCE_MATCH, rowValue)) {
@@ -51,8 +94,6 @@ public class DatasetUniParcEntryLightConverter
             builder.sequence(RowUtils.convertSequence(sequence));
         }
 
-        // TODO add code to fill commonTaxon
-        // builder.commonTaxonsSet();
         return builder.build();
     }
 
@@ -126,5 +167,44 @@ public class DatasetUniParcEntryLightConverter
         xrefIdBuilder.append("-");
         xrefIdBuilder.append(versionI);
         return xrefIdBuilder.toString();
+    }
+
+    private String getTaxonomyId(Row rowValue) {
+        String taxonId = null;
+        if (hasFieldName(PROPERTY, rowValue)) {
+            Map<String, List<String>> propertyMap = RowUtils.convertProperties(rowValue);
+            if (propertyMap.containsKey(PROPERTY_NCBI_TAXONOMY_ID)) {
+                taxonId = propertyMap.get(PROPERTY_NCBI_TAXONOMY_ID).get(0);
+                propertyMap.remove(PROPERTY_NCBI_TAXONOMY_ID);
+            }
+        }
+        return taxonId;
+    }
+
+    private LocalDate getMostRecentCrossRefUpdated(Row rowValue) {
+        DateTimeFormatter formatter = getDateTimeFormatter();
+        if (hasFieldName(CREATED, rowValue)) {
+            String created = rowValue.getString(rowValue.fieldIndex(CREATED));
+            return LocalDate.parse(created, formatter);
+        }
+        return null;
+    }
+
+    private LocalDate getOldestCrossRefCreated(Row rowValue) {
+        DateTimeFormatter formatter = getDateTimeFormatter();
+        if (hasFieldName(LAST, rowValue)) {
+            String last = rowValue.getString(rowValue.fieldIndex(LAST));
+            return LocalDate.parse(last, formatter);
+        }
+        return null;
+    }
+
+    private DateTimeFormatter getDateTimeFormatter() {
+        DateTimeFormatter formatter =
+                new DateTimeFormatterBuilder()
+                        .parseCaseInsensitive()
+                        .append(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                        .toFormatter();
+        return formatter;
     }
 }

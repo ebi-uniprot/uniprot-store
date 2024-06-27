@@ -17,8 +17,12 @@ import scala.collection.Seq;
 public class UniParcConverterUtils {
 
     static Seq getPropertiesSeq() {
+        return getPropertiesSeq(100);
+    }
+
+    static Seq getPropertiesSeq(int i) {
         List<Object> properties = new ArrayList<>();
-        properties.add(getPropertyRow(PROPERTY_NCBI_TAXONOMY_ID, "100"));
+        properties.add(getPropertyRow(PROPERTY_NCBI_TAXONOMY_ID, String.valueOf(i)));
         properties.add(getPropertyRow(PROPERTY_GENE_NAME, "geneNameValue"));
         properties.add(getPropertyRow(PROPERTY_PROTEIN_NAME, "proteinNameValue"));
         properties.add(getPropertyRow(PROPERTY_PROTEOME_ID, "proteomeIdValue"));

@@ -27,6 +27,8 @@ class DatasetUniParcEntryLightConverterTest {
         assertNotNull(entry.getUniParcId());
         assertFalse(entry.getUniProtKBAccessions().isEmpty());
         assertNotNull(entry.getUniParcCrossReferences());
+        assertNotNull(entry.getCommonTaxons());
+        assertEquals(10, entry.getCommonTaxons().size());
         assertTrue(entry.getOrganisms().isEmpty());
         assertTrue(entry.getProteinNames().isEmpty());
         assertTrue(entry.getProteomeIds().isEmpty());
@@ -62,7 +64,7 @@ class DatasetUniParcEntryLightConverterTest {
             dbReferences.add(11L + i); // _version
             dbReferences.add("2001-06-18"); // _created
             dbReferences.add("2020-02-16"); // _last
-            dbReferences.add(getPropertiesSeq());
+            dbReferences.add(getPropertiesSeq(i));
 
             Row dbReferenceRow =
                     new GenericRowWithSchema(dbReferences.toArray(), getDbReferenceSchema());
