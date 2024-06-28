@@ -29,10 +29,9 @@ public class DatasetUniParcEntryLightConverter
 
     @Override
     public UniParcEntryLight call(Row rowValue) throws Exception {
-        // TODO remove temp set to check duplicate crossref composite key
-        Set<String> xrefIds = new HashSet<>();
+        // keep xrefId and current repetition count
+        Map<String, Integer> xrefIdCount = new HashMap<>();
         Set<String> taxonIds = new HashSet<>();
-        // temp code ends
         UniParcEntryLightBuilder builder = new UniParcEntryLightBuilder();
         String uniParcId = rowValue.getString(rowValue.fieldIndex(ACCESSION));
         builder.uniParcId(uniParcId);
@@ -43,7 +42,18 @@ public class DatasetUniParcEntryLightConverter
             for (Row dbReference : dbReferences) {
                 String uniProtKBAccession = getUniProtKBAccession(dbReference);
                 builder.uniProtKBAccessionsAdd(uniProtKBAccession);
-                String uniParcXrefId = getUniParcXRefId(uniParcId, dbReference);
+                // get uniparc xref composite key
+                String uniParcXrefId = getUniParcXRefId(dbReference);
+                if (xrefIdCount.containsKey(
+                        uniParcXrefId)) { // add the next suffix from map in case of collision
+                    String suffixedUniParcXrefId =
+                            uniParcXrefId + "-" + xrefIdCount.get(uniParcXrefId);
+                    xrefIdCount.put(uniParcXrefId, xrefIdCount.get(uniParcXrefId) + 1);
+                    uniParcXrefId = suffixedUniParcXrefId;
+                } else {
+                    xrefIdCount.put(uniParcXrefId, 1);
+                }
+
                 // get most recent updated xref
                 LocalDate createdDate = getMostRecentCrossRefUpdated(dbReference);
                 mostRecentUpdated =
@@ -57,15 +67,7 @@ public class DatasetUniParcEntryLightConverter
                         Objects.isNull(lastDate) || oldestCreated.isBefore(lastDate)
                                 ? oldestCreated
                                 : lastDate;
-                // TODO remove this code temp code starts
-                if (xrefIds.contains(uniParcXrefId)) {
-                    log.warn(
-                            "************* Duplicate cross reference id {} for UniParc {}",
-                            uniParcXrefId,
-                            uniParcId);
-                }
-                xrefIds.add(uniParcXrefId);
-                // temp code ends
+
                 builder.uniParcCrossReferencesAdd(uniParcXrefId);
                 String taxonId = getTaxonomyId(dbReference);
                 if (Objects.nonNull(taxonId) && !taxonIds.contains(taxonId)) {
@@ -155,17 +157,13 @@ public class DatasetUniParcEntryLightConverter
         return uniProtKBAccession;
     }
 
-    private String getUniParcXRefId(String uniParcId, Row rowValue) {
+    private String getUniParcXRefId(Row rowValue) {
         String id = rowValue.getString(rowValue.fieldIndex(ID));
         String databaseType = rowValue.getString(rowValue.fieldIndex(TYPE));
-        String versionI = String.valueOf(rowValue.getLong(rowValue.fieldIndex((VERSION_I))));
-        StringBuilder xrefIdBuilder = new StringBuilder(uniParcId);
-        xrefIdBuilder.append("-");
-        xrefIdBuilder.append(UniParcDatabase.typeOf(databaseType).name());
+        StringBuilder xrefIdBuilder =
+                new StringBuilder(UniParcDatabase.typeOf(databaseType).name());
         xrefIdBuilder.append("-");
         xrefIdBuilder.append(id);
-        xrefIdBuilder.append("-");
-        xrefIdBuilder.append(versionI);
         return xrefIdBuilder.toString();
     }
 

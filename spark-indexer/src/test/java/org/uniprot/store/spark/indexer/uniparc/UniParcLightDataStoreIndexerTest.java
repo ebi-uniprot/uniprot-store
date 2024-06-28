@@ -66,6 +66,20 @@ class UniParcLightDataStoreIndexerTest {
             UniParcEntryLight entry1 = result.get(0);
             assertEquals("UPI00000E8551", entry1.getUniParcId().getValue());
             assertEquals(10, entry1.getUniParcCrossReferences().size());
+            assertTrue(
+                    entry1.getUniParcCrossReferences()
+                            .containsAll(
+                                    List.of(
+                                            "SWISSPROT-Q9EPI6",
+                                            "SWISSPROT_VARSPLIC-Q9EPI6-1",
+                                            "TREMBL-Q9EPI6",
+                                            "REFSEQ-NP_476538",
+                                            "EMBL-CAC20866",
+                                            "EMBL-CAC20866-1",
+                                            "IPI-IPI00199691",
+                                            "IPI-IPI00199691-1",
+                                            "IPI-IPI00199691-2",
+                                            "IPI-IPI00199692")));
             assertEquals(1, entry1.getCommonTaxons().size());
             assertEquals(
                     new PairImpl<>("cellular organisms", "Teleostomi"),
@@ -87,6 +101,19 @@ class UniParcLightDataStoreIndexerTest {
             assertEquals(
                     new PairImpl<>("Viruses", "Nucleocytoviricota"),
                     entry2.getCommonTaxons().get(1));
+            assertEquals(8, entry2.getUniParcCrossReferences().size());
+            assertTrue(
+                    entry2.getUniParcCrossReferences()
+                            .containsAll(
+                                    List.of(
+                                            "SWISSPROT-O68891",
+                                            "TREMBL-Q71US8",
+                                            "TREMBL-O68891",
+                                            "EMBL-AAC13493",
+                                            "EMBL-AAC13494",
+                                            "JPO-DJ891176",
+                                            "JPO-DJ891176-1",
+                                            "TREMBLNEW-AAC13493")));
         }
 
         @Override
