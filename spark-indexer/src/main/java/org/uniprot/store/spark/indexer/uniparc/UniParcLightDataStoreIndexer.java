@@ -87,19 +87,19 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
         return taxonomyWithLineage;
     }
 
-    void saveInDataStore(JavaRDD<UniParcEntryLight> uniparcJoinedRDD) {
+    void saveInDataStore(JavaRDD<UniParcEntryLight> uniParcJoinedRDD) {
         DataStoreParameter dataStoreParameter =
                 getDataStoreParameter(parameter.getApplicationConfig());
-        uniparcJoinedRDD.foreachPartition(new UniParcLightDataStoreWriter(dataStoreParameter));
+        uniParcJoinedRDD.foreachPartition(new UniParcLightDataStoreWriter(dataStoreParameter));
     }
 
     DataStoreParameter getDataStoreParameter(Config config) {
-        String numberOfConnections = config.getString("store.uniparc.numberOfConnections");
-        String maxRetry = config.getString("store.uniparc.retry");
-        String delay = config.getString("store.uniparc.delay");
+        String numberOfConnections = config.getString("store.uniparc.light.numberOfConnections");
+        String maxRetry = config.getString("store.uniparc.light.retry");
+        String delay = config.getString("store.uniparc.light.delay");
         return DataStoreParameter.builder()
-                .connectionURL(config.getString("store.uniparc.host"))
-                .storeName(config.getString("store.uniparc.storeName"))
+                .connectionURL(config.getString("store.uniparc.light.host"))
+                .storeName(config.getString("store.uniparc.light.storeName"))
                 .numberOfConnections(Integer.parseInt(numberOfConnections))
                 .maxRetry(Integer.parseInt(maxRetry))
                 .delay(Long.parseLong(delay))
