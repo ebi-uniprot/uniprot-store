@@ -43,7 +43,7 @@ public class DatasetUniParcEntryLightConverter
                 String uniProtKBAccession = getUniProtKBAccession(dbReference);
                 builder.uniProtKBAccessionsAdd(uniProtKBAccession);
                 // get uniparc xref composite key
-                String uniParcXrefId = getUniParcXRefId(dbReference);
+                String uniParcXrefId = getUniParcXRefId(uniParcId, dbReference);
                 if (xrefIdCount.containsKey(
                         uniParcXrefId)) { // add the next suffix from map in case of collision
                     String suffixedUniParcXrefId =
@@ -157,11 +157,12 @@ public class DatasetUniParcEntryLightConverter
         return uniProtKBAccession;
     }
 
-    private String getUniParcXRefId(Row rowValue) {
+    private String getUniParcXRefId(String uniParcId, Row rowValue) {
         String id = rowValue.getString(rowValue.fieldIndex(ID));
         String databaseType = rowValue.getString(rowValue.fieldIndex(TYPE));
-        StringBuilder xrefIdBuilder =
-                new StringBuilder(UniParcDatabase.typeOf(databaseType).name());
+        StringBuilder xrefIdBuilder = new StringBuilder(uniParcId);
+        xrefIdBuilder.append("-");
+        xrefIdBuilder.append(UniParcDatabase.typeOf(databaseType).name());
         xrefIdBuilder.append("-");
         xrefIdBuilder.append(id);
         return xrefIdBuilder.toString();

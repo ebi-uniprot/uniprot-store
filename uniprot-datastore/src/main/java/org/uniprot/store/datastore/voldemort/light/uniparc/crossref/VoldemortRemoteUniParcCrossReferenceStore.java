@@ -41,4 +41,9 @@ public class VoldemortRemoteUniParcCrossReferenceStore
     public Class<UniParcCrossReference> getEntryClass() {
         return UniParcCrossReference.class;
     }
+
+    @Override
+    public void saveEntry(String key, UniParcCrossReference entry) {
+        doSave(key, entry);
+    }
 }

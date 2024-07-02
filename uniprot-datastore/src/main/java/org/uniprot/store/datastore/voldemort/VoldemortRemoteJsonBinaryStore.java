@@ -249,9 +249,12 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
     }
 
     private void doSave(T entry) {
+        doSave(getStoreId(entry), entry);
+    }
+
+    protected void doSave(String key, T entry) {
         Timer.Context time =
                 MetricsUtil.getMetricRegistryInstance().timer("voldemort-save-entry-time").time();
-        String acc = getStoreId(entry);
         byte[] binaryEntry;
         try {
             binaryEntry = getStoreObjectMapper().writeValueAsBytes(entry);
@@ -259,14 +262,14 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
                 byte[] compressed =
                         Encoder.compress(
                                 binaryEntry, new Encoder.Parameters().setQuality(this.brotliLevel));
-                client.put(acc, compressed);
+                client.put(key, compressed);
             } else {
-                client.put(acc, binaryEntry);
+                client.put(key, binaryEntry);
             }
         } catch (JsonProcessingException e) {
             throw new RetrievalException("Unable to parse entry to binary json: ", e);
         } catch (IOException ioe) {
-            throw new RetrievalException("Unable to compress entry with id " + acc, ioe);
+            throw new RetrievalException("Unable to compress entry with id " + key, ioe);
         }
         time.stop();
     }
