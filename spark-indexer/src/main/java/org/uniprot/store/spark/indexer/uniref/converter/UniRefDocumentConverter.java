@@ -34,8 +34,8 @@ public class UniRefDocumentConverter
                 .name(entry.getName())
                 .count(entry.getMembers().size() + 1)
                 .length(entry.getRepresentativeMember().getSequence().getLength())
-                .updated(DateUtils.convertLocalDateToUTCDate(entry.getUpdated()))
-                .updatedSort(DateUtils.convertLocalDateToUTCDate(entry.getUpdated()))
+                .dateModified(DateUtils.convertLocalDateToUTCDate(entry.getUpdated()))
+                .dateModifiedSort(DateUtils.convertLocalDateToUTCDate(entry.getUpdated()))
                 .organismSort(getOrganismNameForSort(entry))
                 .taxLineageId((int) entry.getRepresentativeMember().getOrganismTaxId())
                 .organismTaxon(entry.getRepresentativeMember().getOrganismName());

@@ -121,24 +121,24 @@
   },
   {
     "seqNumber": 5,
-    "id": "updated",
-    "fieldName": "updated",
-    "label": "Date updated",
+    "id": "date_modified",
+    "fieldName": "date_modified",
+    "label": "Date of last modification",
     "itemType": "SINGLE",
     "fieldType": "RANGE",
     "dataType": "DATE",
-    "sortFieldId": "updated_sort",
+    "sortFieldId": "date_modified_sort",
     "description": "Search by updated",
     "example": "[2011-10-10 TO 2019-10-10]",
     "includeInSwagger": true,
     "aliases": ["created"]
   },
   {
-    "id": "updated_sort",
-    "fieldName": "updated_sort",
+    "id": "date_modified_sort",
+    "fieldName": "date_modified_sort",
     "fieldType": "SORT",
     "dataType": "DATE",
-    "description": "Sort by updated",
+    "description": "Sort by last modified date",
     "example": "updated asc"
   },
   {

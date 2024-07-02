@@ -546,7 +546,8 @@
     "dataType": "STRING",
     "description": "Search by UniProtKB Protein name",
     "example": "mas5",
-    "sortFieldId": "name_sort"
+    "sortFieldId": "name_sort",
+    "aliases": ["name_alias"]
   },
   {
     "seqNumber": 3,

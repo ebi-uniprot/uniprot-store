@@ -19,10 +19,10 @@
 		required="false" multiValued="false" />
 	<field name="length" type="int" indexed="true" stored="false"
 		required="false" multiValued="false" />
-	<field name="updated_sort" type="date" indexed="true"
+	<field name="date_modified_sort" type="date" indexed="true"
 		stored="false" required="false" docValues="true" />
-	<field name="updated" type="rdates" indexed="true" stored="false"
-		required="false" />
+	<field name="date_modified" type="rdates" indexed="true"
+		stored="false" required="false" />
 	<field name="uniprot_id" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="upi" type="basic_ci" indexed="true" stored="false"

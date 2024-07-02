@@ -196,14 +196,14 @@ class IdANameUpdatedAndIdentitySearchIT {
     }
 
     @Test
-    void unirefUpdatedSingle() {
+    void unirefDateModifiedSingle() {
         LocalDate start = LocalDate.of(2015, 9, 11);
         LocalDate end = LocalDate.of(2015, 9, 12);
         String query =
                 QueryBuilder.rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("updated")
+                                .getSearchFieldItemByName("date_modified")
                                 .getFieldName(),
                         start,
                         end);
@@ -215,14 +215,14 @@ class IdANameUpdatedAndIdentitySearchIT {
     }
 
     @Test
-    void unirefUpdatedRange() {
+    void unirefDateModifiedRange() {
         LocalDate start = LocalDate.of(2015, 8, 8);
         LocalDate end = LocalDate.of(2015, 10, 9);
         String query =
                 QueryBuilder.rangeQuery(
                         searchEngine
                                 .getSearchFieldConfig()
-                                .getSearchFieldItemByName("updated")
+                                .getSearchFieldItemByName("date_modified")
                                 .getFieldName(),
                         start,
                         end);

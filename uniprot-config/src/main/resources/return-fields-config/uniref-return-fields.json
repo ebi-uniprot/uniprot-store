@@ -166,11 +166,11 @@
     "itemType": "SINGLE",
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 4,
-    "sortField": "updated",
-    "name": "updated",
-    "label": "Date of last update",
+    "sortField": "date_modified",
+    "name": "date_modified",
+    "label": "Date Modified",
     "paths": ["updated"],
-    "id": "date_of/updated",
+    "id": "date_of/date_modified",
     "includeInSwagger": true,
     "aliases": ["created"]
   }
