@@ -124,10 +124,11 @@ class AbstractSearchFieldConfigTest {
     @Test
     void testGetCorrespondingSortFieldWithNonExistingSortField() {
         String searchFieldName = "some random search field";
-        IllegalArgumentException error = assertThrows(
-                IllegalArgumentException.class,
-                () -> testFieldConfig.getCorrespondingSortField(searchFieldName));
-        assertEquals("Unknown field name or alias: "+searchFieldName, error.getMessage());
+        IllegalArgumentException error =
+                assertThrows(
+                        IllegalArgumentException.class,
+                        () -> testFieldConfig.getCorrespondingSortField(searchFieldName));
+        assertEquals("Unknown field name or alias: " + searchFieldName, error.getMessage());
     }
 
     @Test

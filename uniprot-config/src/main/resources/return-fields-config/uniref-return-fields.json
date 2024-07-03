@@ -168,7 +168,7 @@
     "defaultForTsvOrder" : 4,
     "sortField": "date_modified",
     "name": "date_modified",
-    "label": "Date Modified",
+    "label": "Date of last modification",
     "paths": ["updated"],
     "id": "date_of/date_modified",
     "includeInSwagger": true,
