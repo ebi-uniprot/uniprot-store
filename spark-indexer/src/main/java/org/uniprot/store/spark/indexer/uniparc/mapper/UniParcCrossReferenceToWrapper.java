@@ -9,7 +9,7 @@ import org.uniprot.store.spark.indexer.uniparc.converter.UniParcCrossReferenceWr
 
 import scala.Tuple2;
 
-public class UniParcCrossRefToWrapper
+public class UniParcCrossReferenceToWrapper
         implements FlatMapFunction<
                 Tuple2<String, List<UniParcCrossReference>>, UniParcCrossReferenceWrapper> {
     @Serial private static final long serialVersionUID = 6208985996252016652L;

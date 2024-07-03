@@ -1,5 +1,5 @@
 <store>
-	<name>avro-uniprot</name>
+	<name>uniprotkb</name>
 	<persistence>bdb</persistence>
 	<description>Avro Uniprot Store</description>
 	<owners>harry@hogwarts.edu, hermoine@hogwarts.edu</owners>
@@ -13,16 +13,13 @@
 		<type>string</type>
 	</key-serializer>
 	<value-serializer>
-		<type>avro-specific</type>
-		<schema-info version="0">
-			java=uk.ac.ebi.uniprot.services.data.serializer.model.entry.EntryObject
-		</schema-info>
+		<type>identity</type>
 	</value-serializer>
 </store>
 <store>
-	<name>avro-uniparc</name>
+	<name>uniref</name>
 	<persistence>bdb</persistence>
-	<description>Avro Uniparc Store</description>
+	<description>Avro UniRef Store</description>
 	<owners>harry@hogwarts.edu, hermoine@hogwarts.edu</owners>
 	<routing-strategy>consistent-routing</routing-strategy>
 	<routing>client</routing>
@@ -34,9 +31,100 @@
 		<type>string</type>
 	</key-serializer>
 	<value-serializer>
-		<type>avro-specific</type>
-		<schema-info version="0">
-			java=uk.ac.ebi.uniprot.services.data.serializer.model.uniparc.AvroUniParc
-		</schema-info>
+		<type>identity</type>
+	</value-serializer>
+</store>
+<store>
+	<name>uniparc</name>
+	<persistence>bdb</persistence>
+	<description>UniParc Store</description>
+	<owners>harry@hogwarts.edu, hermoine@hogwarts.edu</owners>
+	<routing-strategy>consistent-routing</routing-strategy>
+	<routing>client</routing>
+	<replication-factor>1</replication-factor>
+	<required-reads>1</required-reads>
+	<required-writes>1</required-writes>
+	<hinted-handoff-strategy>consistent-handoff</hinted-handoff-strategy>
+	<key-serializer>
+		<type>string</type>
+	</key-serializer>
+	<value-serializer>
+		<type>identity</type>
+	</value-serializer>
+</store>
+
+<store>
+	<name>uniref-light</name>
+	<persistence>bdb</persistence>
+	<description>UniRef light Store</description>
+	<owners>harry@hogwarts.edu, hermoine@hogwarts.edu</owners>
+	<routing-strategy>consistent-routing</routing-strategy>
+	<routing>client</routing>
+	<replication-factor>1</replication-factor>
+	<required-reads>1</required-reads>
+	<required-writes>1</required-writes>
+	<hinted-handoff-strategy>consistent-handoff</hinted-handoff-strategy>
+	<key-serializer>
+		<type>string</type>
+	</key-serializer>
+	<value-serializer>
+		<type>identity</type>
+	</value-serializer>
+</store>
+
+<store>
+	<name>uniref-member</name>
+	<persistence>bdb</persistence>
+	<description>UniRef Member</description>
+	<owners>harry@hogwarts.edu, hermoine@hogwarts.edu</owners>
+	<routing-strategy>consistent-routing</routing-strategy>
+	<routing>client</routing>
+	<replication-factor>1</replication-factor>
+	<required-reads>1</required-reads>
+	<required-writes>1</required-writes>
+	<hinted-handoff-strategy>consistent-handoff</hinted-handoff-strategy>
+	<key-serializer>
+		<type>string</type>
+	</key-serializer>
+	<value-serializer>
+		<type>identity</type>
+	</value-serializer>
+</store>
+
+<store>
+	<name>uniparc-light</name>
+	<persistence>bdb</persistence>
+	<description>UniParc light Store</description>
+	<owners>harry@hogwarts.edu, hermoine@hogwarts.edu</owners>
+	<routing-strategy>consistent-routing</routing-strategy>
+	<routing>client</routing>
+	<replication-factor>1</replication-factor>
+	<required-reads>1</required-reads>
+	<required-writes>1</required-writes>
+	<hinted-handoff-strategy>consistent-handoff</hinted-handoff-strategy>
+	<key-serializer>
+		<type>string</type>
+	</key-serializer>
+	<value-serializer>
+		<type>identity</type>
+	</value-serializer>
+</store>
+
+<store>
+	<name>cross-reference</name>
+	<persistence>bdb</persistence>
+	<description>UniParc Cross Reference</description>
+	<owners>harry@hogwarts.edu, hermoine@hogwarts.edu</owners>
+	<routing-strategy>consistent-routing</routing-strategy>
+	<routing>client</routing>
+	<replication-factor>1</replication-factor>
+	<required-reads>1</required-reads>
+	<required-writes>1</required-writes>
+	<hinted-handoff-strategy>consistent-handoff</hinted-handoff-strategy>
+	<key-serializer>
+		<type>string</type>
+	</key-serializer>
+	<value-serializer>
+		<type>identity</type>
 	</value-serializer>
 </store>

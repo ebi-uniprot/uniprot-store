@@ -64,7 +64,7 @@ class UniParcLightDataStoreIndexerTest {
             assertNotNull(result);
             assertEquals(2, result.size());
             UniParcEntryLight entry1 = result.get(0);
-            assertEquals("UPI00000E8551", entry1.getUniParcId().getValue());
+            assertEquals("UPI00000E8551", entry1.getUniParcId());
             assertEquals(10, entry1.getUniParcCrossReferences().size());
             assertTrue(
                     entry1.getUniParcCrossReferences()
@@ -93,7 +93,7 @@ class UniParcLightDataStoreIndexerTest {
             assertNotNull(entry1.getOldestCrossRefCreated());
             assertEquals(LocalDate.of(2003, 8, 6), entry1.getOldestCrossRefCreated());
             UniParcEntryLight entry2 = result.get(1);
-            assertEquals("UPI000000017F", entry2.getUniParcId().getValue());
+            assertEquals("UPI000000017F", entry2.getUniParcId());
             assertEquals(2, entry2.getCommonTaxons().size());
             assertEquals(
                     new PairImpl<>("cellular organisms", "Luzula"),

@@ -156,6 +156,12 @@ class VoldemortRemoteJsonBinaryStoreTest {
     }
 
     @Test
+    void saveEntryWithKeyThrowsException() {
+        Assertions.assertThrows(
+                UnsupportedOperationException.class, () -> voldemort.saveEntry("samplekey", entry));
+    }
+
+    @Test
     void getStoreId() {
         String id = voldemort.getStoreId(entry);
         assertNotNull(id);

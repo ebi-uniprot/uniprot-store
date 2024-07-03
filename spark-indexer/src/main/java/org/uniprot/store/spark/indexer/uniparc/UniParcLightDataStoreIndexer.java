@@ -43,11 +43,6 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
                 getTaxonomyWithLineageRDD();
 
         // inner join taxonomyJoin with taxonomyWithLineage
-        // JavaPairRDD<uniParcId, List of taxonIds with lineages>
-        // JavaPairRDD<String, Iterable<List<TaxonomyLineage>>> uniParcIdTaxonLineages =
-        //      taxonomyJoin.join(taxonomyWithLineage).mapToPair(tuple -> tuple._2).groupByKey();//
-        // TODO use aggregatebykey equivalent
-
         JavaPairRDD<String, List<List<TaxonomyLineage>>> uniParcIdTaxonLineages =
                 taxonomyJoin
                         .join(taxonomyWithLineage)
@@ -66,8 +61,7 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
         // then map to inject common taxons in uniParcLightRDD
         uniParcLightRDD =
                 uniParcLightRDD
-                        .mapToPair(
-                                uniParc -> new Tuple2<>(uniParc.getUniParcId().getValue(), uniParc))
+                        .mapToPair(uniParc -> new Tuple2<>(uniParc.getUniParcId(), uniParc))
                         .join(uniParcIdCommonTaxons)
                         .mapValues(new UniParcEntryLightTaxonMapper())
                         .values();

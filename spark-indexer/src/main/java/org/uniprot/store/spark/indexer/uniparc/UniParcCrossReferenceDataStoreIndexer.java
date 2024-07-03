@@ -9,7 +9,7 @@ import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.uniparc.converter.UniParcCrossReferenceWrapper;
-import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcCrossRefToWrapper;
+import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcCrossReferenceToWrapper;
 
 import com.typesafe.config.Config;
 
@@ -39,7 +39,7 @@ public class UniParcCrossReferenceDataStoreIndexer
                                         up.getUniParcCrossReferences()));
         // <xrefIdUniqueKey, xrefObj>
         JavaRDD<UniParcCrossReferenceWrapper> crossRefIdCrossRef =
-                uniParcXrefsRDD.flatMap(new UniParcCrossRefToWrapper());
+                uniParcXrefsRDD.flatMap(new UniParcCrossReferenceToWrapper());
         saveInDataStore(crossRefIdCrossRef);
         log.info("Completed UniParc Cross Reference Data Store index");
     }

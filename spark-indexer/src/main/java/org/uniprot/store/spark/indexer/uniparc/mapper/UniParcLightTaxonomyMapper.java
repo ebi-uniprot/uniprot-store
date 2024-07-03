@@ -18,7 +18,7 @@ public class UniParcLightTaxonomyMapper
     public Iterator<Tuple2<String, String>> call(UniParcEntryLight uniParcEntry) throws Exception {
         return uniParcEntry.getCommonTaxons().stream()
                 .map(Pair::getKey)
-                .map(taxId -> new Tuple2<>(taxId, uniParcEntry.getUniParcId().getValue()))
+                .map(taxId -> new Tuple2<>(taxId, uniParcEntry.getUniParcId()))
                 .toList()
                 .iterator();
     }

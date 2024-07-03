@@ -23,4 +23,9 @@ public class VoldemortInMemoryUniParcCrossReferenceStore
     public String getStoreId(UniParcCrossReference entry) {
         return entry.getId();
     }
+
+    @Override
+    public void saveEntry(String key, UniParcCrossReference entry) {
+        doSave(key, entry);
+    }
 }

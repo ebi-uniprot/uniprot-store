@@ -29,7 +29,7 @@ public class VoldemortRemoteUniParcEntryLightStore
 
     @Override
     public String getStoreId(UniParcEntryLight entry) {
-        return entry.getUniParcId().getValue();
+        return entry.getUniParcId();
     }
 
     @Override
