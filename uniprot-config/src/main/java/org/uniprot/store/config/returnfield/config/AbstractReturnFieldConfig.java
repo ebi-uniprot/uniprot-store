@@ -64,7 +64,7 @@ public abstract class AbstractReturnFieldConfig implements ReturnFieldConfig {
     @Override
     public ReturnField getReturnFieldByName(String fieldName) {
         return this.getReturnFields().stream()
-                .filter(field -> fieldName.equals(field.getName()))
+                .filter(field -> hasNameOrAlias(field, fieldName))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Unknown field: " + fieldName));
     }
@@ -89,6 +89,11 @@ public abstract class AbstractReturnFieldConfig implements ReturnFieldConfig {
 
         this.allFields = JsonLoader.loadItems(configFile, mapper, type);
         this.allFields.addAll(dynamicallyLoadFields());
+    }
+
+    private static boolean hasNameOrAlias(ReturnField field, String fieldName) {
+        return fieldName.equalsIgnoreCase(field.getName())
+                || field.getAliases().stream().anyMatch(fieldName::equalsIgnoreCase);
     }
 
     private boolean isReturnField(ReturnField returnField) {

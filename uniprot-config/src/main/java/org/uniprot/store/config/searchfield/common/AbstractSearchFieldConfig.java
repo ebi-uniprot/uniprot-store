@@ -93,7 +93,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
 
     @Override
     public SearchFieldItem getCorrespondingSortField(String searchFieldName) {
-        SearchFieldItem searchField = getSearchFieldItemByName(searchFieldName);
+        SearchFieldItem searchField = getSearchFieldItemByNameOrAlias(searchFieldName);
         String sortFieldId = searchField.getSortFieldId();
         return getSortFieldItems().stream()
                 .filter(sortFieldItem -> sortFieldItem.getId().equals(sortFieldId))
@@ -158,5 +158,14 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     private boolean isAnEvidenceType(SearchFieldItem fieldItem) {
         return EnumSet.of(SearchFieldType.EVIDENCE, SearchFieldType.EXPERIMENTAL_EVIDENCE)
                 .contains(fieldItem.getFieldType());
+    }
+
+    private SearchFieldItem getSearchFieldItemByNameOrAlias(String fieldName) {
+        return this.findSearchFieldItemByName(fieldName)
+                .or(() -> findSearchFieldItemByAlias(fieldName))
+                .orElseThrow(
+                        () ->
+                                new IllegalArgumentException(
+                                        "Unknown field name or alias: " + fieldName));
     }
 }
