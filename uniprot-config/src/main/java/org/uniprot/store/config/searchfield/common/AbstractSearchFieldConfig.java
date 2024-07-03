@@ -93,7 +93,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
 
     @Override
     public SearchFieldItem getCorrespondingSortField(String searchFieldName) {
-        SearchFieldItem searchField = getSearchFieldItemByNameAndAlias(searchFieldName);
+        SearchFieldItem searchField = getSearchFieldItemByNameOrAlias(searchFieldName);
         String sortFieldId = searchField.getSortFieldId();
         return getSortFieldItems().stream()
                 .filter(sortFieldItem -> sortFieldItem.getId().equals(sortFieldId))
@@ -160,7 +160,7 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
                 .contains(fieldItem.getFieldType());
     }
 
-    private SearchFieldItem getSearchFieldItemByNameAndAlias(String fieldName) {
+    private SearchFieldItem getSearchFieldItemByNameOrAlias(String fieldName) {
         return this.findSearchFieldItemByName(fieldName)
                 .or(() -> findSearchFieldItemByAlias(fieldName))
                 .orElseThrow(
