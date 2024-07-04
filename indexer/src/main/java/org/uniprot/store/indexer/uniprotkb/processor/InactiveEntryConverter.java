@@ -29,6 +29,9 @@ public class InactiveEntryConverter
         if (notNullNotEmpty(source.getDeletedReason())) {
             document.inactiveReason += ":" + source.getDeletedReason();
         }
+        if (notNullNotEmpty(source.getUniParcId())) {
+            document.deletedEntryUniParc = source.getUniParcId();
+        }
         document.active = false;
 
         return document;
