@@ -41,7 +41,7 @@ public class TaxonomyCommonalityAggregator
         return new Tuple2<>(uniParcIdLineages._1, commonTaxons);
     }
 
-    private String findLastCommonTaxonomy(List<List<TaxonomyLineage>> allLineages) {
+    String findLastCommonTaxonomy(List<List<TaxonomyLineage>> allLineages) {
         if (allLineages == null || allLineages.isEmpty()) {
             return null;
         }

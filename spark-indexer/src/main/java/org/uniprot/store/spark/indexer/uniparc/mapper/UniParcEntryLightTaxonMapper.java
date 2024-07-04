@@ -1,5 +1,6 @@
 package org.uniprot.store.spark.indexer.uniparc.mapper;
 
+import java.io.Serial;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,8 @@ import scala.Tuple2;
 public class UniParcEntryLightTaxonMapper
         implements Function<
                 Tuple2<UniParcEntryLight, List<Tuple2<String, String>>>, UniParcEntryLight> {
+    @Serial private static final long serialVersionUID = 8954314933313810454L;
+
     @Override
     public UniParcEntryLight call(
             Tuple2<UniParcEntryLight, List<Tuple2<String, String>>> uniParcTaxons)

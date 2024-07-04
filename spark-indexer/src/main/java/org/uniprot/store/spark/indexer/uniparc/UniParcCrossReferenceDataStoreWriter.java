@@ -42,7 +42,7 @@ public class UniParcCrossReferenceDataStoreWriter
         }
     }
 
-    private VoldemortClient<UniParcCrossReference> getDataStoreClient() {
+    VoldemortClient<UniParcCrossReference> getDataStoreClient() {
         return new VoldemortRemoteUniParcCrossReferenceStore(
                 parameter.getNumberOfConnections(),
                 parameter.isBrotliEnabled(),

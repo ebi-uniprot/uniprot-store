@@ -150,7 +150,7 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         try {
             doSave(entry);
         } catch (ObsoleteVersionException e) {
-            logger.warn(acc + " already saved in voldemort, ignoring it");
+            logger.warn("{} already saved in voldemort, ignoring it", acc);
         }
     }
 

@@ -423,7 +423,7 @@ class SuggestDocumentsToHPSWriterTest {
         var suggests = suggestRdd.collect();
 
         var totalEntriesInXmlFile = 2;
-        var totalNumbersOfDefaultTaxonSynonyms = 38;
+        var totalNumbersOfDefaultTaxonSynonyms = 40;
         var alreadyPresentInSynonymsFile = 1;
         var extraLineageFromTaxonomyRDDReaderFake = 3;
         var organismDocsCount =

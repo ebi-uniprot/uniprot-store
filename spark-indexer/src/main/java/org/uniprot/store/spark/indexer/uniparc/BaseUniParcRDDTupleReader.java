@@ -10,7 +10,7 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.RDDReader;
-import org.uniprot.store.spark.indexer.uniparc.converter.DatasetUniParcEntryConverter;
+import org.uniprot.store.spark.indexer.uniparc.converter.BaseUniParcEntryConverter;
 
 import com.typesafe.config.Config;
 
@@ -52,7 +52,7 @@ public abstract class BaseUniParcRDDTupleReader<V> implements RDDReader<V> {
                 spark.read()
                         .format("com.databricks.spark.xml")
                         .option("rowTag", "entry")
-                        .schema(DatasetUniParcEntryConverter.getUniParcXMLSchema())
+                        .schema(BaseUniParcEntryConverter.getUniParcXMLSchema())
                         .load(xmlFilePath);
         data.printSchema();
         return data;

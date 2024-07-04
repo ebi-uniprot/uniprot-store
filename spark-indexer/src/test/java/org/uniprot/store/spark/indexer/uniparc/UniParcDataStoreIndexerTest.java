@@ -6,6 +6,7 @@ import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -17,6 +18,7 @@ import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcEntry;
+import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
@@ -75,8 +77,15 @@ class UniParcDataStoreIndexerTest {
                             organism -> {
                                 // testing join with taxonomy...
                                 assertTrue(organism.getTaxonId() > 0);
-                                assertFalse(organism.getScientificName().isEmpty());
                             });
+            Optional<Organism> optOrganism =
+                    entry.getUniParcCrossReferences().stream()
+                            .map(UniParcCrossReference::getOrganism)
+                            .filter(org -> Objects.nonNull(org) && org.getTaxonId() == 10116)
+                            .findAny();
+            assertTrue(optOrganism.isPresent());
+            assertFalse(optOrganism.get().getScientificName().isEmpty());
+            assertEquals("sn10116", optOrganism.get().getScientificName());
 
             entry = result.get(1);
             assertEquals("UPI000000017F", entry.getUniParcId().getValue());
