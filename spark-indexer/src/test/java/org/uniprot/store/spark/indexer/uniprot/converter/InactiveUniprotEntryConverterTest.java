@@ -41,7 +41,7 @@ class InactiveUniprotEntryConverterTest {
         assertNull(result.idInactive);
         assertEquals("DELETED:SOURCE_DELETION_EMBL", result.inactiveReason);
         assertFalse(result.active);
-        assertEquals(uniParcID, result.uniparcDeleted);
+        assertEquals(uniParcID, result.deletedEntryUniParc);
     }
 
     @Test
@@ -64,7 +64,7 @@ class InactiveUniprotEntryConverterTest {
         assertEquals("ID", result.idInactive);
         assertEquals("DELETED", result.inactiveReason);
         assertFalse(result.active);
-        assertEquals(uniParcID, result.uniparcDeleted);
+        assertEquals(uniParcID, result.deletedEntryUniParc);
     }
 
     @Test

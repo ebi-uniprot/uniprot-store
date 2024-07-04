@@ -31,7 +31,7 @@ class InactiveEntryConverterTest {
         assertNull(result.idInactive);
         assertEquals("DELETED", result.inactiveReason);
         assertFalse(result.active);
-        assertEquals("UPI0001661588", result.uniparcDeleted);
+        assertEquals("UPI0001661588", result.deletedEntryUniParc);
     }
 
     @Test
@@ -50,7 +50,7 @@ class InactiveEntryConverterTest {
         assertEquals("ID", result.idInactive);
         assertEquals("DELETED", result.inactiveReason);
         assertFalse(result.active);
-        assertEquals("UPI0001661588", result.uniparcDeleted);
+        assertEquals("UPI0001661588", result.deletedEntryUniParc);
     }
 
     @Test
@@ -69,7 +69,7 @@ class InactiveEntryConverterTest {
         assertEquals("ID1", result.idInactive);
         assertEquals("MERGED:P11111", result.inactiveReason);
         assertFalse(result.active);
-        assertNull(result.uniparcDeleted);
+        assertNull(result.deletedEntryUniParc);
     }
 
     @Test
@@ -88,6 +88,6 @@ class InactiveEntryConverterTest {
         assertEquals("DEMERGED:P11111,P22222", result.inactiveReason);
         assertFalse(result.active);
         assertTrue(result.content.isEmpty());
-        assertNull(result.uniparcDeleted);
+        assertNull(result.deletedEntryUniParc);
     }
 }

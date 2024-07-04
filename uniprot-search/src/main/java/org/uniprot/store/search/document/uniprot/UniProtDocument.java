@@ -1,5 +1,6 @@
 package org.uniprot.store.search.document.uniprot;
 
+import java.io.Serial;
 import java.util.*;
 
 import org.apache.solr.client.solrj.beans.Field;
@@ -9,7 +10,7 @@ import org.uniprot.store.search.document.Document;
 @SuppressWarnings("squid:S1948")
 public class UniProtDocument implements Document {
 
-    private static final long serialVersionUID = 6487942504460456915L;
+    @Serial private static final long serialVersionUID = 6487942504460456915L;
 
     @Field("accession_id")
     public String accession;
@@ -370,8 +371,8 @@ public class UniProtDocument implements Document {
     @Field("uniparc")
     public String uniparc;
 
-    @Field("uniparc_deleted")
-    public String uniparcDeleted;
+    @Field("deleted_entry_uniparc")
+    public String deletedEntryUniParc;
 
     @Field("suggest")
     public Set<String> suggests = new HashSet<>();
@@ -615,7 +616,7 @@ public class UniProtDocument implements Document {
                 computationalPubmedIds,
                 communityPubmedIds,
                 uniparc,
-                uniparcDeleted,
+                deletedEntryUniParc,
                 rheaIds,
                 suggests);
     }
@@ -859,8 +860,8 @@ public class UniProtDocument implements Document {
                 + ", uniparc='"
                 + uniparc
                 + '\''
-                + ", uniparcDeleted='"
-                + uniparcDeleted
+                + ", deletedEntryUniParc='"
+                + deletedEntryUniParc
                 + '\''
                 + ", rheaIds='"
                 + rheaIds

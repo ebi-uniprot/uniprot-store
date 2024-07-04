@@ -360,7 +360,7 @@ class UniProtKBDocumentsToHPSWriterTest {
         assertFalse(obsoleteDoc.active);
         assertEquals(accession, obsoleteDoc.accession);
         assertEquals(inactiveReason, obsoleteDoc.inactiveReason);
-        assertEquals(uniparcId, obsoleteDoc.uniparcDeleted);
+        assertEquals(uniparcId, obsoleteDoc.deletedEntryUniParc);
     }
 
     private UniProtDocument createUniProtDoc(String accession) {

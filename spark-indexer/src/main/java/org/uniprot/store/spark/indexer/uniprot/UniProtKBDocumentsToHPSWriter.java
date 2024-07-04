@@ -1,5 +1,6 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
+import static java.lang.Math.*;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.*;
 
 import java.util.Collections;
@@ -116,16 +117,19 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
      */
     JavaPairRDD<String, UniProtDocument> getInactiveEntryRDD() {
         UniParcRDDTupleReader uniParcRDDTupleReader = new UniParcRDDTupleReader(parameter, false);
+
+        // JavaPairRDD<accession,uniParcId> inactiveUniParc
         JavaPairRDD<String, String> inactiveUniParc =
                 uniParcRDDTupleReader.load().flatMapToPair(new UniParcInactiveUniProtKBMapper());
 
+        // JavaPairRDD<accession,UniProtDocument> inactiveUniParc
         JavaPairRDD<String, UniProtDocument> inactiveEntryRDD =
                 InactiveUniProtKBRDDTupleReader.load(parameter)
                         .leftOuterJoin(inactiveUniParc)
                         .mapValues(new UniParcDeletedUniProtKBJoin())
                         .mapValues(new UniProtEntryToSolrDocument(Collections.emptyMap()));
 
-        return inactiveEntryRDD.repartition(inactiveEntryRDD.getNumPartitions() / 8);
+        return inactiveEntryRDD.repartition(max(1, inactiveEntryRDD.getNumPartitions() / 8));
     }
 
     /**

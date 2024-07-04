@@ -39,7 +39,7 @@ public class InactiveUniprotEntryConverter
         }
         Object uniParcID = source.getExtraAttributeValue(UNIPARC_ID_ATTRIB);
         if (Utils.notNull(uniParcID)) {
-            document.uniparcDeleted = String.valueOf(uniParcID);
+            document.deletedEntryUniParc = String.valueOf(uniParcID);
         }
         document.active = false;
 

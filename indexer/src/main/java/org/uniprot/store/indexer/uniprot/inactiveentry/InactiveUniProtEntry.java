@@ -11,7 +11,7 @@ public class InactiveUniProtEntry {
     private final String id;
     private final String reason;
     private final String deletedReason;
-    private final String uniParcDeleted;
+    private final String uniParcId;
     private final List<String> mergedOrDemergedAccessions;
     private static final String DEMERGED = "demerged";
 
@@ -19,14 +19,14 @@ public class InactiveUniProtEntry {
             String accession,
             String id,
             String reason,
-            String uniParcDeleted,
+            String uniParcId,
             List<String> mergedOrDemergedAccessions,
             String deletedReason) {
         super();
         this.accession = accession;
         this.id = id;
         this.reason = reason;
-        this.uniParcDeleted = uniParcDeleted;
+        this.uniParcId = uniParcId;
         this.mergedOrDemergedAccessions = mergedOrDemergedAccessions;
         this.deletedReason = deletedReason;
     }
@@ -51,8 +51,8 @@ public class InactiveUniProtEntry {
         return deletedReason;
     }
 
-    public String getUniParcDeleted() {
-        return uniParcDeleted;
+    public String getUniParcId() {
+        return uniParcId;
     }
 
     public String getInactiveReason() {
@@ -72,7 +72,7 @@ public class InactiveUniProtEntry {
                 .append(",")
                 .append(reason)
                 .append(",")
-                .append(uniParcDeleted)
+                .append(uniParcId)
                 .append(",")
                 .append(mergedOrDemergedAccessions);
 
@@ -114,7 +114,7 @@ public class InactiveUniProtEntry {
                     demergedEntries.get(0).getAccession(),
                     demergedEntries.get(0).getId(),
                     DEMERGED,
-                    demergedEntries.get(0).uniParcDeleted,
+                    demergedEntries.get(0).uniParcId,
                     accessions,
                     null);
         }

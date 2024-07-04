@@ -30,7 +30,7 @@ public class UniProtDocMocker {
         document.id.add(accession + "_ID");
         document.active = false;
         document.inactiveReason = inactiveReason;
-        document.uniparcDeleted = uniParcDeleted;
+        document.deletedEntryUniParc = uniParcDeleted;
         return document;
     }
 

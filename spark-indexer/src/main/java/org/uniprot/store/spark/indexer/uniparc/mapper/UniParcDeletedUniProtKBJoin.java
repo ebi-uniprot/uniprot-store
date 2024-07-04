@@ -2,6 +2,8 @@ package org.uniprot.store.spark.indexer.uniparc.mapper;
 
 import static org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder.UNIPARC_ID_ATTRIB;
 
+import java.io.Serial;
+
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.uniprotkb.InactiveReasonType;
@@ -13,6 +15,8 @@ import scala.Tuple2;
 
 public class UniParcDeletedUniProtKBJoin
         implements Function<Tuple2<UniProtKBEntry, Optional<String>>, UniProtKBEntry> {
+
+    @Serial private static final long serialVersionUID = 1028697335067985980L;
 
     @Override
     public UniProtKBEntry call(Tuple2<UniProtKBEntry, Optional<String>> tuple2) {

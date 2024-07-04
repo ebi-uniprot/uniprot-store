@@ -1,5 +1,6 @@
 package org.uniprot.store.spark.indexer.uniparc.mapper;
 
+import java.io.Serial;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,6 +13,8 @@ import scala.Tuple2;
 
 public class UniParcInactiveUniProtKBMapper
         implements PairFlatMapFunction<UniParcEntry, String, String> {
+
+    @Serial private static final long serialVersionUID = -4126671332254877952L;
 
     @Override
     public Iterator<Tuple2<String, String>> call(UniParcEntry uniParcEntry) {
