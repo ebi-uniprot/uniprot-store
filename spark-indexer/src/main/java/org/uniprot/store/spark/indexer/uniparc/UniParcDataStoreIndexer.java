@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2020-02-26
  */
 @Slf4j
-public class UniParcDataStoreIndexer extends BaseUniParcDataStoreIndexer<UniParcEntry> {
+public class UniParcDataStoreIndexer extends BaseUniParcDataStoreIndexer {
 
     private final JobParameter parameter;
 
@@ -28,7 +28,6 @@ public class UniParcDataStoreIndexer extends BaseUniParcDataStoreIndexer<UniParc
         log.info("Completed UniParc Data Store index");
     }
 
-    @Override
     void saveInDataStore(JavaRDD<UniParcEntry> uniParcJoinedRDD) {
         DataStoreParameter dataStoreParameter =
                 getDataStoreParameter(parameter.getApplicationConfig());

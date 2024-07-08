@@ -3,7 +3,6 @@ package org.uniprot.store.spark.indexer.uniparc.mapper;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,10 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
+import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
+import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
 import org.uniprot.store.spark.indexer.uniparc.converter.UniParcCrossReferenceWrapper;
-
-import scala.Tuple2;
 
 class UniParcCrossReferenceToWrapperTest {
 
@@ -27,9 +26,8 @@ class UniParcCrossReferenceToWrapperTest {
 
     @Test
     void testCallWithEmptyList() throws Exception {
-        Tuple2<String, List<UniParcCrossReference>> tuple =
-                new Tuple2<>("UPI0000000001", new ArrayList<>());
-        Iterator<UniParcCrossReferenceWrapper> result = mapper.call(tuple);
+        UniParcEntry entry = getUniParcEntry();
+        Iterator<UniParcCrossReferenceWrapper> result = mapper.call(entry);
         assertFalse(result.hasNext());
     }
 
@@ -37,10 +35,8 @@ class UniParcCrossReferenceToWrapperTest {
     void testCallWithSingleXref() throws Exception {
         UniParcCrossReference xref =
                 createUniParcCrossReference(UniParcDatabase.SWISSPROT, "P12345");
-        List<UniParcCrossReference> xrefList = List.of(xref);
-        Tuple2<String, List<UniParcCrossReference>> tuple = new Tuple2<>("UPI0000000001", xrefList);
-
-        Iterator<UniParcCrossReferenceWrapper> result = mapper.call(tuple);
+        UniParcEntry entry = getUniParcEntry(xref);
+        Iterator<UniParcCrossReferenceWrapper> result = mapper.call(entry);
 
         assertTrue(result.hasNext());
         UniParcCrossReferenceWrapper wrapper = result.next();
@@ -54,10 +50,9 @@ class UniParcCrossReferenceToWrapperTest {
         UniParcCrossReference xref1 =
                 createUniParcCrossReference(UniParcDatabase.SWISSPROT, "P12345");
         UniParcCrossReference xref2 = createUniParcCrossReference(UniParcDatabase.TREMBL, "A0A123");
-        List<UniParcCrossReference> xrefList = List.of(xref1, xref2);
-        Tuple2<String, List<UniParcCrossReference>> tuple = new Tuple2<>("UPI0000000001", xrefList);
+        UniParcEntry entry = getUniParcEntry(xref1, xref2);
 
-        Iterator<UniParcCrossReferenceWrapper> result = mapper.call(tuple);
+        Iterator<UniParcCrossReferenceWrapper> result = mapper.call(entry);
 
         assertTrue(result.hasNext());
         UniParcCrossReferenceWrapper wrapper1 = result.next();
@@ -78,10 +73,9 @@ class UniParcCrossReferenceToWrapperTest {
                 createUniParcCrossReference(UniParcDatabase.SWISSPROT, "P12345");
         UniParcCrossReference xref2 =
                 createUniParcCrossReference(UniParcDatabase.SWISSPROT, "P12345");
-        List<UniParcCrossReference> xrefList = List.of(xref1, xref2);
-        Tuple2<String, List<UniParcCrossReference>> tuple = new Tuple2<>("UPI0000000001", xrefList);
+        UniParcEntry entry = getUniParcEntry(xref1, xref2);
 
-        Iterator<UniParcCrossReferenceWrapper> result = mapper.call(tuple);
+        Iterator<UniParcCrossReferenceWrapper> result = mapper.call(entry);
 
         assertTrue(result.hasNext());
         UniParcCrossReferenceWrapper wrapper1 = result.next();
@@ -94,6 +88,13 @@ class UniParcCrossReferenceToWrapperTest {
         assertEquals(xref2, wrapper2.getUniParcCrossReference());
 
         assertFalse(result.hasNext());
+    }
+
+    private UniParcEntry getUniParcEntry(UniParcCrossReference... xrefs) {
+        return new UniParcEntryBuilder()
+                .uniParcId("UPI0000000001")
+                .uniParcCrossReferencesSet(List.of(xrefs))
+                .build();
     }
 
     private UniParcCrossReference createUniParcCrossReference(UniParcDatabase database, String id) {

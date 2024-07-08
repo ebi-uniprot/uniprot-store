@@ -1,10 +1,6 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
-import java.util.List;
-
-import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
@@ -14,11 +10,9 @@ import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcCrossReferenceToWra
 import com.typesafe.config.Config;
 
 import lombok.extern.slf4j.Slf4j;
-import scala.Tuple2;
 
 @Slf4j
-public class UniParcCrossReferenceDataStoreIndexer
-        extends BaseUniParcDataStoreIndexer<UniParcCrossReferenceWrapper> {
+public class UniParcCrossReferenceDataStoreIndexer extends BaseUniParcDataStoreIndexer {
 
     private final JobParameter parameter;
 
@@ -30,21 +24,14 @@ public class UniParcCrossReferenceDataStoreIndexer
     @Override
     public void indexInDataStore() {
         JavaRDD<UniParcEntry> uniParcRDD = getUniParcRDD();
-        // <uniParcId, list of cross-references>
-        JavaPairRDD<String, List<UniParcCrossReference>> uniParcXrefsRDD =
-                uniParcRDD.mapToPair(
-                        up ->
-                                new Tuple2<>(
-                                        up.getUniParcId().getValue(),
-                                        up.getUniParcCrossReferences()));
+
         // <xrefIdUniqueKey, xrefObj>
         JavaRDD<UniParcCrossReferenceWrapper> crossRefIdCrossRef =
-                uniParcXrefsRDD.flatMap(new UniParcCrossReferenceToWrapper());
+                uniParcRDD.flatMap(new UniParcCrossReferenceToWrapper());
         saveInDataStore(crossRefIdCrossRef);
         log.info("Completed UniParc Cross Reference Data Store index");
     }
 
-    @Override
     void saveInDataStore(JavaRDD<UniParcCrossReferenceWrapper> uniParcXrefRDD) {
         DataStoreParameter dataStoreParameter =
                 getDataStoreParameter(parameter.getApplicationConfig());

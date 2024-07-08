@@ -14,7 +14,7 @@ import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyMapper;
 
 import com.typesafe.config.Config;
 
-public abstract class BaseUniParcDataStoreIndexer<V> implements DataStoreIndexer {
+public abstract class BaseUniParcDataStoreIndexer implements DataStoreIndexer {
     private final JobParameter parameter;
 
     BaseUniParcDataStoreIndexer(JobParameter parameter) {
@@ -71,8 +71,6 @@ public abstract class BaseUniParcDataStoreIndexer<V> implements DataStoreIndexer
                         .map(new UniParcEntryTaxonomyJoin());
         return uniParcJoinedRDD;
     }
-
-    abstract void saveInDataStore(JavaRDD<V> uniparcJoinedRDD);
 
     JavaPairRDD<String, TaxonomyEntry> loadTaxonomyEntryJavaPairRDD() {
         TaxonomyRDDReader taxReader = new TaxonomyRDDReader(parameter, false);

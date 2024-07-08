@@ -5,22 +5,19 @@ import java.util.*;
 
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.uniprot.core.uniparc.UniParcCrossReference;
+import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.spark.indexer.uniparc.converter.UniParcCrossReferenceWrapper;
 
-import scala.Tuple2;
-
 public class UniParcCrossReferenceToWrapper
-        implements FlatMapFunction<
-                Tuple2<String, List<UniParcCrossReference>>, UniParcCrossReferenceWrapper> {
+        implements FlatMapFunction<UniParcEntry, UniParcCrossReferenceWrapper> {
     @Serial private static final long serialVersionUID = 6208985996252016652L;
 
     @Override
-    public Iterator<UniParcCrossReferenceWrapper> call(
-            Tuple2<String, List<UniParcCrossReference>> tuple) throws Exception {
+    public Iterator<UniParcCrossReferenceWrapper> call(UniParcEntry entry) throws Exception {
         // keep xrefId and current repetition count
         Map<String, Integer> xrefIdCount = new HashMap<>();
-        String uniParcId = tuple._1;
-        List<UniParcCrossReference> xrefs = tuple._2;
+        String uniParcId = entry.getUniParcId().getValue();
+        List<UniParcCrossReference> xrefs = entry.getUniParcCrossReferences();
         List<UniParcCrossReferenceWrapper> flatList = new ArrayList<>();
         for (UniParcCrossReference xref : xrefs) {
             // get uniparc xref composite key
