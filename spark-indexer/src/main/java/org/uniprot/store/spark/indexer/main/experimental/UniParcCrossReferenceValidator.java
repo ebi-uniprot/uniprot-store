@@ -1,7 +1,11 @@
 package org.uniprot.store.spark.indexer.main.experimental;
 
-import com.typesafe.config.Config;
-import lombok.extern.slf4j.Slf4j;
+import java.io.Serial;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.VoidFunction;
@@ -15,11 +19,9 @@ import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.uniparc.UniParcLightRDDTupleReader;
 
-import java.io.Serial;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import com.typesafe.config.Config;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class UniParcCrossReferenceValidator {
@@ -33,7 +35,7 @@ public class UniParcCrossReferenceValidator {
         }
         Config applicationConfig = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
-                     SparkUtils.loadSparkContext(applicationConfig, args[1])) {
+                SparkUtils.loadSparkContext(applicationConfig, args[1])) {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(applicationConfig)
@@ -68,11 +70,9 @@ public class UniParcCrossReferenceValidator {
                 .build();
     }
 
-    private static class CheckVoldermortXref
-            implements VoidFunction<Iterator<UniParcEntryLight>> {
+    private static class CheckVoldermortXref implements VoidFunction<Iterator<UniParcEntryLight>> {
 
-        @Serial
-        private static final long serialVersionUID = -4603525615443900815L;
+        @Serial private static final long serialVersionUID = -4603525615443900815L;
         private final DataStoreParameter parameter;
 
         public CheckVoldermortXref(DataStoreParameter parameter) {
@@ -80,21 +80,25 @@ public class UniParcCrossReferenceValidator {
         }
 
         @Override
-        public void call(Iterator<UniParcEntryLight> entryIterator) throws Exception {
+        public void call(Iterator<UniParcEntryLight> entryIterator) {
             List<String> missingIds = new ArrayList<>();
             try (VoldemortClient<UniParcCrossReference> client = getDataStoreClient()) {
                 while (entryIterator.hasNext()) {
                     final UniParcEntryLight entry = entryIterator.next();
-                    entry.getUniParcCrossReferences().forEach(xrefId -> {
-                        Optional<UniParcCrossReference> xref = client.getEntry(xrefId);
-                        if(xref.isEmpty()){
-                            missingIds.add(xrefId);
-                        }
-                    });
+                    entry.getUniParcCrossReferences()
+                            .forEach(
+                                    xrefId -> {
+                                        Optional<UniParcCrossReference> xref =
+                                                client.getEntry(xrefId);
+                                        if (xref.isEmpty()) {
+                                            missingIds.add(xrefId);
+                                        }
+                                    });
                 }
             }
-            if(!missingIds.isEmpty()){
-                throw new IndexDataStoreException("Unable to find xrefIds: "+ String.join(",", missingIds));
+            if (!missingIds.isEmpty()) {
+                throw new IndexDataStoreException(
+                        "Unable to find xrefIds: " + String.join(",", missingIds));
             }
         }
 
@@ -106,7 +110,5 @@ public class UniParcCrossReferenceValidator {
                     parameter.getStoreName(),
                     parameter.getConnectionURL());
         }
-
     }
-
 }
