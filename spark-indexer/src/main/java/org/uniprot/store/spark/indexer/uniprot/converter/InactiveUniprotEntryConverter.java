@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
+import static org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder.UNIPARC_ID_ATTRIB;
+
 import org.uniprot.core.uniprotkb.EntryInactiveReason;
 import org.uniprot.core.uniprotkb.InactiveReasonType;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
@@ -34,6 +36,10 @@ public class InactiveUniprotEntryConverter
         }
         if (Utils.notNull(inactiveReason.getDeletedReason())) {
             document.inactiveReason += ":" + inactiveReason.getDeletedReason();
+        }
+        Object uniParcID = source.getExtraAttributeValue(UNIPARC_ID_ATTRIB);
+        if (Utils.notNull(uniParcID)) {
+            document.deletedEntryUniParc = String.valueOf(uniParcID);
         }
         document.active = false;
 

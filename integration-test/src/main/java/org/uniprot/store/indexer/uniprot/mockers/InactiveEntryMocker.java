@@ -28,28 +28,42 @@ public class InactiveEntryMocker {
         List<InactiveUniProtEntry> deletedEntries = new ArrayList<>();
         deletedEntries.add(
                 InactiveUniProtEntry.from(
-                        "I8FBX0", "I8FBX0_MYCAB", DELETED, null, "SOURCE_DELETION_EMBL"));
+                        "I8FBX0",
+                        "I8FBX0_MYCAB",
+                        DELETED,
+                        "UPI0001661588",
+                        null,
+                        "SOURCE_DELETION_EMBL"));
         deletedEntries.add(
                 InactiveUniProtEntry.from(
-                        "I8FBX1", "I8FBX1_YERPE", DELETED, null, "PROTEOME_REDUNDANCY"));
+                        "I8FBX1",
+                        "I8FBX1_YERPE",
+                        DELETED,
+                        "UPI00000DCD3D",
+                        null,
+                        "PROTEOME_REDUNDANCY"));
         deletedEntries.add(
-                InactiveUniProtEntry.from("I8FBX2", "I8FBX2_YERPE", DELETED, null, null));
+                InactiveUniProtEntry.from(
+                        "I8FBX2", "I8FBX2_YERPE", DELETED, "UPI000012CEBB", null, null));
         entryMap.put(InactiveType.DELETED, deletedEntries);
 
         List<InactiveUniProtEntry> mergedEntries = new ArrayList<>();
         mergedEntries.add(
-                InactiveUniProtEntry.from("Q14301", "Q14301_FGFR2", MERGED, ACTIVE_ACESSION, null));
+                InactiveUniProtEntry.from(
+                        "Q14301", "Q14301_FGFR2", MERGED, null, ACTIVE_ACESSION, null));
         mergedEntries.add(
-                InactiveUniProtEntry.from("B4DFC2", "B4DFC2_FGFR2", MERGED, ACTIVE_ACESSION, null));
+                InactiveUniProtEntry.from(
+                        "B4DFC2", "B4DFC2_FGFR2", MERGED, null, ACTIVE_ACESSION, null));
         mergedEntries.add(
-                InactiveUniProtEntry.from("F8VPU5", "F8VPU5_BRCA2", MERGED, "P97929", null));
+                InactiveUniProtEntry.from("F8VPU5", "F8VPU5_BRCA2", MERGED, null, "P97929", null));
         entryMap.put(InactiveType.MERGED, mergedEntries);
 
         List<InactiveUniProtEntry> demergedEntries = new ArrayList<>();
         demergedEntries.add(
-                InactiveUniProtEntry.from("Q00007", "FGFR2_HUMAN", MERGED, ACTIVE_ACESSION, null));
+                InactiveUniProtEntry.from(
+                        "Q00007", "FGFR2_HUMAN", MERGED, null, ACTIVE_ACESSION, null));
         demergedEntries.add(
-                InactiveUniProtEntry.from("Q00007", "FGFR2_HUMAN", MERGED, "P63151", null));
+                InactiveUniProtEntry.from("Q00007", "FGFR2_HUMAN", MERGED, null, "P63151", null));
         entryMap.put(
                 InactiveType.DEMERGED,
                 Collections.singletonList(InactiveUniProtEntry.merge(demergedEntries)));
