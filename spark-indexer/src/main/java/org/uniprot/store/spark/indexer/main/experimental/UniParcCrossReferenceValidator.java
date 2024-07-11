@@ -1,10 +1,7 @@
 package org.uniprot.store.spark.indexer.main.experimental;
 
 import java.io.Serial;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -70,7 +67,7 @@ public class UniParcCrossReferenceValidator {
                 .build();
     }
 
-    private static class CheckVoldermortXref implements VoidFunction<Iterator<UniParcEntryLight>> {
+    static class CheckVoldermortXref implements VoidFunction<Iterator<UniParcEntryLight>> {
 
         @Serial private static final long serialVersionUID = -4603525615443900815L;
         private final DataStoreParameter parameter;
@@ -85,15 +82,23 @@ public class UniParcCrossReferenceValidator {
             try (VoldemortClient<UniParcCrossReference> client = getDataStoreClient()) {
                 while (entryIterator.hasNext()) {
                     final UniParcEntryLight entry = entryIterator.next();
-                    entry.getUniParcCrossReferences()
-                            .forEach(
-                                    xrefId -> {
-                                        Optional<UniParcCrossReference> xref =
-                                                client.getEntry(xrefId);
-                                        if (xref.isEmpty()) {
-                                            missingIds.add(xrefId);
-                                        }
-                                    });
+                    List<String> pageIds = new ArrayList<>();
+                    int index = 0;
+                    for (String xref : entry.getUniParcCrossReferences()) {
+                        pageIds.add(xref);
+                        if (++index % 200 == 0) {
+                            Map<String, UniParcCrossReference> pageResult =
+                                    client.getEntryMap(pageIds);
+                            pageIds.removeAll(pageResult.keySet());
+                            missingIds.addAll(pageIds);
+                            pageIds = new ArrayList<>();
+                        }
+                    }
+                    if (!pageIds.isEmpty()) {
+                        Map<String, UniParcCrossReference> pageResult = client.getEntryMap(pageIds);
+                        pageIds.removeAll(pageResult.keySet());
+                        missingIds.addAll(pageIds);
+                    }
                 }
             }
             if (!missingIds.isEmpty()) {
@@ -102,7 +107,7 @@ public class UniParcCrossReferenceValidator {
             }
         }
 
-        VoldemortClient<UniParcCrossReference> getDataStoreClient() {
+        protected VoldemortClient<UniParcCrossReference> getDataStoreClient() {
             return new VoldemortRemoteUniParcCrossReferenceStore(
                     parameter.getNumberOfConnections(),
                     parameter.isBrotliEnabled(),
