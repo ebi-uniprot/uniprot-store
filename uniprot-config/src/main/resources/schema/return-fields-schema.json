@@ -61,6 +61,12 @@
         },
         "includeInSwagger": {
           "type": "boolean"
+        },
+        "aliases" : {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": [

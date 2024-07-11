@@ -20,7 +20,8 @@ class InactiveEntryConverterTest {
     void convertDeleted() {
         InactiveEntryConverter converter = new InactiveEntryConverter();
         InactiveUniProtEntry entry =
-                new InactiveUniProtEntry("P12345", null, "DELETED", Collections.emptyList(), null);
+                new InactiveUniProtEntry(
+                        "P12345", null, "DELETED", "UPI0001661588", Collections.emptyList(), null);
         UniProtDocument result = converter.convert(entry);
         assertNotNull(result);
 
@@ -30,13 +31,15 @@ class InactiveEntryConverterTest {
         assertNull(result.idInactive);
         assertEquals("DELETED", result.inactiveReason);
         assertFalse(result.active);
+        assertEquals("UPI0001661588", result.deletedEntryUniParc);
     }
 
     @Test
     void convertDeletedWithId() {
         InactiveEntryConverter converter = new InactiveEntryConverter();
         InactiveUniProtEntry entry =
-                new InactiveUniProtEntry("P12345", "ID", "DELETED", Collections.emptyList(), null);
+                new InactiveUniProtEntry(
+                        "P12345", "ID", "DELETED", "UPI0001661588", Collections.emptyList(), null);
         UniProtDocument result = converter.convert(entry);
         assertNotNull(result);
 
@@ -47,6 +50,7 @@ class InactiveEntryConverterTest {
         assertEquals("ID", result.idInactive);
         assertEquals("DELETED", result.inactiveReason);
         assertFalse(result.active);
+        assertEquals("UPI0001661588", result.deletedEntryUniParc);
     }
 
     @Test
@@ -54,7 +58,7 @@ class InactiveEntryConverterTest {
         InactiveEntryConverter converter = new InactiveEntryConverter();
         List<String> mergedTo = List.of("P11111");
         InactiveUniProtEntry entry =
-                new InactiveUniProtEntry("P12345", "ID1", "MERGED", mergedTo, null);
+                new InactiveUniProtEntry("P12345", "ID1", "MERGED", null, mergedTo, null);
         UniProtDocument result = converter.convert(entry);
         assertNotNull(result);
 
@@ -65,6 +69,7 @@ class InactiveEntryConverterTest {
         assertEquals("ID1", result.idInactive);
         assertEquals("MERGED:P11111", result.inactiveReason);
         assertFalse(result.active);
+        assertNull(result.deletedEntryUniParc);
     }
 
     @Test
@@ -72,7 +77,7 @@ class InactiveEntryConverterTest {
         InactiveEntryConverter converter = new InactiveEntryConverter();
         List<String> demergedTo = List.of("P11111", "P22222");
         InactiveUniProtEntry entry =
-                new InactiveUniProtEntry("P12345", "ID1", "DEMERGED", demergedTo, null);
+                new InactiveUniProtEntry("P12345", "ID1", "DEMERGED", null, demergedTo, null);
         UniProtDocument result = converter.convert(entry);
         assertNotNull(result);
 
@@ -83,5 +88,6 @@ class InactiveEntryConverterTest {
         assertEquals("DEMERGED:P11111,P22222", result.inactiveReason);
         assertFalse(result.active);
         assertTrue(result.content.isEmpty());
+        assertNull(result.deletedEntryUniParc);
     }
 }

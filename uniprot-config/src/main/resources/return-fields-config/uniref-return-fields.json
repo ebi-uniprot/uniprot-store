@@ -72,7 +72,8 @@
     "label": "Organisms",
     "paths": ["representativeMember.organismName","members[*].organismName","organisms"],
     "id": "names_&_taxonomy/organism",
-    "includeInSwagger": true
+    "includeInSwagger": true,
+    "sortField": "organism_sort"
   },
   {
     "seqNumber": 1,
@@ -165,11 +166,12 @@
     "itemType": "SINGLE",
     "isDefaultForTsv": true,
     "defaultForTsvOrder" : 4,
-    "sortField": "created",
-    "name": "created",
-    "label": "Date of creation",
+    "sortField": "date_modified",
+    "name": "date_modified",
+    "label": "Date of last modification",
     "paths": ["updated"],
-    "id": "date_of/created",
-    "includeInSwagger": true
+    "id": "date_of/date_modified",
+    "includeInSwagger": true,
+    "aliases": ["created"]
   }
 ]

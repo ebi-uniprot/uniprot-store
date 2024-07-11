@@ -131,7 +131,8 @@
     "paths": ["uniParcCrossReferences[*].id",
       "uniParcCrossReferences[*].database",
       "uniParcCrossReferences[*].active",
-      "uniParcCrossReferences[*].version"],
+      "uniParcCrossReferences[*].version",
+      "uniParcCrossReferences[*].chain"],
     "id": "miscellaneous/accession",
     "includeInSwagger": true
   },
