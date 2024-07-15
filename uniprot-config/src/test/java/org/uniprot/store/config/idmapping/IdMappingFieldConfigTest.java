@@ -1,7 +1,8 @@
 package org.uniprot.store.config.idmapping;
 
-import java.util.List;
-import java.util.Set;
+import static org.uniprot.store.config.idmapping.IdMappingFieldConfig.convertDisplayNameToName;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.hamcrest.CoreMatchers;
@@ -66,7 +67,34 @@ class IdMappingFieldConfigTest {
     @Test
     void convertsDisplayNameCorrectly() {
         MatcherAssert.assertThat(
-                IdMappingFieldConfig.convertDisplayNameToName("More complex (db1/db2)"),
+                convertDisplayNameToName("More complex (db1/db2)"),
                 CoreMatchers.is("More_complex_-db1-db2-"));
+    }
+
+    @Test
+    void testNoDuplicateUniProtDatabaseDetail() {
+        List<UniProtDatabaseDetail> idMappingFields = IdMappingFieldConfig.getAllIdMappingTypes();
+        Assertions.assertEquals(99, idMappingFields.size());
+        // add details again to have duplicate
+        idMappingFields.addAll(IdMappingFieldConfig.createMissingIdMappingTypes());
+        idMappingFields =
+                idMappingFields.stream()
+                        .map(
+                                detail ->
+                                        new UniProtDatabaseDetail(
+                                                convertDisplayNameToName(detail.getDisplayName()),
+                                                detail.getDisplayName(),
+                                                detail.getCategory(),
+                                                detail.getUriLink(),
+                                                detail.getAttributes(),
+                                                detail.isImplicit(),
+                                                detail.getLinkedReason(),
+                                                detail.getIdMappingName()))
+                        .collect(Collectors.toList());
+        Assertions.assertEquals(112, idMappingFields.size());
+        // remove duplicate
+        ArrayList<UniProtDatabaseDetail> uniqueUniProtDatabaseDetails =
+                new ArrayList<>(new LinkedHashSet<>(idMappingFields));
+        Assertions.assertEquals(99, uniqueUniProtDatabaseDetails.size());
     }
 }
