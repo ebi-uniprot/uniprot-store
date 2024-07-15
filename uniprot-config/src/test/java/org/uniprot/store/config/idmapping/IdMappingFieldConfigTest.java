@@ -74,7 +74,7 @@ class IdMappingFieldConfigTest {
     @Test
     void testNoDuplicateUniProtDatabaseDetail() {
         List<UniProtDatabaseDetail> idMappingFields = IdMappingFieldConfig.getAllIdMappingTypes();
-        Assertions.assertEquals(99, idMappingFields.size());
+        Assertions.assertEquals(98, idMappingFields.size());
         // add details again to have duplicate
         idMappingFields.addAll(IdMappingFieldConfig.createMissingIdMappingTypes());
         idMappingFields =
@@ -91,10 +91,10 @@ class IdMappingFieldConfigTest {
                                                 detail.getLinkedReason(),
                                                 detail.getIdMappingName()))
                         .collect(Collectors.toList());
-        Assertions.assertEquals(112, idMappingFields.size());
+        Assertions.assertEquals(111, idMappingFields.size());
         // remove duplicate
         ArrayList<UniProtDatabaseDetail> uniqueUniProtDatabaseDetails =
                 new ArrayList<>(new LinkedHashSet<>(idMappingFields));
-        Assertions.assertEquals(99, uniqueUniProtDatabaseDetails.size());
+        Assertions.assertEquals(98, uniqueUniProtDatabaseDetails.size());
     }
 }
