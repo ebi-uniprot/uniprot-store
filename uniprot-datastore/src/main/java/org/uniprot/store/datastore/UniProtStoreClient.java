@@ -43,7 +43,7 @@ public class UniProtStoreClient<S> {
         client.saveEntry(s);
     }
 
-    public void saveEntry(String key, S s){
+    public void saveEntry(String key, S s) {
         client.saveEntry(key, s);
     }
 

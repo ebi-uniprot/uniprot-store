@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.uniprot.core.Location;
@@ -235,12 +234,16 @@ public class UniParcEntryMocker {
         Sequence sequence = new SequenceBuilder(seq.toString()).build();
         List<UniParcCrossReference> xrefObjects = new ArrayList<>(getXrefs(i));
         xrefObjects.addAll(getMoreXrefs(i));
-        List<String> xrefs = xrefObjects.stream().map(xref -> getUniParcXRefId(uniParcId, xref)).toList();
+        List<String> xrefs =
+                xrefObjects.stream().map(xref -> getUniParcXRefId(uniParcId, xref)).toList();
 
         List<SequenceFeature> seqFeatures = new ArrayList<>();
         Arrays.stream(SignatureDbType.values())
                 .forEach(signatureType -> seqFeatures.add(getSeqFeature(i, signatureType)));
-        List<Pair<String, String>> commonTaxons = List.of(new PairImpl<>("cellular organisms", "Bacteria"), new PairImpl<>("other entries", "plasmids"));
+        List<Pair<String, String>> commonTaxons =
+                List.of(
+                        new PairImpl<>("cellular organisms", "Bacteria"),
+                        new PairImpl<>("other entries", "plasmids"));
         return new UniParcEntryLightBuilder()
                 .uniParcId(uniParcId)
                 .commonTaxonsSet(commonTaxons)
@@ -251,16 +254,21 @@ public class UniParcEntryMocker {
                 .mostRecentCrossRefUpdated(LocalDate.now())
                 .build();
     }
+
     private static String getUniParcXRefId(String uniParcId, UniParcCrossReference crossRef) {
         String id = crossRef.getId();
         String databaseType = crossRef.getDatabase().name();
         return uniParcId + "-" + databaseType + "-" + id;
     }
 
-    public static List<PairImpl<String, UniParcCrossReference>> getXrefPairs(String uniParcId, int i) {
+    public static List<PairImpl<String, UniParcCrossReference>> getXrefPairs(
+            String uniParcId, int i) {
         List<UniParcCrossReference> crossRefs = new ArrayList<>(getXrefs(i));
         crossRefs.addAll(getMoreXrefs(i));
-        List<PairImpl<String, UniParcCrossReference>> idXrefPairs = crossRefs.stream().map(xref -> new PairImpl<>(getUniParcXRefId(uniParcId, xref), xref)).toList();
+        List<PairImpl<String, UniParcCrossReference>> idXrefPairs =
+                crossRefs.stream()
+                        .map(xref -> new PairImpl<>(getUniParcXRefId(uniParcId, xref), xref))
+                        .toList();
         return idXrefPairs;
     }
 }

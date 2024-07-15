@@ -166,7 +166,8 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
         } catch (Exception e) {
             LOGGER.debug(
                     "Trying to add entry {} with key {} to data store again but a problem was encountered -- skipping",
-                    keyVal.getValue(), keyVal.getKey());
+                    keyVal.getValue(),
+                    keyVal.getKey());
         }
     }
 
