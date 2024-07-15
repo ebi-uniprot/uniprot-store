@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.uniprot.core.Location;
@@ -13,6 +14,8 @@ import org.uniprot.core.uniparc.*;
 import org.uniprot.core.uniparc.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
+import org.uniprot.core.util.Pair;
+import org.uniprot.core.util.PairImpl;
 
 /**
  * @author lgonzales
@@ -177,6 +180,13 @@ public class UniParcEntryMocker {
     }
 
     public static UniParcEntry appendMoreXRefs(UniParcEntry entry, int i) {
+        List<UniParcCrossReference> xrefs = getMoreXrefs(i);
+        UniParcEntryBuilder builder = UniParcEntryBuilder.from(entry);
+        xrefs.forEach(xref -> builder.uniParcCrossReferencesAdd(xref));
+        return builder.build();
+    }
+
+    private static List<UniParcCrossReference> getMoreXrefs(int i) {
         UniParcCrossReference xref1 =
                 new UniParcCrossReferenceBuilder()
                         .versionI(1)
@@ -215,10 +225,42 @@ public class UniParcEntryMocker {
                         .lastUpdated(LocalDate.of(2017, 4, 23))
                         .proteinName("common-vector-proteinName" + i)
                         .build();
-        UniParcEntryBuilder builder = UniParcEntryBuilder.from(entry);
-        builder.uniParcCrossReferencesAdd(xref1);
-        builder.uniParcCrossReferencesAdd(xref2);
-        builder.uniParcCrossReferencesAdd(xref3);
-        return builder.build();
+        return List.of(xref1, xref2, xref3);
+    }
+
+    public static UniParcEntryLight createUniParcEntryLight(int i, String prefix) {
+        String uniParcId = getName(prefix, i);
+        StringBuilder seq = new StringBuilder("MLMPKRTKYR");
+        IntStream.range(0, i).forEach(j -> seq.append("A"));
+        Sequence sequence = new SequenceBuilder(seq.toString()).build();
+        List<UniParcCrossReference> xrefObjects = new ArrayList<>(getXrefs(i));
+        xrefObjects.addAll(getMoreXrefs(i));
+        List<String> xrefs = xrefObjects.stream().map(xref -> getUniParcXRefId(uniParcId, xref)).toList();
+
+        List<SequenceFeature> seqFeatures = new ArrayList<>();
+        Arrays.stream(SignatureDbType.values())
+                .forEach(signatureType -> seqFeatures.add(getSeqFeature(i, signatureType)));
+        List<Pair<String, String>> commonTaxons = List.of(new PairImpl<>("cellular organisms", "Bacteria"), new PairImpl<>("other entries", "plasmids"));
+        return new UniParcEntryLightBuilder()
+                .uniParcId(uniParcId)
+                .commonTaxonsSet(commonTaxons)
+                .uniParcCrossReferencesSet(xrefs)
+                .sequence(sequence)
+                .sequenceFeaturesSet(seqFeatures)
+                .oldestCrossRefCreated(LocalDate.now())
+                .mostRecentCrossRefUpdated(LocalDate.now())
+                .build();
+    }
+    private static String getUniParcXRefId(String uniParcId, UniParcCrossReference crossRef) {
+        String id = crossRef.getId();
+        String databaseType = crossRef.getDatabase().name();
+        return uniParcId + "-" + databaseType + "-" + id;
+    }
+
+    public static List<PairImpl<String, UniParcCrossReference>> getXrefPairs(String uniParcId, int i) {
+        List<UniParcCrossReference> crossRefs = new ArrayList<>(getXrefs(i));
+        crossRefs.addAll(getMoreXrefs(i));
+        List<PairImpl<String, UniParcCrossReference>> idXrefPairs = crossRefs.stream().map(xref -> new PairImpl<>(getUniParcXRefId(uniParcId, xref), xref)).toList();
+        return idXrefPairs;
     }
 }

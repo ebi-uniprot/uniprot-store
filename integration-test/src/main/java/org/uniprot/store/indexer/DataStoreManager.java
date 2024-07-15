@@ -24,6 +24,7 @@ import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
 import org.springframework.util.FileSystemUtils;
+import org.uniprot.core.util.PairImpl;
 import org.uniprot.store.datastore.UniProtStoreClient;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.Document;
@@ -40,6 +41,7 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
         UNIPROT,
         INACTIVE_UNIPROT,
         UNIPARC,
+        UNIPARC_LIGHT,
         UNIREF_LIGHT,
         UNIREF_MEMBER,
         CROSSREF,
@@ -152,6 +154,20 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
 
     public <T> void saveToStore(StoreType storeType, T... entries) {
         saveToStore(storeType, asList(entries));
+    }
+
+    public final <T> void saveToStore(StoreType storeType, PairImpl<String, T> keyVal) {
+        UniProtStoreClient storeClient = getStore(storeType);
+        if (storeClient == null) {
+            return;
+        }
+        try {
+            storeClient.saveEntry(keyVal.getKey(), keyVal.getValue());
+        } catch (Exception e) {
+            LOGGER.debug(
+                    "Trying to add entry {} with key {} to data store again but a problem was encountered -- skipping",
+                    keyVal.getValue(), keyVal.getKey());
+        }
     }
 
     public SolrClient getSolrClient(StoreType storeType) {
