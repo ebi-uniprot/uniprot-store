@@ -42,6 +42,7 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
         INACTIVE_UNIPROT,
         UNIPARC,
         UNIPARC_LIGHT,
+        UNIPARC_CROSS_REFERENCE,
         UNIREF_LIGHT,
         UNIREF_MEMBER,
         CROSSREF,

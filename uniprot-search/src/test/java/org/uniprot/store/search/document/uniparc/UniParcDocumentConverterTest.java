@@ -1,4 +1,4 @@
-package org.uniprot.store.spark.indexer.uniparc.converter;
+package org.uniprot.store.search.document.uniparc;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +18,6 @@ import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
-import org.uniprot.store.search.document.uniparc.UniParcDocument;
 
 /**
  * @author lgonzales

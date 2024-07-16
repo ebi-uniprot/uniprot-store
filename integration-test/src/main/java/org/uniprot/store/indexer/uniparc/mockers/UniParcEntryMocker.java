@@ -4,8 +4,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.uniprot.core.CrossReference;
 import org.uniprot.core.Location;
 import org.uniprot.core.Sequence;
 import org.uniprot.core.impl.SequenceBuilder;
@@ -240,10 +243,7 @@ public class UniParcEntryMocker {
         List<SequenceFeature> seqFeatures = new ArrayList<>();
         Arrays.stream(SignatureDbType.values())
                 .forEach(signatureType -> seqFeatures.add(getSeqFeature(i, signatureType)));
-        List<Pair<String, String>> commonTaxons =
-                List.of(
-                        new PairImpl<>("cellular organisms", "Bacteria"),
-                        new PairImpl<>("other entries", "plasmids"));
+        List<Pair<String, String>> commonTaxons = getCommonTaxons();
         return new UniParcEntryLightBuilder()
                 .uniParcId(uniParcId)
                 .commonTaxonsSet(commonTaxons)
@@ -255,7 +255,13 @@ public class UniParcEntryMocker {
                 .build();
     }
 
-    private static String getUniParcXRefId(String uniParcId, UniParcCrossReference crossRef) {
+    private static List<Pair<String, String>> getCommonTaxons() {
+        return List.of(
+                new PairImpl<>("cellular organisms", "Bacteria"),
+                new PairImpl<>("other entries", "plasmids"));
+    }
+
+    public static String getUniParcXRefId(String uniParcId, UniParcCrossReference crossRef) {
         String id = crossRef.getId();
         String databaseType = crossRef.getDatabase().name();
         return uniParcId + "-" + databaseType + "-" + id;
@@ -270,5 +276,34 @@ public class UniParcEntryMocker {
                         .map(xref -> new PairImpl<>(getUniParcXRefId(uniParcId, xref), xref))
                         .toList();
         return idXrefPairs;
+    }
+
+    public static UniParcEntryLight convertToUniParcEntryLight(UniParcEntry entry) {
+        String uniParcId = entry.getUniParcId().getValue();
+        List<String> xrefIds =
+                entry.getUniParcCrossReferences().stream()
+                        .map(xref -> getUniParcXRefId(uniParcId, xref))
+                        .toList();
+        Set<String> uniProtKBAccession =
+                entry.getUniParcCrossReferences().stream()
+                        .filter(UniParcEntryMocker::isUniProtDatabase)
+                        .map(CrossReference::getId)
+                        .collect(Collectors.toSet());
+        return new UniParcEntryLightBuilder()
+                .uniParcId(uniParcId)
+                .commonTaxonsSet(getCommonTaxons())
+                .uniProtKBAccessionsSet(uniProtKBAccession)
+                .uniParcCrossReferencesSet(xrefIds)
+                .sequence(entry.getSequence())
+                .sequenceFeaturesSet(entry.getSequenceFeatures())
+                .oldestCrossRefCreated(entry.getOldestCrossRefCreated())
+                .mostRecentCrossRefUpdated(entry.getMostRecentCrossRefUpdated())
+                .build();
+    }
+
+    private static boolean isUniProtDatabase(UniParcCrossReference xref) {
+        return UniParcDatabase.SWISSPROT.equals(xref.getDatabase()) ||
+                UniParcDatabase.TREMBL.equals(xref.getDatabase()) ||
+                UniParcDatabase.SWISSPROT_VARSPLIC.equals(xref.getDatabase());
     }
 }
