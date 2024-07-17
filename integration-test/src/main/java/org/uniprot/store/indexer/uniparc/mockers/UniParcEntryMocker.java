@@ -302,8 +302,8 @@ public class UniParcEntryMocker {
     }
 
     private static boolean isUniProtDatabase(UniParcCrossReference xref) {
-        return UniParcDatabase.SWISSPROT.equals(xref.getDatabase()) ||
-                UniParcDatabase.TREMBL.equals(xref.getDatabase()) ||
-                UniParcDatabase.SWISSPROT_VARSPLIC.equals(xref.getDatabase());
+        return UniParcDatabase.SWISSPROT.equals(xref.getDatabase())
+                || UniParcDatabase.TREMBL.equals(xref.getDatabase())
+                || UniParcDatabase.SWISSPROT_VARSPLIC.equals(xref.getDatabase());
     }
 }
