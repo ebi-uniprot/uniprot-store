@@ -129,7 +129,7 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .mapValues(new UniParcDeletedUniProtKBJoin())
                         .mapValues(new UniProtEntryToSolrDocument(Collections.emptyMap()));
 
-        return inactiveEntryRDD.repartition(max(1, inactiveEntryRDD.getNumPartitions() / 8));
+        return inactiveEntryRDD.repartition(max(1, inactiveEntryRDD.getNumPartitions() / 5));
     }
 
     /**
