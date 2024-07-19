@@ -81,21 +81,13 @@ class UniParcReturnFieldConfigImplIT {
     @Test
     void testInternalReturnFields() {
         List<String> expectedInternalNames =
-                List.of(
-                        "database",
-                        "ncbiGi",
-                        "active",
-                        "timeline",
-                        "version",
-                        "version_uniparc",
-                        "oldestCrossRefCreated",
-                        "mostRecentCrossRefUpdated");
+                List.of("oldestCrossRefCreated", "mostRecentCrossRefUpdated");
         List<ReturnField> internal =
                 returnFieldConfig.getReturnFields().stream()
                         .filter(rf -> Objects.isNull(rf.getParentId()))
                         .collect(Collectors.toList());
         assertNotNull(internal);
-        assertEquals(8, internal.size());
+        assertEquals(2, internal.size());
         List<String> internalNames =
                 internal.stream().map(ReturnField::getName).collect(Collectors.toList());
 

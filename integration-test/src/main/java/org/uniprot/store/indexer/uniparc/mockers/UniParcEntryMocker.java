@@ -1,10 +1,7 @@
 package org.uniprot.store.indexer.uniparc.mockers;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -289,11 +286,18 @@ public class UniParcEntryMocker {
                         .filter(UniParcEntryMocker::isUniProtDatabase)
                         .map(CrossReference::getId)
                         .collect(Collectors.toSet());
+        List<Pair<Integer,String>> organisms =
+                entry.getUniParcCrossReferences().stream()
+                        .map(UniParcCrossReference::getOrganism)
+                        .filter(Objects::nonNull)
+                        .map(organism -> new PairImpl<>((int)organism.getTaxonId(),organism.getScientificName()))
+                        .collect(Collectors.toList());
         return new UniParcEntryLightBuilder()
                 .uniParcId(uniParcId)
                 .commonTaxonsSet(getCommonTaxons())
                 .uniProtKBAccessionsSet(uniProtKBAccession)
                 .uniParcCrossReferencesSet(xrefIds)
+                .organismsSet(organisms)
                 .sequence(entry.getSequence())
                 .sequenceFeaturesSet(entry.getSequenceFeatures())
                 .oldestCrossRefCreated(entry.getOldestCrossRefCreated())
