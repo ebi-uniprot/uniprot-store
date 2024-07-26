@@ -296,6 +296,7 @@ public class UniParcEntryMocker {
                         .map(UniParcCrossReference::getOrganism)
                         .filter(Objects::nonNull)
                         .collect(Collectors.toCollection(LinkedHashSet::new));
+
         return new UniParcEntryLightBuilder()
                 .uniParcId(uniParcId)
                 .commonTaxonsSet(getCommonTaxons())
@@ -307,6 +308,18 @@ public class UniParcEntryMocker {
                 .oldestCrossRefCreated(entry.getOldestCrossRefCreated())
                 .mostRecentCrossRefUpdated(entry.getMostRecentCrossRefUpdated())
                 .build();
+    }
+
+    public static UniParcEntryLight createEntryLight(
+            String id, int sequenceLength, List<UniParcCrossReference> crossReferences) {
+        UniParcEntryLightBuilder builder = new UniParcEntryLightBuilder();
+        StringBuilder sequence = new StringBuilder();
+        IntStream.range(0, sequenceLength).forEach(i -> sequence.append("A"));
+        Sequence uniSeq = new SequenceBuilder(sequence.toString()).build();
+        List<String> xrefIds =
+                crossReferences.stream().map(xref -> getUniParcXRefId(id, xref)).toList();
+        builder.uniParcId(id).sequence(uniSeq).uniParcCrossReferencesSet(xrefIds);
+        return builder.build();
     }
 
     private static boolean isUniProtDatabase(UniParcCrossReference xref) {
