@@ -9,8 +9,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniparc.UniParcEntryLight;
+import org.uniprot.core.uniparc.impl.CommonOrganismBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryLightBuilder;
-import org.uniprot.core.util.PairImpl;
 
 import scala.Tuple2;
 
@@ -42,8 +42,20 @@ class UniParcEntryLightTaxonMapperTest {
 
         // Then
         assertEquals("UPI000000001", result.getUniParcId());
-        assertTrue(result.getCommonTaxons().contains(new PairImpl<>("9606", "Homo sapiens")));
-        assertTrue(result.getCommonTaxons().contains(new PairImpl<>("10090", "Mus musculus")));
+        assertTrue(
+                result.getCommonTaxons()
+                        .contains(
+                                new CommonOrganismBuilder()
+                                        .topLevel("9606")
+                                        .commonTaxon("Homo sapiens")
+                                        .build()));
+        assertTrue(
+                result.getCommonTaxons()
+                        .contains(
+                                new CommonOrganismBuilder()
+                                        .topLevel("10090")
+                                        .commonTaxon("Mus musculus")
+                                        .build()));
         assertEquals(2, result.getCommonTaxons().size());
     }
 

@@ -13,7 +13,6 @@ import org.uniprot.core.uniparc.*;
 import org.uniprot.core.uniparc.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
-import org.uniprot.core.util.Pair;
 import org.uniprot.core.util.PairImpl;
 
 /**
@@ -240,7 +239,7 @@ public class UniParcEntryMocker {
         List<SequenceFeature> seqFeatures = new ArrayList<>();
         Arrays.stream(SignatureDbType.values())
                 .forEach(signatureType -> seqFeatures.add(getSeqFeature(i, signatureType)));
-        List<Pair<String, String>> commonTaxons = getCommonTaxons();
+        List<CommonOrganism> commonTaxons = getCommonTaxons();
         return new UniParcEntryLightBuilder()
                 .uniParcId(uniParcId)
                 .commonTaxonsSet(commonTaxons)
@@ -252,10 +251,16 @@ public class UniParcEntryMocker {
                 .build();
     }
 
-    private static List<Pair<String, String>> getCommonTaxons() {
+    private static List<CommonOrganism> getCommonTaxons() {
         return List.of(
-                new PairImpl<>("cellular organisms", "Bacteria"),
-                new PairImpl<>("other entries", "plasmids"));
+                new CommonOrganismBuilder()
+                        .topLevel("cellular organisms")
+                        .commonTaxon("Bacteria")
+                        .build(),
+                new CommonOrganismBuilder()
+                        .topLevel("other entries")
+                        .commonTaxon("plasmids")
+                        .build());
     }
 
     public static String getUniParcXRefId(String uniParcId, UniParcCrossReference crossRef) {
@@ -281,17 +286,16 @@ public class UniParcEntryMocker {
                 entry.getUniParcCrossReferences().stream()
                         .map(xref -> getUniParcXRefId(uniParcId, xref))
                         .toList();
-        Set<String> uniProtKBAccession =
+        LinkedHashSet<String> uniProtKBAccession =
                 entry.getUniParcCrossReferences().stream()
                         .filter(UniParcEntryMocker::isUniProtDatabase)
                         .map(CrossReference::getId)
-                        .collect(Collectors.toSet());
-        List<Pair<Integer,String>> organisms =
+                        .collect(Collectors.toCollection(LinkedHashSet::new));
+        LinkedHashSet<Organism> organisms =
                 entry.getUniParcCrossReferences().stream()
                         .map(UniParcCrossReference::getOrganism)
                         .filter(Objects::nonNull)
-                        .map(organism -> new PairImpl<>((int)organism.getTaxonId(),organism.getScientificName()))
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toCollection(LinkedHashSet::new));
         return new UniParcEntryLightBuilder()
                 .uniParcId(uniParcId)
                 .commonTaxonsSet(getCommonTaxons())

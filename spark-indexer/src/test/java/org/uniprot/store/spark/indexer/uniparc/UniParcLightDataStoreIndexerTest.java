@@ -16,7 +16,7 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.TaxonomyRank;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.core.uniparc.UniParcEntryLight;
-import org.uniprot.core.util.PairImpl;
+import org.uniprot.core.uniparc.impl.CommonOrganismBuilder;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
@@ -65,7 +65,7 @@ class UniParcLightDataStoreIndexerTest {
             assertEquals(2, result.size());
             UniParcEntryLight entry1 = result.get(0);
             assertEquals("UPI00000E8551", entry1.getUniParcId());
-            assertEquals(10, entry1.getUniParcCrossReferences().size());
+            assertEquals(12, entry1.getUniParcCrossReferences().size());
             assertTrue(
                     entry1.getUniParcCrossReferences()
                             .containsAll(
@@ -73,6 +73,8 @@ class UniParcLightDataStoreIndexerTest {
                                             "UPI00000E8551-SWISSPROT-Q9EPI6",
                                             "UPI00000E8551-SWISSPROT_VARSPLIC-Q9EPI6-1",
                                             "UPI00000E8551-TREMBL-Q9EPI6",
+                                            "UPI00000E8551-TREMBL-I8FBX0",
+                                            "UPI00000E8551-TREMBL-I8FBX2",
                                             "UPI00000E8551-REFSEQ-NP_476538",
                                             "UPI00000E8551-EMBL-CAC20866",
                                             "UPI00000E8551-EMBL-CAC20866-1",
@@ -82,10 +84,15 @@ class UniParcLightDataStoreIndexerTest {
                                             "UPI00000E8551-IPI-IPI00199692")));
             assertEquals(1, entry1.getCommonTaxons().size());
             assertEquals(
-                    new PairImpl<>("cellular organisms", "Teleostomi"),
+                    new CommonOrganismBuilder()
+                            .topLevel("cellular organisms")
+                            .commonTaxon("Teleostomi")
+                            .build(),
                     entry1.getCommonTaxons().get(0));
-            assertEquals(1, entry1.getUniProtKBAccessions().size());
-            assertEquals(Set.of("Q9EPI6"), entry1.getUniProtKBAccessions());
+            assertEquals(4, entry1.getUniProtKBAccessions().size());
+            assertEquals(
+                    Set.of("Q9EPI6", "Q9EPI6-1", "I8FBX0", "I8FBX2"),
+                    entry1.getUniProtKBAccessions());
             assertNotNull(entry1.getSequence());
             assertFalse(entry1.getSequenceFeatures().isEmpty());
             assertNotNull(entry1.getMostRecentCrossRefUpdated());
@@ -96,12 +103,18 @@ class UniParcLightDataStoreIndexerTest {
             assertEquals("UPI000000017F", entry2.getUniParcId());
             assertEquals(2, entry2.getCommonTaxons().size());
             assertEquals(
-                    new PairImpl<>("cellular organisms", "Luzula"),
+                    new CommonOrganismBuilder()
+                            .topLevel("cellular organisms")
+                            .commonTaxon("Luzula")
+                            .build(),
                     entry2.getCommonTaxons().get(0));
             assertEquals(
-                    new PairImpl<>("Viruses", "Nucleocytoviricota"),
+                    new CommonOrganismBuilder()
+                            .topLevel("Viruses")
+                            .commonTaxon("Nucleocytoviricota")
+                            .build(),
                     entry2.getCommonTaxons().get(1));
-            assertEquals(8, entry2.getUniParcCrossReferences().size());
+            assertEquals(10, entry2.getUniParcCrossReferences().size());
             assertTrue(
                     entry2.getUniParcCrossReferences()
                             .containsAll(

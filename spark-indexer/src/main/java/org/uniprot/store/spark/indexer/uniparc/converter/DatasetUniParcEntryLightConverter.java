@@ -5,10 +5,11 @@ import java.time.LocalDate;
 import java.util.*;
 
 import org.apache.spark.sql.Row;
+import org.uniprot.core.uniparc.CommonOrganism;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntryLight;
+import org.uniprot.core.uniparc.impl.CommonOrganismBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryLightBuilder;
-import org.uniprot.core.util.PairImpl;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
 
 public class DatasetUniParcEntryLightConverter
@@ -57,7 +58,9 @@ public class DatasetUniParcEntryLightConverter
                 builder.uniParcCrossReferencesAdd(uniParcXrefId);
                 String taxonId = getTaxonomyId(dbReference);
                 if (Objects.nonNull(taxonId) && !taxonIds.contains(taxonId)) {
-                    builder.commonTaxonsAdd(new PairImpl<>(taxonId, ""));
+                    CommonOrganism commonTaxon =
+                            new CommonOrganismBuilder().topLevel(taxonId).commonTaxon("").build();
+                    builder.commonTaxonsAdd(commonTaxon);
                 }
                 taxonIds.add(taxonId);
             }
@@ -90,7 +93,9 @@ public class DatasetUniParcEntryLightConverter
         String databaseType = rowValue.getString(rowValue.fieldIndex(TYPE));
         UniParcDatabase database = UniParcDatabase.typeOf(databaseType);
 
-        if (UniParcDatabase.TREMBL == database || UniParcDatabase.SWISSPROT == database) {
+        if (UniParcDatabase.TREMBL == database
+                || UniParcDatabase.SWISSPROT == database
+                || UniParcDatabase.SWISSPROT_VARSPLIC == database) {
             return id;
         }
         return null;

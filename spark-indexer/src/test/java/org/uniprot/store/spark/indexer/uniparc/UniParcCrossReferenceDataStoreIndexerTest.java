@@ -62,12 +62,14 @@ public class UniParcCrossReferenceDataStoreIndexerTest {
         void saveInDataStore(JavaRDD<UniParcCrossReferenceWrapper> uniParcCrossRefWrap) {
             List<UniParcCrossReferenceWrapper> result = uniParcCrossRefWrap.collect();
             assertNotNull(result);
-            assertEquals(18, result.size());
+            assertEquals(22, result.size());
             assertEquals(
                     List.of(
                             "UPI00000E8551-SWISSPROT-Q9EPI6",
                             "UPI00000E8551-SWISSPROT_VARSPLIC-Q9EPI6-1",
                             "UPI00000E8551-TREMBL-Q9EPI6",
+                            "UPI00000E8551-TREMBL-I8FBX0",
+                            "UPI00000E8551-TREMBL-I8FBX2",
                             "UPI00000E8551-REFSEQ-NP_476538",
                             "UPI00000E8551-EMBL-CAC20866",
                             "UPI00000E8551-EMBL-CAC20866-1",
@@ -78,6 +80,8 @@ public class UniParcCrossReferenceDataStoreIndexerTest {
                             "UPI000000017F-SWISSPROT-O68891",
                             "UPI000000017F-TREMBL-Q71US8",
                             "UPI000000017F-TREMBL-O68891",
+                            "UPI000000017F-TREMBL-I8FBX1",
+                            "UPI000000017F-TREMBL-Q00007",
                             "UPI000000017F-EMBL-AAC13493",
                             "UPI000000017F-EMBL-AAC13494",
                             "UPI000000017F-JPO-DJ891176",

@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.function.Function;
+import org.uniprot.core.uniparc.CommonOrganism;
 import org.uniprot.core.uniparc.UniParcEntryLight;
+import org.uniprot.core.uniparc.impl.CommonOrganismBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryLightBuilder;
-import org.uniprot.core.util.Pair;
-import org.uniprot.core.util.PairImpl;
 
 import scala.Tuple2;
 
@@ -23,12 +23,14 @@ public class UniParcEntryLightTaxonMapper
             throws Exception {
         UniParcEntryLight uniParcEntryLight = uniParcTaxons._1;
         List<Tuple2<String, String>> commonTaxons = uniParcTaxons._2;
-        List<Pair<String, String>> commonTaxonsPairs =
-                commonTaxons.stream()
-                        .map(ct -> new PairImpl<>(ct._1, ct._2))
-                        .collect(Collectors.toList());
+        List<CommonOrganism> mappedCommonTaxon =
+                commonTaxons.stream().map(this::getCommonTaxon).collect(Collectors.toList());
         return UniParcEntryLightBuilder.from(uniParcEntryLight)
-                .commonTaxonsSet(commonTaxonsPairs)
+                .commonTaxonsSet(mappedCommonTaxon)
                 .build();
+    }
+
+    private CommonOrganism getCommonTaxon(Tuple2<String, String> ct) {
+        return new CommonOrganismBuilder().topLevel(ct._1).commonTaxon(ct._2).build();
     }
 }

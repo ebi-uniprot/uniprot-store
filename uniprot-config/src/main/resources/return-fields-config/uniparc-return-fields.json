@@ -68,7 +68,7 @@
     "itemType": "SINGLE",
     "label": "Proteomes",
     "name": "proteome",
-    "paths": ["uniParcCrossReferences[*].proteomeId","uniParcCrossReferences[*].component","proteomeIds"],
+    "paths": ["uniParcCrossReferences[*].proteomeId","uniParcCrossReferences[*].component","proteomes"],
     "id": "names_&_taxonomy/proteome",
     "includeInSwagger": true
   },

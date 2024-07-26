@@ -31,7 +31,7 @@ class DatasetUniParcEntryLightConverterTest {
         assertEquals(10, entry.getCommonTaxons().size());
         assertTrue(entry.getOrganisms().isEmpty());
         assertTrue(entry.getProteinNames().isEmpty());
-        assertTrue(entry.getProteomeIds().isEmpty());
+        assertTrue(entry.getProteomes().isEmpty());
         assertTrue(entry.getGeneNames().isEmpty());
     }
 
