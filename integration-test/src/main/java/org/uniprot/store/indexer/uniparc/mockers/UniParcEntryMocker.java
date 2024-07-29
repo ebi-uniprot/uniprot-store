@@ -244,6 +244,7 @@ public class UniParcEntryMocker {
                 .uniParcId(uniParcId)
                 .commonTaxonsSet(commonTaxons)
                 .uniParcCrossReferencesSet(xrefs)
+                .uniProtKBAccessionsAdd(getName("P123", i))
                 .sequence(sequence)
                 .sequenceFeaturesSet(seqFeatures)
                 .oldestCrossRefCreated(LocalDate.now())

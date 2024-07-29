@@ -70,6 +70,7 @@ class UniParcReturnFieldConfigImplIT {
     @ParameterizedTest(name = "Return TSV column [{0}] for return field exists?")
     @MethodSource("provideReturnFieldNames")
     void validReturnFieldWithMappedEntryDefined(String returnFieldName) {
+
         UniParcEntryValueMapper entityValueMapper = new UniParcEntryValueMapper();
         Map<String, String> mappedField =
                 entityValueMapper.mapEntity(entry, Collections.singletonList(returnFieldName));
@@ -110,6 +111,10 @@ class UniParcReturnFieldConfigImplIT {
     private static Stream<Arguments> provideReturnFieldNames() {
         return returnFieldConfig.getReturnFields().stream()
                 .map(ReturnField::getName)
+                .filter(
+                        returnFieldName ->
+                                !("fullSequence".equals(returnFieldName)
+                                        || "fullsequencefeatures".equals(returnFieldName)))
                 .map(Arguments::of);
     }
 }

@@ -114,6 +114,17 @@
     "includeInSwagger": true
   },
   {
+    "parentId": "sequences",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "label": "Full Sequence",
+    "name": "fullSequence",
+    "paths": ["sequence"],
+    "id": "sequences/fullSequence",
+    "includeInSwagger": true
+  }
+  ,
+  {
     "seqNumber": 2,
     "itemType": "GROUP",
     "groupName": "Miscellaneous",
@@ -293,6 +304,16 @@
     "name": "NCBIfam",
     "paths": ["sequenceFeatures[?(@.database=='NCBIfam')]"],
     "id": "family_&_domains/NCBIfam",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "family_&_domains",
+    "childNumber": 12,
+    "itemType": "SINGLE",
+    "label": "Full Sequence Features",
+    "name": "fullsequencefeatures",
+    "paths": ["sequenceFeatures"],
+    "id": "family_&_domains/fullsequencefeatures",
     "includeInSwagger": true
   },
   {
