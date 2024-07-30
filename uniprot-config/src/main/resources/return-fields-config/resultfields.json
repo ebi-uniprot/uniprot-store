@@ -954,12 +954,6 @@
     "groupName": "2D gel",
     "fields": [
       {
-        "label": "COMPLUYEAST-2DPAGE",
-        "name": "dr_compluyeast-2dpage",
-        "javaFieldName": "dr_compluyeast-2dpage",
-        "mandatoryJsonField": false
-      },
-      {
         "label": "OGP",
         "name": "dr_ogp",
         "javaFieldName": "dr_ogp",
