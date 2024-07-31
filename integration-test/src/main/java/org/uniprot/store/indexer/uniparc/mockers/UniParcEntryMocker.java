@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import org.uniprot.core.Location;
 import org.uniprot.core.Sequence;
 import org.uniprot.core.impl.SequenceBuilder;
 import org.uniprot.core.uniparc.*;
@@ -69,7 +68,10 @@ public class UniParcEntryMocker {
     }
 
     public static SequenceFeature getSeqFeature(int i, SignatureDbType signatureDbType) {
-        List<Location> locations = Arrays.asList(new Location(12, 23), new Location(45, 89));
+        List<SequenceFeatureLocation> locations =
+                Arrays.asList(
+                        new SequenceFeatureLocationBuilder().range(12, 23).alignment("55M").build(),
+                        new SequenceFeatureLocationBuilder().range(45, 89).build());
         InterProGroup domain =
                 new InterProGroupBuilder()
                         .name(getName("Inter Pro Name", i))

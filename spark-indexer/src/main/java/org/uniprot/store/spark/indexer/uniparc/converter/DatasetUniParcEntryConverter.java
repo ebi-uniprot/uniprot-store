@@ -13,12 +13,8 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.types.ArrayType;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructType;
-import org.uniprot.core.Location;
 import org.uniprot.core.uniparc.*;
-import org.uniprot.core.uniparc.impl.InterProGroupBuilder;
-import org.uniprot.core.uniparc.impl.SequenceFeatureBuilder;
-import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
-import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
+import org.uniprot.core.uniparc.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
@@ -31,7 +27,7 @@ import org.uniprot.store.spark.indexer.common.util.RowUtils;
  */
 public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEntry>, Serializable {
 
-    private static final long serialVersionUID = -510915540437314415L;
+    private static final long serialVersionUID = 1817073609115796687L;
 
     private static final String UNIPROTKB_EXCLUSION = "_UniProtKB_exclusion";
     private static final String ACCESSION = "accession";
@@ -45,6 +41,7 @@ public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEnt
     private static final String NAME = "_name";
     private static final String START = "_start";
     private static final String END = "_end";
+    private static final String ALIGNMENT = "_alignment";
     private static final String TYPE = "_type";
     private static final String VERSION_I = "_version_i";
     private static final String ACTIVE = "_active";
@@ -137,16 +134,18 @@ public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEnt
         return builder.build();
     }
 
-    private Location convertLocation(Row rowValue) {
-        Long start = 0L;
+    private SequenceFeatureLocation convertLocation(Row rowValue) {
+        SequenceFeatureLocationBuilder builder = new SequenceFeatureLocationBuilder();
         if (hasFieldName(START, rowValue)) {
-            start = rowValue.getLong(rowValue.fieldIndex(START));
+            builder.start((int) rowValue.getLong(rowValue.fieldIndex(START)));
         }
-        Long end = 0L;
         if (hasFieldName(END, rowValue)) {
-            end = rowValue.getLong(rowValue.fieldIndex(END));
+            builder.end((int) rowValue.getLong(rowValue.fieldIndex(END)));
         }
-        return new Location(start.intValue(), end.intValue());
+        if (hasFieldName(ALIGNMENT, rowValue)) {
+            builder.alignment(rowValue.getString(rowValue.fieldIndex(ALIGNMENT)));
+        }
+        return builder.build();
     }
 
     private UniParcCrossReference convertDbReference(Row rowValue) {
@@ -259,6 +258,7 @@ public class DatasetUniParcEntryConverter implements MapFunction<Row, UniParcEnt
         StructType structType = new StructType();
         structType = structType.add(START, DataTypes.LongType, true);
         structType = structType.add(END, DataTypes.LongType, true);
+        structType = structType.add(ALIGNMENT, DataTypes.StringType, true);
         return structType;
     }
 
