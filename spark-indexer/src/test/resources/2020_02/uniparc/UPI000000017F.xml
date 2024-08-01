@@ -54,6 +54,9 @@
         <ipr name="DNA topoisomerase, type IIA-like domain superfamily" id="IPR013760"/>
         <lcn start="6" end="109"/>
     </signatureSequenceMatch>
+    <signatureSequenceMatch database="SUPFAM" id="SSF56720">
+        <lcn start="6" end="109" alignment="M50"/>
+    </signatureSequenceMatch>
     <sequence length="110" checksum="EFD87D7ED5ECBA35">MYVIMDRALPFIGDGLKPVQRRIVYAMSELGLNASAKFKKSARTVGDVLGKYHPHGDSACYEAMVLMAQPFSYRYPLVDGQGNWGAPDDPKSFAAMRYTESRLSKYSELL</sequence>
 </entry>
 </uniparc>
