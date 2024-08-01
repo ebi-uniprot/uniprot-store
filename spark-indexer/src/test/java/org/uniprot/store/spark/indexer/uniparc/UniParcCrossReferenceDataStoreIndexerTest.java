@@ -6,7 +6,6 @@ import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -16,10 +15,11 @@ import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
+import org.uniprot.core.uniparc.UniParcCrossReference;
+import org.uniprot.core.util.Pair;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
-import org.uniprot.store.spark.indexer.uniparc.converter.UniParcCrossReferenceWrapper;
 
 import com.typesafe.config.Config;
 
@@ -59,37 +59,11 @@ public class UniParcCrossReferenceDataStoreIndexerTest {
         }
 
         @Override
-        void saveInDataStore(JavaRDD<UniParcCrossReferenceWrapper> uniParcCrossRefWrap) {
-            List<UniParcCrossReferenceWrapper> result = uniParcCrossRefWrap.collect();
+        void saveInDataStore(
+                JavaRDD<Pair<String, List<UniParcCrossReference>>> uniParcCrossRefWrap) {
+            List<Pair<String, List<UniParcCrossReference>>> result = uniParcCrossRefWrap.collect();
             assertNotNull(result);
-            assertEquals(22, result.size());
-            assertEquals(
-                    List.of(
-                            "UPI00000E8551-SWISSPROT-Q9EPI6",
-                            "UPI00000E8551-SWISSPROT_VARSPLIC-Q9EPI6-1",
-                            "UPI00000E8551-TREMBL-Q9EPI6",
-                            "UPI00000E8551-TREMBL-I8FBX0",
-                            "UPI00000E8551-TREMBL-I8FBX2",
-                            "UPI00000E8551-REFSEQ-NP_476538",
-                            "UPI00000E8551-EMBL-CAC20866",
-                            "UPI00000E8551-EMBL-CAC20866-1",
-                            "UPI00000E8551-IPI-IPI00199691",
-                            "UPI00000E8551-IPI-IPI00199691-1",
-                            "UPI00000E8551-IPI-IPI00199691-2",
-                            "UPI00000E8551-IPI-IPI00199692",
-                            "UPI000000017F-SWISSPROT-O68891",
-                            "UPI000000017F-TREMBL-Q71US8",
-                            "UPI000000017F-TREMBL-O68891",
-                            "UPI000000017F-TREMBL-I8FBX1",
-                            "UPI000000017F-TREMBL-Q00007",
-                            "UPI000000017F-EMBL-AAC13493",
-                            "UPI000000017F-EMBL-AAC13494",
-                            "UPI000000017F-JPO-DJ891176",
-                            "UPI000000017F-TREMBLNEW-AAC13493",
-                            "UPI000000017F-JPO-DJ891176-1"),
-                    result.stream()
-                            .map(UniParcCrossReferenceWrapper::getId)
-                            .collect(Collectors.toList()));
+            assertEquals(8, result.size());
         }
 
         @Override

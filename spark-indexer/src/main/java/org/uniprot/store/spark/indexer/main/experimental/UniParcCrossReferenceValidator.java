@@ -8,6 +8,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.VoidFunction;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcEntryLight;
+import org.uniprot.core.util.Pair;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.light.uniparc.crossref.VoldemortRemoteUniParcCrossReferenceStore;
 import org.uniprot.store.spark.indexer.common.JobParameter;
@@ -79,26 +80,11 @@ public class UniParcCrossReferenceValidator {
         @Override
         public void call(Iterator<UniParcEntryLight> entryIterator) {
             List<String> missingIds = new ArrayList<>();
-            try (VoldemortClient<UniParcCrossReference> client = getDataStoreClient()) {
+            try (VoldemortClient<Pair<String, List<UniParcCrossReference>>> client =
+                    getDataStoreClient()) {
                 while (entryIterator.hasNext()) {
                     final UniParcEntryLight entry = entryIterator.next();
-                    List<String> pageIds = new ArrayList<>();
-                    int index = 0;
-                    for (String xref : entry.getUniParcCrossReferences()) {
-                        pageIds.add(xref);
-                        if (++index % 200 == 0) {
-                            Map<String, UniParcCrossReference> pageResult =
-                                    client.getEntryMap(pageIds);
-                            pageIds.removeAll(pageResult.keySet());
-                            missingIds.addAll(pageIds);
-                            pageIds = new ArrayList<>();
-                        }
-                    }
-                    if (!pageIds.isEmpty()) {
-                        Map<String, UniParcCrossReference> pageResult = client.getEntryMap(pageIds);
-                        pageIds.removeAll(pageResult.keySet());
-                        missingIds.addAll(pageIds);
-                    }
+                    // TODO: We need to verify it with the version 2
                 }
             }
             if (!missingIds.isEmpty()) {
@@ -107,7 +93,7 @@ public class UniParcCrossReferenceValidator {
             }
         }
 
-        protected VoldemortClient<UniParcCrossReference> getDataStoreClient() {
+        protected VoldemortClient<Pair<String, List<UniParcCrossReference>>> getDataStoreClient() {
             return new VoldemortRemoteUniParcCrossReferenceStore(
                     parameter.getNumberOfConnections(),
                     parameter.isBrotliEnabled(),

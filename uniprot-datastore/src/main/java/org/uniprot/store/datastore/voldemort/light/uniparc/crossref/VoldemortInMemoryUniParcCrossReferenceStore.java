@@ -1,10 +1,13 @@
 package org.uniprot.store.datastore.voldemort.light.uniparc.crossref;
 
+import java.util.List;
+
 import org.uniprot.core.uniparc.UniParcCrossReference;
+import org.uniprot.core.util.Pair;
 import org.uniprot.store.datastore.voldemort.VoldemortInMemoryEntryStore;
 
 public class VoldemortInMemoryUniParcCrossReferenceStore
-        extends VoldemortInMemoryEntryStore<UniParcCrossReference> {
+        extends VoldemortInMemoryEntryStore<Pair<String, List<UniParcCrossReference>>> {
 
     private static VoldemortInMemoryUniParcCrossReferenceStore instance;
 
@@ -20,12 +23,12 @@ public class VoldemortInMemoryUniParcCrossReferenceStore
     }
 
     @Override
-    public String getStoreId(UniParcCrossReference entry) {
-        return entry.getId();
+    public String getStoreId(Pair<String, List<UniParcCrossReference>> entry) {
+        return entry.getKey();
     }
 
     @Override
-    public void saveEntry(String key, UniParcCrossReference entry) {
+    public void saveEntry(String key, Pair<String, List<UniParcCrossReference>> entry) {
         doSave(key, entry);
     }
 }

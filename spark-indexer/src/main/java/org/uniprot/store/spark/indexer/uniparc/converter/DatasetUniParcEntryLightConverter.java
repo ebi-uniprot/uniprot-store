@@ -19,7 +19,6 @@ public class DatasetUniParcEntryLightConverter
 
     @Override
     public UniParcEntryLight call(Row rowValue) throws Exception {
-        Map<String, Integer> xrefIdCount = new HashMap<>();
         Set<String> taxonIds = new HashSet<>();
         UniParcEntryLightBuilder builder = new UniParcEntryLightBuilder();
         String uniParcId = rowValue.getString(rowValue.fieldIndex(ACCESSION));
@@ -33,16 +32,6 @@ public class DatasetUniParcEntryLightConverter
                 String uniProtKBAccession = getUniProtKBAccession(dbReference);
                 builder.uniProtKBAccessionsAdd(uniProtKBAccession);
 
-                String uniParcXrefId = getUniParcXRefId(uniParcId, dbReference);
-                if (xrefIdCount.containsKey(uniParcXrefId)) {
-                    String suffixedUniParcXrefId =
-                            uniParcXrefId + "-" + xrefIdCount.get(uniParcXrefId);
-                    xrefIdCount.put(uniParcXrefId, xrefIdCount.get(uniParcXrefId) + 1);
-                    uniParcXrefId = suffixedUniParcXrefId;
-                } else {
-                    xrefIdCount.put(uniParcXrefId, 1);
-                }
-
                 LocalDate createdDate = parseDate(dbReference, CREATED);
                 mostRecentUpdated =
                         Objects.isNull(createdDate) || mostRecentUpdated.isAfter(createdDate)
@@ -55,7 +44,6 @@ public class DatasetUniParcEntryLightConverter
                                 ? oldestCreated
                                 : lastDate;
 
-                builder.uniParcCrossReferencesAdd(uniParcXrefId);
                 String taxonId = getTaxonomyId(dbReference);
                 if (Objects.nonNull(taxonId) && !taxonIds.contains(taxonId)) {
                     CommonOrganism commonTaxon =
@@ -64,6 +52,7 @@ public class DatasetUniParcEntryLightConverter
                 }
                 taxonIds.add(taxonId);
             }
+            builder.numberOfUniParcCrossReferences(dbReferences.size());
         }
 
         if (!LocalDate.MIN.equals(mostRecentUpdated)) {
@@ -99,11 +88,5 @@ public class DatasetUniParcEntryLightConverter
             return id;
         }
         return null;
-    }
-
-    private String getUniParcXRefId(String uniParcId, Row rowValue) {
-        String id = rowValue.getString(rowValue.fieldIndex(ID));
-        String databaseType = rowValue.getString(rowValue.fieldIndex(TYPE));
-        return uniParcId + "-" + UniParcDatabase.typeOf(databaseType).name() + "-" + id;
     }
 }

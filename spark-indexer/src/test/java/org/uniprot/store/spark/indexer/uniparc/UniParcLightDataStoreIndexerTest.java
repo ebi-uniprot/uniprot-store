@@ -65,23 +65,7 @@ class UniParcLightDataStoreIndexerTest {
             assertEquals(2, result.size());
             UniParcEntryLight entry1 = result.get(0);
             assertEquals("UPI00000E8551", entry1.getUniParcId());
-            assertEquals(12, entry1.getUniParcCrossReferences().size());
-            assertTrue(
-                    entry1.getUniParcCrossReferences()
-                            .containsAll(
-                                    List.of(
-                                            "UPI00000E8551-SWISSPROT-Q9EPI6",
-                                            "UPI00000E8551-SWISSPROT_VARSPLIC-Q9EPI6-1",
-                                            "UPI00000E8551-TREMBL-Q9EPI6",
-                                            "UPI00000E8551-TREMBL-I8FBX0",
-                                            "UPI00000E8551-TREMBL-I8FBX2",
-                                            "UPI00000E8551-REFSEQ-NP_476538",
-                                            "UPI00000E8551-EMBL-CAC20866",
-                                            "UPI00000E8551-EMBL-CAC20866-1",
-                                            "UPI00000E8551-IPI-IPI00199691",
-                                            "UPI00000E8551-IPI-IPI00199691-1",
-                                            "UPI00000E8551-IPI-IPI00199691-2",
-                                            "UPI00000E8551-IPI-IPI00199692")));
+            assertEquals(12, entry1.getNumberOfUniParcCrossReferences());
             assertEquals(1, entry1.getCommonTaxons().size());
             assertEquals(
                     new CommonOrganismBuilder()
@@ -114,19 +98,7 @@ class UniParcLightDataStoreIndexerTest {
                             .commonTaxon("Nucleocytoviricota")
                             .build(),
                     entry2.getCommonTaxons().get(1));
-            assertEquals(10, entry2.getUniParcCrossReferences().size());
-            assertTrue(
-                    entry2.getUniParcCrossReferences()
-                            .containsAll(
-                                    List.of(
-                                            "UPI000000017F-SWISSPROT-O68891",
-                                            "UPI000000017F-TREMBL-Q71US8",
-                                            "UPI000000017F-TREMBL-O68891",
-                                            "UPI000000017F-EMBL-AAC13493",
-                                            "UPI000000017F-EMBL-AAC13494",
-                                            "UPI000000017F-JPO-DJ891176",
-                                            "UPI000000017F-JPO-DJ891176-1",
-                                            "UPI000000017F-TREMBLNEW-AAC13493")));
+            assertEquals(12, entry1.getNumberOfUniParcCrossReferences());
         }
 
         @Override

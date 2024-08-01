@@ -243,7 +243,7 @@ public class UniParcEntryMocker {
         return new UniParcEntryLightBuilder()
                 .uniParcId(uniParcId)
                 .commonTaxonsSet(commonTaxons)
-                .uniParcCrossReferencesSet(xrefs)
+                .numberOfUniParcCrossReferences(xrefObjects.size())
                 .uniProtKBAccessionsAdd(getName("P123", i))
                 .sequence(sequence)
                 .sequenceFeaturesSet(seqFeatures)
@@ -264,6 +264,7 @@ public class UniParcEntryMocker {
                         .build());
     }
 
+    // TODO: review it, we do not need it in the v2 alternative solution
     public static String getUniParcXRefId(String uniParcId, UniParcCrossReference crossRef) {
         String id = crossRef.getId();
         String databaseType = crossRef.getDatabase().name();
@@ -283,10 +284,7 @@ public class UniParcEntryMocker {
 
     public static UniParcEntryLight convertToUniParcEntryLight(UniParcEntry entry) {
         String uniParcId = entry.getUniParcId().getValue();
-        List<String> xrefIds =
-                entry.getUniParcCrossReferences().stream()
-                        .map(xref -> getUniParcXRefId(uniParcId, xref))
-                        .toList();
+        int numberOfXrefs = entry.getUniParcCrossReferences().size();
         LinkedHashSet<String> uniProtKBAccession =
                 entry.getUniParcCrossReferences().stream()
                         .filter(UniParcEntryMocker::isUniProtDatabase)
@@ -302,7 +300,7 @@ public class UniParcEntryMocker {
                 .uniParcId(uniParcId)
                 .commonTaxonsSet(getCommonTaxons())
                 .uniProtKBAccessionsSet(uniProtKBAccession)
-                .uniParcCrossReferencesSet(xrefIds)
+                .numberOfUniParcCrossReferences(numberOfXrefs)
                 .organismsSet(organisms)
                 .sequence(entry.getSequence())
                 .sequenceFeaturesSet(entry.getSequenceFeatures())
@@ -319,7 +317,9 @@ public class UniParcEntryMocker {
         Sequence uniSeq = new SequenceBuilder(sequence.toString()).build();
         List<String> xrefIds =
                 crossReferences.stream().map(xref -> getUniParcXRefId(id, xref)).toList();
-        builder.uniParcId(id).sequence(uniSeq).uniParcCrossReferencesSet(xrefIds);
+        builder.uniParcId(id)
+                .sequence(uniSeq)
+                .numberOfUniParcCrossReferences(crossReferences.size());
         return builder.build();
     }
 
