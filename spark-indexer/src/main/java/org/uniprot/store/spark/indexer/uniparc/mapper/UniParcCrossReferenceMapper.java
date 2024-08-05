@@ -4,7 +4,7 @@ import org.apache.spark.api.java.function.FlatMapFunction;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.util.Pair;
-import org.uniprot.store.spark.indexer.uniparc.UniParcCrossReferencePair;
+import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
 
 import java.io.Serial;
 import java.util.ArrayList;
