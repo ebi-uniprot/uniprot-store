@@ -271,15 +271,24 @@ public class UniParcEntryMocker {
         return uniParcId + "-" + databaseType + "-" + id;
     }
 
-    public static List<PairImpl<String, UniParcCrossReference>> getXrefPairs(
+    public static List<UniParcCrossReferencePair> getXrefPairs(
             String uniParcId, int i) {
+        List<UniParcCrossReferencePair> result = new ArrayList<>();
         List<UniParcCrossReference> crossRefs = new ArrayList<>(getXrefs(i));
         crossRefs.addAll(getMoreXrefs(i));
-        List<PairImpl<String, UniParcCrossReference>> idXrefPairs =
-                crossRefs.stream()
-                        .map(xref -> new PairImpl<>(getUniParcXRefId(uniParcId, xref), xref))
-                        .toList();
-        return idXrefPairs;
+        List<UniParcCrossReference> pairList = new ArrayList<>();
+        int page = 0;
+        for(int j = 0; j < crossRefs.size();){
+            pairList.add(crossRefs.get(j));
+            if(++j % 3 == 0){
+                result.add(new UniParcCrossReferencePair(uniParcId + "_" + page++, pairList));
+                pairList = new ArrayList<>();
+            }
+        }
+        if(!pairList.isEmpty()){
+            result.add(new UniParcCrossReferencePair(uniParcId, pairList));
+        }
+        return result;
     }
 
     public static UniParcEntryLight convertToUniParcEntryLight(UniParcEntry entry) {
