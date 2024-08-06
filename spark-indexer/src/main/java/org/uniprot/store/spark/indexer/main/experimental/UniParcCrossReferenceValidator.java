@@ -6,9 +6,8 @@ import java.util.*;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.VoidFunction;
-import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcEntryLight;
-import org.uniprot.core.util.Pair;
+import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.light.uniparc.crossref.VoldemortRemoteUniParcCrossReferenceStore;
 import org.uniprot.store.spark.indexer.common.JobParameter;
@@ -80,8 +79,7 @@ public class UniParcCrossReferenceValidator {
         @Override
         public void call(Iterator<UniParcEntryLight> entryIterator) {
             List<String> missingIds = new ArrayList<>();
-            try (VoldemortClient<Pair<String, List<UniParcCrossReference>>> client =
-                    getDataStoreClient()) {
+            try (VoldemortClient<UniParcCrossReferencePair> client = getDataStoreClient()) {
                 while (entryIterator.hasNext()) {
                     final UniParcEntryLight entry = entryIterator.next();
                     // TODO: We need to verify it with the version 2
@@ -93,7 +91,7 @@ public class UniParcCrossReferenceValidator {
             }
         }
 
-        protected VoldemortClient<Pair<String, List<UniParcCrossReference>>> getDataStoreClient() {
+        protected VoldemortClient<UniParcCrossReferencePair> getDataStoreClient() {
             return new VoldemortRemoteUniParcCrossReferenceStore(
                     parameter.getNumberOfConnections(),
                     parameter.isBrotliEnabled(),

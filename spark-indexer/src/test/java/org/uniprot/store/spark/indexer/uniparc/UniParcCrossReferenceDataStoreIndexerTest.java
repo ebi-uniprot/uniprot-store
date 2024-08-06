@@ -15,8 +15,7 @@ import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
-import org.uniprot.core.uniparc.UniParcCrossReference;
-import org.uniprot.core.util.Pair;
+import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
@@ -59,9 +58,8 @@ public class UniParcCrossReferenceDataStoreIndexerTest {
         }
 
         @Override
-        void saveInDataStore(
-                JavaRDD<Pair<String, List<UniParcCrossReference>>> uniParcCrossRefWrap) {
-            List<Pair<String, List<UniParcCrossReference>>> result = uniParcCrossRefWrap.collect();
+        void saveInDataStore(JavaRDD<UniParcCrossReferencePair> uniParcCrossRefWrap) {
+            List<UniParcCrossReferencePair> result = uniParcCrossRefWrap.collect();
             assertNotNull(result);
             assertEquals(8, result.size());
         }

@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcEntryLight;
-import org.uniprot.core.util.Pair;
+import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
 import org.uniprot.store.datastore.voldemort.light.uniparc.VoldemortRemoteUniParcEntryLightStore;
 import org.uniprot.store.datastore.voldemort.light.uniparc.crossref.VoldemortRemoteUniParcCrossReferenceStore;
 
@@ -37,8 +37,7 @@ public class VoldemortRemoteUniParcCrossReferenceStoreTest {
                     int numberOfPages = (entryLight.getNumberOfUniParcCrossReferences() / 1000) + 1;
                     for (int i = 0; i < numberOfPages; i++) {
                         String key = uniParcId + "_" + i;
-                        Optional<Pair<String, List<UniParcCrossReference>>> crossReference =
-                                store.getEntry(key);
+                        Optional<UniParcCrossReferencePair> crossReference = store.getEntry(key);
                         if (crossReference.isPresent()) {
                             xrefs.addAll(crossReference.get().getValue());
                         } else {
@@ -47,7 +46,7 @@ public class VoldemortRemoteUniParcCrossReferenceStoreTest {
                     }
                     xrefs.stream().map(CrossReference::getId).forEach(System.out::println);
 
-                    System.out.println("NUMBER OF XREF FOUND: "+ xrefs.size());
+                    System.out.println("NUMBER OF XREF FOUND: " + xrefs.size());
                 }
             } else {
                 System.out.println("Error - Entry light not found for uniParcId: " + uniParcId);

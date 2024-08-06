@@ -1,16 +1,13 @@
 package org.uniprot.store.datastore.voldemort.light.uniparc.crossref;
 
-import java.util.List;
-
 import org.uniprot.core.json.parser.uniparc.UniParcCrossRefJsonConfig;
-import org.uniprot.core.uniparc.UniParcCrossReference;
-import org.uniprot.core.util.Pair;
+import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
 import org.uniprot.store.datastore.voldemort.VoldemortRemoteJsonBinaryStore;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class VoldemortRemoteUniParcCrossReferenceStore
-        extends VoldemortRemoteJsonBinaryStore<Pair<String, List<UniParcCrossReference>>> {
+        extends VoldemortRemoteJsonBinaryStore<UniParcCrossReferencePair> {
     public VoldemortRemoteUniParcCrossReferenceStore(
             int maxConnection, String storeName, String... voldemortUrl) {
         super(maxConnection, storeName, voldemortUrl);
@@ -31,7 +28,7 @@ public class VoldemortRemoteUniParcCrossReferenceStore
     }
 
     @Override
-    public String getStoreId(Pair<String, List<UniParcCrossReference>> entry) {
+    public String getStoreId(UniParcCrossReferencePair entry) {
         return entry.getKey();
     }
 
@@ -41,12 +38,12 @@ public class VoldemortRemoteUniParcCrossReferenceStore
     }
 
     @Override
-    public Class<Pair<String, List<UniParcCrossReference>>> getEntryClass() {
-        return (Class<Pair<String, List<UniParcCrossReference>>>) (Object) Pair.class;
+    public Class<UniParcCrossReferencePair> getEntryClass() {
+        return UniParcCrossReferencePair.class;
     }
 
     @Override
-    public void saveEntry(String key, Pair<String, List<UniParcCrossReference>> entry) {
+    public void saveEntry(String key, UniParcCrossReferencePair entry) {
         super.doSave(key, entry);
     }
 }

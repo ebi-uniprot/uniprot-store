@@ -13,8 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
-import org.uniprot.core.util.Pair;
-import org.uniprot.core.util.PairImpl;
+import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
 
 class VoldemortInMemoryUniParcCrossReferenceStoreTest {
 
@@ -40,12 +39,12 @@ class VoldemortInMemoryUniParcCrossReferenceStoreTest {
                         .database(UniParcDatabase.EG_BACTERIA)
                         .build();
 
-        Pair<String, List<UniParcCrossReference>> entry = new PairImpl<>(key, List.of(xref));
+        UniParcCrossReferencePair entry = new UniParcCrossReferencePair(key, List.of(xref));
         // Save the entry
         store.saveOrUpdateEntry(entry);
 
         // Retrieve the entry
-        Optional<Pair<String, List<UniParcCrossReference>>> retrievedEntry = store.getEntry(key);
+        Optional<UniParcCrossReferencePair> retrievedEntry = store.getEntry(key);
 
         // Assert that the retrieved entry matches the saved entry
         assertTrue(retrievedEntry.isPresent());
@@ -62,7 +61,7 @@ class VoldemortInMemoryUniParcCrossReferenceStoreTest {
                         .id("XREF2")
                         .database(UniParcDatabase.EMBL)
                         .build();
-        Pair<String, List<UniParcCrossReference>> entry = new PairImpl<>(key, List.of(xref));
+        UniParcCrossReferencePair entry = new UniParcCrossReferencePair(key, List.of(xref));
         store.saveOrUpdateEntry(entry);
 
         // Update the entry using builder
@@ -71,12 +70,12 @@ class VoldemortInMemoryUniParcCrossReferenceStoreTest {
                         .id("XREF2")
                         .database(UniParcDatabase.EMBL_CON)
                         .build();
-        Pair<String, List<UniParcCrossReference>> entryUpdated =
-                new PairImpl<>(key, List.of(xrefUpdated));
+        UniParcCrossReferencePair entryUpdated =
+                new UniParcCrossReferencePair(key, List.of(xrefUpdated));
         store.saveOrUpdateEntry(entryUpdated);
 
         // Retrieve the updated entry
-        Optional<Pair<String, List<UniParcCrossReference>>> retrievedEntry = store.getEntry(key);
+        Optional<UniParcCrossReferencePair> retrievedEntry = store.getEntry(key);
 
         // Assert that the retrieved entry reflects the update
         assertTrue(retrievedEntry.isPresent());
@@ -93,7 +92,7 @@ class VoldemortInMemoryUniParcCrossReferenceStoreTest {
                         .id("XREF3")
                         .database(UniParcDatabase.SWISSPROT)
                         .build();
-        Pair<String, List<UniParcCrossReference>> entry3 = new PairImpl<>(key3, List.of(xref3));
+        UniParcCrossReferencePair entry3 = new UniParcCrossReferencePair(key3, List.of(xref3));
 
         String key4 = "UP4";
         UniParcCrossReference xref4 =
@@ -101,12 +100,12 @@ class VoldemortInMemoryUniParcCrossReferenceStoreTest {
                         .id("XREF4")
                         .database(UniParcDatabase.TREMBL)
                         .build();
-        Pair<String, List<UniParcCrossReference>> entry4 = new PairImpl<>(key4, List.of(xref4));
+        UniParcCrossReferencePair entry4 = new UniParcCrossReferencePair(key4, List.of(xref4));
         store.saveOrUpdateEntry(entry3);
         store.saveOrUpdateEntry(entry4);
 
         // Retrieve entries as a map
-        Map<String, Pair<String, List<UniParcCrossReference>>> entryMap =
+        Map<String, UniParcCrossReferencePair> entryMap =
                 store.getEntryMap(Arrays.asList(key3, key4));
 
         // Assert that both entries are retrieved correctly
@@ -126,7 +125,7 @@ class VoldemortInMemoryUniParcCrossReferenceStoreTest {
                         .id("XREF5")
                         .database(UniParcDatabase.SWISSPROT)
                         .build();
-        Pair<String, List<UniParcCrossReference>> entry5 = new PairImpl<>(key5, List.of(xref5));
+        UniParcCrossReferencePair entry5 = new UniParcCrossReferencePair(key5, List.of(xref5));
         store.saveOrUpdateEntry(entry5);
 
         // Ensure the entry is saved

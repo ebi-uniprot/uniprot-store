@@ -1,10 +1,8 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
 import java.io.Serial;
-import java.util.List;
 
-import org.uniprot.core.uniparc.UniParcCrossReference;
-import org.uniprot.core.util.Pair;
+import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.light.uniparc.crossref.VoldemortRemoteUniParcCrossReferenceStore;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
@@ -14,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class UniParcCrossReferenceDataStoreWriter
-        extends AbstractDataStoreWriter<Pair<String, List<UniParcCrossReference>>> {
+        extends AbstractDataStoreWriter<UniParcCrossReferencePair> {
     @Serial private static final long serialVersionUID = -5970975427885850402L;
 
     public UniParcCrossReferenceDataStoreWriter(DataStoreParameter parameter) {
@@ -22,7 +20,7 @@ public class UniParcCrossReferenceDataStoreWriter
     }
 
     @Override
-    protected VoldemortClient<Pair<String, List<UniParcCrossReference>>> getDataStoreClient() {
+    protected VoldemortClient<UniParcCrossReferencePair> getDataStoreClient() {
         return new VoldemortRemoteUniParcCrossReferenceStore(
                 parameter.getNumberOfConnections(),
                 parameter.isBrotliEnabled(),

@@ -1,11 +1,8 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
-import java.util.List;
-
 import org.apache.spark.api.java.JavaRDD;
-import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.core.util.Pair;
+import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcCrossReferenceMapper;
@@ -29,14 +26,14 @@ public class UniParcCrossReferenceDataStoreIndexer extends BaseUniParcDataStoreI
         JavaRDD<UniParcEntry> uniParcRDD = getUniParcRDD();
         Config config = parameter.getApplicationConfig();
         int xrefBatchSize = config.getInt("store.cross-reference.batchSize");
-        // <xrefIdUniqueKey, xrefObj>
-        JavaRDD<Pair<String, List<UniParcCrossReference>>> crossRefIdCrossRef =
+        // <xrefIdUniqueKey, List<UniParcCrossReference>>
+        JavaRDD<UniParcCrossReferencePair> crossRefIdCrossRef =
                 uniParcRDD.flatMap(new UniParcCrossReferenceMapper(xrefBatchSize));
         saveInDataStore(crossRefIdCrossRef);
         log.info("Completed UniParc Cross Reference Data Store index");
     }
 
-    void saveInDataStore(JavaRDD<Pair<String, List<UniParcCrossReference>>> uniParcXrefRDD) {
+    void saveInDataStore(JavaRDD<UniParcCrossReferencePair> uniParcXrefRDD) {
         DataStoreParameter dataStoreParameter =
                 getDataStoreParameter(parameter.getApplicationConfig());
         uniParcXrefRDD.foreachPartition(

@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcEntryLight;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
+import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
 import org.uniprot.core.uniparc.impl.UniParcEntryLightBuilder;
-import org.uniprot.core.util.Pair;
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
 import org.uniprot.store.datastore.voldemort.light.uniparc.crossref.VoldemortInMemoryUniParcCrossReferenceStore;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
@@ -83,7 +83,7 @@ class UniParcCrossReferenceValidatorTest {
         }
 
         @Override
-        protected VoldemortClient<Pair<String, List<UniParcCrossReference>>> getDataStoreClient() {
+        protected VoldemortClient<UniParcCrossReferencePair> getDataStoreClient() {
             return VoldemortInMemoryUniParcCrossReferenceStore.getInstance("cross-reference");
         }
     }
