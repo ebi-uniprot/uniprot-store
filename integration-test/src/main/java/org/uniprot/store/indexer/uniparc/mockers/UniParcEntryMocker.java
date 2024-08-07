@@ -26,17 +26,20 @@ public class UniParcEntryMocker {
 
     private UniParcEntryMocker() {}
 
-    public static UniParcEntry createEntry(int i, String upiRef) {
+    public static UniParcEntry createEntry(int qualifier, String upiRef) {
+        return createEntry(qualifier, upiRef, 3);
+    }
+    public static UniParcEntry createEntry(int qualifier, String uniParcPrefix, int xrefCount) {
         StringBuilder seq = new StringBuilder("MLMPKRTKYR");
-        IntStream.range(0, i).forEach(j -> seq.append("A"));
+        IntStream.range(0, qualifier).forEach(j -> seq.append("A"));
         Sequence sequence = new SequenceBuilder(seq.toString()).build();
-        List<UniParcCrossReference> xrefs = getXrefs(i);
+        List<UniParcCrossReference> xrefs = createCrossReferences(xrefCount);
 
         List<SequenceFeature> seqFeatures = new ArrayList<>();
         Arrays.stream(SignatureDbType.values())
-                .forEach(signatureType -> seqFeatures.add(getSeqFeature(i, signatureType)));
+                .forEach(signatureType -> seqFeatures.add(getSeqFeature(qualifier, signatureType)));
         return new UniParcEntryBuilder()
-                .uniParcId(new UniParcIdBuilder(getName(upiRef, i)).build())
+                .uniParcId(new UniParcIdBuilder(getName(uniParcPrefix, qualifier)).build())
                 .uniParcCrossReferencesSet(xrefs)
                 .sequence(sequence)
                 .sequenceFeaturesSet(seqFeatures)
@@ -94,22 +97,29 @@ public class UniParcEntryMocker {
                 .build();
     }
 
-    public static List<UniParcCrossReference> getXrefs(int i) {
+    public static List<UniParcCrossReference> createCrossReferences(int count){
+        List<UniParcCrossReference> xrefs = new ArrayList<>();
+        for(int i = 1; i <= count; i+=3){// increase by 3 since getXrefs creates 3 cross refs in one call
+            xrefs.addAll(getXrefs(i));// TODO improve logic to generate xref in method getXrefs
+        }
+        return xrefs.subList(0, count);
+    }
+    public static List<UniParcCrossReference> getXrefs(int qualifier) {
         UniParcCrossReference xref =
                 new UniParcCrossReferenceBuilder()
                         .versionI(3)
                         .database(UniParcDatabase.SWISSPROT)
-                        .id(getName("P100", i))
+                        .id(getName("P100", qualifier))
                         .version(7)
                         .active(true)
-                        .ncbiGi(NCBI_GI + i)
+                        .ncbiGi(NCBI_GI + qualifier)
                         .created(LocalDate.of(2017, 5, 17))
                         .lastUpdated(LocalDate.of(2017, 2, 27))
-                        .proteinName(getName(PROTEIN_NAME, i))
-                        .geneName(getName("geneName", i))
-                        .proteomeId(getName("UP1234567", i))
+                        .proteinName(getName(PROTEIN_NAME, qualifier))
+                        .geneName(getName("geneName", qualifier))
+                        .proteomeId(getName("UP1234567", qualifier))
                         .organism(getOrganism(7787L))
-                        .component(getName("component", i))
+                        .component(getName("component", qualifier))
                         .chain("chain")
                         .build();
 
@@ -117,12 +127,12 @@ public class UniParcEntryMocker {
                 new UniParcCrossReferenceBuilder()
                         .versionI(1)
                         .database(UniParcDatabase.TREMBL)
-                        .id(getName("P123", i))
+                        .id(getName("P123", qualifier))
                         .version(7)
                         .active(true)
                         .created(LocalDate.of(2017, 2, 12))
                         .lastUpdated(LocalDate.of(2017, 4, 23))
-                        .proteinName(getName("anotherProteinName", i))
+                        .proteinName(getName("anotherProteinName", qualifier))
                         .organism(getOrganism(9606L))
                         .proteomeId("UP000005640")
                         .component("chromosome")
@@ -132,7 +142,7 @@ public class UniParcEntryMocker {
                 new UniParcCrossReferenceBuilder()
                         .versionI(1)
                         .database(UniParcDatabase.REFSEQ)
-                        .id(getName("WP_1688932", i))
+                        .id(getName("WP_1688932", qualifier))
                         .version(7)
                         .active(true)
                         .created(LocalDate.of(2017, 2, 12))
@@ -184,31 +194,31 @@ public class UniParcEntryMocker {
         return builder.build();
     }
 
-    private static List<UniParcCrossReference> getMoreXrefs(int i) {
+    private static List<UniParcCrossReference> getMoreXrefs(int qualifier) {
         UniParcCrossReference xref1 =
                 new UniParcCrossReferenceBuilder()
                         .versionI(1)
                         .database(UniParcDatabase.EMBL)
-                        .id("embl" + i)
+                        .id("embl" + qualifier)
                         .version(7)
                         .active(true)
-                        .ncbiGi(NCBI_GI + i)
+                        .ncbiGi(NCBI_GI + qualifier)
                         .created(LocalDate.of(2017, 2, 12))
                         .lastUpdated(LocalDate.of(2017, 4, 23))
-                        .proteinName(PROTEIN_NAME + i)
+                        .proteinName(PROTEIN_NAME + qualifier)
                         .build();
 
         UniParcCrossReference xref2 =
                 new UniParcCrossReferenceBuilder()
                         .versionI(1)
                         .database(UniParcDatabase.UNIMES)
-                        .id("unimes" + i)
+                        .id("unimes" + qualifier)
                         .version(7)
-                        .ncbiGi(NCBI_GI + i)
+                        .ncbiGi(NCBI_GI + qualifier)
                         .active(false)
                         .created(LocalDate.of(2017, 2, 12))
                         .lastUpdated(LocalDate.of(2017, 4, 23))
-                        .proteinName(PROTEIN_NAME + i)
+                        .proteinName(PROTEIN_NAME + qualifier)
                         .build();
 
         // common db xref
@@ -221,21 +231,16 @@ public class UniParcEntryMocker {
                         .active(true)
                         .created(LocalDate.of(2017, 2, 12))
                         .lastUpdated(LocalDate.of(2017, 4, 23))
-                        .proteinName("common-vector-proteinName" + i)
+                        .proteinName("common-vector-proteinName" + qualifier)
                         .build();
         return List.of(xref1, xref2, xref3);
     }
 
-    public static UniParcEntryLight createUniParcEntryLight(int i, String prefix) {
+    public static UniParcEntryLight createUniParcEntryLight(int i, String prefix, int xrefCount) {
         String uniParcId = getName(prefix, i);
         StringBuilder seq = new StringBuilder("MLMPKRTKYR");
         IntStream.range(0, i).forEach(j -> seq.append("A"));
         Sequence sequence = new SequenceBuilder(seq.toString()).build();
-        List<UniParcCrossReference> xrefObjects = new ArrayList<>(getXrefs(i));
-        xrefObjects.addAll(getMoreXrefs(i));
-        List<String> xrefs =
-                xrefObjects.stream().map(xref -> getUniParcXRefId(uniParcId, xref)).toList();
-
         List<SequenceFeature> seqFeatures = new ArrayList<>();
         Arrays.stream(SignatureDbType.values())
                 .forEach(signatureType -> seqFeatures.add(getSeqFeature(i, signatureType)));
@@ -243,7 +248,7 @@ public class UniParcEntryMocker {
         return new UniParcEntryLightBuilder()
                 .uniParcId(uniParcId)
                 .commonTaxonsSet(commonTaxons)
-                .numberOfUniParcCrossReferences(xrefObjects.size())
+                .numberOfUniParcCrossReferences(xrefCount)
                 .uniProtKBAccessionsAdd(getName("P123", i))
                 .sequence(sequence)
                 .sequenceFeaturesSet(seqFeatures)
@@ -272,21 +277,20 @@ public class UniParcEntryMocker {
     }
 
     public static List<UniParcCrossReferencePair> getXrefPairs(
-            String uniParcId, int i) {
+            String uniParcId, int xrefCount, int groupSize) {
         List<UniParcCrossReferencePair> result = new ArrayList<>();
-        List<UniParcCrossReference> crossRefs = new ArrayList<>(getXrefs(i));
-        crossRefs.addAll(getMoreXrefs(i));
+        List<UniParcCrossReference> crossRefs = createCrossReferences(xrefCount);
         List<UniParcCrossReference> pairList = new ArrayList<>();
         int page = 0;
         for(int j = 0; j < crossRefs.size();){
             pairList.add(crossRefs.get(j));
-            if(++j % 3 == 0){
+            if(++j % groupSize == 0){
                 result.add(new UniParcCrossReferencePair(uniParcId + "_" + page++, pairList));
                 pairList = new ArrayList<>();
             }
         }
         if(!pairList.isEmpty()){
-            result.add(new UniParcCrossReferencePair(uniParcId, pairList));
+            result.add(new UniParcCrossReferencePair(uniParcId + "_" + page, pairList));
         }
         return result;
     }
