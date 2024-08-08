@@ -26,7 +26,7 @@ class DatasetUniParcEntryLightConverterTest {
         assertNotNull(entry);
         assertNotNull(entry.getUniParcId());
         assertFalse(entry.getUniProtKBAccessions().isEmpty());
-        assertEquals(10, entry.getNumberOfUniParcCrossReferences());
+        assertEquals(10, entry.getCrossReferenceCount());
         assertNotNull(entry.getCommonTaxons());
         assertEquals(10, entry.getCommonTaxons().size());
         assertTrue(entry.getOrganisms().isEmpty());

@@ -33,7 +33,7 @@ class VoldemortInMemoryUniParcEntryLightStoreTest {
         // Create UniParcEntryLight using the builder
         UniParcEntryLight entry =
                 builder.uniParcId("UP000000001")
-                        .numberOfUniParcCrossReferences(2)
+                        .crossReferenceCount(2)
                         .uniProtKBAccessionsAdd("P12345")
                         .build();
 
@@ -46,7 +46,7 @@ class VoldemortInMemoryUniParcEntryLightStoreTest {
         // Assert that the retrieved entry matches the saved entry
         assertNotNull(retrievedEntry);
         assertEquals("UP000000001", retrievedEntry.getUniParcId());
-        assertEquals(2, retrievedEntry.getNumberOfUniParcCrossReferences());
+        assertEquals(2, retrievedEntry.getCrossReferenceCount());
         assertEquals(Set.of("P12345"), retrievedEntry.getUniProtKBAccessions());
     }
 
@@ -57,7 +57,7 @@ class VoldemortInMemoryUniParcEntryLightStoreTest {
         // Create and save an entry
         UniParcEntryLight entry =
                 builder.uniParcId("UP000000002")
-                        .numberOfUniParcCrossReferences(3)
+                        .crossReferenceCount(3)
                         .uniProtKBAccessionsAdd("P67890")
                         .build();
         store.saveOrUpdateEntry(entry);
@@ -65,7 +65,7 @@ class VoldemortInMemoryUniParcEntryLightStoreTest {
         // Update the entry using builder
         entry =
                 builder.uniParcId("UP000000002")
-                        .numberOfUniParcCrossReferences(4)
+                        .crossReferenceCount(4)
                         .uniProtKBAccessionsAdd("Q98765")
                         .build();
         store.saveOrUpdateEntry(entry);
@@ -76,7 +76,7 @@ class VoldemortInMemoryUniParcEntryLightStoreTest {
         // Assert that the retrieved entry reflects the update
         assertNotNull(retrievedEntry);
         assertEquals("UP000000002", retrievedEntry.getUniParcId());
-        assertEquals(4, retrievedEntry.getNumberOfUniParcCrossReferences());
+        assertEquals(4, retrievedEntry.getCrossReferenceCount());
         assertEquals(Set.of("P67890", "Q98765"), retrievedEntry.getUniProtKBAccessions());
     }
 
@@ -87,12 +87,12 @@ class VoldemortInMemoryUniParcEntryLightStoreTest {
         // Create and save multiple entries
         UniParcEntryLight entry1 =
                 builder.uniParcId("UP000000003")
-                        .numberOfUniParcCrossReferences(7)
+                        .crossReferenceCount(7)
                         .uniProtKBAccessionsAdd("P11111")
                         .build();
         UniParcEntryLight entry2 =
                 builder.uniParcId("UP000000004")
-                        .numberOfUniParcCrossReferences(9)
+                        .crossReferenceCount(9)
                         .uniProtKBAccessionsAdd("P22222")
                         .build();
         store.saveOrUpdateEntry(entry1);

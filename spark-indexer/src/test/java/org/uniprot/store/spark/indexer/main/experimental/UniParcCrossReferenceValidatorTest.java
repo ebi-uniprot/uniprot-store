@@ -40,7 +40,7 @@ class UniParcCrossReferenceValidatorTest {
         UniParcEntryLight entryToCheck =
                 new UniParcEntryLightBuilder()
                         .uniParcId("UP0000000001")
-                        .numberOfUniParcCrossReferences(20)
+                        .crossReferenceCount(20)
                         .build();
 
         assertDoesNotThrow(() -> xrefCheck.call(List.of(entryToCheck).iterator()));
@@ -53,7 +53,7 @@ class UniParcCrossReferenceValidatorTest {
         UniParcEntryLight entryToCheck =
                 new UniParcEntryLightBuilder()
                         .uniParcId("UP0000000001")
-                        .numberOfUniParcCrossReferences(10)
+                        .crossReferenceCount(10)
                         .build();
 
         IndexDataStoreException error =

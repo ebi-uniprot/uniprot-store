@@ -72,7 +72,7 @@ public class UniParcEntryMocker {
         return new UniParcEntryLightBuilder()
                 .uniParcId(uniParcId)
                 .commonTaxonsSet(commonTaxons)
-                .numberOfUniParcCrossReferences(xrefCount)
+                .crossReferenceCount(xrefCount)
                 .uniProtKBAccessionsAdd(getName("P123", qualifier))
                 .sequence(sequence)
                 .sequenceFeaturesSet(seqFeatures)
@@ -99,7 +99,7 @@ public class UniParcEntryMocker {
                 .uniParcId(uniParcId)
                 .commonTaxonsSet(getCommonTaxons())
                 .uniProtKBAccessionsSet(uniProtKBAccession)
-                .numberOfUniParcCrossReferences(numberOfXrefs)
+                .crossReferenceCount(numberOfXrefs)
                 .organismsSet(organisms)
                 .sequence(entry.getSequence())
                 .sequenceFeaturesSet(entry.getSequenceFeatures())
@@ -114,7 +114,7 @@ public class UniParcEntryMocker {
         StringBuilder sequence = new StringBuilder();
         IntStream.range(0, sequenceLength).forEach(i -> sequence.append("A"));
         Sequence uniSeq = new SequenceBuilder(sequence.toString()).build();
-        builder.uniParcId(uniParcId).sequence(uniSeq).numberOfUniParcCrossReferences(xrefCount);
+        builder.uniParcId(uniParcId).sequence(uniSeq).crossReferenceCount(xrefCount);
         return builder.build();
     }
 

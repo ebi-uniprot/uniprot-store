@@ -25,7 +25,7 @@ public class UniParcCrossReferenceDataStoreIndexer extends BaseUniParcDataStoreI
     public void indexInDataStore() {
         JavaRDD<UniParcEntry> uniParcRDD = getUniParcRDD();
         Config config = parameter.getApplicationConfig();
-        int xrefBatchSize = config.getInt("store.cross-reference.batchSize");
+        int xrefBatchSize = config.getInt("store.uniparc.cross.reference.batchSize");
         // <xrefIdUniqueKey, List<UniParcCrossReference>>
         JavaRDD<UniParcCrossReferencePair> crossRefIdCrossRef =
                 uniParcRDD.flatMap(new UniParcCrossReferenceMapper(xrefBatchSize));
@@ -42,12 +42,12 @@ public class UniParcCrossReferenceDataStoreIndexer extends BaseUniParcDataStoreI
 
     @Override
     DataStoreParameter getDataStoreParameter(Config config) {
-        String numberOfConnections = config.getString("store.cross-reference.numberOfConnections");
-        String maxRetry = config.getString("store.cross-reference.retry");
-        String delay = config.getString("store.cross-reference.delay");
+        String numberOfConnections = config.getString("store.uniparc.cross.reference.numberOfConnections");
+        String maxRetry = config.getString("store.uniparc.cross.reference.retry");
+        String delay = config.getString("store.uniparc.cross.reference.delay");
         return DataStoreParameter.builder()
-                .connectionURL(config.getString("store.cross-reference.host"))
-                .storeName(config.getString("store.cross-reference.storeName"))
+                .connectionURL(config.getString("store.uniparc.cross.reference.host"))
+                .storeName(config.getString("store.uniparc.cross.reference.storeName"))
                 .numberOfConnections(Integer.parseInt(numberOfConnections))
                 .maxRetry(Integer.parseInt(maxRetry))
                 .delay(Long.parseLong(delay))

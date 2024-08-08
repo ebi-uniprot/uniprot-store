@@ -29,12 +29,12 @@ public class VoldemortRemoteUniParcCrossReferenceStoreTest {
                 System.out.println(
                         entryLight.getUniParcId()
                                 + " with "
-                                + entryLight.getNumberOfUniParcCrossReferences()
+                                + entryLight.getCrossReferenceCount()
                                 + " xrefs");
-                if (entryLight.getNumberOfUniParcCrossReferences() > 0) {
+                if (entryLight.getCrossReferenceCount() > 0) {
                     List<UniParcCrossReference> xrefs =
-                            new ArrayList<>(entryLight.getNumberOfUniParcCrossReferences());
-                    int numberOfPages = (entryLight.getNumberOfUniParcCrossReferences() / 1000) + 1;
+                            new ArrayList<>(entryLight.getCrossReferenceCount());
+                    int numberOfPages = (entryLight.getCrossReferenceCount() / 1000) + 1;
                     for (int i = 0; i < numberOfPages; i++) {
                         String key = uniParcId + "_" + i;
                         Optional<UniParcCrossReferencePair> crossReference = store.getEntry(key);

@@ -65,7 +65,7 @@ class UniParcLightDataStoreIndexerTest {
             assertEquals(2, result.size());
             UniParcEntryLight entry1 = result.get(0);
             assertEquals("UPI00000E8551", entry1.getUniParcId());
-            assertEquals(12, entry1.getNumberOfUniParcCrossReferences());
+            assertEquals(12, entry1.getCrossReferenceCount());
             assertEquals(1, entry1.getCommonTaxons().size());
             assertEquals(
                     new CommonOrganismBuilder()
@@ -98,7 +98,7 @@ class UniParcLightDataStoreIndexerTest {
                             .commonTaxon("Nucleocytoviricota")
                             .build(),
                     entry2.getCommonTaxons().get(1));
-            assertEquals(12, entry1.getNumberOfUniParcCrossReferences());
+            assertEquals(12, entry1.getCrossReferenceCount());
         }
 
         @Override

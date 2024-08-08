@@ -52,7 +52,7 @@ public class DatasetUniParcEntryLightConverter
                 }
                 taxonIds.add(taxonId);
             }
-            builder.numberOfUniParcCrossReferences(dbReferences.size());
+            builder.crossReferenceCount(dbReferences.size());
         }
 
         if (!LocalDate.MIN.equals(mostRecentUpdated)) {
