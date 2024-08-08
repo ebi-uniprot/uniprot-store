@@ -1,16 +1,15 @@
 package org.uniprot.store.indexer.uniparc.mockers;
 
-import org.uniprot.core.uniparc.UniParcCrossReference;
-import org.uniprot.core.uniparc.UniParcDatabase;
-import org.uniprot.core.uniparc.UniParcEntryLight;
-import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
-import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
+import static org.uniprot.store.indexer.uniparc.mockers.UniParcEntryMocker.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.uniprot.store.indexer.uniparc.mockers.UniParcEntryMocker.*;
+import org.uniprot.core.uniparc.UniParcCrossReference;
+import org.uniprot.core.uniparc.UniParcDatabase;
+import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
+import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
 
 public class UniParcCrossReferenceMocker {
     private UniParcCrossReferenceMocker() {}
@@ -46,13 +45,13 @@ public class UniParcCrossReferenceMocker {
                 .build();
     }
 
-    public static List<UniParcCrossReference> createCrossReferences(int count) {
+    public static List<UniParcCrossReference> createCrossReferences(int qualifier, int count) {
         List<UniParcCrossReference> xrefs = new ArrayList<>();
-        int crossRefSize = createUniParcCrossReferences(1).size();
+        int crossRefSize = createUniParcCrossReferences(qualifier).size();
         for (int i = 1;
                 i <= count;
                 i += crossRefSize) { // increase by createUniParcCrossReferences size
-            xrefs.addAll(createUniParcCrossReferences(i));
+            xrefs.addAll(createUniParcCrossReferences(qualifier));
         }
         return xrefs.subList(0, count);
     }
@@ -144,15 +143,19 @@ public class UniParcCrossReferenceMocker {
     }
 
     public static List<UniParcCrossReferencePair> createUniParcCrossReferencePairs(
-            String uniParcId, int xrefCount, int groupSize) {
-        List<UniParcCrossReferencePair> uniParcCrossReferencePairs = new ArrayList<>();
-        List<UniParcCrossReference> crossReferences = createCrossReferences(xrefCount);
+            String uniParcId, int qualifier, int xrefCount, int groupSize) {
+        List<UniParcCrossReference> crossReferences = createCrossReferences(qualifier, xrefCount);
+        return createCrossReferencePairsFromXRefs(uniParcId, groupSize, crossReferences);
+    }
+
+    public static List<UniParcCrossReferencePair> createCrossReferencePairsFromXRefs(
+            String uniParcId, int groupSize, List<UniParcCrossReference> crossReferences) {
+        List<UniParcCrossReferencePair> result = new ArrayList<>();
         for (int i = 0, batchId = 0; i < crossReferences.size(); i += groupSize, batchId++) {
             int end = Math.min(i + groupSize, crossReferences.size());
             List<UniParcCrossReference> xrefBatch = crossReferences.subList(i, end);
-            uniParcCrossReferencePairs.add(
-                    new UniParcCrossReferencePair(uniParcId + "_" + batchId, xrefBatch));
+            result.add(new UniParcCrossReferencePair(uniParcId + "_" + batchId, xrefBatch));
         }
-        return uniParcCrossReferencePairs;
+        return result;
     }
 }

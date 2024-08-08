@@ -1,5 +1,12 @@
 package org.uniprot.store.indexer.uniparc.mockers;
 
+import static org.uniprot.store.indexer.uniparc.mockers.UniParcCrossReferenceMocker.createCrossReferences;
+
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.Location;
 import org.uniprot.core.Sequence;
@@ -8,13 +15,6 @@ import org.uniprot.core.uniparc.*;
 import org.uniprot.core.uniparc.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
-
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import static org.uniprot.store.indexer.uniparc.mockers.UniParcCrossReferenceMocker.createCrossReferences;
 
 /**
  * @author lgonzales
@@ -36,7 +36,7 @@ public class UniParcEntryMocker {
         StringBuilder seq = new StringBuilder("MLMPKRTKYR");
         IntStream.range(0, qualifier).forEach(j -> seq.append("A"));
         Sequence sequence = new SequenceBuilder(seq.toString()).build();
-        List<UniParcCrossReference> xrefs = createCrossReferences(xrefCount);
+        List<UniParcCrossReference> xrefs = createCrossReferences(qualifier, xrefCount);
 
         List<SequenceFeature> seqFeatures = new ArrayList<>();
         Arrays.stream(SignatureDbType.values())
