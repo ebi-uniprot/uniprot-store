@@ -2,6 +2,7 @@ package org.uniprot.store.indexer.uniparc.mockers;
 
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
+import org.uniprot.core.uniparc.UniParcEntryLight;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
 
