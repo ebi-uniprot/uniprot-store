@@ -53,7 +53,8 @@ public class UniParcCrossReferenceValidator {
     }
 
     private static DataStoreParameter getDataStoreParameter(Config config) {
-        String numberOfConnections = config.getString("store.uniparc.cross.reference.numberOfConnections");
+        String numberOfConnections =
+                config.getString("store.uniparc.cross.reference.numberOfConnections");
         String maxRetry = config.getString("store.uniparc.cross.reference.retry");
         String delay = config.getString("store.uniparc.cross.reference.delay");
         return DataStoreParameter.builder()
