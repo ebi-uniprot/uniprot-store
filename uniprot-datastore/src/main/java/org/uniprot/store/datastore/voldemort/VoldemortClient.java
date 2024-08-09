@@ -14,10 +14,6 @@ public interface VoldemortClient<T> extends StoreService<T>, AutoCloseable {
 
     void saveEntry(T entry);
 
-    default void saveEntry(String key, T entry) {
-        throw new UnsupportedOperationException("Override the method as per your need.");
-    }
-
     void truncate();
 
     void close();
