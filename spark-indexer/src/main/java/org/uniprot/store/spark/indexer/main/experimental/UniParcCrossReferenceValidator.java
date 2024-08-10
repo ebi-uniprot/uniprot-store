@@ -44,7 +44,9 @@ public class UniParcCrossReferenceValidator {
             JavaRDD<UniParcEntryLight> uniParcLightRDD = reader.load();
 
             DataStoreParameter dataStoreParameter = getDataStoreParameter(applicationConfig);
-            uniParcLightRDD.foreachPartition(new CheckVoldermortXref(dataStoreParameter));
+            int batchSize = applicationConfig.getInt("store.uniparc.cross.reference.batchSize");
+            uniParcLightRDD.foreachPartition(
+                    new CheckVoldermortXref(dataStoreParameter, batchSize));
         } catch (Exception e) {
             throw new IndexDataStoreException("Unexpected error during DataStore index", e);
         } finally {
@@ -73,22 +75,52 @@ public class UniParcCrossReferenceValidator {
         @Serial private static final long serialVersionUID = -4603525615443900815L;
         private final DataStoreParameter parameter;
 
-        public CheckVoldermortXref(DataStoreParameter parameter) {
+        private final int batchSize;
+
+        public CheckVoldermortXref(DataStoreParameter parameter, int batchSize) {
             this.parameter = parameter;
+            this.batchSize = batchSize;
         }
 
         @Override
         public void call(Iterator<UniParcEntryLight> entryIterator) {
-            List<String> missingIds = new ArrayList<>();
+            List<String> issueMessages = new ArrayList<>();
             try (VoldemortClient<UniParcCrossReferencePair> client = getDataStoreClient()) {
                 while (entryIterator.hasNext()) {
                     final UniParcEntryLight entry = entryIterator.next();
-                    // TODO: We need to verify it with the version 2
+                    if (entry.getCrossReferenceCount() > 0) {
+                        int totalPage = entry.getCrossReferenceCount() / batchSize;
+                        int xrefTotalCount = 0;
+                        for (int i = 0; i <= totalPage; i++) {
+                            String pageKey = entry.getUniParcId() + "_" + i;
+                            Optional<UniParcCrossReferencePair> xrefPair = client.getEntry(pageKey);
+                            if (xrefPair.isPresent()) {
+                                xrefTotalCount += xrefPair.get().getValue().size();
+                            } else {
+                                issueMessages.add("Unable to find Page: " + pageKey);
+                            }
+                        }
+                        if (xrefTotalCount != entry.getCrossReferenceCount()) {
+                            issueMessages.add(
+                                    "Entry count mismatch for UniParcID: "
+                                            + entry.getUniParcId()
+                                            + " entry count: "
+                                            + entry.getCrossReferenceCount()
+                                            + " with total found in store "
+                                            + xrefTotalCount
+                                            + " ");
+                        }
+                    } else {
+                        issueMessages.add(
+                                "UniParcID: "
+                                        + entry.getUniParcId()
+                                        + " does not have Cross Reference");
+                    }
                 }
             }
-            if (!missingIds.isEmpty()) {
+            if (!issueMessages.isEmpty()) {
                 throw new IndexDataStoreException(
-                        "Unable to find xrefIds: " + String.join(",", missingIds));
+                        "ISSUES FOUND: " + String.join(" AND ", issueMessages));
             }
         }
 

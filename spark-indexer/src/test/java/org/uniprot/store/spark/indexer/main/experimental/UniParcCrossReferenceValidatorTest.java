@@ -19,6 +19,9 @@ import org.uniprot.store.spark.indexer.common.util.CommonVariables;
 
 class UniParcCrossReferenceValidatorTest {
 
+    private static final int BATCH_SIZE = 3;
+    private static final String UNIPARC_ID = "UPI000000012";
+
     @Test
     void testUniParcCrossReferenceValidatorInvalidArgumentIndex() {
         assertThrows(
@@ -35,51 +38,76 @@ class UniParcCrossReferenceValidatorTest {
 
     @Test
     void testUniParcCrossReferenceAllValid() {
-        // TODO: Need to fix it
-        InMemoryCheckVoldermortXref xrefCheck = new InMemoryCheckVoldermortXref(null);
+        int xrefCount = 20;
+        InMemoryCheckVoldermortXref xrefCheck = new InMemoryCheckVoldermortXref(null, BATCH_SIZE);
         UniParcEntryLight entryToCheck =
                 new UniParcEntryLightBuilder()
-                        .uniParcId("UP0000000001")
-                        .crossReferenceCount(20)
+                        .uniParcId(UNIPARC_ID)
+                        .crossReferenceCount(xrefCount)
                         .build();
 
+        saveXrefsInVoldemort(xrefCheck.getDataStoreClient(), xrefCount);
         assertDoesNotThrow(() -> xrefCheck.call(List.of(entryToCheck).iterator()));
     }
 
     @Test
-    void testUniParcCrossReferenceWithInvalid() {
-        // TODO: Need to fix it
-        InMemoryCheckVoldermortXref xrefCheck = new InMemoryCheckVoldermortXref(null);
+    void testUniParcCrossReferenceWithInvalidCount() {
+        InMemoryCheckVoldermortXref xrefCheck = new InMemoryCheckVoldermortXref(null, BATCH_SIZE);
         UniParcEntryLight entryToCheck =
                 new UniParcEntryLightBuilder()
-                        .uniParcId("UP0000000001")
+                        .uniParcId(UNIPARC_ID)
                         .crossReferenceCount(10)
                         .build();
+
+        saveXrefsInVoldemort(xrefCheck.getDataStoreClient(), 9);
+        IndexDataStoreException error =
+                assertThrows(
+                        IndexDataStoreException.class,
+                        () -> xrefCheck.call(List.of(entryToCheck).iterator()));
+        assertEquals(
+                "ISSUES FOUND: Unable to find Page: UPI000000012_3 AND Entry count mismatch for UniParcID: UPI000000012 entry count: 10 with total found in store 9 ",
+                error.getMessage());
+    }
+
+    @Test
+    void testUniParcCrossReferenceWithoutXref() {
+        InMemoryCheckVoldermortXref xrefCheck = new InMemoryCheckVoldermortXref(null, BATCH_SIZE);
+        UniParcEntryLight entryToCheck =
+                new UniParcEntryLightBuilder().uniParcId(UNIPARC_ID).crossReferenceCount(0).build();
 
         IndexDataStoreException error =
                 assertThrows(
                         IndexDataStoreException.class,
                         () -> xrefCheck.call(List.of(entryToCheck).iterator()));
-        assertEquals("Unable to find xrefIds: INVALID,INVALID2", error.getMessage());
+        assertEquals(
+                "ISSUES FOUND: UniParcID: UPI000000012 does not have Cross Reference",
+                error.getMessage());
     }
 
-    private static List<String> saveXrefsInVoldemort(
-            VoldemortClient<UniParcCrossReference> dataStore, int numberIds) {
-        List<String> ids = new ArrayList<>();
-        for (int i = 0; i < numberIds; i++) {
+    private static void saveXrefsInVoldemort(
+            VoldemortClient<UniParcCrossReferencePair> dataStore, int numberIds) {
+        List<UniParcCrossReference> pageXrefs = new ArrayList<>();
+        int pageNumber = 0;
+        for (int i = 0; i < numberIds; ) {
             String id = "ID-" + i;
-            UniParcCrossReference xrefEntry = new UniParcCrossReferenceBuilder().id(id).build();
-            dataStore.saveEntry(xrefEntry);
-            ids.add(id);
+            pageXrefs.add(new UniParcCrossReferenceBuilder().id(id).build());
+            if (++i % BATCH_SIZE == 0) {
+                dataStore.saveEntry(
+                        new UniParcCrossReferencePair(UNIPARC_ID + "_" + pageNumber++, pageXrefs));
+                pageXrefs = new ArrayList<>();
+            }
         }
-        return ids;
+        if (!pageXrefs.isEmpty()) {
+            dataStore.saveEntry(
+                    new UniParcCrossReferencePair(UNIPARC_ID + "_" + pageNumber, pageXrefs));
+        }
     }
 
     private static class InMemoryCheckVoldermortXref
             extends UniParcCrossReferenceValidator.CheckVoldermortXref {
 
-        public InMemoryCheckVoldermortXref(DataStoreParameter parameter) {
-            super(parameter);
+        public InMemoryCheckVoldermortXref(DataStoreParameter parameter, int batchSize) {
+            super(parameter, batchSize);
         }
 
         @Override
