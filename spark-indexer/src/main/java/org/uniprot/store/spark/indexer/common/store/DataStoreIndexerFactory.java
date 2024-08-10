@@ -32,7 +32,7 @@ public class DataStoreIndexerFactory {
             case UNIREF_MEMBER:
                 result = new UniRefMembersDataStoreIndexer(jobParameter);
                 break;
-            case CROSS_REFERENCE:
+            case UNIPARC_CROSS_REFERENCE:
                 result = new UniParcCrossReferenceDataStoreIndexer(jobParameter);
                 break;
             default:

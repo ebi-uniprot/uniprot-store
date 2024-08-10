@@ -10,7 +10,7 @@ public enum DataStore {
     UNIREF_MEMBER("uniref-member"),
     UNIPARC("uniparc"),
     UNIPARC_LIGHT("uniparc-light"),
-    CROSS_REFERENCE("cross-reference");
+    UNIPARC_CROSS_REFERENCE("uniparc-cross-reference");
 
     private final String name;
 
