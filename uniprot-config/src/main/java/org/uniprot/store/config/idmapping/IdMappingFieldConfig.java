@@ -1,9 +1,6 @@
 package org.uniprot.store.config.idmapping;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.uniprot.core.cv.xdb.UniProtDatabaseCategory;
@@ -84,6 +81,10 @@ public class IdMappingFieldConfig {
                                                     detail.getLinkedReason(),
                                                     detail.getIdMappingName()))
                             .collect(Collectors.toList());
+            idMappingTypes =
+                    new ArrayList<>(
+                            new LinkedHashSet<>(
+                                    idMappingTypes)); // to avoid duplicate due to race condition
         }
 
         return idMappingTypes;
@@ -211,7 +212,7 @@ public class IdMappingFieldConfig {
                 crc64);
     }
 
-    private static List<UniProtDatabaseDetail> createMissingIdMappingTypes() {
+    static List<UniProtDatabaseDetail> createMissingIdMappingTypes() {
         UniProtDatabaseCategory sequence = UniProtDatabaseCategory.SEQUENCE_DATABASES;
 
         UniProtDatabaseDetail embl =

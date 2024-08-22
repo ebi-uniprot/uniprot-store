@@ -48,9 +48,10 @@ public class FFInactiveUniProtEntryIterator extends AbstractInactiveUniProtEntry
     private InactiveUniProtEntry convert(String line) {
         String[] tokens = line.split(",");
         if (tokens.length == 3) {
-            return InactiveUniProtEntry.from(tokens[0], tokens[1], tokens[2], "-", null);
+            return InactiveUniProtEntry.from(tokens[0], tokens[1], tokens[2], null, "-", null);
         } else if (tokens.length == 4) {
-            return InactiveUniProtEntry.from(tokens[0], tokens[1], tokens[2], tokens[3], null);
+            return InactiveUniProtEntry.from(
+                    tokens[0], tokens[1], tokens[2], null, tokens[3], null);
         }
         return null;
     }

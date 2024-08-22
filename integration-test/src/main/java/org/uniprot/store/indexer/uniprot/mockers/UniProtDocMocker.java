@@ -23,12 +23,14 @@ public class UniProtDocMocker {
         return document;
     }
 
-    public static UniProtDocument createInactiveDoc(String accession, String inactiveReason) {
+    public static UniProtDocument createInactiveDoc(
+            String accession, String inactiveReason, String uniParcDeleted) {
         UniProtDocument document = new UniProtDocument();
         document.accession = accession;
         document.id.add(accession + "_ID");
         document.active = false;
         document.inactiveReason = inactiveReason;
+        document.deletedEntryUniParc = uniParcDeleted;
         return document;
     }
 

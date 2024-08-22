@@ -391,6 +391,8 @@
 	<!-- UniParc -->
 	<field name="uniparc" type="string" indexed="true" stored="false"
 		required="false" multiValued="false" />
+	<field name="deleted_entry_uniparc" type="string" indexed="false"
+		stored="true" required="false" multiValued="false" />
 
 	<!-- suggester definition -->
 	<field name="suggest" type="text_suggest" indexed="true"

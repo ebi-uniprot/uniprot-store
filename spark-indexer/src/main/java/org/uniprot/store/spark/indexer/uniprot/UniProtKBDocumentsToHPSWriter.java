@@ -1,7 +1,9 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
+import static java.lang.Math.*;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,6 +38,9 @@ import org.uniprot.store.spark.indexer.subcell.SubcellularLocationRDDReader;
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.MappedProteinAccession;
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SubcellularLocationJoinMapper;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
+import org.uniprot.store.spark.indexer.uniparc.UniParcRDDTupleReader;
+import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcDeletedUniProtKBJoin;
+import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcInactiveUniProtKBMapper;
 import org.uniprot.store.spark.indexer.uniprot.mapper.*;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniRefJoinMapper;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniRefMappedToUniprotDocument;
@@ -96,8 +101,7 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
         boolean shouldIndexInactive =
                 Boolean.parseBoolean(config.getString("uniprot.index.inactive"));
         if (shouldIndexInactive) {
-            JavaPairRDD<String, UniProtDocument> inactiveEntryRDD =
-                    InactiveUniProtKBRDDTupleReader.load(parameter);
+            JavaPairRDD<String, UniProtDocument> inactiveEntryRDD = getInactiveEntryRDD();
             uniProtDocumentRDD = uniProtDocumentRDD.union(inactiveEntryRDD);
         }
 
@@ -106,6 +110,26 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
         SolrUtils.saveSolrInputDocumentRDD(uniProtDocumentRDD, hpsPath);
 
         log.info("Completed UniProtKB prepare Solr index");
+    }
+
+    /**
+     * @return RDD of JavaPairRDD<accesion, UniProtDocument> with inactive entries information
+     */
+    JavaPairRDD<String, UniProtDocument> getInactiveEntryRDD() {
+        UniParcRDDTupleReader uniParcRDDTupleReader = new UniParcRDDTupleReader(parameter, false);
+
+        // JavaPairRDD<accession,uniParcId> inactiveUniParc
+        JavaPairRDD<String, String> inactiveUniParc =
+                uniParcRDDTupleReader.load().flatMapToPair(new UniParcInactiveUniProtKBMapper());
+
+        // JavaPairRDD<accession,UniProtDocument> inactiveUniParc
+        JavaPairRDD<String, UniProtDocument> inactiveEntryRDD =
+                InactiveUniProtKBRDDTupleReader.load(parameter)
+                        .leftOuterJoin(inactiveUniParc)
+                        .mapValues(new UniParcDeletedUniProtKBJoin())
+                        .mapValues(new UniProtEntryToSolrDocument(Collections.emptyMap()));
+
+        return inactiveEntryRDD.repartition(max(1, inactiveEntryRDD.getNumPartitions() / 5));
     }
 
     /**
