@@ -11,8 +11,6 @@ import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidence;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidenceMapper;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidencesRDDReader;
-import org.uniprot.store.spark.indexer.uniparc.UniParcRDDTupleReader;
-import org.uniprot.store.spark.indexer.uniprot.mapper.UniParcJoinMapper;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniParcMapper;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniProtKBAnnotationScoreMapper;
 import org.uniprot.store.spark.indexer.uniprot.writer.UniProtKBDataStoreWriter;
@@ -55,10 +53,10 @@ public class UniProtKBDataStoreIndexer implements DataStoreIndexer {
 
     private JavaPairRDD<String, UniProtKBEntry> joinUniParcId(
             JavaPairRDD<String, UniProtKBEntry> uniprotRDD) {
-        UniParcRDDTupleReader uniparcReader = new UniParcRDDTupleReader(parameter, false);
+        UniProtKBUniParcMappingRDDTupleReader uniparcReader =
+                new UniProtKBUniParcMappingRDDTupleReader(parameter, true);
         // JavaPairRDD<accession, UniParcId>
-        JavaPairRDD<String, String> uniparcJoinRdd =
-                uniparcReader.load().flatMapToPair(new UniParcJoinMapper());
+        JavaPairRDD<String, String> uniparcJoinRdd = uniparcReader.load();
         uniprotRDD = uniprotRDD.leftOuterJoin(uniparcJoinRdd).mapValues(new UniParcMapper());
         return uniprotRDD;
     }
