@@ -3,7 +3,7 @@ package org.uniprot.store.spark.indexer.uniparc.mapper;
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.store.search.document.uniparc.UniParcDocument;
-import org.uniprot.store.spark.indexer.uniparc.converter.UniParcDocumentConverter;
+import org.uniprot.store.search.document.uniparc.UniParcDocumentConverter;
 
 import scala.Tuple2;
 

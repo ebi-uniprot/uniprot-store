@@ -1,12 +1,11 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -16,9 +15,7 @@ import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
-import org.uniprot.core.uniparc.UniParcCrossReference;
-import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.core.uniprotkb.taxonomy.Organism;
+import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
@@ -27,12 +24,7 @@ import com.typesafe.config.Config;
 
 import scala.Tuple2;
 
-/**
- * @author lgonzales
- * @since 03/12/2020
- */
-class UniParcDataStoreIndexerTest {
-
+public class UniParcCrossReferenceDataStoreIndexerTest {
     @Test
     void indexInDataStore() {
         Config application = SparkUtils.loadApplicationProperty();
@@ -44,8 +36,9 @@ class UniParcDataStoreIndexerTest {
                             .releaseName("2020_02")
                             .sparkContext(sparkContext)
                             .build();
-            UniParcDataStoreIndexerTest.FakeUniParcDataStoreIndexer indexer =
-                    new UniParcDataStoreIndexerTest.FakeUniParcDataStoreIndexer(parameter);
+            UniParcCrossReferenceDataStoreIndexerTest.FakeUniParcCrossRefDataStoreIndexer indexer =
+                    new UniParcCrossReferenceDataStoreIndexerTest
+                            .FakeUniParcCrossRefDataStoreIndexer(parameter);
             assertNotNull(indexer);
             indexer.indexInDataStore();
             DataStoreParameter dataStoreParams =
@@ -54,41 +47,21 @@ class UniParcDataStoreIndexerTest {
         }
     }
 
-    private static class FakeUniParcDataStoreIndexer extends UniParcDataStoreIndexer {
+    private static class FakeUniParcCrossRefDataStoreIndexer
+            extends UniParcCrossReferenceDataStoreIndexer {
 
         private final JobParameter jobParameter;
 
-        public FakeUniParcDataStoreIndexer(JobParameter jobParameter) {
+        public FakeUniParcCrossRefDataStoreIndexer(JobParameter jobParameter) {
             super(jobParameter);
             this.jobParameter = jobParameter;
         }
 
         @Override
-        void saveInDataStore(JavaRDD<UniParcEntry> uniparcJoinedRDD) {
-            List<UniParcEntry> result = uniparcJoinedRDD.collect();
+        void saveInDataStore(JavaRDD<UniParcCrossReferencePair> uniParcCrossRefWrap) {
+            List<UniParcCrossReferencePair> result = uniParcCrossRefWrap.collect();
             assertNotNull(result);
-            assertEquals(2, result.size());
-            UniParcEntry entry = result.get(0);
-            assertEquals("UPI00000E8551", entry.getUniParcId().getValue());
-            entry.getUniParcCrossReferences().stream()
-                    .map(UniParcCrossReference::getOrganism)
-                    .filter(Objects::nonNull)
-                    .forEach(
-                            organism -> {
-                                // testing join with taxonomy...
-                                assertTrue(organism.getTaxonId() > 0);
-                            });
-            Optional<Organism> optOrganism =
-                    entry.getUniParcCrossReferences().stream()
-                            .map(UniParcCrossReference::getOrganism)
-                            .filter(org -> Objects.nonNull(org) && org.getTaxonId() == 10116)
-                            .findAny();
-            assertTrue(optOrganism.isPresent());
-            assertFalse(optOrganism.get().getScientificName().isEmpty());
-            assertEquals("sn10116", optOrganism.get().getScientificName());
-
-            entry = result.get(1);
-            assertEquals("UPI000000017F", entry.getUniParcId().getValue());
+            assertEquals(8, result.size());
         }
 
         @Override

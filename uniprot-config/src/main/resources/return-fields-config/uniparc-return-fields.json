@@ -26,7 +26,7 @@
     "itemType": "SINGLE",
     "label": "Gene names",
     "name": "gene",
-    "paths": ["uniParcCrossReferences[*].geneName"],
+    "paths": ["uniParcCrossReferences[*].geneName","geneNames"],
     "id": "names_&_taxonomy/gene",
     "includeInSwagger": true
   },
@@ -36,7 +36,7 @@
     "itemType": "SINGLE",
     "label": "Organism ID",
     "name": "organism_id",
-    "paths": ["uniParcCrossReferences[*].organism.taxonId"],
+    "paths": ["uniParcCrossReferences[*].organism.taxonId","organisms"],
     "id": "names_&_taxonomy/organism_id",
     "includeInSwagger": true
   },
@@ -48,7 +48,7 @@
     "defaultForTsvOrder" : 1,
     "label": "Organisms",
     "name": "organism",
-    "paths": ["uniParcCrossReferences[*].organism"],
+    "paths": ["uniParcCrossReferences[*].organism","organisms"],
     "id": "names_&_taxonomy/organism",
     "includeInSwagger": true
   },
@@ -58,7 +58,7 @@
     "itemType": "SINGLE",
     "label": "Protein names",
     "name": "protein",
-    "paths": ["uniParcCrossReferences[*].proteinName"],
+    "paths": ["uniParcCrossReferences[*].proteinName","proteinNames"],
     "id": "names_&_taxonomy/protein",
     "includeInSwagger": true
   },
@@ -68,7 +68,7 @@
     "itemType": "SINGLE",
     "label": "Proteomes",
     "name": "proteome",
-    "paths": ["uniParcCrossReferences[*].proteomeId","uniParcCrossReferences[*].component"],
+    "paths": ["uniParcCrossReferences[*].proteomeId","uniParcCrossReferences[*].component","proteomes"],
     "id": "names_&_taxonomy/proteome",
     "includeInSwagger": true
   },
@@ -114,6 +114,17 @@
     "includeInSwagger": true
   },
   {
+    "parentId": "sequences",
+    "childNumber": 3,
+    "itemType": "SINGLE",
+    "label": "Full Sequence",
+    "name": "fullSequence",
+    "paths": ["sequence"],
+    "id": "sequences/fullSequence",
+    "includeInSwagger": true
+  }
+  ,
+  {
     "seqNumber": 2,
     "itemType": "GROUP",
     "groupName": "Miscellaneous",
@@ -132,7 +143,8 @@
       "uniParcCrossReferences[*].database",
       "uniParcCrossReferences[*].active",
       "uniParcCrossReferences[*].version",
-      "uniParcCrossReferences[*].chain"],
+      "uniParcCrossReferences[*].chain",
+      "uniProtKBAccessions"],
     "id": "miscellaneous/accession",
     "includeInSwagger": true
   },
@@ -151,7 +163,7 @@
     "defaultForTsvOrder" : 3,
     "label": "First seen",
     "name": "first_seen",
-    "paths": ["uniParcCrossReferences[*].created"],
+    "paths": ["uniParcCrossReferences[*].created","oldestCrossRefCreated"],
     "id": "date_of/first_seen",
     "includeInSwagger": true
   },
@@ -163,7 +175,7 @@
     "defaultForTsvOrder" : 4,
     "label": "Last seen",
     "name": "last_seen",
-    "paths": ["uniParcCrossReferences[*].lastUpdated"],
+    "paths": ["uniParcCrossReferences[*].lastUpdated","mostRecentCrossRefUpdated"],
     "id": "date_of/last_seen",
     "includeInSwagger": true
   },
@@ -295,40 +307,14 @@
     "includeInSwagger": true
   },
   {
+    "parentId": "family_&_domains",
+    "childNumber": 12,
     "itemType": "SINGLE",
-    "name": "database",
-    "paths": ["uniParcCrossReferences[*].database"],
-    "id": "database"
-  },
-  {
-    "itemType": "SINGLE",
-    "name": "ncbiGi",
-    "paths": ["uniParcCrossReferences[*].ncbiGi"],
-    "id": "ncbiGi"
-  },
-  {
-    "itemType": "SINGLE",
-    "name": "active",
-    "paths": ["uniParcCrossReferences[*].active"],
-    "id": "active"
-  },
-  {
-    "itemType": "SINGLE",
-    "name": "timeline",
-    "paths": ["uniParcCrossReferences[*].created","uniParcCrossReferences[*].lastUpdated"],
-    "id": "timeline"
-  },
-  {
-    "itemType": "SINGLE",
-    "name": "version",
-    "paths": ["uniParcCrossReferences[*].version"],
-    "id": "version"
-  },
-  {
-    "itemType": "SINGLE",
-    "name": "version_uniparc",
-    "paths": ["uniParcCrossReferences[*].versionI"],
-    "id": "version_uniparc"
+    "label": "Full Sequence Features",
+    "name": "fullsequencefeatures",
+    "paths": ["sequenceFeatures"],
+    "id": "family_&_domains/fullsequencefeatures",
+    "includeInSwagger": true
   },
   {
     "itemType": "SINGLE",
