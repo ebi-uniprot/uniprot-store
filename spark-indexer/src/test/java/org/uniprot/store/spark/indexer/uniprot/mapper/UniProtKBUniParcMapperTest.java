@@ -24,6 +24,6 @@ class UniProtKBUniParcMapperTest {
         SparkIndexException error =
                 assertThrows(SparkIndexException.class, () -> mapper.call("INVALID"));
         assertNotNull(error);
-        assertEquals("Unable to parse UniParcUniProtKBMapper line: INVALID", error.getMessage());
+        assertEquals("Unable to parse UniProtKBUniParcMapper line: INVALID", error.getMessage());
     }
 }
