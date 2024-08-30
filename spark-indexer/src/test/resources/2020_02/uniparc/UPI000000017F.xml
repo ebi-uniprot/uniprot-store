@@ -27,6 +27,8 @@
         <property type="NCBI_taxonomy_id" value="28141"/>
         <property type="protein_name" value="DNA topoisomerase IV subunit C"/>
         <property type="gene_name" value="parC"/>
+        <property type="proteome_id" value="UP000000260"/>
+        <property type="component" value="Chromosome"/>
     </dbReference>
     <dbReference type="EMBL" id="AAC13494" version_i="1" active="Y" version="1" created="2003-03-12" last="2022-01-26">
         <property type="NCBI_GI" value="3046562"/>

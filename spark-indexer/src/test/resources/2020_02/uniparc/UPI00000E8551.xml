@@ -30,6 +30,8 @@
 <property type="NCBI_taxonomy_id" value="10116"/>
 <property type="protein_name" value="Jacob protein"/>
 <property type="gene_name" value="jac"/>
+<property type="proteome_id" value="UP000002494"/>
+<property type="component" value="Chromosome 1"/>
 </dbReference>
 <dbReference type="EMBL" id="CAC20866" version_i="1" active="N" version="1" created="2003-03-12" last="2017-02-22">
 <property type="NCBI_GI" value="12055374"/>
