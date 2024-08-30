@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.uniparc.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.core.uniparc.impl.UniParcEntryLightBuilder.HAS_ACTIVE_CROSS_REF;
 import static org.uniprot.store.spark.indexer.uniparc.converter.DatasetUniParcEntryConverter.getDbReferenceSchema;
 import static org.uniprot.store.spark.indexer.uniparc.converter.DatasetUniParcEntryConverter.getUniParcXMLSchema;
 import static org.uniprot.store.spark.indexer.uniparc.converter.UniParcConverterUtils.*;
@@ -20,7 +21,7 @@ import scala.collection.Seq;
 class DatasetUniParcEntryLightConverterTest {
     @Test
     void testCompleteUniParcEntryLight() throws Exception {
-        Row completeUniParcRow = getFullUniParcRow();
+        Row completeUniParcRow = getFullUniParcRow(true);
         DatasetUniParcEntryLightConverter converter = new DatasetUniParcEntryLightConverter();
         UniParcEntryLight entry = converter.call(completeUniParcRow);
         assertNotNull(entry);
@@ -33,20 +34,32 @@ class DatasetUniParcEntryLightConverterTest {
         assertTrue(entry.getProteinNames().isEmpty());
         assertTrue(entry.getProteomes().isEmpty());
         assertTrue(entry.getGeneNames().isEmpty());
+        assertTrue(entry.getExtraAttributes().isEmpty());
     }
 
-    private Row getFullUniParcRow() {
+    @Test
+    void testCompleteUniParcEntryLightWithInactiveCrossRef() throws Exception {
+        Row completeUniParcRow = getFullUniParcRow(false);
+        DatasetUniParcEntryLightConverter converter = new DatasetUniParcEntryLightConverter();
+        UniParcEntryLight entry = converter.call(completeUniParcRow);
+        assertNotNull(entry);
+        assertNotNull(entry.getUniParcId());
+        assertEquals(1, entry.getExtraAttributes().size());
+        assertEquals(false, entry.getExtraAttributes().get(HAS_ACTIVE_CROSS_REF));
+    }
+
+    private Row getFullUniParcRow(boolean active) {
         List<Object> entryValues = new ArrayList<>();
         entryValues.add("datasetValue"); // _dataset
         entryValues.add("UniProtKBExclusionValue"); // _UniProtKB_exclusion
         entryValues.add("accessionValue"); // accession
-        entryValues.add(getDbReferenceSeq()); // dbReferences
+        entryValues.add(getDbReferenceSeq(active)); // dbReferences
         entryValues.add(getSequenceRow()); // sequence
         entryValues.add(getSignatureSequenceMatchSeq()); // signatureSequenceMatch
         return new GenericRowWithSchema(entryValues.toArray(), getUniParcXMLSchema());
     }
 
-    private static Seq getDbReferenceSeq() {
+    private static Seq getDbReferenceSeq(boolean active) {
         List<Object> dbReferenceSeq = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
@@ -60,7 +73,7 @@ class DatasetUniParcEntryLightConverterTest {
                 dbReferences.add(UniParcDatabase.REFSEQ.getDisplayName()); // _type
             }
             dbReferences.add(10L + i); // _version_i
-            dbReferences.add("Y"); // _active
+            dbReferences.add(active ? "Y" : "N");
             dbReferences.add(11L + i); // _version
             dbReferences.add("2001-06-18"); // _created
             dbReferences.add("2020-02-16"); // _last

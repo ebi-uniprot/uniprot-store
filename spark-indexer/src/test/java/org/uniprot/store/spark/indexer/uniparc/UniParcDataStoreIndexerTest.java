@@ -67,7 +67,7 @@ class UniParcDataStoreIndexerTest {
         void saveInDataStore(JavaRDD<UniParcEntry> uniparcJoinedRDD) {
             List<UniParcEntry> result = uniparcJoinedRDD.collect();
             assertNotNull(result);
-            assertEquals(2, result.size());
+            assertEquals(3, result.size());
             UniParcEntry entry = result.get(0);
             assertEquals("UPI00000E8551", entry.getUniParcId().getValue());
             entry.getUniParcCrossReferences().stream()
@@ -89,6 +89,8 @@ class UniParcDataStoreIndexerTest {
 
             entry = result.get(1);
             assertEquals("UPI000000017F", entry.getUniParcId().getValue());
+            entry = result.get(2);
+            assertEquals("UPI0001C61C61", entry.getUniParcId().getValue());
         }
 
         @Override
