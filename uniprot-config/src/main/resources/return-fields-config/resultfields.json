@@ -954,18 +954,6 @@
     "groupName": "2D gel",
     "fields": [
       {
-        "label": "COMPLUYEAST-2DPAGE",
-        "name": "dr_compluyeast-2dpage",
-        "javaFieldName": "dr_compluyeast-2dpage",
-        "mandatoryJsonField": false
-      },
-      {
-        "label": "DOSAC-COBS-2DPAGE",
-        "name": "dr_dosac-cobs-2dpage",
-        "javaFieldName": "dr_dosac-cobs-2dpage",
-        "mandatoryJsonField": false
-      },
-      {
         "label": "OGP",
         "name": "dr_ogp",
         "javaFieldName": "dr_ogp",
@@ -1005,18 +993,6 @@
         "label": "CPTAC",
         "name": "dr_cptac",
         "javaFieldName": "dr_cptac",
-        "mandatoryJsonField": false
-      },
-      {
-        "label": "EPD",
-        "name": "dr_epd",
-        "javaFieldName": "dr_epd",
-        "mandatoryJsonField": false
-      },
-      {
-        "label": "MaxQB",
-        "name": "dr_maxqb",
-        "javaFieldName": "dr_maxqb",
         "mandatoryJsonField": false
       },
       {

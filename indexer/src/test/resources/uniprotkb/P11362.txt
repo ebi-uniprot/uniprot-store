@@ -1259,10 +1259,8 @@ DR   BioMuta; FGFR1; -.
 DR   DMDM; 120046; -.
 DR   CPTAC; CPTAC-1773; -.
 DR   CPTAC; CPTAC-1780; -.
-DR   EPD; P11362; -.
 DR   jPOST; P11362; -.
 DR   MassIVE; P11362; -.
-DR   MaxQB; P11362; -.
 DR   PaxDb; P11362; -.
 DR   PeptideAtlas; P11362; -.
 DR   PRIDE; P11362; -.
