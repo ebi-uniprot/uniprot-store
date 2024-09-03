@@ -92,7 +92,12 @@ public class UniParcSequenceSourceJoin
                                                 .map(mappedCrossReference::get)
                                                 .filter(xref -> xref.getProteomeId() != null)
                                                 .map(
-                                                        xref -> xref.getId() + ":" + xref.getProteomeId() + ":" + xref.getComponent())
+                                                        xref ->
+                                                                xref.getId()
+                                                                        + ":"
+                                                                        + xref.getProteomeId()
+                                                                        + ":"
+                                                                        + xref.getComponent())
                                                 .collect(Collectors.toSet())));
     }
 }
