@@ -122,7 +122,13 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
         // JavaPairRDD<accession,uniParcId> inactiveUniParc
         JavaPairRDD<String, String> inactiveUniParc = uniParcRDDTupleReader.load();
 
-        System.out.println("inactiveUniParc COUNT: "+inactiveUniParc.count());
+        inactiveUniParc.take(100).forEach((e) -> {
+                System.out.println("inactiveUniParc key "+  e._1 + " inactiveUniParc value:"+e._2);
+        });
+
+        InactiveUniProtKBRDDTupleReader.load(parameter).take(100).forEach((e) -> {
+            System.out.println("inactiveUniProtKB key "+  e._1 + " inactiveUniProtKB value:"+e._2.getInactiveReason().getInactiveReasonType());
+        });
 
         // JavaPairRDD<accession,UniProtDocument> inactiveUniParc
         JavaPairRDD<String, UniProtDocument> inactiveEntryRDD =
