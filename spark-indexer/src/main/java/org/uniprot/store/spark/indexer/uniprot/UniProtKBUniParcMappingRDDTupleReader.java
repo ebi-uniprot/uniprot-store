@@ -56,7 +56,7 @@ public class UniProtKBUniParcMappingRDDTupleReader implements PairRDDReader<Stri
             }
             String[] tokens = line.split("\s");
             boolean lineStatus = tokens[2].strip().equalsIgnoreCase("Y");
-            return active == lineStatus;
+            return active != lineStatus; // TODO: Source data is inverted. change it once fixed
         }
     }
 }

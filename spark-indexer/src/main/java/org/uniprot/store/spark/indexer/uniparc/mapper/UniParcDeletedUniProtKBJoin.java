@@ -25,6 +25,7 @@ public class UniParcDeletedUniProtKBJoin
             UniProtKBEntryBuilder builder = UniProtKBEntryBuilder.from(entry);
             builder.extraAttributesAdd(UNIPARC_ID_ATTRIB, tuple2._2.get());
             entry = builder.build();
+            System.out.println("INVERTED KEY" + tuple2._1.getPrimaryAccession().getValue());
         } else {
             System.out.println("NOT JOINED KEY" + tuple2._1.getPrimaryAccession().getValue() + ":"+ tuple2._2.isPresent()+":" + isDeletedEntry(entry));
         }
