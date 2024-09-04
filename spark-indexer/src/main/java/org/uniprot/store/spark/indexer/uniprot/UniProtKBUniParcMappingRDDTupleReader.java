@@ -36,7 +36,7 @@ public class UniProtKBUniParcMappingRDDTupleReader implements PairRDDReader<Stri
         return spark.read()
                 .textFile(filePath)
                 .toJavaRDD()
-                //.filter(new StatusFilter(active))
+                .filter(new StatusFilter(active))
                 .mapToPair(new UniProtKBUniParcMapper());
     }
 

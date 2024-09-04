@@ -75,7 +75,6 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
     /** load all the data for UniProtDocument and write it into HPS (Hadoop File System) */
     @Override
     public void writeIndexDocumentsToHPS() {
-/*
         JavaPairRDD<String, UniProtKBEntry> uniProtEntryRDD = reader.load();
 
         uniProtEntryRDD = joinGoEvidences(uniProtEntryRDD);
@@ -103,11 +102,10 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
             JavaPairRDD<String, UniProtDocument> inactiveEntryRDD = getInactiveEntryRDD();
             uniProtDocumentRDD = uniProtDocumentRDD.union(inactiveEntryRDD);
         }
-*/
 
         String hpsPath =
                 getCollectionOutputReleaseDirPath(config, releaseName, SolrCollection.uniprot);
-        SolrUtils.saveSolrInputDocumentRDD(getInactiveEntryRDD(), hpsPath);
+        SolrUtils.saveSolrInputDocumentRDD(uniProtDocumentRDD, hpsPath);
 
         log.info("Completed UniProtKB prepare Solr index");
     }
@@ -118,17 +116,8 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
     JavaPairRDD<String, UniProtDocument> getInactiveEntryRDD() {
         UniProtKBUniParcMappingRDDTupleReader uniParcRDDTupleReader =
                 new UniProtKBUniParcMappingRDDTupleReader(parameter, false);
-
         // JavaPairRDD<accession,uniParcId> inactiveUniParc
         JavaPairRDD<String, String> inactiveUniParc = uniParcRDDTupleReader.load();
-
-        inactiveUniParc.take(100).forEach((e) -> {
-                System.out.println("inactiveUniParc key "+  e._1 + " inactiveUniParc value:"+e._2);
-        });
-
-        InactiveUniProtKBRDDTupleReader.load(parameter).take(100).forEach((e) -> {
-            System.out.println("inactiveUniProtKB key "+  e._1 + " inactiveUniProtKB value:"+e._2.getInactiveReason().getInactiveReasonType());
-        });
 
         // JavaPairRDD<accession,UniProtDocument> inactiveUniParc
         JavaPairRDD<String, UniProtDocument> inactiveEntryRDD =
