@@ -3475,7 +3475,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Transmembrane",
-    "example": "forming"
+    "example": "helical"
   },
   {
     "parentId": "transmembrane",
@@ -3486,7 +3486,7 @@
     "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
     "description": "Search by experimental Transmembrane",
-    "example": "forming"
+    "example": "helical"
   },
   {
     "parentId": "subcellular",
@@ -3504,7 +3504,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Topological domain",
-    "example": "forming"
+    "example": "cytoplasmic"
   },
   {
     "parentId": "topological_domain",
@@ -3515,7 +3515,7 @@
     "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
     "description": "Search by experimental Topological domain",
-    "example": "forming"
+    "example": "cytoplasmic"
   },
   {
     "parentId": "subcellular",
@@ -3533,7 +3533,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Intramembrane",
-    "example": "forming"
+    "example": "helical"
   },
   {
     "parentId": "intramembrane",
@@ -3544,7 +3544,7 @@
     "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
     "description": "Search by experimental Intramembrane",
-    "example": "forming"
+    "example": "helical"
   },
   {
     "label": "Pathology & Biotech",
