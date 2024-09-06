@@ -116,7 +116,6 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
     JavaPairRDD<String, UniProtDocument> getInactiveEntryRDD() {
         UniProtKBUniParcMappingRDDTupleReader uniParcRDDTupleReader =
                 new UniProtKBUniParcMappingRDDTupleReader(parameter, false);
-
         // JavaPairRDD<accession,uniParcId> inactiveUniParc
         JavaPairRDD<String, String> inactiveUniParc = uniParcRDDTupleReader.load();
 
@@ -127,7 +126,7 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .mapValues(new UniParcDeletedUniProtKBJoin())
                         .mapValues(new UniProtEntryToSolrDocument(Collections.emptyMap()));
 
-        return inactiveEntryRDD.repartition(max(1, inactiveEntryRDD.getNumPartitions() / 5));
+        return inactiveEntryRDD;
     }
 
     /**
