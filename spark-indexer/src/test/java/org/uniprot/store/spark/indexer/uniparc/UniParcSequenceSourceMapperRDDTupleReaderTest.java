@@ -44,7 +44,7 @@ class UniParcSequenceSourceMapperRDDTupleReaderTest {
             assertNotNull(entry);
             assertEquals("I8FBX0", entry._1);
             assertEquals(1, entry._2.size());
-            assertTrue(entry._2.containsAll(Set.of("CAC20867")));
+            assertTrue(entry._2.containsAll(Set.of("CAC20866")));
         }
     }
 }

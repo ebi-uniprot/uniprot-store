@@ -96,7 +96,10 @@ public class UniParcCrossReferenceMocker {
                                 new Property(
                                         PROPERTY_SOURCE,
                                         getName("WP_1688932", qualifier)
-                                                + ":"+proteomeId+":"+chromosome))
+                                                + ":"
+                                                + proteomeId
+                                                + ":"
+                                                + chromosome))
                         .build();
 
         UniParcCrossReference xref3 =
