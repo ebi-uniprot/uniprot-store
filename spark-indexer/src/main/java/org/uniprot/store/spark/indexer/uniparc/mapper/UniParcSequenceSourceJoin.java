@@ -4,6 +4,7 @@ import java.io.Serial;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.Property;
@@ -16,6 +17,7 @@ import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
 
 import scala.Tuple2;
 
+@Slf4j
 public class UniParcSequenceSourceJoin
         implements Function<
                 Tuple2<UniParcEntry, Optional<Map<String, Set<String>>>>, UniParcEntry> {
@@ -30,7 +32,7 @@ public class UniParcSequenceSourceJoin
             List<String> invalidIds =
                     getInvalidMappedIds(result.getUniParcCrossReferences(), sourceMap);
             if (!invalidIds.isEmpty()) {
-                throw new IndexDataStoreException(
+                log.warn(
                         "INVALID SOURCE MAP IDS for "
                                 + result.getUniParcId().getValue()
                                 + " not found ids "
