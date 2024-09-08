@@ -7,19 +7,18 @@ import java.util.Set;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function2;
+import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
-import org.uniprot.store.spark.indexer.uniparc.mapper.UniParSourceJoin;
-import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcCrossReferenceMapper;
-import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcSequenceSourceJoin;
+import org.uniprot.store.spark.indexer.uniparc.mapper.*;
+import org.uniprot.store.spark.indexer.uniparc.model.UniParcTaxonomySequenceSource;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBUniParcMappingRDDTupleReader;
 
 import com.typesafe.config.Config;
 
 import lombok.extern.slf4j.Slf4j;
-import scala.Tuple2;
 
 @Slf4j
 public class UniParcCrossReferenceDataStoreIndexer extends BaseUniParcDataStoreIndexer {
@@ -33,21 +32,50 @@ public class UniParcCrossReferenceDataStoreIndexer extends BaseUniParcDataStoreI
 
     @Override
     public void indexInDataStore() {
-        JavaRDD<UniParcEntry> uniParcRDD = getUniParcRDD();
         Config config = parameter.getApplicationConfig();
         int xrefBatchSize = config.getInt("store.uniparc.cross.reference.batchSize");
+
+        UniParcRDDTupleReader reader = new UniParcRDDTupleReader(parameter, false);
+        JavaRDD<UniParcEntry> uniParcRDD = reader.load();
+
+        // JavaPairRDD<taxId,uniParcId>
+        JavaPairRDD<String, String> taxonomyJoin =
+                uniParcRDD.flatMapToPair(new UniParcTaxonomyMapper());
+
+        // JavaPairRDD<taxId,TaxonomyEntry>
+        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD =
+                loadTaxonomyEntryJavaPairRDD();
+
+        // JavaPairRDD<uniParcId,Iterable<TaxonomyEntry>>
+        JavaPairRDD<String, Iterable<TaxonomyEntry>> uniParcTaxonomyJoin =
+                taxonomyJoin
+                        .join(taxonomyEntryJavaPairRDD)
+                        // After Join RDD: JavaPairRDD<taxId,Tuple2<uniParcId,TaxonomyEntry>>
+                        .mapToPair(tuple -> tuple._2)
+                        .groupByKey();
+
+
+        JavaPairRDD<String, Map<String, Set<String>>> sequenceSourceRDD = loadSequenceSource();
+
+        JavaPairRDD<String, UniParcTaxonomySequenceSource> uniParcJoin = uniParcTaxonomyJoin.fullOuterJoin(sequenceSourceRDD)
+                .mapValues(new UniParcTaxonomySequenceSourceJoin());
+
         // <xrefIdUniqueKey, List<UniParcCrossReference>>
         JavaRDD<UniParcCrossReferencePair> crossRefIdCrossRef =
                 uniParcRDD
-                        .mapToPair(e -> new Tuple2<>(e.getUniParcId().getValue(), e))
-                        .leftOuterJoin(loadSequenceSource())
-                        .mapValues(new UniParcSequenceSourceJoin())
-                        .values()
+                        .mapToPair(new UniParcEntryKeyMapper())
+                        .leftOuterJoin(uniParcJoin)
+                        .map(new UniParcEntryJoin())
                         .flatMap(new UniParcCrossReferenceMapper(xrefBatchSize));
+
         saveInDataStore(crossRefIdCrossRef);
         log.info("Completed UniParc Cross Reference Data Store index");
     }
 
+    /**
+     *
+     * @return JavaPairRDD<UniParcID, Map<accession, Set<sources>>>
+     */
     JavaPairRDD<String, Map<String, Set<String>>> loadSequenceSource() {
         UniProtKBUniParcMappingRDDTupleReader uniProtKBUniParcMapper =
                 new UniProtKBUniParcMappingRDDTupleReader(parameter);

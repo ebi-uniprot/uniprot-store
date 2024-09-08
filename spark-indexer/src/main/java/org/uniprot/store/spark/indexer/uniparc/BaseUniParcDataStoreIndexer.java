@@ -9,7 +9,7 @@ import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryKeyMapper;
-import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryTaxonomyJoin;
+import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryJoin;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyMapper;
 
 import com.typesafe.config.Config;
@@ -64,12 +64,12 @@ public abstract class BaseUniParcDataStoreIndexer implements DataStoreIndexer {
                         .mapToPair(tuple -> tuple._2)
                         .groupByKey();
 
-        JavaRDD<UniParcEntry> uniParcJoinedRDD =
+/*        JavaRDD<UniParcEntry> uniParcJoinedRDD =
                 uniParcRDD
                         .mapToPair(new UniParcEntryKeyMapper())
                         .leftOuterJoin(uniParcJoin)
-                        .map(new UniParcEntryTaxonomyJoin());
-        return uniParcJoinedRDD;
+                        .map(new UniParcEntryJoin());*/
+        return uniParcRDD;
     }
 
     JavaPairRDD<String, TaxonomyEntry> loadTaxonomyEntryJavaPairRDD() {
