@@ -121,7 +121,7 @@ public class UniParcEntryJoin implements Function<Tuple2<String, Tuple2<UniParcE
                                     e ->
                                             e.getValue().stream()
                                                     .map(mappedCrossReference::get)
-                                                    .filter(xref -> xref.getProteomeId() != null)
+                                                    .filter(xref -> xref != null && xref.getProteomeId() != null)
                                                     .map(
                                                             xref ->
                                                                     xref.getId()
