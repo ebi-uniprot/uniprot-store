@@ -38,9 +38,7 @@ import org.uniprot.store.spark.indexer.subcell.SubcellularLocationRDDReader;
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.MappedProteinAccession;
 import org.uniprot.store.spark.indexer.subcellularlocation.mapper.SubcellularLocationJoinMapper;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
-import org.uniprot.store.spark.indexer.uniparc.UniParcRDDTupleReader;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcDeletedUniProtKBJoin;
-import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcInactiveUniProtKBMapper;
 import org.uniprot.store.spark.indexer.uniprot.mapper.*;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniRefJoinMapper;
 import org.uniprot.store.spark.indexer.uniprot.mapper.UniRefMappedToUniprotDocument;
@@ -116,11 +114,10 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
      * @return RDD of JavaPairRDD<accesion, UniProtDocument> with inactive entries information
      */
     JavaPairRDD<String, UniProtDocument> getInactiveEntryRDD() {
-        UniParcRDDTupleReader uniParcRDDTupleReader = new UniParcRDDTupleReader(parameter, false);
-
+        UniProtKBUniParcMappingRDDTupleReader uniParcRDDTupleReader =
+                new UniProtKBUniParcMappingRDDTupleReader(parameter, false);
         // JavaPairRDD<accession,uniParcId> inactiveUniParc
-        JavaPairRDD<String, String> inactiveUniParc =
-                uniParcRDDTupleReader.load().flatMapToPair(new UniParcInactiveUniProtKBMapper());
+        JavaPairRDD<String, String> inactiveUniParc = uniParcRDDTupleReader.load();
 
         // JavaPairRDD<accession,UniProtDocument> inactiveUniParc
         JavaPairRDD<String, UniProtDocument> inactiveEntryRDD =
@@ -129,7 +126,7 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .mapValues(new UniParcDeletedUniProtKBJoin())
                         .mapValues(new UniProtEntryToSolrDocument(Collections.emptyMap()));
 
-        return inactiveEntryRDD.repartition(max(1, inactiveEntryRDD.getNumPartitions() / 5));
+        return inactiveEntryRDD;
     }
 
     /**
