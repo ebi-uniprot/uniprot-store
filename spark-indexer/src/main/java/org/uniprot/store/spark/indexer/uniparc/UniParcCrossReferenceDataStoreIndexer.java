@@ -54,9 +54,10 @@ public class UniParcCrossReferenceDataStoreIndexer extends BaseUniParcDataStoreI
                         .mapToPair(tuple -> tuple._2)
                         .groupByKey();
 
-
+        //JavaPairRDD<uniParcId, Map<source, Set<accession>>>
         JavaPairRDD<String, Map<String, Set<String>>> sequenceSourceRDD = loadSequenceSource();
 
+        //JavaPairRDD<uniParcId, UniParcTaxonomySequenceSource>
         JavaPairRDD<String, UniParcTaxonomySequenceSource> uniParcJoin = uniParcTaxonomyJoin.fullOuterJoin(sequenceSourceRDD)
                 .mapValues(new UniParcTaxonomySequenceSourceJoin());
 

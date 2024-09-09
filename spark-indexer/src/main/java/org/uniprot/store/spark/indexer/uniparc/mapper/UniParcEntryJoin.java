@@ -103,34 +103,39 @@ public class UniParcEntryJoin implements Function<Tuple2<String, Tuple2<UniParcE
     }
 
     private Map<String, Set<String>> getMappedSourcesWithProteomes(
-            List<UniParcCrossReference> uniParcCrossReferences,
+            List<UniParcCrossReference> xrefs,
             Map<String, Set<String>> sourceMap) {
         Map<String, Set<String>> result = new HashMap<>();
         if (sourceMap != null) {
-            Map<String, UniParcCrossReference> mappedCrossReference =
-                    uniParcCrossReferences.stream()
-                            .collect(
-                                    Collectors.toMap(
-                                            UniParcCrossReference::getId,
-                                            e -> e,
-                                            (e1, e2) -> e1.isActive() ? e1 : e2));
+            Map<String, UniParcCrossReference> mappedCrossReference = getMappedCrossReference(xrefs);
             result = sourceMap.entrySet().stream()
-                    .collect(
-                            Collectors.toMap(
+                    .collect(Collectors.toMap(
                                     Map.Entry::getKey,
-                                    e ->
-                                            e.getValue().stream()
-                                                    .map(mappedCrossReference::get)
-                                                    .filter(xref -> xref != null && xref.getProteomeId() != null)
-                                                    .map(
-                                                            xref ->
-                                                                    xref.getId()
-                                                                            + ":"
-                                                                            + xref.getProteomeId()
-                                                                            + ":"
-                                                                            + xref.getComponent())
-                                                    .collect(Collectors.toSet())));
+                                    source -> addProteome(source, mappedCrossReference)));
         }
         return result;
+    }
+
+    @NotNull
+    private static Map<String, UniParcCrossReference> getMappedCrossReference(List<UniParcCrossReference> xrefs) {
+        return xrefs.stream()
+                .collect(
+                        Collectors.toMap(
+                                UniParcCrossReference::getId,
+                                xref -> xref,
+                                (xref1, xref2) -> xref1.isActive() ? xref1 : xref2));
+    }
+
+    @NotNull
+    private static Set<String> addProteome(Map.Entry<String, Set<String>> e, Map<String, UniParcCrossReference> mappedCrossReference) {
+        return e.getValue().stream()
+                .map(mappedCrossReference::get)
+                .filter(xref -> xref != null && xref.getProteomeId() != null)
+                .map(UniParcEntryJoin::getAccessionWithProteome)
+                .collect(Collectors.toSet());
+    }
+
+    private static String getAccessionWithProteome(UniParcCrossReference xref) {
+        return xref.getId() + ":" + xref.getProteomeId() + ":" + xref.getComponent();
     }
 }
