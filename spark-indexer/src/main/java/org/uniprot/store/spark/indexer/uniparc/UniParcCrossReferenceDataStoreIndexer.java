@@ -38,28 +38,18 @@ public class UniParcCrossReferenceDataStoreIndexer extends BaseUniParcDataStoreI
         UniParcRDDTupleReader reader = new UniParcRDDTupleReader(parameter, false);
         JavaRDD<UniParcEntry> uniParcRDD = reader.load();
 
-        // JavaPairRDD<taxId,uniParcId>
-        JavaPairRDD<String, String> taxonomyJoin =
-                uniParcRDD.flatMapToPair(new UniParcTaxonomyMapper());
-
-        // JavaPairRDD<taxId,TaxonomyEntry>
-        JavaPairRDD<String, TaxonomyEntry> taxonomyEntryJavaPairRDD =
-                loadTaxonomyEntryJavaPairRDD();
-
         // JavaPairRDD<uniParcId,Iterable<TaxonomyEntry>>
         JavaPairRDD<String, Iterable<TaxonomyEntry>> uniParcTaxonomyJoin =
-                taxonomyJoin
-                        .join(taxonomyEntryJavaPairRDD)
-                        // After Join RDD: JavaPairRDD<taxId,Tuple2<uniParcId,TaxonomyEntry>>
-                        .mapToPair(tuple -> tuple._2)
-                        .groupByKey();
+                getUniParcTaxonomyRDD(uniParcRDD);
 
-        //JavaPairRDD<uniParcId, Map<source, Set<accession>>>
+        // JavaPairRDD<uniParcId, Map<source, Set<accession>>>
         JavaPairRDD<String, Map<String, Set<String>>> sequenceSourceRDD = loadSequenceSource();
 
-        //JavaPairRDD<uniParcId, UniParcTaxonomySequenceSource>
-        JavaPairRDD<String, UniParcTaxonomySequenceSource> uniParcJoin = uniParcTaxonomyJoin.fullOuterJoin(sequenceSourceRDD)
-                .mapValues(new UniParcTaxonomySequenceSourceJoin());
+        // JavaPairRDD<uniParcId, UniParcTaxonomySequenceSource>
+        JavaPairRDD<String, UniParcTaxonomySequenceSource> uniParcJoin =
+                uniParcTaxonomyJoin
+                        .fullOuterJoin(sequenceSourceRDD)
+                        .mapValues(new UniParcTaxonomySequenceSourceJoin());
 
         // <xrefIdUniqueKey, List<UniParcCrossReference>>
         JavaRDD<UniParcCrossReferencePair> crossRefIdCrossRef =
@@ -74,7 +64,6 @@ public class UniParcCrossReferenceDataStoreIndexer extends BaseUniParcDataStoreI
     }
 
     /**
-     *
      * @return JavaPairRDD<UniParcID, Map<accession, Set<sources>>>
      */
     JavaPairRDD<String, Map<String, Set<String>>> loadSequenceSource() {

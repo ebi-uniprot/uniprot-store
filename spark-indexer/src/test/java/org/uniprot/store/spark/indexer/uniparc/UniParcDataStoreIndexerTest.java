@@ -68,8 +68,12 @@ class UniParcDataStoreIndexerTest {
             List<UniParcEntry> result = uniparcJoinedRDD.collect();
             assertNotNull(result);
             assertEquals(2, result.size());
-            UniParcEntry entry = result.get(0);
-            assertEquals("UPI00000E8551", entry.getUniParcId().getValue());
+            UniParcEntry entry =
+                    result.stream()
+                            .filter(e -> e.getUniParcId().getValue().equals("UPI00000E8551"))
+                            .findFirst()
+                            .orElse(null);
+            assertNotNull(entry);
             entry.getUniParcCrossReferences().stream()
                     .map(UniParcCrossReference::getOrganism)
                     .filter(Objects::nonNull)
@@ -87,8 +91,12 @@ class UniParcDataStoreIndexerTest {
             assertFalse(optOrganism.get().getScientificName().isEmpty());
             assertEquals("sn10116", optOrganism.get().getScientificName());
 
-            entry = result.get(1);
-            assertEquals("UPI000000017F", entry.getUniParcId().getValue());
+            entry =
+                    result.stream()
+                            .filter(e -> e.getUniParcId().getValue().equals("UPI000000017F"))
+                            .findFirst()
+                            .orElse(null);
+            assertNotNull(entry);
         }
 
         @Override

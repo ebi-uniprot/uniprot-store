@@ -9,7 +9,7 @@ import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryKeyMapper;
-import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryJoin;
+import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryTaxonomyJoin;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyMapper;
 
 import com.typesafe.config.Config;
@@ -48,6 +48,24 @@ public abstract class BaseUniParcDataStoreIndexer implements DataStoreIndexer {
         UniParcRDDTupleReader reader = new UniParcRDDTupleReader(parameter, false);
         JavaRDD<UniParcEntry> uniParcRDD = reader.load();
 
+        // JavaPairRDD<uniParcId, Iterable<TaxonomyEntry>>
+        JavaPairRDD<String, Iterable<TaxonomyEntry>> uniParcJoin =
+                getUniParcTaxonomyRDD(uniParcRDD);
+
+        JavaRDD<UniParcEntry> uniParcJoinedRDD =
+                uniParcRDD
+                        .mapToPair(new UniParcEntryKeyMapper())
+                        .leftOuterJoin(uniParcJoin)
+                        .map(new UniParcEntryTaxonomyJoin());
+        return uniParcJoinedRDD;
+    }
+
+    /**
+     * @param uniParcRDD JavaRDD<UniParcEntry> extracted from XML.
+     * @return JavaPairRDD<uniParcId, Iterable<TaxonomyEntry>>
+     */
+    protected JavaPairRDD<String, Iterable<TaxonomyEntry>> getUniParcTaxonomyRDD(
+            JavaRDD<UniParcEntry> uniParcRDD) {
         // JavaPairRDD<taxId,uniParcId>
         JavaPairRDD<String, String> taxonomyJoin =
                 uniParcRDD.flatMapToPair(new UniParcTaxonomyMapper());
@@ -63,13 +81,7 @@ public abstract class BaseUniParcDataStoreIndexer implements DataStoreIndexer {
                         // After Join RDD: JavaPairRDD<taxId,Tuple2<uniParcId,TaxonomyEntry>>
                         .mapToPair(tuple -> tuple._2)
                         .groupByKey();
-
-/*        JavaRDD<UniParcEntry> uniParcJoinedRDD =
-                uniParcRDD
-                        .mapToPair(new UniParcEntryKeyMapper())
-                        .leftOuterJoin(uniParcJoin)
-                        .map(new UniParcEntryJoin());*/
-        return uniParcRDD;
+        return uniParcJoin;
     }
 
     JavaPairRDD<String, TaxonomyEntry> loadTaxonomyEntryJavaPairRDD() {
