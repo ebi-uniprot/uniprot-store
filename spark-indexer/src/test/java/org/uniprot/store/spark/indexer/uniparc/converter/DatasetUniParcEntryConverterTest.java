@@ -9,7 +9,6 @@ import java.util.List;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.Location;
 import org.uniprot.core.Property;
 import org.uniprot.core.uniparc.*;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
@@ -98,10 +97,11 @@ class DatasetUniParcEntryConverterTest {
         assertNotNull(sequenceFeature.getLocations());
         assertEquals(1, sequenceFeature.getLocations().size());
 
-        Location location = sequenceFeature.getLocations().get(0);
+        SequenceFeatureLocation location = sequenceFeature.getLocations().get(0);
         assertNotNull(location);
         assertEquals(10, location.getStart());
         assertEquals(20, location.getEnd());
+        assertEquals("M50", location.getAlignment());
     }
 
     private void validateDbReference(UniParcCrossReference dbReference) {
@@ -245,6 +245,7 @@ class DatasetUniParcEntryConverterTest {
         List<Object> location = new ArrayList<>();
         location.add(10L); // _start
         location.add(20L); // _end
+        location.add("M50"); // _alignment
 
         Row locationRow = new GenericRowWithSchema(location.toArray(), getLocationSchema());
 
