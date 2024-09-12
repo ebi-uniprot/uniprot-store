@@ -10,7 +10,6 @@ import java.util.List;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
 import org.junit.jupiter.api.Test;
-import org.uniprot.core.Location;
 import org.uniprot.core.Property;
 import org.uniprot.core.uniparc.*;
 
@@ -83,25 +82,6 @@ class DatasetUniParcEntryConverterTest {
         Row invalidProps = getFullUniParcRow(false);
         DatasetUniParcEntryConverter converter = new DatasetUniParcEntryConverter();
         assertThrows(IllegalArgumentException.class, () -> converter.call(invalidProps));
-    }
-
-    private void validateSequenceFeature(SequenceFeature sequenceFeature) {
-        assertNotNull(sequenceFeature);
-        assertEquals("idValue", sequenceFeature.getSignatureDbId());
-        assertEquals(SignatureDbType.PFAM, sequenceFeature.getSignatureDbType());
-
-        InterProGroup group = sequenceFeature.getInterProDomain();
-        assertNotNull(group);
-        assertEquals("idValue", group.getId());
-        assertEquals("nameValue", group.getName());
-
-        assertNotNull(sequenceFeature.getLocations());
-        assertEquals(1, sequenceFeature.getLocations().size());
-
-        Location location = sequenceFeature.getLocations().get(0);
-        assertNotNull(location);
-        assertEquals(10, location.getStart());
-        assertEquals(20, location.getEnd());
     }
 
     private void validateDbReference(UniParcCrossReference dbReference) {

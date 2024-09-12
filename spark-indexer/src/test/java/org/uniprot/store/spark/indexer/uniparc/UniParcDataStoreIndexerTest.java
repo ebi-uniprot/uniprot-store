@@ -16,8 +16,7 @@ import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
-import org.uniprot.core.uniparc.UniParcCrossReference;
-import org.uniprot.core.uniparc.UniParcEntry;
+import org.uniprot.core.uniparc.*;
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
@@ -89,8 +88,21 @@ class UniParcDataStoreIndexerTest {
 
             entry = result.get(1);
             assertEquals("UPI000000017F", entry.getUniParcId().getValue());
-            entry = result.get(2);
-            assertEquals("UPI0001C61C61", entry.getUniParcId().getValue());
+            List<SequenceFeature> sequenceFeatures = entry.getSequenceFeatures();
+            assertNotNull(sequenceFeatures);
+            assertEquals(5, sequenceFeatures.size());
+
+            SequenceFeature sequenceFeature = sequenceFeatures.get(4);
+            assertEquals(SignatureDbType.SUPFAM, sequenceFeature.getSignatureDbType());
+            assertEquals("SSF56720", sequenceFeature.getSignatureDbId());
+            assertNotNull(sequenceFeature.getLocations());
+            assertEquals(1, sequenceFeature.getLocations().size());
+
+            SequenceFeatureLocation sfl = sequenceFeature.getLocations().get(0);
+            assertNotNull(sfl);
+            assertEquals(6, sfl.getStart());
+            assertEquals(109, sfl.getEnd());
+            assertEquals("M50", sfl.getAlignment());
         }
 
         @Override

@@ -12,6 +12,7 @@ import java.util.List;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
 import org.junit.jupiter.api.Test;
+import org.uniprot.core.uniparc.SequenceFeature;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntryLight;
 
@@ -35,6 +36,8 @@ class DatasetUniParcEntryLightConverterTest {
         assertTrue(entry.getProteomes().isEmpty());
         assertTrue(entry.getGeneNames().isEmpty());
         assertTrue(entry.getExtraAttributes().isEmpty());
+        SequenceFeature sequenceFeature = entry.getSequenceFeatures().get(0);
+        validateSequenceFeature(sequenceFeature);
     }
 
     @Test

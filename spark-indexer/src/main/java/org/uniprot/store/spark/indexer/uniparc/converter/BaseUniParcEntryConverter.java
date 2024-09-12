@@ -14,10 +14,10 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.types.ArrayType;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructType;
-import org.uniprot.core.Location;
 import org.uniprot.core.uniparc.*;
 import org.uniprot.core.uniparc.impl.InterProGroupBuilder;
 import org.uniprot.core.uniparc.impl.SequenceFeatureBuilder;
+import org.uniprot.core.uniparc.impl.SequenceFeatureLocationBuilder;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +36,7 @@ public abstract class BaseUniParcEntryConverter<T> implements MapFunction<Row, T
     protected static final String NAME = "_name";
     protected static final String START = "_start";
     protected static final String END = "_end";
+    protected static final String ALIGNMENT = "_alignment";
     protected static final String TYPE = "_type";
     protected static final String VERSION_I = "_version_i";
     protected static final String ACTIVE = "_active";
@@ -83,16 +84,18 @@ public abstract class BaseUniParcEntryConverter<T> implements MapFunction<Row, T
         return builder.build();
     }
 
-    protected Location convertLocation(Row rowValue) {
-        Long start = 0L;
+    protected SequenceFeatureLocation convertLocation(Row rowValue) {
+        SequenceFeatureLocationBuilder builder = new SequenceFeatureLocationBuilder();
         if (hasFieldName(START, rowValue)) {
-            start = rowValue.getLong(rowValue.fieldIndex(START));
+            builder.start((int) rowValue.getLong(rowValue.fieldIndex(START)));
         }
-        Long end = 0L;
         if (hasFieldName(END, rowValue)) {
-            end = rowValue.getLong(rowValue.fieldIndex(END));
+            builder.end((int) rowValue.getLong(rowValue.fieldIndex(END)));
         }
-        return new Location(start.intValue(), end.intValue());
+        if (hasFieldName(ALIGNMENT, rowValue)) {
+            builder.alignment(rowValue.getString(rowValue.fieldIndex(ALIGNMENT)));
+        }
+        return builder.build();
     }
 
     protected DateTimeFormatter getDateTimeFormatter() {
@@ -152,6 +155,7 @@ public abstract class BaseUniParcEntryConverter<T> implements MapFunction<Row, T
         StructType structType = new StructType();
         structType = structType.add(START, DataTypes.LongType, true);
         structType = structType.add(END, DataTypes.LongType, true);
+        structType = structType.add(ALIGNMENT, DataTypes.StringType, true);
         return structType;
     }
 
