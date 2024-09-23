@@ -18,12 +18,13 @@ import lombok.extern.slf4j.Slf4j;
 public class SolrIndexValidatorMain {
 
     public static void main(String[] args) throws Exception {
-        if (args == null || args.length != 3) {
+        if (args == null || args.length != 4) {
             throw new IllegalArgumentException(
                     "Invalid arguments. Expected "
                             + "args[0]= release name (for example: 2020_01)"
                             + "args[1]= collection name (for example: uniprot, uniparc or uniref)"
-                            + "args[2]=spark master node url (e.g. spark://hl-codon-102-02.ebi.ac.uk:37550)");
+                            + "args[2]= spark master node url (e.g. spark://hl-codon-102-02.ebi.ac.uk:37550)"
+                            + "args[3]= taxonomy db (e.g.read or fly)");
         }
 
         Config applicationConfig = SparkUtils.loadApplicationProperty();
@@ -33,6 +34,7 @@ public class SolrIndexValidatorMain {
                     JobParameter.builder()
                             .applicationConfig(applicationConfig)
                             .releaseName(args[0])
+                            .taxDb(args[3])
                             .sparkContext(sparkContext)
                             .build();
             List<SolrCollection> solrCollections = SparkUtils.getSolrCollection(args[1]);

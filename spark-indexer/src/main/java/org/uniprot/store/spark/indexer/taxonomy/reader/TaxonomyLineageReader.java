@@ -16,6 +16,8 @@ import com.typesafe.config.Config;
 
 import lombok.extern.slf4j.Slf4j;
 
+import static org.uniprot.store.spark.indexer.taxonomy.reader.TaxReaderConstants.READ;
+
 /**
  * This class is responsible to read values from Lineage into an a JavaPairRDD{key=taxId, value=List
  * of TaxonomyLineage}
@@ -63,13 +65,15 @@ public class TaxonomyLineageReader implements PairRDDReader<String, List<Taxonom
         JavaSparkContext sparkContext = jobParameter.getSparkContext();
         Config applicationConfig = jobParameter.getApplicationConfig();
 
-        int maxTaxId = TaxonomyUtil.getMaxTaxId(sparkContext, applicationConfig);
+        int maxTaxId = TaxonomyUtil.getMaxTaxId(sparkContext, applicationConfig, jobParameter);
         log.info("Max tax id: " + maxTaxId);
 
         SparkSession spark = SparkSession.builder().sparkContext(sparkContext.sc()).getOrCreate();
 
         int numberPartition =
                 Integer.parseInt(applicationConfig.getString("database.lineage.partition"));
+        String taxDb = jobParameter.getTaxDb();
+        boolean isReadDb = READ.equals(taxDb);
         int[][] ranges = getRanges(maxTaxId, numberPartition);
         JavaPairRDD<String, List<TaxonomyLineage>> result = null;
         for (int[] range : ranges) {
@@ -84,9 +88,9 @@ public class TaxonomyLineageReader implements PairRDDReader<String, List<Taxonom
                     spark.read()
                             .format("jdbc")
                             .option("driver", applicationConfig.getString("database.driver"))
-                            .option("url", applicationConfig.getString("database.url"))
-                            .option("user", applicationConfig.getString("database.user.name"))
-                            .option("password", applicationConfig.getString("database.password"))
+                            .option("url", isReadDb ? applicationConfig.getString("database.read.url") : applicationConfig.getString("database.fly.url"))
+                            .option("user", isReadDb ? applicationConfig.getString("database.read.user.name") : applicationConfig.getString("database.fly.user.name"))
+                            .option("password", isReadDb ? applicationConfig.getString("database.read.password"):applicationConfig.getString("database.fly.password"))
                             .option("query", sql)
                             .load();
             if (result == null) {

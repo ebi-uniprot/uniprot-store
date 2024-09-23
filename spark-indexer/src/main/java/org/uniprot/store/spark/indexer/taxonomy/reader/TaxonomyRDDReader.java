@@ -16,6 +16,8 @@ import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyRowMapper;
 
 import com.typesafe.config.Config;
 
+import static org.uniprot.store.spark.indexer.taxonomy.reader.TaxReaderConstants.READ;
+
 /**
  * This class is Responsible to load JavaPairRDD{key=taxId, value=TaxonomyEntry}
  *
@@ -55,16 +57,18 @@ public class TaxonomyRDDReader implements PairRDDReader<String, TaxonomyEntry> {
     private Dataset<Row> loadTaxonomyNodeRow() {
         JavaSparkContext sparkContext = jobParameter.getSparkContext();
         Config applicationConfig = jobParameter.getApplicationConfig();
-        long maxTaxId = TaxonomyUtil.getMaxTaxId(sparkContext, applicationConfig);
+        long maxTaxId = TaxonomyUtil.getMaxTaxId(sparkContext, applicationConfig, jobParameter);
         int numberPartition =
                 Integer.parseInt(applicationConfig.getString("database.taxonomy.partition"));
         SparkSession spark = SparkSession.builder().sparkContext(sparkContext.sc()).getOrCreate();
+        String taxDb = jobParameter.getTaxDb();
+        boolean isReadDb = READ.equals(taxDb);
         return spark.read()
                 .format("jdbc")
                 .option("driver", applicationConfig.getString("database.driver"))
-                .option("url", applicationConfig.getString("database.url"))
-                .option("user", applicationConfig.getString("database.user.name"))
-                .option("password", applicationConfig.getString("database.password"))
+                .option("url", isReadDb ? applicationConfig.getString("database.read.url") : applicationConfig.getString("database.fly.url"))
+                .option("user", isReadDb ? applicationConfig.getString("database.read.user.name") : applicationConfig.getString("database.fly.user.name"))
+                .option("password", isReadDb ? applicationConfig.getString("database.read.password"):applicationConfig.getString("database.fly.password"))
                 .option("dbtable", "taxonomy.v_public_node")
                 .option("fetchsize", 5000L)
                 .option("numPartitions", numberPartition)

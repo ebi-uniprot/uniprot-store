@@ -12,6 +12,8 @@ import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyMergedRowMapper;
 
 import com.typesafe.config.Config;
 
+import static org.uniprot.store.spark.indexer.taxonomy.reader.TaxReaderConstants.READ;
+
 public class TaxonomyMergedRDDReader implements RDDReader<TaxonomyDocument> {
 
     private final JobParameter jobParameter;
@@ -30,13 +32,15 @@ public class TaxonomyMergedRDDReader implements RDDReader<TaxonomyDocument> {
     private Dataset<Row> loadNodeRow() {
         JavaSparkContext sparkContext = jobParameter.getSparkContext();
         Config applicationConfig = jobParameter.getApplicationConfig();
+        String taxDb = jobParameter.getTaxDb();
+        boolean isReadDb = READ.equals(taxDb);
         SparkSession spark = SparkSession.builder().sparkContext(sparkContext.sc()).getOrCreate();
         return spark.read()
                 .format("jdbc")
                 .option("driver", applicationConfig.getString("database.driver"))
-                .option("url", applicationConfig.getString("database.url"))
-                .option("user", applicationConfig.getString("database.user.name"))
-                .option("password", applicationConfig.getString("database.password"))
+                .option("url", isReadDb ? applicationConfig.getString("database.read.url") : applicationConfig.getString("database.fly.url"))
+                .option("user", isReadDb ? applicationConfig.getString("database.read.user.name") : applicationConfig.getString("database.fly.user.name"))
+                .option("password", isReadDb ? applicationConfig.getString("database.read.password"):applicationConfig.getString("database.fly.password"))
                 .option("dbtable", "taxonomy.v_public_merged")
                 .option("fetchsize", 1000L)
                 .load();
