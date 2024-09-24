@@ -118,9 +118,7 @@ public class UniParcEntryMocker {
     }
 
     public static String getName(String prefix, int i) {
-        if (i < 10) {
-            return prefix + "0" + i;
-        } else return prefix + i;
+       return String.format(prefix+"%02d", i);
     }
 
     public static Organism getOrganism(long taxId) {

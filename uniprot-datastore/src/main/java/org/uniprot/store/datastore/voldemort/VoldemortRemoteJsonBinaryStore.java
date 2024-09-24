@@ -252,7 +252,7 @@ public abstract class VoldemortRemoteJsonBinaryStore<T> implements VoldemortClie
         doSave(getStoreId(entry), entry);
     }
 
-    protected void doSave(String key, T entry) {
+    private void doSave(String key, T entry) {
         Timer.Context time =
                 MetricsUtil.getMetricRegistryInstance().timer("voldemort-save-entry-time").time();
         byte[] binaryEntry;

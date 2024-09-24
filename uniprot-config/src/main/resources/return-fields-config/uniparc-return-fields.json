@@ -160,12 +160,14 @@
     "childNumber": 0,
     "itemType": "SINGLE",
     "isDefaultForTsv": true,
+    "isRequiredForJson": true,
     "defaultForTsvOrder" : 3,
     "label": "First seen",
     "name": "first_seen",
-    "paths": ["uniParcCrossReferences[*].created","oldestCrossRefCreated"],
+    "paths": ["oldestCrossRefCreated"],
     "id": "date_of/first_seen",
-    "includeInSwagger": true
+    "includeInSwagger": true,
+    "aliases": ["oldestCrossRefCreated"]
   },
   {
     "parentId": "date_of",
@@ -175,8 +177,9 @@
     "defaultForTsvOrder" : 4,
     "label": "Last seen",
     "name": "last_seen",
-    "paths": ["uniParcCrossReferences[*].lastUpdated","mostRecentCrossRefUpdated"],
+    "paths": ["mostRecentCrossRefUpdated"],
     "id": "date_of/last_seen",
+    "aliases": ["mostRecentCrossRefUpdated"],
     "includeInSwagger": true
   },
   {
@@ -315,19 +318,5 @@
     "paths": ["sequenceFeatures"],
     "id": "family_&_domains/fullsequencefeatures",
     "includeInSwagger": true
-  },
-  {
-    "itemType": "SINGLE",
-    "isRequiredForJson": true,
-    "name": "oldestCrossRefCreated",
-    "paths": ["oldestCrossRefCreated"],
-    "id": "oldestCrossRefCreated"
-  },
-  {
-    "itemType": "SINGLE",
-    "isRequiredForJson": true,
-    "name": "mostRecentCrossRefUpdated",
-    "paths": ["mostRecentCrossRefUpdated"],
-    "id": "mostRecentCrossRefUpdated"
   }
 ]

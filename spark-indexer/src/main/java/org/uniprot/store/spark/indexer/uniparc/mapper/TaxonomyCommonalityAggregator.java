@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 
+import org.uniprot.core.util.Utils;
 import scala.Tuple2;
 
 public class TaxonomyCommonalityAggregator
@@ -42,7 +43,7 @@ public class TaxonomyCommonalityAggregator
     }
 
     String findLastCommonTaxonomy(List<List<TaxonomyLineage>> allLineages) {
-        if (allLineages == null || allLineages.isEmpty()) {
+        if (Utils.nullOrEmpty(allLineages)) {
             return null;
         }
 
