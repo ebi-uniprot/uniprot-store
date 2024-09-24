@@ -61,7 +61,7 @@ public class UniParcCrossReferenceDataStoreIndexerTest {
         void saveInDataStore(JavaRDD<UniParcCrossReferencePair> uniParcCrossRefWrap) {
             List<UniParcCrossReferencePair> result = uniParcCrossRefWrap.collect();
             assertNotNull(result);
-            assertEquals(8, result.size());
+            assertEquals(10, result.size());
         }
 
         @Override

@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.uniparc.converter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.uniprot.store.spark.indexer.uniparc.converter.DatasetUniParcEntryConverter.*;
 import static org.uniprot.store.spark.indexer.uniparc.converter.DatasetUniParcEntryConverter.getLocationSchema;
 
@@ -8,6 +10,9 @@ import java.util.List;
 
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema;
+import org.uniprot.core.uniparc.InterProGroup;
+import org.uniprot.core.uniparc.SequenceFeature;
+import org.uniprot.core.uniparc.SequenceFeatureLocation;
 import org.uniprot.core.uniparc.SignatureDbType;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
 
@@ -90,7 +95,7 @@ public class UniParcConverterUtils {
         List<Object> location = new ArrayList<>();
         location.add(10L); // _start
         location.add(20L); // _end
-
+        location.add("M50"); // _alignment
         Row locationRow = new GenericRowWithSchema(location.toArray(), getLocationSchema());
 
         List<Object> locationRowSeq = new ArrayList<>();
@@ -100,5 +105,25 @@ public class UniParcConverterUtils {
                 JavaConverters.asScalaIteratorConverter(locationRowSeq.iterator())
                         .asScala()
                         .toSeq();
+    }
+
+    static void validateSequenceFeature(SequenceFeature sequenceFeature) {
+        assertNotNull(sequenceFeature);
+        assertEquals("idValue", sequenceFeature.getSignatureDbId());
+        assertEquals(SignatureDbType.PFAM, sequenceFeature.getSignatureDbType());
+
+        InterProGroup group = sequenceFeature.getInterProDomain();
+        assertNotNull(group);
+        assertEquals("idValue", group.getId());
+        assertEquals("nameValue", group.getName());
+
+        assertNotNull(sequenceFeature.getLocations());
+        assertEquals(1, sequenceFeature.getLocations().size());
+
+        SequenceFeatureLocation location = sequenceFeature.getLocations().get(0);
+        assertNotNull(location);
+        assertEquals(10, location.getStart());
+        assertEquals(20, location.getEnd());
+        assertEquals("M50", location.getAlignment());
     }
 }

@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.uniparc.converter;
 
+import static org.uniprot.core.uniparc.impl.UniParcEntryLightBuilder.HAS_ACTIVE_CROSS_REF;
+
 import java.io.Serial;
 import java.time.LocalDate;
 import java.util.*;
@@ -25,10 +27,15 @@ public class DatasetUniParcEntryLightConverter
         builder.uniParcId(uniParcId);
         LocalDate mostRecentUpdated = LocalDate.MIN;
         LocalDate oldestCreated = LocalDate.MAX;
-
+        boolean hasActiveCrossRef = false;
         if (RowUtils.hasFieldName(DB_REFERENCE, rowValue)) {
             List<Row> dbReferences = rowValue.getList(rowValue.fieldIndex(DB_REFERENCE));
             for (Row dbReference : dbReferences) {
+                // set hasActiveCrossRef to true if any cross ref is active
+                if (RowUtils.hasFieldName(ACTIVE, dbReference)) {
+                    String active = dbReference.getString(dbReference.fieldIndex(ACTIVE));
+                    hasActiveCrossRef = hasActiveCrossRef || active.equalsIgnoreCase("Y");
+                }
                 String uniProtKBAccession = getUniProtKBAccession(dbReference);
                 builder.uniProtKBAccessionsAdd(uniProtKBAccession);
 
@@ -72,6 +79,10 @@ public class DatasetUniParcEntryLightConverter
         if (RowUtils.hasFieldName(SEQUENCE, rowValue)) {
             Row sequence = (Row) rowValue.get(rowValue.fieldIndex(SEQUENCE));
             builder.sequence(RowUtils.convertSequence(sequence));
+        }
+
+        if (!hasActiveCrossRef) {
+            builder.extraAttributesAdd(HAS_ACTIVE_CROSS_REF, hasActiveCrossRef);
         }
 
         return builder.build();

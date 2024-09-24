@@ -22,7 +22,7 @@ import org.uniprot.store.spark.indexer.common.util.RowUtils;
  */
 public class DatasetUniParcEntryConverter extends BaseUniParcEntryConverter<UniParcEntry> {
 
-    @Serial private static final long serialVersionUID = 6976056637606160522L;
+    @Serial private static final long serialVersionUID = 1817073609115796687L;
 
     @Override
     public UniParcEntry call(Row rowValue) throws Exception {

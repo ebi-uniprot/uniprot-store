@@ -43,6 +43,7 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
                 getTaxonomyWithLineageRDD();
 
         // inner join taxonomyJoin with taxonomyWithLineage
+        // JavaPairRDD<uniParcId,List<List<TaxonomyLineage>>>
         JavaPairRDD<String, List<List<TaxonomyLineage>>> uniParcIdTaxonLineages =
                 taxonomyJoin
                         .join(taxonomyWithLineage)

@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.core.uniparc.impl.UniParcEntryLightBuilder.HAS_ACTIVE_CROSS_REF;
 import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import java.time.LocalDate;
@@ -62,10 +63,11 @@ class UniParcLightDataStoreIndexerTest {
         void saveInDataStore(JavaRDD<UniParcEntryLight> uniParcJoinedRDD) {
             List<UniParcEntryLight> result = uniParcJoinedRDD.collect();
             assertNotNull(result);
-            assertEquals(2, result.size());
+            assertEquals(3, result.size());
             UniParcEntryLight entry1 = result.get(0);
             assertEquals("UPI00000E8551", entry1.getUniParcId());
             assertEquals(12, entry1.getCrossReferenceCount());
+            assertTrue(entry1.getExtraAttributes().isEmpty());
             assertEquals(1, entry1.getCommonTaxons().size());
             assertEquals(
                     new CommonOrganismBuilder()
@@ -99,6 +101,11 @@ class UniParcLightDataStoreIndexerTest {
                             .build(),
                     entry2.getCommonTaxons().get(1));
             assertEquals(12, entry1.getCrossReferenceCount());
+            assertTrue(entry2.getExtraAttributes().isEmpty());
+            UniParcEntryLight entry3 = result.get(2);
+            assertEquals("UPI0001C61C61", entry3.getUniParcId());
+            assertEquals(1, entry3.getExtraAttributes().size());
+            assertEquals(false, entry3.getExtraAttributes().get(HAS_ACTIVE_CROSS_REF));
         }
 
         @Override
@@ -108,13 +115,26 @@ class UniParcLightDataStoreIndexerTest {
             List<TaxonomyLineage> lineage2 = getLineageFor117571();
             List<TaxonomyLineage> lineage3 = getLineageFor28141();
             List<TaxonomyLineage> lineage4 = getLineageFor1111();
+            List<TaxonomyLineage> lineage5 = getLineageFor9986();
             Tuple2<String, List<TaxonomyLineage>> tuple1 = new Tuple2<>("10116", lineage1);
             Tuple2<String, List<TaxonomyLineage>> tuple2 = new Tuple2<>("117571", lineage2);
             Tuple2<String, List<TaxonomyLineage>> tuple3 = new Tuple2<>("28141", lineage3);
             Tuple2<String, List<TaxonomyLineage>> tuple4 = new Tuple2<>("1111", lineage4);
+            Tuple2<String, List<TaxonomyLineage>> tuple5 = new Tuple2<>("9986", lineage5);
             return this.jobParameter
                     .getSparkContext()
-                    .parallelizePairs(List.of(tuple1, tuple2, tuple3, tuple4));
+                    .parallelizePairs(List.of(tuple1, tuple2, tuple3, tuple4, tuple5));
+        }
+
+        private List<TaxonomyLineage> getLineageFor9986() {
+            Object[][] values = {
+                {"cellular organisms", null, 131567, "no rank", true},
+                {"Eukaryota", "eucaryotes", 2759, "superkingdom", false},
+                {"Viridiplantae", null, 33090, "kingdom", false},
+                {"Streptophyta", null, 35493, "phylum", false},
+                {"Streptophytina", null, 131221, "subphylum", true}
+            };
+            return getTaxonomyLineages(values);
         }
 
         private List<TaxonomyLineage> getLineageFor1111() {
