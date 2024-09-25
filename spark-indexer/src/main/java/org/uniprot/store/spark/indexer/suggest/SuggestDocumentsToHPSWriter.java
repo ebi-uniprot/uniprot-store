@@ -94,7 +94,7 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .union(getGo(flatFileRDD))
                         .union(getUniProtKbOrganism(flatFileRDD, organismWithLineageRDD))
                         .union(getProteome(organismWithLineageRDD))
-                        .union(getUniParcTaxonomy(organismWithLineageRDD))
+                        //.union(getUniParcTaxonomy(organismWithLineageRDD))
                         .repartition(suggestPartition);
 
         SolrUtils.saveSolrInputDocumentRDD(suggestRDD, hpsPath);
