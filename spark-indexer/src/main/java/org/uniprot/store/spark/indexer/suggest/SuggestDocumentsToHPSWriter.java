@@ -86,15 +86,15 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
         JavaRDD<String> flatFileRDD = getFlatFileRDD();
         JavaRDD<SuggestDocument> suggestRDD =
                 getMain()
+                        .union(getUniParcTaxonomy(suggestPartition, organismWithLineageRDD))
                         .union(getKeyword())
                         .union(getSubcell())
                         .union(getEC(flatFileRDD))
                         .union(getChebi(flatFileRDD))
                         .union(getRheaComp(flatFileRDD))
                         .union(getGo(flatFileRDD))
-                        .union(getUniProtKbOrganism(flatFileRDD, organismWithLineageRDD))
+                        .union(getUniProtKbOrganism(flatFileRDD, organismWithLineageRDD).repartition(suggestPartition))
                         .union(getProteome(organismWithLineageRDD))
-                        .union(getUniParcTaxonomy(suggestPartition, organismWithLineageRDD))
                         .repartition(suggestPartition);
 
         SolrUtils.saveSolrInputDocumentRDD(suggestRDD, hpsPath);
@@ -372,15 +372,17 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .reduceByKey((taxId1, taxId2) -> taxId1);
 
         JavaRDD<SuggestDocument> organismSuggester =
-                getOrganism(taxonIdTaxonIdPair, organismWithLineageRDD, UNIPARC_ORGANISM);
+                getOrganism(taxonIdTaxonIdPair, organismWithLineageRDD, UNIPARC_ORGANISM)
+                        .repartition(suggestRepartition);
 
         JavaRDD<SuggestDocument> taxonomySuggester =
                 getTaxonomy(
                         taxonIdTaxonIdPair,
                         organismWithLineageRDD,
-                        SuggestDictionary.UNIPARC_TAXONOMY);
+                        SuggestDictionary.UNIPARC_TAXONOMY)
+                        .repartition(suggestRepartition);
 
-        return organismSuggester.union(taxonomySuggester).repartition(suggestRepartition);
+        return organismSuggester.union(taxonomySuggester);
     }
 
     JavaPairRDD<String, List<TaxonomyLineage>> getOrganismWithLineageRDD() {
