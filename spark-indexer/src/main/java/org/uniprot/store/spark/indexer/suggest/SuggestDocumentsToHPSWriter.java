@@ -83,8 +83,18 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
     void writeIndexDocumentsToHPS(int suggestPartition, String hpsPath) {
         var organismWithLineageRDD = getOrganismWithLineageRDD();
 
-        //JavaRDD<String> flatFileRDD = getFlatFileRDD();
-        JavaRDD<SuggestDocument> suggestRDD = getUniParcTaxonomy(organismWithLineageRDD)
+        JavaRDD<String> flatFileRDD = getFlatFileRDD();
+        JavaRDD<SuggestDocument> suggestRDD =
+                getMain()
+                        .union(getKeyword())
+                        .union(getSubcell())
+                        .union(getEC(flatFileRDD))
+                        .union(getChebi(flatFileRDD))
+                        .union(getRheaComp(flatFileRDD))
+                        .union(getGo(flatFileRDD))
+                        .union(getUniProtKbOrganism(flatFileRDD, organismWithLineageRDD))
+                        .union(getProteome(organismWithLineageRDD))
+                        .union(getUniParcTaxonomy(suggestPartition, organismWithLineageRDD))
                         .repartition(suggestPartition);
 
         SolrUtils.saveSolrInputDocumentRDD(suggestRDD, hpsPath);
@@ -340,7 +350,7 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
         return upidTaxonomyDocs.union(organismSuggester).union(taxonomyIdDocs);
     }
 
-    JavaRDD<SuggestDocument> getUniParcTaxonomy(
+    JavaRDD<SuggestDocument> getUniParcTaxonomy(int suggestRepartition,
             JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineageRDD) {
 
         // load the uniparc input file
@@ -370,7 +380,7 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         organismWithLineageRDD,
                         SuggestDictionary.UNIPARC_TAXONOMY);
 
-        return organismSuggester.union(taxonomySuggester);
+        return organismSuggester.union(taxonomySuggester).repartition(suggestRepartition);
     }
 
     JavaPairRDD<String, List<TaxonomyLineage>> getOrganismWithLineageRDD() {

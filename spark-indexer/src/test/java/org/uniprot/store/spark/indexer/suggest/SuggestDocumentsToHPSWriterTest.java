@@ -104,7 +104,7 @@ class SuggestDocumentsToHPSWriterTest {
         Mockito.when(writer.getUniProtKbOrganism(Mockito.any(), Mockito.any()))
                 .thenReturn(emptyRDD);
         Mockito.when(writer.getProteome(Mockito.any())).thenReturn(emptyRDD);
-        Mockito.when(writer.getUniParcTaxonomy(Mockito.any())).thenReturn(emptyRDD);
+        Mockito.when(writer.getUniParcTaxonomy(Mockito.anyInt(),Mockito.any())).thenReturn(emptyRDD);
 
         writer.writeIndexDocumentsToHPS(
                 1, hpsPath.toString() + File.separator + "testWriteIndexDocumentsToHPS");
@@ -119,7 +119,7 @@ class SuggestDocumentsToHPSWriterTest {
         Mockito.verify(writer, Mockito.atMostOnce())
                 .getUniProtKbOrganism(Mockito.any(), Mockito.any());
         Mockito.verify(writer, Mockito.atMostOnce()).getProteome(Mockito.any());
-        Mockito.verify(writer, Mockito.atMostOnce()).getUniParcTaxonomy(Mockito.any());
+        Mockito.verify(writer, Mockito.atMostOnce()).getUniParcTaxonomy(Mockito.anyInt(), Mockito.any());
     }
 
     @Test
@@ -417,7 +417,7 @@ class SuggestDocumentsToHPSWriterTest {
         SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
 
         JavaRDD<SuggestDocument> suggestRdd =
-                writer.getUniParcTaxonomy(
+                writer.getUniParcTaxonomy(1,
                         new TaxonomyRDDReaderFake(parameter, true, true).loadTaxonomyLineage());
         assertNotNull(suggestRdd);
         var suggests = suggestRdd.collect();
