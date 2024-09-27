@@ -6,7 +6,7 @@
 
 	<groupId>org.uniprot</groupId>
 	<artifactId>uniprot-store-parent</artifactId>
-	<version>1.0.35-SNAPSHOT</version>
+	<version>1.0.34.1</version>
 	<name>UniProt Store Aggregator</name>
 	<packaging>pom</packaging>
 
