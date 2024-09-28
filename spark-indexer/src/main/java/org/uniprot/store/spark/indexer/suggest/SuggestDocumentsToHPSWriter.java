@@ -39,6 +39,7 @@ import org.uniprot.store.spark.indexer.rhea.RheaCompRDDReader;
 import org.uniprot.store.spark.indexer.rhea.model.RheaComp;
 import org.uniprot.store.spark.indexer.subcell.SubcellularLocationRDDReader;
 import org.uniprot.store.spark.indexer.suggest.mapper.ProteomeToTaxonomyPair;
+import org.uniprot.store.spark.indexer.suggest.mapper.TaxonomyAggregator;
 import org.uniprot.store.spark.indexer.suggest.mapper.TaxonomyHighImportanceReduce;
 import org.uniprot.store.spark.indexer.suggest.mapper.document.*;
 import org.uniprot.store.spark.indexer.suggest.mapper.flatfile.*;
@@ -83,10 +84,12 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
     void writeIndexDocumentsToHPS(int suggestPartition, String hpsPath) {
         var organismWithLineageRDD = getOrganismWithLineageRDD();
 
+        JavaRDD<SuggestDocument> uniParcSuggestion = getUniParcTaxonomy(suggestPartition, organismWithLineageRDD);
+
         JavaRDD<String> flatFileRDD = getFlatFileRDD();
         JavaRDD<SuggestDocument> suggestRDD =
                 getMain()
-                        .union(getUniParcTaxonomy(suggestPartition, organismWithLineageRDD))
+                        .union(uniParcSuggestion)
                         .union(getKeyword())
                         .union(getSubcell())
                         .union(getEC(flatFileRDD))
@@ -369,20 +372,21 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                                                 .map(String::valueOf)
                                                 .iterator())
                         .mapToPair(taxonId -> new Tuple2<>(taxonId, taxonId))
-                        .reduceByKey((taxId1, taxId2) -> taxId1);
+                        .aggregateByKey(null, new TaxonomyAggregator(), new TaxonomyAggregator());
+
+        taxonIdTaxonIdPair.persist(StorageLevel.DISK_ONLY());
+        log.info("Total no of UniParc taxonIdTaxonIdPair: " + taxonIdTaxonIdPair.count());
 
         JavaRDD<SuggestDocument> organismSuggester =
-                getOrganism(taxonIdTaxonIdPair, organismWithLineageRDD, UNIPARC_ORGANISM)
-                        .repartition(suggestRepartition);
+                getOrganism(taxonIdTaxonIdPair, organismWithLineageRDD, UNIPARC_ORGANISM);
 
         JavaRDD<SuggestDocument> taxonomySuggester =
                 getTaxonomy(
                         taxonIdTaxonIdPair,
                         organismWithLineageRDD,
-                        SuggestDictionary.UNIPARC_TAXONOMY)
-                        .repartition(suggestRepartition);
+                        SuggestDictionary.UNIPARC_TAXONOMY);
 
-        return organismSuggester.union(taxonomySuggester);
+        return organismSuggester.union(taxonomySuggester).repartition(suggestRepartition);
     }
 
     JavaPairRDD<String, List<TaxonomyLineage>> getOrganismWithLineageRDD() {
