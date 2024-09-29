@@ -11,10 +11,6 @@ public class TaxonomyAggregator implements Function2<String, String, String> {
 
     @Override
     public String call(String tax1, String tax2) throws Exception {
-        String result = tax1;
-        if (SparkUtils.isThereAnyNullEntry(tax1, tax2)) {
-            result = SparkUtils.getNotNullEntry(tax1, tax2);
-        }
-        return result;
+        return SparkUtils.getNotNullEntry(tax1, tax2);
     }
 }

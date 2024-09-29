@@ -96,7 +96,7 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .union(getChebi(flatFileRDD))
                         .union(getRheaComp(flatFileRDD))
                         .union(getGo(flatFileRDD))
-                        .union(getUniProtKbOrganism(flatFileRDD, organismWithLineageRDD).repartition(suggestPartition))
+                        .union(getUniProtKbOrganism(flatFileRDD, organismWithLineageRDD))
                         .union(getProteome(organismWithLineageRDD))
                         .repartition(suggestPartition);
 
@@ -293,10 +293,11 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
     JavaRDD<SuggestDocument> getUniProtKbOrganism(
             JavaRDD<String> flatFileRDD,
             JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage) {
+        // JavaPairRDD<taxId, taxId> flatFileOrganismRDD -> extract from flat file OX lines
         JavaPairRDD<String, String> flatFileOrganismRDD =
                 flatFileRDD
                         .mapToPair(new FlatFileToOrganism())
-                        .reduceByKey((taxId1, taxId2) -> taxId1);
+                        .aggregateByKey(null,new TaxonomyAggregator(), new TaxonomyAggregator());
 
         // ORGANISM
         JavaRDD<SuggestDocument> organismSuggester =
@@ -308,22 +309,24 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .mapValues(rdd -> new Tuple2<>(rdd._1, Optional.of(rdd._2)))
                         .flatMapToPair(new TaxonomyToSuggestDocument(TAXONOMY))
                         .union(getDefaultHighImportantTaxon(TAXONOMY))
-                        .reduceByKey(new TaxonomyHighImportanceReduce())
-                        .values();
+                        .aggregateByKey(null, new TaxonomyHighImportanceReduce(), new TaxonomyHighImportanceReduce())
+                        .values()
+                        .repartition(1000); //TODO:
 
         // JavaPairRDD<taxId, taxId> flatFileOrganismHostRDD -> extract from flat file OH lines
         JavaPairRDD<String, String> flatFileOrganismHostRDD =
                 flatFileRDD
                         .flatMapToPair(new FlatFileToOrganismHost())
-                        .reduceByKey((taxId1, taxId2) -> taxId1);
+                        .aggregateByKey(null,new TaxonomyAggregator(), new TaxonomyAggregator());
         // ORGANISM HOST
         JavaRDD<SuggestDocument> organismHostSuggester =
                 flatFileOrganismHostRDD
                         .join(organismWithLineage)
                         .mapValues(new OrganismToSuggestDocument(HOST.name()))
                         .union(getDefaultHighImportantTaxon(HOST))
-                        .reduceByKey(new TaxonomyHighImportanceReduce())
-                        .values();
+                        .aggregateByKey(null, new TaxonomyHighImportanceReduce(),new TaxonomyHighImportanceReduce())
+                        .values()
+                        .repartition(1000);
 
         return organismSuggester.union(taxonomySuggester).union(organismHostSuggester);
     }

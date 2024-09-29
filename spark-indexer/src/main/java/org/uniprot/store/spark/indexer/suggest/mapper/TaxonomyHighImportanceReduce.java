@@ -7,6 +7,7 @@ import java.util.Set;
 import org.apache.spark.api.java.function.Function2;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 /**
  * This class merge two SuggestDocuments into one. During the merge we choose the one with highest
@@ -25,10 +26,10 @@ public class TaxonomyHighImportanceReduce
         SuggestDocument important = getMostImportant(doc1, doc2);
         if (!important.importance.equals(SuggestDocument.DEFAULT_IMPORTANCE)) {
             Set<String> altValues = new HashSet<>();
-            if (Utils.notNullNotEmpty(doc1.altValues)) {
+            if (Utils.notNull(doc1) && Utils.notNullNotEmpty(doc1.altValues)) {
                 altValues.addAll(doc1.altValues);
             }
-            if (Utils.notNullNotEmpty(doc2.altValues)) {
+            if (Utils.notNull(doc2) && Utils.notNullNotEmpty(doc2.altValues)) {
                 altValues.addAll(doc2.altValues);
             }
             important.altValues = new ArrayList<>(altValues);
@@ -38,11 +39,15 @@ public class TaxonomyHighImportanceReduce
 
     private SuggestDocument getMostImportant(SuggestDocument doc1, SuggestDocument doc2) {
         SuggestDocument result = doc1;
-        if (!doc2.importance.equals(SuggestDocument.DEFAULT_IMPORTANCE)) {
-            result = doc2;
-            result.value = doc1.value;
-        } else if (!doc1.importance.equals(SuggestDocument.DEFAULT_IMPORTANCE)) {
-            result.value = doc2.value;
+        if(SparkUtils.isThereAnyNullEntry(doc1,doc2)){
+            result = SparkUtils.getNotNullEntry(doc1, doc2);
+        } else {
+            if (!doc2.importance.equals(SuggestDocument.DEFAULT_IMPORTANCE)) {
+                result = doc2;
+                result.value = doc1.value;
+            } else if (!doc1.importance.equals(SuggestDocument.DEFAULT_IMPORTANCE)) {
+                result.value = doc2.value;
+            }
         }
         return result;
     }
