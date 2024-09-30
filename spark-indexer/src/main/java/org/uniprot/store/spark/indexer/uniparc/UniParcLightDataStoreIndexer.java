@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.storage.StorageLevel;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.uniparc.UniParcEntryLight;
 import org.uniprot.store.spark.indexer.common.JobParameter;
@@ -50,8 +49,8 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
                         .mapToPair(tuple -> tuple._2)
                         .aggregateByKey(
                                 new ArrayList<>(),
-                                new TaxonomyLineageToAccumulator(),
-                                new TaxonomyLineageAccumulatorsMerger());
+                                new TaxonomyLineageToAggregator(),
+                                new TaxonomyLineageAggregatorsMerger());
 
         // uniParc id and List of Tuples<toplevel organism, commonTaxon>
         // e.g. <UPI000001, [<"cellular organisms", "Bacteria">, <"Viruses", "Zilligvirae">]>
@@ -76,9 +75,6 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
         TaxonomyLineageReader lineageReader = new TaxonomyLineageReader(parameter, true);
         JavaPairRDD<String, List<TaxonomyLineage>> taxonomyWithLineage = lineageReader.load();
         taxonomyWithLineage.repartition(taxonomyWithLineage.getNumPartitions());
-        taxonomyWithLineage.persist(StorageLevel.DISK_ONLY());
-        // Call terminal operator count to have this RDD persisted on disk
-        log.info("Total number of TaxonomyLineage : " + taxonomyWithLineage.count());
         return taxonomyWithLineage;
     }
 

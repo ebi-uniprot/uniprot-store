@@ -81,8 +81,7 @@ class UniParcReturnFieldConfigImplIT {
 
     @Test
     void testInternalReturnFields() {
-        List<String> expectedInternalNames =
-                List.of("oldestCrossRefCreated", "mostRecentCrossRefUpdated");
+        List<String> expectedInternalNames = List.of("fullSequence", "fullsequencefeatures");
         List<ReturnField> internal =
                 returnFieldConfig.getReturnFields().stream()
                         .filter(rf -> Objects.isNull(rf.getParentId()))
@@ -90,7 +89,7 @@ class UniParcReturnFieldConfigImplIT {
         assertNotNull(internal);
         assertEquals(2, internal.size());
         List<String> internalNames =
-                internal.stream().map(ReturnField::getName).collect(Collectors.toList());
+                internal.stream().map(ReturnField::getId).collect(Collectors.toList());
 
         assertEquals(expectedInternalNames, internalNames);
     }
@@ -111,10 +110,7 @@ class UniParcReturnFieldConfigImplIT {
     private static Stream<Arguments> provideReturnFieldNames() {
         return returnFieldConfig.getReturnFields().stream()
                 .map(ReturnField::getName)
-                .filter(
-                        returnFieldName ->
-                                !("fullSequence".equals(returnFieldName)
-                                        || "fullsequencefeatures".equals(returnFieldName)))
+                .filter(Objects::nonNull)
                 .map(Arguments::of);
     }
 }

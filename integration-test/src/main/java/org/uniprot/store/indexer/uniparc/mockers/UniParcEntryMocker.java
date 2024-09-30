@@ -118,7 +118,7 @@ public class UniParcEntryMocker {
     }
 
     public static String getName(String prefix, int i) {
-       return String.format(prefix+"%02d", i);
+        return String.format(prefix + "%02d", i);
     }
 
     public static Organism getOrganism(long taxId) {

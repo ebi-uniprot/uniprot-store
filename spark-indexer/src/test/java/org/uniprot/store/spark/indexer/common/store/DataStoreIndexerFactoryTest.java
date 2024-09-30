@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-import org.uniprot.store.spark.indexer.uniparc.UniParcDataStoreIndexer;
+import org.uniprot.store.spark.indexer.uniparc.UniParcLightDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniref.UniRefLightDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniref.UniRefMembersDataStoreIndexer;
@@ -18,9 +18,9 @@ class DataStoreIndexerFactoryTest {
     @Test
     void createUniParcDataStoreIndexer() {
         DataStoreIndexerFactory factory = new DataStoreIndexerFactory();
-        DataStoreIndexer indexer = factory.createDataStoreIndexer(DataStore.UNIPARC, null);
+        DataStoreIndexer indexer = factory.createDataStoreIndexer(DataStore.UNIPARC_LIGHT, null);
         assertNotNull(indexer);
-        assertTrue(indexer instanceof UniParcDataStoreIndexer);
+        assertTrue(indexer instanceof UniParcLightDataStoreIndexer);
     }
 
     @Test

@@ -8,8 +8,8 @@ import java.util.Map;
 
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
-
 import org.uniprot.core.util.Utils;
+
 import scala.Tuple2;
 
 public class TaxonomyCommonalityAggregator

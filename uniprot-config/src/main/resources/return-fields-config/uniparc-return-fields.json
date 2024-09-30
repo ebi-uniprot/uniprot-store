@@ -114,14 +114,10 @@
     "includeInSwagger": true
   },
   {
-    "parentId": "sequences",
-    "childNumber": 3,
     "itemType": "SINGLE",
-    "label": "Full Sequence",
-    "name": "fullSequence",
     "paths": ["sequence"],
-    "id": "sequences/fullSequence",
-    "includeInSwagger": true
+    "id": "fullSequence",
+    "isRequiredForJson": true
   }
   ,
   {
@@ -310,13 +306,9 @@
     "includeInSwagger": true
   },
   {
-    "parentId": "family_&_domains",
-    "childNumber": 12,
     "itemType": "SINGLE",
-    "label": "Full Sequence Features",
-    "name": "fullsequencefeatures",
     "paths": ["sequenceFeatures"],
-    "id": "family_&_domains/fullsequencefeatures",
-    "includeInSwagger": true
+    "id": "fullsequencefeatures",
+    "isRequiredForJson": true
   }
 ]

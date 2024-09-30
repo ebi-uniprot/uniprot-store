@@ -1,11 +1,11 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -16,6 +16,7 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
+import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
@@ -24,7 +25,7 @@ import com.typesafe.config.Config;
 
 import scala.Tuple2;
 
-public class UniParcCrossReferenceDataStoreIndexerTest {
+class UniParcCrossReferenceDataStoreIndexerTest {
     @Test
     void indexInDataStore() {
         Config application = SparkUtils.loadApplicationProperty();
@@ -62,6 +63,16 @@ public class UniParcCrossReferenceDataStoreIndexerTest {
             List<UniParcCrossReferencePair> result = uniParcCrossRefWrap.collect();
             assertNotNull(result);
             assertEquals(10, result.size());
+            Optional<UniParcCrossReferencePair> firstBatch =
+                    result.stream()
+                            .filter(pair -> "UPI00000E8551_0".equals(pair.getKey()))
+                            .findFirst();
+            assertTrue(firstBatch.isPresent());
+            assertEquals(3, firstBatch.get().getValue().size());
+            Organism organism = firstBatch.get().getValue().get(1).getOrganism();
+            assertEquals(10116, organism.getTaxonId());
+            assertEquals("sn10116", organism.getScientificName());
+            assertEquals("", organism.getCommonName());
         }
 
         @Override
