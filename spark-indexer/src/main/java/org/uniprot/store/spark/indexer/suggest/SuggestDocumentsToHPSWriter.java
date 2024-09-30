@@ -311,7 +311,7 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .union(getDefaultHighImportantTaxon(TAXONOMY))
                         .aggregateByKey(null, new TaxonomyHighImportanceReduce(), new TaxonomyHighImportanceReduce())
                         .values()
-                        .repartition(1000); //TODO:
+                        .coalesce(1000, false);
 
         // JavaPairRDD<taxId, taxId> flatFileOrganismHostRDD -> extract from flat file OH lines
         JavaPairRDD<String, String> flatFileOrganismHostRDD =
@@ -326,7 +326,7 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .union(getDefaultHighImportantTaxon(HOST))
                         .aggregateByKey(null, new TaxonomyHighImportanceReduce(),new TaxonomyHighImportanceReduce())
                         .values()
-                        .repartition(1000);
+                        .coalesce(1000, false);
 
         return organismSuggester.union(taxonomySuggester).union(organismHostSuggester);
     }
@@ -389,7 +389,7 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         organismWithLineageRDD,
                         SuggestDictionary.UNIPARC_TAXONOMY);
 
-        return organismSuggester.union(taxonomySuggester).repartition(suggestRepartition);
+        return organismSuggester.union(taxonomySuggester).coalesce(suggestRepartition, false);
     }
 
     JavaPairRDD<String, List<TaxonomyLineage>> getOrganismWithLineageRDD() {
