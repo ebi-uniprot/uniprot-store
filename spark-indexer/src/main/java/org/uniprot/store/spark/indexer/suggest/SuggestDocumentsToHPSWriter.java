@@ -375,7 +375,8 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                                                 .map(String::valueOf)
                                                 .iterator())
                         .mapToPair(taxonId -> new Tuple2<>(taxonId, taxonId))
-                        .aggregateByKey(null, new TaxonomyAggregator(), new TaxonomyAggregator());
+                        .aggregateByKey(null, new TaxonomyAggregator(), new TaxonomyAggregator())
+                        .repartition(suggestRepartition);
 
         taxonIdTaxonIdPair.persist(StorageLevel.DISK_ONLY());
         log.info("Total no of UniParc taxonIdTaxonIdPair: " + taxonIdTaxonIdPair.count());
@@ -389,7 +390,7 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         organismWithLineageRDD,
                         SuggestDictionary.UNIPARC_TAXONOMY);
 
-        return organismSuggester.union(taxonomySuggester).coalesce(suggestRepartition, false);
+        return organismSuggester.union(taxonomySuggester);
     }
 
     JavaPairRDD<String, List<TaxonomyLineage>> getOrganismWithLineageRDD() {
