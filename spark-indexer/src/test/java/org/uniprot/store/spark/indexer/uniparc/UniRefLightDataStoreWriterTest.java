@@ -1,15 +1,12 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
+import org.uniprot.store.spark.indexer.uniref.writer.UniRefLightDataStoreWriter;
 
-/**
- * @author lgonzales
- * @since 22/01/2021
- */
-class UniParcDataStoreWriterTest {
+class UniRefLightDataStoreWriterTest {
 
     @Test
     void canGetDataStoreClient() {
@@ -19,9 +16,9 @@ class UniParcDataStoreWriterTest {
                         .delay(1)
                         .connectionURL("tcp://localhost")
                         .numberOfConnections(5)
-                        .storeName("uniparc")
+                        .storeName("uniparc-light")
                         .build();
-        UniParcDataStoreWriter writer = new UniParcDataStoreWriter(parameter);
+        UniRefLightDataStoreWriter writer = new UniRefLightDataStoreWriter(parameter);
         assertThrows(IllegalArgumentException.class, writer::getDataStoreClient);
     }
 }
