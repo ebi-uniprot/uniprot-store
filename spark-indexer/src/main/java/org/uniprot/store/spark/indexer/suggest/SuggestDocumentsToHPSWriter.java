@@ -310,8 +310,8 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .flatMapToPair(new TaxonomyToSuggestDocument(TAXONOMY))
                         .union(getDefaultHighImportantTaxon(TAXONOMY))
                         .aggregateByKey(null, new TaxonomyHighImportanceReduce(), new TaxonomyHighImportanceReduce())
-                        .values()
-                        .coalesce(1000, false);
+                        .values();
+                        //.coalesce(1000, false);
 
         // JavaPairRDD<taxId, taxId> flatFileOrganismHostRDD -> extract from flat file OH lines
         JavaPairRDD<String, String> flatFileOrganismHostRDD =
@@ -325,8 +325,8 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .mapValues(new OrganismToSuggestDocument(HOST.name()))
                         .union(getDefaultHighImportantTaxon(HOST))
                         .aggregateByKey(null, new TaxonomyHighImportanceReduce(),new TaxonomyHighImportanceReduce())
-                        .values()
-                        .coalesce(1000, false);
+                        .values();
+                        //.coalesce(1000, false);
 
         return organismSuggester.union(taxonomySuggester).union(organismHostSuggester);
     }
