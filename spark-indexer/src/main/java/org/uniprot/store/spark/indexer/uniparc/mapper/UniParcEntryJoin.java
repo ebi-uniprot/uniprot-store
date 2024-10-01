@@ -1,5 +1,6 @@
 package org.uniprot.store.spark.indexer.uniparc.mapper;
 
+import static org.uniprot.core.uniparc.UniParcCrossReference.PROPERTY_SOURCES;
 import static org.uniprot.store.spark.indexer.uniparc.mapper.UniParcJoinUtils.*;
 
 import java.io.Serial;
@@ -66,7 +67,7 @@ public class UniParcEntryJoin
         Set<String> sources = sourceMap.get(xref.getId());
         if (Utils.notNullNotEmpty(sources)) {
             UniParcCrossReferenceBuilder xrefBuilder = UniParcCrossReferenceBuilder.from(xref);
-            xrefBuilder.propertiesAdd(new Property("sources", String.join(",", sources)));
+            xrefBuilder.propertiesAdd(new Property(PROPERTY_SOURCES, String.join(",", sources)));
             xref = xrefBuilder.build();
         }
         return xref;

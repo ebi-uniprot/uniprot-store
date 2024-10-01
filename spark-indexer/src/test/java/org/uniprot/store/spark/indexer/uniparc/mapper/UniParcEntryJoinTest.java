@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.uniparc.mapper;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.core.uniparc.UniParcCrossReference.PROPERTY_SOURCES;
 
 import java.util.*;
 
@@ -81,7 +82,7 @@ class UniParcEntryJoinTest {
         assertEquals("P12345", uniProtXref.getId());
         assertEquals(1, uniProtXref.getProperties().size());
         Property sourceProperty = uniProtXref.getProperties().get(0);
-        assertEquals("sources", sourceProperty.getKey());
+        assertEquals(PROPERTY_SOURCES, sourceProperty.getKey());
         assertEquals(
                 "AC12345:UP000005640:Chromosome,AC54321:UP000000001:Chromosome",
                 sourceProperty.getValue());
@@ -119,7 +120,7 @@ class UniParcEntryJoinTest {
         assertEquals("P12345", uniProtXref.getId());
         assertEquals(1, uniProtXref.getProperties().size());
         Property sourceProperty = uniProtXref.getProperties().get(0);
-        assertEquals("sources", sourceProperty.getKey());
+        assertEquals(PROPERTY_SOURCES, sourceProperty.getKey());
         assertEquals("AC12345:UP000005640:Chromosome", sourceProperty.getValue());
     }
 
@@ -141,7 +142,7 @@ class UniParcEntryJoinTest {
         assertEquals("P12345", uniProtXref.getId());
         assertEquals(1, uniProtXref.getProperties().size());
         Property sourceProperty = uniProtXref.getProperties().get(0);
-        assertEquals("sources", sourceProperty.getKey());
+        assertEquals(PROPERTY_SOURCES, sourceProperty.getKey());
         assertEquals("AC12345:UP000005640:Chromosome", sourceProperty.getValue());
 
         assertNotNull(uniProtXref.getOrganism());
