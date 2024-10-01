@@ -1,9 +1,9 @@
 package org.uniprot.store.spark.indexer.suggest.mapper;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class SuggestDocumentAggregatorTest {
 

@@ -39,7 +39,7 @@ public class TaxonomyHighImportanceReduce
 
     private SuggestDocument getMostImportant(SuggestDocument doc1, SuggestDocument doc2) {
         SuggestDocument result = doc1;
-        if(SparkUtils.isThereAnyNullEntry(doc1,doc2)){
+        if (SparkUtils.isThereAnyNullEntry(doc1, doc2)) {
             result = SparkUtils.getNotNullEntry(doc1, doc2);
         } else {
             if (!doc2.importance.equals(SuggestDocument.DEFAULT_IMPORTANCE)) {

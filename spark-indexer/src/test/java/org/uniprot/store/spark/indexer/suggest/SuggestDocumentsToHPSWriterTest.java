@@ -9,6 +9,7 @@ import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,6 +22,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.reflect.FieldUtils;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.*;
@@ -28,6 +30,8 @@ import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.platform.commons.support.AnnotationSupport;
+import org.junit.platform.commons.support.ReflectionSupport;
 import org.mockito.Mockito;
 import org.opentest4j.AssertionFailedError;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
@@ -85,11 +89,12 @@ class SuggestDocumentsToHPSWriterTest {
     }
 
     @Test
-    void testWriteIndexDocumentsToHPS(@TempDir Path hpsPath) {
+    void testWriteIndexDocumentsToHPS(@TempDir Path hpsPath) throws Exception{
         SuggestDocumentsToHPSWriter writer = Mockito.mock(SuggestDocumentsToHPSWriter.class);
-        Mockito.doCallRealMethod()
-                .when(writer)
-                .writeIndexDocumentsToHPS(Mockito.anyInt(), Mockito.anyString());
+        Mockito.doCallRealMethod().when(writer).writeIndexDocumentsToHPS(Mockito.anyString());
+        Field repartitionField = FieldUtils.getField(SuggestDocumentsToHPSWriter.class, "suggestPartition", true);
+        FieldUtils.writeField(repartitionField, writer, 1, true);
+
         JavaRDD<SuggestDocument> emptyRDD =
                 parameter.getSparkContext().parallelize(new ArrayList<>());
 
@@ -104,10 +109,10 @@ class SuggestDocumentsToHPSWriterTest {
         Mockito.when(writer.getUniProtKbOrganism(Mockito.any(), Mockito.any()))
                 .thenReturn(emptyRDD);
         Mockito.when(writer.getProteome(Mockito.any())).thenReturn(emptyRDD);
-        Mockito.when(writer.getUniParcTaxonomy(Mockito.anyInt(),Mockito.any())).thenReturn(emptyRDD);
+        Mockito.when(writer.getUniParcTaxonomy(Mockito.any())).thenReturn(emptyRDD);
 
         writer.writeIndexDocumentsToHPS(
-                1, hpsPath.toString() + File.separator + "testWriteIndexDocumentsToHPS");
+                hpsPath.toString() + File.separator + "testWriteIndexDocumentsToHPS");
 
         Mockito.verify(writer, Mockito.atMostOnce()).getMain();
         Mockito.verify(writer, Mockito.atMostOnce()).getKeyword();
@@ -119,7 +124,7 @@ class SuggestDocumentsToHPSWriterTest {
         Mockito.verify(writer, Mockito.atMostOnce())
                 .getUniProtKbOrganism(Mockito.any(), Mockito.any());
         Mockito.verify(writer, Mockito.atMostOnce()).getProteome(Mockito.any());
-        Mockito.verify(writer, Mockito.atMostOnce()).getUniParcTaxonomy(Mockito.anyInt(), Mockito.any());
+        Mockito.verify(writer, Mockito.atMostOnce()).getUniParcTaxonomy(Mockito.any());
     }
 
     @Test
@@ -417,7 +422,7 @@ class SuggestDocumentsToHPSWriterTest {
         SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
 
         JavaRDD<SuggestDocument> suggestRdd =
-                writer.getUniParcTaxonomy(1,
+                writer.getUniParcTaxonomy(
                         new TaxonomyRDDReaderFake(parameter, true, true).loadTaxonomyLineage());
         assertNotNull(suggestRdd);
         var suggests = suggestRdd.collect();
