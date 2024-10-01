@@ -11,6 +11,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.Optional;
+import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.storage.StorageLevel;
 import org.uniprot.core.cv.chebi.ChebiEntry;
 import org.uniprot.core.cv.ec.ECEntry;
@@ -30,6 +31,7 @@ import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.spark.indexer.chebi.ChebiRDDReader;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
+import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.ec.ECRDDReader;
 import org.uniprot.store.spark.indexer.go.relations.GORelationRDDReader;
@@ -39,6 +41,7 @@ import org.uniprot.store.spark.indexer.rhea.RheaCompRDDReader;
 import org.uniprot.store.spark.indexer.rhea.model.RheaComp;
 import org.uniprot.store.spark.indexer.subcell.SubcellularLocationRDDReader;
 import org.uniprot.store.spark.indexer.suggest.mapper.ProteomeToTaxonomyPair;
+import org.uniprot.store.spark.indexer.suggest.mapper.SuggestDocumentAggregator;
 import org.uniprot.store.spark.indexer.suggest.mapper.TaxonomyAggregator;
 import org.uniprot.store.spark.indexer.suggest.mapper.TaxonomyHighImportanceReduce;
 import org.uniprot.store.spark.indexer.suggest.mapper.document.*;
@@ -131,7 +134,7 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
         JavaPairRDD<String, String> goMapRDD =
                 flatFileRDD
                         .flatMapToPair(new GoRelationsJoinMapper())
-                        .reduceByKey((goTermId1, goTermId2) -> goTermId1);
+                        .aggregateByKey(null, SparkUtils::getNotNullEntry, SparkUtils::getNotNullEntry);
 
         return goRelationsRDD
                 .join(goMapRDD)
@@ -156,13 +159,13 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
         JavaPairRDD<String, String> flatFileCatalyticActivityRDD =
                 flatFileRDD
                         .flatMapToPair(new FlatFileToCatalyticActivityChebi())
-                        .reduceByKey((chebiId1, chebiId2) -> chebiId1);
+                        .aggregateByKey(null, SparkUtils::getNotNullEntry, SparkUtils::getNotNullEntry);
 
         JavaRDD<SuggestDocument> catalyticActivitySuggest =
                 flatFileCatalyticActivityRDD
                         .join(chebiRDD)
                         .flatMapToPair(new ChebiToSuggestDocument(CATALYTIC_ACTIVITY.name()))
-                        .reduceByKey((chebiTuple1, chebiTuple2) -> chebiTuple1)
+                        .aggregateByKey(null, new SuggestDocumentAggregator(), new SuggestDocumentAggregator())
                         .values();
 
         // JavaPairRDD<chebiId,chebiId> flatFileCofactorRDD --> extracted from flat file
@@ -170,13 +173,13 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
         JavaPairRDD<String, String> flatFileCofactorRDD =
                 flatFileRDD
                         .flatMapToPair(new FlatFileToCofactorChebi())
-                        .reduceByKey((chebiId1, chebiId2) -> chebiId1);
+                        .aggregateByKey(null, SparkUtils::getNotNullEntry, SparkUtils::getNotNullEntry);
 
         JavaRDD<SuggestDocument> cofactorSuggest =
                 flatFileCofactorRDD
                         .join(chebiRDD)
                         .flatMapToPair(new ChebiToSuggestDocument(COFACTOR.name()))
-                        .reduceByKey((chebiTuple1, chebiTuple2) -> chebiTuple1)
+                        .aggregateByKey(null, new SuggestDocumentAggregator(), new SuggestDocumentAggregator())
                         .values();
 
         // JavaPairRDD<chebiId,chebiId> flatFileBindingsRDD --> extracted from flat file
@@ -184,13 +187,13 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
         JavaPairRDD<String, String> flatFileBindingsRDD =
                 flatFileRDD
                         .flatMapToPair(new FlatFileToBindingFeatureChebi())
-                        .reduceByKey((chebiId1, chebiId2) -> chebiId1);
+                        .aggregateByKey(null, SparkUtils::getNotNullEntry, SparkUtils::getNotNullEntry);
 
         JavaRDD<SuggestDocument> bindingsSuggest =
                 flatFileBindingsRDD
                         .join(chebiRDD)
                         .flatMapToPair(new ChebiToSuggestDocument(BINDING.name()))
-                        .reduceByKey((chebiTuple1, chebiTuple2) -> chebiTuple1)
+                        .aggregateByKey(null, new SuggestDocumentAggregator(), new SuggestDocumentAggregator())
                         .values();
 
         JavaRDD<SuggestDocument> chebiSuggest =
@@ -229,7 +232,7 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
         JavaPairRDD<String, String> flatFileCatalyticActivityRDD =
                 flatFileRDD
                         .flatMapToPair(new FlatFileToCatalyticActivityRheaComp())
-                        .reduceByKey((rheaComp1, rheaComp2) -> rheaComp1);
+                        .aggregateByKey(null, SparkUtils::getNotNullEntry, SparkUtils::getNotNullEntry);
 
         return flatFileCatalyticActivityRDD
                 .join(rheaCompRDD)
@@ -247,7 +250,8 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
         // JavaPairRDD<ecId,ecId> flatFileEcRDD --> extracted from flat file DE(with ECEntry) lines
         JavaPairRDD<String, String> flatFileEcRDD =
-                flatFileRDD.flatMapToPair(new FlatFileToEC()).reduceByKey((ecId1, ecId2) -> ecId1);
+                flatFileRDD.flatMapToPair(new FlatFileToEC())
+                        .aggregateByKey(null, SparkUtils::getNotNullEntry, SparkUtils::getNotNullEntry);
 
         // JavaPairRDD<ecId,ECEntry entry> ecRDD --> extracted from ec files
         ECRDDReader ecReader = new ECRDDReader(jobParameter);
@@ -310,7 +314,8 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .flatMapToPair(new TaxonomyToSuggestDocument(TAXONOMY))
                         .union(getDefaultHighImportantTaxon(TAXONOMY))
                         .aggregateByKey(null, new TaxonomyHighImportanceReduce(), new TaxonomyHighImportanceReduce())
-                        .values();
+                        .values()
+                        .coalesce(1000, false);
 
         // JavaPairRDD<taxId, taxId> flatFileOrganismHostRDD -> extract from flat file OH lines
         JavaPairRDD<String, String> flatFileOrganismHostRDD =
@@ -324,7 +329,8 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .mapValues(new OrganismToSuggestDocument(HOST.name()))
                         .union(getDefaultHighImportantTaxon(HOST))
                         .aggregateByKey(null, new TaxonomyHighImportanceReduce(),new TaxonomyHighImportanceReduce())
-                        .values();
+                        .values()
+                        .coalesce(1000, false);
 
         return organismSuggester.union(taxonomySuggester).union(organismHostSuggester);
     }
@@ -410,9 +416,9 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
         return taxonIdKeyXValuePair
                 .leftOuterJoin(organismWithLineageRDD)
                 .flatMapToPair(new TaxonomyToSuggestDocument(dict))
-                .reduceByKey((taxId, suggestDoc) -> taxId)
+                .aggregateByKey(null, new SuggestDocumentAggregator(), new SuggestDocumentAggregator())
                 .union(getDefaultHighImportantTaxon(dict))
-                .reduceByKey(new TaxonomyHighImportanceReduce())
+                .aggregateByKey(null, new TaxonomyHighImportanceReduce(),new TaxonomyHighImportanceReduce())
                 .values();
     }
 
@@ -425,7 +431,7 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                 .join(organismWithLineageRDD)
                 .mapValues(new OrganismToSuggestDocument(dict.name()))
                 .union(getDefaultHighImportantTaxon(dict))
-                .reduceByKey(new TaxonomyHighImportanceReduce())
+                .aggregateByKey(null, new TaxonomyHighImportanceReduce(),new TaxonomyHighImportanceReduce())
                 .values();
     }
 
