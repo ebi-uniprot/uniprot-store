@@ -4,10 +4,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.stream.Stream;
 
+import com.typesafe.config.Config;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.JobParameter;
@@ -31,7 +33,12 @@ class DocumentsToHPSWriterFactoryTest {
     @ParameterizedTest
     @MethodSource("provideSparkCollection")
     void testCreateHPSWriter(SolrCollection collection) {
+        Config applicationConfig = Mockito.mock(Config.class);
+        Mockito.when(applicationConfig.getString(Mockito.anyString())).thenReturn("1");
+
         JobParameter jobParameter = Mockito.mock(JobParameter.class);
+        Mockito.when(jobParameter.getApplicationConfig()).thenReturn(applicationConfig);
+
         DocumentsToHPSWriterFactory factory = new DocumentsToHPSWriterFactory();
         DocumentsToHPSWriter writer = factory.createDocumentsToHPSWriter(collection, jobParameter);
         assertNotNull(writer);
