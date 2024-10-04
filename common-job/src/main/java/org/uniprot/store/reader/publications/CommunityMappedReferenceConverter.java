@@ -22,6 +22,7 @@ public class CommunityMappedReferenceConverter
     private static final String FUNCTION_DELIMITER = "Function:";
     private static final String DISEASE_DELIMITER = "Disease:";
     private static final String COMMENT_DELIMITER = "Comments:";
+    private static final String SUBMISSION_DATE_DELIMITER = "Date:";
     private static final Pattern SECTION_DELIMITER_PATTERN =
             Pattern.compile(
                     "(("
@@ -32,6 +33,8 @@ public class CommunityMappedReferenceConverter
                             + DISEASE_DELIMITER
                             + ")|("
                             + COMMENT_DELIMITER
+                            + ")|("
+                            + SUBMISSION_DATE_DELIMITER
                             + "))");
 
     @Override
@@ -91,7 +94,8 @@ public class CommunityMappedReferenceConverter
         PROTEIN_GENE(CommunityAnnotationBuilder::proteinOrGene),
         FUNCTION(CommunityAnnotationBuilder::function),
         DISEASE(CommunityAnnotationBuilder::disease),
-        COMMENT(CommunityAnnotationBuilder::comment);
+        COMMENT(CommunityAnnotationBuilder::comment),
+        SUBMISSION_DATE(CommunityAnnotationBuilder::submissionDate);
         private final BiConsumer<CommunityAnnotationBuilder, String> annotationBuilderSetter;
 
         CommunityAnnotationCommentType(BiConsumer<CommunityAnnotationBuilder, String> annotation) {
@@ -108,6 +112,8 @@ public class CommunityMappedReferenceConverter
                     return DISEASE;
                 case COMMENT_DELIMITER:
                     return COMMENT;
+                case SUBMISSION_DATE_DELIMITER:
+                    return SUBMISSION_DATE;
                 default:
                     throw new IllegalArgumentException("Unknown comment type: " + typeAsString);
             }

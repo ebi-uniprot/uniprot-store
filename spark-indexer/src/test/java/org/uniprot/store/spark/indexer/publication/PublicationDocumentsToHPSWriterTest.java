@@ -7,6 +7,7 @@ import static org.uniprot.core.publication.MappedReferenceType.*;
 import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -149,12 +150,16 @@ class PublicationDocumentsToHPSWriterTest {
         assertThat(kbRN4Ref.getSourceCategories(), contains("Expression"));
 
         // check community ref within mapped reference
-        assertThat(
-                mappedPubsForKbRN4.getCommunityMappedReferences().get(0).getSource().getId(),
-                is("0000-0000-0000-0001"));
-        assertThat(
-                mappedPubsForKbRN4.getCommunityMappedReferences().get(0).getSourceCategories(),
-                contains("Sequences"));
+        CommunityMappedReference communityMapped =
+                mappedPubsForKbRN4.getCommunityMappedReferences().get(0);
+        assertThat(communityMapped.getSource().getId(), is("0000-0000-0000-0001"));
+        assertThat(communityMapped.getSourceCategories(), contains("Sequences"));
+        CommunityAnnotation communityAnnotation = communityMapped.getCommunityAnnotation();
+        assertThat(communityAnnotation.getSubmissionDate(), nullValue());
+        assertThat(communityAnnotation.getComment(), nullValue());
+        assertThat(communityAnnotation.getDisease(), nullValue());
+        assertThat(communityAnnotation.getFunction(), nullValue());
+        assertThat(communityAnnotation.getProteinOrGene(), nullValue());
 
         // check computational refs within mapped reference
         assertThat(
@@ -317,6 +322,7 @@ class PublicationDocumentsToHPSWriterTest {
         assertThat(ref0.getCommunityAnnotation().getFunction(), is(nullValue()));
         assertThat(ref0.getCommunityAnnotation().getComment(), is(nullValue()));
         assertThat(ref0.getCommunityAnnotation().getDisease(), is(nullValue()));
+        assertThat(ref0.getCommunityAnnotation().getSubmissionDate(), nullValue());
 
         CommunityMappedReference ref1 =
                 extractValue(
@@ -329,6 +335,8 @@ class PublicationDocumentsToHPSWriterTest {
         assertThat(ref1.getCommunityAnnotation().getFunction(), is("A function."));
         assertThat(ref1.getCommunityAnnotation().getComment(), is("A comment."));
         assertThat(ref1.getCommunityAnnotation().getDisease(), is("A disease."));
+        assertThat(
+                ref1.getCommunityAnnotation().getSubmissionDate(), is(LocalDate.of(2022, 8, 31)));
     }
 
     private void checkComputationalDocuments(List<PublicationDocument> savedDocuments)
