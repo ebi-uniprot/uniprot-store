@@ -109,8 +109,8 @@ class UniParcReturnFieldConfigImplIT {
 
     private static Stream<Arguments> provideReturnFieldNames() {
         return returnFieldConfig.getReturnFields().stream()
+                .filter(rf -> Objects.nonNull(rf.getChildNumber()))
                 .map(ReturnField::getName)
-                .filter(Objects::nonNull)
                 .map(Arguments::of);
     }
 }
