@@ -84,6 +84,42 @@ public class UniRefEntryMocker {
                 .build();
     }
 
+    public static UniRefEntry createEntryForMapping(int i, UniRefType type, String[] memberIds) {
+        String idRef = getIdRef(type);
+
+        UniRefEntryId entryId = new UniRefEntryIdBuilder(getName(idRef, i)).build();
+
+        Organism commonOrganism =
+                new OrganismBuilder().taxonId(9606L).scientificName("Homo sapiens").build();
+
+        return new UniRefEntryBuilder()
+                .id(entryId)
+                .name(getName(NAME_PREF, i))
+                .updated(LocalDate.of(2019, 8, 27))
+                .entryType(type)
+                .commonTaxon(commonOrganism)
+                .seedId(getName(ACC_2_PREF, i))
+                .representativeMember(createReprestativeMember(i))
+                .membersAdd(createMemberForMapping(i, memberIds))
+                .goTermsAdd(
+                        new GeneOntologyEntryBuilder()
+                                .aspect(GoAspect.COMPONENT)
+                                .id("GO:0044444")
+                                .build())
+                .goTermsAdd(
+                        new GeneOntologyEntryBuilder()
+                                .aspect(GoAspect.FUNCTION)
+                                .id("GO:0044459")
+                                .build())
+                .goTermsAdd(
+                        new GeneOntologyEntryBuilder()
+                                .aspect(GoAspect.PROCESS)
+                                .id("GO:0032459")
+                                .build())
+                .memberCount(2)
+                .build();
+    }
+
     private static String getIdRef(UniRefType type) {
         switch (type) {
             case UniRef50:
@@ -105,6 +141,27 @@ public class UniRefEntryMocker {
         return new UniRefMemberBuilder()
                 .memberIdType(type)
                 .memberId(memberId)
+                .organismName("Homo sapiens " + i)
+                .organismTaxId(9606L + i)
+                .sequenceLength(length)
+                .proteinName(pName)
+                .uniparcId(new UniParcIdBuilder(upi).build())
+                .accessionsAdd(new UniProtKBAccessionBuilder(getName(ACC_2_PREF, i)).build())
+                .uniref100Id(new UniRefEntryIdBuilder("UniRef100_P03923").build())
+                .uniref90Id(new UniRefEntryIdBuilder("UniRef90_P03943").build())
+                .uniref50Id(new UniRefEntryIdBuilder("UniRef50_P03973").build())
+                .build();
+    }
+
+    public static UniRefMember createMemberForMapping(int i, String[] memberIds) {
+        int length = 312;
+        String pName = "some protein name";
+        String upi = getName(UPI_PREF, i);
+
+        UniRefMemberIdType type = UniRefMemberIdType.UNIPROTKB;
+        return new UniRefMemberBuilder()
+                .memberIdType(type)
+                .memberId(memberIds[i])
                 .organismName("Homo sapiens " + i)
                 .organismTaxId(9606L + i)
                 .sequenceLength(length)
