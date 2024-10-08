@@ -2,6 +2,7 @@ package org.uniprot.store.spark.indexer.taxonomy.reader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.uniprot.store.spark.indexer.common.TaxDb.READ;
 import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.TaxDb;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import com.typesafe.config.Config;
@@ -38,9 +40,9 @@ class TaxonomyRDDReaderTest {
     @BeforeAll
     public void setupTests() throws SQLException, IOException {
         application = SparkUtils.loadApplicationProperty();
-        String url = application.getString("database.url");
-        String user = application.getString("database.user.name");
-        String password = application.getString("database.password");
+        String url = application.getString("database.read.url");
+        String user = application.getString("database.read.user.name");
+        String password = application.getString("database.read.password");
         dbConnection = DriverManager.getConnection(url, user, password);
         fillDatabase();
     }
@@ -53,6 +55,7 @@ class TaxonomyRDDReaderTest {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)
+                            .taxDb(READ)
                             .releaseName("2020_02")
                             .sparkContext(sparkContext)
                             .build();
@@ -81,6 +84,7 @@ class TaxonomyRDDReaderTest {
             JobParameter parameter =
                     JobParameter.builder()
                             .applicationConfig(application)
+                            .taxDb(READ)
                             .releaseName("2020_02")
                             .sparkContext(sparkContext)
                             .build();
