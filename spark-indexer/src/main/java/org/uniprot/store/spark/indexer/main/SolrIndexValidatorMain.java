@@ -14,6 +14,8 @@ import com.typesafe.config.Config;
 
 import lombok.extern.slf4j.Slf4j;
 
+import static org.uniprot.store.spark.indexer.common.TaxDb.forName;
+
 @Slf4j
 public class SolrIndexValidatorMain {
 
@@ -34,7 +36,7 @@ public class SolrIndexValidatorMain {
                     JobParameter.builder()
                             .applicationConfig(applicationConfig)
                             .releaseName(args[0])
-                            .taxDb(args[3])
+                            .taxDb(forName(args[3]))
                             .sparkContext(sparkContext)
                             .build();
             List<SolrCollection> solrCollections = SparkUtils.getSolrCollection(args[1]);

@@ -1,7 +1,7 @@
 package org.uniprot.store.spark.indexer.main;
 
-import java.util.List;
-
+import com.typesafe.config.Config;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
@@ -10,9 +10,9 @@ import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexerFactory;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
-import com.typesafe.config.Config;
+import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
+import static org.uniprot.store.spark.indexer.common.TaxDb.forName;
 
 /**
  * This class is responsible to load data into our data store (voldemort)
@@ -39,7 +39,7 @@ public class IndexDataStoreMain {
                     JobParameter.builder()
                             .applicationConfig(applicationConfig)
                             .releaseName(args[0])
-                            .taxDb(args[3])
+                            .taxDb(forName(args[3]))
                             .sparkContext(sparkContext)
                             .build();
 

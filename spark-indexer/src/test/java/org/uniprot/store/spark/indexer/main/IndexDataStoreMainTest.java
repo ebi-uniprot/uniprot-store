@@ -1,9 +1,11 @@
 package org.uniprot.store.spark.indexer.main;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.spark.indexer.common.exception.IndexDataStoreException;
+import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
 
 /**
  * @author lgonzales
@@ -18,7 +20,13 @@ class IndexDataStoreMainTest {
 
     @Test
     void testIndexDataStoreMainInvalidCollection() {
-        String[] args = {"invalid", "invalid", "invalid"};
+        String[] args = {"invalid", "invalid", "invalid", "read"};
+        assertThrows(IndexDataStoreException.class, () -> IndexDataStoreMain.main(args));
+    }
+
+    @Test
+    void testIndexDataStoreMainInvalidTaxDb() {
+        String[] args = {"2020_04", "uniparc", SPARK_LOCAL_MASTER, "invalid"};
         assertThrows(IndexDataStoreException.class, () -> IndexDataStoreMain.main(args));
     }
 }

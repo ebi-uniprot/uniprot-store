@@ -17,6 +17,8 @@ import com.typesafe.config.Config;
 
 import lombok.extern.slf4j.Slf4j;
 
+import static org.uniprot.store.spark.indexer.common.TaxDb.forName;
+
 /**
  * @author lgonzales
  * @since 28/04/2020
@@ -43,7 +45,7 @@ public class IndexDataStoreMainMultiThread {
                     JobParameter.builder()
                             .applicationConfig(applicationConfig)
                             .releaseName(args[0])
-                            .taxDb(args[3])
+                            .taxDb(forName(args[3]))
                             .sparkContext(sparkContext)
                             .build();
 

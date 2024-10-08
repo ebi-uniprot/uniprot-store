@@ -20,16 +20,16 @@ class TaxonomyUtil {
 
     static int getMaxTaxId(JavaSparkContext sparkContext, Config applicationConfig, JobParameter jobParameter) {
         SparkSession spark = SparkSession.builder().sparkContext(sparkContext.sc()).getOrCreate();
-        String taxDb = jobParameter.getTaxDb();
-        boolean isReadDb = READ.equals(taxDb);
+        String taxDb = jobParameter.getTaxDb().getName();
+        String databasePropertyPrefix = "database." + taxDb;
 
         Dataset<Row> max =
                 spark.read()
                         .format("jdbc")
                         .option("driver", applicationConfig.getString("database.driver"))
-                        .option("url", isReadDb ? applicationConfig.getString("database.read.url") : applicationConfig.getString("database.fly.url"))
-                        .option("user", isReadDb ? applicationConfig.getString("database.read.user.name") : applicationConfig.getString("database.fly.user.name"))
-                        .option("password", isReadDb ? applicationConfig.getString("database.read.password"):applicationConfig.getString("database.fly.password"))
+                        .option("url", applicationConfig.getString(databasePropertyPrefix + ".url"))
+                        .option("user", applicationConfig.getString(databasePropertyPrefix + ".user.name"))
+                        .option("password", applicationConfig.getString(databasePropertyPrefix + ".password"))
                         .option(
                                 "query",
                                 "SELECT MAX(TAX_ID) AS MAX_TAX_ID FROM TAXONOMY.V_PUBLIC_NODE")

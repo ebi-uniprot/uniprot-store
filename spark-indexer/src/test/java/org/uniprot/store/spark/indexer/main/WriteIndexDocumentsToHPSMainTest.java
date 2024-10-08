@@ -5,6 +5,7 @@ import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.spark.indexer.common.exception.IndexHPSDocumentsException;
+import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
 
 /**
  * @author lgonzales
@@ -21,14 +22,21 @@ class WriteIndexDocumentsToHPSMainTest {
 
     @Test
     void testWriteIndexDocumentsToHPSMainInvalidCollection() {
-        String[] args = {"invalid", "invalid", "invalid"};
+        String[] args = {"invalid", "invalid", "invalid", "read"};
+        assertThrows(
+                IndexHPSDocumentsException.class, () -> WriteIndexDocumentsToHPSMain.main(args));
+    }
+
+    @Test
+    void testWriteIndexDocumentsToHPSMainInvalidTaxDb() {
+        String[] args = {"2020_04", "uniparc", SPARK_LOCAL_MASTER, "invalid"};
         assertThrows(
                 IndexHPSDocumentsException.class, () -> WriteIndexDocumentsToHPSMain.main(args));
     }
 
     @Test
     void testWriteIndexDocumentsToHPSMain() {
-        String[] args = {"2023_04", "uniprot", SPARK_LOCAL_MASTER};
+        String[] args = {"2023_04", "uniprot", SPARK_LOCAL_MASTER, "read"};
         assertThrows(
                 IndexHPSDocumentsException.class, () -> WriteIndexDocumentsToHPSMain.main(args));
     }

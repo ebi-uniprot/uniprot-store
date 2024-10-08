@@ -14,6 +14,8 @@ import com.typesafe.config.Config;
 
 import lombok.extern.slf4j.Slf4j;
 
+import static org.uniprot.store.spark.indexer.common.TaxDb.forName;
+
 /**
  * @author lgonzales
  * @since 2019-10-16
@@ -38,7 +40,7 @@ public class WriteIndexDocumentsToHPSMain {
                     JobParameter.builder()
                             .applicationConfig(applicationConfig)
                             .releaseName(args[0])
-                            .taxDb(args[3])
+                            .taxDb(forName(args[3]))
                             .sparkContext(sparkContext)
                             .build();
             List<SolrCollection> solrCollections = SparkUtils.getSolrCollection(args[1]);

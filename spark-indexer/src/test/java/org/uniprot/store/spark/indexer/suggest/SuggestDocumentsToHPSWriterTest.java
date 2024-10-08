@@ -66,9 +66,9 @@ class SuggestDocumentsToHPSWriterTest {
         flatFileRDD = reader.loadFlatFileToRDD();
 
         // Taxonomy H2 database create/load database data
-        String url = application.getString("database.url");
-        String user = application.getString("database.user.name");
-        String password = application.getString("database.password");
+        String url = application.getString("database.read.url");
+        String user = application.getString("database.read.user.name");
+        String password = application.getString("database.read.password");
         dbConnection = DriverManager.getConnection(url, user, password);
         Statement statement = this.dbConnection.createStatement();
         TaxonomyH2Utils.createTables(statement);

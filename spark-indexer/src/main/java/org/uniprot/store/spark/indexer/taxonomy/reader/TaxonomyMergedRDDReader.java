@@ -32,15 +32,15 @@ public class TaxonomyMergedRDDReader implements RDDReader<TaxonomyDocument> {
     private Dataset<Row> loadNodeRow() {
         JavaSparkContext sparkContext = jobParameter.getSparkContext();
         Config applicationConfig = jobParameter.getApplicationConfig();
-        String taxDb = jobParameter.getTaxDb();
-        boolean isReadDb = READ.equals(taxDb);
+        String taxDb = jobParameter.getTaxDb().getName();
+        String databasePropertyPrefix = "database." + taxDb;
         SparkSession spark = SparkSession.builder().sparkContext(sparkContext.sc()).getOrCreate();
         return spark.read()
                 .format("jdbc")
                 .option("driver", applicationConfig.getString("database.driver"))
-                .option("url", isReadDb ? applicationConfig.getString("database.read.url") : applicationConfig.getString("database.fly.url"))
-                .option("user", isReadDb ? applicationConfig.getString("database.read.user.name") : applicationConfig.getString("database.fly.user.name"))
-                .option("password", isReadDb ? applicationConfig.getString("database.read.password"):applicationConfig.getString("database.fly.password"))
+                .option("url", applicationConfig.getString(databasePropertyPrefix + ".url"))
+                .option("user", applicationConfig.getString(databasePropertyPrefix + ".user.name"))
+                .option("password", applicationConfig.getString(databasePropertyPrefix + ".password"))
                 .option("dbtable", "taxonomy.v_public_merged")
                 .option("fetchsize", 1000L)
                 .load();

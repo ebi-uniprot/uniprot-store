@@ -72,8 +72,8 @@ public class TaxonomyLineageReader implements PairRDDReader<String, List<Taxonom
 
         int numberPartition =
                 Integer.parseInt(applicationConfig.getString("database.lineage.partition"));
-        String taxDb = jobParameter.getTaxDb();
-        boolean isReadDb = READ.equals(taxDb);
+        String taxDb = jobParameter.getTaxDb().getName();
+        String databasePropertyPrefix = "database." + taxDb;
         int[][] ranges = getRanges(maxTaxId, numberPartition);
         JavaPairRDD<String, List<TaxonomyLineage>> result = null;
         for (int[] range : ranges) {
@@ -88,9 +88,9 @@ public class TaxonomyLineageReader implements PairRDDReader<String, List<Taxonom
                     spark.read()
                             .format("jdbc")
                             .option("driver", applicationConfig.getString("database.driver"))
-                            .option("url", isReadDb ? applicationConfig.getString("database.read.url") : applicationConfig.getString("database.fly.url"))
-                            .option("user", isReadDb ? applicationConfig.getString("database.read.user.name") : applicationConfig.getString("database.fly.user.name"))
-                            .option("password", isReadDb ? applicationConfig.getString("database.read.password"):applicationConfig.getString("database.fly.password"))
+                            .option("url", applicationConfig.getString(databasePropertyPrefix + ".url"))
+                            .option("user", applicationConfig.getString(databasePropertyPrefix + ".user.name"))
+                            .option("password", applicationConfig.getString(databasePropertyPrefix + ".password"))
                             .option("query", sql)
                             .load();
             if (result == null) {
