@@ -117,8 +117,7 @@
     "itemType": "SINGLE",
     "paths": ["sequence"],
     "id": "fullSequence",
-    "name": "fullSequence",
-    "isRequiredForJson": true
+    "name": "fullSequence"
   }
   ,
   {
