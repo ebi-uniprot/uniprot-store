@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<uniparc xmlns="http://uniprot.org/uniparc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://uniprot.org/uniparc http://www.uniprot.org/docs/uniparc.xsd">
+    <entry xmlns="http://uniprot.org/uniparc" dataset="uniparc">
+        <accession>UPI0001C61C61</accession>
+        <dbReference type="UniProtKB/Swiss-Prot" id="P12345" version_i="2" active="N" version="2" created="2013-09-18" last="2024-07-24">
+            <property type="gene_name" value="GOT2"/>
+            <property type="protein_name" value="Aspartate aminotransferase, mitochondrial"/>
+            <property type="NCBI_GI" value="544584721"/>
+            <property type="NCBI_taxonomy_id" value="9986"/>
+        </dbReference>
+        <dbReference type="UniProtKB/TrEMBL" id="G1SKL2" version_i="1" active="N" version="1" created="2011-10-19" last="2013-07-24">
+            <property type="NCBI_taxonomy_id" value="9986"/>
+        </dbReference>
+        <dbReference type="Ensembl" id="ENSOCUP00000003357" version_i="2" active="N" created="2010-03-03" last="2019-05-29">
+            <property type="gene_name" value="GOT2"/>
+            <property type="NCBI_taxonomy_id" value="9986"/>
+        </dbReference>
+        <dbReference type="RefSeq" id="XP_002711597" version_i="1" active="N" version="1" created="2010-03-24" last="2024-05-06">
+            <property type="gene_name" value="GOT2"/>
+            <property type="protein_name" value="aspartate aminotransferase, mitochondrial"/>
+            <property type="NCBI_GI" value="291390228"/>
+            <property type="NCBI_taxonomy_id" value="9986"/>
+        </dbReference>
+        <signatureSequenceMatch database="PROSITE" id="PS00105">
+            <ipr name="Aminotransferases, class-I, pyridoxal-phosphate-binding site" id="IPR004838"/>
+            <lcn start="276" end="289"/>
+        </signatureSequenceMatch>
+        <signatureSequenceMatch database="PRINTS" id="PR00799">
+            <ipr name="Aspartate/other aminotransferase" id="IPR000796"/>
+            <lcn start="207" end="226"/>
+            <lcn start="306" end="331"/>
+            <lcn start="238" end="250"/>
+            <lcn start="374" end="392"/>
+        </signatureSequenceMatch>
+        <signatureSequenceMatch database="SUPFAM" id="SSF53383">
+            <ipr name="Pyridoxal phosphate-dependent transferase" id="IPR015424"/>
+            <lcn start="31" end="429"/>
+        </signatureSequenceMatch>
+        <signatureSequenceMatch database="Pfam" id="PF00155">
+            <ipr name="Aminotransferase, class I/classII" id="IPR004839"/>
+            <lcn start="58" end="425"/>
+        </signatureSequenceMatch>
+        <signatureSequenceMatch database="Gene3D" id="G3DSA:3.40.640.10">
+            <ipr name="Pyridoxal phosphate-dependent transferase, major domain" id="IPR015421"/>
+            <lcn start="76" end="348"/>
+        </signatureSequenceMatch>
+        <signatureSequenceMatch database="Gene3D" id="G3DSA:3.90.1150.10">
+            <ipr name="Pyridoxal phosphate-dependent transferase, small domain" id="IPR015422"/>
+            <lcn start="42" end="425"/>
+        </signatureSequenceMatch>
+        <signatureSequenceMatch database="PANTHER" id="PTHR11879">
+            <ipr name="Aspartate/other aminotransferase" id="IPR000796"/>
+            <lcn start="23" end="429"/>
+        </signatureSequenceMatch>
+        <sequence length="430" checksum="12F54284974D27A5">MALLHSARVLSGVASAFHPGLAAAASARASSWWAHVEMGPPDPILGVTEAYKRDTNSKKMNLGVGAYRDDNGKPYVLPSVRKAEAQIAAKGLDKEYLPIGGLAEFCRASAELALGENSEVVKSGRFVTVQTISGTGALRIGASFLQRFFKFSRDVFLPKPSWGNHTPIFRDAGMQLQSYRYYDPKTCGFDFTGALEDISKIPEQSVLLLHACAHNPTGVDPRPEQWKEIATVVKKRNLFAFFDMAYQGFASGDGDKDAWAVRHFIEQGINVCLCQSYAKNMGLYGERVGAFTVICKDADEAKRVESQLKILIRPMYSNPPIHGARIASTILTSPDLRKQWLQEVKGMADRIIGMRTQLVSNLKKEGSTHSWQHITDQIGMFCFTGLKPEQVERLTKEFSIYMTKDGRISVAGVTSGNVGYLAHAIHQVTK</sequence>
+    </entry>
+    <copyright> Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms Distributed under the Creative Commons Attribution (CC BY 4.0) License </copyright>
+</uniparc>

@@ -5,7 +5,7 @@ import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -15,7 +15,8 @@ import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
-import org.uniprot.core.uniparc.*;
+import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
+import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
@@ -24,12 +25,7 @@ import com.typesafe.config.Config;
 
 import scala.Tuple2;
 
-/**
- * @author lgonzales
- * @since 03/12/2020
- */
-class UniParcDataStoreIndexerTest {
-
+class UniParcCrossReferenceDataStoreIndexerTest {
     @Test
     void indexInDataStore() {
         Config application = SparkUtils.loadApplicationProperty();
@@ -41,8 +37,9 @@ class UniParcDataStoreIndexerTest {
                             .releaseName("2020_02")
                             .sparkContext(sparkContext)
                             .build();
-            UniParcDataStoreIndexerTest.FakeUniParcDataStoreIndexer indexer =
-                    new UniParcDataStoreIndexerTest.FakeUniParcDataStoreIndexer(parameter);
+            UniParcCrossReferenceDataStoreIndexerTest.FakeUniParcCrossRefDataStoreIndexer indexer =
+                    new UniParcCrossReferenceDataStoreIndexerTest
+                            .FakeUniParcCrossRefDataStoreIndexer(parameter);
             assertNotNull(indexer);
             indexer.indexInDataStore();
             DataStoreParameter dataStoreParams =
@@ -51,49 +48,31 @@ class UniParcDataStoreIndexerTest {
         }
     }
 
-    private static class FakeUniParcDataStoreIndexer extends UniParcDataStoreIndexer {
+    private static class FakeUniParcCrossRefDataStoreIndexer
+            extends UniParcCrossReferenceDataStoreIndexer {
 
         private final JobParameter jobParameter;
 
-        public FakeUniParcDataStoreIndexer(JobParameter jobParameter) {
+        public FakeUniParcCrossRefDataStoreIndexer(JobParameter jobParameter) {
             super(jobParameter);
             this.jobParameter = jobParameter;
         }
 
         @Override
-        void saveInDataStore(JavaRDD<UniParcEntry> uniparcJoinedRDD) {
-            List<UniParcEntry> result = uniparcJoinedRDD.collect();
+        void saveInDataStore(JavaRDD<UniParcCrossReferencePair> uniParcCrossRefWrap) {
+            List<UniParcCrossReferencePair> result = uniParcCrossRefWrap.collect();
             assertNotNull(result);
-            assertEquals(2, result.size());
-            UniParcEntry entry = result.get(0);
-            assertEquals("UPI00000E8551", entry.getUniParcId().getValue());
-            entry.getUniParcCrossReferences().stream()
-                    .map(UniParcCrossReference::getOrganism)
-                    .filter(Objects::nonNull)
-                    .forEach(
-                            organism -> {
-                                // testing join with taxonomy...
-                                assertTrue(organism.getTaxonId() > 0);
-                                assertFalse(organism.getScientificName().isEmpty());
-                            });
-
-            entry = result.get(1);
-            assertEquals("UPI000000017F", entry.getUniParcId().getValue());
-            List<SequenceFeature> sequenceFeatures = entry.getSequenceFeatures();
-            assertNotNull(sequenceFeatures);
-            assertEquals(5, sequenceFeatures.size());
-
-            SequenceFeature sequenceFeature = sequenceFeatures.get(4);
-            assertEquals(SignatureDbType.SUPFAM, sequenceFeature.getSignatureDbType());
-            assertEquals("SSF56720", sequenceFeature.getSignatureDbId());
-            assertNotNull(sequenceFeature.getLocations());
-            assertEquals(1, sequenceFeature.getLocations().size());
-
-            SequenceFeatureLocation sfl = sequenceFeature.getLocations().get(0);
-            assertNotNull(sfl);
-            assertEquals(6, sfl.getStart());
-            assertEquals(109, sfl.getEnd());
-            assertEquals("M50", sfl.getAlignment());
+            assertEquals(10, result.size());
+            Optional<UniParcCrossReferencePair> firstBatch =
+                    result.stream()
+                            .filter(pair -> "UPI00000E8551_0".equals(pair.getKey()))
+                            .findFirst();
+            assertTrue(firstBatch.isPresent());
+            assertEquals(3, firstBatch.get().getValue().size());
+            Organism organism = firstBatch.get().getValue().get(1).getOrganism();
+            assertEquals(10116, organism.getTaxonId());
+            assertEquals("sn10116", organism.getScientificName());
+            assertEquals("", organism.getCommonName());
         }
 
         @Override

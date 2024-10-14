@@ -41,6 +41,10 @@ public abstract class VoldemortInMemoryEntryStore<T> implements VoldemortClient<
     @Override
     public void saveOrUpdateEntry(T entry) {
         String id = getStoreId(entry);
+        doSave(id, entry);
+    }
+
+    protected void doSave(String id, T entry) {
         Store<String, T, String> store = this.getStore();
         List<Versioned<T>> listVersionedEntry = store.get(id, this.storeName);
         if (listVersionedEntry != null && !listVersionedEntry.isEmpty()) {
