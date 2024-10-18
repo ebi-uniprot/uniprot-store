@@ -55,16 +55,18 @@ public class TaxonomyRDDReader implements PairRDDReader<String, TaxonomyEntry> {
     private Dataset<Row> loadTaxonomyNodeRow() {
         JavaSparkContext sparkContext = jobParameter.getSparkContext();
         Config applicationConfig = jobParameter.getApplicationConfig();
-        long maxTaxId = TaxonomyUtil.getMaxTaxId(sparkContext, applicationConfig);
+        long maxTaxId = TaxonomyUtil.getMaxTaxId(sparkContext, applicationConfig, jobParameter);
         int numberPartition =
                 Integer.parseInt(applicationConfig.getString("database.taxonomy.partition"));
         SparkSession spark = SparkSession.builder().sparkContext(sparkContext.sc()).getOrCreate();
+        String taxDb = jobParameter.getTaxDb().getName();
+        String databasePropertyPrefix = "database." + taxDb;
         return spark.read()
                 .format("jdbc")
                 .option("driver", applicationConfig.getString("database.driver"))
-                .option("url", applicationConfig.getString("database.url"))
-                .option("user", applicationConfig.getString("database.user.name"))
-                .option("password", applicationConfig.getString("database.password"))
+                .option("url", applicationConfig.getString(databasePropertyPrefix + ".url"))
+                .option("user", applicationConfig.getString(databasePropertyPrefix + ".user.name"))
+                .option("password", applicationConfig.getString(databasePropertyPrefix + ".password"))
                 .option("dbtable", "taxonomy.v_public_node")
                 .option("fetchsize", 5000L)
                 .option("numPartitions", numberPartition)

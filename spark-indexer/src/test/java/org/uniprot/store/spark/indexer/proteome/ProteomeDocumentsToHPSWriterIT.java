@@ -9,6 +9,7 @@ import static org.uniprot.core.proteome.CPDStatus.STANDARD;
 import static org.uniprot.core.proteome.GenomeAssemblySource.ENA;
 import static org.uniprot.core.proteome.ProteomeType.*;
 import static org.uniprot.core.taxonomy.TaxonomyRank.FAMILY;
+import static org.uniprot.store.spark.indexer.common.TaxDb.READ;
 import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
 import java.io.IOException;
@@ -58,9 +59,9 @@ class ProteomeDocumentsToHPSWriterIT {
     @BeforeEach
     void setUp() throws Exception {
         Config application = SparkUtils.loadApplicationProperty();
-        String url = application.getString("database.url");
-        String user = application.getString("database.user.name");
-        String password = application.getString("database.password");
+        String url = application.getString("database.read.url");
+        String user = application.getString("database.read.user.name");
+        String password = application.getString("database.read.password");
         dbConnection = DriverManager.getConnection(url, user, password);
         fillDatabase();
     }
@@ -79,6 +80,7 @@ class ProteomeDocumentsToHPSWriterIT {
             JobParameter jobParameter =
                     JobParameter.builder()
                             .sparkContext(sparkContext)
+                            .taxDb(READ)
                             .applicationConfig(application)
                             .releaseName(RELEASE_NAME)
                             .build();

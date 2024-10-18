@@ -6,6 +6,7 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
 import com.typesafe.config.Config;
+import org.uniprot.store.spark.indexer.common.JobParameter;
 
 /**
  * @author lgonzales
@@ -15,16 +16,18 @@ class TaxonomyUtil {
 
     private TaxonomyUtil() {}
 
-    static int getMaxTaxId(JavaSparkContext sparkContext, Config applicationConfig) {
+    static int getMaxTaxId(JavaSparkContext sparkContext, Config applicationConfig, JobParameter jobParameter) {
         SparkSession spark = SparkSession.builder().sparkContext(sparkContext.sc()).getOrCreate();
+        String taxDb = jobParameter.getTaxDb().getName();
+        String databasePropertyPrefix = "database." + taxDb;
 
         Dataset<Row> max =
                 spark.read()
                         .format("jdbc")
                         .option("driver", applicationConfig.getString("database.driver"))
-                        .option("url", applicationConfig.getString("database.url"))
-                        .option("user", applicationConfig.getString("database.user.name"))
-                        .option("password", applicationConfig.getString("database.password"))
+                        .option("url", applicationConfig.getString(databasePropertyPrefix + ".url"))
+                        .option("user", applicationConfig.getString(databasePropertyPrefix + ".user.name"))
+                        .option("password", applicationConfig.getString(databasePropertyPrefix + ".password"))
                         .option(
                                 "query",
                                 "SELECT MAX(TAX_ID) AS MAX_TAX_ID FROM TAXONOMY.V_PUBLIC_NODE")

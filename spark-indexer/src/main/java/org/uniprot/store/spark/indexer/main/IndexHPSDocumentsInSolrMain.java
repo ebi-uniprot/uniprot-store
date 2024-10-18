@@ -31,7 +31,7 @@ public class IndexHPSDocumentsInSolrMain {
                     "Invalid arguments. "
                             + "Expected args[0]=release name (for example: (for example: 2020_02), "
                             + "args[1]= collection names comma separated (for example: uniprot,suggest)"
-                            + "args[2]=spark master node url (e.g. spark://hl-codon-102-02.ebi.ac.uk:37550)");
+                            + "args[2]= spark master node url (e.g. spark://hl-codon-102-02.ebi.ac.uk:37550)");
         }
 
         Config applicationConfig = loadApplicationProperty();
@@ -52,7 +52,7 @@ public class IndexHPSDocumentsInSolrMain {
                         getSolrIndexParameter(collection, applicationConfig);
                 sparkContext
                         .objectFile(hpsFilePath)
-                        .map(obj -> (SolrInputDocument) obj)
+                        .map(SolrInputDocument.class::cast)
                         .foreachPartition(new SolrIndexWriter(indexParameter));
                 log.info(
                         "Completed solr index for collection: "
