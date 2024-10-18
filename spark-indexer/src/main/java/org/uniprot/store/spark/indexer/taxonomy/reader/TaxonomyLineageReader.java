@@ -16,8 +16,6 @@ import com.typesafe.config.Config;
 
 import lombok.extern.slf4j.Slf4j;
 
-import static org.uniprot.store.spark.indexer.taxonomy.reader.TaxReaderConstants.READ;
-
 /**
  * This class is responsible to read values from Lineage into an a JavaPairRDD{key=taxId, value=List
  * of TaxonomyLineage}

@@ -16,8 +16,6 @@ import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyRowMapper;
 
 import com.typesafe.config.Config;
 
-import static org.uniprot.store.spark.indexer.taxonomy.reader.TaxReaderConstants.READ;
-
 /**
  * This class is Responsible to load JavaPairRDD{key=taxId, value=TaxonomyEntry}
  *

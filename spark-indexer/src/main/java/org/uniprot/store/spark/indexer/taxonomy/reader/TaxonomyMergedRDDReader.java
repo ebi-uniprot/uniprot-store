@@ -12,8 +12,6 @@ import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyMergedRowMapper;
 
 import com.typesafe.config.Config;
 
-import static org.uniprot.store.spark.indexer.taxonomy.reader.TaxReaderConstants.READ;
-
 public class TaxonomyMergedRDDReader implements RDDReader<TaxonomyDocument> {
 
     private final JobParameter jobParameter;

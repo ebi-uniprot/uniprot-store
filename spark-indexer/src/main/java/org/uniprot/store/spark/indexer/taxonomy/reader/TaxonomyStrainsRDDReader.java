@@ -12,8 +12,6 @@ import org.uniprot.store.spark.indexer.taxonomy.mapper.model.Strain;
 
 import com.typesafe.config.Config;
 
-import static org.uniprot.store.spark.indexer.taxonomy.reader.TaxReaderConstants.READ;
-
 public class TaxonomyStrainsRDDReader implements PairRDDReader<String, Strain> {
 
     private final JobParameter jobParameter;

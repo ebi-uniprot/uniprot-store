@@ -8,8 +8,6 @@ import org.apache.spark.sql.SparkSession;
 import com.typesafe.config.Config;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 
-import static org.uniprot.store.spark.indexer.taxonomy.reader.TaxReaderConstants.READ;
-
 /**
  * @author lgonzales
  * @since 30/05/2020

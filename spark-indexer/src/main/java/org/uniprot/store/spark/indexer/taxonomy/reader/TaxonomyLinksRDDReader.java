@@ -12,8 +12,6 @@ import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyLinksRowMapper;
 
 import com.typesafe.config.Config;
 
-import static org.uniprot.store.spark.indexer.taxonomy.reader.TaxReaderConstants.READ;
-
 public class TaxonomyLinksRDDReader implements PairRDDReader<String, TaxonomyEntry> {
 
     private final JobParameter jobParameter;
