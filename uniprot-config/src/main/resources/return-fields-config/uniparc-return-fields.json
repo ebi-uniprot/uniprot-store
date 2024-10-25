@@ -73,6 +73,16 @@
     "includeInSwagger": true
   },
   {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "label": "Common taxons",
+    "name": "common_taxons",
+    "paths": ["commonTaxons"],
+    "id": "names_&_taxonomy/common_taxons",
+    "includeInSwagger": true
+  },
+  {
     "seqNumber": 1,
     "itemType": "GROUP",
     "groupName": "Sequences",
