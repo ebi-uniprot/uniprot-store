@@ -8,12 +8,14 @@ import org.mockito.Mockito;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 
 import com.typesafe.config.Config;
+import org.uniprot.store.spark.indexer.common.TaxDb;
 
 public class SolrIndexValidatorUtil {
 
     static JobParameter getJobParameter(Config applicationConfig, JavaSparkContext context) {
         return JobParameter.builder()
                 .releaseName("2020_02")
+                .taxDb(TaxDb.forName("read"))
                 .applicationConfig(applicationConfig)
                 .sparkContext(context)
                 .build();
