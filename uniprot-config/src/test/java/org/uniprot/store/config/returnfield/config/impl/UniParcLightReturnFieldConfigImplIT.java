@@ -1,5 +1,15 @@
 package org.uniprot.store.config.returnfield.config.impl;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,7 +18,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.uniprot.core.Sequence;
 import org.uniprot.core.impl.SequenceBuilder;
 import org.uniprot.core.parser.tsv.uniparc.UniParcEntryLightValueMapper;
-import org.uniprot.core.parser.tsv.uniparc.UniParcEntryValueMapper;
 import org.uniprot.core.uniparc.*;
 import org.uniprot.core.uniparc.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
@@ -21,16 +30,6 @@ import org.uniprot.store.config.returnfield.model.ReturnField;
 import org.uniprot.store.config.searchfield.common.SearchFieldConfig;
 import org.uniprot.store.config.searchfield.factory.SearchFieldConfigFactory;
 import org.uniprot.store.config.searchfield.model.SearchFieldItem;
-
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class UniParcLightReturnFieldConfigImplIT {
 
@@ -123,18 +122,29 @@ class UniParcLightReturnFieldConfigImplIT {
         Arrays.stream(SignatureDbType.values())
                 .forEach(signatureType -> seqFeatures.add(getSeqFeature(2, signatureType)));
         List<CommonOrganism> commonTaxons = getCommonTaxons();
-        Organism organism1 = new OrganismBuilder().taxonId(9606).scientificName("Homo sapiens").build();
+        Organism organism1 =
+                new OrganismBuilder().taxonId(9606).scientificName("Homo sapiens").build();
         Organism organism2 = new OrganismBuilder().taxonId(10090).scientificName("MOUSE").build();
         return new UniParcEntryLightBuilder()
                 .uniParcId(uniParcId)
-                .geneNamesSet(new LinkedHashSet<>(List.of("gene1","gene2")))
+                .geneNamesSet(new LinkedHashSet<>(List.of("gene1", "gene2")))
                 .commonTaxonsSet(commonTaxons)
                 .crossReferenceCount(3)
                 .uniProtKBAccessionsAdd(getName("P123", 2))
                 .sequence(sequence)
-                .proteomesSet(new LinkedHashSet<>(List.of(new ProteomeBuilder().id("UP000005640").component("C1").build(), new ProteomeBuilder().id("UP000002494").component("C2").build())))
+                .proteomesSet(
+                        new LinkedHashSet<>(
+                                List.of(
+                                        new ProteomeBuilder()
+                                                .id("UP000005640")
+                                                .component("C1")
+                                                .build(),
+                                        new ProteomeBuilder()
+                                                .id("UP000002494")
+                                                .component("C2")
+                                                .build())))
                 .proteinNamesSet(new LinkedHashSet<>(List.of("protein1", "protein2")))
-                .organismsSet( new LinkedHashSet<>(List.of(organism1, organism2)))
+                .organismsSet(new LinkedHashSet<>(List.of(organism1, organism2)))
                 .sequenceFeaturesSet(seqFeatures)
                 .oldestCrossRefCreated(LocalDate.now())
                 .mostRecentCrossRefUpdated(LocalDate.now())

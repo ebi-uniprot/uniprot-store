@@ -111,7 +111,7 @@ class UniParcReturnFieldConfigImplIT {
         return returnFieldConfig.getReturnFields().stream()
                 .filter(rf -> Objects.nonNull(rf.getChildNumber()))
                 .map(ReturnField::getName)
-                .filter(name-> !name.equals("common_taxons"))
+                .filter(name -> !name.equals("common_taxons"))
                 .map(Arguments::of);
     }
 }
