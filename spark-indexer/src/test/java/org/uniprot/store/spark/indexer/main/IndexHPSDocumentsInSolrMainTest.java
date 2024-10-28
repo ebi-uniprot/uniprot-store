@@ -21,20 +21,14 @@ class IndexHPSDocumentsInSolrMainTest {
 
     @Test
     void testIndexHPSDocumentsInSolrMainInvalidCollection() {
-        String[] args = {"invalid", "invalid", "invalid", "read"};
-        assertThrows(SolrIndexException.class, () -> IndexHPSDocumentsInSolrMain.main(args));
-    }
-
-    @Test
-    void testIndexHPSDocumentsInSolrMainInvalidTaxDb() {
-        String[] args = {"2020_04", "uniparc", SPARK_LOCAL_MASTER, "invalid"};
+        String[] args = {"invalid", "invalid", "invalid"};
         assertThrows(SolrIndexException.class, () -> IndexHPSDocumentsInSolrMain.main(args));
     }
 
     @Test
     void testIndexHPSDocumentsInSolrMainThrowExceptions() {
         // valid arguments, but it will fail because we do not have the serialized document files.
-        String[] args = {"2020_04", "uniparc", SPARK_LOCAL_MASTER, "read"};
+        String[] args = {"2020_04", "uniparc", SPARK_LOCAL_MASTER};
         assertThrows(SolrIndexException.class, () -> IndexHPSDocumentsInSolrMain.main(args));
     }
 }
