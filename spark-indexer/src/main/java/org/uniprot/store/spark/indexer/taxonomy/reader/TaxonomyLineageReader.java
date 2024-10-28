@@ -86,9 +86,17 @@ public class TaxonomyLineageReader implements PairRDDReader<String, List<Taxonom
                     spark.read()
                             .format("jdbc")
                             .option("driver", applicationConfig.getString("database.driver"))
-                            .option("url", applicationConfig.getString(databasePropertyPrefix + ".url"))
-                            .option("user", applicationConfig.getString(databasePropertyPrefix + ".user.name"))
-                            .option("password", applicationConfig.getString(databasePropertyPrefix + ".password"))
+                            .option(
+                                    "url",
+                                    applicationConfig.getString(databasePropertyPrefix + ".url"))
+                            .option(
+                                    "user",
+                                    applicationConfig.getString(
+                                            databasePropertyPrefix + ".user.name"))
+                            .option(
+                                    "password",
+                                    applicationConfig.getString(
+                                            databasePropertyPrefix + ".password"))
                             .option("query", sql)
                             .load();
             if (result == null) {

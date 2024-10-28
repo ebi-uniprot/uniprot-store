@@ -6,9 +6,9 @@ import org.apache.solr.common.SolrDocumentList;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.mockito.Mockito;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.TaxDb;
 
 import com.typesafe.config.Config;
-import org.uniprot.store.spark.indexer.common.TaxDb;
 
 public class SolrIndexValidatorUtil {
 

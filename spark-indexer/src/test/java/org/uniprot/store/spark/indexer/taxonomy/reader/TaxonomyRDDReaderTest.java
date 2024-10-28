@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
-import org.uniprot.store.spark.indexer.common.TaxDb;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import com.typesafe.config.Config;

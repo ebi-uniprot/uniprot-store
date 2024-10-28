@@ -5,7 +5,6 @@ import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.spark.indexer.common.exception.IndexHPSDocumentsException;
-import org.uniprot.store.spark.indexer.common.exception.SolrIndexException;
 
 /**
  * @author lgonzales

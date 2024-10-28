@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.main.experimental;
 
+import static org.uniprot.store.spark.indexer.common.TaxDb.forName;
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,8 +18,6 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import com.typesafe.config.Config;
 
 import lombok.extern.slf4j.Slf4j;
-
-import static org.uniprot.store.spark.indexer.common.TaxDb.forName;
 
 /**
  * @author lgonzales

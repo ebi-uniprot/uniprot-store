@@ -1,6 +1,5 @@
 package org.uniprot.store.spark.indexer.taxonomy.reader;
 
-import com.typesafe.config.Config;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
@@ -10,6 +9,8 @@ import org.uniprot.store.search.document.taxonomy.TaxonomyDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.reader.RDDReader;
 import org.uniprot.store.spark.indexer.taxonomy.mapper.TaxonomyDeletedRowMapper;
+
+import com.typesafe.config.Config;
 
 public class TaxonomyDeletedRDDReader implements RDDReader<TaxonomyDocument> {
     private final JobParameter jobParameter;
@@ -36,7 +37,9 @@ public class TaxonomyDeletedRDDReader implements RDDReader<TaxonomyDocument> {
                 .option("driver", applicationConfig.getString("database.driver"))
                 .option("url", applicationConfig.getString(databasePropertyPrefix + ".url"))
                 .option("user", applicationConfig.getString(databasePropertyPrefix + ".user.name"))
-                .option("password", applicationConfig.getString(databasePropertyPrefix + ".password"))
+                .option(
+                        "password",
+                        applicationConfig.getString(databasePropertyPrefix + ".password"))
                 .option("dbtable", "taxonomy.v_public_deleted")
                 .option("fetchsize", 1000L)
                 .load();

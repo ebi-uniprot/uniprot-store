@@ -30,8 +30,6 @@ import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
-import org.junit.platform.commons.support.AnnotationSupport;
-import org.junit.platform.commons.support.ReflectionSupport;
 import org.mockito.Mockito;
 import org.opentest4j.AssertionFailedError;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
@@ -89,10 +87,11 @@ class SuggestDocumentsToHPSWriterTest {
     }
 
     @Test
-    void testWriteIndexDocumentsToHPS(@TempDir Path hpsPath) throws Exception{
+    void testWriteIndexDocumentsToHPS(@TempDir Path hpsPath) throws Exception {
         SuggestDocumentsToHPSWriter writer = Mockito.mock(SuggestDocumentsToHPSWriter.class);
         Mockito.doCallRealMethod().when(writer).writeIndexDocumentsToHPS(Mockito.anyString());
-        Field repartitionField = FieldUtils.getField(SuggestDocumentsToHPSWriter.class, "suggestPartition", true);
+        Field repartitionField =
+                FieldUtils.getField(SuggestDocumentsToHPSWriter.class, "suggestPartition", true);
         FieldUtils.writeField(repartitionField, writer, 1, true);
 
         JavaRDD<SuggestDocument> emptyRDD =

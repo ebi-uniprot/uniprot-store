@@ -38,7 +38,9 @@ public class TaxonomyStrainsRDDReader implements PairRDDReader<String, Strain> {
                 .option("driver", applicationConfig.getString("database.driver"))
                 .option("url", applicationConfig.getString(databasePropertyPrefix + ".url"))
                 .option("user", applicationConfig.getString(databasePropertyPrefix + ".user.name"))
-                .option("password", applicationConfig.getString(databasePropertyPrefix + ".password"))
+                .option(
+                        "password",
+                        applicationConfig.getString(databasePropertyPrefix + ".password"))
                 .option("dbtable", "taxonomy.v_public_strain")
                 .option("fetchsize", 1000L)
                 .load();
