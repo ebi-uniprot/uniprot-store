@@ -28,6 +28,10 @@ public class SolrIndexValidatorMain {
                             + "args[2]= spark master node url (e.g. spark://hl-codon-102-02.ebi.ac.uk:37550)"
                             + "args[3]= taxonomy db (e.g.read or fly)");
         }
+        log.info("release name " + args[0]);
+        log.info("collection name " + args[1]);
+        log.info("spark master node url " + args[2]);
+        log.info("taxonomy db " + args[3]);
 
         Config applicationConfig = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =

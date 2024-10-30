@@ -33,6 +33,9 @@ public class IndexHPSDocumentsInSolrMain {
                             + "args[1]= collection names comma separated (for example: uniprot,suggest)"
                             + "args[2]= spark master node url (e.g. spark://hl-codon-102-02.ebi.ac.uk:37550)");
         }
+        log.info("release name " + args[0]);
+        log.info("collection name " + args[1]);
+        log.info("spark master node url " + args[2]);
 
         Config applicationConfig = loadApplicationProperty();
         String zkHost = applicationConfig.getString("solr.zkhost");
