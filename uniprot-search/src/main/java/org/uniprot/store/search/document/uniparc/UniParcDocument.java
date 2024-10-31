@@ -50,12 +50,12 @@ public class UniParcDocument implements Document {
     private Set<String> geneNames;
 
     @Singular
-    @Field("protein")
+    @Field("protein_name")
     private Set<String> proteinNames;
 
     @Singular
-    @Field("upid")
-    private Set<String> upids = new HashSet<>();
+    @Field("proteome")
+    private Set<String> proteomes = new HashSet<>();
 
     @Singular
     @Field("proteomecomponent")
@@ -74,7 +74,7 @@ public class UniParcDocument implements Document {
     @Singular private Set<Integer> taxLineageIds = new HashSet<>();
 
     @Singular
-    @Field("uniprotkb")
+    @Field("accession")
     private List<String> uniprotAccessions;
 
     @Singular

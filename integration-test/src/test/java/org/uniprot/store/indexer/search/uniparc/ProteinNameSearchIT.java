@@ -331,7 +331,7 @@ class ProteinNameSearchIT {
         return QueryBuilder.query(
                 searchEngine
                         .getSearchFieldConfig()
-                        .getSearchFieldItemByName("protein")
+                        .getSearchFieldItemByName("protein_name")
                         .getFieldName(),
                 value);
     }

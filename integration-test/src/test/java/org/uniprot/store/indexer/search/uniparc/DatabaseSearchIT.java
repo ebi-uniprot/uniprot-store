@@ -226,7 +226,7 @@ class DatabaseSearchIT {
         return QueryBuilder.query(
                 searchEngine
                         .getSearchFieldConfig()
-                        .getSearchFieldItemByName("uniprotkb")
+                        .getSearchFieldItemByName("accession")
                         .getFieldName(),
                 acc);
     }

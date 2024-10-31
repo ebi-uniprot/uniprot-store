@@ -55,7 +55,7 @@ class UniParcSearchEngine extends AbstractSearchEngine<Entry> {
 
     @Override
     protected String identifierQuery(String entryId) {
-        return getSearchFieldConfig().getSearchFieldItemByName("upid").getFieldName()
+        return getSearchFieldConfig().getSearchFieldItemByName("upi").getFieldName()
                 + ":"
                 + entryId;
     }
