@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.JobParameter;
+import org.uniprot.store.spark.indexer.common.TaxDb;
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.validator.SolrIndexValidator;
@@ -28,18 +29,27 @@ public class SolrIndexValidatorMain {
                             + "args[2]= spark master node url (e.g. spark://hl-codon-102-02.ebi.ac.uk:37550)"
                             + "args[3]= taxonomy db (e.g.read or fly)");
         }
+        String releaseName = args[0];
+        String collectionNames = args[1];
+        String sparkMaster = args[2];
+        TaxDb taxDb = forName(args[3]);
 
         Config applicationConfig = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
-                SparkUtils.loadSparkContext(applicationConfig, args[2])) {
+                SparkUtils.loadSparkContext(applicationConfig, sparkMaster)) {
+            log.info("release name " + releaseName);
+            log.info("collection name " + collectionNames);
+            log.info("spark master node url " + sparkMaster);
+            log.info("taxonomy db " + taxDb);
+
             JobParameter jobParameter =
                     JobParameter.builder()
                             .applicationConfig(applicationConfig)
-                            .releaseName(args[0])
-                            .taxDb(forName(args[3]))
+                            .releaseName(releaseName)
+                            .taxDb(taxDb)
                             .sparkContext(sparkContext)
                             .build();
-            List<SolrCollection> solrCollections = SparkUtils.getSolrCollection(args[1]);
+            List<SolrCollection> solrCollections = SparkUtils.getSolrCollection(collectionNames);
             SolrIndexValidatorFactory factory = new SolrIndexValidatorFactory();
             for (SolrCollection collection : solrCollections) {
                 SolrIndexValidator validator =

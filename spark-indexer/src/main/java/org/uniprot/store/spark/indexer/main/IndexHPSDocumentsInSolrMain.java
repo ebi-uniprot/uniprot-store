@@ -36,12 +36,19 @@ public class IndexHPSDocumentsInSolrMain {
 
         Config applicationConfig = loadApplicationProperty();
         String zkHost = applicationConfig.getString("solr.zkhost");
-        try (JavaSparkContext sparkContext = loadSparkContext(applicationConfig, args[2])) {
+        String releaseName = args[0];
+        String collectionsName = args[1];
+        String sparkMaster = args[2];
 
-            List<SolrCollection> solrCollections = getSolrCollection(args[1]);
+        try (JavaSparkContext sparkContext = loadSparkContext(applicationConfig, sparkMaster)) {
+            List<SolrCollection> solrCollections = getSolrCollection(collectionsName);
+            log.info("release name " + releaseName);
+            log.info("collection name " + solrCollections);
+            log.info("spark master node url " + sparkMaster);
+
             for (SolrCollection collection : solrCollections) {
                 String hpsFilePath =
-                        getCollectionOutputReleaseDirPath(applicationConfig, args[0], collection);
+                        getCollectionOutputReleaseDirPath(applicationConfig, releaseName, collection);
 
                 log.info(
                         "Started solr index for collection: "
