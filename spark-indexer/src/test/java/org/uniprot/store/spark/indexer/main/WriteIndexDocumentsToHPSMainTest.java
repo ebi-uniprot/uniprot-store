@@ -30,7 +30,7 @@ class WriteIndexDocumentsToHPSMainTest {
     void testWriteIndexDocumentsToHPSMainInvalidTaxDb() {
         String[] args = {"2020_04", "uniparc", SPARK_LOCAL_MASTER, "invalid"};
         assertThrows(
-                IndexHPSDocumentsException.class, () -> WriteIndexDocumentsToHPSMain.main(args));
+                IllegalArgumentException.class, () -> WriteIndexDocumentsToHPSMain.main(args));
     }
 
     @Test
