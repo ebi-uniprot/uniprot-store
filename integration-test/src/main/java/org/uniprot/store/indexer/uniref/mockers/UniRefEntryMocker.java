@@ -84,7 +84,7 @@ public class UniRefEntryMocker {
                 .build();
     }
 
-    public static UniRefEntry createEntryForMapping(int i, UniRefType type, String[] memberIds) {
+    public static UniRefEntry createEntry(int i, UniRefType type, String[] memberIds) {
         String idRef = getIdRef(type);
 
         UniRefEntryId entryId = new UniRefEntryIdBuilder(getName(idRef, i)).build();
@@ -100,7 +100,7 @@ public class UniRefEntryMocker {
                 .commonTaxon(commonOrganism)
                 .seedId(getName(ACC_2_PREF, i))
                 .representativeMember(createReprestativeMember(i))
-                .membersAdd(createMemberForMapping(i, memberIds))
+                .membersAdd(createMember(i, memberIds))
                 .goTermsAdd(
                         new GeneOntologyEntryBuilder()
                                 .aspect(GoAspect.COMPONENT)
@@ -153,7 +153,7 @@ public class UniRefEntryMocker {
                 .build();
     }
 
-    public static UniRefMember createMemberForMapping(int i, String[] memberIds) {
+    public static UniRefMember createMember(int i, String[] memberIds) {
         int length = 312;
         String pName = "some protein name";
         String upi = getName(UPI_PREF, i);
