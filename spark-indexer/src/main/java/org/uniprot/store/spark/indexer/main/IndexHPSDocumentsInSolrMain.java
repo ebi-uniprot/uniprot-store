@@ -48,7 +48,8 @@ public class IndexHPSDocumentsInSolrMain {
 
             for (SolrCollection collection : solrCollections) {
                 String hpsFilePath =
-                        getCollectionOutputReleaseDirPath(applicationConfig, releaseName, collection);
+                        getCollectionOutputReleaseDirPath(
+                                applicationConfig, releaseName, collection);
 
                 log.info(
                         "Started solr index for collection: "
