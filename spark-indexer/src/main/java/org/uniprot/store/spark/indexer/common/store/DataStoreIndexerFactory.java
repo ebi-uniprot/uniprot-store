@@ -1,7 +1,8 @@
 package org.uniprot.store.spark.indexer.common.store;
 
 import org.uniprot.store.spark.indexer.common.JobParameter;
-import org.uniprot.store.spark.indexer.uniparc.UniParcDataStoreIndexer;
+import org.uniprot.store.spark.indexer.uniparc.UniParcCrossReferenceDataStoreIndexer;
+import org.uniprot.store.spark.indexer.uniparc.UniParcLightDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniref.UniRefLightDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniref.UniRefMembersDataStoreIndexer;
@@ -21,11 +22,14 @@ public class DataStoreIndexerFactory {
             case UNIREF_LIGHT:
                 result = new UniRefLightDataStoreIndexer(jobParameter);
                 break;
-            case UNIPARC:
-                result = new UniParcDataStoreIndexer(jobParameter);
+            case UNIPARC_LIGHT:
+                result = new UniParcLightDataStoreIndexer(jobParameter);
                 break;
             case UNIREF_MEMBER:
                 result = new UniRefMembersDataStoreIndexer(jobParameter);
+                break;
+            case UNIPARC_CROSS_REFERENCE:
+                result = new UniParcCrossReferenceDataStoreIndexer(jobParameter);
                 break;
             default:
                 throw new UnsupportedOperationException(

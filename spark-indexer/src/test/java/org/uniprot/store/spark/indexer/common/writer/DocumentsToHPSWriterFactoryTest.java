@@ -22,6 +22,8 @@ import org.uniprot.store.spark.indexer.uniparc.UniParcDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.uniref.UniRefDocumentsToHPSWriter;
 
+import com.typesafe.config.Config;
+
 /**
  * @author lgonzales
  * @since 08/05/2020
@@ -31,7 +33,12 @@ class DocumentsToHPSWriterFactoryTest {
     @ParameterizedTest
     @MethodSource("provideSparkCollection")
     void testCreateHPSWriter(SolrCollection collection) {
+        Config applicationConfig = Mockito.mock(Config.class);
+        Mockito.when(applicationConfig.getString(Mockito.anyString())).thenReturn("1");
+
         JobParameter jobParameter = Mockito.mock(JobParameter.class);
+        Mockito.when(jobParameter.getApplicationConfig()).thenReturn(applicationConfig);
+
         DocumentsToHPSWriterFactory factory = new DocumentsToHPSWriterFactory();
         DocumentsToHPSWriter writer = factory.createDocumentsToHPSWriter(collection, jobParameter);
         assertNotNull(writer);

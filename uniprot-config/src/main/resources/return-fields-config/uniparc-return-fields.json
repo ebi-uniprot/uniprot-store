@@ -26,7 +26,7 @@
     "itemType": "SINGLE",
     "label": "Gene names",
     "name": "gene",
-    "paths": ["uniParcCrossReferences[*].geneName"],
+    "paths": ["uniParcCrossReferences[*].geneName","geneNames"],
     "id": "names_&_taxonomy/gene",
     "includeInSwagger": true
   },
@@ -36,7 +36,7 @@
     "itemType": "SINGLE",
     "label": "Organism ID",
     "name": "organism_id",
-    "paths": ["uniParcCrossReferences[*].organism.taxonId"],
+    "paths": ["uniParcCrossReferences[*].organism.taxonId","organisms"],
     "id": "names_&_taxonomy/organism_id",
     "includeInSwagger": true
   },
@@ -48,7 +48,7 @@
     "defaultForTsvOrder" : 1,
     "label": "Organisms",
     "name": "organism",
-    "paths": ["uniParcCrossReferences[*].organism"],
+    "paths": ["uniParcCrossReferences[*].organism","organisms"],
     "id": "names_&_taxonomy/organism",
     "includeInSwagger": true
   },
@@ -58,7 +58,7 @@
     "itemType": "SINGLE",
     "label": "Protein names",
     "name": "protein",
-    "paths": ["uniParcCrossReferences[*].proteinName"],
+    "paths": ["uniParcCrossReferences[*].proteinName","proteinNames"],
     "id": "names_&_taxonomy/protein",
     "includeInSwagger": true
   },
@@ -68,8 +68,18 @@
     "itemType": "SINGLE",
     "label": "Proteomes",
     "name": "proteome",
-    "paths": ["uniParcCrossReferences[*].proteomeId","uniParcCrossReferences[*].component"],
+    "paths": ["uniParcCrossReferences[*].proteomeId","uniParcCrossReferences[*].component","proteomes"],
     "id": "names_&_taxonomy/proteome",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "label": "Common taxons",
+    "name": "common_taxons",
+    "paths": ["commonTaxons"],
+    "id": "names_&_taxonomy/common_taxons",
     "includeInSwagger": true
   },
   {
@@ -114,6 +124,13 @@
     "includeInSwagger": true
   },
   {
+    "itemType": "SINGLE",
+    "paths": ["sequence"],
+    "id": "fullSequence",
+    "name": "fullSequence"
+  }
+  ,
+  {
     "seqNumber": 2,
     "itemType": "GROUP",
     "groupName": "Miscellaneous",
@@ -132,7 +149,8 @@
       "uniParcCrossReferences[*].database",
       "uniParcCrossReferences[*].active",
       "uniParcCrossReferences[*].version",
-      "uniParcCrossReferences[*].chain"],
+      "uniParcCrossReferences[*].chain",
+      "uniProtKBAccessions"],
     "id": "miscellaneous/accession",
     "includeInSwagger": true
   },
@@ -148,23 +166,27 @@
     "childNumber": 0,
     "itemType": "SINGLE",
     "isDefaultForTsv": true,
+    "isRequiredForJson": true,
     "defaultForTsvOrder" : 3,
     "label": "First seen",
     "name": "first_seen",
-    "paths": ["uniParcCrossReferences[*].created"],
+    "paths": ["oldestCrossRefCreated"],
     "id": "date_of/first_seen",
-    "includeInSwagger": true
+    "includeInSwagger": true,
+    "aliases": ["oldestCrossRefCreated"]
   },
   {
     "parentId": "date_of",
     "childNumber": 1,
     "itemType": "SINGLE",
     "isDefaultForTsv": true,
+    "isRequiredForJson": true,
     "defaultForTsvOrder" : 4,
     "label": "Last seen",
     "name": "last_seen",
-    "paths": ["uniParcCrossReferences[*].lastUpdated"],
+    "paths": ["mostRecentCrossRefUpdated"],
     "id": "date_of/last_seen",
+    "aliases": ["mostRecentCrossRefUpdated"],
     "includeInSwagger": true
   },
   {
@@ -296,52 +318,8 @@
   },
   {
     "itemType": "SINGLE",
-    "name": "database",
-    "paths": ["uniParcCrossReferences[*].database"],
-    "id": "database"
-  },
-  {
-    "itemType": "SINGLE",
-    "name": "ncbiGi",
-    "paths": ["uniParcCrossReferences[*].ncbiGi"],
-    "id": "ncbiGi"
-  },
-  {
-    "itemType": "SINGLE",
-    "name": "active",
-    "paths": ["uniParcCrossReferences[*].active"],
-    "id": "active"
-  },
-  {
-    "itemType": "SINGLE",
-    "name": "timeline",
-    "paths": ["uniParcCrossReferences[*].created","uniParcCrossReferences[*].lastUpdated"],
-    "id": "timeline"
-  },
-  {
-    "itemType": "SINGLE",
-    "name": "version",
-    "paths": ["uniParcCrossReferences[*].version"],
-    "id": "version"
-  },
-  {
-    "itemType": "SINGLE",
-    "name": "version_uniparc",
-    "paths": ["uniParcCrossReferences[*].versionI"],
-    "id": "version_uniparc"
-  },
-  {
-    "itemType": "SINGLE",
-    "isRequiredForJson": true,
-    "name": "oldestCrossRefCreated",
-    "paths": ["oldestCrossRefCreated"],
-    "id": "oldestCrossRefCreated"
-  },
-  {
-    "itemType": "SINGLE",
-    "isRequiredForJson": true,
-    "name": "mostRecentCrossRefUpdated",
-    "paths": ["mostRecentCrossRefUpdated"],
-    "id": "mostRecentCrossRefUpdated"
+    "paths": ["sequenceFeatures"],
+    "id": "fullsequencefeatures",
+    "name": "fullsequencefeatures"
   }
 ]

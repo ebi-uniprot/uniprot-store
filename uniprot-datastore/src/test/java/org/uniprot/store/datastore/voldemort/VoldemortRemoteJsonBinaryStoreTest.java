@@ -16,9 +16,9 @@ import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.cv.keyword.impl.KeywordEntryBuilder;
 import org.uniprot.core.cv.keyword.impl.KeywordIdBuilder;
 import org.uniprot.core.json.parser.keyword.KeywordJsonConfig;
+import org.uniprot.store.datastore.voldemort.light.uniparc.VoldemortRemoteUniParcEntryLightStore;
 import org.uniprot.store.datastore.voldemort.light.uniref.VoldemortRemoteUniRefEntryLightStore;
 import org.uniprot.store.datastore.voldemort.member.uniref.VoldemortRemoteUniRefMemberStore;
-import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
 import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
 
 import com.aayushatharva.brotli4j.encoder.Encoder;
@@ -59,20 +59,22 @@ class VoldemortRemoteJsonBinaryStoreTest {
     void usingVoldemortRemoteUniParcEntryStoreConstructorThrowsException() {
         Assertions.assertThrows(
                 RetrievalException.class,
-                () -> new VoldemortRemoteUniParcEntryStore(10, "uniparc", "tcp://localhost:1010"));
+                () ->
+                        new VoldemortRemoteUniParcEntryLightStore(
+                                10, "uniparc-light", "tcp://localhost:1010"));
         Assertions.assertThrows(
                 RetrievalException.class,
                 () ->
-                        new VoldemortRemoteUniParcEntryStore(
-                                10, false, "uniparc", "tcp://localhost:1010"));
+                        new VoldemortRemoteUniParcEntryLightStore(
+                                10, false, "uniparc-light", "tcp://localhost:1010"));
         Assertions.assertThrows(
                 RetrievalException.class,
                 () ->
-                        new VoldemortRemoteUniParcEntryStore(
+                        new VoldemortRemoteUniParcEntryLightStore(
                                 10,
                                 true,
                                 DEFAULT_BROTLI_COMPRESSION_LEVEL,
-                                "uniparc",
+                                "uniparc-light",
                                 "tcp://localhost:1010"));
     }
 
