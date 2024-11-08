@@ -55,7 +55,7 @@ public class UniRefDocument implements Document {
 
     @Singular
     @Field("uniparc")
-    private List<String> uniparcs;
+    private List<String> uniParcIds;
 
     @Singular
     @Field("taxonomy_name")
