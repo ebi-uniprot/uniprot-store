@@ -45,7 +45,7 @@ public class UniRefDocumentConverter implements DocumentConverter<Entry, UniRefD
                 .dateModified(DateUtils.convertLocalDateToUTCDate(entry.getUpdated()))
                 .dateModifiedSort(DateUtils.convertLocalDateToUTCDate(entry.getUpdated()))
                 .uniprotIds(getUniProtIds(entry))
-                .upids(getUniParcIds(entry))
+                .uniparcs(getUniParcIds(entry))
                 .clusters(getClusterIds(entry))
                 .organismSort(getOrganismNameForSort(entry));
         processTaxonomy(
