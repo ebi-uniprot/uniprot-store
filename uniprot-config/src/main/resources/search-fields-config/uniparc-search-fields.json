@@ -52,14 +52,14 @@
   {
     "seqNumber": 3,
     "id": "upid",
-    "fieldName": "upid",
+    "fieldName": "proteome",
     "label": "Proteome ID",
     "itemType": "SINGLE",
     "validRegex": "UP[0-9]{9}",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by upid",
-    "aliases": ["proteome"],
+    "aliases": ["upid"],
     "example": "UP123456789",
     "includeInSwagger": true
   },
@@ -103,13 +103,13 @@
   {
     "seqNumber": 6,
     "id": "protein",
-    "fieldName": "protein",
+    "fieldName": "protein_name",
     "label": "Protein name",
     "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by protein name",
-    "aliases": ["protein_name"],
+    "aliases": ["protein"],
     "example": "Protein Z",
     "includeInSwagger": true
   },

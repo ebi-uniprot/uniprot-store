@@ -26,10 +26,10 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="gene" type="full_ci" indexed="true" stored="false"
 		required="false" multiValued="true" />
-	<field name="protein" type="full_ci" indexed="true"
+	<field name="protein_name" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
-	<field name="upid" type="basic_ci" indexed="true" stored="false"
-		required="false" multiValued="true" />
+	<field name="proteome" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
 	<field name="proteomecomponent" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="uniprotkb" type="basic_ci" indexed="true"
@@ -48,7 +48,7 @@
 	<field name="suggest" type="text_suggest" indexed="true"
 		stored="false" multiValued="true" />
 	<copyField source="taxonomy_name" dest="suggest" />
-	<copyField source="protein" dest="suggest" />
+	<copyField source="protein_name" dest="suggest" />
 	<copyField source="gene" dest="suggest" />
 
 	<!-- =============================== field types =============================== -->
