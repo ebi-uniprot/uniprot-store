@@ -98,14 +98,12 @@ public class DatasetUniParcEntryLightConverter
                 || UniParcDatabase.SWISSPROT_VARSPLIC == database) {
 
             String active = rowValue.getString(rowValue.fieldIndex(ACTIVE));
-            Long version = null;
-            if (RowUtils.hasFieldName(VERSION, rowValue)) {
-                version = rowValue.getLong(rowValue.fieldIndex(VERSION));
-            }
 
-            if ("Y".equals(active) && version != null) {
+            if ("Y".equals(active) && RowUtils.hasFieldName(VERSION, rowValue)) {
+                long version = rowValue.getLong(rowValue.fieldIndex(VERSION));
                 id = id + "." + version;
             }
+
             return id;
         }
         return null;
