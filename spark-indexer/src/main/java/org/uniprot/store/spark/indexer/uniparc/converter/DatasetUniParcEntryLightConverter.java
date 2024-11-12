@@ -96,6 +96,16 @@ public class DatasetUniParcEntryLightConverter
         if (UniParcDatabase.TREMBL == database
                 || UniParcDatabase.SWISSPROT == database
                 || UniParcDatabase.SWISSPROT_VARSPLIC == database) {
+
+            String active = rowValue.getString(rowValue.fieldIndex(ACTIVE));
+            Long version = null;
+            if (RowUtils.hasFieldName(VERSION, rowValue)) {
+                version = rowValue.getLong(rowValue.fieldIndex(VERSION));
+            }
+
+            if ("Y".equals(active) && version != null) {
+                id = id + "." + version;
+            }
             return id;
         }
         return null;

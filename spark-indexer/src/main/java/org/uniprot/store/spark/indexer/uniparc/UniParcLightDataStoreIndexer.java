@@ -17,6 +17,7 @@ import com.typesafe.config.Config;
 
 import lombok.extern.slf4j.Slf4j;
 import scala.Tuple2;
+import scala.Tuple3;
 
 @Slf4j
 public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
@@ -54,7 +55,7 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
 
         // uniParc id and List of Tuples<toplevel organism, commonTaxon>
         // e.g. <UPI000001, [<"cellular organisms", "Bacteria">, <"Viruses", "Zilligvirae">]>
-        JavaPairRDD<String, List<Tuple2<String, String>>> uniParcIdCommonTaxons =
+        JavaPairRDD<String, List<Tuple3<String, Long, String>>> uniParcIdCommonTaxons =
                 uniParcIdTaxonLineages.mapToPair(new TaxonomyCommonalityAggregator());
         // convert uniParcLightRDD to <uniParcId, uniParcLight> and then join with
         // uniParcIdTaxonLineages.
