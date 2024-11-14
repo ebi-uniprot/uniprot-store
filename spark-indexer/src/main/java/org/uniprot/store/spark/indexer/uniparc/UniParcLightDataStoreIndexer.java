@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.storage.StorageLevel;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.uniparc.UniParcEntryLight;
 import org.uniprot.store.spark.indexer.common.JobParameter;
@@ -37,6 +38,11 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
         // JavaPairRDD<taxId,uniParcId>
         JavaPairRDD<String, String> taxonomyJoin =
                 uniParcLightRDD.flatMapToPair(new UniParcLightTaxonomyMapper());
+        taxonomyJoin.persist(StorageLevel.DISK_ONLY());
+        taxonomyJoin.coalesce(taxonomyJoin.getNumPartitions()/4, false);
+
+        log.info("Total number of entries in taxonomyJoin {}", taxonomyJoin.count());
+
 
         // JavaPairRDD<taxId,List<grandparent of taxId, parent of taxId, taxId>>
         JavaPairRDD<String, List<TaxonomyLineage>> taxonomyWithLineage =
