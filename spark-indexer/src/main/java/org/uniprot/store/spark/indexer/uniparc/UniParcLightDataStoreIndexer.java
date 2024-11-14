@@ -39,7 +39,8 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
         JavaPairRDD<String, String> taxonomyJoin =
                 uniParcLightRDD.flatMapToPair(new UniParcLightTaxonomyMapper());
         taxonomyJoin.persist(StorageLevel.DISK_ONLY());
-        taxonomyJoin.coalesce(taxonomyJoin.getNumPartitions()/4, false);
+        int numPartition = taxonomyJoin.getNumPartitions() >= 4 ? taxonomyJoin.getNumPartitions()/4 : taxonomyJoin.getNumPartitions();
+        taxonomyJoin.coalesce(numPartition, false);
 
         log.info("Total number of entries in taxonomyJoin {}", taxonomyJoin.count());
 
