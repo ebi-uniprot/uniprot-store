@@ -38,18 +38,18 @@ public class DatasetUniParcEntryLightConverter
                 }
                 String uniProtKBAccession = getUniProtKBAccession(dbReference);
                 builder.uniProtKBAccessionsAdd(uniProtKBAccession);
+                LocalDate lastDate = parseDate(dbReference, LAST);
+                mostRecentUpdated =
+                        Objects.isNull(lastDate) || mostRecentUpdated.isAfter(lastDate)
+                                ? mostRecentUpdated
+                                : lastDate;
+
 
                 LocalDate createdDate = parseDate(dbReference, CREATED);
-                mostRecentUpdated =
-                        Objects.isNull(createdDate) || mostRecentUpdated.isAfter(createdDate)
-                                ? mostRecentUpdated
-                                : createdDate;
-
-                LocalDate lastDate = parseDate(dbReference, LAST);
                 oldestCreated =
-                        Objects.isNull(lastDate) || oldestCreated.isBefore(lastDate)
+                        Objects.isNull(createdDate) || oldestCreated.isBefore(createdDate)
                                 ? oldestCreated
-                                : lastDate;
+                                : createdDate;
 
                 String taxonId = getTaxonomyId(dbReference);
                 if (Objects.nonNull(taxonId) && !taxonIds.contains(taxonId)) {
@@ -96,6 +96,14 @@ public class DatasetUniParcEntryLightConverter
         if (UniParcDatabase.TREMBL == database
                 || UniParcDatabase.SWISSPROT == database
                 || UniParcDatabase.SWISSPROT_VARSPLIC == database) {
+
+            String active = rowValue.getString(rowValue.fieldIndex(ACTIVE));
+
+            if ("Y".equals(active) && RowUtils.hasFieldName(VERSION, rowValue)) {
+                long version = rowValue.getLong(rowValue.fieldIndex(VERSION));
+                id = id + "." + version;
+            }
+
             return id;
         }
         return null;

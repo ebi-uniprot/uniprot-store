@@ -13,6 +13,7 @@ import org.uniprot.core.uniparc.impl.CommonOrganismBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryLightBuilder;
 
 import scala.Tuple2;
+import scala.Tuple3;
 
 class UniParcEntryLightTaxonMapperTest {
 
@@ -29,12 +30,12 @@ class UniParcEntryLightTaxonMapperTest {
         UniParcEntryLight originalEntry =
                 new UniParcEntryLightBuilder().uniParcId("UPI000000001").build();
 
-        List<Tuple2<String, String>> commonTaxons =
+        List<Tuple3<String, Long, String>> commonTaxons =
                 Arrays.asList(
-                        new Tuple2<>("9606", "Homo sapiens"),
-                        new Tuple2<>("10090", "Mus musculus"));
+                        new Tuple3<>("9606", 9607L, "Homo sapiens"),
+                        new Tuple3<>("10090", 10091L, "Mus musculus"));
 
-        Tuple2<UniParcEntryLight, List<Tuple2<String, String>>> input =
+        Tuple2<UniParcEntryLight, List<Tuple3<String, Long, String>>> input =
                 new Tuple2<>(originalEntry, commonTaxons);
 
         // When
@@ -48,12 +49,14 @@ class UniParcEntryLightTaxonMapperTest {
                                 new CommonOrganismBuilder()
                                         .topLevel("9606")
                                         .commonTaxon("Homo sapiens")
+                                        .commonTaxonId(9607L)
                                         .build()));
         assertTrue(
                 result.getCommonTaxons()
                         .contains(
                                 new CommonOrganismBuilder()
                                         .topLevel("10090")
+                                        .commonTaxonId(10091L)
                                         .commonTaxon("Mus musculus")
                                         .build()));
         assertEquals(2, result.getCommonTaxons().size());
@@ -65,9 +68,9 @@ class UniParcEntryLightTaxonMapperTest {
         UniParcEntryLight originalEntry =
                 new UniParcEntryLightBuilder().uniParcId("UPI000000002").build();
 
-        List<Tuple2<String, String>> commonTaxons = Arrays.asList();
+        List<Tuple3<String, Long, String>> commonTaxons = Arrays.asList();
 
-        Tuple2<UniParcEntryLight, List<Tuple2<String, String>>> input =
+        Tuple2<UniParcEntryLight, List<Tuple3<String, Long, String>>> input =
                 new Tuple2<>(originalEntry, commonTaxons);
 
         // When

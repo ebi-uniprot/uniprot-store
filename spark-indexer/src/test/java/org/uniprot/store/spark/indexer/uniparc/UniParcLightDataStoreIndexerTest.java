@@ -73,18 +73,19 @@ class UniParcLightDataStoreIndexerTest {
                     new CommonOrganismBuilder()
                             .topLevel("cellular organisms")
                             .commonTaxon("Teleostomi")
+                            .commonTaxonId(117570L)
                             .build(),
                     entry1.getCommonTaxons().get(0));
-            assertEquals(4, entry1.getUniProtKBAccessions().size());
+            assertEquals(5, entry1.getUniProtKBAccessions().size());
             assertEquals(
-                    Set.of("Q9EPI6", "Q9EPI6-1", "I8FBX0", "I8FBX2"),
+                    Set.of("Q9EPI6", "Q9EPI6-1", "I8FBX0", "I8FBX2", "Q9EPI6.1"),
                     entry1.getUniProtKBAccessions());
             assertNotNull(entry1.getSequence());
             assertFalse(entry1.getSequenceFeatures().isEmpty());
             assertNotNull(entry1.getMostRecentCrossRefUpdated());
-            assertEquals(LocalDate.of(2017, 5, 26), entry1.getMostRecentCrossRefUpdated());
+            assertEquals(LocalDate.of(2020, 4, 22), entry1.getMostRecentCrossRefUpdated());
             assertNotNull(entry1.getOldestCrossRefCreated());
-            assertEquals(LocalDate.of(2003, 8, 6), entry1.getOldestCrossRefCreated());
+            assertEquals(LocalDate.of(2001, 3, 1), entry1.getOldestCrossRefCreated());
             UniParcEntryLight entry2 = result.get(1);
             assertEquals("UPI000000017F", entry2.getUniParcId());
             assertEquals(2, entry2.getCommonTaxons().size());
@@ -92,12 +93,14 @@ class UniParcLightDataStoreIndexerTest {
                     new CommonOrganismBuilder()
                             .topLevel("cellular organisms")
                             .commonTaxon("Luzula")
+                            .commonTaxonId(46322L)
                             .build(),
                     entry2.getCommonTaxons().get(0));
             assertEquals(
                     new CommonOrganismBuilder()
                             .topLevel("Viruses")
                             .commonTaxon("Nucleocytoviricota")
+                            .commonTaxonId(35493L)
                             .build(),
                     entry2.getCommonTaxons().get(1));
             assertEquals(12, entry1.getCrossReferenceCount());

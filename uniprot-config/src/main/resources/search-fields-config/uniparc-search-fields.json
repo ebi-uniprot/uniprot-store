@@ -25,14 +25,14 @@
   {
     "seqNumber": 1,
     "id": "uniprotkb",
-    "fieldName": "accession",
+    "fieldName": "uniprotkb",
     "label": "UniProtKB AC",
     "itemType": "SINGLE",
     "validRegex": "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by accession",
-    "aliases": ["uniprotkb"],
+    "aliases": ["accession"],
     "example": "P12345",
     "includeInSwagger": true
   },

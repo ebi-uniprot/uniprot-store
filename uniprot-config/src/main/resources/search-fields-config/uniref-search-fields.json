@@ -156,7 +156,7 @@
   {
     "seqNumber": 7,
     "id": "upi",
-    "fieldName": "upi",
+    "fieldName": "uniparc",
     "label": "UniParc ID",
     "itemType": "SINGLE",
     "validRegex": "UPI[\\w]{10}",
@@ -164,7 +164,8 @@
     "dataType": "STRING",
     "description": "Search by upi",
     "example": "UPI0123456789",
-    "includeInSwagger": true
+    "includeInSwagger": true,
+    "aliases": ["upi"]
   },
   {
     "id": "taxonomy_id",

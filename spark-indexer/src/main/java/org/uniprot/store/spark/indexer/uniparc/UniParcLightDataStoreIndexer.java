@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.storage.StorageLevel;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.uniparc.UniParcEntryLight;
 import org.uniprot.store.spark.indexer.common.JobParameter;
@@ -17,6 +18,7 @@ import com.typesafe.config.Config;
 
 import lombok.extern.slf4j.Slf4j;
 import scala.Tuple2;
+import scala.Tuple3;
 
 @Slf4j
 public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
@@ -37,6 +39,7 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
         JavaPairRDD<String, String> taxonomyJoin =
                 uniParcLightRDD.flatMapToPair(new UniParcLightTaxonomyMapper());
 
+
         // JavaPairRDD<taxId,List<grandparent of taxId, parent of taxId, taxId>>
         JavaPairRDD<String, List<TaxonomyLineage>> taxonomyWithLineage =
                 getTaxonomyWithLineageRDD();
@@ -54,8 +57,14 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
 
         // uniParc id and List of Tuples<toplevel organism, commonTaxon>
         // e.g. <UPI000001, [<"cellular organisms", "Bacteria">, <"Viruses", "Zilligvirae">]>
-        JavaPairRDD<String, List<Tuple2<String, String>>> uniParcIdCommonTaxons =
+        JavaPairRDD<String, List<Tuple3<String, Long, String>>> uniParcIdCommonTaxons =
                 uniParcIdTaxonLineages.mapToPair(new TaxonomyCommonalityAggregator());
+
+        uniParcIdCommonTaxons.persist(StorageLevel.DISK_ONLY());
+        int numPartition = uniParcIdCommonTaxons.getNumPartitions() >= 4 ? uniParcIdCommonTaxons.getNumPartitions()/4 : uniParcIdCommonTaxons.getNumPartitions();
+        uniParcIdCommonTaxons.repartition(numPartition);
+        log.info("Total number of entries in uniParcIdCommonTaxons {}", uniParcIdCommonTaxons.count());
+
         // convert uniParcLightRDD to <uniParcId, uniParcLight> and then join with
         // uniParcIdTaxonLineages.
         // then map to inject common taxons in uniParcLightRDD

@@ -25,8 +25,8 @@
 		stored="false" required="false" />
 	<field name="uniprot_id" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
-	<field name="upi" type="basic_ci" indexed="true" stored="false"
-		required="false" multiValued="true" />
+	<field name="uniparc" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
 	<field name="taxonomy_name" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="taxonomy_id" type="int" indexed="true"

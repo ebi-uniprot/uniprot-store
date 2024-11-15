@@ -23,7 +23,7 @@ class SolrIndexValidatorMainTest {
     @Test
     void testSolrIndexValidatorMainInvalidTaxDb() {
         String[] args = {"2020_04", "uniparc", SPARK_LOCAL_MASTER, "invalid"};
-        assertThrows(SparkIndexException.class, () -> SolrIndexValidatorMain.main(args));
+        assertThrows(IllegalArgumentException.class, () -> SolrIndexValidatorMain.main(args));
     }
 
     @Test

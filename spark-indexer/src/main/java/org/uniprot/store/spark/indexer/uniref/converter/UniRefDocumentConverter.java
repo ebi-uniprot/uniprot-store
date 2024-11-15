@@ -59,12 +59,12 @@ public class UniRefDocumentConverter
         }
 
         if (member.getMemberIdType() == UniRefMemberIdType.UNIPARC) {
-            builder.upid(member.getMemberId());
+            builder.uniParcId(member.getMemberId());
         } else {
             builder.uniprotId(member.getMemberId());
         }
         if (Utils.notNull(member.getUniParcId())) {
-            builder.upid(member.getUniParcId().getValue());
+            builder.uniParcId(member.getUniParcId().getValue());
         }
         if (Utils.notNull(member.getUniProtAccessions())) {
             member.getUniProtAccessions().forEach(val -> builder.uniprotId(val.getValue()));

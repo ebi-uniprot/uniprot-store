@@ -26,6 +26,6 @@ class IndexDataStoreMainTest {
     @Test
     void testIndexDataStoreMainInvalidTaxDb() {
         String[] args = {"2020_04", "uniparc", SPARK_LOCAL_MASTER, "invalid"};
-        assertThrows(IndexDataStoreException.class, () -> IndexDataStoreMain.main(args));
+        assertThrows(IllegalArgumentException.class, () -> IndexDataStoreMain.main(args));
     }
 }

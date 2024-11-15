@@ -12,18 +12,25 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 
 import scala.Tuple2;
+import scala.Tuple3;
 
 class TaxonomyCommonalityAggregatorTest {
 
     @Test
     void testCall_withCommonTaxonomies() throws Exception {
-        TaxonomyLineage lineage1_1 = new TaxonomyLineageBuilder().scientificName("A").build();
-        TaxonomyLineage lineage1_2 = new TaxonomyLineageBuilder().scientificName("B").build();
-        TaxonomyLineage lineage1_3 = new TaxonomyLineageBuilder().scientificName("C").build();
+        TaxonomyLineage lineage1_1 =
+                new TaxonomyLineageBuilder().scientificName("A").taxonId(1L).build();
+        TaxonomyLineage lineage1_2 =
+                new TaxonomyLineageBuilder().scientificName("B").taxonId(2L).build();
+        TaxonomyLineage lineage1_3 =
+                new TaxonomyLineageBuilder().scientificName("C").taxonId(3L).build();
 
-        TaxonomyLineage lineage2_1 = new TaxonomyLineageBuilder().scientificName("A").build();
-        TaxonomyLineage lineage2_2 = new TaxonomyLineageBuilder().scientificName("B").build();
-        TaxonomyLineage lineage2_3 = new TaxonomyLineageBuilder().scientificName("D").build();
+        TaxonomyLineage lineage2_1 =
+                new TaxonomyLineageBuilder().scientificName("A").taxonId(1L).build();
+        TaxonomyLineage lineage2_2 =
+                new TaxonomyLineageBuilder().scientificName("B").taxonId(2L).build();
+        TaxonomyLineage lineage2_3 =
+                new TaxonomyLineageBuilder().scientificName("D").taxonId(4L).build();
 
         List<List<TaxonomyLineage>> lineageList =
                 Arrays.asList(
@@ -33,10 +40,10 @@ class TaxonomyCommonalityAggregatorTest {
         Tuple2<String, List<List<TaxonomyLineage>>> input = new Tuple2<>("UniParcId", lineageList);
 
         TaxonomyCommonalityAggregator aggregator = new TaxonomyCommonalityAggregator();
-        Tuple2<String, List<Tuple2<String, String>>> result = aggregator.call(input);
+        Tuple2<String, List<Tuple3<String, Long, String>>> result = aggregator.call(input);
 
-        List<Tuple2<String, String>> expectedCommonTaxons = new ArrayList<>();
-        expectedCommonTaxons.add(new Tuple2<>("A", "B"));
+        List<Tuple3<String, Long, String>> expectedCommonTaxons = new ArrayList<>();
+        expectedCommonTaxons.add(new Tuple3<>("A", 2L, "B"));
 
         assertEquals("UniParcId", result._1);
         assertEquals(expectedCommonTaxons, result._2);
@@ -44,24 +51,38 @@ class TaxonomyCommonalityAggregatorTest {
 
     @Test
     void testCall_withCommonTaxonomiesWithDifferentLength() throws Exception {
-        TaxonomyLineage lineage1_1 = new TaxonomyLineageBuilder().scientificName("A").build();
-        TaxonomyLineage lineage1_2 = new TaxonomyLineageBuilder().scientificName("B").build();
-        TaxonomyLineage lineage1_3 = new TaxonomyLineageBuilder().scientificName("C").build();
+        TaxonomyLineage lineage1_1 =
+                new TaxonomyLineageBuilder().scientificName("A").taxonId(1L).build();
+        TaxonomyLineage lineage1_2 =
+                new TaxonomyLineageBuilder().scientificName("B").taxonId(2L).build();
+        TaxonomyLineage lineage1_3 =
+                new TaxonomyLineageBuilder().scientificName("C").taxonId(3L).build();
 
-        TaxonomyLineage lineage2_1 = new TaxonomyLineageBuilder().scientificName("A").build();
-        TaxonomyLineage lineage2_2 = new TaxonomyLineageBuilder().scientificName("B").build();
-        TaxonomyLineage lineage2_3 = new TaxonomyLineageBuilder().scientificName("D").build();
+        TaxonomyLineage lineage2_1 =
+                new TaxonomyLineageBuilder().scientificName("A").taxonId(1L).build();
+        TaxonomyLineage lineage2_2 =
+                new TaxonomyLineageBuilder().scientificName("B").taxonId(2L).build();
+        TaxonomyLineage lineage2_3 =
+                new TaxonomyLineageBuilder().scientificName("D").taxonId(4L).build();
 
-        TaxonomyLineage lineage3_1 = new TaxonomyLineageBuilder().scientificName("P").build();
-        TaxonomyLineage lineage3_2 = new TaxonomyLineageBuilder().scientificName("Q").build();
-        TaxonomyLineage lineage3_3 = new TaxonomyLineageBuilder().scientificName("R").build();
+        TaxonomyLineage lineage3_1 =
+                new TaxonomyLineageBuilder().scientificName("P").taxonId(16L).build();
+        TaxonomyLineage lineage3_2 =
+                new TaxonomyLineageBuilder().scientificName("Q").taxonId(17L).build();
+        TaxonomyLineage lineage3_3 =
+                new TaxonomyLineageBuilder().scientificName("R").taxonId(18L).build();
 
-        TaxonomyLineage lineage4_1 = new TaxonomyLineageBuilder().scientificName("P").build();
-        TaxonomyLineage lineage4_2 = new TaxonomyLineageBuilder().scientificName("Q").build();
+        TaxonomyLineage lineage4_1 =
+                new TaxonomyLineageBuilder().scientificName("P").taxonId(16L).build();
+        TaxonomyLineage lineage4_2 =
+                new TaxonomyLineageBuilder().scientificName("Q").taxonId(17L).build();
 
-        TaxonomyLineage lineage5_1 = new TaxonomyLineageBuilder().scientificName("P").build();
-        TaxonomyLineage lineage5_2 = new TaxonomyLineageBuilder().scientificName("Q").build();
-        TaxonomyLineage lineage5_3 = new TaxonomyLineageBuilder().scientificName("R").build();
+        TaxonomyLineage lineage5_1 =
+                new TaxonomyLineageBuilder().scientificName("P").taxonId(16L).build();
+        TaxonomyLineage lineage5_2 =
+                new TaxonomyLineageBuilder().scientificName("Q").taxonId(17L).build();
+        TaxonomyLineage lineage5_3 =
+                new TaxonomyLineageBuilder().scientificName("R").taxonId(18L).build();
 
         List<List<TaxonomyLineage>> lineageList =
                 Arrays.asList(
@@ -74,11 +95,11 @@ class TaxonomyCommonalityAggregatorTest {
         Tuple2<String, List<List<TaxonomyLineage>>> input = new Tuple2<>("UniParcId", lineageList);
 
         TaxonomyCommonalityAggregator aggregator = new TaxonomyCommonalityAggregator();
-        Tuple2<String, List<Tuple2<String, String>>> result = aggregator.call(input);
+        Tuple2<String, List<Tuple3<String, Long, String>>> result = aggregator.call(input);
 
-        List<Tuple2<String, String>> expectedCommonTaxons = new ArrayList<>();
-        expectedCommonTaxons.add(new Tuple2<>("P", "Q"));
-        expectedCommonTaxons.add(new Tuple2<>("A", "B"));
+        List<Tuple3<String, Long, String>> expectedCommonTaxons = new ArrayList<>();
+        expectedCommonTaxons.add(new Tuple3<>("P", 17L, "Q"));
+        expectedCommonTaxons.add(new Tuple3<>("A", 2L, "B"));
 
         assertEquals("UniParcId", result._1);
         assertEquals(expectedCommonTaxons, result._2);
@@ -86,11 +107,15 @@ class TaxonomyCommonalityAggregatorTest {
 
     @Test
     void testCall_noCommonTaxonomy() throws Exception {
-        TaxonomyLineage lineage1_1 = new TaxonomyLineageBuilder().scientificName("A").build();
-        TaxonomyLineage lineage1_2 = new TaxonomyLineageBuilder().scientificName("B").build();
+        TaxonomyLineage lineage1_1 =
+                new TaxonomyLineageBuilder().scientificName("A").taxonId(1L).build();
+        TaxonomyLineage lineage1_2 =
+                new TaxonomyLineageBuilder().scientificName("B").taxonId(2L).build();
 
-        TaxonomyLineage lineage2_1 = new TaxonomyLineageBuilder().scientificName("C").build();
-        TaxonomyLineage lineage2_2 = new TaxonomyLineageBuilder().scientificName("D").build();
+        TaxonomyLineage lineage2_1 =
+                new TaxonomyLineageBuilder().scientificName("C").taxonId(3L).build();
+        TaxonomyLineage lineage2_2 =
+                new TaxonomyLineageBuilder().scientificName("D").taxonId(4L).build();
 
         List<List<TaxonomyLineage>> lineageList =
                 Arrays.asList(
@@ -100,11 +125,11 @@ class TaxonomyCommonalityAggregatorTest {
         Tuple2<String, List<List<TaxonomyLineage>>> input = new Tuple2<>("UniParcId", lineageList);
 
         TaxonomyCommonalityAggregator aggregator = new TaxonomyCommonalityAggregator();
-        Tuple2<String, List<Tuple2<String, String>>> result = aggregator.call(input);
+        Tuple2<String, List<Tuple3<String, Long, String>>> result = aggregator.call(input);
 
-        List<Tuple2<String, String>> expectedCommonTaxons = new ArrayList<>();
-        expectedCommonTaxons.add(new Tuple2<>("A", "B"));
-        expectedCommonTaxons.add(new Tuple2<>("C", "D"));
+        List<Tuple3<String, Long, String>> expectedCommonTaxons = new ArrayList<>();
+        expectedCommonTaxons.add(new Tuple3<>("A", 2L, "B"));
+        expectedCommonTaxons.add(new Tuple3<>("C", 4L, "D"));
 
         assertEquals("UniParcId", result._1);
         assertEquals(expectedCommonTaxons, result._2);
@@ -117,7 +142,7 @@ class TaxonomyCommonalityAggregatorTest {
         Tuple2<String, List<List<TaxonomyLineage>>> input = new Tuple2<>("UniParcId", lineageList);
 
         TaxonomyCommonalityAggregator aggregator = new TaxonomyCommonalityAggregator();
-        Tuple2<String, List<Tuple2<String, String>>> result = aggregator.call(input);
+        Tuple2<String, List<Tuple3<String, Long, String>>> result = aggregator.call(input);
 
         assertEquals("UniParcId", result._1);
         assertEquals(new ArrayList<>(), result._2);
@@ -125,13 +150,19 @@ class TaxonomyCommonalityAggregatorTest {
 
     @Test
     void testFindLastCommonTaxonomy_withCommonTaxonomy() {
-        TaxonomyLineage lineage1_1 = new TaxonomyLineageBuilder().scientificName("A").build();
-        TaxonomyLineage lineage1_2 = new TaxonomyLineageBuilder().scientificName("B").build();
-        TaxonomyLineage lineage1_3 = new TaxonomyLineageBuilder().scientificName("C").build();
+        TaxonomyLineage lineage1_1 =
+                new TaxonomyLineageBuilder().scientificName("A").taxonId(1L).build();
+        TaxonomyLineage lineage1_2 =
+                new TaxonomyLineageBuilder().scientificName("B").taxonId(2L).build();
+        TaxonomyLineage lineage1_3 =
+                new TaxonomyLineageBuilder().scientificName("C").taxonId(3L).build();
 
-        TaxonomyLineage lineage2_1 = new TaxonomyLineageBuilder().scientificName("A").build();
-        TaxonomyLineage lineage2_2 = new TaxonomyLineageBuilder().scientificName("B").build();
-        TaxonomyLineage lineage2_3 = new TaxonomyLineageBuilder().scientificName("D").build();
+        TaxonomyLineage lineage2_1 =
+                new TaxonomyLineageBuilder().scientificName("A").taxonId(1L).build();
+        TaxonomyLineage lineage2_2 =
+                new TaxonomyLineageBuilder().scientificName("B").taxonId(2L).build();
+        TaxonomyLineage lineage2_3 =
+                new TaxonomyLineageBuilder().scientificName("D").taxonId(4L).build();
 
         List<List<TaxonomyLineage>> lineageList =
                 Arrays.asList(
@@ -139,18 +170,22 @@ class TaxonomyCommonalityAggregatorTest {
                         Arrays.asList(lineage2_1, lineage2_2, lineage2_3));
 
         TaxonomyCommonalityAggregator aggregator = new TaxonomyCommonalityAggregator();
-        String result = aggregator.findLastCommonTaxonomy(lineageList);
-
-        assertEquals("B", result);
+        Tuple2<Long, String> result = aggregator.findLastCommonTaxonomy(lineageList);
+        assertEquals(2L, result._1);
+        assertEquals("B", result._2);
     }
 
     @Test
     void testFindLastCommonTaxonomy_noCommonTaxonomy() {
-        TaxonomyLineage lineage1_1 = new TaxonomyLineageBuilder().scientificName("A").build();
-        TaxonomyLineage lineage1_2 = new TaxonomyLineageBuilder().scientificName("B").build();
+        TaxonomyLineage lineage1_1 =
+                new TaxonomyLineageBuilder().scientificName("A").taxonId(1L).build();
+        TaxonomyLineage lineage1_2 =
+                new TaxonomyLineageBuilder().scientificName("B").taxonId(2L).build();
 
-        TaxonomyLineage lineage2_1 = new TaxonomyLineageBuilder().scientificName("C").build();
-        TaxonomyLineage lineage2_2 = new TaxonomyLineageBuilder().scientificName("D").build();
+        TaxonomyLineage lineage2_1 =
+                new TaxonomyLineageBuilder().scientificName("C").taxonId(3L).build();
+        TaxonomyLineage lineage2_2 =
+                new TaxonomyLineageBuilder().scientificName("D").taxonId(4L).build();
 
         List<List<TaxonomyLineage>> lineageList =
                 Arrays.asList(
@@ -158,9 +193,10 @@ class TaxonomyCommonalityAggregatorTest {
                         Arrays.asList(lineage2_1, lineage2_2));
 
         TaxonomyCommonalityAggregator aggregator = new TaxonomyCommonalityAggregator();
-        String result = aggregator.findLastCommonTaxonomy(lineageList);
+        Tuple2<Long, String> result = aggregator.findLastCommonTaxonomy(lineageList);
 
-        assertNull(result);
+        assertNull(result._1);
+        assertNull(result._2);
     }
 
     @Test
@@ -168,7 +204,7 @@ class TaxonomyCommonalityAggregatorTest {
         List<List<TaxonomyLineage>> lineageList = new ArrayList<>();
 
         TaxonomyCommonalityAggregator aggregator = new TaxonomyCommonalityAggregator();
-        String result = aggregator.findLastCommonTaxonomy(lineageList);
+        Tuple2<Long, String> result = aggregator.findLastCommonTaxonomy(lineageList);
 
         assertNull(result);
     }
