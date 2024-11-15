@@ -156,10 +156,12 @@ class UniParcLightReturnFieldConfigImplIT {
                 new CommonOrganismBuilder()
                         .topLevel("cellular organisms")
                         .commonTaxon("Bacteria")
+                        .commonTaxonId(1234L)
                         .build(),
                 new CommonOrganismBuilder()
                         .topLevel("other entries")
                         .commonTaxon("plasmids")
+                        .commonTaxonId(9876L)
                         .build());
     }
 

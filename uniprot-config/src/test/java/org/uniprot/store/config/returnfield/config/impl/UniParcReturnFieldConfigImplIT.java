@@ -4,10 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -108,10 +105,11 @@ class UniParcReturnFieldConfigImplIT {
     }
 
     private static Stream<Arguments> provideReturnFieldNames() {
+        Set<String> lightFields = Set.of("common_taxons", "common_taxon_ids");
         return returnFieldConfig.getReturnFields().stream()
                 .filter(rf -> Objects.nonNull(rf.getChildNumber()))
                 .map(ReturnField::getName)
-                .filter(name -> !name.equals("common_taxons"))
+                .filter(name -> !lightFields.contains(name))
                 .map(Arguments::of);
     }
 }
