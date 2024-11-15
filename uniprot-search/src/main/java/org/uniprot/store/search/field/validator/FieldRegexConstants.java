@@ -44,6 +44,12 @@ public class FieldRegexConstants {
     public static final String CROSS_REF_REGEX = "DB-(\\d{4})";
     public static final String DISEASE_REGEX = "DI-(\\d{5})";
 
+    public static final String ARBA_ID_REGEX = "ARBA(\\d{8})";
+
+    public static final String UNIRULE_ALL_ID_REGEX =
+            "UR[0-9]{9}|MF_[0-9]{5}|PIRSR[0-9]+(\\-[0-9]+)?|PIRNR[0-9]+|RU[0-9]{6}|PRU[0-9]{5}";
+    public static final String UNIRULE_ID_REGEX = "UR[0-9]{9}";
+
     public static final String SUBCELLULAR_LOCATION_ID_REGEX = "^SL-[0-9]{4}";
 
     private FieldRegexConstants() {}
