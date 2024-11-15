@@ -38,11 +38,6 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
         // JavaPairRDD<taxId,uniParcId>
         JavaPairRDD<String, String> taxonomyJoin =
                 uniParcLightRDD.flatMapToPair(new UniParcLightTaxonomyMapper());
-        taxonomyJoin.persist(StorageLevel.DISK_ONLY());
-        int numPartition = taxonomyJoin.getNumPartitions() >= 4 ? taxonomyJoin.getNumPartitions()/4 : taxonomyJoin.getNumPartitions();
-        taxonomyJoin.coalesce(numPartition, false);
-
-        log.info("Total number of entries in taxonomyJoin {}", taxonomyJoin.count());
 
 
         // JavaPairRDD<taxId,List<grandparent of taxId, parent of taxId, taxId>>
@@ -64,6 +59,12 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
         // e.g. <UPI000001, [<"cellular organisms", "Bacteria">, <"Viruses", "Zilligvirae">]>
         JavaPairRDD<String, List<Tuple3<String, Long, String>>> uniParcIdCommonTaxons =
                 uniParcIdTaxonLineages.mapToPair(new TaxonomyCommonalityAggregator());
+
+        uniParcIdCommonTaxons.persist(StorageLevel.DISK_ONLY());
+        int numPartition = uniParcIdCommonTaxons.getNumPartitions() >= 4 ? uniParcIdCommonTaxons.getNumPartitions()/4 : uniParcIdCommonTaxons.getNumPartitions();
+        uniParcIdCommonTaxons.repartition(numPartition);
+        log.info("Total number of entries in uniParcIdCommonTaxons {}", uniParcIdCommonTaxons.count());
+
         // convert uniParcLightRDD to <uniParcId, uniParcLight> and then join with
         // uniParcIdTaxonLineages.
         // then map to inject common taxons in uniParcLightRDD
