@@ -30,7 +30,7 @@
     "itemType": "SINGLE",
     "sortFieldId": "id_sort",
     "description": "Search by disease id which is accession",
-    "example": "DI-12345",
+    "example": "DI-00086",
     "includeInSwagger": true
   }
 ]

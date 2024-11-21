@@ -34,21 +34,10 @@
     "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "Search by UniProtKB Protein name",
-    "example": "mas5"
+    "example": "Elastin"
   },
   {
     "seqNumber": 1,
-    "id": "organism_field",
-    "label": "Organism [OS]",
-    "dataType": "STRING",
-    "fieldName": "organism",
-    "fieldType": "GENERAL",
-    "itemType": "SINGLE",
-    "description": "Search by Organism name",
-    "example": "saccharomyces"
-  },
-  {
-    "seqNumber": 2,
     "id": "taxonomy_field",
     "label": "Taxonomy [OC]",
     "dataType": "STRING",
@@ -62,7 +51,7 @@
     "label": "Function",
     "itemType": "GROUP",
     "id": "function",
-    "seqNumber": 3
+    "seqNumber": 2
   },
   {
     "parentId": "function",
@@ -76,7 +65,7 @@
     "description": "Search by Enzyme EC number",
     "autoComplete": "{CONTEXT_PATH}/suggester?dict=ec&query=?",
     "autoCompleteQueryField": "ec",
-    "example": "1.1.2.3",
+    "example": "2.3.2.5",
     "includeInSwagger": true
   },
   {
@@ -118,19 +107,6 @@
   {
     "parentId": "function",
     "childNumber": 3,
-    "id": "cc_activity_regulation",
-    "label": "Activity regulation",
-    "itemType": "SINGLE",
-    "fieldName": "cc_activity_regulation",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by comment activity regulation",
-    "example": "inhibited",
-    "includeInSwagger": true
-  },
-  {
-    "parentId": "function",
-    "childNumber": 4,
     "id": "cc_pathway",
     "label": "Pathway",
     "itemType": "SINGLE",
@@ -142,23 +118,9 @@
     "includeInSwagger": true
   },
   {
-    "label": "Subcellular location",
-    "itemType": "GROUP",
-    "id": "subcellular",
-    "seqNumber": 4
-  },
-  {
-    "parentId": "subcellular",
-    "childNumber": 0,
-    "id": "cc_subcellular",
-    "label": "Subcellular location [CC]",
-    "itemType": "GROUP"
-  },
-  {
-    "parentId": "cc_subcellular",
-    "childNumber": 0,
+    "seqNumber": 3,
     "id": "cc_scl_term_field",
-    "label": "Subcellular location term",
+    "label": "Subcellular location [CC]",
     "itemType": "SINGLE",
     "fieldName": "cc_subcellular_location",
     "fieldType": "GENERAL",
@@ -169,39 +131,14 @@
     "example": "membrane"
   },
   {
-    "parentId": "cc_subcellular",
-    "childNumber": 1,
-    "id": "cc_scl_note",
-    "label": "Note",
-    "itemType": "SINGLE",
-    "fieldName": "cc_subcellular_location_note",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by comment subcellular location note",
-    "example": "membrane"
-  },
-  {
     "label": "Family and Domains",
     "itemType": "GROUP",
     "id": "family_domains",
-    "seqNumber": 5
+    "seqNumber": 4
   },
   {
     "parentId": "family_domains",
     "childNumber": 0,
-    "label": "Domain comments [CC]",
-    "id": "cc_domain",
-    "itemType": "SINGLE",
-    "fieldName": "cc_domain",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by comment domain",
-    "example": "conformation",
-    "includeInSwagger": true
-  },
-  {
-    "parentId": "family_domains",
-    "childNumber": 1,
     "label": "Protein family",
     "id": "family",
     "itemType": "SINGLE",
@@ -214,7 +151,7 @@
   },
   {
     "parentId": "family_domains",
-    "childNumber": 2,
+    "childNumber": 1,
     "id": "cc_similarity",
     "label": "Comment similarity",
     "itemType": "SINGLE",
@@ -226,7 +163,7 @@
     "includeInSwagger": true
   },
   {
-    "seqNumber": 6,
+    "seqNumber": 5,
     "id": "keyword_field",
     "label": "Keyword [KW]",
     "fieldName": "keyword",
@@ -234,7 +171,7 @@
     "dataType": "STRING",
     "itemType": "SINGLE",
     "description": "Search by keyword",
-    "example": "chromosomal"
+    "example": "Tight junction"
   },
   {
     "id": "condition_value_field",
@@ -244,6 +181,6 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by condition value",
-    "example": "sample condition value"
+    "example": "InterPro id"
   }
 ]
