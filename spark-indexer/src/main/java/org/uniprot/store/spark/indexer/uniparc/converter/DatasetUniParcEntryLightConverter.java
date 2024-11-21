@@ -98,7 +98,7 @@ public class DatasetUniParcEntryLightConverter
 
             String active = rowValue.getString(rowValue.fieldIndex(ACTIVE));
 
-            if ("Y".equals(active) && RowUtils.hasFieldName(VERSION, rowValue)) {
+            if ("N".equals(active) && RowUtils.hasFieldName(VERSION, rowValue)) {
                 long version = rowValue.getLong(rowValue.fieldIndex(VERSION));
                 id = id + "." + version;
             }
