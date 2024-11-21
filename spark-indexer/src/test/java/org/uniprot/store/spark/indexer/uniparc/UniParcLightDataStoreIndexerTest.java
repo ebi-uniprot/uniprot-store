@@ -78,7 +78,7 @@ class UniParcLightDataStoreIndexerTest {
                     entry1.getCommonTaxons().get(0));
             assertEquals(5, entry1.getUniProtKBAccessions().size());
             assertEquals(
-                    Set.of("Q9EPI6", "Q9EPI6-1", "I8FBX0", "I8FBX2", "Q9EPI6.1"),
+                    Set.of("Q9EPI6", "Q9EPI6-1", "I8FBX0.1", "I8FBX2.1", "Q9EPI6.1"),
                     entry1.getUniProtKBAccessions());
             assertNotNull(entry1.getSequence());
             assertFalse(entry1.getSequenceFeatures().isEmpty());
