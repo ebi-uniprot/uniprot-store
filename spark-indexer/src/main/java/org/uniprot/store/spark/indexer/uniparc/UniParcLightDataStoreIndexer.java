@@ -39,7 +39,6 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
         JavaPairRDD<String, String> taxonomyJoin =
                 uniParcLightRDD.flatMapToPair(new UniParcLightTaxonomyMapper());
 
-
         // JavaPairRDD<taxId,List<grandparent of taxId, parent of taxId, taxId>>
         JavaPairRDD<String, List<TaxonomyLineage>> taxonomyWithLineage =
                 getTaxonomyWithLineageRDD();
@@ -61,9 +60,14 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
                 uniParcIdTaxonLineages.mapToPair(new TaxonomyCommonalityAggregator());
 
         uniParcIdCommonTaxons.persist(StorageLevel.DISK_ONLY());
-        int numPartition = uniParcIdCommonTaxons.getNumPartitions() >= 4 ? uniParcIdCommonTaxons.getNumPartitions()/4 : uniParcIdCommonTaxons.getNumPartitions();
+        int numPartition =
+                uniParcIdCommonTaxons.getNumPartitions() >= 4
+                        ? uniParcIdCommonTaxons.getNumPartitions() / 4
+                        : uniParcIdCommonTaxons.getNumPartitions();
         uniParcIdCommonTaxons.repartition(numPartition);
-        log.info("Total number of entries in uniParcIdCommonTaxons {}", uniParcIdCommonTaxons.count());
+        log.info(
+                "Total number of entries in uniParcIdCommonTaxons {}",
+                uniParcIdCommonTaxons.count());
 
         // convert uniParcLightRDD to <uniParcId, uniParcLight> and then join with
         // uniParcIdTaxonLineages.

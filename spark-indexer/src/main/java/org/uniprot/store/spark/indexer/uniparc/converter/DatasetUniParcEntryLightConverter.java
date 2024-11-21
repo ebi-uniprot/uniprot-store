@@ -44,7 +44,6 @@ public class DatasetUniParcEntryLightConverter
                                 ? mostRecentUpdated
                                 : lastDate;
 
-
                 LocalDate createdDate = parseDate(dbReference, CREATED);
                 oldestCreated =
                         Objects.isNull(createdDate) || oldestCreated.isBefore(createdDate)
