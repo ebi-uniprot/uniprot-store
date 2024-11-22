@@ -62,7 +62,7 @@ class SearchFieldConfigFactoryTest {
                 Arguments.of(UniProtDataType.UNIREF, 17),
                 Arguments.of(UniProtDataType.UNIRULE, 30),
                 Arguments.of(UniProtDataType.HELP, 8),
-                Arguments.of(UniProtDataType.ARBA, 23));
+                Arguments.of(UniProtDataType.ARBA, 17));
     }
 
     private static Stream<Arguments> provideValuesFieldAndCount() {

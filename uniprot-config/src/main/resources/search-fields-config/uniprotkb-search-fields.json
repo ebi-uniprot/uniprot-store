@@ -530,7 +530,7 @@
     "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "Search by UniProtKB Protein name",
-    "example": "mas5",
+    "example": "Elastin",
     "sortFieldId": "protein_name_sort",
     "includeInSwagger": true
   },
@@ -543,7 +543,7 @@
     "dataType": "STRING",
     "itemType": "SINGLE",
     "description": "Search by UniProtKB gene name",
-    "example": "ydj1",
+    "example": "YDJ1",
     "sortFieldId": "gene_sort",
     "includeInSwagger": true
   },
@@ -575,7 +575,7 @@
     "autoCompleteQueryFieldValidRegex": "^[0-9]+$",
     "itemType": "SINGLE",
     "description": "Search by NCBI taxonomy",
-    "example": "human",
+    "example": "mammalia",
     "includeInSwagger": true
   },
   {
@@ -706,7 +706,7 @@
     "autoComplete": "{CONTEXT_PATH}/suggester?dict=chebi&query=?",
     "autoCompleteQueryField": "chebi",
     "description": "Search by CHEBI ID",
-    "example": "29105"
+    "example": "35155"
   },
   {
     "childNumber": 1,
@@ -731,7 +731,7 @@
     "autoComplete": "{CONTEXT_PATH}/suggester?dict=keyword&query=?",
     "autoCompleteQueryField": "keyword",
     "description": "Search by keyword",
-    "example": "chromosomal",
+    "example": "activator",
     "includeInSwagger": true
   },
   {
@@ -800,7 +800,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by title",
-    "example": "protein",
+    "example": "apoptosis",
     "includeInSwagger": true
   },
   {
@@ -826,7 +826,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by PubMed ID",
-    "example": "15165820",
+    "example": "1697263",
     "includeInSwagger": true
   },
   {
@@ -839,7 +839,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by PubMed ID",
-    "example": "15165820",
+    "example": "30699149",
     "includeInSwagger": true
   },
   {
@@ -883,7 +883,7 @@
     "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "Search by citation RP cited for",
-    "example": "microtubule"
+    "example": "function"
   },
   {
     "seqNumber": 26,
@@ -1590,7 +1590,7 @@
     "fieldType": "RANGE",
     "dataType": "INTEGER",
     "description": "Search by Sequence mass range",
-    "example": "[441126 TO 441126]",
+    "example": "[10000 TO 11000]",
     "sortFieldId": "mass_sort",
     "includeInSwagger": true
   },
@@ -1831,7 +1831,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Comment Sequence caution: erroneous termination",
-    "example": "translated"
+    "example": "truncated"
   },
   {
     "parentId": "seq_caution",
@@ -3215,7 +3215,7 @@
     "fieldName": "date_created",
     "fieldType": "RANGE",
     "description": "Search by Date of creation",
-    "example": "[2018-03-04 TO 2018-03-08]",
+    "example": "[2023-05-13 TO 2024-05-13]",
     "includeInSwagger": true
   },
   {
@@ -3228,7 +3228,7 @@
     "fieldName": "date_modified",
     "fieldType": "RANGE",
     "description": "Search by Date of last entry modification",
-    "example": "[2018-03-04 TO 2018-03-08]",
+    "example": "[2023-05-13 TO 2024-05-13]",
     "includeInSwagger": true
   },
   {
@@ -3241,7 +3241,7 @@
     "fieldName": "date_sequence_modified",
     "fieldType": "RANGE",
     "description": "Search by Date of last sequence modification",
-    "example": "[2018-03-04 TO 2018-03-08]"
+    "example": "[2023-05-13 TO 2024-05-13]"
   },
   {
     "label": "Structure",

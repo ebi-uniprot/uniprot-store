@@ -46,7 +46,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by isoform",
-    "example": "P12345",
+    "example": "O60260-2",
     "includeInSwagger": true
   },
   {
@@ -60,7 +60,7 @@
     "dataType": "STRING",
     "description": "Search by upid",
     "aliases": ["upid"],
-    "example": "UP123456789",
+    "example": "UP000005640",
     "includeInSwagger": true
   },
   {
@@ -82,7 +82,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by taxonomy name",
-    "example": "Human",
+    "example": "Mammalia",
     "includeInSwagger": true,
     "autoComplete": "{CONTEXT_PATH}/suggester?dict=uniparc_taxonomy&query=?",
     "autoCompleteQueryField": "taxonomy_id",
@@ -110,7 +110,7 @@
     "dataType": "STRING",
     "description": "Search by protein name",
     "aliases": ["protein"],
-    "example": "Protein Z",
+    "example": "Elastin",
     "includeInSwagger": true
   },
   {
@@ -159,7 +159,7 @@
     "dataType": "INTEGER",
     "sortFieldId": "length_sort",
     "description": "Search by length",
-    "example": "[100 TO 300]",
+    "example": "[50 TO 100]",
     "includeInSwagger": true
   },
   {
