@@ -826,7 +826,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by PubMed ID",
-    "example": "15165820",
+    "example": "1697263",
     "includeInSwagger": true
   },
   {
@@ -839,7 +839,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by PubMed ID",
-    "example": "15165820",
+    "example": "30699149",
     "includeInSwagger": true
   },
   {
