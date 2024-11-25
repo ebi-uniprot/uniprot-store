@@ -77,7 +77,7 @@
     "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "Search by common name",
-    "example": "sample name",
+    "example": "mouse",
     "includeInSwagger": true
   },
   {
@@ -89,7 +89,7 @@
     "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "Search by mnemonic name",
-    "example": "sample mnemonic",
+    "example": "9BACT",
     "includeInSwagger": true
   },
   {
@@ -239,7 +239,7 @@
     "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "Search by rank name",
-    "example": "SPECIES_GROUP",
+    "example": "UA858",
     "includeInSwagger": true
   },
   {
@@ -252,7 +252,7 @@
     "dataType": "INTEGER",
     "validRegex": "^[0-9]+$",
     "description": "Search by host identifier",
-    "example": "85621",
+    "example": "9606",
     "includeInSwagger": true
   },
   {

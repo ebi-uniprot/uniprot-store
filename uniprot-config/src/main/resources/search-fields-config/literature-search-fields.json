@@ -31,7 +31,7 @@
     "itemType": "SINGLE",
     "sortFieldId": "title_sort_id",
     "description": "Search by title",
-    "example": "sample title",
+    "example": "VEGF is required for growth and survival in neonatal mice.",
     "includeInSwagger": true
   },
   {
@@ -51,7 +51,7 @@
     "dataType": "STRING",
     "itemType": "SINGLE",
     "description": "Search by data object identifier",
-    "example": "10.1007/s11882-009-0055-9",
+    "example": "10.1016/j.burns.2017.03.013",
     "includeInSwagger": true
   },
   {
@@ -63,7 +63,7 @@
     "dataType": "STRING",
     "itemType": "SINGLE",
     "description": "Search by author name",
-    "example": "sample author name",
+    "example": "Smith",
     "includeInSwagger": true
   },
   {
@@ -75,7 +75,7 @@
     "dataType": "STRING",
     "itemType": "SINGLE",
     "description": "Search by journal",
-    "example": "sample journal",
+    "example": "Biochemistry",
     "includeInSwagger": true
   },
   {
@@ -87,7 +87,7 @@
     "dataType": "STRING",
     "itemType": "SINGLE",
     "description": "Search by published",
-    "example": "sample",
+    "example": "2024",
     "includeInSwagger": true
   },
   {

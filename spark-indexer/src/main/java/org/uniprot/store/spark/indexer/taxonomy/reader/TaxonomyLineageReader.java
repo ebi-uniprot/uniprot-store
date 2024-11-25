@@ -63,13 +63,15 @@ public class TaxonomyLineageReader implements PairRDDReader<String, List<Taxonom
         JavaSparkContext sparkContext = jobParameter.getSparkContext();
         Config applicationConfig = jobParameter.getApplicationConfig();
 
-        int maxTaxId = TaxonomyUtil.getMaxTaxId(sparkContext, applicationConfig);
+        int maxTaxId = TaxonomyUtil.getMaxTaxId(sparkContext, applicationConfig, jobParameter);
         log.info("Max tax id: " + maxTaxId);
 
         SparkSession spark = SparkSession.builder().sparkContext(sparkContext.sc()).getOrCreate();
 
         int numberPartition =
                 Integer.parseInt(applicationConfig.getString("database.lineage.partition"));
+        String taxDb = jobParameter.getTaxDb().getName();
+        String databasePropertyPrefix = "database." + taxDb;
         int[][] ranges = getRanges(maxTaxId, numberPartition);
         JavaPairRDD<String, List<TaxonomyLineage>> result = null;
         for (int[] range : ranges) {
@@ -84,9 +86,17 @@ public class TaxonomyLineageReader implements PairRDDReader<String, List<Taxonom
                     spark.read()
                             .format("jdbc")
                             .option("driver", applicationConfig.getString("database.driver"))
-                            .option("url", applicationConfig.getString("database.url"))
-                            .option("user", applicationConfig.getString("database.user.name"))
-                            .option("password", applicationConfig.getString("database.password"))
+                            .option(
+                                    "url",
+                                    applicationConfig.getString(databasePropertyPrefix + ".url"))
+                            .option(
+                                    "user",
+                                    applicationConfig.getString(
+                                            databasePropertyPrefix + ".user.name"))
+                            .option(
+                                    "password",
+                                    applicationConfig.getString(
+                                            databasePropertyPrefix + ".password"))
                             .option("query", sql)
                             .load();
             if (result == null) {

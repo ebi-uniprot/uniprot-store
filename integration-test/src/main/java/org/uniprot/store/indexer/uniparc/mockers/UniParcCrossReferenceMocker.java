@@ -13,10 +13,9 @@ import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
 
+/** UniParcCrossReference and UniParcCrossReferencePair mockers */
 public class UniParcCrossReferenceMocker {
     private UniParcCrossReferenceMocker() {}
-
-    // UniParcCrossReference and UniParcCrossReferencePair mockers
 
     public static UniParcCrossReference createUniParcCrossReference(UniParcDatabase database) {
         return new UniParcCrossReferenceBuilder()

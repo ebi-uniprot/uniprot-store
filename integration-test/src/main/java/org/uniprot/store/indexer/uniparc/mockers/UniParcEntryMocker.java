@@ -118,9 +118,7 @@ public class UniParcEntryMocker {
     }
 
     public static String getName(String prefix, int i) {
-        if (i < 10) {
-            return prefix + "0" + i;
-        } else return prefix + i;
+        return String.format(prefix + "%02d", i);
     }
 
     public static Organism getOrganism(long taxId) {
@@ -150,10 +148,12 @@ public class UniParcEntryMocker {
                 new CommonOrganismBuilder()
                         .topLevel("cellular organisms")
                         .commonTaxon("Bacteria")
+                        .commonTaxonId(1234L)
                         .build(),
                 new CommonOrganismBuilder()
                         .topLevel("other entries")
                         .commonTaxon("plasmids")
+                        .commonTaxonId(9876L)
                         .build());
     }
 

@@ -8,16 +8,20 @@ import java.util.Map;
 
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
+import org.uniprot.core.util.Utils;
 
 import scala.Tuple2;
+import scala.Tuple3;
 
 public class TaxonomyCommonalityAggregator
         implements PairFunction<
-                Tuple2<String, List<List<TaxonomyLineage>>>, String, List<Tuple2<String, String>>> {
+                Tuple2<String, List<List<TaxonomyLineage>>>,
+                String,
+                List<Tuple3<String, Long, String>>> {
     @Serial private static final long serialVersionUID = 4504848381168970920L;
 
     @Override
-    public Tuple2<String, List<Tuple2<String, String>>> call(
+    public Tuple2<String, List<Tuple3<String, Long, String>>> call(
             Tuple2<String, List<List<TaxonomyLineage>>> uniParcIdLineages) throws Exception {
         Iterable<List<TaxonomyLineage>> lineages = uniParcIdLineages._2;
         Map<String, List<List<TaxonomyLineage>>> topLevelTaxonomyLineageMap = new HashMap<>();
@@ -30,19 +34,22 @@ public class TaxonomyCommonalityAggregator
             }
         }
 
-        List<Tuple2<String, String>> commonTaxons = new ArrayList<>();
+        List<Tuple3<String, Long, String>> commonTaxons = new ArrayList<>();
         for (Map.Entry<String, List<List<TaxonomyLineage>>> entry :
                 topLevelTaxonomyLineageMap.entrySet()) {
-            String commonTaxon = findLastCommonTaxonomy(entry.getValue());
-            Tuple2<String, String> tuple = new Tuple2<>(entry.getKey(), commonTaxon);
+            Tuple2<Long, String> commonTaxon = findLastCommonTaxonomy(entry.getValue());
+            // Tuple3<topLevelTaxonName, commonTaxonId, commonTaxonName>
+            Tuple3<String, Long, String> tuple =
+                    new Tuple3<>(entry.getKey(), commonTaxon._1, commonTaxon._2);
             commonTaxons.add(tuple);
         }
 
         return new Tuple2<>(uniParcIdLineages._1, commonTaxons);
     }
 
-    String findLastCommonTaxonomy(List<List<TaxonomyLineage>> allLineages) {
-        if (allLineages == null || allLineages.isEmpty()) {
+    Tuple2<Long, String> findLastCommonTaxonomy(List<List<TaxonomyLineage>> allLineages) {
+        Tuple2<Long, String> commonTaxon = null;
+        if (Utils.nullOrEmpty(allLineages)) {
             return null;
         }
 
@@ -54,9 +61,12 @@ public class TaxonomyCommonalityAggregator
         }
 
         String lastCommonTaxon = null;
+        Long commonTaxonId = null;
 
         for (int i = 0; i < minLength; i++) {
-            String scientificName = allLineages.get(0).get(i).getScientificName();
+            TaxonomyLineage lineage = allLineages.get(0).get(i);
+            String scientificName = lineage.getScientificName();
+            Long taxonId = lineage.getTaxonId();
             boolean allSame = true;
 
             // Check if all lists have the same value at index i
@@ -72,8 +82,9 @@ public class TaxonomyCommonalityAggregator
             }
 
             lastCommonTaxon = scientificName;
+            commonTaxonId = taxonId;
         }
 
-        return lastCommonTaxon;
+        return new Tuple2<>(commonTaxonId, lastCommonTaxon);
     }
 }

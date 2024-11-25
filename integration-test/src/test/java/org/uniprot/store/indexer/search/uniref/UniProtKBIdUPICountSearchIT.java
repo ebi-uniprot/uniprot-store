@@ -171,7 +171,7 @@ class UniProtKBIdUPICountSearchIT {
 
     @Test
     void testUPI1() {
-        String query = upiQuery(UPI_1);
+        String query = uniParcQuery(UPI_1);
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 
@@ -181,7 +181,7 @@ class UniProtKBIdUPICountSearchIT {
 
     @Test
     void testUPI2() {
-        String query = upiQuery(UPI_2);
+        String query = uniParcQuery(UPI_2);
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 
@@ -191,7 +191,7 @@ class UniProtKBIdUPICountSearchIT {
 
     @Test
     void testUPI3() {
-        String query = upiQuery(UPI_3);
+        String query = uniParcQuery(UPI_3);
         QueryResponse queryResponse = searchEngine.getQueryResponse(query);
         List<String> retrievedAccessions = searchEngine.getIdentifiers(queryResponse);
 
@@ -248,9 +248,12 @@ class UniProtKBIdUPICountSearchIT {
                 uniprotId);
     }
 
-    private String upiQuery(String upi) {
+    private String uniParcQuery(String upi) {
         return QueryBuilder.query(
-                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("upi").getFieldName(),
+                searchEngine
+                        .getSearchFieldConfig()
+                        .getSearchFieldItemByName("uniparc")
+                        .getFieldName(),
                 upi);
     }
 

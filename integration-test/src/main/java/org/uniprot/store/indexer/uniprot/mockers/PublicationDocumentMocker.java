@@ -3,6 +3,7 @@ package org.uniprot.store.indexer.uniprot.mockers;
 import static org.uniprot.store.indexer.publication.common.PublicationUtils.asBinary;
 
 import java.security.SecureRandom;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -130,6 +131,7 @@ public class PublicationDocumentMocker {
                         .communityAnnotation(
                                 new CommunityAnnotationBuilder()
                                         .proteinOrGene("community " + accession)
+                                        .submissionDate(LocalDate.of(2024, 9, 16))
                                         .build())
                         .build();
 

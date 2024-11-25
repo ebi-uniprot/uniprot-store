@@ -16,14 +16,20 @@ class SolrIndexValidatorMainTest {
 
     @Test
     void testSolrIndexValidatorMainInvalidCollection() {
-        String[] args = {"invalid", "invalid", "invalid"};
+        String[] args = {"invalid", "invalid", "invalid", "read"};
         assertThrows(SparkIndexException.class, () -> SolrIndexValidatorMain.main(args));
+    }
+
+    @Test
+    void testSolrIndexValidatorMainInvalidTaxDb() {
+        String[] args = {"2020_04", "uniparc", SPARK_LOCAL_MASTER, "invalid"};
+        assertThrows(IllegalArgumentException.class, () -> SolrIndexValidatorMain.main(args));
     }
 
     @Test
     void testSolrIndexValidatorMainThrowExceptions() {
         // valid arguments, but it will fail because it will not able to connect to zookeeper.
-        String[] args = {"2020_02", "uniparc", SPARK_LOCAL_MASTER};
+        String[] args = {"2020_02", "uniparc", SPARK_LOCAL_MASTER, "read"};
         assertThrows(SparkIndexException.class, () -> SolrIndexValidatorMain.main(args));
     }
 }

@@ -73,6 +73,26 @@
     "includeInSwagger": true
   },
   {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 6,
+    "itemType": "SINGLE",
+    "label": "Common taxonomies",
+    "name": "common_taxons",
+    "paths": ["commonTaxons"],
+    "id": "names_&_taxonomy/common_taxons",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "names_&_taxonomy",
+    "childNumber": 7,
+    "itemType": "SINGLE",
+    "label": "Common taxonomies (IDs)",
+    "name": "common_taxon_ids",
+    "paths": ["commonTaxons[*].commonTaxonId"],
+    "id": "names_&_taxonomy/common_taxon_ids",
+    "includeInSwagger": true
+  },
+  {
     "seqNumber": 1,
     "itemType": "GROUP",
     "groupName": "Sequences",
@@ -114,14 +134,10 @@
     "includeInSwagger": true
   },
   {
-    "parentId": "sequences",
-    "childNumber": 3,
     "itemType": "SINGLE",
-    "label": "Full Sequence",
-    "name": "fullSequence",
     "paths": ["sequence"],
-    "id": "sequences/fullSequence",
-    "includeInSwagger": true
+    "id": "fullSequence",
+    "name": "fullSequence"
   }
   ,
   {
@@ -160,23 +176,27 @@
     "childNumber": 0,
     "itemType": "SINGLE",
     "isDefaultForTsv": true,
+    "isRequiredForJson": true,
     "defaultForTsvOrder" : 3,
     "label": "First seen",
     "name": "first_seen",
-    "paths": ["uniParcCrossReferences[*].created","oldestCrossRefCreated"],
+    "paths": ["oldestCrossRefCreated"],
     "id": "date_of/first_seen",
-    "includeInSwagger": true
+    "includeInSwagger": true,
+    "aliases": ["oldestCrossRefCreated"]
   },
   {
     "parentId": "date_of",
     "childNumber": 1,
     "itemType": "SINGLE",
     "isDefaultForTsv": true,
+    "isRequiredForJson": true,
     "defaultForTsvOrder" : 4,
     "label": "Last seen",
     "name": "last_seen",
-    "paths": ["uniParcCrossReferences[*].lastUpdated","mostRecentCrossRefUpdated"],
+    "paths": ["mostRecentCrossRefUpdated"],
     "id": "date_of/last_seen",
+    "aliases": ["mostRecentCrossRefUpdated"],
     "includeInSwagger": true
   },
   {
@@ -307,27 +327,9 @@
     "includeInSwagger": true
   },
   {
-    "parentId": "family_&_domains",
-    "childNumber": 12,
     "itemType": "SINGLE",
-    "label": "Full Sequence Features",
-    "name": "fullsequencefeatures",
     "paths": ["sequenceFeatures"],
-    "id": "family_&_domains/fullsequencefeatures",
-    "includeInSwagger": true
-  },
-  {
-    "itemType": "SINGLE",
-    "isRequiredForJson": true,
-    "name": "oldestCrossRefCreated",
-    "paths": ["oldestCrossRefCreated"],
-    "id": "oldestCrossRefCreated"
-  },
-  {
-    "itemType": "SINGLE",
-    "isRequiredForJson": true,
-    "name": "mostRecentCrossRefUpdated",
-    "paths": ["mostRecentCrossRefUpdated"],
-    "id": "mostRecentCrossRefUpdated"
+    "id": "fullsequencefeatures",
+    "name": "fullsequencefeatures"
   }
 ]

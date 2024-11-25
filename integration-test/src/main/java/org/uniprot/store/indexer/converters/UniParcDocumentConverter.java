@@ -104,7 +104,7 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
         }
 
         if (Utils.notNullNotEmpty(xref.getProteomeId())) {
-            builder.upid(xref.getProteomeId());
+            builder.proteome(xref.getProteomeId());
         }
         if (Utils.notNullNotEmpty(xref.getComponent())) {
             builder.proteomeComponent(xref.getComponent());

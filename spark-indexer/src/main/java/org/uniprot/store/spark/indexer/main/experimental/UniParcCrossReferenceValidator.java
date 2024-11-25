@@ -48,7 +48,7 @@ public class UniParcCrossReferenceValidator {
             uniParcLightRDD.foreachPartition(
                     new CheckVoldermortXref(dataStoreParameter, batchSize));
         } catch (Exception e) {
-            throw new IndexDataStoreException("Unexpected error during DataStore index", e);
+            throw new IndexDataStoreException("Unexpected error during DataStore validation", e);
         } finally {
             log.info("All jobs finished!!!");
         }

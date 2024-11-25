@@ -184,7 +184,7 @@
     "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "search by genome_assembly ",
-    "example": "GCA_000001405.27"
+    "example": "GCA_000005845.2"
   },
   {
     "id": "cpd_sort",
@@ -250,6 +250,6 @@
     "dataType": "INTEGER",
     "sortFieldId": "busco_sort",
     "description": "Search by BUSCO",
-    "example": "97"
+    "example": "[97-100]"
   }
 ]

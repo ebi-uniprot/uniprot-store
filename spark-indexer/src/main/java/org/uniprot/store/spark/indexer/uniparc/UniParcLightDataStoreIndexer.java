@@ -18,6 +18,7 @@ import com.typesafe.config.Config;
 
 import lombok.extern.slf4j.Slf4j;
 import scala.Tuple2;
+import scala.Tuple3;
 
 @Slf4j
 public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
@@ -50,13 +51,24 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
                         .mapToPair(tuple -> tuple._2)
                         .aggregateByKey(
                                 new ArrayList<>(),
-                                new TaxonomyLineageToAccumulator(),
-                                new TaxonomyLineageAccumulatorsMerger());
+                                new TaxonomyLineageToAggregator(),
+                                new TaxonomyLineageAggregatorsMerger());
 
         // uniParc id and List of Tuples<toplevel organism, commonTaxon>
         // e.g. <UPI000001, [<"cellular organisms", "Bacteria">, <"Viruses", "Zilligvirae">]>
-        JavaPairRDD<String, List<Tuple2<String, String>>> uniParcIdCommonTaxons =
+        JavaPairRDD<String, List<Tuple3<String, Long, String>>> uniParcIdCommonTaxons =
                 uniParcIdTaxonLineages.mapToPair(new TaxonomyCommonalityAggregator());
+
+        uniParcIdCommonTaxons.persist(StorageLevel.DISK_ONLY());
+        int numPartition =
+                uniParcIdCommonTaxons.getNumPartitions() >= 4
+                        ? uniParcIdCommonTaxons.getNumPartitions() / 4
+                        : uniParcIdCommonTaxons.getNumPartitions();
+        uniParcIdCommonTaxons.repartition(numPartition);
+        log.info(
+                "Total number of entries in uniParcIdCommonTaxons {}",
+                uniParcIdCommonTaxons.count());
+
         // convert uniParcLightRDD to <uniParcId, uniParcLight> and then join with
         // uniParcIdTaxonLineages.
         // then map to inject common taxons in uniParcLightRDD
@@ -76,9 +88,6 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
         TaxonomyLineageReader lineageReader = new TaxonomyLineageReader(parameter, true);
         JavaPairRDD<String, List<TaxonomyLineage>> taxonomyWithLineage = lineageReader.load();
         taxonomyWithLineage.repartition(taxonomyWithLineage.getNumPartitions());
-        taxonomyWithLineage.persist(StorageLevel.DISK_ONLY());
-        // Call terminal operator count to have this RDD persisted on disk
-        log.info("Total number of TaxonomyLineage : " + taxonomyWithLineage.count());
         return taxonomyWithLineage;
     }
 

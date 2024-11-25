@@ -2,8 +2,8 @@ package org.uniprot.store.spark.indexer.uniparc.converter;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.core.uniparc.impl.UniParcEntryLightBuilder.HAS_ACTIVE_CROSS_REF;
-import static org.uniprot.store.spark.indexer.uniparc.converter.DatasetUniParcEntryConverter.getDbReferenceSchema;
-import static org.uniprot.store.spark.indexer.uniparc.converter.DatasetUniParcEntryConverter.getUniParcXMLSchema;
+import static org.uniprot.store.spark.indexer.uniparc.converter.BaseUniParcEntryConverter.getDbReferenceSchema;
+import static org.uniprot.store.spark.indexer.uniparc.converter.BaseUniParcEntryConverter.getUniParcXMLSchema;
 import static org.uniprot.store.spark.indexer.uniparc.converter.UniParcConverterUtils.*;
 
 import java.util.ArrayList;

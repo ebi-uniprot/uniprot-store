@@ -134,8 +134,8 @@ class UniParcDocumentConverterTest {
                         .getProteinNames()
                         .contains("Isoform 8 of Pro-neuregulin-1, membrane-bound isoform"));
 
-        assertEquals(1, uniParcDocument.getUpids().size());
-        assertTrue(uniParcDocument.getUpids().contains("UP000005640"));
+        assertEquals(1, uniParcDocument.getProteomes().size());
+        assertTrue(uniParcDocument.getProteomes().contains("UP000005640"));
 
         assertEquals(1, uniParcDocument.getProteomeComponents().size());
         assertTrue(uniParcDocument.getProteomeComponents().contains("Chromosome 8"));

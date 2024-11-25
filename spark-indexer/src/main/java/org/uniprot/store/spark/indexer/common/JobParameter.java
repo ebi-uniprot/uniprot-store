@@ -19,5 +19,7 @@ public class JobParameter {
 
     private final String releaseName;
 
+    private final TaxDb taxDb;
+
     private final Config applicationConfig;
 }

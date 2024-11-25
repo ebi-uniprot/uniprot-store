@@ -54,8 +54,8 @@ public class UniRefDocument implements Document {
     public String organismSort;
 
     @Singular
-    @Field("upi")
-    private List<String> upids;
+    @Field("uniparc")
+    private List<String> uniParcIds;
 
     @Singular
     @Field("taxonomy_name")

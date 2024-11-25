@@ -48,7 +48,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by name",
-    "example": "sample name",
+    "example": "Integrase core domain protein",
     "includeInSwagger": true
   },
   {
@@ -60,7 +60,7 @@
     "fieldType": "GENERAL",
     "dataType": "ENUM",
     "description": "Search by identity",
-    "example": "sample identity",
+    "example": "1.0",
     "includeInSwagger": true,
     "values": [
       {
@@ -87,7 +87,7 @@
     "dataType": "INTEGER",
     "sortFieldId": "count_sort",
     "description": "Search by count",
-    "example": "[100 TO 300]",
+    "example": "[1 TO 10]",
     "includeInSwagger": true
   },
   {
@@ -108,7 +108,7 @@
     "dataType": "INTEGER",
     "sortFieldId": "length_sort",
     "description": "Search by length",
-    "example": "[100 TO 300]",
+    "example": "[1 TO 100]",
     "includeInSwagger": true
   },
   {
@@ -150,21 +150,22 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by uniprot id",
-    "example": "sample uniprot id",
+    "example": "P35222",
     "includeInSwagger": true
   },
   {
     "seqNumber": 7,
     "id": "upi",
-    "fieldName": "upi",
+    "fieldName": "uniparc",
     "label": "UniParc ID",
     "itemType": "SINGLE",
     "validRegex": "UPI[\\w]{10}",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by upi",
-    "example": "UPI0123456789",
-    "includeInSwagger": true
+    "example": "UPI000002DB1C",
+    "includeInSwagger": true,
+    "aliases": ["upi"]
   },
   {
     "id": "taxonomy_id",
@@ -173,7 +174,7 @@
     "fieldType": "GENERAL",
     "dataType": "INTEGER",
     "description": "Search by taxonomy id",
-    "example": "1234565",
+    "example": "40674",
     "includeInSwagger": true
   },
   {
@@ -185,7 +186,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by taxonomy name",
-    "example": "sample name",
+    "example": "mammalia",
     "includeInSwagger": true,
     "autoComplete": "{CONTEXT_PATH}/suggester?dict=taxonomy&query=?",
     "autoCompleteQueryField": "taxonomy_id",

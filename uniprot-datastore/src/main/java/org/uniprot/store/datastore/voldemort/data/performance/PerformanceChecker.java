@@ -12,8 +12,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import org.uniprot.store.datastore.voldemort.VoldemortClient;
+import org.uniprot.store.datastore.voldemort.light.uniparc.VoldemortRemoteUniParcEntryLightStore;
 import org.uniprot.store.datastore.voldemort.light.uniref.VoldemortRemoteUniRefEntryLightStore;
-import org.uniprot.store.datastore.voldemort.uniparc.VoldemortRemoteUniParcEntryStore;
 import org.uniprot.store.datastore.voldemort.uniprot.VoldemortRemoteUniProtKBEntryStore;
 import org.uniprot.store.datastore.voldemort.uniref.VoldemortRemoteUniRefEntryStore;
 
@@ -172,7 +172,7 @@ public class PerformanceChecker {
     }
 
     VoldemortClient<?> createUniParcStore(int connections, String storeName, String host) {
-        return new VoldemortRemoteUniParcEntryStore(connections, storeName, host);
+        return new VoldemortRemoteUniParcEntryLightStore(connections, storeName, host);
     }
 
     private ThreadPoolExecutor createExecutor(Properties properties) {

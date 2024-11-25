@@ -111,7 +111,7 @@
 </store>
 
 <store>
-	<name>cross-reference</name>
+	<name>uniparc-cross-reference</name>
 	<persistence>bdb</persistence>
 	<description>UniParc Cross Reference</description>
 	<owners>harry@hogwarts.edu, hermoine@hogwarts.edu</owners>

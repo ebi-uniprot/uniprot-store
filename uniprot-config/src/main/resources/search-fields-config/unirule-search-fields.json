@@ -44,7 +44,7 @@
     "itemType": "SINGLE",
     "dataType": "STRING",
     "description": "Search by UniProtKB Protein name",
-    "example": "mas5"
+    "example": "Malate dehydrogenase"
   },
   {
     "seqNumber": 1,
@@ -55,7 +55,7 @@
     "dataType": "STRING",
     "itemType": "SINGLE",
     "description": "Search by UniProtKB gene name",
-    "example": "ydj1"
+    "example": "rbfA"
   },
   {
     "seqNumber": 2,
@@ -66,7 +66,7 @@
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
     "description": "Search by Organism name",
-    "example": "saccharomyces"
+    "example": "Helicobacter pylori"
   },
   {
     "seqNumber": 3,
@@ -77,7 +77,7 @@
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
     "description": "Search by NCBI taxonomy",
-    "example": "human"
+    "example": "Fungi"
   },
   {
     "label": "Function",
@@ -97,7 +97,7 @@
     "description": "Search by Enzyme EC number",
     "autoComplete": "{CONTEXT_PATH}/suggester?dict=ec&query=?",
     "autoCompleteQueryField": "ec",
-    "example": "1.1.2.3",
+    "example": "4.1.1.39",
     "includeInSwagger": true
   },
   {
@@ -229,7 +229,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Comment Induction",
-    "example": "calcium",
+    "example": "maltose",
     "includeInSwagger": true
   },
   {
@@ -248,7 +248,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by comment domain",
-    "example": "conformation",
+    "example": "DNA-binding domain",
     "includeInSwagger": true
   },
   {
@@ -261,7 +261,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by protein belongs to a family",
-    "example": "pa28",
+    "example": "Tyr protein kinase family",
     "includeInSwagger": true
   },
   {
@@ -274,7 +274,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by comment similarity",
-    "example": "phosphatase",
+    "example": "MPI phosphatase",
     "includeInSwagger": true
   },
   {
@@ -297,7 +297,7 @@
     "dataType": "STRING",
     "itemType": "SINGLE",
     "description": "Search by keyword",
-    "example": "chromosomal"
+    "example": "Activator"
   },
   {
     "id": "feature_type_field",
@@ -317,6 +317,6 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by condition value",
-    "example": "sample condition value"
+    "example": "gene location"
   }
 ]
