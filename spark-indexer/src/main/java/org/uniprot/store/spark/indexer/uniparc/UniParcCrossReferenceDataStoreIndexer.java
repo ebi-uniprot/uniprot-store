@@ -1,12 +1,11 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
+import static org.uniprot.store.spark.indexer.common.store.DataStoreIndexer.BROTLI_COMPRESSION_ENABLED;
+import static org.uniprot.store.spark.indexer.common.store.DataStoreIndexer.BROTLI_COMPRESSION_LEVEL;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.spark.api.java.JavaPairRDD;
-import static org.uniprot.store.spark.indexer.common.store.DataStoreIndexer.BROTLI_COMPRESSION_ENABLED;
-import static org.uniprot.store.spark.indexer.common.store.DataStoreIndexer.BROTLI_COMPRESSION_LEVEL;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -18,11 +17,10 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReader;
+import org.uniprot.store.spark.indexer.uniparc.mapper.*;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcCrossReferenceMapper;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryKeyMapper;
-import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcEntryTaxonomyJoin;
 import org.uniprot.store.spark.indexer.uniparc.mapper.UniParcTaxonomyMapper;
-import org.uniprot.store.spark.indexer.uniparc.mapper.*;
 import org.uniprot.store.spark.indexer.uniparc.model.UniParcTaxonomySequenceSource;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBUniParcMappingRDDTupleReader;
 
@@ -123,10 +121,8 @@ public class UniParcCrossReferenceDataStoreIndexer implements DataStoreIndexer {
                 .build();
     }
 
-    protected JavaRDD<UniParcEntry> getUniParcRDD() {
-        UniParcRDDTupleReader reader = new UniParcRDDTupleReader(parameter, false);
-        JavaRDD<UniParcEntry> uniParcRDD = reader.load();
-
+    protected JavaPairRDD<String, Iterable<TaxonomyEntry>> getUniParcTaxonomyRDD(
+            JavaRDD<UniParcEntry> uniParcRDD) {
         // JavaPairRDD<taxId,uniParcId>
         JavaPairRDD<String, String> taxonomyJoin =
                 uniParcRDD.flatMapToPair(new UniParcTaxonomyMapper());
@@ -143,10 +139,7 @@ public class UniParcCrossReferenceDataStoreIndexer implements DataStoreIndexer {
                         .mapToPair(tuple -> tuple._2)
                         .groupByKey();
 
-        return uniParcRDD
-                .mapToPair(new UniParcEntryKeyMapper())
-                .leftOuterJoin(uniParcJoin)
-                .map(new UniParcEntryTaxonomyJoin());
+        return uniParcJoin;
     }
 
     JavaPairRDD<String, TaxonomyEntry> loadTaxonomyEntryJavaPairRDD() {
