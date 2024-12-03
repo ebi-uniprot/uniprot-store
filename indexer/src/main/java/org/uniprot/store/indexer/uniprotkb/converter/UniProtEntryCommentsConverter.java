@@ -86,11 +86,6 @@ class UniProtEntryCommentsConverter {
             value.add(commentVal);
             document.content.add(commentVal);
 
-            Collection<String> evValue =
-                    document.commentEvMap.computeIfAbsent(evField, k -> new HashSet<>());
-            Set<String> evidences = fetchEvidences(comment);
-            evValue.addAll(evidences);
-
             ProteinsWith.from(comment.getCommentType())
                     .map(ProteinsWith::getValue)
                     .filter(
@@ -176,23 +171,18 @@ class UniProtEntryCommentsConverter {
             // '*'
         }
         document.ap.addAll(values);
-        document.apEv.addAll(evidence);
         for (String event : events) {
             if ("alternative promoter usage".equalsIgnoreCase(event)) {
                 document.apApu.addAll(values);
-                document.apApuEv.addAll(evidence);
             }
             if ("alternative splicing".equalsIgnoreCase(event)) {
                 document.apAs.addAll(values);
-                document.apAsEv.addAll(evidence);
             }
             if ("alternative initiation".equalsIgnoreCase(event)) {
                 document.apAi.addAll(values);
-                document.apAiEv.addAll(evidence);
             }
             if ("ribosomal frameshifting".equalsIgnoreCase(event)) {
                 document.apRf.addAll(values);
-                document.apRfEv.addAll(evidence);
             }
         }
     }
@@ -218,15 +208,11 @@ class UniProtEntryCommentsConverter {
                                         document.cofactorChebi.add(referenceId);
                                     }
                                 }
-                                document.cofactorChebiEv.addAll(
-                                        UniProtEntryConverterUtil.extractEvidence(
-                                                val.getEvidences()));
                             });
         }
 
         if ((comment.hasNote()) && (comment.getNote().hasTexts())) {
             document.cofactorNote.addAll(getTextsValue(comment.getNote().getTexts()));
-            document.cofactorNoteEv.addAll(getTextsEvidence(comment.getNote().getTexts()));
         }
     }
 
@@ -241,7 +227,6 @@ class UniProtEntryCommentsConverter {
         }
 
         Set<String> evidence = UniProtEntryConverterUtil.extractEvidence(comment.getEvidences());
-        document.seqCautionEv.addAll(evidence);
         switch (comment.getSequenceCautionType()) {
             case FRAMESHIFT:
                 document.seqCautionFrameshift.add(val);
@@ -260,7 +245,6 @@ class UniProtEntryCommentsConverter {
                 break;
             case MISCELLANEOUS_DISCREPANCY:
                 document.seqCautionMisc.add(val);
-                document.seqCautionMiscEv.addAll(evidence);
                 break;
             default:
         }
@@ -278,40 +262,27 @@ class UniProtEntryCommentsConverter {
         if (comment.hasAbsorption()) {
             Absorption absorption = comment.getAbsorption();
             document.bpcpAbsorption.add("" + absorption.getMax());
-            document.bpcpAbsorptionEv.addAll(
-                    UniProtEntryConverterUtil.extractEvidence(absorption.getEvidences()));
             if (absorption.hasNote() && absorption.getNote().hasTexts()) {
                 document.bpcpAbsorption.addAll(getTextsValue(absorption.getNote().getTexts()));
-                document.bpcpAbsorptionEv.addAll(getTextsEvidence(absorption.getNote().getTexts()));
             }
             document.bpcp.addAll(document.bpcpAbsorption);
-            document.bpcpEv.addAll(document.bpcpAbsorptionEv);
         }
         if (comment.hasKineticParameters()) {
             convertKineticParameters(document, comment.getKineticParameters());
         }
         if (comment.hasPhDependence() && comment.getPhDependence().hasTexts()) {
             document.bpcpPhDependence.addAll(getTextsValue(comment.getPhDependence().getTexts()));
-            document.bpcpPhDependenceEv.addAll(
-                    getTextsEvidence(comment.getPhDependence().getTexts()));
             document.bpcp.addAll(document.bpcpPhDependence);
-            document.bpcpEv.addAll(document.bpcpPhDependenceEv);
         }
         if (comment.hasRedoxPotential() && comment.getRedoxPotential().hasTexts()) {
             document.bpcpRedoxPotential.addAll(
                     getTextsValue(comment.getRedoxPotential().getTexts()));
-            document.bpcpRedoxPotentialEv.addAll(
-                    getTextsEvidence(comment.getRedoxPotential().getTexts()));
             document.bpcp.addAll(document.bpcpRedoxPotential);
-            document.bpcpEv.addAll(document.bpcpRedoxPotentialEv);
         }
         if (comment.hasTemperatureDependence() && comment.getTemperatureDependence().hasTexts()) {
             document.bpcpTempDependence.addAll(
                     getTextsValue(comment.getTemperatureDependence().getTexts()));
-            document.bpcpTempDependenceEv.addAll(
-                    getTextsEvidence(comment.getTemperatureDependence().getTexts()));
             document.bpcp.addAll(document.bpcpTempDependence);
-            document.bpcpEv.addAll(document.bpcpTempDependenceEv);
         }
     }
 
@@ -324,10 +295,8 @@ class UniProtEntryCommentsConverter {
         }
         if (kp.hasNote() && kp.getNote().hasTexts()) {
             document.bpcpKinetics.addAll(getTextsValue(kp.getNote().getTexts()));
-            document.bpcpKineticsEv.addAll(getTextsEvidence(kp.getNote().getTexts()));
         }
         document.bpcp.addAll(document.bpcpKinetics);
-        document.bpcpEv.addAll(document.bpcpKineticsEv);
     }
 
     private void convertCommentBPCPMichaelisConstant(
@@ -339,11 +308,6 @@ class UniProtEntryCommentsConverter {
                     }
                     if (michaelisConstant.hasSubstrate()) {
                         document.bpcpKinetics.add(michaelisConstant.getSubstrate());
-                    }
-                    if (michaelisConstant.hasEvidences()) {
-                        document.bpcpKineticsEv.addAll(
-                                UniProtEntryConverterUtil.extractEvidence(
-                                        michaelisConstant.getEvidences()));
                     }
                 });
     }
@@ -358,12 +322,6 @@ class UniProtEntryCommentsConverter {
 
                     if (maximumVelocity.hasVelocity()) {
                         document.bpcpKinetics.add(String.valueOf(maximumVelocity.getVelocity()));
-                    }
-
-                    if (maximumVelocity.hasEvidences()) {
-                        document.bpcpKineticsEv.addAll(
-                                UniProtEntryConverterUtil.extractEvidence(
-                                        maximumVelocity.getEvidences()));
                     }
                 });
     }
@@ -413,7 +371,6 @@ class UniProtEntryCommentsConverter {
         }
         if (comment.hasNote() && comment.getNote().hasTexts()) {
             document.subcellLocationNote.addAll(getTextsValue(comment.getNote().getTexts()));
-            document.subcellLocationNoteEv.addAll(getTextsEvidence(comment.getNote().getTexts()));
         }
     }
 
@@ -422,7 +379,6 @@ class UniProtEntryCommentsConverter {
         document.subcellLocationTerm.add(location.getValue());
 
         Set<String> locationEv = UniProtEntryConverterUtil.extractEvidence(location.getEvidences());
-        document.subcellLocationTermEv.addAll(locationEv);
         document.subcellLocationTerm.add(location.getId());
         document.content.add(location.getId());
         addSubcellSuggestion(location);

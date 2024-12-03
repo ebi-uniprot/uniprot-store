@@ -3,7 +3,8 @@ package org.uniprot.store.indexer.search.uniprot;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,8 +15,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureType;
-import org.uniprot.store.search.field.QueryBuilder;
 
 class FTStructureSearchIT {
 
@@ -98,52 +97,5 @@ class FTStructureSearchIT {
         System.out.println(retrievedAccessions);
         assertThat(retrievedAccessions, hasItems(Q197B1));
         assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
-    }
-
-    @Test
-    void strandFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.STRAND, "*");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.STRAND, 1, 25));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q197B1));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
-    }
-
-    @Test
-    void turnFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.TURN, "*");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.TURN, 1, 25));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q12345));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
-    }
-
-    @Test
-    void helixFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.HELIX, "*");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.HELIX, 9, 25));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q12345));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
-    }
-
-    @Test
-    void helixFindTwoEntriesWithLength() {
-        String query = features(UniprotKBFeatureType.HELIX, "*");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.HELIX, 1, 25));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q12345, Q6GZX4));
     }
 }

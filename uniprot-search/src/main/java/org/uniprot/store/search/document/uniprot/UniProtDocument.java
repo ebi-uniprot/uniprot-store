@@ -129,21 +129,12 @@ public class UniProtDocument implements Document {
     @Field("cc_*")
     public Map<String, Collection<String>> commentMap = new HashMap<>();
 
-    @Field("ccev_*")
-    public Map<String, Collection<String>> commentEvMap = new HashMap<>();
-
     // DEFAULT SEARCH FIELD
     @Field("content")
     public Set<String> content = new HashSet<>();
 
     @Field("ft_*")
     public Map<String, Collection<String>> featuresMap = new HashMap<>();
-
-    @Field("ftev_*")
-    public Map<String, Collection<String>> featureEvidenceMap = new HashMap<>();
-
-    @Field("ftlen_*")
-    public Map<String, Collection<Integer>> featureLengthMap = new HashMap<>();
 
     @Field("existence")
     public int proteinExistence;
@@ -169,44 +160,23 @@ public class UniProtDocument implements Document {
     @Field("cc_scl_term")
     public Set<String> subcellLocationTerm = new HashSet<>();
 
-    @Field("ccev_scl_term")
-    public Set<String> subcellLocationTermEv = new HashSet<>();
-
     @Field("cc_scl_note")
     public Set<String> subcellLocationNote = new HashSet<>();
-
-    @Field("ccev_scl_note")
-    public Set<String> subcellLocationNoteEv = new HashSet<>();
 
     @Field("cc_ap")
     public Set<String> ap = new HashSet<>();
 
-    @Field("ccev_ap")
-    public Set<String> apEv = new HashSet<>();
-
     @Field("cc_ap_apu")
     public Set<String> apApu = new HashSet<>();
-
-    @Field("ccev_ap_apu")
-    public Set<String> apApuEv = new HashSet<>();
 
     @Field("cc_ap_as")
     public Set<String> apAs = new HashSet<>();
 
-    @Field("ccev_ap_as")
-    public Set<String> apAsEv = new HashSet<>();
-
     @Field("cc_ap_ai")
     public Set<String> apAi = new HashSet<>();
 
-    @Field("ccev_ap_ai")
-    public Set<String> apAiEv = new HashSet<>();
-
     @Field("cc_ap_rf")
     public Set<String> apRf = new HashSet<>();
-
-    @Field("ccev_ap_rf")
-    public Set<String> apRfEv = new HashSet<>();
 
     @Field("cc_bpcp")
     public Set<String> bpcp = new HashSet<>();
@@ -226,35 +196,11 @@ public class UniProtDocument implements Document {
     @Field("cc_bpcp_temp_dependence")
     public Set<String> bpcpTempDependence = new HashSet<>();
 
-    @Field("ccev_bpcp")
-    public Set<String> bpcpEv = new HashSet<>();
-
-    @Field("ccev_bpcp_absorption")
-    public Set<String> bpcpAbsorptionEv = new HashSet<>();
-
-    @Field("ccev_bpcp_kinetics")
-    public Set<String> bpcpKineticsEv = new HashSet<>();
-
-    @Field("ccev_bpcp_ph_dependence")
-    public Set<String> bpcpPhDependenceEv = new HashSet<>();
-
-    @Field("ccev_bpcp_redox_potential")
-    public Set<String> bpcpRedoxPotentialEv = new HashSet<>();
-
-    @Field("ccev_bpcp_temp_dependence")
-    public Set<String> bpcpTempDependenceEv = new HashSet<>();
-
     @Field("cc_cofactor_chebi")
     public Set<String> cofactorChebi = new HashSet<>();
 
     @Field("cc_cofactor_note")
     public Set<String> cofactorNote = new HashSet<>();
-
-    @Field("ccev_cofactor_chebi")
-    public Set<String> cofactorChebiEv = new HashSet<>();
-
-    @Field("ccev_cofactor_note")
-    public Set<String> cofactorNoteEv = new HashSet<>();
 
     @Field("cc_sc")
     public Set<String> seqCaution = new HashSet<>();
@@ -276,12 +222,6 @@ public class UniProtDocument implements Document {
 
     @Field("cc_sc_misc")
     public Set<String> seqCautionMisc = new HashSet<>();
-
-    @Field("ccev_sc")
-    public Set<String> seqCautionEv = new HashSet<>();
-
-    @Field("ccev_sc_misc")
-    public Set<String> seqCautionMiscEv = new HashSet<>();
 
     @Field("interactor")
     public Set<String> interactors = new HashSet<>();
@@ -429,43 +369,25 @@ public class UniProtDocument implements Document {
                 && Objects.equals(referenceDates, that.referenceDates)
                 && Objects.equals(referenceJournals, that.referenceJournals)
                 && Objects.equals(commentMap, that.commentMap)
-                && Objects.equals(commentEvMap, that.commentEvMap)
                 && Objects.equals(content, that.content)
                 && Objects.equals(featuresMap, that.featuresMap)
-                && Objects.equals(featureEvidenceMap, that.featureEvidenceMap)
-                && Objects.equals(featureLengthMap, that.featureLengthMap)
                 && Objects.equals(proteinExistence, that.proteinExistence)
                 && Objects.equals(proteinsWith, that.proteinsWith)
                 && Objects.equals(subcellLocationTerm, that.subcellLocationTerm)
-                && Objects.equals(subcellLocationTermEv, that.subcellLocationTermEv)
                 && Objects.equals(subcellLocationNote, that.subcellLocationNote)
-                && Objects.equals(subcellLocationNoteEv, that.subcellLocationNoteEv)
                 && Objects.equals(ap, that.ap)
-                && Objects.equals(apEv, that.apEv)
                 && Objects.equals(apApu, that.apApu)
-                && Objects.equals(apApuEv, that.apApuEv)
                 && Objects.equals(apAs, that.apAs)
-                && Objects.equals(apAsEv, that.apAsEv)
                 && Objects.equals(apAi, that.apAi)
-                && Objects.equals(apAiEv, that.apAiEv)
                 && Objects.equals(apRf, that.apRf)
-                && Objects.equals(apRfEv, that.apRfEv)
                 && Objects.equals(bpcp, that.bpcp)
                 && Objects.equals(bpcpAbsorption, that.bpcpAbsorption)
                 && Objects.equals(bpcpKinetics, that.bpcpKinetics)
                 && Objects.equals(bpcpPhDependence, that.bpcpPhDependence)
                 && Objects.equals(bpcpRedoxPotential, that.bpcpRedoxPotential)
                 && Objects.equals(bpcpTempDependence, that.bpcpTempDependence)
-                && Objects.equals(bpcpEv, that.bpcpEv)
-                && Objects.equals(bpcpAbsorptionEv, that.bpcpAbsorptionEv)
-                && Objects.equals(bpcpKineticsEv, that.bpcpKineticsEv)
-                && Objects.equals(bpcpPhDependenceEv, that.bpcpPhDependenceEv)
-                && Objects.equals(bpcpRedoxPotentialEv, that.bpcpRedoxPotentialEv)
-                && Objects.equals(bpcpTempDependenceEv, that.bpcpTempDependenceEv)
                 && Objects.equals(cofactorChebi, that.cofactorChebi)
                 && Objects.equals(cofactorNote, that.cofactorNote)
-                && Objects.equals(cofactorChebiEv, that.cofactorChebiEv)
-                && Objects.equals(cofactorNoteEv, that.cofactorNoteEv)
                 && Objects.equals(seqCaution, that.seqCaution)
                 && Objects.equals(seqCautionFrameshift, that.seqCautionFrameshift)
                 && Objects.equals(seqCautionErInit, that.seqCautionErInit)
@@ -473,8 +395,6 @@ public class UniProtDocument implements Document {
                 && Objects.equals(seqCautionErPred, that.seqCautionErPred)
                 && Objects.equals(seqCautionErTran, that.seqCautionErTran)
                 && Objects.equals(seqCautionMisc, that.seqCautionMisc)
-                && Objects.equals(seqCautionEv, that.seqCautionEv)
-                && Objects.equals(seqCautionMiscEv, that.seqCautionMiscEv)
                 && Objects.equals(interactors, that.interactors)
                 && Objects.equals(familyInfo, that.familyInfo)
                 && Objects.equals(seqAA, that.seqAA)
@@ -540,11 +460,8 @@ public class UniProtDocument implements Document {
                 referenceDates,
                 referenceJournals,
                 commentMap,
-                commentEvMap,
                 content,
                 featuresMap,
-                featureEvidenceMap,
-                featureLengthMap,
                 proteinExistence,
                 fragment,
                 precursor,
@@ -552,35 +469,20 @@ public class UniProtDocument implements Document {
                 d3structure,
                 proteinsWith,
                 subcellLocationTerm,
-                subcellLocationTermEv,
                 subcellLocationNote,
-                subcellLocationNoteEv,
                 ap,
-                apEv,
                 apApu,
-                apApuEv,
                 apAs,
-                apAsEv,
                 apAi,
-                apAiEv,
                 apRf,
-                apRfEv,
                 bpcp,
                 bpcpAbsorption,
                 bpcpKinetics,
                 bpcpPhDependence,
                 bpcpRedoxPotential,
                 bpcpTempDependence,
-                bpcpEv,
-                bpcpAbsorptionEv,
-                bpcpKineticsEv,
-                bpcpPhDependenceEv,
-                bpcpRedoxPotentialEv,
-                bpcpTempDependenceEv,
                 cofactorChebi,
                 cofactorNote,
-                cofactorChebiEv,
-                cofactorNoteEv,
                 seqCaution,
                 seqCautionFrameshift,
                 seqCautionErInit,
@@ -588,8 +490,6 @@ public class UniProtDocument implements Document {
                 seqCautionErPred,
                 seqCautionErTran,
                 seqCautionMisc,
-                seqCautionEv,
-                seqCautionMiscEv,
                 interactors,
                 familyInfo,
                 seqMass,
@@ -701,16 +601,10 @@ public class UniProtDocument implements Document {
                 + referenceJournals
                 + ", commentMap="
                 + commentMap
-                + ", commentEvMap="
-                + commentEvMap
                 + ", content="
                 + content
                 + ", featuresMap="
                 + featuresMap
-                + ", featureEvidenceMap="
-                + featureEvidenceMap
-                + ", featureLengthMap="
-                + featureLengthMap
                 + ", proteinExistence="
                 + proteinExistence
                 + ", fragment="
@@ -725,32 +619,18 @@ public class UniProtDocument implements Document {
                 + proteinsWith
                 + ", subcellLocationTerm="
                 + subcellLocationTerm
-                + ", subcellLocationTermEv="
-                + subcellLocationTermEv
                 + ", subcellLocationNote="
                 + subcellLocationNote
-                + ", subcellLocationNoteEv="
-                + subcellLocationNoteEv
                 + ", ap="
                 + ap
-                + ", apEv="
-                + apEv
                 + ", apApu="
                 + apApu
-                + ", apApuEv="
-                + apApuEv
                 + ", apAs="
                 + apAs
-                + ", apAsEv="
-                + apAsEv
                 + ", apAi="
                 + apAi
-                + ", apAiEv="
-                + apAiEv
                 + ", apRf="
                 + apRf
-                + ", apRfEv="
-                + apRfEv
                 + ", bpcp="
                 + bpcp
                 + ", bpcpAbsorption="
@@ -763,26 +643,10 @@ public class UniProtDocument implements Document {
                 + bpcpRedoxPotential
                 + ", bpcpTempDependence="
                 + bpcpTempDependence
-                + ", bpcpEv="
-                + bpcpEv
-                + ", bpcpAbsorptionEv="
-                + bpcpAbsorptionEv
-                + ", bpcpKineticsEv="
-                + bpcpKineticsEv
-                + ", bpcpPhDependenceEv="
-                + bpcpPhDependenceEv
-                + ", bpcpRedoxPotentialEv="
-                + bpcpRedoxPotentialEv
-                + ", bpcpTempDependenceEv="
-                + bpcpTempDependenceEv
                 + ", cofactorChebi="
                 + cofactorChebi
                 + ", cofactorNote="
                 + cofactorNote
-                + ", cofactorChebiEv="
-                + cofactorChebiEv
-                + ", cofactorNoteEv="
-                + cofactorNoteEv
                 + ", seqCaution="
                 + seqCaution
                 + ", seqCautionFrameshift="
@@ -797,10 +661,6 @@ public class UniProtDocument implements Document {
                 + seqCautionErTran
                 + ", seqCautionMisc="
                 + seqCautionMisc
-                + ", seqCautionEv="
-                + seqCautionEv
-                + ", seqCautionMiscEv="
-                + seqCautionMiscEv
                 + ", interactors="
                 + interactors
                 + ", familyInfo="

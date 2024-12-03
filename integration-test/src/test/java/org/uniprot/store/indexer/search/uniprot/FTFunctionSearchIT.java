@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureType;
-import org.uniprot.store.search.field.QueryBuilder;
 
 class FTFunctionSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -110,65 +109,5 @@ class FTFunctionSearchIT {
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         assertThat(retrievedAccessions, contains(Q12345));
-    }
-
-    @Test
-    void metalSiteFindEntry() {
-        String query = features(UniprotKBFeatureType.METAL, "Magnesium.");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.METAL, 1, 2));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, contains(Q197B1));
-    }
-
-    @Test
-    void metalSiteFindNonEntry() {
-        String query = features(UniprotKBFeatureType.METAL, "Magnesium.");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.METAL, 3, 5));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, empty());
-    }
-
-    @Test
-    void bindingSiteFindEntry() {
-        String query = features(UniprotKBFeatureType.BINDING, "Substrate.");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.BINDING, 1, 2));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, contains(Q12345));
-    }
-
-    @Test
-    void caBindFindEntry() {
-        String query = features(UniprotKBFeatureType.CA_BIND, "site");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.CA_BIND, 1, 2));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, contains(P48347));
-    }
-
-    @Test
-    void dnaBindFindEntry() {
-        String query = features(UniprotKBFeatureType.DNA_BIND, "*");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.DNA_BIND, 1, 6));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, contains(P48347));
-    }
-
-    @Test
-    void npBindFindEntry() {
-        String query = features(UniprotKBFeatureType.NP_BIND, "NADP");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.NP_BIND, 1, 6));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, contains(P48347));
     }
 }

@@ -19,8 +19,6 @@ import org.uniprot.store.search.document.uniprot.UniProtDocument;
  */
 class UniProtEntryFeatureConverter {
     private static final String FEATURE = "ft_";
-    private static final String FT_LENGTH = "ftlen_";
-    private static final String FT_EV = "ftev_";
 
     void convertFeature(List<UniProtKBFeature> features, UniProtDocument document) {
         for (UniProtKBFeature feature : features) {

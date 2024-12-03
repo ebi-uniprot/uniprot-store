@@ -183,11 +183,6 @@ class UniProtKBEntryConverterIT {
                         .get(CC_SIMILARITY_FIELD)
                         .contains("SIMILARITY: Belongs to the cytochrome b family."));
 
-        assertEquals(3, doc.commentEvMap.size());
-        assertTrue(doc.commentEvMap.containsKey(CCEV_SIMILARITY_FIELD));
-        assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("ECO_0000256"));
-        assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("automatic"));
-
         assertEquals(3, doc.proteinExistence);
         assertFalse(doc.fragment);
         assertFalse(doc.precursor);
@@ -206,12 +201,6 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(1, doc.cofactorNote.size());
         assertTrue(doc.cofactorNote.contains("Binds 2 heme groups non-covalently."));
-
-        assertEquals(2, doc.cofactorChebiEv.size());
-        assertTrue(doc.cofactorChebiEv.contains("ECO_0000256"));
-
-        assertEquals(2, doc.cofactorNoteEv.size());
-        assertTrue(doc.cofactorNoteEv.contains("ECO_0000256"));
 
         assertEquals(1, doc.familyInfo.size());
         assertTrue(doc.familyInfo.contains("cytochrome b family"));
@@ -376,23 +365,9 @@ class UniProtKBEntryConverterIT {
                         .get(CC_SIMILARITY_FIELD)
                         .contains("SIMILARITY: Belongs to the NSMF family."));
 
-        assertEquals(10, doc.commentEvMap.size());
-        assertTrue(doc.commentEvMap.containsKey(CCEV_SIMILARITY_FIELD));
-        assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("ECO_0000305"));
-        assertTrue(doc.commentEvMap.get(CCEV_SIMILARITY_FIELD).contains("manual"));
-
         assertEquals(9, doc.featuresMap.size());
         assertTrue(doc.featuresMap.containsKey(FT_CONFLICT_FIELD));
         assertTrue(doc.featuresMap.get(FT_CONFLICT_FIELD).contains("in Ref. 3; AAH87719"));
-
-        assertEquals(9, doc.featureEvidenceMap.size());
-        assertTrue(doc.featureEvidenceMap.containsKey(FTEV_CONFLICT_FIELD));
-        assertTrue(doc.featureEvidenceMap.get(FTEV_CONFLICT_FIELD).contains("ECO_0000305"));
-        assertTrue(doc.featureEvidenceMap.get(FTEV_CONFLICT_FIELD).contains("manual"));
-
-        assertEquals(9, doc.featureLengthMap.size());
-        assertTrue(doc.featureLengthMap.containsKey(FTLEN_CHAIN_FIELD));
-        assertTrue(doc.featureLengthMap.get(FTLEN_CHAIN_FIELD).contains(531));
 
         assertEquals(1, doc.proteinExistence);
         assertFalse(doc.fragment);
@@ -408,11 +383,7 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(26, doc.subcellLocationTerm.size());
         assertTrue(doc.subcellLocationTerm.contains("Nucleus envelope"));
-        assertEquals(0, doc.subcellLocationTermEv.size());
         assertEquals(1, doc.subcellLocationNote.size());
-        assertEquals(2, doc.subcellLocationNoteEv.size());
-        assertTrue(doc.subcellLocationNoteEv.contains("ECO_0000250"));
-        assertTrue(doc.subcellLocationNoteEv.contains("manual"));
         List<String> subcellTerm =
                 doc.subcellLocationTerm.stream()
                         .filter(val -> !val.startsWith("SL-"))
@@ -581,12 +552,7 @@ class UniProtKBEntryConverterIT {
         assertEquals(1, doc.commentMap.size());
         assertTrue(doc.commentMap.containsKey(CC_ALTERNATIVE_PRODUCTS_FIELD));
 
-        assertEquals(1, doc.commentEvMap.size());
-        assertTrue(doc.commentEvMap.containsKey("ccev_alternative_products"));
-
         assertEquals(0, doc.featuresMap.size());
-        assertEquals(0, doc.featureEvidenceMap.size());
-        assertEquals(0, doc.featureLengthMap.size());
 
         assertEquals(1, doc.proteinExistence);
         assertFalse(doc.fragment);
@@ -595,9 +561,7 @@ class UniProtKBEntryConverterIT {
         assertFalse(doc.d3structure);
 
         assertEquals(0, doc.subcellLocationTerm.size());
-        assertEquals(0, doc.subcellLocationTermEv.size());
         assertEquals(0, doc.subcellLocationNote.size());
-        assertEquals(0, doc.subcellLocationNoteEv.size());
 
         assertEquals(2, doc.ap.size());
         assertTrue(doc.ap.contains("Alternative splicing"));
