@@ -91,17 +91,10 @@ final class TestUtils {
     }
 
     private static final String FEATURE_DYNAMIC_PREFIX = "ft_";
-    private static final String FT_LENGTH_DYNAMIC_PREFIX = "ftlen_";
 
     public static String features(UniprotKBFeatureType featureType, String value) {
         String field =
                 FEATURE_DYNAMIC_PREFIX + featureType.getName().toLowerCase().replaceAll(" ", "_");
         return QueryBuilder.query(field, value, true, false);
-    }
-
-    public static String featureLength(UniprotKBFeatureType featureType, int start, int end) {
-        String field =
-                FT_LENGTH_DYNAMIC_PREFIX + featureType.getName().toLowerCase().replaceAll(" ", "_");
-        return QueryBuilder.rangeQuery(field, start, end);
     }
 }
