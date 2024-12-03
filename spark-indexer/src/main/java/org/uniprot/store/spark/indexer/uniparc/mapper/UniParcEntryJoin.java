@@ -46,10 +46,10 @@ public class UniParcEntryJoin
         if (uniParcJoin.isPresent()) {
             UniParcTaxonomySequenceSource join = uniParcJoin.get();
             UniParcEntryBuilder builder = UniParcEntryBuilder.from(result);
-            Map<Long, TaxonomyEntry> mappedTaxons = getMappedTaxons(join.organisms());
+            Map<Long, TaxonomyEntry> mappedTaxons = getMappedTaxons(join.getOrganisms());
             Map<String, Set<String>> sourceMap =
                     getMappedSourcesWithProteomes(
-                            result.getUniParcCrossReferences(), join.sequenceSources());
+                            result.getUniParcCrossReferences(), join.getSequenceSources());
 
             List<UniParcCrossReference> mappedXRefs =
                     result.getUniParcCrossReferences().stream()

@@ -25,8 +25,8 @@ class UniParcTaxonomySequenceSourceJoinTest {
         UniParcTaxonomySequenceSource result = join.call(tuple);
 
         assertNotNull(result);
-        assertEquals(List.of(), result.organisms());
-        assertEquals(Map.of(), result.sequenceSources());
+        assertEquals(List.of(), result.getOrganisms());
+        assertEquals(Map.of(), result.getSequenceSources());
     }
 
     @Test
@@ -40,7 +40,7 @@ class UniParcTaxonomySequenceSourceJoinTest {
         UniParcTaxonomySequenceSource result = join.call(tuple);
 
         assertNotNull(result);
-        assertEquals(organisms, result.organisms());
-        assertEquals(sources, result.sequenceSources());
+        assertEquals(organisms, result.getOrganisms());
+        assertEquals(sources, result.getSequenceSources());
     }
 }

@@ -1,6 +1,6 @@
 package org.uniprot.store.indexer.uniparc.mockers;
 
-import static org.uniprot.core.xml.uniparc.UniParcDBCrossReferenceConverter.PROPERTY_SOURCE;
+import static org.uniprot.core.uniparc.UniParcCrossReference.*;
 import static org.uniprot.store.indexer.uniparc.mockers.UniParcEntryMocker.*;
 
 import java.time.LocalDate;
@@ -93,7 +93,7 @@ public class UniParcCrossReferenceMocker {
                         .component(chromosome)
                         .propertiesAdd(
                                 new Property(
-                                        PROPERTY_SOURCE,
+                                        PROPERTY_SOURCES,
                                         getName("WP_1688932", qualifier)
                                                 + ":"
                                                 + proteomeId
