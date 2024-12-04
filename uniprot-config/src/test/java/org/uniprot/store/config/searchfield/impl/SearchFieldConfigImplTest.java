@@ -168,4 +168,16 @@ class SearchFieldConfigImplTest {
         assertTrue(item.isPresent());
         assertEquals(SearchFieldItemType.GROUP, item.orElse(new SearchFieldItem()).getItemType());
     }
+
+    @Test
+    void testSingleSecondaryAccessionItem() {
+        Optional<SearchFieldItem> item =
+                searchFieldConfig.getSearchFieldItems().stream()
+                        .filter(val -> "Secondary Accession".equals(val.getLabel()))
+                        .findFirst();
+        assertTrue(item.isPresent());
+        assertEquals("sec_acc", item.get().getFieldName());
+        assertEquals(SearchFieldDataType.STRING, item.orElse(new SearchFieldItem()).getDataType());
+        assertEquals(2, item.get().getSeqNumber());
+    }
 }
