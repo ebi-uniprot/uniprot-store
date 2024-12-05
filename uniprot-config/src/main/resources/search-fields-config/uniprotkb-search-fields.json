@@ -2498,7 +2498,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by Feature Glycosylation",
-    "example": "cysteine"
+    "example": "GlcNAc"
   },
   {
     "parentId": "glycosylation_ft",
@@ -2509,7 +2509,7 @@
     "fieldType": "EXPERIMENTAL_EVIDENCE",
     "dataType": "STRING",
     "description": "Search by experimental Feature Glycosylation",
-    "example": "cysteine"
+    "example": "GlcNAc"
   },
   {
     "parentId": "ptm_processing",
