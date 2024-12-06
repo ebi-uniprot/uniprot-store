@@ -14,8 +14,7 @@ public class UniParcTaxonomySequenceSourceJoin
         implements Function<
                 Tuple2<Optional<Iterable<TaxonomyEntry>>, Optional<Map<String, Set<String>>>>,
                 UniParcTaxonomySequenceSource> {
-    @Serial
-    private static final long serialVersionUID = -8107763749949319147L;
+    @Serial private static final long serialVersionUID = -8107763749949319147L;
 
     @Override
     public UniParcTaxonomySequenceSource call(
