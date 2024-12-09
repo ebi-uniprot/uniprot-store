@@ -481,9 +481,7 @@ class UniProtKBEntryConverterIT {
         assertFalse(doc.d3structure);
 
         assertEquals(0, doc.subcellLocationTerm.size());
-        assertEquals(0, doc.subcellLocationTermEv.size());
         assertEquals(0, doc.subcellLocationNote.size());
-        assertEquals(0, doc.subcellLocationNoteEv.size());
 
         assertEquals(4, doc.ap.size());
         assertTrue(doc.ap.contains("Alternative splicing"));

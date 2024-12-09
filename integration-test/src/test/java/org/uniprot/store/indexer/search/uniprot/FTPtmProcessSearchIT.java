@@ -1,9 +1,10 @@
 package org.uniprot.store.indexer.search.uniprot;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasItems;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.query;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,8 +15,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
-import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureType;
-import org.uniprot.store.search.field.QueryBuilder;
 
 class FTPtmProcessSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -110,141 +109,6 @@ class FTPtmProcessSearchIT {
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         searchEngine.printIndexContents();
-    }
-
-    @Test
-    void modResFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.MOD_RES, "phosphoserine");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.MOD_RES, 1, 1));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6GZX4));
-        assertThat(retrievedAccessions, not(hasItem(Q197B1)));
-    }
-
-    @Test
-    void lipidFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.LIPID, "cysteine");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.LIPID, 1, 1));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q12345));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
-    }
-
-    @Test
-    void carbohydFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.CARBOHYD, "cysteine");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.CARBOHYD, 1, 1));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q197B1));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
-    }
-
-    @Test
-    void disulfidFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.DISULFID, "reversible");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.DISULFID, 100, 150));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q12345));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
-    }
-
-    @Test
-    void crosslinkFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.CROSSLNK, "lysine");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.CROSSLNK, 1, 1));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6GZN7));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
-    }
-
-    @Test
-    void chainFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.CHAIN, "disulfide");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.CHAIN, 200, 400));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6GZX4));
-        assertThat(retrievedAccessions, not(hasItem(Q197B1)));
-    }
-
-    @Test
-    void initMetFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.INIT_MET, "removed");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.INIT_MET, 1, 1));
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6V4H0));
-        assertThat(retrievedAccessions, not(hasItem(Q197B1)));
-    }
-
-    @Test
-    void peptideFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.PEPTIDE, "peptide");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.PEPTIDE, 10, 20));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6V4H0));
-        assertThat(retrievedAccessions, not(hasItem(Q197B1)));
-    }
-
-    @Test
-    void signalFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.SIGNAL, "*");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.SIGNAL, 10, 20));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(P48347));
-        assertThat(retrievedAccessions, not(hasItem(Q197B1)));
-    }
-
-    @Test
-    void propepFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.PROPEP, "peptide");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.PROPEP, 5, 20));
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(P48347));
-        assertThat(retrievedAccessions, not(hasItem(Q197B1)));
-    }
-
-    @Test
-    void transitFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.TRANSIT, "chloroplast");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.TRANSIT, 5, 20));
-
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(P48347));
-        assertThat(retrievedAccessions, not(hasItem(Q197B1)));
     }
 
     @Test

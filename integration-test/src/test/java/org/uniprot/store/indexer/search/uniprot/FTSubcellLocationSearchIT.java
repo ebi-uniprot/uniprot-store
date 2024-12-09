@@ -3,7 +3,8 @@ package org.uniprot.store.indexer.search.uniprot;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.uniprot.store.indexer.search.uniprot.IdentifierSearchIT.ACC_LINE;
-import static org.uniprot.store.indexer.search.uniprot.TestUtils.*;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.convertToUniProtEntry;
+import static org.uniprot.store.indexer.search.uniprot.TestUtils.features;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 import org.uniprot.core.uniprotkb.feature.UniprotKBFeatureType;
-import org.uniprot.store.search.field.QueryBuilder;
 
 class FTSubcellLocationSearchIT {
     private static final String Q6GZX4 = "Q6GZX4";
@@ -92,18 +92,6 @@ class FTSubcellLocationSearchIT {
     }
 
     @Test
-    void transmemFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.TRANSMEM, "Helical");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.TRANSMEM, 20, 23));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q197B1));
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, not(hasItem(Q6GZX4)));
-    }
-
-    @Test
     void topodomFindTwoEntry() {
         String query = features(UniprotKBFeatureType.TOPO_DOM, "cytoplasmic");
         //	query = QueryBuilder.and(query, featureLength(FeatureType.BINDING, 1, 2));
@@ -112,64 +100,5 @@ class FTSubcellLocationSearchIT {
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
         System.out.println(retrievedAccessions);
         assertThat(retrievedAccessions, hasItems(Q197B1, Q12345));
-    }
-
-    @Test
-    void topodomFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.TOPO_DOM, "cytoplasmic");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.TOPO_DOM, 100, 200));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q12345));
-        assertThat(retrievedAccessions, not(hasItem(Q197B1)));
-    }
-
-    @Test
-    void intramemFindTwoEntryWithLength() {
-        String query = features(UniprotKBFeatureType.INTRAMEM, "helical");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.INTRAMEM, 30, 40));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q12345));
-        assertThat(retrievedAccessions, not(hasItem(Q197B1)));
-    }
-
-    @Test
-    void intramemFindTwoEntryWithLengthOutRange() {
-        String query = features(UniprotKBFeatureType.INTRAMEM, "helical");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.INTRAMEM, 40, 50));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, empty());
-    }
-
-    @Test
-    void mutagenFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.MUTAGEN, "molecular");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.MUTAGEN, 1, 1));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6GZN7));
-        assertThat(retrievedAccessions, not(hasItem(Q197B1)));
-    }
-
-    @Test
-    void helixFindEntryWithLength() {
-        String query = features(UniprotKBFeatureType.HELIX, "*");
-        query = QueryBuilder.and(query, featureLength(UniprotKBFeatureType.HELIX, 5, 11));
-        QueryResponse response = searchEngine.getQueryResponse(query);
-
-        List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        System.out.println(retrievedAccessions);
-        assertThat(retrievedAccessions, hasItems(Q6GZN7));
-        assertThat(retrievedAccessions, not(hasItem(Q197B1)));
     }
 }
