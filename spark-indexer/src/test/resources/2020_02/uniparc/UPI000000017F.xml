@@ -27,6 +27,8 @@
         <property type="NCBI_taxonomy_id" value="28141"/>
         <property type="protein_name" value="DNA topoisomerase IV subunit C"/>
         <property type="gene_name" value="parC"/>
+        <property type="proteome_id" value="UP000000260"/>
+        <property type="component" value="Chromosome"/>
     </dbReference>
     <dbReference type="EMBL" id="AAC13494" version_i="1" active="Y" version="1" created="2003-03-12" last="2022-01-26">
         <property type="NCBI_GI" value="3046562"/>
@@ -56,9 +58,6 @@
     <signatureSequenceMatch database="SUPFAM" id="SSF56719">
         <ipr name="DNA topoisomerase, type IIA-like domain superfamily" id="IPR013760"/>
         <lcn start="6" end="109"/>
-    </signatureSequenceMatch>
-    <signatureSequenceMatch database="SUPFAM" id="SSF56720">
-        <lcn start="6" end="109" alignment="M50"/>
     </signatureSequenceMatch>
     <sequence length="110" checksum="EFD87D7ED5ECBA35">MYVIMDRALPFIGDGLKPVQRRIVYAMSELGLNASAKFKKSARTVGDVLGKYHPHGDSACYEAMVLMAQPFSYRYPLVDGQGNWGAPDDPKSFAAMRYTESRLSKYSELL</sequence>
 </entry>

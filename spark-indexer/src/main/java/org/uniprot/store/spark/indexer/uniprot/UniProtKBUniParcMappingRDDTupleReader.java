@@ -18,7 +18,12 @@ import com.typesafe.config.Config;
 public class UniProtKBUniParcMappingRDDTupleReader implements PairRDDReader<String, String> {
 
     private final JobParameter jobParameter;
-    private final boolean active;
+    private final Boolean active;
+
+    public UniProtKBUniParcMappingRDDTupleReader(JobParameter jobParameter) {
+        this.jobParameter = jobParameter;
+        this.active = null;
+    }
 
     public UniProtKBUniParcMappingRDDTupleReader(JobParameter jobParameter, boolean active) {
         this.jobParameter = jobParameter;
@@ -42,9 +47,9 @@ public class UniProtKBUniParcMappingRDDTupleReader implements PairRDDReader<Stri
 
     private static class StatusFilter implements Function<String, Boolean> {
         @Serial private static final long serialVersionUID = -6243565643037921590L;
-        private final boolean active;
+        private final Boolean active;
 
-        public StatusFilter(boolean active) {
+        public StatusFilter(Boolean active) {
             this.active = active;
         }
 
@@ -56,7 +61,8 @@ public class UniProtKBUniParcMappingRDDTupleReader implements PairRDDReader<Stri
             }
             String[] tokens = line.split("\s");
             boolean lineStatus = tokens[2].strip().equalsIgnoreCase("Y");
-            return active != lineStatus; // TODO: Source data is inverted. change it once fixed
+            // TODO: Source data is inverted. change it once fixed
+            return active == null || active != lineStatus;
         }
     }
 }
