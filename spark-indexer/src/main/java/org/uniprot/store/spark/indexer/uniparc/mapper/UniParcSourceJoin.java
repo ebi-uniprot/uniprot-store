@@ -10,7 +10,7 @@ import org.apache.spark.api.java.function.PairFunction;
 
 import scala.Tuple2;
 
-public class UniParSourceJoin
+public class UniParcSourceJoin
         implements PairFunction<
                 Tuple2<String, Tuple2<String, Optional<Set<String>>>>,
                 String,

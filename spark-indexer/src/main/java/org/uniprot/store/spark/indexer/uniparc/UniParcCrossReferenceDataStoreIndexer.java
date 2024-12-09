@@ -1,8 +1,5 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
-import static org.uniprot.store.spark.indexer.common.store.DataStoreIndexer.BROTLI_COMPRESSION_ENABLED;
-import static org.uniprot.store.spark.indexer.common.store.DataStoreIndexer.BROTLI_COMPRESSION_LEVEL;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -86,7 +83,7 @@ public class UniParcCrossReferenceDataStoreIndexer implements DataStoreIndexer {
 
         return uniParcJoinRdd
                 .leftOuterJoin(sourceRDD)
-                .mapToPair(new UniParSourceJoin())
+                .mapToPair(new UniParcSourceJoin())
                 .aggregateByKey(new HashMap<>(), aggregate(), aggregate());
     }
 
