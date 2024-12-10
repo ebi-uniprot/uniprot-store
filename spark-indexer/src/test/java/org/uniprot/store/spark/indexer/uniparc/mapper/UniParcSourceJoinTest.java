@@ -1,14 +1,15 @@
 package org.uniprot.store.spark.indexer.uniparc.mapper;
 
-import org.apache.spark.api.java.Optional;
-import org.junit.jupiter.api.Test;
-import scala.Tuple2;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.apache.spark.api.java.Optional;
+import org.junit.jupiter.api.Test;
+
+import scala.Tuple2;
 
 class UniParcSourceJoinTest {
 
@@ -16,8 +17,10 @@ class UniParcSourceJoinTest {
     void canMapSources() throws Exception {
         String accession = "P21802";
         Set<String> sources = Set.of("WP_000001");
-        Tuple2<String, Optional<Set<String>>> sourcesTuple = new Tuple2<>(accession, Optional.of(sources));
-        Tuple2<String, Tuple2<String, Optional<Set<String>>>> tuple = new Tuple2<>(accession, sourcesTuple);
+        Tuple2<String, Optional<Set<String>>> sourcesTuple =
+                new Tuple2<>(accession, Optional.of(sources));
+        Tuple2<String, Tuple2<String, Optional<Set<String>>>> tuple =
+                new Tuple2<>(accession, sourcesTuple);
 
         UniParcSourceJoin uniParcSourceJoin = new UniParcSourceJoin();
         Tuple2<String, Map<String, Set<String>>> result = uniParcSourceJoin.call(tuple);
@@ -29,8 +32,10 @@ class UniParcSourceJoinTest {
     @Test
     void canMapEmptySources() throws Exception {
         String accession = "P21802";
-        Tuple2<String, Optional<Set<String>>> sourcesTuple = new Tuple2<>(accession, Optional.empty());
-        Tuple2<String, Tuple2<String, Optional<Set<String>>>> tuple = new Tuple2<>(accession, sourcesTuple);
+        Tuple2<String, Optional<Set<String>>> sourcesTuple =
+                new Tuple2<>(accession, Optional.empty());
+        Tuple2<String, Tuple2<String, Optional<Set<String>>>> tuple =
+                new Tuple2<>(accession, sourcesTuple);
 
         UniParcSourceJoin uniParcSourceJoin = new UniParcSourceJoin();
         Tuple2<String, Map<String, Set<String>>> result = uniParcSourceJoin.call(tuple);
