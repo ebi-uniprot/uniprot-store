@@ -1,30 +1,20 @@
 package org.uniprot.store.spark.indexer.uniparc.mapper;
 
+import static org.uniprot.store.spark.indexer.uniparc.mapper.UniParcJoinUtils.*;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
-import org.uniprot.core.uniprotkb.taxonomy.Organism;
-import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
-import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
-import org.uniprot.core.util.Utils;
 
-import lombok.extern.slf4j.Slf4j;
 import scala.Tuple2;
 
-/**
- * @author lgonzales
- * @since 21/01/2021
- */
-@Slf4j
 public class UniParcEntryTaxonomyJoin
         implements Function<
                 Tuple2<String, Tuple2<UniParcEntry, Optional<Iterable<TaxonomyEntry>>>>,
@@ -39,13 +29,7 @@ public class UniParcEntryTaxonomyJoin
         UniParcEntry result = tuple._2._1;
         Optional<Iterable<TaxonomyEntry>> taxons = tuple._2._2;
         if (taxons.isPresent()) {
-            Map<Long, TaxonomyEntry> mappedTaxons =
-                    StreamSupport.stream(taxons.get().spliterator(), false)
-                            .collect(
-                                    Collectors.toMap(
-                                            Taxonomy::getTaxonId,
-                                            java.util.function.Function.identity(),
-                                            (tax1, tax2) -> tax1));
+            Map<Long, TaxonomyEntry> mappedTaxons = getMappedTaxons(taxons.get());
 
             UniParcEntryBuilder builder = UniParcEntryBuilder.from(result);
             List<UniParcCrossReference> mappedXRefs =
@@ -56,26 +40,5 @@ public class UniParcEntryTaxonomyJoin
             result = builder.build();
         }
         return result;
-    }
-
-    private UniParcCrossReference mapTaxonomy(
-            UniParcCrossReference xref, Map<Long, TaxonomyEntry> taxonMap) {
-        if (Utils.notNull(xref.getOrganism())) {
-            TaxonomyEntry taxonomyEntry = taxonMap.get(xref.getOrganism().getTaxonId());
-            if (taxonomyEntry != null) {
-                UniParcCrossReferenceBuilder builder = UniParcCrossReferenceBuilder.from(xref);
-                Organism taxonomy =
-                        new OrganismBuilder()
-                                .taxonId(taxonomyEntry.getTaxonId())
-                                .scientificName(taxonomyEntry.getScientificName())
-                                .commonName(taxonomyEntry.getCommonName())
-                                .build();
-                builder.organism(taxonomy);
-                xref = builder.build();
-            } else {
-                log.warn("Unable to get mapped taxon:" + xref.getOrganism().getTaxonId());
-            }
-        }
-        return xref;
     }
 }
