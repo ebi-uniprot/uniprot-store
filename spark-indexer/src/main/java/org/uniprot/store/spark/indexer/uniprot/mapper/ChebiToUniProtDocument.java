@@ -59,12 +59,38 @@ public class ChebiToUniProtDocument
                         addBindingChebi(doc, mappedChebi, featureFieldName);
                     }
                 }
+                // add names and synonyms
+                addChebiNamesAndSynonyms(doc, mappedChebi);
             }
         } catch (Exception e) {
             throw new SparkIndexException(
                     "Error at ChebiToUniProtDocument with accession: " + doc.accession, e);
         }
         return doc;
+    }
+
+    private void addChebiNamesAndSynonyms(
+            UniProtDocument doc, Map<String, ChebiEntry> mappedChebi) {
+        // add names to doc
+        Set<String> names =
+                doc.chebi.stream()
+                        .filter(id -> id.startsWith(CHEBI_PREFIX))
+                        .map(mappedChebi::get)
+                        .filter(Objects::nonNull)
+                        .map(ChebiEntry::getName)
+                        .filter(Utils::notNullNotEmpty)
+                        .collect(Collectors.toSet());
+        doc.chebi.addAll(names);
+        // add synonyms to doc
+        Set<String> synonyms =
+                doc.chebi.stream()
+                        .filter(id -> Objects.nonNull(id) && id.startsWith(CHEBI_PREFIX))
+                        .map(mappedChebi::get)
+                        .filter(Objects::nonNull)
+                        .flatMap(chebiEntry -> chebiEntry.getSynonyms().stream())
+                        .filter(Utils::notNullNotEmpty)
+                        .collect(Collectors.toSet());
+        doc.chebi.addAll(synonyms);
     }
 
     private void addBindingChebi(

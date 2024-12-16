@@ -703,7 +703,7 @@
   {
     "childNumber": 0,
     "id": "chebi_field",
-    "label": "CHEBI ID",
+    "label": "Name or ID (CHEBI)",
     "parentId": "small_molecule",
     "itemType": "SINGLE",
     "fieldName": "chebi",
@@ -711,8 +711,8 @@
     "dataType": "STRING",
     "autoComplete": "{CONTEXT_PATH}/suggester?dict=chebi&query=?",
     "autoCompleteQueryField": "chebi",
-    "description": "Search by CHEBI ID",
-    "example": "35155"
+    "description": "Search by CHEBI name and ID",
+    "example": "Search by Name or ID (CHEBI)"
   },
   {
     "childNumber": 1,
