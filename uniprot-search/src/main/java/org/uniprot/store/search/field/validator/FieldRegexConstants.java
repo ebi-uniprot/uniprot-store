@@ -27,6 +27,10 @@ public class FieldRegexConstants {
 
     public static final String PROTEOME_ID_REGEX = "UP[0-9]{9}";
     public static final String UNIPARC_UPI_REGEX = "UPI[\\w]{10}";
+    public static final Pattern UNIPARC_UPI_OPTIONAL_SEQ_RANGE =
+            Pattern.compile("UPI[\\w]{10}(\\[\\d+-\\d+\\])?");
+    public static final Pattern UNIPARC_UPI_SEQUENCE_RANGE_REGEX =
+            Pattern.compile(UNIPARC_UPI_REGEX + "(\\[\\d+-\\d+\\])");
     public static final String UNIREF_CLUSTER_ID_REGEX =
             "(UniRef100|UniRef90|UniRef50)_\\w+(-[0-9]+)?";
     public static final String SEQUENCE_REGEX = "^[A-Z]+$|^NULL$";
