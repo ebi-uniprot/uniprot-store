@@ -29,16 +29,23 @@ class ChebiToUniProtDocumentTest {
 
         ChebiEntry relatedId1 = new ChebiEntryBuilder().id("11").inchiKey("inch11").build();
         ChebiEntry chebi1 =
-                new ChebiEntryBuilder().id("1").inchiKey("inch1").relatedIdsAdd(relatedId1).build();
+                new ChebiEntryBuilder()
+                        .id("1")
+                        .inchiKey("inch1")
+                        .relatedIdsAdd(relatedId1)
+                        .name("name1")
+                        .synonymsSet(List.of("Syn11_1", "Syn11_2"))
+                        .build();
 
         ChebiEntry relatedId2 = new ChebiEntryBuilder().id("21").inchiKey("inch21").build();
-        ChebiEntry relatedId3 = new ChebiEntryBuilder().id("22").build();
+        ChebiEntry relatedId3 = new ChebiEntryBuilder().id("22").synonymsAdd("syn22_1").build();
         ChebiEntry chebi2 =
                 new ChebiEntryBuilder()
                         .id("2")
                         .inchiKey("inch2")
                         .relatedIdsAdd(relatedId2)
                         .relatedIdsAdd(relatedId3)
+                        .synonymsSet(List.of("Syn2_1", "Syn11_1"))
                         .build();
 
         Iterable<ChebiEntry> chebiEntries = List.of(chebi1, chebi2);
@@ -48,12 +55,13 @@ class ChebiToUniProtDocumentTest {
         UniProtDocument result = mapper.call(tuple);
         assertNotNull(result);
 
-        assertEquals(5, result.chebi.size());
+        assertEquals(9, result.chebi.size());
         assertTrue(result.chebi.contains("CHEBI:1"));
         assertTrue(result.chebi.contains("CHEBI:2"));
         assertTrue(result.chebi.contains("CHEBI:11"));
         assertTrue(result.chebi.contains("CHEBI:21"));
         assertTrue(result.chebi.contains("CHEBI:22"));
+        assertTrue(result.chebi.containsAll(Set.of("name1", "Syn11_1", "Syn11_2", "Syn2_1")));
 
         assertEquals(4, result.inchikey.size());
         assertTrue(result.inchikey.contains(chebi1.getInchiKey()));
@@ -92,7 +100,13 @@ class ChebiToUniProtDocumentTest {
 
         ChebiEntry relatedId1 = new ChebiEntryBuilder().id("11").inchiKey("inch11").build();
         ChebiEntry chebi1 =
-                new ChebiEntryBuilder().id("1").inchiKey("inch1").relatedIdsAdd(relatedId1).build();
+                new ChebiEntryBuilder()
+                        .id("1")
+                        .inchiKey("inch1")
+                        .relatedIdsAdd(relatedId1)
+                        .name("name1")
+                        .synonymsAdd("synonym")
+                        .build();
 
         ChebiEntry relatedId2 = new ChebiEntryBuilder().id("21").inchiKey("inch21").build();
         ChebiEntry relatedId3 = new ChebiEntryBuilder().id("22").build();
@@ -100,8 +114,10 @@ class ChebiToUniProtDocumentTest {
                 new ChebiEntryBuilder()
                         .id("2")
                         .inchiKey("inch2")
+                        .name("name2")
                         .relatedIdsAdd(relatedId2)
                         .relatedIdsAdd(relatedId3)
+                        .synonymsAdd("synonym")
                         .build();
 
         Iterable<ChebiEntry> chebiEntries = List.of(chebi1, chebi2);
@@ -111,12 +127,13 @@ class ChebiToUniProtDocumentTest {
         UniProtDocument result = mapper.call(tuple);
         assertNotNull(result);
 
-        assertEquals(5, result.chebi.size());
+        assertEquals(8, result.chebi.size());
         assertTrue(result.chebi.contains("CHEBI:1"));
         assertTrue(result.chebi.contains("CHEBI:2"));
         assertTrue(result.chebi.contains("CHEBI:11"));
         assertTrue(result.chebi.contains("CHEBI:21"));
         assertTrue(result.chebi.contains("CHEBI:22"));
+        assertTrue(result.chebi.containsAll(List.of("name1", "name2", "synonym")));
 
         assertEquals(4, result.inchikey.size());
         assertTrue(result.inchikey.contains(chebi1.getInchiKey()));
@@ -233,6 +250,7 @@ class ChebiToUniProtDocumentTest {
                         .inchiKey("inch2")
                         .relatedIdsAdd(relatedId2)
                         .relatedIdsAdd(relatedId3)
+                        .synonymsAdd("synonym")
                         .build();
 
         Iterable<ChebiEntry> chebiEntries = List.of(chebi1, chebi2);
@@ -242,12 +260,13 @@ class ChebiToUniProtDocumentTest {
         UniProtDocument result = mapper.call(tuple);
         assertNotNull(result);
 
-        assertEquals(5, result.chebi.size());
+        assertEquals(6, result.chebi.size());
         assertTrue(result.chebi.contains("CHEBI:1"));
         assertTrue(result.chebi.contains("CHEBI:2"));
         assertTrue(result.chebi.contains("CHEBI:11"));
         assertTrue(result.chebi.contains("CHEBI:21"));
         assertTrue(result.chebi.contains("CHEBI:22"));
+        assertTrue(result.chebi.contains("synonym"));
 
         assertEquals(4, result.inchikey.size());
         assertTrue(result.inchikey.contains(chebi1.getInchiKey()));

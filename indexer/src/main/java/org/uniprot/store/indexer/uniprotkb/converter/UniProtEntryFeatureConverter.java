@@ -30,7 +30,6 @@ class UniProtEntryFeatureConverter {
 
     private static final String CHEBI2 = "CHEBI:";
     private static final String FEATURE = "ft_";
-    private static final String FT_EV = "ftev_";
     private static final String FT_LENGTH = "ftlen_";
     private final ChebiRepo chebiRepo;
     private final Map<String, SuggestDocument> suggestions;
@@ -45,7 +44,6 @@ class UniProtEntryFeatureConverter {
         for (UniProtKBFeature feature : features) {
             String field = getFeatureField(feature, FEATURE);
             String lengthField = getFeatureField(feature, FT_LENGTH);
-            String evField = getFeatureField(feature, FT_EV);
             Collection<String> featuresOfTypeList =
                     document.featuresMap.computeIfAbsent(field, k -> new HashSet<>());
 
@@ -74,9 +72,6 @@ class UniProtEntryFeatureConverter {
                             + 1;
             Set<String> evidences =
                     UniProtEntryConverterUtil.extractEvidence(feature.getEvidences());
-            Collection<Integer> lengthList =
-                    document.featureLengthMap.computeIfAbsent(lengthField, k -> new HashSet<>());
-            lengthList.add(length);
             addFeatureCrossReferences(feature, document, featuresOfTypeList);
             if (feature.hasLigand()) {
                 Ligand ligand = feature.getLigand();
@@ -105,9 +100,6 @@ class UniProtEntryFeatureConverter {
                     document.content.add(ligandPart.getLabel());
                 }
             }
-            Collection<String> evidenceList =
-                    document.featureEvidenceMap.computeIfAbsent(evField, k -> new HashSet<>());
-            evidenceList.addAll(evidences);
         }
     }
 

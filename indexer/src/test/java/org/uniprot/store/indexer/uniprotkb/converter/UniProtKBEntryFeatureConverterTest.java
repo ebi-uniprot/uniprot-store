@@ -84,14 +84,7 @@ class UniProtKBEntryFeatureConverterTest {
                         "DBSNP-12345");
         assertEquals(new HashSet<>(chainValue), document.featuresMap.get("ft_chain"));
 
-        assertTrue(document.featureEvidenceMap.containsKey("ftev_chain"));
-        List<String> chainEvidenceValue = Arrays.asList("manual", "ECO_0000255");
-        assertEquals(
-                new HashSet<>(chainEvidenceValue), document.featureEvidenceMap.get("ftev_chain"));
-
-        assertTrue(document.featureLengthMap.containsKey("ftlen_chain"));
         List<Integer> chainLengthValue = Collections.singletonList(7);
-        assertEquals(new HashSet<>(chainLengthValue), document.featureLengthMap.get("ftlen_chain"));
 
         assertEquals(5, document.content.size());
         assertEquals(
@@ -133,15 +126,7 @@ class UniProtKBEntryFeatureConverterTest {
                         "BINDING");
         assertEquals(new HashSet<>(chainValue), document.featuresMap.get("ft_binding"));
 
-        assertTrue(document.featureEvidenceMap.containsKey("ftev_binding"));
-        List<String> chainEvidenceValue = Arrays.asList("manual", "ECO_0000255");
-        assertEquals(
-                new HashSet<>(chainEvidenceValue), document.featureEvidenceMap.get("ftev_binding"));
-
-        assertTrue(document.featureLengthMap.containsKey("ftlen_binding"));
         List<Integer> bindingLengthValue = Collections.singletonList(12);
-        assertEquals(
-                new HashSet<>(bindingLengthValue), document.featureLengthMap.get("ftlen_binding"));
 
         assertEquals(12, document.content.size());
         assertEquals(
