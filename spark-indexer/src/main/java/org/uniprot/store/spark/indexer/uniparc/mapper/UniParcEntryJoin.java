@@ -44,12 +44,12 @@ public class UniParcEntryJoin
         UniParcEntry result = tuple._2._1;
         Optional<UniParcTaxonomySequenceSource> uniParcJoin = tuple._2._2;
         if (uniParcJoin.isPresent()) {
-            UniParcTaxonomySequenceSource join = uniParcJoin.get();
+            UniParcTaxonomySequenceSource uniParcTaxonomySequenceSource = uniParcJoin.get();
             UniParcEntryBuilder builder = UniParcEntryBuilder.from(result);
-            Map<Long, TaxonomyEntry> mappedTaxons = getMappedTaxons(join.getOrganisms());
+            Map<Long, TaxonomyEntry> mappedTaxons = getMappedTaxons(uniParcTaxonomySequenceSource.getOrganisms());
             Map<String, Set<String>> sourceMap =
                     getMappedSourcesWithProteomes(
-                            result.getUniParcCrossReferences(), join.getSequenceSources());
+                            result.getUniParcCrossReferences(), uniParcTaxonomySequenceSource.getSequenceSources());
 
             List<UniParcCrossReference> mappedXRefs =
                     result.getUniParcCrossReferences().stream()
@@ -107,11 +107,11 @@ public class UniParcEntryJoin
         return e.getValue().stream()
                 .map(mappedCrossReference::get)
                 .filter(xref -> xref != null && xref.getProteomeId() != null)
-                .map(UniParcEntryJoin::getAccessionWithProteome)
+                .map(UniParcEntryJoin::getXrefIdWithProteomeAndComponent)
                 .collect(Collectors.toSet());
     }
 
-    private static String getAccessionWithProteome(UniParcCrossReference xref) {
+    private static String getXrefIdWithProteomeAndComponent(UniParcCrossReference xref) {
         return xref.getId() + ":" + xref.getProteomeId() + ":" + xref.getComponent();
     }
 }

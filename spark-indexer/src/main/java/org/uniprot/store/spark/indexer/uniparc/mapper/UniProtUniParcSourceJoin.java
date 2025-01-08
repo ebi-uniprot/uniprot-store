@@ -10,7 +10,7 @@ import org.apache.spark.api.java.function.PairFunction;
 
 import scala.Tuple2;
 
-public class UniParcSourceJoin
+public class UniProtUniParcSourceJoin
         implements PairFunction<
                 Tuple2<String, Tuple2<String, Optional<Set<String>>>>,
                 String,
@@ -24,16 +24,8 @@ public class UniParcSourceJoin
         Tuple2<String, Optional<Set<String>>> uniParcMapTuple = tuple._2;
 
         String uniParcId = uniParcMapTuple._1;
-        Set<String> sources = getSources(uniParcMapTuple._2);
+        Set<String> sources = uniParcMapTuple._2.orElse(new HashSet<>());
 
         return new Tuple2<>(uniParcId, Map.of(accession, sources));
-    }
-
-    private Set<String> getSources(Optional<Set<String>> optSources) {
-        Set<String> sources = new HashSet<>();
-        if (optSources.isPresent()) {
-            sources.addAll(optSources.get());
-        }
-        return sources;
     }
 }

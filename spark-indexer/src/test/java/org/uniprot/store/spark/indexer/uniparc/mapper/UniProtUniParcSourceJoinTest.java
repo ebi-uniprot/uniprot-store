@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import scala.Tuple2;
 
-class UniParcSourceJoinTest {
+class UniProtUniParcSourceJoinTest {
 
     @Test
     void canMapSources() throws Exception {
@@ -22,7 +22,7 @@ class UniParcSourceJoinTest {
         Tuple2<String, Tuple2<String, Optional<Set<String>>>> tuple =
                 new Tuple2<>(accession, sourcesTuple);
 
-        UniParcSourceJoin uniParcSourceJoin = new UniParcSourceJoin();
+        UniProtUniParcSourceJoin uniParcSourceJoin = new UniProtUniParcSourceJoin();
         Tuple2<String, Map<String, Set<String>>> result = uniParcSourceJoin.call(tuple);
         assertNotNull(result);
         assertEquals(accession, result._1);
@@ -37,7 +37,7 @@ class UniParcSourceJoinTest {
         Tuple2<String, Tuple2<String, Optional<Set<String>>>> tuple =
                 new Tuple2<>(accession, sourcesTuple);
 
-        UniParcSourceJoin uniParcSourceJoin = new UniParcSourceJoin();
+        UniProtUniParcSourceJoin uniParcSourceJoin = new UniProtUniParcSourceJoin();
         Tuple2<String, Map<String, Set<String>>> result = uniParcSourceJoin.call(tuple);
         assertNotNull(result);
         assertEquals(accession, result._1);

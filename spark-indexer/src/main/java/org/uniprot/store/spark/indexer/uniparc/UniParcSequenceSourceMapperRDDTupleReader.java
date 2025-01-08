@@ -41,8 +41,9 @@ public class UniParcSequenceSourceMapperRDDTupleReader
 
     private Function2<Set<String>, Set<String>, Set<String>> aggregate() {
         return (s1, s2) -> {
-            s1.addAll(s2);
-            return s1;
+            Set<String> mergedSet = new HashSet<>(s1);
+            mergedSet.addAll(s2);
+            return mergedSet;
         };
     }
 }

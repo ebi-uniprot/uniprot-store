@@ -50,7 +50,7 @@ public class UniParcCrossReferenceDataStoreIndexer implements DataStoreIndexer {
         JavaPairRDD<String, Map<String, Set<String>>> sequenceSourceRDD = loadSequenceSource();
 
         // JavaPairRDD<uniParcId, UniParcTaxonomySequenceSource>
-        JavaPairRDD<String, UniParcTaxonomySequenceSource> uniParcJoin =
+        JavaPairRDD<String, UniParcTaxonomySequenceSource> uniParcTaxonomySourceRDD =
                 uniParcTaxonomyJoin
                         .fullOuterJoin(sequenceSourceRDD)
                         .mapValues(new UniParcTaxonomySequenceSourceJoin());
@@ -59,7 +59,7 @@ public class UniParcCrossReferenceDataStoreIndexer implements DataStoreIndexer {
         JavaRDD<UniParcCrossReferencePair> crossRefIdCrossRef =
                 uniParcRDD
                         .mapToPair(new UniParcEntryKeyMapper())
-                        .leftOuterJoin(uniParcJoin)
+                        .leftOuterJoin(uniParcTaxonomySourceRDD)
                         .map(new UniParcEntryJoin())
                         .flatMap(new UniParcCrossReferenceMapper(xrefBatchSize));
 
@@ -74,24 +74,25 @@ public class UniParcCrossReferenceDataStoreIndexer implements DataStoreIndexer {
         UniProtKBUniParcMappingRDDTupleReader uniProtKBUniParcMapper =
                 new UniProtKBUniParcMappingRDDTupleReader(parameter);
         // JavaPairRDD<accession, UniParcId>
-        JavaPairRDD<String, String> uniParcJoinRdd = uniProtKBUniParcMapper.load();
+        JavaPairRDD<String, String> uniProtUniParcRDD = uniProtKBUniParcMapper.load();
 
         UniParcSequenceSourceMapperRDDTupleReader sourceMapper =
                 new UniParcSequenceSourceMapperRDDTupleReader(parameter);
         // JavaPairRDD<accession, Set<sourceIds>>
         JavaPairRDD<String, Set<String>> sourceRDD = sourceMapper.load();
 
-        return uniParcJoinRdd
+        return uniProtUniParcRDD
                 .leftOuterJoin(sourceRDD)
-                .mapToPair(new UniParcSourceJoin())
+                .mapToPair(new UniProtUniParcSourceJoin())
                 .aggregateByKey(new HashMap<>(), aggregate(), aggregate());
     }
 
     private Function2<Map<String, Set<String>>, Map<String, Set<String>>, Map<String, Set<String>>>
             aggregate() {
         return (s1, s2) -> {
-            s1.putAll(s2);
-            return s1;
+            Map<String, Set<String>> mergedMap = new HashMap<>(s1);
+            mergedMap.putAll(s2);
+            return mergedMap;
         };
     }
 
