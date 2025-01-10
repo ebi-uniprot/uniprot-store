@@ -41,7 +41,8 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "example": "P12345",
-    "description": "Search by UniProtKB Accession"
+    "description": "Search by UniProtKB Accession",
+    "aliases" : ["accession_alias"]
   },
   {
     "id": "proteins_with",

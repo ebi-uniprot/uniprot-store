@@ -61,6 +61,27 @@ class AbstractSearchFieldConfigTest {
     }
 
     @Test
+    void testIsSearchFieldAliasValueValid() {
+        String fieldName = "accession_alias";
+        String value = "P12345";
+        assertTrue(testFieldConfig.isSearchFieldValueValid(fieldName, value));
+    }
+
+    @Test
+    void testIsSearchFieldAliasValueInvalid() {
+        String fieldName = "accession_alias";
+        String value = "bbc";
+        assertFalse(testFieldConfig.isSearchFieldValueValid(fieldName, value));
+    }
+
+    @Test
+    void testIsSearchFieldAliasValueValidWithoutRegex() {
+        String fieldName = "name_alias";
+        String value = "some random";
+        assertTrue(testFieldConfig.isSearchFieldValueValid(fieldName, value));
+    }
+
+    @Test
     void testIsSearchFieldValueValidWithInvalidValue() {
         String fieldName = "accession_id";
         String invalidValue = "PP12345";
