@@ -80,12 +80,11 @@ class UniParcEntryJoinTest {
         UniParcCrossReference uniProtXref = result.getUniParcCrossReferences().get(0);
         assertNotNull(uniProtXref);
         assertEquals("P12345", uniProtXref.getId());
-        assertEquals(1, uniProtXref.getProperties().size());
+        assertEquals(2, uniProtXref.getProperties().size());
         Property sourceProperty = uniProtXref.getProperties().get(0);
-        assertEquals(PROPERTY_SOURCES, sourceProperty.getKey());
-        assertEquals(
-                "AC12345:UP000005640:Chromosome,AC54321:UP000000001:Chromosome",
-                sourceProperty.getValue());
+        validateSourceProperty(sourceProperty, "AC12345:UP000005640:Chromosome");
+        sourceProperty = uniProtXref.getProperties().get(1);
+        validateSourceProperty(sourceProperty, "AC54321:UP000000001:Chromosome");
     }
 
     @Test
@@ -120,8 +119,7 @@ class UniParcEntryJoinTest {
         assertEquals("P12345", uniProtXref.getId());
         assertEquals(1, uniProtXref.getProperties().size());
         Property sourceProperty = uniProtXref.getProperties().get(0);
-        assertEquals(PROPERTY_SOURCES, sourceProperty.getKey());
-        assertEquals("AC12345:UP000005640:Chromosome", sourceProperty.getValue());
+        validateSourceProperty(sourceProperty, "AC12345:UP000005640:Chromosome");
     }
 
     @Test
@@ -142,13 +140,17 @@ class UniParcEntryJoinTest {
         assertEquals("P12345", uniProtXref.getId());
         assertEquals(1, uniProtXref.getProperties().size());
         Property sourceProperty = uniProtXref.getProperties().get(0);
-        assertEquals(PROPERTY_SOURCES, sourceProperty.getKey());
-        assertEquals("AC12345:UP000005640:Chromosome", sourceProperty.getValue());
+        validateSourceProperty(sourceProperty, "AC12345:UP000005640:Chromosome");
 
         assertNotNull(uniProtXref.getOrganism());
         assertEquals(10L, uniProtXref.getOrganism().getTaxonId());
         assertEquals("sName10", uniProtXref.getOrganism().getScientificName());
         assertEquals("cName10", uniProtXref.getOrganism().getCommonName());
+    }
+
+    private static void validateSourceProperty(Property sourceProperty, String expectedValue) {
+        assertEquals(PROPERTY_SOURCES, sourceProperty.getKey());
+        assertEquals(expectedValue, sourceProperty.getValue());
     }
 
     private Tuple2<String, Tuple2<UniParcEntry, Optional<UniParcTaxonomySequenceSource>>>

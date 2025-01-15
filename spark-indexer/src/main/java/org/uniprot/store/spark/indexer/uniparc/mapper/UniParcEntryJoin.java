@@ -69,7 +69,9 @@ public class UniParcEntryJoin
         Set<String> sources = sourceMap.get(xref.getId());
         if (Utils.notNullNotEmpty(sources)) {
             UniParcCrossReferenceBuilder xrefBuilder = UniParcCrossReferenceBuilder.from(xref);
-            xrefBuilder.propertiesAdd(new Property(PROPERTY_SOURCES, String.join(",", sources)));
+            for (String sourceValue : sources) {
+                xrefBuilder.propertiesAdd(new Property(PROPERTY_SOURCES, sourceValue));
+            }
             xref = xrefBuilder.build();
         }
         return xref;
