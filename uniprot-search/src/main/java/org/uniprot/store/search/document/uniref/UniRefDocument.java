@@ -43,7 +43,7 @@ public class UniRefDocument implements Document {
     private Date dateModifiedSort;
 
     @Singular
-    @Field("uniprotkb")
+    @Field("uniprot_id")
     private List<String> uniprotIds;
 
     @Singular

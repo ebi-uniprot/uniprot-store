@@ -23,7 +23,7 @@
 		stored="false" required="false" docValues="true" />
 	<field name="date_modified" type="rdates" indexed="true"
 		stored="false" required="false" />
-	<field name="uniprotkb" type="basic_ci" indexed="true"
+	<field name="uniprot_id" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="uniparc" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />

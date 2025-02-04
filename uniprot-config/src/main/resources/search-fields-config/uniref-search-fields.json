@@ -144,15 +144,14 @@
   {
     "seqNumber": 6,
     "id": "uniprot_id",
-    "fieldName": "uniprotkb",
+    "fieldName": "uniprot_id",
     "label": "UniProtKB ID/AC",
     "itemType": "SINGLE",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by uniprot id",
     "example": "P35222",
-    "includeInSwagger": true,
-    "aliases": ["uniprot_id"]
+    "includeInSwagger": true
   },
   {
     "seqNumber": 7,
