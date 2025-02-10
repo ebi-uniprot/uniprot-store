@@ -2,8 +2,7 @@ package org.uniprot.store.search.field.validator;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.uniprot.store.search.field.validator.FieldRegexConstants.UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE;
-import static org.uniprot.store.search.field.validator.FieldRegexConstants.UNIPROTKB_ACCESSION_SEQUENCE_RANGE_REGEX;
+import static org.uniprot.store.search.field.validator.FieldRegexConstants.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -157,5 +156,22 @@ class FieldRegexConstantsTest {
         assertFalse(UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE.matcher("P21802[1.2-2]").matches());
         assertFalse(UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE.matcher("P21802[1-2.3]").matches());
         assertFalse(UNIPROTKB_ACCESSION_OPTIONAL_SEQ_RANGE.matcher("P21802[1.0-2.3]").matches());
+    }
+
+    @Test
+    void testUniParcIdWithOptionalSequenceRange() {
+        assertTrue(UNIPARC_UPI_OPTIONAL_SEQ_RANGE.matcher("UPI0000000001").matches());
+        assertTrue(UNIPARC_UPI_OPTIONAL_SEQ_RANGE.matcher("UPI0000000001[10-20]").matches());
+        assertFalse(UNIPARC_UPI_OPTIONAL_SEQ_RANGE.matcher("UPI0000000001[10-]").matches());
+        assertFalse(UNIPARC_UPI_OPTIONAL_SEQ_RANGE.matcher("UPI0000000001[-20]").matches());
+        assertFalse(UNIPARC_UPI_OPTIONAL_SEQ_RANGE.matcher("UPI0000000001[-]").matches());
+        assertFalse(UNIPARC_UPI_OPTIONAL_SEQ_RANGE.matcher("uPi0000000001").matches());
+        assertFalse(UNIPARC_UPI_OPTIONAL_SEQ_RANGE.matcher("uPi000000001").matches());
+    }
+
+    @Test
+    void testUniParcIdWithSequenceRange() {
+        assertTrue(UNIPARC_UPI_OPTIONAL_SEQ_RANGE.matcher("UPI0000000001[10-20]").matches());
+        assertFalse(UNIPARC_UPI_SEQUENCE_RANGE_REGEX.matcher("UPI0000000001").matches());
     }
 }

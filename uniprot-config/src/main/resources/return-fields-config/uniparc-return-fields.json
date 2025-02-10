@@ -327,6 +327,16 @@
     "includeInSwagger": true
   },
   {
+    "parentId": "family_&_domains",
+    "childNumber": 12,
+    "itemType": "SINGLE",
+    "label": "FUNFAM",
+    "name": "FUNFAM",
+    "paths": ["sequenceFeatures[?(@.database=='FUNFAM')]"],
+    "id": "family_&_domains/FUNFAM",
+    "includeInSwagger": true
+  },
+  {
     "itemType": "SINGLE",
     "paths": ["sequenceFeatures"],
     "id": "fullsequencefeatures",

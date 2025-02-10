@@ -76,7 +76,17 @@ public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
 
     @Override
     public boolean isSearchFieldValueValid(String fieldName, String value) {
-        SearchFieldItem searchField = this.getSearchFieldItemByName(fieldName);
+        SearchFieldItem searchField =
+                this.findSearchFieldItemByName(fieldName)
+                        .orElseGet(
+                                () ->
+                                        this.findSearchFieldItemByAlias(fieldName)
+                                                .orElseThrow(
+                                                        () ->
+                                                                new IllegalArgumentException(
+                                                                        "Unknown field: "
+                                                                                + fieldName)));
+
         String validRegex = searchField.getValidRegex();
         if (StringUtils.isNotEmpty(validRegex)) {
             return value.matches(validRegex);
