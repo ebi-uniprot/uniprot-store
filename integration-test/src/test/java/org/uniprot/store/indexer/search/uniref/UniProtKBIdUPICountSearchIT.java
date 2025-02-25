@@ -243,7 +243,7 @@ class UniProtKBIdUPICountSearchIT {
         return QueryBuilder.query(
                 searchEngine
                         .getSearchFieldConfig()
-                        .getSearchFieldItemByName("uniprot_id")
+                        .getSearchFieldItemByName("uniprotkb")
                         .getFieldName(),
                 uniprotId);
     }
