@@ -330,10 +330,10 @@
     "parentId": "family_&_domains",
     "childNumber": 12,
     "itemType": "SINGLE",
-    "label": "FUNFAM",
-    "name": "FUNFAM",
-    "paths": ["sequenceFeatures[?(@.database=='FUNFAM')]"],
-    "id": "family_&_domains/FUNFAM",
+    "label": "FunFam",
+    "name": "FunFam",
+    "paths": ["sequenceFeatures[?(@.database=='FunFam')]"],
+    "id": "family_&_domains/FunFam",
     "includeInSwagger": true
   },
   {
