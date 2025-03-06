@@ -1,11 +1,13 @@
 package org.uniprot.store.indexer.uniparc.mockers;
 
+import static org.uniprot.core.uniparc.UniParcCrossReference.*;
 import static org.uniprot.store.indexer.uniparc.mockers.UniParcEntryMocker.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.uniprot.core.Property;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
@@ -74,6 +76,8 @@ public class UniParcCrossReferenceMocker {
                         .chain("chain")
                         .build();
 
+        String proteomeId = "UP000005640";
+        String chromosome = "chromosome";
         UniParcCrossReference xref2 =
                 new UniParcCrossReferenceBuilder()
                         .versionI(1)
@@ -85,8 +89,16 @@ public class UniParcCrossReferenceMocker {
                         .lastUpdated(LocalDate.of(2017, 4, 23))
                         .proteinName(getName("anotherProteinName", qualifier))
                         .organism(getOrganism(9606L))
-                        .proteomeId("UP000005640")
-                        .component("chromosome")
+                        .proteomeId(proteomeId)
+                        .component(chromosome)
+                        .propertiesAdd(
+                                new Property(
+                                        PROPERTY_SOURCES,
+                                        getName("WP_1688932", qualifier)
+                                                + ":"
+                                                + proteomeId
+                                                + ":"
+                                                + chromosome))
                         .build();
 
         UniParcCrossReference xref3 =

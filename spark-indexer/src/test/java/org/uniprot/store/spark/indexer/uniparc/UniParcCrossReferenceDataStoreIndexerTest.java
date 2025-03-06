@@ -11,10 +11,12 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.Test;
+import org.uniprot.core.Property;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
+import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.store.spark.indexer.common.JobParameter;
@@ -68,11 +70,20 @@ class UniParcCrossReferenceDataStoreIndexerTest {
                             .filter(pair -> "UPI00000E8551_0".equals(pair.getKey()))
                             .findFirst();
             assertTrue(firstBatch.isPresent());
-            assertEquals(3, firstBatch.get().getValue().size());
-            Organism organism = firstBatch.get().getValue().get(1).getOrganism();
+            List<UniParcCrossReference> batchValues = firstBatch.get().getValue();
+            assertNotNull(batchValues);
+            assertEquals(3, batchValues.size());
+            UniParcCrossReference xref = batchValues.get(0);
+            Organism organism = xref.getOrganism();
             assertEquals(10116, organism.getTaxonId());
             assertEquals("sn10116", organism.getScientificName());
             assertEquals("", organism.getCommonName());
+
+            assertNotNull(xref.getProperties());
+            assertFalse(xref.getProperties().isEmpty());
+            Property source = xref.getProperties().get(0);
+            assertEquals(UniParcCrossReference.PROPERTY_SOURCES, source.getKey());
+            assertEquals("CAC20866:UP000002494:Chromosome 1", source.getValue());
         }
 
         @Override

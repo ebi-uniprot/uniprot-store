@@ -14,6 +14,28 @@ import com.typesafe.config.Config;
 import scala.Tuple2;
 
 class UniProtKBUniParcMappingRDDTupleReaderTest {
+    @Test
+    void testLoadAllUniProtKB() {
+        Config application = SparkUtils.loadApplicationProperty();
+        try (JavaSparkContext sparkContext =
+                SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
+            JobParameter parameter =
+                    JobParameter.builder()
+                            .applicationConfig(application)
+                            .releaseName("2020_02")
+                            .sparkContext(sparkContext)
+                            .build();
+
+            UniProtKBUniParcMappingRDDTupleReader reader =
+                    new UniProtKBUniParcMappingRDDTupleReader(parameter);
+            JavaPairRDD<String, String> uniProtKBMapperRdd = reader.load();
+            assertNotNull(uniProtKBMapperRdd);
+
+            assertEquals(7L, uniProtKBMapperRdd.count());
+            validateUniProtKB(uniProtKBMapperRdd, "Q9EPI6", "UPI00000E8551");
+            validateUniProtKB(uniProtKBMapperRdd, "Q00007", "UPI000000017F");
+        }
+    }
 
     @Test
     void testLoadActiveUniProtKB() {
@@ -33,12 +55,7 @@ class UniProtKBUniParcMappingRDDTupleReaderTest {
             assertNotNull(uniProtKBMapperRdd);
 
             assertEquals(3L, uniProtKBMapperRdd.count());
-            Tuple2<String, String> tuple =
-                    uniProtKBMapperRdd.filter(tuple2 -> tuple2._1.equals("Q9EPI6")).first();
-
-            assertNotNull(tuple);
-            assertEquals("Q9EPI6", tuple._1);
-            assertEquals("UPI00000E8551", tuple._2);
+            validateUniProtKB(uniProtKBMapperRdd, "Q9EPI6", "UPI00000E8551");
         }
     }
 
@@ -60,12 +77,17 @@ class UniProtKBUniParcMappingRDDTupleReaderTest {
             assertNotNull(uniProtKBMapperRdd);
 
             assertEquals(4L, uniProtKBMapperRdd.count());
-            Tuple2<String, String> tuple =
-                    uniProtKBMapperRdd.filter(tuple2 -> tuple2._1.equals("Q00007")).first();
-
-            assertNotNull(tuple);
-            assertEquals("Q00007", tuple._1);
-            assertEquals("UPI000000017F", tuple._2);
+            validateUniProtKB(uniProtKBMapperRdd, "Q00007", "UPI000000017F");
         }
+    }
+
+    private static void validateUniProtKB(
+            JavaPairRDD<String, String> uniProtKBMapperRdd, String accession, String uniParcId) {
+        Tuple2<String, String> tuple =
+                uniProtKBMapperRdd.filter(tuple2 -> tuple2._1.equals(accession)).first();
+
+        assertNotNull(tuple);
+        assertEquals(accession, tuple._1);
+        assertEquals(uniParcId, tuple._2);
     }
 }
