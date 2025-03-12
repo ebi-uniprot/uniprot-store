@@ -75,6 +75,21 @@
   },
   {
     "seqNumber": 4,
+    "id": "organism_id",
+    "fieldName": "organism_id",
+    "label": "Organism",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "INTEGER",
+    "description": "Search by organism id",
+    "example": "10254",
+    "includeInSwagger": true,
+    "autoComplete": "{CONTEXT_PATH}/suggester?dict=uniparc_organism&query=?",
+    "autoCompleteQueryField": "organism_id",
+    "autoCompleteQueryFieldValidRegex": "^[0-9]+$"
+  },
+  {
+    "seqNumber": 5,
     "id": "taxonomy_name",
     "fieldName": "taxonomy_name",
     "label": "Taxonomy [OC]",
@@ -89,7 +104,7 @@
     "autoCompleteQueryFieldValidRegex": "^[0-9]+$"
   },
   {
-    "seqNumber": 5,
+    "seqNumber": 6,
     "id": "gene",
     "fieldName": "gene",
     "label": "Gene name [GN]",
@@ -101,7 +116,7 @@
     "includeInSwagger": true
   },
   {
-    "seqNumber": 6,
+    "seqNumber": 7,
     "id": "protein",
     "fieldName": "protein_name",
     "label": "Protein name",
@@ -114,7 +129,7 @@
     "includeInSwagger": true
   },
   {
-    "seqNumber": 7,
+    "seqNumber": 8,
     "id": "database",
     "fieldName": "database",
     "label": "Database",
@@ -126,7 +141,7 @@
     "includeInSwagger": true
   },
   {
-    "seqNumber": 8,
+    "seqNumber": 9,
     "id": "active",
     "fieldName": "active",
     "label": "Active",
@@ -138,7 +153,7 @@
     "includeInSwagger": true
   },
   {
-    "seqNumber": 9,
+    "seqNumber": 10,
     "id": "checksum",
     "fieldName": "checksum",
     "label": "Checksum (CRC64/MD5)",
@@ -150,7 +165,7 @@
     "includeInSwagger": true
   },
   {
-    "seqNumber": 10,
+    "seqNumber": 11,
     "id": "length",
     "fieldName": "length",
     "label": "Sequence length",
@@ -163,7 +178,7 @@
     "includeInSwagger": true
   },
   {
-    "seqNumber": 11,
+    "seqNumber": 12,
     "id": "dbid",
     "fieldName": "dbid",
     "label": "Database ID",
@@ -175,7 +190,7 @@
     "includeInSwagger": true
   },
   {
-    "seqNumber": 12,
+    "seqNumber": 13,
     "id": "feature_id",
     "fieldName": "feature_id",
     "label": "Feature ID",
@@ -187,7 +202,7 @@
     "includeInSwagger": true
   },
    {
-    "seqNumber": 13,
+    "seqNumber": 14,
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
     "label": "Proteome Component",
@@ -196,21 +211,6 @@
     "dataType": "STRING",
     "description": "Search by Proteome component",
     "example": "chromosome"
-  },
-  {
-    "seqNumber": 14,
-    "id": "organism_id",
-    "fieldName": "organism_id",
-    "label": "Organism ID",
-    "itemType": "SINGLE",
-    "fieldType": "GENERAL",
-    "dataType": "INTEGER",
-    "description": "Search by organism id",
-    "example": "10254",
-    "includeInSwagger": true,
-    "autoComplete": "{CONTEXT_PATH}/suggester?dict=uniparc_organism&query=?",
-    "autoCompleteQueryField": "organism_id",
-    "autoCompleteQueryFieldValidRegex": "^[0-9]+$"
   },
   {
     "id": "length_sort",
