@@ -3,6 +3,7 @@ package org.uniprot.store.config.searchfield.common;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.uniprot.store.config.UniProtDataType;
 import org.uniprot.store.config.common.JsonLoader;
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class AbstractSearchFieldConfig implements SearchFieldConfig {
     public static final String SCHEMA_FILE = "schema/search-fields-schema.json";
+    @Getter
     protected UniProtDataType dataType;
 
     private List<SearchFieldItem> fieldItems;
