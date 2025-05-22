@@ -49,10 +49,25 @@ public class UniRefEntryMocker {
     }
 
     public static UniRefEntry createEntry(int i, UniRefType type) {
-        String idRef = getIdRef(type);
+        UniRefEntryId entryId = getUniRefEntryId(i, type);
+        return getUniRefEntry(i, type, entryId);
+    }
 
-        UniRefEntryId entryId = new UniRefEntryIdBuilder(getName(idRef, i)).build();
+    public static UniRefEntry createAdditionalEntry(int i, UniRefType type) {
+        UniRefEntryId entryId = getAdditionalUniRefEntryId(i, type);
+        return getUniRefEntry(i, type, entryId);
+    }
 
+    private static UniRefEntryId getAdditionalUniRefEntryId(int i, UniRefType type) {
+        String suffix = String.format("P%05d", i);
+        return switch (type) {
+            case UniRef50 -> new UniRefEntryIdBuilder("UniRef50_" + suffix).build();
+            case UniRef90 -> new UniRefEntryIdBuilder("UniRef90_" + suffix).build();
+            default -> new UniRefEntryIdBuilder("UniRef100_" + suffix).build();
+        };
+    }
+
+    private static UniRefEntry getUniRefEntry(int i, UniRefType type, UniRefEntryId entryId) {
         Organism commonOrganism =
                 new OrganismBuilder().taxonId(9606L).scientificName("Homo sapiens").build();
 
@@ -82,6 +97,11 @@ public class UniRefEntryMocker {
                                 .build())
                 .memberCount(2)
                 .build();
+    }
+
+    private static UniRefEntryId getUniRefEntryId(int i, UniRefType type) {
+        String idRef = getIdRef(type);
+        return new UniRefEntryIdBuilder(getName(idRef, i)).build();
     }
 
     private static String getIdRef(UniRefType type) {
