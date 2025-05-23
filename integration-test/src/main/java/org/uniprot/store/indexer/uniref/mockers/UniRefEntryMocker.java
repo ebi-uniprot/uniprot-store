@@ -53,6 +53,20 @@ public class UniRefEntryMocker {
         return getUniRefEntry(i, type, entryId);
     }
 
+    public static UniRefEntry createEntry(int i, UniRefType type, String accessionPrefix) {
+        String uniRefId;
+        if (type == UniRefType.UniRef50) {
+            uniRefId = "UniRef50_";
+        } else if (type == UniRefType.UniRef90) {
+            uniRefId = "UniRef90_";
+        } else {
+            uniRefId = "UniRef100_";
+        }
+        uniRefId = uniRefId + String.format(accessionPrefix + "%05d", i);
+        UniRefEntryId entryId = new UniRefEntryIdBuilder(uniRefId).build();
+        return getUniRefEntry(i, type, entryId);
+    }
+
     public static UniRefEntry createAdditionalEntry(int i, UniRefType type) {
         UniRefEntryId entryId = getAdditionalUniRefEntryId(i, type);
         return getUniRefEntry(i, type, entryId);
