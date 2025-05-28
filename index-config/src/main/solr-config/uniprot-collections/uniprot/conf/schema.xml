@@ -313,11 +313,11 @@
 
 	<!-- UniRef clusters -->
 	<field name="uniref_cluster_50" type="string" indexed="true"
-		stored="false" required="false" multiValued="false" />
+		stored="true" required="false" multiValued="false" />
 	<field name="uniref_cluster_90" type="string" indexed="true"
-		stored="false" required="false" multiValued="false" />
+		stored="true" required="false" multiValued="false" />
 	<field name="uniref_cluster_100" type="string" indexed="true"
-		stored="false" required="false" multiValued="false" />
+		stored="true" required="false" multiValued="false" />
 
 	<!-- UniParc -->
 	<field name="uniparc" type="string" indexed="true" stored="false"
