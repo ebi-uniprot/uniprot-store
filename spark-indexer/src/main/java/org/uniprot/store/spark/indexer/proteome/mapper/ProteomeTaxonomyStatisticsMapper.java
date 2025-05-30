@@ -15,7 +15,10 @@ public class ProteomeTaxonomyStatisticsMapper
         implements PairFunction<ProteomeEntry, String, TaxonomyStatisticsWrapper> {
     private static final long serialVersionUID = -4013227058179840505L;
     private static final Set<ProteomeType> REFERENCE_PROTEOME_TYPES =
-            EnumSet.of(ProteomeType.REFERENCE, ProteomeType.REFERENCE_AND_REPRESENTATIVE);
+            EnumSet.of(
+                    ProteomeType.REFERENCE,
+                    ProteomeType.REFERENCE_AND_REPRESENTATIVE,
+                    ProteomeType.REPRESENTATIVE);
 
     @Override
     public Tuple2<String, TaxonomyStatisticsWrapper> call(ProteomeEntry entry) throws Exception {
