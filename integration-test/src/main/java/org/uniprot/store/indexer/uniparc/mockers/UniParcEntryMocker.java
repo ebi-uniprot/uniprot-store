@@ -40,12 +40,17 @@ public class UniParcEntryMocker {
         List<SequenceFeature> seqFeatures = new ArrayList<>();
         Arrays.stream(SignatureDbType.values())
                 .forEach(signatureType -> seqFeatures.add(getSeqFeature(qualifier, signatureType)));
+        seqFeatures.add(getFeatureWithoutInterPro());
         return new UniParcEntryBuilder()
                 .uniParcId(new UniParcIdBuilder(getName(uniParcPrefix, qualifier)).build())
                 .uniParcCrossReferencesSet(xrefs)
                 .sequence(sequence)
                 .sequenceFeaturesSet(seqFeatures)
                 .build();
+    }
+
+    private static SequenceFeature getFeatureWithoutInterPro() {
+        return new SequenceFeatureBuilder().signatureDbType(SignatureDbType.PFAM).build();
     }
 
     public static UniParcEntry createUniParcEntry(
