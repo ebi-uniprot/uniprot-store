@@ -18,5 +18,6 @@ public enum UniProtDataType {
     UNIPROTKB,
     UNIREF,
     UNIRULE,
-    UNIPARC_CROSSREF
+    UNIPARC_CROSSREF,
+    MAPTO_ID
 }

@@ -1,0 +1,21 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "MapTo",
+    "isDatabaseGroup": false,
+    "id": "mapto"
+  },
+  {
+    "parentId": "mapto",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder": 0,
+    "label": "Id",
+    "name": "id",
+    "id": "mapto/id"
+  }
+]
