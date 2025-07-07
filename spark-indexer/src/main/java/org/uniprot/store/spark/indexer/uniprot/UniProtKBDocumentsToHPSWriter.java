@@ -184,8 +184,7 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
         JavaPairRDD<String, Iterable<TaxonomyEntry>> joinedRDD =
                 JavaPairRDD.fromJavaRDD(taxonomyMapRDD.join(taxonomyEntryJavaPairRDD).values())
                         .groupByKey();
-        // accession, entry - P00000, entry
-        // accession, taxonomy-list
+        
         return uniProtDocumentRDD
                 .leftOuterJoin(joinedRDD)
                 .mapValues(new TaxonomyEntryToUniProtDocument());
