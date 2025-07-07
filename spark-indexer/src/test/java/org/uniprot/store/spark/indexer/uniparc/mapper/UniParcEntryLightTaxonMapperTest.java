@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.spark.api.java.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniparc.UniParcEntryLight;
@@ -35,8 +36,8 @@ class UniParcEntryLightTaxonMapperTest {
                         new Tuple3<>("9606", 9607L, "Homo sapiens"),
                         new Tuple3<>("10090", 10091L, "Mus musculus"));
 
-        Tuple2<UniParcEntryLight, List<Tuple3<String, Long, String>>> input =
-                new Tuple2<>(originalEntry, commonTaxons);
+        Tuple2<UniParcEntryLight, Optional<List<Tuple3<String, Long, String>>>> input =
+                new Tuple2<>(originalEntry, Optional.of(commonTaxons));
 
         // When
         UniParcEntryLight result = mapper.call(input);
@@ -70,8 +71,25 @@ class UniParcEntryLightTaxonMapperTest {
 
         List<Tuple3<String, Long, String>> commonTaxons = Arrays.asList();
 
-        Tuple2<UniParcEntryLight, List<Tuple3<String, Long, String>>> input =
-                new Tuple2<>(originalEntry, commonTaxons);
+        Tuple2<UniParcEntryLight, Optional<List<Tuple3<String, Long, String>>>> input =
+                new Tuple2<>(originalEntry, Optional.of(commonTaxons));
+
+        // When
+        UniParcEntryLight result = mapper.call(input);
+
+        // Then
+        assertEquals("UPI000000002", result.getUniParcId());
+        assertTrue(result.getCommonTaxons().isEmpty());
+    }
+
+    @Test
+    void testCallWithEmptyList() throws Exception {
+        // Given
+        UniParcEntryLight originalEntry =
+                new UniParcEntryLightBuilder().uniParcId("UPI000000002").build();
+
+        Tuple2<UniParcEntryLight, Optional<List<Tuple3<String, Long, String>>>> input =
+                new Tuple2<>(originalEntry, Optional.empty());
 
         // When
         UniParcEntryLight result = mapper.call(input);

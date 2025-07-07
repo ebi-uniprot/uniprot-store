@@ -22,7 +22,7 @@ class UniParcSolrIndexValidatorTest {
                 SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER)) {
 
             UniParcSolrIndexValidator validator =
-                    prepareValidator(applicationConfig, context, 3L, 3L);
+                    prepareValidator(applicationConfig, context, 4L, 4L);
 
             assertDoesNotThrow(validator::runValidation);
         }
@@ -40,7 +40,7 @@ class UniParcSolrIndexValidatorTest {
             SparkIndexException error =
                     assertThrows(SparkIndexException.class, validator::runValidation);
             assertEquals(
-                    "Total Entries does not match. Collection: uniparc, DocumentOutput COUNT: 1, RDD COUNT: 3, Solr COUNT: 2",
+                    "Total Entries does not match. Collection: uniparc, DocumentOutput COUNT: 1, RDD COUNT: 4, Solr COUNT: 2",
                     error.getMessage());
         }
     }
@@ -57,7 +57,7 @@ class UniParcSolrIndexValidatorTest {
             SparkIndexException error =
                     assertThrows(SparkIndexException.class, validator::runValidation);
             assertEquals(
-                    "Total Entries does not match. Collection: uniparc, DocumentOutput COUNT: 2, RDD COUNT: 3, Solr COUNT: 1",
+                    "Total Entries does not match. Collection: uniparc, DocumentOutput COUNT: 2, RDD COUNT: 4, Solr COUNT: 1",
                     error.getMessage());
         }
     }

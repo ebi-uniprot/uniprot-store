@@ -63,7 +63,7 @@ class UniParcLightDataStoreIndexerTest {
         void saveInDataStore(JavaRDD<UniParcEntryLight> uniParcJoinedRDD) {
             List<UniParcEntryLight> result = uniParcJoinedRDD.collect();
             assertNotNull(result);
-            assertEquals(3, result.size());
+            assertEquals(4, result.size());
             UniParcEntryLight entry1 = result.get(0);
             assertEquals("UPI00000E8551", entry1.getUniParcId());
             assertEquals(12, entry1.getCrossReferenceCount());
@@ -105,10 +105,17 @@ class UniParcLightDataStoreIndexerTest {
                     entry2.getCommonTaxons().get(1));
             assertEquals(12, entry1.getCrossReferenceCount());
             assertTrue(entry2.getExtraAttributes().isEmpty());
+            // entry without taxonomy
             UniParcEntryLight entry3 = result.get(2);
-            assertEquals("UPI0001C61C61", entry3.getUniParcId());
+            assertEquals("UPI000028554A", entry3.getUniParcId());
+            assertEquals(0, entry3.getCommonTaxons().size());
+            assertEquals(1, entry3.getCrossReferenceCount());
             assertEquals(1, entry3.getExtraAttributes().size());
-            assertEquals(false, entry3.getExtraAttributes().get(HAS_ACTIVE_CROSS_REF));
+            UniParcEntryLight entry4 = result.get(3);
+            assertEquals("UPI0001C61C61", entry4.getUniParcId());
+            assertEquals(1, entry4.getExtraAttributes().size());
+            assertEquals(false, entry4.getExtraAttributes().get(HAS_ACTIVE_CROSS_REF));
+            assertEquals(1, entry4.getCommonTaxons().size());
         }
 
         @Override

@@ -75,7 +75,7 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
         uniParcLightRDD =
                 uniParcLightRDD
                         .mapToPair(uniParc -> new Tuple2<>(uniParc.getUniParcId(), uniParc))
-                        .join(uniParcIdCommonTaxons)
+                        .leftOuterJoin(uniParcIdCommonTaxons)
                         .mapValues(new UniParcEntryLightTaxonMapper())
                         .values();
 

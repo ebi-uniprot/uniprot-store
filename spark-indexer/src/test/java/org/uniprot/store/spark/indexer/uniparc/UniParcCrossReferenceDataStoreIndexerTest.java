@@ -17,6 +17,7 @@ import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.core.uniparc.UniParcCrossReference;
+import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.store.spark.indexer.common.JobParameter;
@@ -64,7 +65,7 @@ class UniParcCrossReferenceDataStoreIndexerTest {
         void saveInDataStore(JavaRDD<UniParcCrossReferencePair> uniParcCrossRefWrap) {
             List<UniParcCrossReferencePair> result = uniParcCrossRefWrap.collect();
             assertNotNull(result);
-            assertEquals(10, result.size());
+            assertEquals(11, result.size());
             Optional<UniParcCrossReferencePair> firstBatch =
                     result.stream()
                             .filter(pair -> "UPI00000E8551_0".equals(pair.getKey()))
@@ -84,6 +85,17 @@ class UniParcCrossReferenceDataStoreIndexerTest {
             Property source = xref.getProperties().get(0);
             assertEquals(UniParcCrossReference.PROPERTY_SOURCES, source.getKey());
             assertEquals("CAC20866:UP000002494:Chromosome 1", source.getValue());
+            // get crossref of UniParc entry without taxonomy id
+            Optional<UniParcCrossReferencePair> crossRefBatchWithoutTaxon =
+                    result.stream()
+                            .filter(pair -> "UPI000028554A_0".equals(pair.getKey()))
+                            .findFirst();
+            assertTrue(crossRefBatchWithoutTaxon.isPresent());
+            List<UniParcCrossReference> crossRefWithoutTaxon =
+                    crossRefBatchWithoutTaxon.get().getValue();
+            assertEquals(1, crossRefWithoutTaxon.size());
+            assertEquals("EAJ82135", crossRefWithoutTaxon.get(0).getId());
+            assertEquals(UniParcDatabase.EMBLWGS, crossRefWithoutTaxon.get(0).getDatabase());
         }
 
         @Override

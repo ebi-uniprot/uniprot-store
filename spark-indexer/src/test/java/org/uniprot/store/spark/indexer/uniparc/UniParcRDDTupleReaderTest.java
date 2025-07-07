@@ -38,7 +38,7 @@ class UniParcRDDTupleReaderTest {
             assertNotNull(uniParcRdd);
             List<UniParcEntry> entries = uniParcRdd.collect();
             assertNotNull(entries);
-            assertEquals(3, entries.size());
+            assertEquals(4, entries.size());
             List<String> ids =
                     entries.stream()
                             .map(entry -> entry.getUniParcId().getValue())
@@ -46,6 +46,7 @@ class UniParcRDDTupleReaderTest {
             assertTrue(ids.contains("UPI00000E8551"));
             assertTrue(ids.contains("UPI000000017F"));
             assertTrue(ids.contains("UPI0001C61C61"));
+            assertTrue(ids.contains("UPI000028554A"));
         }
     }
 }
