@@ -46,7 +46,7 @@ class UniParcDocumentsToHPSWriterTest {
             writer.writeIndexDocumentsToHPS();
             List<UniParcDocument> savedDocuments = writer.getSavedDocuments();
             assertNotNull(savedDocuments);
-            assertEquals(3, savedDocuments.size());
+            assertEquals(4, savedDocuments.size());
             UniParcDocument uniParcDocument = savedDocuments.get(0);
             assertEquals("UPI00000E8551", uniParcDocument.getUpi());
             assertEquals(
@@ -60,6 +60,8 @@ class UniParcDocumentsToHPSWriterTest {
             uniParcDocument = savedDocuments.get(1);
             assertEquals("UPI000000017F", uniParcDocument.getUpi());
             uniParcDocument = savedDocuments.get(2);
+            assertEquals("UPI000028554A", uniParcDocument.getUpi());
+            uniParcDocument = savedDocuments.get(3);
             assertEquals("UPI0001C61C61", uniParcDocument.getUpi());
         }
     }
