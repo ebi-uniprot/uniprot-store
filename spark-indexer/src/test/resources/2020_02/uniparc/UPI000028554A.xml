@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--Entry without taxonomy Id -->
+<uniparc xmlns="http://uniprot.org/uniparc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://uniprot.org/uniparc http://www.uniprot.org/docs/uniparc.xsd" version="2020_02">
+    <entry dataset="uniparc">
+        <accession>UPI000028554A</accession>
+        <dbReference type="EMBLWGS" id="EAJ82135" version_i="1" active="N" version="1" created="2004-03-17"
+                     last="2007-01-20"/>
+        <signatureSequenceMatch id="cd07313" database="CDD">
+            <lcn start="25" end="128"/>
+        </signatureSequenceMatch>
+        <signatureSequenceMatch id="G3DSA:1.10.3680.10" database="Gene3D">
+            <ipr id="IPR029024" name="TerB-like"/>
+            <lcn start="16" end="143"/>
+        </signatureSequenceMatch>
+        <signatureSequenceMatch id="SSF158682" database="SUPFAM">
+            <ipr id="IPR029024" name="TerB-like"/>
+            <lcn start="7" end="142"/>
+        </signatureSequenceMatch>
+        <signatureSequenceMatch id="PF05099" database="Pfam">
+            <ipr id="IPR007791" name="Co-chaperone DjlA, N-terminal"/>
+            <lcn start="24" end="140"/>
+        </signatureSequenceMatch>
+        <sequence length="145" checksum="FB156B9469221005">
+            MLKNLLDVLLGSEEDKLDDDDEKIALAALCVRVAKSDNIYDTSEISSIDTELSQHFSMDMADAAILRKQAEKLEQEAPDTVRFTRAIKEKVELEKRRKILETLWKITLADGKREAEEDSLIRLVSSLLGLTDIESARARQKVTKK
+        </sequence>
+    </entry>
+    <copyright>Copyrighted by the UniProt Consortium, see https://www.uniprot.org/terms Distributed under the Creative
+        Commons Attribution (CC BY 4.0) License
+    </copyright>
+</uniparc>
