@@ -61,50 +61,53 @@ class UniParcLightDataStoreIndexerTest {
 
         @Override
         void saveInDataStore(JavaRDD<UniParcEntryLight> uniParcJoinedRDD) {
-            List<UniParcEntryLight> result = uniParcJoinedRDD.collect();
+            List<UniParcEntryLight> result =
+                    uniParcJoinedRDD.sortBy(UniParcEntryLight::getUniParcId, true, 1).collect();
             assertNotNull(result);
             assertEquals(4, result.size());
             UniParcEntryLight entry1 = result.get(0);
-            assertEquals("UPI00000E8551", entry1.getUniParcId());
-            assertEquals(12, entry1.getCrossReferenceCount());
-            assertTrue(entry1.getExtraAttributes().isEmpty());
-            assertEquals(1, entry1.getCommonTaxons().size());
-            assertEquals(
-                    new CommonOrganismBuilder()
-                            .topLevel("cellular organisms")
-                            .commonTaxon("Teleostomi")
-                            .commonTaxonId(117570L)
-                            .build(),
-                    entry1.getCommonTaxons().get(0));
-            assertEquals(5, entry1.getUniProtKBAccessions().size());
-            assertEquals(
-                    Set.of("Q9EPI6", "Q9EPI6-1", "I8FBX0.1", "I8FBX2.1", "Q9EPI6.1"),
-                    entry1.getUniProtKBAccessions());
-            assertNotNull(entry1.getSequence());
-            assertFalse(entry1.getSequenceFeatures().isEmpty());
-            assertNotNull(entry1.getMostRecentCrossRefUpdated());
-            assertEquals(LocalDate.of(2020, 4, 22), entry1.getMostRecentCrossRefUpdated());
-            assertNotNull(entry1.getOldestCrossRefCreated());
-            assertEquals(LocalDate.of(2001, 3, 1), entry1.getOldestCrossRefCreated());
-            UniParcEntryLight entry2 = result.get(1);
-            assertEquals("UPI000000017F", entry2.getUniParcId());
-            assertEquals(2, entry2.getCommonTaxons().size());
+            assertEquals("UPI000000017F", entry1.getUniParcId());
+            assertEquals(2, entry1.getCommonTaxons().size());
             assertEquals(
                     new CommonOrganismBuilder()
                             .topLevel("cellular organisms")
                             .commonTaxon("Luzula")
                             .commonTaxonId(46322L)
                             .build(),
-                    entry2.getCommonTaxons().get(0));
+                    entry1.getCommonTaxons().get(0));
             assertEquals(
                     new CommonOrganismBuilder()
                             .topLevel("Viruses")
                             .commonTaxon("Nucleocytoviricota")
                             .commonTaxonId(35493L)
                             .build(),
-                    entry2.getCommonTaxons().get(1));
-            assertEquals(12, entry1.getCrossReferenceCount());
+                    entry1.getCommonTaxons().get(1));
+            assertEquals(10, entry1.getCrossReferenceCount());
+            assertTrue(entry1.getExtraAttributes().isEmpty());
+
+            UniParcEntryLight entry2 = result.get(1);
+            assertEquals("UPI00000E8551", entry2.getUniParcId());
+            assertEquals(12, entry2.getCrossReferenceCount());
             assertTrue(entry2.getExtraAttributes().isEmpty());
+            assertEquals(1, entry2.getCommonTaxons().size());
+            assertEquals(
+                    new CommonOrganismBuilder()
+                            .topLevel("cellular organisms")
+                            .commonTaxon("Teleostomi")
+                            .commonTaxonId(117570L)
+                            .build(),
+                    entry2.getCommonTaxons().get(0));
+            assertEquals(5, entry2.getUniProtKBAccessions().size());
+            assertEquals(
+                    Set.of("Q9EPI6", "Q9EPI6-1", "I8FBX0.1", "I8FBX2.1", "Q9EPI6.1"),
+                    entry2.getUniProtKBAccessions());
+            assertNotNull(entry2.getSequence());
+            assertFalse(entry2.getSequenceFeatures().isEmpty());
+            assertNotNull(entry2.getMostRecentCrossRefUpdated());
+            assertEquals(LocalDate.of(2020, 4, 22), entry2.getMostRecentCrossRefUpdated());
+            assertNotNull(entry2.getOldestCrossRefCreated());
+            assertEquals(LocalDate.of(2001, 3, 1), entry2.getOldestCrossRefCreated());
+
             // entry without taxonomy
             UniParcEntryLight entry3 = result.get(2);
             assertEquals("UPI000028554A", entry3.getUniParcId());
