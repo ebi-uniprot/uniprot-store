@@ -12,7 +12,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 
-public class GoogleUniProtXMLToUniProtEntryMapperTest {
+import scala.Tuple2;
+
+class GoogleUniProtXMLToUniProtEntryMapperTest {
 
     private GoogleUniProtXMLEntryExtractor extractor;
     private GoogleUniProtXMLToUniProtEntryMapper mapper;
@@ -35,12 +37,14 @@ public class GoogleUniProtXMLToUniProtEntryMapperTest {
         assertEquals(2, extractedEntries.size());
 
         // Map first entry
-        UniProtKBEntry entry1 = mapper.call(extractedEntries.get(0));
+        Tuple2<String, UniProtKBEntry> accessionEntry1 = mapper.call(extractedEntries.get(0));
+        UniProtKBEntry entry1 = accessionEntry1._2;
         assertNotNull(entry1);
         assertEquals("A0A6A5BR32", entry1.getPrimaryAccession().getValue());
 
         // Map second entry
-        UniProtKBEntry entry2 = mapper.call(extractedEntries.get(1));
+        Tuple2<String, UniProtKBEntry> accessionEntry2 = mapper.call(extractedEntries.get(1));
+        UniProtKBEntry entry2 = accessionEntry2._2;
         assertNotNull(entry2);
         assertEquals("A0A8C6XQ33", entry2.getPrimaryAccession().getValue());
     }

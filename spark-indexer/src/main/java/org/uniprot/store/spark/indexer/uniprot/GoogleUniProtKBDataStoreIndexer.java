@@ -1,13 +1,12 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
-import java.util.Iterator;
-
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.function.VoidFunction;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
+import org.uniprot.store.spark.indexer.uniprot.mapper.GoogleProtLMEntryUpdater;
 import org.uniprot.store.spark.indexer.uniprot.writer.UniProtKBDataStoreWriter;
 
 import com.typesafe.config.Config;
@@ -24,13 +23,32 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
 
     @Override
     public void indexInDataStore() {
-        GoogleUniProtKBRDDReader reader = new GoogleUniProtKBRDDReader(this.parameter);
-        JavaRDD<UniProtKBEntry> uniProtKBRDD = reader.load();
-        Config config = this.parameter.getApplicationConfig();
-        DataStoreParameter storeParams = getDataStoreParameter(config);
+        GoogleUniProtKBRDDReader protLMReader = new GoogleUniProtKBRDDReader(this.parameter);
+        // accession,protlmentry(uniprtkb) entry pair
+        JavaPairRDD<String, UniProtKBEntry> protLMPairRDDPair = protLMReader.load();
+        // read trembl entry to join
+        UniProtKBRDDTupleReader uniProtKBReader = new UniProtKBRDDTupleReader(parameter, false);
+        JavaPairRDD<String, UniProtKBEntry> uniProtRDDPair = uniProtKBReader.load();
+        // join protlmentry with uniprotkbentry and inject proteinId in protlm entry
+        JavaRDD<UniProtKBEntry> protLMRDD = joinRDDPairs(protLMPairRDDPair, uniProtRDDPair);
         log.info("Writing google protlm entries to datastore...");
-        uniProtKBRDD.foreachPartition(getDataStoreWriter(storeParams));
+        saveInDataStore(protLMRDD);
         log.info("Completed writing google protlm entries to datastore...");
+    }
+
+    JavaRDD<UniProtKBEntry> joinRDDPairs(
+            JavaPairRDD<String, UniProtKBEntry> protLMPairRDD,
+            JavaPairRDD<String, UniProtKBEntry> uniProtRDDPair) {
+        return protLMPairRDD
+                .join(uniProtRDDPair)
+                .mapValues(new GoogleProtLMEntryUpdater())
+                .values();
+    }
+
+    void saveInDataStore(JavaRDD<UniProtKBEntry> protLMEntryRDD) {
+        DataStoreParameter dataStoreParameter =
+                getDataStoreParameter(parameter.getApplicationConfig());
+        protLMEntryRDD.foreachPartition(new UniProtKBDataStoreWriter(dataStoreParameter));
     }
 
     private DataStoreParameter getDataStoreParameter(Config config) {
@@ -46,9 +64,5 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
                 .brotliEnabled(config.getBoolean(BROTLI_COMPRESSION_ENABLED))
                 .brotliLevel(config.getInt(BROTLI_COMPRESSION_LEVEL))
                 .build();
-    }
-
-    VoidFunction<Iterator<UniProtKBEntry>> getDataStoreWriter(DataStoreParameter parameter) {
-        return new UniProtKBDataStoreWriter(parameter);
     }
 }

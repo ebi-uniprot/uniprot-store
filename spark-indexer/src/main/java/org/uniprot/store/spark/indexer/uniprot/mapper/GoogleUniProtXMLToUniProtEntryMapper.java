@@ -7,18 +7,21 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.spark.api.java.function.Function;
+import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.xml.jaxb.uniprot.Uniprot;
 import org.uniprot.core.xml.uniprot.GoogleUniProtEntryConverter;
 
 import lombok.extern.slf4j.Slf4j;
+import scala.Serializable;
+import scala.Tuple2;
 
 @Slf4j
-public class GoogleUniProtXMLToUniProtEntryMapper implements Function<String, UniProtKBEntry> {
+public class GoogleUniProtXMLToUniProtEntryMapper
+        implements PairFunction<String, String, UniProtKBEntry>, Serializable {
 
     @Override
-    public UniProtKBEntry call(String entryXml) {
+    public Tuple2<String, UniProtKBEntry> call(String entryXml) {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance("org.uniprot.core.xml.jaxb.uniprot");
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
@@ -35,7 +38,8 @@ public class GoogleUniProtXMLToUniProtEntryMapper implements Function<String, Un
             GoogleUniProtEntryConverter converter = new GoogleUniProtEntryConverter();
             List<UniProtKBEntry> entries =
                     uniprot.getEntry().stream().map(converter::fromXml).toList();
-            return entries.get(0);
+            UniProtKBEntry entry = entries.get(0);
+            return new Tuple2<>(entry.getPrimaryAccession().getValue(), entry);
         } catch (JAXBException e) {
             log.error("Error while parsing google protlm uniprot XML:{}", entryXml, e);
             throw new RuntimeException(e);
