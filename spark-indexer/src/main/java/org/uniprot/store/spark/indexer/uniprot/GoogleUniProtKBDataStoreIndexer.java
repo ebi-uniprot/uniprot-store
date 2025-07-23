@@ -2,6 +2,7 @@ package org.uniprot.store.spark.indexer.uniprot;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.storage.StorageLevel;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
@@ -29,6 +30,7 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
         // read trembl entry to join
         UniProtKBRDDTupleReader uniProtKBReader = new UniProtKBRDDTupleReader(parameter, false);
         JavaPairRDD<String, UniProtKBEntry> uniProtRDDPair = uniProtKBReader.load();
+        uniProtRDDPair.persist(StorageLevel.DISK_ONLY());
         // join protlmentry with uniprotkbentry and inject proteinId in protlm entry
         JavaRDD<UniProtKBEntry> protLMRDD = joinRDDPairs(protLMPairRDDPair, uniProtRDDPair);
         log.info("Writing google protlm entries to datastore...");
