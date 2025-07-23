@@ -20,6 +20,8 @@ import scala.Tuple2;
 public class GoogleUniProtXMLToUniProtEntryMapper
         implements PairFunction<String, String, UniProtKBEntry>, Serializable {
 
+    private static final long serialVersionUID = 6486460460998546116L;
+
     @Override
     public Tuple2<String, UniProtKBEntry> call(String entryXml) {
         try {

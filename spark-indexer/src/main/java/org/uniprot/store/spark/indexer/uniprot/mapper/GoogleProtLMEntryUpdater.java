@@ -6,8 +6,13 @@ import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 
 import scala.Tuple2;
 
+import java.io.Serializable;
+
 public class GoogleProtLMEntryUpdater
-        implements Function<Tuple2<UniProtKBEntry, UniProtKBEntry>, UniProtKBEntry> {
+        implements Function<Tuple2<UniProtKBEntry, UniProtKBEntry>, UniProtKBEntry>, Serializable {
+
+    private static final long serialVersionUID = -3375925835880954913L;
+
     @Override
     public UniProtKBEntry call(Tuple2<UniProtKBEntry, UniProtKBEntry> tuple) {
         UniProtKBEntry protLMEntry = tuple._1();

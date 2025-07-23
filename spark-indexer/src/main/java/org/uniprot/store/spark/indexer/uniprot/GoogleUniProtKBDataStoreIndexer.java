@@ -2,6 +2,8 @@ package org.uniprot.store.spark.indexer.uniprot;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.storage.StorageLevel;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
@@ -13,6 +15,9 @@ import org.uniprot.store.spark.indexer.uniprot.writer.UniProtKBDataStoreWriter;
 import com.typesafe.config.Config;
 
 import lombok.extern.slf4j.Slf4j;
+import scala.Tuple2;
+
+import java.util.Map;
 
 @Slf4j
 public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
@@ -30,7 +35,6 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
         // read trembl entry to join
         UniProtKBRDDTupleReader uniProtKBReader = new UniProtKBRDDTupleReader(parameter, false);
         JavaPairRDD<String, UniProtKBEntry> uniProtRDDPair = uniProtKBReader.load();
-        uniProtRDDPair.persist(StorageLevel.DISK_ONLY());
         // join protlmentry with uniprotkbentry and inject proteinId in protlm entry
         JavaRDD<UniProtKBEntry> protLMRDD = joinRDDPairs(protLMPairRDDPair, uniProtRDDPair);
         log.info("Writing google protlm entries to datastore...");
@@ -41,10 +45,18 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
     JavaRDD<UniProtKBEntry> joinRDDPairs(
             JavaPairRDD<String, UniProtKBEntry> protLMPairRDD,
             JavaPairRDD<String, UniProtKBEntry> uniProtRDDPair) {
-        return protLMPairRDD
-                .join(uniProtRDDPair)
-                .mapValues(new GoogleProtLMEntryUpdater())
-                .values();
+        JavaSparkContext jsc = parameter.getSparkContext();
+        Map<String, UniProtKBEntry> protLMMap = protLMPairRDD.collectAsMap();
+        Broadcast<Map<String, UniProtKBEntry>> broadcastProtLMMap = jsc.broadcast(protLMMap);
+
+        return uniProtRDDPair
+                .filter(t -> broadcastProtLMMap.value().containsKey(t._1))
+                .map(t -> {
+                    String key = t._1;
+                    UniProtKBEntry uniProtEntry = t._2;
+                    UniProtKBEntry protLMEntry = broadcastProtLMMap.value().get(key);
+                    return new GoogleProtLMEntryUpdater().call(new Tuple2<>(protLMEntry, uniProtEntry));
+                });
     }
 
     void saveInDataStore(JavaRDD<UniProtKBEntry> protLMEntryRDD) {
