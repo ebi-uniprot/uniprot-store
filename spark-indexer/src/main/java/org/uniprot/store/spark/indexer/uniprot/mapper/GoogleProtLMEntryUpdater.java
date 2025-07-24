@@ -1,12 +1,12 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
+import java.io.Serializable;
+
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 
 import scala.Tuple2;
-
-import java.io.Serializable;
 
 public class GoogleProtLMEntryUpdater
         implements Function<Tuple2<UniProtKBEntry, UniProtKBEntry>, UniProtKBEntry>, Serializable {

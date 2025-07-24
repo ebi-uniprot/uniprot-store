@@ -1,10 +1,11 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
+import java.util.Map;
+
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.broadcast.Broadcast;
-import org.apache.spark.storage.StorageLevel;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
@@ -16,8 +17,6 @@ import com.typesafe.config.Config;
 
 import lombok.extern.slf4j.Slf4j;
 import scala.Tuple2;
-
-import java.util.Map;
 
 @Slf4j
 public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
@@ -51,12 +50,14 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
 
         return uniProtRDDPair
                 .filter(t -> broadcastProtLMMap.value().containsKey(t._1))
-                .map(t -> {
-                    String key = t._1;
-                    UniProtKBEntry uniProtEntry = t._2;
-                    UniProtKBEntry protLMEntry = broadcastProtLMMap.value().get(key);
-                    return new GoogleProtLMEntryUpdater().call(new Tuple2<>(protLMEntry, uniProtEntry));
-                });
+                .map(
+                        t -> {
+                            String key = t._1;
+                            UniProtKBEntry uniProtEntry = t._2;
+                            UniProtKBEntry protLMEntry = broadcastProtLMMap.value().get(key);
+                            return new GoogleProtLMEntryUpdater()
+                                    .call(new Tuple2<>(protLMEntry, uniProtEntry));
+                        });
     }
 
     void saveInDataStore(JavaRDD<UniProtKBEntry> protLMEntryRDD) {

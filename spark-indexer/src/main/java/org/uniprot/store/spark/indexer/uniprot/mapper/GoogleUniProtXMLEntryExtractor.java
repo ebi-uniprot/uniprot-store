@@ -25,7 +25,7 @@ public class GoogleUniProtXMLEntryExtractor implements FlatMapFunction<Iterator<
                 currentEntry = new StringBuilder();
             }
             // If currently inside an entry, accumulate the line
-            if (insideEntry && currentEntry != null) {
+            if (insideEntry) {
                 currentEntry.append(line).append("\n");
             }
             // End of entry detected; add to list and reset state

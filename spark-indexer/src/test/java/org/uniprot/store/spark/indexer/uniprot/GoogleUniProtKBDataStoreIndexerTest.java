@@ -16,7 +16,7 @@ import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import com.typesafe.config.Config;
 
-public class GoogleUniProtKBDataStoreIndexerTest {
+class GoogleUniProtKBDataStoreIndexerTest {
 
     @Test
     void indexInDataStore() {

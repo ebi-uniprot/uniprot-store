@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class GoogleUniProtXMLEntryExtractorTest {
+class GoogleUniProtXMLEntryExtractorTest {
 
     private final GoogleUniProtXMLEntryExtractor extractor = new GoogleUniProtXMLEntryExtractor();
 
