@@ -17,7 +17,7 @@ class GoogleUniProtXMLEntryExtractorTest {
     private final GoogleUniProtXMLEntryExtractor extractor = new GoogleUniProtXMLEntryExtractor();
 
     @Test
-    public void testSingleEntryExtraction() throws Exception {
+    void testSingleEntryExtraction() throws Exception {
         List<String> lines =
                 Arrays.asList(
                         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
@@ -36,7 +36,7 @@ class GoogleUniProtXMLEntryExtractorTest {
     }
 
     @Test
-    public void testMultipleEntriesExtraction() throws Exception {
+    void testMultipleEntriesExtraction() throws Exception {
         List<String> lines =
                 Arrays.asList(
                         "<entry>",
@@ -56,7 +56,7 @@ class GoogleUniProtXMLEntryExtractorTest {
     }
 
     @Test
-    public void testNoEntry() throws Exception {
+    void testNoEntry() throws Exception {
         List<String> lines =
                 Arrays.asList("<root>", "<note>This is not an entry</note>", "</root>");
 
@@ -68,7 +68,7 @@ class GoogleUniProtXMLEntryExtractorTest {
     }
 
     @Test
-    public void testIncompleteEntry() throws Exception {
+    void testIncompleteEntry() throws Exception {
         List<String> lines =
                 Arrays.asList(
                         "<entry>", "<name>BrokenEntry</name>"
@@ -83,7 +83,7 @@ class GoogleUniProtXMLEntryExtractorTest {
     }
 
     @Test
-    public void testSingleLineEntry() throws Exception {
+    void testSingleLineEntry() throws Exception {
         List<String> lines = Arrays.asList("<entry><name>QuickEntry</name></entry>");
 
         Iterator<String> result = extractor.call(lines.iterator());
@@ -95,7 +95,7 @@ class GoogleUniProtXMLEntryExtractorTest {
     }
 
     @Test
-    public void testSampleFileExtraction() throws Exception {
+    void testSampleFileExtraction() throws Exception {
         Path path = Paths.get("src/test/resources/2020_02/uniprotkb/google-protlm-uniprot.xml");
         assertTrue(Files.exists(path));
         List<String> lines = Files.readAllLines(path);

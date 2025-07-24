@@ -30,7 +30,7 @@ public class GoogleUniProtXMLEntryExtractor implements FlatMapFunction<Iterator<
             }
             // End of entry detected; add to list and reset state
             if (line.contains("</entry>")) {
-                if (insideEntry && currentEntry != null) {
+                if (insideEntry) {
                     entries.add(currentEntry.toString());
                 }
                 insideEntry = false;
