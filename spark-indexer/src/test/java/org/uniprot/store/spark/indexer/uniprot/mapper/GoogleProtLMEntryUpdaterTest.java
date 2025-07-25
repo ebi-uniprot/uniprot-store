@@ -10,15 +10,15 @@ import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 
 import scala.Tuple2;
 
-class GoogleProtLMEntryUpdaterTest {
+class GoogleProtNLMEntryUpdaterTest {
 
-    private final GoogleProtLMEntryUpdater updater = new GoogleProtLMEntryUpdater();
+    private final GoogleProtNLMEntryUpdater updater = new GoogleProtNLMEntryUpdater();
 
     @Test
     void testUpdatesUniProtIdFromUniProtEntry() {
         // given
         String accession = "P12345";
-        UniProtKBEntry protLMEntry =
+        UniProtKBEntry protNLMEntry =
                 new UniProtKBEntryBuilder(accession, "PLACEHOLDER", UniProtKBEntryType.TREMBL)
                         .build();
 
@@ -26,7 +26,7 @@ class GoogleProtLMEntryUpdaterTest {
                 new UniProtKBEntryBuilder(accession, "New Value", UniProtKBEntryType.TREMBL)
                         .build();
 
-        Tuple2<UniProtKBEntry, UniProtKBEntry> input = new Tuple2<>(protLMEntry, uniProtEntry);
+        Tuple2<UniProtKBEntry, UniProtKBEntry> input = new Tuple2<>(protNLMEntry, uniProtEntry);
 
         // when
         UniProtKBEntry updatedEntry = updater.call(input);

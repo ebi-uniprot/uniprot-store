@@ -10,7 +10,7 @@ import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
-import org.uniprot.store.spark.indexer.uniprot.mapper.GoogleProtLMEntryUpdater;
+import org.uniprot.store.spark.indexer.uniprot.mapper.GoogleProtNLMEntryUpdater;
 import org.uniprot.store.spark.indexer.uniprot.writer.UniProtKBDataStoreWriter;
 
 import com.typesafe.config.Config;
@@ -28,51 +28,51 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
 
     @Override
     public void indexInDataStore() {
-        GoogleUniProtKBRDDReader protLMReader = new GoogleUniProtKBRDDReader(this.parameter);
-        // accession,protlmentry(uniprtkb) entry pair
-        JavaPairRDD<String, UniProtKBEntry> protLMPairRDDPair = protLMReader.load();
+        GoogleUniProtKBRDDReader protNLMReader = new GoogleUniProtKBRDDReader(this.parameter);
+        // accession,protnlmentry(uniprtkb) entry pair
+        JavaPairRDD<String, UniProtKBEntry> protNLMPairRDDPair = protNLMReader.load();
         // read trembl entry to join
         UniProtKBRDDTupleReader uniProtKBReader = new UniProtKBRDDTupleReader(parameter, false);
         JavaPairRDD<String, UniProtKBEntry> uniProtRDDPair = uniProtKBReader.load();
-        // join protlmentry with uniprotkbentry and inject proteinId in protlm entry
-        JavaRDD<UniProtKBEntry> protLMRDD = joinRDDPairs(protLMPairRDDPair, uniProtRDDPair);
-        log.info("Writing google protlm entries to datastore...");
-        saveInDataStore(protLMRDD);
-        log.info("Completed writing google protlm entries to datastore...");
+        // join protnlmentry with uniprotkbentry and inject proteinId in protnlm entry
+        JavaRDD<UniProtKBEntry> protNLMRDD = joinRDDPairs(protNLMPairRDDPair, uniProtRDDPair);
+        log.info("Writing google protnlm entries to datastore...");
+        saveInDataStore(protNLMRDD);
+        log.info("Completed writing google protnlm entries to datastore...");
     }
 
     JavaRDD<UniProtKBEntry> joinRDDPairs(
-            JavaPairRDD<String, UniProtKBEntry> protLMPairRDD,
+            JavaPairRDD<String, UniProtKBEntry> protNLMPairRDD,
             JavaPairRDD<String, UniProtKBEntry> uniProtRDDPair) {
         JavaSparkContext jsc = parameter.getSparkContext();
-        Map<String, UniProtKBEntry> protLMMap = protLMPairRDD.collectAsMap();
-        Broadcast<Map<String, UniProtKBEntry>> broadcastProtLMMap = jsc.broadcast(protLMMap);
+        Map<String, UniProtKBEntry> protNLMMap = protNLMPairRDD.collectAsMap();
+        Broadcast<Map<String, UniProtKBEntry>> broadcastProtNLMMap = jsc.broadcast(protNLMMap);
 
         return uniProtRDDPair
-                .filter(t -> broadcastProtLMMap.value().containsKey(t._1))
+                .filter(t -> broadcastProtNLMMap.value().containsKey(t._1))
                 .map(
                         t -> {
                             String key = t._1;
                             UniProtKBEntry uniProtEntry = t._2;
-                            UniProtKBEntry protLMEntry = broadcastProtLMMap.value().get(key);
-                            return new GoogleProtLMEntryUpdater()
-                                    .call(new Tuple2<>(protLMEntry, uniProtEntry));
+                            UniProtKBEntry protNLMEntry = broadcastProtNLMMap.value().get(key);
+                            return new GoogleProtNLMEntryUpdater()
+                                    .call(new Tuple2<>(protNLMEntry, uniProtEntry));
                         });
     }
 
-    void saveInDataStore(JavaRDD<UniProtKBEntry> protLMEntryRDD) {
+    void saveInDataStore(JavaRDD<UniProtKBEntry> protNLMEntryRDD) {
         DataStoreParameter dataStoreParameter =
                 getDataStoreParameter(parameter.getApplicationConfig());
-        protLMEntryRDD.foreachPartition(new UniProtKBDataStoreWriter(dataStoreParameter));
+        protNLMEntryRDD.foreachPartition(new UniProtKBDataStoreWriter(dataStoreParameter));
     }
 
     private DataStoreParameter getDataStoreParameter(Config config) {
-        String numberOfConnections = config.getString("store.google.protlm.numberOfConnections");
-        String maxRetry = config.getString("store.google.protlm.retry");
-        String delay = config.getString("store.google.protlm.delay");
+        String numberOfConnections = config.getString("store.google.protnlm.numberOfConnections");
+        String maxRetry = config.getString("store.google.protnlm.retry");
+        String delay = config.getString("store.google.protnlm.delay");
         return DataStoreParameter.builder()
-                .connectionURL(config.getString("store.google.protlm.host"))
-                .storeName(config.getString("store.google.protlm.storeName"))
+                .connectionURL(config.getString("store.google.protnlm.host"))
+                .storeName(config.getString("store.google.protnlm.storeName"))
                 .numberOfConnections(Integer.parseInt(numberOfConnections))
                 .maxRetry(Integer.parseInt(maxRetry))
                 .delay(Long.parseLong(delay))

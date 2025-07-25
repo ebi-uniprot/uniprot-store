@@ -32,7 +32,7 @@ public class DataStoreIndexerFactory {
             case UNIPARC_CROSS_REFERENCE:
                 result = new UniParcCrossReferenceDataStoreIndexer(jobParameter);
                 break;
-            case GOOGLE_PROTLM:
+            case GOOGLE_PROTNLM:
                 result = new GoogleUniProtKBDataStoreIndexer(jobParameter);
                 break;
             default:

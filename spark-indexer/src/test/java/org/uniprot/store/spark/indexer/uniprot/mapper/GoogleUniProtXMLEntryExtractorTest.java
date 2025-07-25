@@ -96,7 +96,7 @@ class GoogleUniProtXMLEntryExtractorTest {
 
     @Test
     void testSampleFileExtraction() throws Exception {
-        Path path = Paths.get("src/test/resources/2020_02/uniprotkb/google-protlm-uniprot.xml");
+        Path path = Paths.get("src/test/resources/2020_02/uniprotkb/google-protnlm-uniprot.xml");
         assertTrue(Files.exists(path));
         List<String> lines = Files.readAllLines(path);
         Iterator<String> result = extractor.call(lines.iterator());

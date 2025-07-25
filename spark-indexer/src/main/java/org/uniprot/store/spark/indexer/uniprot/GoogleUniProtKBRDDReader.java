@@ -28,7 +28,7 @@ public class GoogleUniProtKBRDDReader implements PairRDDReader<String, UniProtKB
         Config config = jobParameter.getApplicationConfig();
         JavaSparkContext jsc = jobParameter.getSparkContext();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
-        String filePath = releaseInputDir + config.getString("google.protlm.xml.file");
+        String filePath = releaseInputDir + config.getString("google.protnlm.xml.file");
         JavaRDD<String> lines = jsc.textFile(filePath, 1);
         log.info("Total lines in file: {}", lines.count());
         // Step 1: Reconstruct <entry> blocks

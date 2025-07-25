@@ -42,19 +42,19 @@ class GoogleUniProtKBDataStoreIndexerTest {
         }
 
         @Override
-        void saveInDataStore(JavaRDD<UniProtKBEntry> protLMEntryRDD) {
-            List<UniProtKBEntry> protLMEntries = protLMEntryRDD.collect();
-            assertNotNull(protLMEntries);
-            assertEquals(2, protLMEntries.size());
-            assertEquals("A0A6A5BR32", protLMEntries.get(0).getPrimaryAccession().getValue());
-            assertEquals("A0A8C6XQ33", protLMEntries.get(1).getPrimaryAccession().getValue());
+        void saveInDataStore(JavaRDD<UniProtKBEntry> protNLMEntryRDD) {
+            List<UniProtKBEntry> protNLMEntries = protNLMEntryRDD.collect();
+            assertNotNull(protNLMEntries);
+            assertEquals(2, protNLMEntries.size());
+            assertEquals("A0A6A5BR32", protNLMEntries.get(0).getPrimaryAccession().getValue());
+            assertEquals("A0A8C6XQ33", protNLMEntries.get(1).getPrimaryAccession().getValue());
         }
 
         @Override
         JavaRDD<UniProtKBEntry> joinRDDPairs(
-                JavaPairRDD<String, UniProtKBEntry> protLMPairRDD,
+                JavaPairRDD<String, UniProtKBEntry> protNLMPairRDD,
                 JavaPairRDD<String, UniProtKBEntry> uniProtRDDPair) {
-            return protLMPairRDD.values();
+            return protNLMPairRDD.values();
         }
     }
 }

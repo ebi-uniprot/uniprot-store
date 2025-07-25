@@ -43,7 +43,7 @@ public class GoogleUniProtXMLToUniProtEntryMapper
             UniProtKBEntry entry = entries.get(0);
             return new Tuple2<>(entry.getPrimaryAccession().getValue(), entry);
         } catch (JAXBException e) {
-            log.error("Error while parsing google protlm uniprot XML:{}", entryXml, e);
+            log.error("Error while parsing google protnlm uniprot XML:{}", entryXml, e);
             throw new RuntimeException(e);
         }
     }
