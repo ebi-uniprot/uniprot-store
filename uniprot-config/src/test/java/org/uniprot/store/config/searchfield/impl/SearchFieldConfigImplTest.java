@@ -119,7 +119,7 @@ class SearchFieldConfigImplTest {
                         .findFirst();
         assertTrue(optionalItem.isPresent());
         SearchFieldItem item = optionalItem.get();
-        assertEquals("organelle", item.getFieldName());
+        assertEquals("encoded_in", item.getFieldName());
         assertEquals(SearchFieldDataType.ENUM, item.getDataType());
         assertNull(item.getAutoComplete());
         assertNotNull(item.getValues());
@@ -130,6 +130,9 @@ class SearchFieldConfigImplTest {
                         .findFirst();
         assertTrue(plasmidValue.isPresent());
         assertEquals("plasmid", plasmidValue.get().getValue());
+        assertFalse(item.getAliases().isEmpty());
+        assertEquals(1, item.getAliases().size());
+        assertEquals("organelle", item.getAliases().get(0));
     }
 
     @Test

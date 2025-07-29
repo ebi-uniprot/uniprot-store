@@ -104,7 +104,7 @@ public class UniProtEntryConverter
             convertEntryAudit(source.getEntryAudit(), document);
             convertGeneNames(source.getGenes(), document);
             convertKeywords(source.getKeywords(), document);
-            convertOrganelle(source.getGeneLocations(), document);
+            convertEncodedIn(source.getGeneLocations(), document);
             convertProteinExistence(source.getProteinExistence(), document);
             convertSequence(source.getSequence(), document);
             convertEntryScore(source, document);
@@ -224,15 +224,15 @@ public class UniProtEntryConverter
         }
     }
 
-    private void convertOrganelle(List<GeneLocation> geneLocations, UniProtDocument document) {
+    private void convertEncodedIn(List<GeneLocation> geneLocations, UniProtDocument document) {
         if (Utils.notNullNotEmpty(geneLocations)) {
             for (GeneLocation geneLocation : geneLocations) {
                 GeneEncodingType geneEncodingType = geneLocation.getGeneEncodingType();
 
                 if (PLASTID_CHILD.contains(geneEncodingType)) {
-                    document.organelles.add(GeneEncodingType.PLASTID.getName().toLowerCase());
+                    document.encodedIn.add(GeneEncodingType.PLASTID.getName().toLowerCase());
                 }
-                document.organelles.add(geneEncodingType.getName().toLowerCase());
+                document.encodedIn.add(geneEncodingType.getName().toLowerCase());
             }
         }
     }

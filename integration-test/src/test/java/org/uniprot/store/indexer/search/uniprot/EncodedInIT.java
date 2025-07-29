@@ -20,27 +20,27 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.uniprot.core.flatfile.writer.LineType;
 
-/** Tests whether the organelles of a UniProt entry have been indexed correctly */
-class OrganelleIT {
+/** Tests whether the Encoded In of a UniProt entry have been indexed correctly */
+class EncodedInIT {
     private static final String UNIPROT_FLAT_FILE_ENTRY_PATH = "/it/uniprot/P0A377.43.dat";
     // Entry 1
     private static final String ACCESSION1 = "Q197F4";
-    private static final String ORGANELLE1 = MITOCHONDRION.getName();
+    private static final String ENCODED_IN1 = MITOCHONDRION.getName();
     // Entry 2
     private static final String ACCESSION2 = "Q197F5";
-    private static final String ORGANELLE_SPECIFIC_NAME1 = "pCP301";
-    private static final String ORGANELLE2 = PLASMID.getName() + " " + ORGANELLE_SPECIFIC_NAME1;
-    private static final String ORGANELLE_SPECIFIC_NAME2 = "pWR100";
-    private static final String ORGANELLE3 = PLASMID.getName() + " " + ORGANELLE_SPECIFIC_NAME2;
-    private static final String ORGANELLE_SPECIFIC_NAME3 = "pINV_F6_M1382";
-    private static final String ORGANELLE4 = PLASMID.getName() + " " + ORGANELLE_SPECIFIC_NAME3;
+    private static final String ENCODED_IN_SPECIFIC_NAME1 = "pCP301";
+    private static final String ENCODED_IN2 = PLASMID.getName() + " " + ENCODED_IN_SPECIFIC_NAME1;
+    private static final String ENCODED_IN_SPECIFIC_NAME2 = "pWR100";
+    private static final String ENCODED_IN3 = PLASMID.getName() + " " + ENCODED_IN_SPECIFIC_NAME2;
+    private static final String ENCODED_IN_SPECIFIC_NAME3 = "pINV_F6_M1382";
+    private static final String ENCODED_IN4 = PLASMID.getName() + " " + ENCODED_IN_SPECIFIC_NAME3;
     // Entry 3
     private static final String ACCESSION3 = "Q197F6";
-    private static final String ORGANELLE5 =
+    private static final String ENCODED_IN5 =
             PLASTID.getName() + "; " + CYANELLE.getName(); // CYANELLE is child of PLASTID
     // Entry 4
     private static final String ACCESSION4 = "Q197F7";
-    private static final String ORGANELLE6 =
+    private static final String ENCODED_IN6 =
             PLASTID.getName() + "; " + ORGANELLAR_CHROMATOPHORE.getName();
     ;
     @RegisterExtension static UniProtSearchEngine searchEngine = new UniProtSearchEngine();
@@ -54,37 +54,39 @@ class OrganelleIT {
 
         // Entry 1
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION1));
-        entryProxy.updateEntryObject(LineType.OG, createOGLine(ORGANELLE1));
+        entryProxy.updateEntryObject(LineType.OG, createOGLine(ENCODED_IN1));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         // Entry 2
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION2));
-        entryProxy.updateEntryObject(LineType.OG, createOGLine(ORGANELLE3, ORGANELLE2, ORGANELLE4));
+        entryProxy.updateEntryObject(
+                LineType.OG, createOGLine(ENCODED_IN3, ENCODED_IN2, ENCODED_IN4));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         // Entry 3
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION3));
-        entryProxy.updateEntryObject(LineType.OG, createOGLine(ORGANELLE5));
+        entryProxy.updateEntryObject(LineType.OG, createOGLine(ENCODED_IN5));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         // Entry 4
         entryProxy.updateEntryObject(LineType.AC, String.format(ACC_LINE, ACCESSION4));
-        entryProxy.updateEntryObject(LineType.OG, createOGLine(ORGANELLE6));
+        entryProxy.updateEntryObject(LineType.OG, createOGLine(ENCODED_IN6));
         searchEngine.indexEntry(convertToUniProtEntry(entryProxy));
 
         searchEngine.printIndexContents();
     }
 
-    private static String createOGLine(String... organelles) {
+    private static String createOGLine(String... encodedIns) {
         StringBuilder line = new StringBuilder("OG   ");
 
-        if (organelles.length > 0) {
-            for (int i = 0; i < organelles.length; i++) {
-                // if more than one organelle exists the last one gets an and appended to it
-                if (organelles.length > 1 && i == (organelles.length - 1)) {
+        if (encodedIns.length > 0) {
+            for (int i = 0; i < encodedIns.length; i++) {
+                // if more than one organelle(encoded in) exists the last one gets an and appended
+                // to it
+                if (encodedIns.length > 1 && i == (encodedIns.length - 1)) {
                     line.append("and ");
                 }
-                line.append(organelles[i]).append(", ");
+                line.append(encodedIns[i]).append(", ");
             }
 
             line.replace(line.length() - 2, line.length(), ".");
@@ -95,8 +97,8 @@ class OrganelleIT {
     }
 
     @Test
-    void noMatchesForNonExistentOrganelle() {
-        String query = organelle(HYDROGENOSOME.getName());
+    void noMatchesForNonExistentEncodedIn() {
+        String query = encodedIn(HYDROGENOSOME.getName());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -105,8 +107,8 @@ class OrganelleIT {
     }
 
     @Test
-    void organelleFromEntry1MatchesEntry1() {
-        String query = organelle(MITOCHONDRION.getName());
+    void encodedInFromEntry1MatchesEntry1() {
+        String query = encodedIn(MITOCHONDRION.getName());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -116,7 +118,7 @@ class OrganelleIT {
 
     @Test
     void partialPlasmidSearchMatchesEntry2() {
-        String query = organelle(PLASMID.getName());
+        String query = encodedIn(PLASMID.getName());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -126,7 +128,7 @@ class OrganelleIT {
 
     @Test
     void partialPlasmidSpecificNameNotFound() {
-        String query = organelle(ORGANELLE_SPECIFIC_NAME2);
+        String query = encodedIn(ENCODED_IN_SPECIFIC_NAME2);
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -136,7 +138,7 @@ class OrganelleIT {
 
     @Test
     void plastidChildSearchMatchesEntry3() {
-        String query = organelle(ORGANELLAR_CHROMATOPHORE.getName().toLowerCase());
+        String query = encodedIn(ORGANELLAR_CHROMATOPHORE.getName().toLowerCase());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -146,7 +148,7 @@ class OrganelleIT {
 
     @Test
     void plastidParentSearchMatchesEntry3And4() {
-        String query = organelle(PLASTID.name());
+        String query = encodedIn(PLASTID.name());
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
@@ -154,8 +156,8 @@ class OrganelleIT {
         assertThat(retrievedAccessions, containsInAnyOrder(ACCESSION3, ACCESSION4));
     }
 
-    String organelle(String name) {
+    String encodedIn(String name) {
         return query(
-                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("organelle"), name);
+                searchEngine.getSearchFieldConfig().getSearchFieldItemByName("encoded_in"), name);
     }
 }

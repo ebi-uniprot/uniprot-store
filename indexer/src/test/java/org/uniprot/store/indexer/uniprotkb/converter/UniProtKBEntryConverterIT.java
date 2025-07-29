@@ -135,8 +135,8 @@ class UniProtKBEntryConverterIT {
         assertEquals(1, doc.taxLineageIds.size());
         assertEquals(172543L, doc.taxLineageIds.get(0).longValue());
 
-        assertEquals(1, doc.organelles.size());
-        assertEquals("mitochondrion", doc.organelles.get(0));
+        assertEquals(1, doc.encodedIn.size());
+        assertEquals("mitochondrion", doc.encodedIn.get(0));
 
         assertEquals(1, doc.organismHostIds.size());
         assertEquals(9539, doc.organismHostIds.get(0).intValue());
@@ -310,7 +310,7 @@ class UniProtKBEntryConverterIT {
                 doc.taxLineageIds.stream().map(Object::toString).collect(Collectors.toList()),
                 false);
 
-        assertEquals(0, doc.organelles.size());
+        assertEquals(0, doc.encodedIn.size());
         assertEquals(0, doc.organismHostNames.size());
         assertEquals(0, doc.organismHostIds.size());
 
@@ -506,7 +506,7 @@ class UniProtKBEntryConverterIT {
         assertEquals(1, doc.taxLineageIds.size());
         assertEquals(10116L, doc.taxLineageIds.get(0).longValue());
 
-        assertEquals(0, doc.organelles.size());
+        assertEquals(0, doc.encodedIn.size());
         assertEquals(0, doc.organismHostNames.size());
         assertEquals(0, doc.organismHostIds.size());
 

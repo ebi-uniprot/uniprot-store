@@ -77,7 +77,7 @@
 			},
 			{
 				"label": "Gene encoded by",
-				"name": "organelle",
+				"name": "encoded_in",
 				"javaFieldName": "geneLocation"
 			},
 			{
