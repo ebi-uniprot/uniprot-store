@@ -94,7 +94,7 @@
         "mandatoryJsonField": false
       },
       {
-        "label": "Gene encoded by",
+        "label": "Gene encoded in",
         "name": "encoded_in",
         "javaFieldName": "geneLocation",
         "mandatoryJsonField": false

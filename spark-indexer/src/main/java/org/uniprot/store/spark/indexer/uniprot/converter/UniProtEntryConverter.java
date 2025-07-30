@@ -37,7 +37,7 @@ public class UniProtEntryConverter
     private static final long serialVersionUID = -4786571927033506456L;
     private static final String DASH = "-";
     private static final String CANONICAL = DASH + "1";
-    /** An enum set representing all of the organelles that are children of plastid */
+    /** An enum set representing all of the organelles(encoded in) that are children of plastid */
     private static final EnumSet<GeneEncodingType> PLASTID_CHILD =
             EnumSet.of(
                     GeneEncodingType.APICOPLAST,

@@ -221,7 +221,7 @@
     "parentId": "sequences",
     "childNumber": 2,
     "itemType": "SINGLE",
-    "name": "error_gmodel_pred",
+    "name": "cc_sc_epred",
     "label": "Erroneous gene model prediction",
     "id": "sequences/erroneous_gene_model_prediction",
     "paths": [
