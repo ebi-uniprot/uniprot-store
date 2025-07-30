@@ -1885,9 +1885,9 @@
     "parentId": "sequence",
     "childNumber": 15,
     "label": "Encoded in",
-    "id": "organelle",
+    "id": "encoded_in",
     "itemType": "SINGLE",
-    "fieldName": "organelle",
+    "fieldName": "encoded_in",
     "fieldType": "GENERAL",
     "dataType": "ENUM",
     "values": [
@@ -1928,7 +1928,7 @@
         "value": "hydrogenosome"
       }
     ],
-    "description": "Search by organelle",
+    "description": "Search by encoded_in",
     "example": "mitochondrion"
   },
   {

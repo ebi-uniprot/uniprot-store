@@ -90,8 +90,8 @@ public class UniProtDocument implements Document {
     @Field("taxonomy_id")
     public List<Integer> taxLineageIds = new ArrayList<>();
 
-    @Field("organelle")
-    public List<String> organelles = new ArrayList<>();
+    @Field("encoded_in")
+    public List<String> encodedIn = new ArrayList<>();
 
     @Field("virus_host_name")
     public List<String> organismHostNames = new ArrayList<>();
@@ -356,7 +356,7 @@ public class UniProtDocument implements Document {
                 && Objects.equals(modelOrganism, that.modelOrganism)
                 && Objects.equals(organismTaxon, that.organismTaxon)
                 && Objects.equals(taxLineageIds, that.taxLineageIds)
-                && Objects.equals(organelles, that.organelles)
+                && Objects.equals(encodedIn, that.encodedIn)
                 && Objects.equals(organismHostNames, that.organismHostNames)
                 && Objects.equals(organismHostIds, that.organismHostIds)
                 && Objects.equals(pathway, that.pathway)
@@ -447,7 +447,7 @@ public class UniProtDocument implements Document {
                 modelOrganism,
                 organismTaxon,
                 taxLineageIds,
-                organelles,
+                encodedIn,
                 organismHostNames,
                 organismHostIds,
                 pathway,
@@ -575,8 +575,8 @@ public class UniProtDocument implements Document {
                 + organismTaxon
                 + ", taxLineageIds="
                 + taxLineageIds
-                + ", organelles="
-                + organelles
+                + ", encodedIn="
+                + encodedIn
                 + ", organismHostNames="
                 + organismHostNames
                 + ", organismHostIds="

@@ -261,7 +261,7 @@ class UniProtKBEntryConverterTest {
     }
 
     @Test
-    void convertOrganelleFields() {
+    void convertEncodedInFields() {
         // given
         GeneLocation geneLocation =
                 new GeneLocationBuilder()
@@ -278,7 +278,7 @@ class UniProtKBEntryConverterTest {
 
         // then
         assertEquals("P12345", document.accession);
-        assertEquals(Arrays.asList("plastid", "cyanelle"), document.organelles);
+        assertEquals(Arrays.asList("plastid", "cyanelle"), document.encodedIn);
         assertEquals(1, document.id.size());
         assertTrue(document.id.contains("UNIPROT_ENTRYID"));
         assertEquals("UNIPROT_ENTRYID", document.idSort);

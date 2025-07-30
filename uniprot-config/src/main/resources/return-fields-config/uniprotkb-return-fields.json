@@ -221,7 +221,7 @@
     "parentId": "sequences",
     "childNumber": 2,
     "itemType": "SINGLE",
-    "name": "error_gmodel_pred",
+    "name": "cc_sc_epred",
     "label": "Erroneous gene model prediction",
     "id": "sequences/erroneous_gene_model_prediction",
     "paths": [
@@ -244,9 +244,9 @@
     "childNumber": 4,
     "itemType": "SINGLE",
     "includeInSwagger": true,
-    "name": "organelle",
-    "label": "Gene encoded by",
-    "id": "sequences/gene_encoded_by",
+    "name": "encoded_in",
+    "label": "Encoded in",
+    "id": "sequences/gene_encoded_in",
     "paths": [
       "geneLocations"
     ]

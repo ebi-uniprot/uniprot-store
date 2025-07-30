@@ -107,7 +107,7 @@
 	<field name="pathway" type="ec" indexed="true" stored="false"
 		required="false" multiValued="true" />
 
-	<field name="organelle" type="basic_ci" indexed="true"
+	<field name="encoded_in" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 
 	<!-- Gene -->

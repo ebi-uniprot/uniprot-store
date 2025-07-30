@@ -74,8 +74,8 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(172543, doc.organismTaxId);
 
-        assertEquals(1, doc.organelles.size());
-        assertEquals("mitochondrion", doc.organelles.get(0));
+        assertEquals(1, doc.encodedIn.size());
+        assertEquals("mitochondrion", doc.encodedIn.get(0));
 
         assertEquals(1, doc.organismHostIds.size());
         assertEquals(9539, doc.organismHostIds.get(0).intValue());
@@ -257,7 +257,7 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(10116, doc.organismTaxId);
 
-        assertEquals(0, doc.organelles.size());
+        assertEquals(0, doc.encodedIn.size());
         assertEquals(0, doc.organismHostNames.size());
         assertEquals(0, doc.organismHostIds.size());
 
@@ -429,7 +429,7 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(10116, doc.organismTaxId);
 
-        assertEquals(0, doc.organelles.size());
+        assertEquals(0, doc.encodedIn.size());
         assertEquals(0, doc.organismHostIds.size());
 
         assertEquals(108, doc.crossRefs.size());
