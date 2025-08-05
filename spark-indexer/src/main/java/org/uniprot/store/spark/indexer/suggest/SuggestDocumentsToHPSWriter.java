@@ -13,6 +13,7 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.storage.StorageLevel;
 import org.uniprot.core.cv.chebi.ChebiEntry;
+import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.core.cv.ec.ECEntry;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.keyword.KeywordEntry;
@@ -32,6 +33,7 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
+import org.uniprot.store.spark.indexer.disease.DiseaseRDDReader;
 import org.uniprot.store.spark.indexer.ec.ECRDDReader;
 import org.uniprot.store.spark.indexer.go.relations.GORelationRDDReader;
 import org.uniprot.store.spark.indexer.keyword.KeywordRDDReader;
@@ -101,6 +103,7 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .union(getGo(flatFileRDD))
                         .union(getUniProtKbOrganism(flatFileRDD, organismWithLineageRDD))
                         .union(getProteome(organismWithLineageRDD))
+                        .union(getDisease())
                         .repartition(suggestPartition);
 
         SolrUtils.saveSolrInputDocumentRDD(suggestRDD, hpsPath);
@@ -493,5 +496,14 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
                         .map(suggest -> new Tuple2<>(suggest.id, suggest))
                         .collect(Collectors.toList());
         return sparkContext.parallelizePairs(tupleList);
+    }
+
+    JavaRDD<SuggestDocument> getDisease() {
+
+        // JavaPairRDD<DiseaseId,DiseaseEntry> disease
+        DiseaseRDDReader diseaseRDDReader = new DiseaseRDDReader(jobParameter);
+        JavaPairRDD<String, DiseaseEntry> diseaseRDDs = diseaseRDDReader.load();
+
+        return diseaseRDDs.mapValues(new DiseaseToSuggestDocument()).values().distinct();
     }
 }
