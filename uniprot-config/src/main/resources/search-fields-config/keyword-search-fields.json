@@ -27,7 +27,9 @@
     "sortFieldId": "name_sort_id",
     "description": "Search by name",
     "example": "2Fe-2S",
-    "includeInSwagger": true
+    "includeInSwagger": true,
+    "autoComplete": "{CONTEXT_PATH}/suggester?dict=keyword&query=?",
+    "autoCompleteQueryField": "keyword_id"
   },
   {
     "seqNumber": 1,
