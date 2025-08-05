@@ -65,9 +65,9 @@ public class UniParcLightDataStoreIndexer implements DataStoreIndexer {
                         ? uniParcIdCommonTaxons.getNumPartitions() / 4
                         : uniParcIdCommonTaxons.getNumPartitions();
         uniParcIdCommonTaxons.repartition(numPartition);
-        log.info(
-                "Total number of entries in uniParcIdCommonTaxons {}",
-                uniParcIdCommonTaxons.count());
+//        log.info(
+//                "Total number of entries in uniParcIdCommonTaxons {}",
+//                uniParcIdCommonTaxons.count());
 
         // convert uniParcLightRDD to <uniParcId, uniParcLight> and then join with
         // uniParcIdTaxonLineages.
