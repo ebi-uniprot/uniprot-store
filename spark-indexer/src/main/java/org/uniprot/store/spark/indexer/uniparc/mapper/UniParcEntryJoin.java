@@ -116,6 +116,12 @@ public class UniParcEntryJoin
     }
 
     private static String getXrefIdWithProteomeAndComponent(UniParcCrossReference xref) {
-        return xref.getId() + ":" + xref.getProteomeId() + ":" + xref.getComponent();
+        return xref.getDatabase().getName()
+                + ":"
+                + xref.getId()
+                + ":"
+                + xref.getProteomeId()
+                + ":"
+                + xref.getComponent();
     }
 }
