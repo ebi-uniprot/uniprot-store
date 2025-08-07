@@ -25,7 +25,11 @@ class TaxonomyToSuggestDocumentTest {
     @Test
     void testOrganismToSuggestDocumentSingleOrganism() throws Exception {
         TaxonomyLineage organism =
-                new TaxonomyLineageBuilder().taxonId(1111).scientificName("value").build();
+                new TaxonomyLineageBuilder()
+                        .taxonId(1111)
+                        .scientificName("value")
+                        .synonymsAdd("synonym")
+                        .build();
         TaxonomyToSuggestDocument mapper =
                 new TaxonomyToSuggestDocument(SuggestDictionary.TAXONOMY);
         var tuple =
@@ -43,7 +47,8 @@ class TaxonomyToSuggestDocumentTest {
         assertEquals("TAXONOMY", result.dictionary);
         assertEquals("1111", result.id);
         assertEquals("value", result.value);
-        assertTrue(result.altValues.isEmpty());
+        assertFalse(result.altValues.isEmpty());
+        assertEquals("synonym", result.altValues.get(0));
         assertEquals("medium", result.importance);
     }
 

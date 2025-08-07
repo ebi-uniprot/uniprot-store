@@ -544,8 +544,9 @@ class SuggestDocumentsToHPSWriterTest {
         assertEquals(dict.name(), resultMap.get(taxonId).get(0).dictionary);
         assertEquals(taxonId, resultMap.get(taxonId).get(0).id);
         assertEquals("scientificName for " + taxonId, resultMap.get(taxonId).get(0).value);
-        assertEquals(1, resultMap.get(taxonId).get(0).altValues.size());
+        assertEquals(2, resultMap.get(taxonId).get(0).altValues.size());
         assertEquals("commonName for " + taxonId, resultMap.get(taxonId).get(0).altValues.get(0));
+        assertEquals("synonym for " + taxonId, resultMap.get(taxonId).get(0).altValues.get(1));
     }
 
     private <T> Map<String, List<T>> getResultMap(
