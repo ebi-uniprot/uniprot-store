@@ -32,7 +32,7 @@ class SearchFieldConfigImplTest {
     void testSize() {
         List<SearchFieldItem> items = searchFieldConfig.getSearchFieldItems();
         Assertions.assertNotNull(items);
-        assertEquals(473, items.size());
+        assertEquals(471, items.size());
     }
 
     @Test
@@ -47,7 +47,7 @@ class SearchFieldConfigImplTest {
                                         StringUtils.isNotEmpty(i.getFieldName())
                                                 && i.getFieldName().startsWith("xref_count_"))
                         .count();
-        Assertions.assertEquals(197, xrefCountFieldsCount);
+        Assertions.assertEquals(195, xrefCountFieldsCount);
     }
 
     @Test
