@@ -32,6 +32,7 @@
     "parentId": "cross_reference",
     "childNumber": 2,
     "itemType": "SINGLE",
+    "sortField" : "abbrev",
     "includeInSwagger": true,
     "label": "Database Abbreviation",
     "name": "abbrev",
