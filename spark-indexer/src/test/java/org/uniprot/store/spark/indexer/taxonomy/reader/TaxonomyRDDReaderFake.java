@@ -62,6 +62,7 @@ public class TaxonomyRDDReaderFake extends TaxonomyRDDReader {
                 .taxonId(taxonId)
                 .scientificName("scientificName for " + taxonId)
                 .commonName("commonName for " + taxonId)
+                .synonymsAdd("synonym for " + taxonId)
                 .rank(TaxonomyRank.FAMILY)
                 .build();
     }

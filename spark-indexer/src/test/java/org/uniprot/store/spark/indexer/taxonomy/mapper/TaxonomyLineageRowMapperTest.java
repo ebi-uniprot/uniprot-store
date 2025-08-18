@@ -30,6 +30,7 @@ class TaxonomyLineageRowMapperTest {
         values.add("| "); // LINEAGE_COMMON
         values.add("|no rank"); // LINEAGE_RANK
         values.add("|1"); // LINEAGE_HIDDEN
+        values.add("| "); // LINEAGE_SYNONYM
 
         Row row = new GenericRowWithSchema(values.toArray(), getTaxonomyLineageSchema());
 
@@ -111,6 +112,8 @@ class TaxonomyLineageRowMapperTest {
         assertTrue(azorhizobium.getCommonName().isEmpty());
         assertEquals(TaxonomyRank.GENUS, azorhizobium.getRank());
         assertFalse(azorhizobium.isHidden());
+        assertEquals(1, azorhizobium.getSynonyms().size());
+        assertEquals("Borrelia burgdorferi", azorhizobium.getSynonyms().get(0));
     }
 
     private StructType getTaxonomyLineageSchema() {
@@ -120,6 +123,7 @@ class TaxonomyLineageRowMapperTest {
         structType = structType.add("LINEAGE_COMMON", DataTypes.StringType, true);
         structType = structType.add("LINEAGE_RANK", DataTypes.StringType, true);
         structType = structType.add("LINEAGE_HIDDEN", DataTypes.StringType, true);
+        structType = structType.add("LINEAGE_SYNONYM", DataTypes.StringType, true);
         return structType;
     }
 
@@ -132,6 +136,7 @@ class TaxonomyLineageRowMapperTest {
         values.add("| | |rhizobacteria| | |eubacteria| | "); // LINEAGE_COMMON
         values.add("|genus|family|order|class|phylum|superkingdom|no rank|no rank"); // LINEAGE_RANK
         values.add("|0|0|0|0|0|0|1|1"); // LINEAGE_HIDDEN
+        values.add("|Borrelia burgdorferi| | | | | | | | | "); // LINEAGE_SYNONYM
         return values;
     }
 }
