@@ -64,7 +64,7 @@ class SuggestionConfigTest {
     void allDefaultDatabasesLoaded() {
         List<SuggestDocument> suggestions = extractSuggestDocuments("Database:");
         List<UniProtDatabaseDetail> dbxRefTypes =
-                UniProtDatabaseTypes.INSTANCE.getAllDbTypes().stream()
+                UniProtDatabaseTypes.INSTANCE.getUniProtKBDbTypes().stream()
                         .filter(val -> !val.isImplicit())
                         .collect(Collectors.toList());
         assertThat(dbxRefTypes, hasSize(greaterThan(0)));

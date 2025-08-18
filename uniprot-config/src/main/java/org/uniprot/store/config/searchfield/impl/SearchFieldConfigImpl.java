@@ -31,7 +31,7 @@ public class SearchFieldConfigImpl extends AbstractSearchFieldConfig {
     }
 
     private List<SearchFieldItem> getCrossRefCountSearchFieldItems() {
-        return UniProtDatabaseTypes.INSTANCE.getAllDbTypes().stream()
+        return UniProtDatabaseTypes.INSTANCE.getUniProtKBDbTypes().stream()
                 .map(this::convertToFieldItem)
                 .collect(Collectors.toList());
     }
