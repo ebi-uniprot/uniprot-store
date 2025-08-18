@@ -94,7 +94,9 @@ public class UniParcCrossReferenceMocker {
                         .propertiesAdd(
                                 new Property(
                                         PROPERTY_SOURCES,
-                                        getName("WP_1688932", qualifier)
+                                        UniParcDatabase.TREMBL.getName()
+                                                + ":"
+                                                + getName("WP_1688932", qualifier)
                                                 + ":"
                                                 + proteomeId
                                                 + ":"

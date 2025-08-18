@@ -82,9 +82,9 @@ class UniParcEntryJoinTest {
         assertEquals("P12345", uniProtXref.getId());
         assertEquals(2, uniProtXref.getProperties().size());
         Property sourceProperty = uniProtXref.getProperties().get(0);
-        validateSourceProperty(sourceProperty, "AC12345:UP000005640:Chromosome");
+        validateSourceProperty(sourceProperty, "EMBL:AC54321:UP000000001:Chromosome");
         sourceProperty = uniProtXref.getProperties().get(1);
-        validateSourceProperty(sourceProperty, "AC54321:UP000000001:Chromosome");
+        validateSourceProperty(sourceProperty, "EMBL:AC12345:UP000005640:Chromosome");
     }
 
     @Test
@@ -119,7 +119,7 @@ class UniParcEntryJoinTest {
         assertEquals("P12345", uniProtXref.getId());
         assertEquals(1, uniProtXref.getProperties().size());
         Property sourceProperty = uniProtXref.getProperties().get(0);
-        validateSourceProperty(sourceProperty, "AC12345:UP000005640:Chromosome");
+        validateSourceProperty(sourceProperty, "EMBL:AC12345:UP000005640:Chromosome");
     }
 
     @Test
@@ -140,7 +140,7 @@ class UniParcEntryJoinTest {
         assertEquals("P12345", uniProtXref.getId());
         assertEquals(1, uniProtXref.getProperties().size());
         Property sourceProperty = uniProtXref.getProperties().get(0);
-        validateSourceProperty(sourceProperty, "AC12345:UP000005640:Chromosome");
+        validateSourceProperty(sourceProperty, "EMBL:AC12345:UP000005640:Chromosome");
 
         assertNotNull(uniProtXref.getOrganism());
         assertEquals(10L, uniProtXref.getOrganism().getTaxonId());

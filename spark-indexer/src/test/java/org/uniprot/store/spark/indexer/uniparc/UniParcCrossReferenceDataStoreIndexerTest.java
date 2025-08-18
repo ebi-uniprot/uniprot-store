@@ -84,7 +84,7 @@ class UniParcCrossReferenceDataStoreIndexerTest {
             assertFalse(xref.getProperties().isEmpty());
             Property source = xref.getProperties().get(0);
             assertEquals(UniParcCrossReference.PROPERTY_SOURCES, source.getKey());
-            assertEquals("CAC20866:UP000002494:Chromosome 1", source.getValue());
+            assertEquals("EMBL:CAC20866:UP000002494:Chromosome 1", source.getValue());
             // get crossref of UniParc entry without taxonomy id
             Optional<UniParcCrossReferencePair> crossRefBatchWithoutTaxon =
                     result.stream()
