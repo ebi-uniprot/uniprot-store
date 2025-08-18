@@ -109,6 +109,7 @@ class SuggestDocumentsToHPSWriterTest {
                 .thenReturn(emptyRDD);
         Mockito.when(writer.getProteome(Mockito.any())).thenReturn(emptyRDD);
         Mockito.when(writer.getUniParcTaxonomy(Mockito.any())).thenReturn(emptyRDD);
+        Mockito.when(writer.getDisease()).thenReturn(emptyRDD);
 
         writer.writeIndexDocumentsToHPS(
                 hpsPath.toString() + File.separator + "testWriteIndexDocumentsToHPS");
@@ -124,6 +125,7 @@ class SuggestDocumentsToHPSWriterTest {
                 .getUniProtKbOrganism(Mockito.any(), Mockito.any());
         Mockito.verify(writer, Mockito.atMostOnce()).getProteome(Mockito.any());
         Mockito.verify(writer, Mockito.atMostOnce()).getUniParcTaxonomy(Mockito.any());
+        Mockito.verify(writer, Mockito.atMostOnce()).getDisease();
     }
 
     @Test
@@ -479,6 +481,35 @@ class SuggestDocumentsToHPSWriterTest {
         assertTrue(document.altValues.contains("Baker’s yeast"));
         assertTrue(document.altValues.contains("Brewer’s yeast"));
         assertTrue(document.altValues.contains("S. cerevisiae"));
+    }
+
+    @Test
+    void getDisease() {
+        SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
+        JavaRDD<SuggestDocument> suggestRdd = writer.getDisease();
+        assertNotNull(suggestRdd);
+        int count = (int) suggestRdd.count();
+        assertEquals(4, count);
+
+        Map<String, List<SuggestDocument>> resultMap =
+                getResultMap(suggestRdd.take(count), doc -> doc.id);
+        assertNotNull(resultMap);
+        assertTrue(resultMap.containsKey("DI-00002"));
+        assertTrue(resultMap.containsKey("DI-03673"));
+        assertTrue(resultMap.containsKey("DI-00602"));
+        assertTrue(resultMap.containsKey("DI-04240"));
+        List<SuggestDocument> suggestDocs = resultMap.get("DI-00002");
+        assertEquals(1, suggestDocs.size());
+        SuggestDocument suggestDoc = suggestDocs.get(0);
+        assertEquals("DI-00002", suggestDoc.id);
+        assertEquals("DISEASE", suggestDoc.dictionary);
+        assertEquals("medium", suggestDoc.importance);
+        assertEquals(4, suggestDoc.altValues.size());
+        assertEquals("HAD deficiency", suggestDoc.altValues.get(0));
+        assertEquals(
+                "Hydroxyacyl-coenzyme A dehydrogenase deficiency", suggestDoc.altValues.get(1));
+        assertEquals("SCHAD deficiency", suggestDoc.altValues.get(2));
+        assertEquals("HADH deficiency", suggestDoc.altValues.get(3));
     }
 
     @Nested

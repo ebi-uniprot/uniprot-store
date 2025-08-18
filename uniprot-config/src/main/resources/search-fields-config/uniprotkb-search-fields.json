@@ -3576,7 +3576,9 @@
     "dataType": "STRING",
     "description": "Search by Comment disease",
     "example": "nephrotic",
-    "includeInSwagger": true
+    "includeInSwagger": true,
+    "autoComplete": "{CONTEXT_PATH}/suggester?dict=disease&query=?",
+    "autoCompleteQueryField": "cc_disease"
   },
   {
     "parentId" : "disease",
