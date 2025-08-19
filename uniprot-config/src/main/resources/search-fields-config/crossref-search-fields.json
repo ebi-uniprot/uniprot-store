@@ -26,6 +26,24 @@
     "example": "category_str desc"
   },
   {
+    "id": "abbrev",
+    "fieldName": "abbrev",
+    "fieldType": "GENERAL",
+    "sortFieldId": "abbrev_sort",
+    "dataType": "STRING",
+    "description": "Search cross-references by abbreviation",
+    "example": "AGR",
+    "includeInSwagger": true
+  },
+  {
+    "id": "abbrev_sort",
+    "fieldName": "abbrev",
+    "fieldType": "SORT",
+    "dataType": "STRING",
+    "description": "Sort cross-references by abbreviation",
+    "example": "AGR"
+  },
+  {
     "id": "category_exact",
     "fieldName": "category_exact",
     "fieldType": "GENERAL",
