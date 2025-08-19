@@ -105,7 +105,7 @@ public class SuggestionConfig {
     }
 
     public static List<SuggestDocument> databaseSuggestions() {
-        return UniProtDatabaseTypes.INSTANCE.getAllDbTypes().stream()
+        return UniProtDatabaseTypes.INSTANCE.getUniProtKBDbTypes().stream()
                 .filter(val -> !val.isImplicit())
                 .map(
                         type -> {

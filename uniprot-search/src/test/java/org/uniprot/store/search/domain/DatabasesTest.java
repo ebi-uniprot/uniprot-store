@@ -42,7 +42,7 @@ class DatabasesTest {
     @Test
     void testHasCorrectKnownCrossReferencesSize() {
         List<UniProtDatabaseDetail> allKnownCrossReferences =
-                UniProtDatabaseTypes.INSTANCE.getAllDbTypes().stream()
+                UniProtDatabaseTypes.INSTANCE.getUniProtKBDbTypes().stream()
                         .filter(dbd -> !dbd.getCategory().equals(UniProtDatabaseCategory.UNKNOWN))
                         .filter(dbd -> !dbd.isImplicit())
                         .collect(Collectors.toList());

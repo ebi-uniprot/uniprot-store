@@ -45,7 +45,7 @@ class SearchFieldConfigFactoryTest {
     }
 
     private static Stream<Arguments> provideTypeAndItemCount() {
-        int uniProtKBDBTypesCount = UniProtDatabaseTypes.INSTANCE.getAllDbTypes().size();
+        int uniProtKBDBTypesCount = UniProtDatabaseTypes.INSTANCE.getUniProtKBDbTypes().size();
         return Stream.of(
                 Arguments.of(UniProtDataType.CROSSREF, 6),
                 Arguments.of(UniProtDataType.DISEASE, 3),

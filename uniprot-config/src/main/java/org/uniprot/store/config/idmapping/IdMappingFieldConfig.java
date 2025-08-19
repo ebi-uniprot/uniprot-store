@@ -57,7 +57,7 @@ public class IdMappingFieldConfig {
         if (Utils.nullOrEmpty(idMappingTypes)) {
             // get all the fields which has idmappingname set
             idMappingTypes =
-                    ALL_DB_TYPES.getAllDbTypes().stream()
+                    ALL_DB_TYPES.getUniProtKBDbTypes().stream()
                             .filter(IdMappingFieldConfig::hasIdMappingName)
                             .collect(Collectors.toList());
             // add db names for UniProt category
