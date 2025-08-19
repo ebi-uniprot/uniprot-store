@@ -19,7 +19,7 @@
 	<!-- =============================== cross references fields =============================== -->
 	<field name="id" type="string" indexed="true" stored="true"
 		required="true" multiValued="false" docValues="true" />
-	<field name="abbrev" type="string" indexed="false" stored="true"
+	<field name="abbrev" type="string" indexed="true" stored="true"
 		multiValued="false" />
 	<field name="name_only" type="string" indexed="false"
 		stored="true" multiValued="false" />
