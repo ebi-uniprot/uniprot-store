@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.uniparc;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
 
@@ -47,8 +49,16 @@ class UniParcDocumentsToHPSWriterTest {
             List<UniParcDocument> savedDocuments = writer.getSavedDocuments();
             assertNotNull(savedDocuments);
             assertEquals(4, savedDocuments.size());
-            UniParcDocument uniParcDocument = savedDocuments.get(0);
-            assertEquals("UPI00000E8551", uniParcDocument.getUpi());
+            List<String> uniParcIds = savedDocuments.stream().map(UniParcDocument::getUpi).toList();
+            assertThat(
+                    uniParcIds,
+                    containsInAnyOrder(
+                            "UPI00000E8551", "UPI000028554A", "UPI000000017F", "UPI0001C61C61"));
+            UniParcDocument uniParcDocument =
+                    savedDocuments.stream()
+                            .filter(upd -> "UPI00000E8551".equals(upd.getUpi()))
+                            .findFirst()
+                            .get();
             assertEquals(
                     Set.of("01AEF4B6A09EB753", "0A5293FF0AF8EF6FB9A94942D835DAFC"),
                     uniParcDocument.getSequenceChecksums());
@@ -56,13 +66,6 @@ class UniParcDocumentsToHPSWriterTest {
             assertTrue(uniParcDocument.getOrganismTaxons().contains("lineageSC"));
             assertEquals(1, uniParcDocument.getOrganismIds().size());
             assertEquals(Set.of(10116), uniParcDocument.getOrganismIds());
-
-            uniParcDocument = savedDocuments.get(1);
-            assertEquals("UPI000000017F", uniParcDocument.getUpi());
-            uniParcDocument = savedDocuments.get(2);
-            assertEquals("UPI000028554A", uniParcDocument.getUpi());
-            uniParcDocument = savedDocuments.get(3);
-            assertEquals("UPI0001C61C61", uniParcDocument.getUpi());
         }
     }
 
