@@ -504,6 +504,8 @@
 			<filter class="solr.RemoveDuplicatesTokenFilterFactory" />
 		</analyzer>
 		<analyzer type="query">
+			<charFilter class="solr.MappingCharFilterFactory"
+				mapping="mapping-0o.txt" />
 			<filter class="solr.ASCIIFoldingFilterFactory" />
 			<tokenizer class="solr.StandardTokenizerFactory" />
 			<filter class="solr.StopFilterFactory" ignoreCase="true"
