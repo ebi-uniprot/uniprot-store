@@ -91,7 +91,7 @@ public class LiteratureDocumentConverter
             citationsWith.add("4_computationally"); // Computationally mapped entries
         }
         if (statistics.hasCommunityMappedProteinCount()) {
-            citationsWith.add("5_community"); // Community mapped entries
+            citationsWith.add("5_community"); // Community curated entries
         }
         return citationsWith;
     }
