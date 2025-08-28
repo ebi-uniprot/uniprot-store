@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * The purpose of this class is to load all publication sources (UniProtKB references, PIR
- * computationally mapped references, and community mapped publications), join their data to create
+ * computationally mapped references, and Community curated publications), join their data to create
  * {@link PublicationDocument}s, and write them to HPS.
  *
  * <p>Created 19/01/2021
