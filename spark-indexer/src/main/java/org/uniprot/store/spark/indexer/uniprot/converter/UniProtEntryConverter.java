@@ -248,6 +248,7 @@ public class UniProtEntryConverter
         // populate fields used in spellcheck
         populateSuggestions(document.proteinNames, document);
         populateSuggestions(document.geneNamesExact, document);
+        populateSuggestions(document.crossRefs, document);
         Collection<String> diseases = document.commentMap.getOrDefault("cc_disease", List.of());
         populateSuggestions(diseases, document);
         populateSuggestions(document.rcStrain, document);

@@ -285,6 +285,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
         Collection<String> diseases = document.commentMap.getOrDefault("cc_disease", List.of());
         populateSuggestions(diseases, document);
         populateSuggestions(document.proteinNames, document);
+        populateSuggestions(document.crossRefs, document);
         populateSuggestions(document.geneNamesExact, document);
         populateSuggestions(document.organismTaxon, document);
         populateSuggestions(document.rcStrain, document);

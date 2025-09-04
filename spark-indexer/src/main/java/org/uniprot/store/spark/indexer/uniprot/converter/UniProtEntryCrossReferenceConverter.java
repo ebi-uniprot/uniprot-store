@@ -34,7 +34,7 @@ class UniProtEntryCrossReferenceConverter {
     private void convertXref(List<UniProtKBCrossReference> references, UniProtDocument document) {
         boolean d3structure = false;
         for (UniProtKBCrossReference xref : references) {
-            if (xref.getDatabase().getName().equalsIgnoreCase("PDB")) {
+            if ("PDB".equalsIgnoreCase(xref.getDatabase().getName())) {
                 d3structure = true;
             }
             String dbname = xref.getDatabase().getName().toLowerCase();

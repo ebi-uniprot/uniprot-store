@@ -16,6 +16,8 @@ import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
+import org.uniprot.core.uniprotkb.xdb.impl.UniProtCrossReferenceBuilder;
+import org.uniprot.cv.xdb.UniProtKBDatabaseImpl;
 
 /**
  * Created 19/09/18
@@ -64,6 +66,20 @@ public class UniProtEntryMocker {
         UniProtKBEntryBuilder builder = UniProtKBEntryBuilder.from(entry);
         return builder.primaryAccession(new UniProtKBAccessionBuilder(accession).build())
                 .entryType(UniProtKBEntryType.TREMBL)
+                .sequence(new SequenceBuilder("AAAAA").build())
+                .build();
+    }
+
+    public static UniProtKBEntry create(String accession, String xref) {
+        UniProtKBEntry entry = entryMap.get(Type.SP);
+        UniProtKBEntryBuilder builder = UniProtKBEntryBuilder.from(entry);
+        return builder.primaryAccession(new UniProtKBAccessionBuilder(accession).build())
+                .entryType(UniProtKBEntryType.TREMBL)
+                .uniProtCrossReferencesAdd(
+                        new UniProtCrossReferenceBuilder()
+                                .id(xref)
+                                .database(new UniProtKBDatabaseImpl(""))
+                                .build())
                 .sequence(new SequenceBuilder("AAAAA").build())
                 .build();
     }
