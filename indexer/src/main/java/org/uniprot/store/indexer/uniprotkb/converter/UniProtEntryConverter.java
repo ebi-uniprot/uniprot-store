@@ -288,6 +288,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
         populateSuggestions(document.geneNamesExact, document);
         populateSuggestions(document.organismTaxon, document);
         populateSuggestions(document.rcStrain, document);
+        populateSuggestions(List.of(document.accession), document);
+        populateSuggestions(document.id, document);
     }
 
     private static void populateSuggestions(Collection<String> values, UniProtDocument document) {
