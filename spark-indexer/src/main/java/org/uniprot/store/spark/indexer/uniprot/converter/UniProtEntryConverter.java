@@ -250,6 +250,9 @@ public class UniProtEntryConverter
         populateSuggestions(document.geneNamesExact, document);
         Collection<String> diseases = document.commentMap.getOrDefault("cc_disease", List.of());
         populateSuggestions(diseases, document);
+        populateSuggestions(document.organismTaxon, document);
         populateSuggestions(document.rcStrain, document);
+        populateSuggestions(List.of(document.accession), document);
+        populateSuggestions(document.id, document);
     }
 }

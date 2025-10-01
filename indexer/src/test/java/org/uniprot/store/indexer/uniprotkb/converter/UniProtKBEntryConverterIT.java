@@ -223,9 +223,11 @@ class UniProtKBEntryConverterIT {
         // verify spell check related values
         assertNotNull(doc.suggests);
         assertFalse(doc.suggests.isEmpty());
-        assertEquals(2, doc.suggests.size());
+        assertEquals(4, doc.suggests.size());
         assertTrue(doc.suggests.contains(doc.proteinNames.get(0)));
         assertTrue(doc.suggests.contains(doc.organismTaxon.get(0)));
+        assertTrue(doc.suggests.containsAll(doc.id));
+        assertTrue(doc.suggests.contains(doc.accession));
         doc.suggests.stream().forEach(val -> assertTrue(val.length() >= SPELLCHECK_MIN_LENGTH));
     }
 
@@ -430,7 +432,9 @@ class UniProtKBEntryConverterIT {
         // verify spell check related values
         assertNotNull(doc.suggests);
         assertFalse(doc.suggests.isEmpty());
-        assertEquals(10, doc.suggests.size());
+        assertEquals(12, doc.suggests.size());
+        assertTrue(doc.suggests.containsAll(doc.id));
+        assertTrue(doc.suggests.contains(doc.accession));
         assertTrue(
                 doc.suggests.containsAll(
                         List.of(
@@ -598,7 +602,9 @@ class UniProtKBEntryConverterIT {
         // verify spell check related values
         assertNotNull(doc.suggests);
         assertFalse(doc.suggests.isEmpty());
-        assertEquals(10, doc.suggests.size());
+        assertEquals(12, doc.suggests.size());
+        assertTrue(doc.suggests.containsAll(doc.id));
+        assertTrue(doc.suggests.contains(doc.accession));
         doc.suggests.stream().forEach(val -> assertTrue(val.length() >= SPELLCHECK_MIN_LENGTH));
     }
 

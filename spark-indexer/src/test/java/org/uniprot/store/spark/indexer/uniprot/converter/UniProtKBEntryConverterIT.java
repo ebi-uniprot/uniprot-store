@@ -199,8 +199,10 @@ class UniProtKBEntryConverterIT {
 
         assertFalse(doc.isIsoform);
         assertNotNull(doc.suggests);
-        assertEquals(1, doc.suggests.size());
+        assertEquals(3, doc.suggests.size());
         assertTrue(doc.suggests.containsAll(doc.proteinNames));
+        assertTrue(doc.suggests.containsAll(doc.id));
+        assertTrue(doc.suggests.contains(doc.accession));
     }
 
     @Test
@@ -372,9 +374,11 @@ class UniProtKBEntryConverterIT {
 
         assertFalse(doc.isIsoform);
         assertNotNull(doc.suggests);
-        assertEquals(9, doc.suggests.size());
+        assertEquals(11, doc.suggests.size());
         assertTrue(doc.suggests.containsAll(doc.rcStrain));
         assertTrue(doc.suggests.containsAll(doc.proteinNames));
+        assertTrue(doc.suggests.containsAll(doc.id));
+        assertTrue(doc.suggests.contains(doc.accession));
         Set<String> gene4More =
                 doc.geneNamesExact.stream()
                         .filter(gn -> gn.length() >= 4)
