@@ -55,6 +55,7 @@ class UniProtDocumentTest {
         doc.active = true;
         doc.d3structure = false;
         doc.seqMass = 1;
+        doc.sequenceChecksums = Set.of("ABCD", "XYZ");
         doc.seqLength = 1;
         doc.seqAA = "1";
         doc.score = 1;

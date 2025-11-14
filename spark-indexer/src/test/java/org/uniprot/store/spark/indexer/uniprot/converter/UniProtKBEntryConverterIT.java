@@ -185,6 +185,11 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(42276, doc.seqMass);
         assertEquals(378, doc.seqLength);
+        assertNotNull(doc.sequenceChecksums);
+        assertEquals(2, doc.sequenceChecksums.size());
+        assertEquals(
+                Set.of("B98E5DA48D875402BCB1518B33778DC5", "C04C3A81B3FE4EEB"),
+                doc.sequenceChecksums);
 
         assertEquals(1, doc.scopes.size());
         assertTrue(doc.scopes.contains("NUCLEOTIDE SEQUENCE"));

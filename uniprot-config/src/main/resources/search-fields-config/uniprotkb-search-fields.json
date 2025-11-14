@@ -1603,6 +1603,19 @@
   {
     "parentId": "sequence",
     "childNumber": 1,
+    "id": "checksum",
+    "fieldName": "checksum",
+    "label": "Checksum (CRC64/MD5)",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by checksum name",
+    "example": "B8824CE1ECAEEEAE",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "sequence",
+    "childNumber": 2,
     "label": "Sequence length",
     "id": "length_range",
     "itemType": "SINGLE",
@@ -1616,7 +1629,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 2,
+    "childNumber": 3,
     "label": "Alternative products (isoforms)",
     "itemType": "GROUP",
     "id": "alt_product_isoform"
@@ -1768,7 +1781,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 3,
+    "childNumber": 4,
     "label": "Sequence caution",
     "itemType": "GROUP",
     "id": "seq_caution"
@@ -1894,7 +1907,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 4,
+    "childNumber": 5,
     "label": "Mass Spectrometry",
     "id": "mass_spectrometry",
     "itemType": "SIBLING_GROUP"
@@ -1924,7 +1937,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 5,
+    "childNumber": 6,
     "label": "Polymorphism",
     "id": "polymorphism",
     "itemType": "SIBLING_GROUP"
@@ -1954,7 +1967,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 6,
+    "childNumber": 7,
     "label": "RNA Editing",
     "id": "rna_editing",
     "itemType": "SIBLING_GROUP"
@@ -1984,7 +1997,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 7,
+    "childNumber": 8,
     "label": "Natural Variations",
     "itemType": "GROUP",
     "id": "natural_variations"
@@ -2078,7 +2091,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 8,
+    "childNumber": 9,
     "label": "Non-standard residue",
     "id": "non_standard_residue",
     "itemType": "SIBLING_GROUP"
@@ -2107,7 +2120,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 9,
+    "childNumber": 10,
     "label": "Non-terminal residue",
     "id": "non_terminal_residue",
     "itemType": "SIBLING_GROUP"
@@ -2136,7 +2149,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 10,
+    "childNumber": 11,
     "label": "Non-adjacent residue",
     "id": "non_adjacent_residue",
     "itemType": "SIBLING_GROUP"
@@ -2165,7 +2178,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 11,
+    "childNumber": 12,
     "label": "Sequence conflict",
     "id": "sequence_conflict",
     "itemType": "SIBLING_GROUP"
@@ -2194,7 +2207,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 12,
+    "childNumber": 13,
     "label": "Sequence uncertainty",
     "id": "sequence_uncertainty",
     "itemType": "SIBLING_GROUP"
@@ -2223,7 +2236,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 13,
+    "childNumber": 14,
     "label": "Sequence features [FT]",
     "id": "sequence_features_ft",
     "itemType": "SIBLING_GROUP"
@@ -2252,7 +2265,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 14,
+    "childNumber": 15,
     "label": "Fragment",
     "id": "fragment",
     "itemType": "SINGLE",
@@ -2266,7 +2279,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 15,
+    "childNumber": 16,
     "label": "Encoded in",
     "id": "encoded_in",
     "itemType": "SINGLE",
@@ -2322,7 +2335,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 16,
+    "childNumber": 17,
     "label": "Precursor",
     "id": "precursor",
     "itemType": "SINGLE",
@@ -2335,7 +2348,7 @@
   },
   {
     "parentId": "sequence",
-    "childNumber": 17,
+    "childNumber": 18,
     "label": "Sequence from ... [RC]",
     "itemType": "GROUP",
     "id": "sequence_from_rc"

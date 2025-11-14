@@ -207,6 +207,11 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(42276, doc.seqMass);
         assertEquals(378, doc.seqLength);
+        assertNotNull(doc.sequenceChecksums);
+        assertEquals(2, doc.sequenceChecksums.size());
+        assertEquals(
+                Set.of("C04C3A81B3FE4EEB", "B98E5DA48D875402BCB1518B33778DC5"),
+                doc.sequenceChecksums);
 
         assertEquals(1, doc.scopes.size());
         assertTrue(doc.scopes.contains("NUCLEOTIDE SEQUENCE"));
@@ -405,6 +410,11 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(60282, doc.seqMass);
         assertEquals(532, doc.seqLength);
+        assertNotNull(doc.sequenceChecksums);
+        assertEquals(2, doc.sequenceChecksums.size());
+        assertEquals(
+                Set.of("01AEF4B6A09EB753", "0A5293FF0AF8EF6FB9A94942D835DAFC"),
+                doc.sequenceChecksums);
 
         assertEquals(2, doc.rcTissue.size());
         assertTrue(doc.rcTissue.contains("Hippocampus"));
@@ -578,6 +588,11 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(57478, doc.seqMass);
         assertEquals(509, doc.seqLength);
+        assertNotNull(doc.sequenceChecksums);
+        assertEquals(2, doc.sequenceChecksums.size());
+        assertEquals(
+                Set.of("C2FDA9126D99E39C", "DD569030879308A8B4BC7AE7D5C13433"),
+                doc.sequenceChecksums);
 
         assertEquals(2, doc.rcTissue.size());
         assertTrue(doc.rcTissue.contains("Hippocampus"));
