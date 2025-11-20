@@ -31,7 +31,7 @@ public class ProteomeEntryToProteomeDocumentMapper
                 .ifPresent(score -> document.score = score);
         document.genomeAccession = getGenomeAccession(proteomeEntry);
         document.genomeAssembly = getGenomeAssembly(proteomeEntry);
-        document.proteinCount = getProteinCount(proteomeEntry.getComponents());
+        document.proteinCount = proteomeEntry.getProteinCount();
         Optional.ofNullable(proteomeEntry.getProteomeCompletenessReport())
                 .ifPresent(
                         report -> {
@@ -99,13 +99,6 @@ public class ProteomeEntryToProteomeDocumentMapper
 
     private int getCPD(CPDReport cpdReport) {
         return cpdReport != null ? cpdReport.getStatus().getId() : 0;
-    }
-
-    private int getProteinCount(List<Component> components) {
-        return components.stream()
-                .filter(c -> Utils.notNull(c.getProteinCount()))
-                .mapToInt(Component::getProteinCount)
-                .sum();
     }
 
     private void updateProteomeType(ProteomeDocument document, ProteomeEntry proteomeEntry) {
