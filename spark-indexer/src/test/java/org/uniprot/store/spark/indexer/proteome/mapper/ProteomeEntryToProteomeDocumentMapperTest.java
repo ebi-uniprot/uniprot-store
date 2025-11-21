@@ -141,7 +141,8 @@ class ProteomeEntryToProteomeDocumentMapperTest {
                         .proteomeCompletenessReport(PROTEOME_COMPLETENESS_REPORT)
                         .proteomeType(PROTEOME_TYPE)
                         .taxonLineagesSet(List.of(taxLineage0))
-                        .superkingdom(SUPERKINGDOM);
+                        .superkingdom(SUPERKINGDOM)
+                        .proteinCount(PROTEIN_COUNT_0 + PROTEIN_COUNT_1);
     }
 
     @Test

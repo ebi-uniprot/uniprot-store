@@ -12,7 +12,6 @@ import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
 import org.uniprot.core.proteome.*;
 import org.uniprot.core.taxonomy.TaxonomyLineage;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
-import org.uniprot.core.util.Utils;
 import org.uniprot.store.search.document.proteome.ProteomeDocument;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +30,10 @@ public class ProteomeEntryToProteomeDocumentMapper
                 .ifPresent(score -> document.score = score);
         document.genomeAccession = getGenomeAccession(proteomeEntry);
         document.genomeAssembly = getGenomeAssembly(proteomeEntry);
-        document.proteinCount = proteomeEntry.getProteinCount();
+        document.proteinCount =
+                Objects.nonNull(proteomeEntry.getProteinCount())
+                        ? proteomeEntry.getProteinCount()
+                        : 0;
         Optional.ofNullable(proteomeEntry.getProteomeCompletenessReport())
                 .ifPresent(
                         report -> {
