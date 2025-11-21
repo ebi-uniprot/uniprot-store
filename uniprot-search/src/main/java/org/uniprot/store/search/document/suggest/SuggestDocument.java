@@ -1,5 +1,7 @@
 package org.uniprot.store.search.document.suggest;
 
+import static org.uniprot.core.util.Utils.addOrIgnoreEmpty;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,8 +12,6 @@ import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
 
 import lombok.*;
-
-import static org.uniprot.core.util.Utils.addOrIgnoreEmpty;
 
 @EqualsAndHashCode
 @AllArgsConstructor

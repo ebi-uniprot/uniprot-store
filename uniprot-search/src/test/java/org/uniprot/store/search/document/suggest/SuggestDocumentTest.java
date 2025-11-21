@@ -38,8 +38,8 @@ class SuggestDocumentTest {
 
     @Test
     void addingToAltValuesIsIgnored() {
-        SuggestDocument suggestDocument = SuggestDocument.builder().altValue(null).altValue("")
-                .altValue(SOME_VALUE).build();
+        SuggestDocument suggestDocument =
+                SuggestDocument.builder().altValue(null).altValue("").altValue(SOME_VALUE).build();
         assertThat(suggestDocument.altValues.size(), is(1));
         assertThat(suggestDocument.altValues.get(0), is(SOME_VALUE));
     }
