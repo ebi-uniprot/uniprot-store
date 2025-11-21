@@ -47,7 +47,7 @@ class SearchFieldConfigImplTest {
                                         StringUtils.isNotEmpty(i.getFieldName())
                                                 && i.getFieldName().startsWith("xref_count_"))
                         .count();
-        Assertions.assertEquals(196, xrefCountFieldsCount);
+        Assertions.assertEquals(197, xrefCountFieldsCount);
     }
 
     @Test
