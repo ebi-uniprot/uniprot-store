@@ -344,7 +344,7 @@ class UniProtKBDocumentsToHPSWriterTest {
                         .filter(tuple2 -> tuple2._1.equals("Q00007"))
                         .findFirst()
                         .orElseThrow(AssertionError::new);
-        validateInactiveEntry(inactive, "Q00007", "DEMERGED:P63150,P63151", null);
+        validateInactiveEntry(inactive, "Q00007", "DEMERGED:P63150,P63151", "UPI000000017F");
     }
 
     private static void validateInactiveEntry(
