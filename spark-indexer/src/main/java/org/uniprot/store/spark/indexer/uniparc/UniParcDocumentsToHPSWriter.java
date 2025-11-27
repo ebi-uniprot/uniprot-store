@@ -45,8 +45,8 @@ public class UniParcDocumentsToHPSWriter implements DocumentsToHPSWriter {
     }
 
     /** load all the data for UniParcDocument and write it into HPS (Hadoop File System) */
-    @Override
-    public void writeIndexDocumentsToHPS() {
+    //@Override
+    public void writeIndexDocumentsToHPS_old() {
         UniParcRDDTupleReader uniparcReader = new UniParcRDDTupleReader(parameter, true);
         JavaRDD<UniParcEntry> uniparcRDD = uniparcReader.load();
 
@@ -83,7 +83,8 @@ public class UniParcDocumentsToHPSWriter implements DocumentsToHPSWriter {
         log.info("Completed UniParc prepare Solr index");
     }
 
-    public void writeIndexDocumentsToHPSu() {
+    @Override
+    public void writeIndexDocumentsToHPS() {
         UniParcRDDTupleReader uniparcReader = new UniParcRDDTupleReader(parameter, true);
         JavaRDD<UniParcEntry> uniparcRDD = uniparcReader.load().persist(StorageLevel.MEMORY_AND_DISK());
 
