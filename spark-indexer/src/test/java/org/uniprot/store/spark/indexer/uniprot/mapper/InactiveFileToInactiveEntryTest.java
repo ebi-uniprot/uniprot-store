@@ -49,14 +49,11 @@ class InactiveFileToInactiveEntryTest {
     }
 
     @Test
-    void testDeletedEntryWithInvalidReason() {
+    void testDeletedEntryWithInvalidReason() throws Exception {
         InactiveFileToInactiveEntry mapper = new InactiveFileToInactiveEntry();
 
-        IllegalArgumentException error =
-                assertThrows(
-                        IllegalArgumentException.class,
-                        () -> mapper.call("I8FBX9,I8FBX9_MYCAB,deleted,-,XX"));
-        assertEquals("The DeletedReason id 'XX' doesn't exist.", error.getMessage());
+        Tuple2<String, UniProtKBEntry> result = mapper.call("I8FBX9,I8FBX9_MYCAB,deleted,-,999");
+        validateDeleted(result, "I8FBX9", "I8FBX9_MYCAB", DeletedReason.UNDEFINED);
     }
 
     @Test

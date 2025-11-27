@@ -56,6 +56,9 @@
 	<field name="source" type="lowercase" indexed="true"
 		stored="false" required="false" multiValued="true" />
 
+	<field name="checksum" type="basic_ci" indexed="true"
+		stored="false" required="false" multiValued="true" />
+
 	<!-- Protein name section -->
 	<!-- access protein name via protgene_default for default search -->
 	<field name="protein_name" type="full_ci_lead_wildcard"

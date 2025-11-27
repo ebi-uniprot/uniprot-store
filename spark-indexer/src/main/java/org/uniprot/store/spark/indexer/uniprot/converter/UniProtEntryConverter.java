@@ -193,6 +193,7 @@ public class UniProtEntryConverter
     private void convertSequence(Sequence seq, UniProtDocument document) {
         document.seqLength = seq.getLength();
         document.seqMass = seq.getMolWeight();
+        document.sequenceChecksums = Set.of(seq.getCrc64(), seq.getMd5());
     }
 
     private void convertKeywords(List<Keyword> keywords, UniProtDocument document) {
@@ -251,6 +252,9 @@ public class UniProtEntryConverter
         populateSuggestions(document.crossRefs, document);
         Collection<String> diseases = document.commentMap.getOrDefault("cc_disease", List.of());
         populateSuggestions(diseases, document);
+        populateSuggestions(document.organismTaxon, document);
         populateSuggestions(document.rcStrain, document);
+        populateSuggestions(List.of(document.accession), document);
+        populateSuggestions(document.id, document);
     }
 }

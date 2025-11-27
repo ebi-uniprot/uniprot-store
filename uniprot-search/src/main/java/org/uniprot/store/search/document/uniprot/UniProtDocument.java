@@ -6,6 +6,8 @@ import java.util.*;
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
 
+import lombok.Singular;
+
 /** Document used for indexing uniprot entries into Solr */
 @SuppressWarnings("squid:S1948")
 public class UniProtDocument implements Document {
@@ -317,6 +319,10 @@ public class UniProtDocument implements Document {
     @Field("suggest")
     public Set<String> suggests = new HashSet<>();
 
+    @Singular
+    @Field("checksum")
+    public Set<String> sequenceChecksums; // crc64 and md5
+
     @Override
     public String getDocumentId() {
         return accession;
@@ -419,7 +425,8 @@ public class UniProtDocument implements Document {
                 && Objects.equals(communityPubmedIds, that.communityPubmedIds)
                 && Objects.equals(uniparc, that.uniparc)
                 && Objects.equals(rheaIds, that.rheaIds)
-                && Objects.equals(suggests, that.suggests);
+                && Objects.equals(suggests, that.suggests)
+                && Objects.equals(sequenceChecksums, that.sequenceChecksums);
     }
 
     @Override
@@ -518,7 +525,8 @@ public class UniProtDocument implements Document {
                 uniparc,
                 deletedEntryUniParc,
                 rheaIds,
-                suggests);
+                suggests,
+                sequenceChecksums);
     }
 
     @Override

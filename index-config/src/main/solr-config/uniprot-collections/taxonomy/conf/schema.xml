@@ -48,6 +48,13 @@
 		stored="false" required="false" multiValued="true" docValues="true" />
 	<field name="superkingdom" type="string" indexed="true"
 		stored="false" required="false" multiValued="false" docValues="true" />
+	<!-- matched fields -->
+	<field name="tax_id_str" type="string" stored="false"
+		indexed="true" />
+	<field name="parent_str" type="string" stored="false"
+		indexed="true" />
+	<field name="ancestor_str" type="string" stored="false"
+		indexed="true" />
 	<!-- the whole taxonomy object as binary -->
 	<field name="taxonomy_obj" type="binary" indexed="false"
 		stored="true" required="true" multiValued="false" />
@@ -56,6 +63,9 @@
 		tables. <field name="replaces"/> -->
 
 	<copyField source="scientific" dest="name_sort" />
+	<copyField source="tax_id" dest="tax_id_str" />
+	<copyField source="parent" dest="parent_str" />
+	<copyField source="ancestor" dest="ancestor_str" />
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
 		docValues="true" />

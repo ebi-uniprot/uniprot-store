@@ -185,6 +185,11 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(42276, doc.seqMass);
         assertEquals(378, doc.seqLength);
+        assertNotNull(doc.sequenceChecksums);
+        assertEquals(2, doc.sequenceChecksums.size());
+        assertEquals(
+                Set.of("B98E5DA48D875402BCB1518B33778DC5", "C04C3A81B3FE4EEB"),
+                doc.sequenceChecksums);
 
         assertEquals(1, doc.scopes.size());
         assertTrue(doc.scopes.contains("NUCLEOTIDE SEQUENCE"));
@@ -199,8 +204,10 @@ class UniProtKBEntryConverterIT {
 
         assertFalse(doc.isIsoform);
         assertNotNull(doc.suggests);
-        assertEquals(1, doc.suggests.size());
+        assertEquals(3, doc.suggests.size());
         assertTrue(doc.suggests.containsAll(doc.proteinNames));
+        assertTrue(doc.suggests.containsAll(doc.id));
+        assertTrue(doc.suggests.contains(doc.accession));
     }
 
     @Test
@@ -372,9 +379,11 @@ class UniProtKBEntryConverterIT {
 
         assertFalse(doc.isIsoform);
         assertNotNull(doc.suggests);
-        assertEquals(9, doc.suggests.size());
+        assertEquals(11, doc.suggests.size());
         assertTrue(doc.suggests.containsAll(doc.rcStrain));
         assertTrue(doc.suggests.containsAll(doc.proteinNames));
+        assertTrue(doc.suggests.containsAll(doc.id));
+        assertTrue(doc.suggests.contains(doc.accession));
         Set<String> gene4More =
                 doc.geneNamesExact.stream()
                         .filter(gn -> gn.length() >= 4)

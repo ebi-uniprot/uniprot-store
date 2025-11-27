@@ -207,6 +207,11 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(42276, doc.seqMass);
         assertEquals(378, doc.seqLength);
+        assertNotNull(doc.sequenceChecksums);
+        assertEquals(2, doc.sequenceChecksums.size());
+        assertEquals(
+                Set.of("C04C3A81B3FE4EEB", "B98E5DA48D875402BCB1518B33778DC5"),
+                doc.sequenceChecksums);
 
         assertEquals(1, doc.scopes.size());
         assertTrue(doc.scopes.contains("NUCLEOTIDE SEQUENCE"));
@@ -223,9 +228,11 @@ class UniProtKBEntryConverterIT {
         // verify spell check related values
         assertNotNull(doc.suggests);
         assertFalse(doc.suggests.isEmpty());
-        assertEquals(2, doc.suggests.size());
+        assertEquals(4, doc.suggests.size());
         assertTrue(doc.suggests.contains(doc.proteinNames.get(0)));
         assertTrue(doc.suggests.contains(doc.organismTaxon.get(0)));
+        assertTrue(doc.suggests.containsAll(doc.id));
+        assertTrue(doc.suggests.contains(doc.accession));
         doc.suggests.stream().forEach(val -> assertTrue(val.length() >= SPELLCHECK_MIN_LENGTH));
     }
 
@@ -403,6 +410,11 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(60282, doc.seqMass);
         assertEquals(532, doc.seqLength);
+        assertNotNull(doc.sequenceChecksums);
+        assertEquals(2, doc.sequenceChecksums.size());
+        assertEquals(
+                Set.of("01AEF4B6A09EB753", "0A5293FF0AF8EF6FB9A94942D835DAFC"),
+                doc.sequenceChecksums);
 
         assertEquals(2, doc.rcTissue.size());
         assertTrue(doc.rcTissue.contains("Hippocampus"));
@@ -430,7 +442,9 @@ class UniProtKBEntryConverterIT {
         // verify spell check related values
         assertNotNull(doc.suggests);
         assertFalse(doc.suggests.isEmpty());
-        assertEquals(10, doc.suggests.size());
+        assertEquals(12, doc.suggests.size());
+        assertTrue(doc.suggests.containsAll(doc.id));
+        assertTrue(doc.suggests.contains(doc.accession));
         assertTrue(
                 doc.suggests.containsAll(
                         List.of(
@@ -574,6 +588,11 @@ class UniProtKBEntryConverterIT {
 
         assertEquals(57478, doc.seqMass);
         assertEquals(509, doc.seqLength);
+        assertNotNull(doc.sequenceChecksums);
+        assertEquals(2, doc.sequenceChecksums.size());
+        assertEquals(
+                Set.of("C2FDA9126D99E39C", "DD569030879308A8B4BC7AE7D5C13433"),
+                doc.sequenceChecksums);
 
         assertEquals(2, doc.rcTissue.size());
         assertTrue(doc.rcTissue.contains("Hippocampus"));
@@ -598,7 +617,9 @@ class UniProtKBEntryConverterIT {
         // verify spell check related values
         assertNotNull(doc.suggests);
         assertFalse(doc.suggests.isEmpty());
-        assertEquals(10, doc.suggests.size());
+        assertEquals(12, doc.suggests.size());
+        assertTrue(doc.suggests.containsAll(doc.id));
+        assertTrue(doc.suggests.contains(doc.accession));
         doc.suggests.stream().forEach(val -> assertTrue(val.length() >= SPELLCHECK_MIN_LENGTH));
     }
 

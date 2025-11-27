@@ -1,9 +1,13 @@
 package org.uniprot.store.search.document.suggest;
 
+import static org.uniprot.core.util.Utils.addOrIgnoreEmpty;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.collections4.ListUtils;
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
 
@@ -29,7 +33,6 @@ public class SuggestDocument implements Document {
     @Field("importance")
     public String importance = DEFAULT_IMPORTANCE;
 
-    @Singular
     @Field("altValue")
     public List<String> altValues;
 
@@ -46,6 +49,12 @@ public class SuggestDocument implements Document {
     public static class SuggestDocumentBuilder implements Serializable {
         private static final long serialVersionUID = 8082411551239368406L;
         private String importance = DEFAULT_IMPORTANCE;
+
+        public SuggestDocumentBuilder altValue(String altValue) {
+            this.altValues = ListUtils.defaultIfNull(this.altValues, new ArrayList<>());
+            addOrIgnoreEmpty(altValue, this.altValues);
+            return this;
+        }
 
         public SuggestDocument build() {
             String suggest = dictionary + "_" + id;

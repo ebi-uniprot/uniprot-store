@@ -213,6 +213,7 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
     private void convertSequence(Sequence seq, UniProtDocument document) {
         document.seqLength = seq.getLength();
         document.seqMass = seq.getMolWeight();
+        document.sequenceChecksums = Set.of(seq.getCrc64(), seq.getMd5());
     }
 
     private void convertKeywords(List<Keyword> keywords, UniProtDocument document) {
@@ -289,6 +290,8 @@ public class UniProtEntryConverter implements DocumentConverter<UniProtKBEntry, 
         populateSuggestions(document.geneNamesExact, document);
         populateSuggestions(document.organismTaxon, document);
         populateSuggestions(document.rcStrain, document);
+        populateSuggestions(List.of(document.accession), document);
+        populateSuggestions(document.id, document);
     }
 
     private static void populateSuggestions(Collection<String> values, UniProtDocument document) {
