@@ -26,7 +26,7 @@ class UniParcDeletedUniProtKBJoinTest {
     }
 
     @Test
-    void doesNotMapUniParcIdForMergedEntries() {
+    void doesMapUniParcIdForMergedEntries() {
         UniParcDeletedUniProtKBJoin join = new UniParcDeletedUniProtKBJoin();
         String uniParcId = "UPI00000E8551";
         UniProtKBEntry entry = getObsoleteUniProtKBEntry(InactiveReasonType.MERGED);
@@ -34,7 +34,19 @@ class UniParcDeletedUniProtKBJoinTest {
                 new Tuple2<>(entry, Optional.of(uniParcId));
         UniProtKBEntry result = join.call(tuple2);
         assertNotNull(result);
-        assertNull(result.getExtraAttributeValue(UNIPARC_ID_ATTRIB));
+        assertNotNull(result.getExtraAttributeValue(UNIPARC_ID_ATTRIB));
+    }
+
+    @Test
+    void doesMapUniParcIdForDeMergedEntries() {
+        UniParcDeletedUniProtKBJoin join = new UniParcDeletedUniProtKBJoin();
+        String uniParcId = "UPI00000E8551";
+        UniProtKBEntry entry = getObsoleteUniProtKBEntry(InactiveReasonType.DEMERGED);
+        Tuple2<UniProtKBEntry, Optional<String>> tuple2 =
+                new Tuple2<>(entry, Optional.of(uniParcId));
+        UniProtKBEntry result = join.call(tuple2);
+        assertNotNull(result);
+        assertNotNull(result.getExtraAttributeValue(UNIPARC_ID_ATTRIB));
     }
 
     @Test
