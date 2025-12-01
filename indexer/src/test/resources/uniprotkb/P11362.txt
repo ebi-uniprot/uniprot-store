@@ -1334,7 +1334,7 @@ DR   Orphanet; 251615; Pilomyxoid astrocytoma.
 DR   Orphanet; 314950; Primary hypereosinophilic syndrome.
 DR   Orphanet; 220386; Semilobar holoprosencephaly.
 DR   Orphanet; 3157; Septo-optic dysplasia spectrum.
-DR   PharmGKB; PA28127; -.
+DR   ClinPGx; PA28127; -.
 DR   VEuPathDB; HostDB:ENSG00000077782; -.
 DR   eggNOG; KOG0200; Eukaryota.
 DR   GeneTree; ENSGT00940000155860; -.
