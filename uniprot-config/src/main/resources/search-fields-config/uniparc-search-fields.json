@@ -26,7 +26,7 @@
     "seqNumber": 1,
     "id": "uniprotkb",
     "fieldName": "uniprotkb",
-    "label": "UniProtKB AC",
+    "label": "UniProtKB AC (active only)",
     "itemType": "SINGLE",
     "validRegex": "([OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z]([0-9][A-Z][A-Z0-9]{2}){1,2}[0-9])",
     "fieldType": "GENERAL",
