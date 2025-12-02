@@ -45,7 +45,7 @@ class UniProtKBEntryConverterIT {
 
     @BeforeEach
     void setUp() {
-        converter = new UniProtEntryConverter(new HashMap<>());
+        converter = new UniProtEntryConverter(new HashMap<>(), new HashMap<>());
         dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     }
 

@@ -42,7 +42,7 @@ class UniProtKBEntryToSolrDocumentTest {
         EntryObject parsed = entryParser.parse(String.join("\n", flatFileLines));
         UniProtKBEntry uniProtkbEntry = entryObjectConverter.convert(parsed);
 
-        UniProtEntryToSolrDocument mapper = new UniProtEntryToSolrDocument(new HashMap<>());
+        UniProtEntryToSolrDocument mapper = new UniProtEntryToSolrDocument(new HashMap<>(), new HashMap<>());
         UniProtDocument doc = mapper.call(uniProtkbEntry);
 
         assertNotNull(doc);
@@ -53,7 +53,7 @@ class UniProtKBEntryToSolrDocumentTest {
 
     @Test
     void testInvalidUniprotEntry() throws Exception {
-        UniProtEntryToSolrDocument mapper = new UniProtEntryToSolrDocument(new HashMap<>());
+        UniProtEntryToSolrDocument mapper = new UniProtEntryToSolrDocument(new HashMap<>(), new HashMap<>());
         UniProtKBEntry entry =
                 new UniProtKBEntryBuilder("P12345", "ID_P12345", UniProtKBEntryType.SWISSPROT)
                         .build();

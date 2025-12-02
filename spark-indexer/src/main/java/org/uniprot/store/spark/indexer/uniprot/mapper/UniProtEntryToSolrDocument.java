@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 import org.apache.spark.api.java.function.Function;
+import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
 import org.uniprot.store.spark.indexer.uniprot.converter.InactiveUniprotEntryConverter;
@@ -20,9 +21,11 @@ public class UniProtEntryToSolrDocument
 
     private static final long serialVersionUID = -6891371730036443245L;
     private final Map<String, String> pathway;
+    private final Map<String, DiseaseEntry> diseaseIdEntryMap;
 
-    public UniProtEntryToSolrDocument(Map<String, String> pathway) {
+    public UniProtEntryToSolrDocument(Map<String, String> pathway, Map<String, DiseaseEntry> diseaseIdEntryMap) {
         this.pathway = pathway;
+        this.diseaseIdEntryMap = diseaseIdEntryMap;
     }
 
     /**
@@ -33,7 +36,7 @@ public class UniProtEntryToSolrDocument
     public UniProtDocument call(UniProtKBEntry uniProtkbEntry) throws Exception {
         UniProtDocument result;
         if (uniProtkbEntry.isActive()) {
-            UniProtEntryConverter converter = new UniProtEntryConverter(pathway);
+            UniProtEntryConverter converter = new UniProtEntryConverter(pathway, diseaseIdEntryMap);
             result = converter.convert(uniProtkbEntry);
         } else {
             InactiveUniprotEntryConverter inactiveConverter = new InactiveUniprotEntryConverter();
