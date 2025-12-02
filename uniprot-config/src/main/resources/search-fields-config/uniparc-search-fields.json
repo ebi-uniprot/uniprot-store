@@ -1,4 +1,4 @@
-[
+  [
   {
     "seqNumber": 0,
     "id": "upi",
@@ -11,9 +11,7 @@
     "validRegex": "UPI[\\w]{10}",
     "description": "Search by uniparc id",
     "example": "UPI0000000001",
-    "aliases": [
-      "uniparc"
-    ],
+    "aliases": ["uniparc"],
     "includeInSwagger": true
   },
   {
@@ -34,9 +32,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by accession",
-    "aliases": [
-      "accession"
-    ],
+    "aliases": ["accession"],
     "example": "P12345",
     "includeInSwagger": true
   },
@@ -63,9 +59,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by upid",
-    "aliases": [
-      "upid"
-    ],
+    "aliases": ["upid"],
     "example": "UP000005640",
     "includeInSwagger": true
   },
@@ -130,9 +124,7 @@
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by protein name",
-    "aliases": [
-      "protein"
-    ],
+    "aliases": ["protein"],
     "example": "Elastin",
     "includeInSwagger": true
   },
@@ -209,32 +201,15 @@
     "example": "IPR004251",
     "includeInSwagger": true
   },
-  {
+   {
     "seqNumber": 14,
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
     "label": "Proteome Component",
-    "itemType": "SIBLING_GROUP",
-    "id": "proteomecomponent"
-  },
-  {
-    "childNumber": 0,
-    "id": "cc_proteomecomponent_proteome",
-    "parentId": "proteomecomponent",
-    "fieldName": "proteomecomponent_id",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "itemType": "SINGLE",
-    "description": "Proteome id of the Proteome Component",
-    "example": "UP000005640"
-  },
-  {
-    "childNumber": 1,
-    "id": "cc_proteomecomponent_component",
-    "parentId": "proteomecomponent",
     "fieldName": "proteomecomponent",
-    "fieldType": "GENERAL",
+    "id": "proteomecomponent",
     "dataType": "STRING",
-    "itemType": "SINGLE",
-    "description": "Name of the Proteome Component",
+    "description": "Search by Proteome component",
     "example": "chromosome"
   },
   {
@@ -264,4 +239,5 @@
     "description": "Search by organism name",
     "example": "Human"
   }
+   
 ]
