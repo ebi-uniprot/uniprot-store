@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.Value;
+import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.core.flatfile.parser.impl.cc.CCLineBuilderFactory;
 import org.uniprot.core.flatfile.writer.FFLineBuilder;
 import org.uniprot.core.uniprotkb.comment.*;
@@ -52,9 +53,11 @@ class UniProtEntryCommentsConverter implements Serializable {
     private static final Pattern PATTERN_FAMILY =
             Pattern.compile(
                     "(?:In the .+? section; )?[Bb]elongs to the (.+?family)\\.(?: (.+?family)\\.)?(?: (.+?family)\\.)?(?: Highly divergent\\.)?");
+    private final Map<String, DiseaseEntry> diseaseIdEntryMap;
 
-    UniProtEntryCommentsConverter(Map<String, String> pathway) {
+    UniProtEntryCommentsConverter(Map<String, String> pathway, Map<String, DiseaseEntry> diseaseIdEntryMap) {
         this.pathwayRepo = pathway;
+        this.diseaseIdEntryMap = diseaseIdEntryMap;
     }
 
     void convertCommentToDocument(List<Comment> comments, UniProtDocument document) {
@@ -313,6 +316,15 @@ class UniProtEntryCommentsConverter implements Serializable {
             String accession = comment.getDisease().getDiseaseAccession();
             document.content.add(accession);
             document.commentMap.get(field).add(accession);
+            // add disease synonyms
+            if(Objects.nonNull(this.diseaseIdEntryMap) && this.diseaseIdEntryMap.containsKey(accession)) {
+                List<String> altNames = this.diseaseIdEntryMap.get(accession).getAlternativeNames();
+                if(Utils.notNullNotEmpty(altNames)) {
+                    document.commentMap.get(field).addAll(altNames);
+                    document.content.addAll(altNames);
+                }
+            }
+
             addExperimentalEvidence(
                     CommentType.DISEASE,
                     document,

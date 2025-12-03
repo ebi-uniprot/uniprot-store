@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.hadoop.conf.Configuration;
@@ -14,6 +15,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.uniprot.core.cv.chebi.ChebiEntry;
+import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
@@ -21,6 +23,7 @@ import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniref.UniRefEntry;
 import org.uniprot.core.uniref.UniRefType;
+import org.uniprot.cv.disease.DiseaseFileReader;
 import org.uniprot.cv.pathway.UniPathwayFileReader;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -96,6 +99,7 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
         uniProtDocumentRDD = joinSubcellularLocationRelations(uniProtEntryRDD, uniProtDocumentRDD);
 
+
         boolean shouldIndexInactive =
                 Boolean.parseBoolean(config.getString("uniprot.index.inactive"));
         if (shouldIndexInactive) {
@@ -124,7 +128,7 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
                 InactiveUniProtKBRDDTupleReader.load(parameter)
                         .leftOuterJoin(inactiveUniParc)
                         .mapValues(new UniParcDeletedUniProtKBJoin())
-                        .mapValues(new UniProtEntryToSolrDocument(Collections.emptyMap()));
+                        .mapValues(new UniProtEntryToSolrDocument(Collections.emptyMap(), Collections.emptyMap()));
 
         return inactiveEntryRDD;
     }
@@ -138,7 +142,8 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
         Configuration hadoopConfig = sparkContext.hadoopConfiguration();
         Map<String, String> pathway = loadPathway(hadoopConfig, releaseName);
-        return uniProtEntryRDD.mapValues(new UniProtEntryToSolrDocument(pathway));
+        Map<String, DiseaseEntry> diseaseIdEntryMap = loadDiseases(hadoopConfig, releaseName);
+        return uniProtEntryRDD.mapValues(new UniProtEntryToSolrDocument(pathway,diseaseIdEntryMap));
     }
 
     private Map<String, String> loadPathway(Configuration hadoopConfig, String releaseName) {
@@ -149,6 +154,15 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
         List<UniPathway> pathwayList = uniPathwayFileReader.parseLines(lines);
         return pathwayList.stream()
                 .collect(Collectors.toMap(UniPathway::getName, UniPathway::getId));
+    }
+
+    Map<String, DiseaseEntry> loadDiseases(Configuration hadoopConfig, String releaseName) {
+        String releaseInputDir = getInputReleaseMainThreadDirPath(config, releaseName);
+        String diseaseFile = releaseInputDir + config.getString("disease.file.path");
+        List<String> lines = readLines(diseaseFile, hadoopConfig);
+        List<DiseaseEntry> entries = new DiseaseFileReader().parseLines(lines);
+        return entries.stream()
+                .collect(Collectors.toMap(DiseaseEntry::getId, Function.identity()));
     }
 
     /**

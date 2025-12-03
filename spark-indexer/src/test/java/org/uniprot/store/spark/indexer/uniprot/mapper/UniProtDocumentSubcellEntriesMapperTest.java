@@ -52,7 +52,7 @@ class UniProtDocumentSubcellEntriesMapperTest {
         UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
         UniProtDocument uniProtDocument =
                 reader.load()
-                        .mapValues(new UniProtEntryToSolrDocument(new HashMap<>()))
+                        .mapValues(new UniProtEntryToSolrDocument(new HashMap<>(), new HashMap<>()))
                         .values()
                         .first();
         Set<String> oldContent = new HashSet<>(uniProtDocument.content);
@@ -92,7 +92,7 @@ class UniProtDocumentSubcellEntriesMapperTest {
         UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
         UniProtDocument uniProtDocument =
                 reader.load()
-                        .mapValues(new UniProtEntryToSolrDocument(new HashMap<>()))
+                        .mapValues(new UniProtEntryToSolrDocument(new HashMap<>(), new HashMap<>()))
                         .values()
                         .first();
 

@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import org.uniprot.core.CrossReference;
 import org.uniprot.core.Sequence;
+import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.core.cv.keyword.KeywordCategory;
 import org.uniprot.core.gene.Gene;
 import org.uniprot.core.scorer.uniprotkb.UniProtEntryScored;
@@ -53,10 +54,10 @@ public class UniProtEntryConverter
     private final UniProtEntryTaxonomyConverter taxonomyConverter;
     private final UniProtEntryProteinDescriptionConverter proteinDescriptionConverter;
 
-    public UniProtEntryConverter(Map<String, String> pathway) {
+    public UniProtEntryConverter(Map<String, String> pathway, Map<String, DiseaseEntry> diseaseIdEntryMap) {
         this.taxonomyConverter = new UniProtEntryTaxonomyConverter();
         this.crossReferenceConverter = new UniProtEntryCrossReferenceConverter();
-        this.commentsConverter = new UniProtEntryCommentsConverter(pathway);
+        this.commentsConverter = new UniProtEntryCommentsConverter(pathway, diseaseIdEntryMap);
         this.featureConverter = new UniProtEntryFeatureConverter();
         this.referencesConverter = new UniProtEntryReferencesConverter();
         this.proteinDescriptionConverter = new UniProtEntryProteinDescriptionConverter();

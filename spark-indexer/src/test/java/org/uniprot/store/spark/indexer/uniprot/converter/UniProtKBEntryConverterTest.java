@@ -31,7 +31,7 @@ class UniProtKBEntryConverterTest {
     @Test
     void documentConversionException() {
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter = new UniProtEntryConverter(null, null);
 
         assertThrows(
                 DocumentConversionException.class,
@@ -49,7 +49,7 @@ class UniProtKBEntryConverterTest {
                         .build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter = new UniProtEntryConverter(null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -76,7 +76,7 @@ class UniProtKBEntryConverterTest {
                         .build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter = new UniProtEntryConverter(null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -99,7 +99,7 @@ class UniProtKBEntryConverterTest {
                         .build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter = new UniProtEntryConverter(null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -132,7 +132,7 @@ class UniProtKBEntryConverterTest {
                         .build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter = new UniProtEntryConverter(null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -154,7 +154,7 @@ class UniProtKBEntryConverterTest {
                         .build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter = new UniProtEntryConverter(null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -171,7 +171,7 @@ class UniProtKBEntryConverterTest {
                         .build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter = new UniProtEntryConverter(null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -197,7 +197,7 @@ class UniProtKBEntryConverterTest {
         UniProtKBEntry entry = getBasicEntryBuilder().entryAudit(entryAudit).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter = new UniProtEntryConverter(null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -224,7 +224,7 @@ class UniProtKBEntryConverterTest {
                 getBasicEntryBuilder().genesSet(Collections.singletonList(gene)).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter = new UniProtEntryConverter(null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -251,7 +251,7 @@ class UniProtKBEntryConverterTest {
         UniProtKBEntry entry = getBasicEntryBuilder().keywordsAdd(keyword).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter = new UniProtEntryConverter(null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -273,7 +273,7 @@ class UniProtKBEntryConverterTest {
         UniProtKBEntry entry = getBasicEntryBuilder().geneLocationsAdd(geneLocation).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter = new UniProtEntryConverter(null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -291,7 +291,7 @@ class UniProtKBEntryConverterTest {
                 getBasicEntryBuilder().proteinExistence(ProteinExistence.PROTEIN_LEVEL).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter = new UniProtEntryConverter(null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -307,7 +307,7 @@ class UniProtKBEntryConverterTest {
         UniProtKBEntry entry = getBasicEntryBuilder().build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter = new UniProtEntryConverter(null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -328,7 +328,7 @@ class UniProtKBEntryConverterTest {
                 getBasicEntryBuilder().sequence(new SequenceBuilder("AAAAA").build()).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter = new UniProtEntryConverter(null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then
@@ -365,7 +365,7 @@ class UniProtKBEntryConverterTest {
         UniProtKBEntry entry = getBasicEntryBuilder().genesAdd(gene).build();
 
         // when
-        UniProtEntryConverter converter = new UniProtEntryConverter(null);
+        UniProtEntryConverter converter = new UniProtEntryConverter(null, null);
         UniProtDocument document = converter.convert(entry);
 
         // then

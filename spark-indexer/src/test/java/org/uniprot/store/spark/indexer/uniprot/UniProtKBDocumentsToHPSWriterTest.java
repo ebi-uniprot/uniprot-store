@@ -15,6 +15,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.xdb.UniProtKBCrossReference;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
@@ -176,7 +177,7 @@ class UniProtKBDocumentsToHPSWriterTest {
 
         UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
         JavaPairRDD<String, UniProtDocument> uniprotDocRDD =
-                reader.load().mapValues(new UniProtEntryToSolrDocument(new HashMap<>()));
+                reader.load().mapValues(new UniProtEntryToSolrDocument(new HashMap<>(), new HashMap<>()));
 
         uniprotDocRDD = writer.joinChebiRelations(uniprotDocRDD);
 
@@ -194,7 +195,7 @@ class UniProtKBDocumentsToHPSWriterTest {
 
         UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
         JavaPairRDD<String, UniProtDocument> uniprotDocRDD =
-                reader.load().mapValues(new UniProtEntryToSolrDocument(new HashMap<>()));
+                reader.load().mapValues(new UniProtEntryToSolrDocument(new HashMap<>(), new HashMap<>()));
 
         uniprotDocRDD = writer.joinUniProtOldIdTracker(uniprotDocRDD);
 
@@ -270,7 +271,7 @@ class UniProtKBDocumentsToHPSWriterTest {
         UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
         JavaPairRDD<String, UniProtKBEntry> uniProtRDD = reader.load();
         JavaPairRDD<String, UniProtDocument> uniProtDocument =
-                uniProtRDD.mapValues(new UniProtEntryToSolrDocument(new HashMap<>()));
+                uniProtRDD.mapValues(new UniProtEntryToSolrDocument(new HashMap<>(), new HashMap<>()));
         Map<String, UniProtDocument> accessionDoc = uniProtDocument.collectAsMap();
         assertNotNull(accessionDoc);
         assertEquals(1, accessionDoc.size());
@@ -345,6 +346,14 @@ class UniProtKBDocumentsToHPSWriterTest {
                         .findFirst()
                         .orElseThrow(AssertionError::new);
         validateInactiveEntry(inactive, "Q00007", "DEMERGED:P63150,P63151", "UPI000000017F");
+    }
+
+    @Test
+    void canLoadDiseases() {
+        UniProtKBDocumentsToHPSWriter writer = new UniProtKBDocumentsToHPSWriter(parameter);
+        Map<String, DiseaseEntry> diseaseIdEntryMap = writer.loadDiseases(parameter.getSparkContext().hadoopConfiguration(), parameter.getReleaseName());
+        assertNotNull(diseaseIdEntryMap);
+        assertEquals(4, diseaseIdEntryMap.size());
     }
 
     private static void validateInactiveEntry(
