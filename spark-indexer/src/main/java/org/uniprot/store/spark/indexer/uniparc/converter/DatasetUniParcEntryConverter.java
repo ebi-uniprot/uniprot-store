@@ -12,6 +12,7 @@ import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
+import org.uniprot.core.util.PairImpl;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
 
 /**
@@ -23,6 +24,7 @@ import org.uniprot.store.spark.indexer.common.util.RowUtils;
 public class DatasetUniParcEntryConverter extends BaseUniParcEntryConverter<UniParcEntry> {
 
     @Serial private static final long serialVersionUID = 1817073609115796687L;
+    public static final String PROTEOME_COMPONENT_SEPARATOR = ":";
 
     @Override
     public UniParcEntry call(Row rowValue) throws Exception {
@@ -104,13 +106,13 @@ public class DatasetUniParcEntryConverter extends BaseUniParcEntryConverter<UniP
             builder.ncbiGi(propertyMap.get(PROPERTY_NCBI_GI).get(0));
             propertyMap.remove(PROPERTY_NCBI_GI);
         }
-        if (propertyMap.containsKey(PROPERTY_PROTEOME_ID)) {
-            builder.proteomeId(propertyMap.get(PROPERTY_PROTEOME_ID).get(0));
-            propertyMap.remove(PROPERTY_PROTEOME_ID);
-        }
-        if (propertyMap.containsKey(PROPERTY_COMPONENT)) {
-            builder.component(propertyMap.get(PROPERTY_COMPONENT).get(0));
-            propertyMap.remove(PROPERTY_COMPONENT);
+        if (propertyMap.containsKey(PROPERTY_PROTEOMEID_COMPONENT)) {
+            List<String> proteomeComponents = propertyMap.get(PROPERTY_PROTEOMEID_COMPONENT);
+            for (String proteomeComponent : proteomeComponents) {
+                String[] split = proteomeComponent.split(PROTEOME_COMPONENT_SEPARATOR);
+                builder.proteomeIdComponentPairsAdd(new PairImpl<>(split[0], split[1]));
+            }
+            propertyMap.remove(PROPERTY_PROTEOMEID_COMPONENT);
         }
         if (propertyMap.containsKey(PROPERTY_NCBI_TAXONOMY_ID)) {
             String taxonId = propertyMap.get(PROPERTY_NCBI_TAXONOMY_ID).get(0);

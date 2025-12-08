@@ -1,5 +1,6 @@
 package org.uniprot.store.search.document.uniparc;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -7,6 +8,7 @@ import org.uniprot.core.uniparc.SequenceFeature;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
+import org.uniprot.core.util.Pair;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.config.uniparc.UniParcConfigUtil;
 import org.uniprot.store.search.document.DocumentConverter;
@@ -57,8 +59,16 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
             builder.uniprotIsoform(xref.getId());
         }
 
-        if (Utils.notNullNotEmpty(xref.getProteomeId())) {
-            builder.proteome(xref.getProteomeId());
+        if (Utils.notNullNotEmpty(xref.getProteomeIdComponentPairs())) {
+            List<Pair<String, String>> proteomeIdComponentPairs =
+                    xref.getProteomeIdComponentPairs();
+            for (Pair<String, String> proteomeIdComponentPair : proteomeIdComponentPairs) {
+                builder.proteome(proteomeIdComponentPair.getKey());
+                builder.proteomeComponent(
+                        proteomeIdComponentPair.getKey()
+                                + ":"
+                                + proteomeIdComponentPair.getValue());
+            }
         }
 
         if (Utils.notNullNotEmpty(xref.getProteinName())) {
@@ -71,9 +81,6 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
 
         if (Utils.notNull(xref.getOrganism())) {
             builder.taxLineageId((int) xref.getOrganism().getTaxonId());
-        }
-        if (Utils.notNullNotEmpty(xref.getComponent())) {
-            builder.proteomeComponent(xref.getComponent());
         }
     }
 

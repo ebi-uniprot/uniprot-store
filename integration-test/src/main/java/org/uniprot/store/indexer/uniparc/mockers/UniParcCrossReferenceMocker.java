@@ -12,6 +12,7 @@ import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
+import org.uniprot.core.util.PairImpl;
 
 /** UniParcCrossReference and UniParcCrossReferencePair mockers */
 public class UniParcCrossReferenceMocker {
@@ -40,8 +41,7 @@ public class UniParcCrossReferenceMocker {
                 .organism(getOrganism(taxId))
                 .proteinName(PROTEIN_NAME)
                 .geneName("Gel")
-                .proteomeId("UPI")
-                .component("com")
+                .proteomeIdComponentPairsAdd(new PairImpl<>("UPI", "com"))
                 .chain("chain")
                 .build();
     }
@@ -70,9 +70,8 @@ public class UniParcCrossReferenceMocker {
                         .lastUpdated(LocalDate.of(2017, 2, 27))
                         .proteinName(getName(PROTEIN_NAME, qualifier))
                         .geneName(getName("geneName", qualifier))
-                        .proteomeId(getName("UP1234567", qualifier))
+                        .proteomeIdComponentPairsAdd(new PairImpl<>(getName("UP1234567", qualifier), getName("component", qualifier)))
                         .organism(getOrganism(7787L))
-                        .component(getName("component", qualifier))
                         .chain("chain")
                         .build();
 
@@ -89,8 +88,7 @@ public class UniParcCrossReferenceMocker {
                         .lastUpdated(LocalDate.of(2017, 4, 23))
                         .proteinName(getName("anotherProteinName", qualifier))
                         .organism(getOrganism(9606L))
-                        .proteomeId(proteomeId)
-                        .component(chromosome)
+                        .proteomeIdComponentPairsAdd(new PairImpl<>(proteomeId, chromosome))
                         .propertiesAdd(
                                 new Property(
                                         PROPERTY_SOURCES,

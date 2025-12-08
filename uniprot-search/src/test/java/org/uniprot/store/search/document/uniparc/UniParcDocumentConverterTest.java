@@ -18,6 +18,7 @@ import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
+import org.uniprot.core.util.PairImpl;
 
 /**
  * @author lgonzales
@@ -119,11 +120,13 @@ class UniParcDocumentConverterTest {
         assertTrue(result.getProteinNames().contains("proteinNameValue"));
 
         assertNotNull(result.getProteomes());
-        assertEquals(1, result.getProteomes().size());
-        assertTrue(result.getProteomes().contains("proteomeIdValue"));
+        assertEquals(2, result.getProteomes().size());
+        assertTrue(result.getProteomes().contains("proteome0"));
+        assertTrue(result.getProteomes().contains("proteome1"));
         assertNotNull(result.getProteomeComponents());
-        assertEquals(1, result.getProteomeComponents().size());
-        assertTrue(result.getProteomeComponents().contains("componentValue"));
+        assertEquals(2, result.getProteomeComponents().size());
+        assertTrue(result.getProteomeComponents().contains("proteome0:component0"));
+        assertTrue(result.getProteomeComponents().contains("proteome1:component0"));
 
         assertNotNull(result.getOrganismTaxons());
         assertTrue(result.getOrganismTaxons().isEmpty());
@@ -178,8 +181,8 @@ class UniParcDocumentConverterTest {
                 .organism(getOrganism())
                 .geneName("geneNameValue")
                 .proteinName("proteinNameValue")
-                .proteomeId("proteomeIdValue")
-                .component("componentValue")
+                .proteomeIdComponentPairsAdd(new PairImpl<>("proteome0", "component0"))
+                .proteomeIdComponentPairsAdd(new PairImpl<>("proteome1", "component0"))
                 .chain("chainValue")
                 .ncbiGi("ncbiGiValue")
                 .active(active)

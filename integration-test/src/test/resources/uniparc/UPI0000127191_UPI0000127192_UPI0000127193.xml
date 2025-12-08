@@ -10,8 +10,7 @@
         <dbReference type="Ensembl" id="ENSP00000498811" version_i="1" active="Y" created="2019-03-14" last="2020-07-27">
             <property type="NCBI_taxonomy_id" value="9606"/>
             <property type="gene_name" value="NRG1"/>
-            <property type="proteome_id" value="UP000005640"/>
-            <property type="component" value="Chromosome 8"/>
+            <property type="proteomeid_component" value="UP000005640:Chromosome 8"/>
         </dbReference>
         <dbReference type="EMBL" id="AAA27261" version_i="1" active="Y" version="1" created="2003-03-12"
                      last="2014-09-01">

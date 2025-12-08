@@ -12,6 +12,7 @@ import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
+import org.uniprot.core.util.Pair;
 import org.uniprot.core.util.Utils;
 import org.uniprot.core.xml.jaxb.uniparc.Entry;
 import org.uniprot.core.xml.uniparc.UniParcEntryConverter;
@@ -103,11 +104,13 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
             builder.geneName(xref.getGeneName());
         }
 
-        if (Utils.notNullNotEmpty(xref.getProteomeId())) {
-            builder.proteome(xref.getProteomeId());
-        }
-        if (Utils.notNullNotEmpty(xref.getComponent())) {
-            builder.proteomeComponent(xref.getComponent());
+        if (Utils.notNullNotEmpty(xref.getProteomeIdComponentPairs())) {
+            List<Pair<String, String>> proteomeIdComponentPairs =
+                    xref.getProteomeIdComponentPairs();
+            for (Pair<String, String> proteomeIdComponentPair : proteomeIdComponentPairs) {
+                builder.proteome(proteomeIdComponentPair.getKey());
+                builder.proteomeComponent(proteomeIdComponentPair.getValue());
+            }
         }
     }
 

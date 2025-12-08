@@ -17,6 +17,7 @@ import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
 import org.uniprot.core.uniparc.impl.UniParcIdBuilder;
 import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
+import org.uniprot.core.util.PairImpl;
 import org.uniprot.store.spark.indexer.uniparc.model.UniParcTaxonomySequenceSource;
 
 import scala.Tuple2;
@@ -117,7 +118,7 @@ class UniParcEntryJoinTest {
         UniParcCrossReference uniProtXref = result.getUniParcCrossReferences().get(0);
         assertNotNull(uniProtXref);
         assertEquals("P12345", uniProtXref.getId());
-        assertEquals(1, uniProtXref.getProperties().size());
+        assertEquals(2, uniProtXref.getProperties().size());
         Property sourceProperty = uniProtXref.getProperties().get(0);
         validateSourceProperty(sourceProperty, "EMBL:AC12345:UP000005640:Chromosome");
     }
@@ -181,15 +182,15 @@ class UniParcEntryJoinTest {
                                 .id("AC12345")
                                 .database(UniParcDatabase.EMBL)
                                 .organism(new OrganismBuilder().taxonId(11).build())
-                                .proteomeId("UP000005640")
-                                .component("Chromosome")
+                                .proteomeIdComponentPairsAdd(
+                                        new PairImpl<>("UP000005640", "Chromosome"))
                                 .build())
                 .uniParcCrossReferencesAdd(
                         new UniParcCrossReferenceBuilder()
                                 .id("AC54321")
                                 .database(UniParcDatabase.EMBL)
-                                .proteomeId("UP000000001")
-                                .component("Chromosome")
+                                .proteomeIdComponentPairsAdd(
+                                        new PairImpl<>("UP000000001", "Chromosome"))
                                 .build())
                 .uniParcCrossReferencesAdd(
                         new UniParcCrossReferenceBuilder()
