@@ -10,9 +10,9 @@ import java.util.List;
 import org.uniprot.core.Property;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
+import org.uniprot.core.uniparc.impl.ProteomeIdComponentBuilder;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferencePair;
-import org.uniprot.core.util.PairImpl;
 
 /** UniParcCrossReference and UniParcCrossReferencePair mockers */
 public class UniParcCrossReferenceMocker {
@@ -41,7 +41,8 @@ public class UniParcCrossReferenceMocker {
                 .organism(getOrganism(taxId))
                 .proteinName(PROTEIN_NAME)
                 .geneName("Gel")
-                .proteomeIdComponentPairsAdd(new PairImpl<>("UPI", "com"))
+                .proteomeIdComponentsAdd(
+                        new ProteomeIdComponentBuilder().proteomeId("UPI").component("com").build())
                 .chain("chain")
                 .build();
     }
@@ -70,7 +71,11 @@ public class UniParcCrossReferenceMocker {
                         .lastUpdated(LocalDate.of(2017, 2, 27))
                         .proteinName(getName(PROTEIN_NAME, qualifier))
                         .geneName(getName("geneName", qualifier))
-                        .proteomeIdComponentPairsAdd(new PairImpl<>(getName("UP1234567", qualifier), getName("component", qualifier)))
+                        .proteomeIdComponentsAdd(
+                                new ProteomeIdComponentBuilder()
+                                        .proteomeId(getName("UP1234567", qualifier))
+                                        .component(getName("component", qualifier))
+                                        .build())
                         .organism(getOrganism(7787L))
                         .chain("chain")
                         .build();
@@ -88,7 +93,11 @@ public class UniParcCrossReferenceMocker {
                         .lastUpdated(LocalDate.of(2017, 4, 23))
                         .proteinName(getName("anotherProteinName", qualifier))
                         .organism(getOrganism(9606L))
-                        .proteomeIdComponentPairsAdd(new PairImpl<>(proteomeId, chromosome))
+                        .proteomeIdComponentsAdd(
+                                new ProteomeIdComponentBuilder()
+                                        .proteomeId(proteomeId)
+                                        .component(chromosome)
+                                        .build())
                         .propertiesAdd(
                                 new Property(
                                         PROPERTY_SOURCES,

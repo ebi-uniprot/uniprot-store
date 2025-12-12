@@ -110,7 +110,7 @@ public class UniParcEntryJoin
             Map<String, UniParcCrossReference> mappedCrossReference) {
         return e.getValue().stream()
                 .map(mappedCrossReference::get)
-                .filter(xref -> xref != null && xref.getProteomeIdComponentPairs() != null)
+                .filter(xref -> xref != null && xref.getProteomeIdComponents() != null)
                 .map(UniParcEntryJoin::getXrefIdWithProteomeComponents)
                 .collect(Collectors.toSet());
     }
@@ -120,8 +120,8 @@ public class UniParcEntryJoin
                 + ":"
                 + xref.getId()
                 + ":"
-                + xref.getProteomeIdComponentPairs().stream()
-                        .map(pair -> pair.getKey() + ":" + pair.getValue())
+                + xref.getProteomeIdComponents().stream()
+                        .map(pair -> pair.getProteomeId() + ":" + pair.getComponent())
                         .collect(Collectors.joining(":"));
     }
 }

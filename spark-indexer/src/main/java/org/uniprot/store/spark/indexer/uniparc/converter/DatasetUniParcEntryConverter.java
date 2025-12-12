@@ -8,11 +8,11 @@ import org.apache.spark.sql.Row;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
+import org.uniprot.core.uniparc.impl.ProteomeIdComponentBuilder;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
-import org.uniprot.core.util.PairImpl;
 import org.uniprot.store.spark.indexer.common.util.RowUtils;
 
 /**
@@ -110,7 +110,11 @@ public class DatasetUniParcEntryConverter extends BaseUniParcEntryConverter<UniP
             List<String> proteomeComponents = propertyMap.get(PROPERTY_PROTEOMEID_COMPONENT);
             for (String proteomeComponent : proteomeComponents) {
                 String[] split = proteomeComponent.split(PROTEOME_COMPONENT_SEPARATOR);
-                builder.proteomeIdComponentPairsAdd(new PairImpl<>(split[0], split[1]));
+                builder.proteomeIdComponentsAdd(
+                        new ProteomeIdComponentBuilder()
+                                .proteomeId(split[0])
+                                .component(split[1])
+                                .build());
             }
             propertyMap.remove(PROPERTY_PROTEOMEID_COMPONENT);
         }

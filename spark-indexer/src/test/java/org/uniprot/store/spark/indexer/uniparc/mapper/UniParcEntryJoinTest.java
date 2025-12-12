@@ -13,11 +13,11 @@ import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
+import org.uniprot.core.uniparc.impl.ProteomeIdComponentBuilder;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
 import org.uniprot.core.uniparc.impl.UniParcIdBuilder;
 import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
-import org.uniprot.core.util.PairImpl;
 import org.uniprot.store.spark.indexer.uniparc.model.UniParcTaxonomySequenceSource;
 
 import scala.Tuple2;
@@ -182,15 +182,21 @@ class UniParcEntryJoinTest {
                                 .id("AC12345")
                                 .database(UniParcDatabase.EMBL)
                                 .organism(new OrganismBuilder().taxonId(11).build())
-                                .proteomeIdComponentPairsAdd(
-                                        new PairImpl<>("UP000005640", "Chromosome"))
+                                .proteomeIdComponentsAdd(
+                                        new ProteomeIdComponentBuilder()
+                                                .proteomeId("UP000005640")
+                                                .component("Chromosome")
+                                                .build())
                                 .build())
                 .uniParcCrossReferencesAdd(
                         new UniParcCrossReferenceBuilder()
                                 .id("AC54321")
                                 .database(UniParcDatabase.EMBL)
-                                .proteomeIdComponentPairsAdd(
-                                        new PairImpl<>("UP000000001", "Chromosome"))
+                                .proteomeIdComponentsAdd(
+                                        new ProteomeIdComponentBuilder()
+                                                .proteomeId("UP000000001")
+                                                .component("Chromosome")
+                                                .build())
                                 .build())
                 .uniParcCrossReferencesAdd(
                         new UniParcCrossReferenceBuilder()

@@ -4,11 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import org.uniprot.core.uniparc.SequenceFeature;
-import org.uniprot.core.uniparc.UniParcCrossReference;
-import org.uniprot.core.uniparc.UniParcDatabase;
-import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.core.util.Pair;
+import org.uniprot.core.uniparc.*;
 import org.uniprot.core.util.Utils;
 import org.uniprot.store.config.uniparc.UniParcConfigUtil;
 import org.uniprot.store.search.document.DocumentConverter;
@@ -59,15 +55,14 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
             builder.uniprotIsoform(xref.getId());
         }
 
-        if (Utils.notNullNotEmpty(xref.getProteomeIdComponentPairs())) {
-            List<Pair<String, String>> proteomeIdComponentPairs =
-                    xref.getProteomeIdComponentPairs();
-            for (Pair<String, String> proteomeIdComponentPair : proteomeIdComponentPairs) {
-                builder.proteome(proteomeIdComponentPair.getKey());
+        if (Utils.notNullNotEmpty(xref.getProteomeIdComponents())) {
+            List<ProteomeIdComponent> proteomeIdComponents = xref.getProteomeIdComponents();
+            for (ProteomeIdComponent proteomeIdComponent : proteomeIdComponents) {
+                builder.proteome(proteomeIdComponent.getProteomeId());
                 builder.proteomeComponent(
-                        proteomeIdComponentPair.getKey()
+                        proteomeIdComponent.getProteomeId()
                                 + ":"
-                                + proteomeIdComponentPair.getValue());
+                                + proteomeIdComponent.getComponent());
             }
         }
 

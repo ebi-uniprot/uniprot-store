@@ -12,13 +12,9 @@ import org.uniprot.core.uniparc.SequenceFeature;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.core.uniparc.impl.InterProGroupBuilder;
-import org.uniprot.core.uniparc.impl.SequenceFeatureBuilder;
-import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
-import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
+import org.uniprot.core.uniparc.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
-import org.uniprot.core.util.PairImpl;
 
 /**
  * @author lgonzales
@@ -181,8 +177,16 @@ class UniParcDocumentConverterTest {
                 .organism(getOrganism())
                 .geneName("geneNameValue")
                 .proteinName("proteinNameValue")
-                .proteomeIdComponentPairsAdd(new PairImpl<>("proteome0", "component0"))
-                .proteomeIdComponentPairsAdd(new PairImpl<>("proteome1", "component0"))
+                .proteomeIdComponentsAdd(
+                        new ProteomeIdComponentBuilder()
+                                .proteomeId("proteome0")
+                                .component("component0")
+                                .build())
+                .proteomeIdComponentsAdd(
+                        new ProteomeIdComponentBuilder()
+                                .proteomeId("proteome1")
+                                .component("component0")
+                                .build())
                 .chain("chainValue")
                 .ncbiGi("ncbiGiValue")
                 .active(active)
