@@ -1,5 +1,11 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryCommentsConverter.*;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.cv.disease.DiseaseEntry;
@@ -12,12 +18,6 @@ import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 import org.uniprot.cv.disease.DiseaseFileReader;
 import org.uniprot.store.search.document.uniprot.ProteinsWith;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryCommentsConverter.*;
 
 /**
  * @author lgonzales
@@ -41,11 +41,13 @@ class UniProtKBEntryCommentsConverterTest {
     private static final CcLineTransformer ccLineTransformer =
             new CcLineTransformer("2020_02/disease/humdisease.txt", "2020_02/subcell/subcell.txt");
     private static Map<String, DiseaseEntry> diseaseIdEntryMap = new HashMap<>();
+
     @BeforeAll
     static void setUpBeforeClass() throws Exception {
-        List<DiseaseEntry> entries = new DiseaseFileReader().parse("2020_02/disease/humdisease.txt");
-        diseaseIdEntryMap = entries.stream()
-                .collect(Collectors.toMap(DiseaseEntry::getId, entry->entry));
+        List<DiseaseEntry> entries =
+                new DiseaseFileReader().parse("2020_02/disease/humdisease.txt");
+        diseaseIdEntryMap =
+                entries.stream().collect(Collectors.toMap(DiseaseEntry::getId, entry -> entry));
     }
 
     @Test
@@ -171,7 +173,8 @@ class UniProtKBEntryCommentsConverterTest {
 
         UniProtKBEntry entry = createUniProtEntryFromCommentLine(pathwayLine);
 
-        UniProtEntryCommentsConverter converter = new UniProtEntryCommentsConverter(pathway, new HashMap<>());
+        UniProtEntryCommentsConverter converter =
+                new UniProtEntryCommentsConverter(pathway, new HashMap<>());
         UniProtDocument document = new UniProtDocument();
         converter.convertCommentToDocument(entry.getComments(), document);
         assertNotNull(document);
@@ -216,7 +219,8 @@ class UniProtKBEntryCommentsConverterTest {
 
         UniProtKBEntry entry = createUniProtEntryFromCommentLine(pathwayLine);
 
-        UniProtEntryCommentsConverter converter = new UniProtEntryCommentsConverter(pathway, new HashMap<>());
+        UniProtEntryCommentsConverter converter =
+                new UniProtEntryCommentsConverter(pathway, new HashMap<>());
         UniProtDocument document = new UniProtDocument();
         document.reviewed = true;
         converter.convertCommentToDocument(entry.getComments(), document);
@@ -1247,13 +1251,20 @@ class UniProtKBEntryCommentsConverterTest {
         assertEquals(3, document.commentMap.get("cc_disease").size());
         assertTrue(document.commentMap.get("cc_disease").contains(indexedDiseaseComment));
         assertTrue(document.commentMap.get("cc_disease").contains("DI-00602"));
-        assertTrue(document.commentMap.get("cc_disease").contains("Craniosynostosis-midfacial hypoplasia-foot abnormalities"));
+        assertTrue(
+                document.commentMap
+                        .get("cc_disease")
+                        .contains("Craniosynostosis-midfacial hypoplasia-foot abnormalities"));
 
         assertTrue(document.content.contains(indexedDiseaseComment));
         assertTrue(document.content.contains("DI-00602"));
-        assertTrue(document.content.contains("Craniosynostosis-midfacial hypoplasia-foot abnormalities"));
+        assertTrue(
+                document.content.contains(
+                        "Craniosynostosis-midfacial hypoplasia-foot abnormalities"));
         assertTrue(document.evidenceExperimental);
-        assertEquals(List.of(indexedDiseaseComment, "DI-00602"), document.commentMap.get("cc_disease_exp"));
+        assertEquals(
+                List.of(indexedDiseaseComment, "DI-00602"),
+                document.commentMap.get("cc_disease_exp"));
     }
 
     @Test
@@ -1288,13 +1299,18 @@ class UniProtKBEntryCommentsConverterTest {
         assertEquals(3, document.commentMap.get("cc_disease").size());
         assertTrue(document.commentMap.get("cc_disease").contains(indexedDiseaseComment));
         assertTrue(document.commentMap.get("cc_disease").contains("DI-00602"));
-        assertTrue(document.commentMap.get("cc_disease").contains("Craniosynostosis-midfacial hypoplasia-foot abnormalities"));
+        assertTrue(
+                document.commentMap
+                        .get("cc_disease")
+                        .contains("Craniosynostosis-midfacial hypoplasia-foot abnormalities"));
 
         assertTrue(document.content.contains(indexedDiseaseComment));
         assertTrue(document.content.contains("DI-00602"));
         assertTrue(document.evidenceExperimental);
         assertTrue(document.commentMap.containsKey("cc_disease_exp"));
-        assertEquals(List.of(indexedDiseaseComment, "DI-00602"), document.commentMap.get("cc_disease_exp"));
+        assertEquals(
+                List.of(indexedDiseaseComment, "DI-00602"),
+                document.commentMap.get("cc_disease_exp"));
     }
 
     @Test

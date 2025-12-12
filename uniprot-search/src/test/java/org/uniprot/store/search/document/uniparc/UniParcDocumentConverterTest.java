@@ -12,10 +12,7 @@ import org.uniprot.core.uniparc.SequenceFeature;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.core.uniparc.impl.InterProGroupBuilder;
-import org.uniprot.core.uniparc.impl.SequenceFeatureBuilder;
-import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
-import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
+import org.uniprot.core.uniparc.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Organism;
 import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
 
@@ -119,11 +116,13 @@ class UniParcDocumentConverterTest {
         assertTrue(result.getProteinNames().contains("proteinNameValue"));
 
         assertNotNull(result.getProteomes());
-        assertEquals(1, result.getProteomes().size());
-        assertTrue(result.getProteomes().contains("proteomeIdValue"));
+        assertEquals(2, result.getProteomes().size());
+        assertTrue(result.getProteomes().contains("proteome0"));
+        assertTrue(result.getProteomes().contains("proteome1"));
         assertNotNull(result.getProteomeComponents());
-        assertEquals(1, result.getProteomeComponents().size());
-        assertTrue(result.getProteomeComponents().contains("componentValue"));
+        assertEquals(2, result.getProteomeComponents().size());
+        assertTrue(result.getProteomeComponents().contains("proteome0:component0"));
+        assertTrue(result.getProteomeComponents().contains("proteome1:component0"));
 
         assertNotNull(result.getOrganismTaxons());
         assertTrue(result.getOrganismTaxons().isEmpty());
@@ -178,8 +177,16 @@ class UniParcDocumentConverterTest {
                 .organism(getOrganism())
                 .geneName("geneNameValue")
                 .proteinName("proteinNameValue")
-                .proteomeId("proteomeIdValue")
-                .component("componentValue")
+                .proteomeIdComponentsAdd(
+                        new ProteomeIdComponentBuilder()
+                                .proteomeId("proteome0")
+                                .component("component0")
+                                .build())
+                .proteomeIdComponentsAdd(
+                        new ProteomeIdComponentBuilder()
+                                .proteomeId("proteome1")
+                                .component("component0")
+                                .build())
                 .chain("chainValue")
                 .ncbiGi("ncbiGiValue")
                 .active(active)

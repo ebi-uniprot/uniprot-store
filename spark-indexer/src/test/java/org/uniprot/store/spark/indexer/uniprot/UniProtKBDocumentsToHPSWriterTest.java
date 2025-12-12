@@ -177,7 +177,9 @@ class UniProtKBDocumentsToHPSWriterTest {
 
         UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
         JavaPairRDD<String, UniProtDocument> uniprotDocRDD =
-                reader.load().mapValues(new UniProtEntryToSolrDocument(new HashMap<>(), new HashMap<>()));
+                reader.load()
+                        .mapValues(
+                                new UniProtEntryToSolrDocument(new HashMap<>(), new HashMap<>()));
 
         uniprotDocRDD = writer.joinChebiRelations(uniprotDocRDD);
 
@@ -195,7 +197,9 @@ class UniProtKBDocumentsToHPSWriterTest {
 
         UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
         JavaPairRDD<String, UniProtDocument> uniprotDocRDD =
-                reader.load().mapValues(new UniProtEntryToSolrDocument(new HashMap<>(), new HashMap<>()));
+                reader.load()
+                        .mapValues(
+                                new UniProtEntryToSolrDocument(new HashMap<>(), new HashMap<>()));
 
         uniprotDocRDD = writer.joinUniProtOldIdTracker(uniprotDocRDD);
 
@@ -271,7 +275,8 @@ class UniProtKBDocumentsToHPSWriterTest {
         UniProtKBRDDTupleReader reader = new UniProtKBRDDTupleReader(parameter, false);
         JavaPairRDD<String, UniProtKBEntry> uniProtRDD = reader.load();
         JavaPairRDD<String, UniProtDocument> uniProtDocument =
-                uniProtRDD.mapValues(new UniProtEntryToSolrDocument(new HashMap<>(), new HashMap<>()));
+                uniProtRDD.mapValues(
+                        new UniProtEntryToSolrDocument(new HashMap<>(), new HashMap<>()));
         Map<String, UniProtDocument> accessionDoc = uniProtDocument.collectAsMap();
         assertNotNull(accessionDoc);
         assertEquals(1, accessionDoc.size());
@@ -351,7 +356,10 @@ class UniProtKBDocumentsToHPSWriterTest {
     @Test
     void canLoadDiseases() {
         UniProtKBDocumentsToHPSWriter writer = new UniProtKBDocumentsToHPSWriter(parameter);
-        Map<String, DiseaseEntry> diseaseIdEntryMap = writer.loadDiseases(parameter.getSparkContext().hadoopConfiguration(), parameter.getReleaseName());
+        Map<String, DiseaseEntry> diseaseIdEntryMap =
+                writer.loadDiseases(
+                        parameter.getSparkContext().hadoopConfiguration(),
+                        parameter.getReleaseName());
         assertNotNull(diseaseIdEntryMap);
         assertEquals(4, diseaseIdEntryMap.size());
     }

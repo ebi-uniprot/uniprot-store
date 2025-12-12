@@ -55,7 +55,8 @@ class UniProtEntryCommentsConverter implements Serializable {
                     "(?:In the .+? section; )?[Bb]elongs to the (.+?family)\\.(?: (.+?family)\\.)?(?: (.+?family)\\.)?(?: Highly divergent\\.)?");
     private final Map<String, DiseaseEntry> diseaseIdEntryMap;
 
-    UniProtEntryCommentsConverter(Map<String, String> pathway, Map<String, DiseaseEntry> diseaseIdEntryMap) {
+    UniProtEntryCommentsConverter(
+            Map<String, String> pathway, Map<String, DiseaseEntry> diseaseIdEntryMap) {
         this.pathwayRepo = pathway;
         this.diseaseIdEntryMap = diseaseIdEntryMap;
     }
@@ -317,9 +318,10 @@ class UniProtEntryCommentsConverter implements Serializable {
             document.content.add(accession);
             document.commentMap.get(field).add(accession);
             // add disease synonyms
-            if(Objects.nonNull(this.diseaseIdEntryMap) && this.diseaseIdEntryMap.containsKey(accession)) {
+            if (Objects.nonNull(this.diseaseIdEntryMap)
+                    && this.diseaseIdEntryMap.containsKey(accession)) {
                 List<String> altNames = this.diseaseIdEntryMap.get(accession).getAlternativeNames();
-                if(Utils.notNullNotEmpty(altNames)) {
+                if (Utils.notNullNotEmpty(altNames)) {
                     document.commentMap.get(field).addAll(altNames);
                     document.content.addAll(altNames);
                 }

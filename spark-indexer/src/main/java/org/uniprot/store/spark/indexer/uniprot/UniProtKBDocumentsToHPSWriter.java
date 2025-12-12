@@ -99,7 +99,6 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
         uniProtDocumentRDD = joinSubcellularLocationRelations(uniProtEntryRDD, uniProtDocumentRDD);
 
-
         boolean shouldIndexInactive =
                 Boolean.parseBoolean(config.getString("uniprot.index.inactive"));
         if (shouldIndexInactive) {
@@ -128,7 +127,9 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
                 InactiveUniProtKBRDDTupleReader.load(parameter)
                         .leftOuterJoin(inactiveUniParc)
                         .mapValues(new UniParcDeletedUniProtKBJoin())
-                        .mapValues(new UniProtEntryToSolrDocument(Collections.emptyMap(), Collections.emptyMap()));
+                        .mapValues(
+                                new UniProtEntryToSolrDocument(
+                                        Collections.emptyMap(), Collections.emptyMap()));
 
         return inactiveEntryRDD;
     }
@@ -143,7 +144,8 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
         Configuration hadoopConfig = sparkContext.hadoopConfiguration();
         Map<String, String> pathway = loadPathway(hadoopConfig, releaseName);
         Map<String, DiseaseEntry> diseaseIdEntryMap = loadDiseases(hadoopConfig, releaseName);
-        return uniProtEntryRDD.mapValues(new UniProtEntryToSolrDocument(pathway,diseaseIdEntryMap));
+        return uniProtEntryRDD.mapValues(
+                new UniProtEntryToSolrDocument(pathway, diseaseIdEntryMap));
     }
 
     private Map<String, String> loadPathway(Configuration hadoopConfig, String releaseName) {
@@ -161,8 +163,7 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
         String diseaseFile = releaseInputDir + config.getString("disease.file.path");
         List<String> lines = readLines(diseaseFile, hadoopConfig);
         List<DiseaseEntry> entries = new DiseaseFileReader().parseLines(lines);
-        return entries.stream()
-                .collect(Collectors.toMap(DiseaseEntry::getId, Function.identity()));
+        return entries.stream().collect(Collectors.toMap(DiseaseEntry::getId, Function.identity()));
     }
 
     /**

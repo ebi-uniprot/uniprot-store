@@ -23,7 +23,8 @@ public class UniProtEntryToSolrDocument
     private final Map<String, String> pathway;
     private final Map<String, DiseaseEntry> diseaseIdEntryMap;
 
-    public UniProtEntryToSolrDocument(Map<String, String> pathway, Map<String, DiseaseEntry> diseaseIdEntryMap) {
+    public UniProtEntryToSolrDocument(
+            Map<String, String> pathway, Map<String, DiseaseEntry> diseaseIdEntryMap) {
         this.pathway = pathway;
         this.diseaseIdEntryMap = diseaseIdEntryMap;
     }
