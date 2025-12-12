@@ -90,7 +90,7 @@
     "itemType": "SINGLE",
     "label": "Proteome",
     "name": "proteome",
-    "paths": ["proteomeId", "component"],
+    "paths": ["proteomeIdComponents[*].proteomeId", "proteomeIdComponents[*].component"],
     "id": "names_&_taxonomy/proteome",
     "includeInSwagger": true
   },
