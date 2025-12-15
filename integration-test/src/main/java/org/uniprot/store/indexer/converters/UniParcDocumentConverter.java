@@ -100,14 +100,12 @@ public class UniParcDocumentConverter implements DocumentConverter<Entry, UniPar
             builder.geneName(xref.getGeneName());
         }
 
-        if (Utils.notNullNotEmpty(xref.getProteomeIdComponents())) {
-            List<ProteomeIdComponent> proteomeIdComponents = xref.getProteomeIdComponents();
-            for (ProteomeIdComponent proteomeIdComponent : proteomeIdComponents) {
-                builder.proteome(proteomeIdComponent.getProteomeId());
+        if (Utils.notNullNotEmpty(xref.getProteomes())) {
+            List<Proteome> proteomeIdComponents = xref.getProteomes();
+            for (Proteome proteomeIdComponent : proteomeIdComponents) {
+                builder.proteome(proteomeIdComponent.getId());
                 builder.proteomeComponent(
-                        proteomeIdComponent.getProteomeId()
-                                + ":"
-                                + proteomeIdComponent.getComponent());
+                        proteomeIdComponent.getId() + ":" + proteomeIdComponent.getComponent());
             }
         }
     }

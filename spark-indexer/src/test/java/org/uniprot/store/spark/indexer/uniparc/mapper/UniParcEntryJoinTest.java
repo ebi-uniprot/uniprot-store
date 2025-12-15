@@ -13,7 +13,7 @@ import org.uniprot.core.taxonomy.impl.TaxonomyEntryBuilder;
 import org.uniprot.core.uniparc.UniParcCrossReference;
 import org.uniprot.core.uniparc.UniParcDatabase;
 import org.uniprot.core.uniparc.UniParcEntry;
-import org.uniprot.core.uniparc.impl.ProteomeIdComponentBuilder;
+import org.uniprot.core.uniparc.impl.ProteomeBuilder;
 import org.uniprot.core.uniparc.impl.UniParcCrossReferenceBuilder;
 import org.uniprot.core.uniparc.impl.UniParcEntryBuilder;
 import org.uniprot.core.uniparc.impl.UniParcIdBuilder;
@@ -182,9 +182,9 @@ class UniParcEntryJoinTest {
                                 .id("AC12345")
                                 .database(UniParcDatabase.EMBL)
                                 .organism(new OrganismBuilder().taxonId(11).build())
-                                .proteomeIdComponentsAdd(
-                                        new ProteomeIdComponentBuilder()
-                                                .proteomeId("UP000005640")
+                                .proteomesAdd(
+                                        new ProteomeBuilder()
+                                                .id("UP000005640")
                                                 .component("Chromosome")
                                                 .build())
                                 .build())
@@ -192,9 +192,9 @@ class UniParcEntryJoinTest {
                         new UniParcCrossReferenceBuilder()
                                 .id("AC54321")
                                 .database(UniParcDatabase.EMBL)
-                                .proteomeIdComponentsAdd(
-                                        new ProteomeIdComponentBuilder()
-                                                .proteomeId("UP000000001")
+                                .proteomesAdd(
+                                        new ProteomeBuilder()
+                                                .id("UP000000001")
                                                 .component("Chromosome")
                                                 .build())
                                 .build())

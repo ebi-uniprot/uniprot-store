@@ -121,8 +121,8 @@ class UniParcDocumentConverterTest {
         assertTrue(result.getProteomes().contains("proteome1"));
         assertNotNull(result.getProteomeComponents());
         assertEquals(2, result.getProteomeComponents().size());
-        assertTrue(result.getProteomeComponents().contains("proteome0:component0"));
-        assertTrue(result.getProteomeComponents().contains("proteome1:component0"));
+        assertTrue(result.getProteomeComponents().contains("component0"));
+        assertTrue(result.getProteomeComponents().contains("component1"));
 
         assertNotNull(result.getOrganismTaxons());
         assertTrue(result.getOrganismTaxons().isEmpty());
@@ -177,16 +177,8 @@ class UniParcDocumentConverterTest {
                 .organism(getOrganism())
                 .geneName("geneNameValue")
                 .proteinName("proteinNameValue")
-                .proteomeIdComponentsAdd(
-                        new ProteomeIdComponentBuilder()
-                                .proteomeId("proteome0")
-                                .component("component0")
-                                .build())
-                .proteomeIdComponentsAdd(
-                        new ProteomeIdComponentBuilder()
-                                .proteomeId("proteome1")
-                                .component("component0")
-                                .build())
+                .proteomesAdd(new ProteomeBuilder().id("proteome0").component("component0").build())
+                .proteomesAdd(new ProteomeBuilder().id("proteome1").component("component1").build())
                 .chain("chainValue")
                 .ncbiGi("ncbiGiValue")
                 .active(active)

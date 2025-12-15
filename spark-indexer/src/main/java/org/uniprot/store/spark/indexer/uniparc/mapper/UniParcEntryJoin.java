@@ -1,7 +1,8 @@
 package org.uniprot.store.spark.indexer.uniparc.mapper;
 
 import static org.uniprot.core.uniparc.UniParcCrossReference.PROPERTY_SOURCES;
-import static org.uniprot.store.spark.indexer.uniparc.mapper.UniParcJoinUtils.*;
+import static org.uniprot.store.spark.indexer.uniparc.mapper.UniParcJoinUtils.getMappedTaxons;
+import static org.uniprot.store.spark.indexer.uniparc.mapper.UniParcJoinUtils.mapTaxonomy;
 
 import java.io.Serial;
 import java.util.HashMap;
@@ -110,7 +111,7 @@ public class UniParcEntryJoin
             Map<String, UniParcCrossReference> mappedCrossReference) {
         return e.getValue().stream()
                 .map(mappedCrossReference::get)
-                .filter(xref -> xref != null && xref.getProteomeIdComponents() != null)
+                .filter(xref -> xref != null && xref.getProteomes() != null)
                 .map(UniParcEntryJoin::getXrefIdWithProteomeComponents)
                 .collect(Collectors.toSet());
     }
@@ -120,8 +121,8 @@ public class UniParcEntryJoin
                 + ":"
                 + xref.getId()
                 + ":"
-                + xref.getProteomeIdComponents().stream()
-                        .map(pair -> pair.getProteomeId() + ":" + pair.getComponent())
+                + xref.getProteomes().stream()
+                        .map(pair -> pair.getId() + ":" + pair.getComponent())
                         .collect(Collectors.joining(":"));
     }
 }
