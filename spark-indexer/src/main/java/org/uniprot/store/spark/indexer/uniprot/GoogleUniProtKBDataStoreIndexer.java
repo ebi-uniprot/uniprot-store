@@ -1,15 +1,18 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.broadcast.Broadcast;
+import org.uniprot.core.cv.keyword.KeywordEntry;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
+import org.uniprot.store.spark.indexer.keyword.KeywordRDDReader;
 import org.uniprot.store.spark.indexer.uniprot.mapper.GoogleProtNLMEntryUpdater;
 import org.uniprot.store.spark.indexer.uniprot.writer.UniProtKBDataStoreWriter;
 
@@ -36,6 +39,7 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
         JavaPairRDD<String, UniProtKBEntry> uniProtRDDPair = uniProtKBReader.load();
         // join protnlmentry with uniprotkbentry and inject proteinId in protnlm entry
         JavaRDD<UniProtKBEntry> protNLMRDD = joinRDDPairs(protNLMPairRDDPair, uniProtRDDPair);
+
         log.info("Writing google protnlm entries to datastore...");
         saveInDataStore(protNLMRDD);
         log.info("Completed writing google protnlm entries to datastore...");
@@ -48,6 +52,11 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
         Map<String, UniProtKBEntry> protNLMMap = protNLMPairRDD.collectAsMap();
         Broadcast<Map<String, UniProtKBEntry>> broadcastProtNLMMap = jsc.broadcast(protNLMMap);
 
+        // JavaPairRDD<keywordId,KeywordEntry> keyword --> extracted from keywlist.txt
+        KeywordRDDReader keywordReader = new KeywordRDDReader(this.parameter);
+        JavaPairRDD<String, KeywordEntry> keyword = keywordReader.load();
+        Map<String, KeywordEntry> keywordAccEntryMap = new HashMap<>(keyword.collectAsMap());
+
         return uniProtRDDPair
                 .filter(t -> broadcastProtNLMMap.value().containsKey(t._1))
                 .map(
@@ -55,7 +64,7 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
                             String key = t._1;
                             UniProtKBEntry uniProtEntry = t._2;
                             UniProtKBEntry protNLMEntry = broadcastProtNLMMap.value().get(key);
-                            return new GoogleProtNLMEntryUpdater()
+                            return new GoogleProtNLMEntryUpdater(keywordAccEntryMap)
                                     .call(new Tuple2<>(protNLMEntry, uniProtEntry));
                         });
     }
