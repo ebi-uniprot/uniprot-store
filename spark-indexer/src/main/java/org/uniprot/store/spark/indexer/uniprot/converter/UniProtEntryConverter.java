@@ -54,7 +54,8 @@ public class UniProtEntryConverter
     private final UniProtEntryTaxonomyConverter taxonomyConverter;
     private final UniProtEntryProteinDescriptionConverter proteinDescriptionConverter;
 
-    public UniProtEntryConverter(Map<String, String> pathway, Map<String, DiseaseEntry> diseaseIdEntryMap) {
+    public UniProtEntryConverter(
+            Map<String, String> pathway, Map<String, DiseaseEntry> diseaseIdEntryMap) {
         this.taxonomyConverter = new UniProtEntryTaxonomyConverter();
         this.crossReferenceConverter = new UniProtEntryCrossReferenceConverter();
         this.commentsConverter = new UniProtEntryCommentsConverter(pathway, diseaseIdEntryMap);
