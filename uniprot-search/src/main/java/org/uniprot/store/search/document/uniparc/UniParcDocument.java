@@ -53,9 +53,7 @@ public class UniParcDocument implements Document {
     @Field("protein_name")
     private Set<String> proteinNames;
 
-    @Singular
-    @Field("proteome")
-    private Set<String> proteomes = new HashSet<>();
+    @Singular private Set<String> proteomes = new HashSet<>();
 
     @Singular
     @Field("proteomecomponent")
@@ -101,6 +99,11 @@ public class UniParcDocument implements Document {
     @Field("organism_id")
     public void setOrganismIds(List<Integer> organismIds) {
         this.organismIds = new HashSet<>(organismIds);
+    }
+
+    @Field("proteome")
+    public void setProteomes(List<String> proteomes) {
+        this.proteomes = new HashSet<>(proteomes);
     }
 
     public static class UniParcDocumentBuilder implements Serializable {
