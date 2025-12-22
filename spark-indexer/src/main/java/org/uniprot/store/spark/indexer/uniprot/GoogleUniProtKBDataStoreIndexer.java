@@ -56,6 +56,8 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
         KeywordRDDReader keywordReader = new KeywordRDDReader(this.parameter);
         JavaPairRDD<String, KeywordEntry> keyword = keywordReader.load();
         Map<String, KeywordEntry> keywordAccEntryMap = new HashMap<>(keyword.collectAsMap());
+        log.info("################### Writing keyword entries to datastore... {}", keywordAccEntryMap.size());
+        Broadcast<Map<String, KeywordEntry>> broadcastKeywordAccEntryMap = jsc.broadcast(keywordAccEntryMap);
 
         return uniProtRDDPair
                 .filter(t -> broadcastProtNLMMap.value().containsKey(t._1))
@@ -64,7 +66,7 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
                             String key = t._1;
                             UniProtKBEntry uniProtEntry = t._2;
                             UniProtKBEntry protNLMEntry = broadcastProtNLMMap.value().get(key);
-                            return new GoogleProtNLMEntryUpdater(keywordAccEntryMap)
+                            return new GoogleProtNLMEntryUpdater(broadcastKeywordAccEntryMap.value())
                                     .call(new Tuple2<>(protNLMEntry, uniProtEntry));
                         });
     }
