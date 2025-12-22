@@ -54,12 +54,13 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
 
         // JavaPairRDD<keywordId,KeywordEntry> keyword --> extracted from keywlist.txt
         KeywordRDDReader keywordReader = new KeywordRDDReader(this.parameter);
-        JavaPairRDD<String, KeywordEntry> keyword = keywordReader.load();
-        Map<String, KeywordEntry> keywordAccEntryMap = keyword.collectAsMap();
+        JavaPairRDD<String, KeywordEntry> keywordRdd = keywordReader.load();
+
+        Map<String, KeywordEntry> keywordAccEntryMap = convertToKeywordMap(keywordRdd);
         log.info("################### Writing keyword entries to datastore... {}", keywordAccEntryMap.size());
 
         if(keywordAccEntryMap.size() <= 0) {
-            throw new RuntimeException("Keyword is empty");
+            throw new RuntimeException("Keyword is empty");//TODO remove
         }
         Broadcast<Map<String, KeywordEntry>> broadcastKeywordAccEntryMap = jsc.broadcast(keywordAccEntryMap);
 
@@ -73,6 +74,13 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
                             return new GoogleProtNLMEntryUpdater(broadcastKeywordAccEntryMap.value())
                                     .call(new Tuple2<>(protNLMEntry, uniProtEntry));
                         });
+    }
+
+    private Map<String, KeywordEntry> convertToKeywordMap(JavaPairRDD<String, KeywordEntry> keywordRdd) {
+        Map<String, KeywordEntry> keywordMap = keywordRdd
+                .mapToPair(tuple -> new Tuple2<>(tuple._2().getKeyword().getId(), tuple._2()))
+                .collectAsMap();
+        return keywordMap;
     }
 
     void saveInDataStore(JavaRDD<UniProtKBEntry> protNLMEntryRDD) {
