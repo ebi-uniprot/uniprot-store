@@ -55,8 +55,12 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
         // JavaPairRDD<keywordId,KeywordEntry> keyword --> extracted from keywlist.txt
         KeywordRDDReader keywordReader = new KeywordRDDReader(this.parameter);
         JavaPairRDD<String, KeywordEntry> keyword = keywordReader.load();
-        Map<String, KeywordEntry> keywordAccEntryMap = new HashMap<>(keyword.collectAsMap());
+        Map<String, KeywordEntry> keywordAccEntryMap = keyword.collectAsMap();
         log.info("################### Writing keyword entries to datastore... {}", keywordAccEntryMap.size());
+
+        if(keywordAccEntryMap.size() <= 0) {
+            throw new RuntimeException("Keyword is empty");
+        }
         Broadcast<Map<String, KeywordEntry>> broadcastKeywordAccEntryMap = jsc.broadcast(keywordAccEntryMap);
 
         return uniProtRDDPair
