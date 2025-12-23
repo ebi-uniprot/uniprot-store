@@ -42,10 +42,12 @@ public class GoogleProtNLMEntryUpdater
 
     private Keyword injectCateory(Keyword keyword) {
         KeywordEntry actualKeyword = this.keywordAccEntryMap.get(keyword.getId());
-        KeywordCategory keywordCategory = actualKeyword.getCategory();
-        if (keywordCategory == null) {
-            keywordCategory = KeywordCategory.UNKNOWN;
+        KeywordCategory keywordCategory = KeywordCategory.UNKNOWN;
+
+        if (actualKeyword != null && actualKeyword.getCategory() != null) {
+            keywordCategory = actualKeyword.getCategory();
         }
+
         return KeywordBuilder.from(keyword).category(keywordCategory).build();
     }
 }

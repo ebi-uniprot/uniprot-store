@@ -1,6 +1,5 @@
 package org.uniprot.store.spark.indexer.uniprot;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.spark.api.java.JavaPairRDD;
@@ -54,8 +53,10 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
 
         // JavaPairRDD<keywordId,KeywordEntry> keyword --> extracted from keywlist.txt
         KeywordRDDReader keywordReader = new KeywordRDDReader(this.parameter);
-        JavaPairRDD<String, KeywordEntry> keyword = keywordReader.load();
-        Map<String, KeywordEntry> keywordAccEntryMap = new HashMap<>(keyword.collectAsMap());
+        JavaPairRDD<String, KeywordEntry> keywordRDD = keywordReader.load();
+        Map<String, KeywordEntry> keywordAccEntryMap = convertToKeywordMap(keywordRDD);
+        Broadcast<Map<String, KeywordEntry>> broadcastKeywordAccEntryMap =
+                jsc.broadcast(keywordAccEntryMap);
 
         return uniProtRDDPair
                 .filter(t -> broadcastProtNLMMap.value().containsKey(t._1))
@@ -64,9 +65,20 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
                             String key = t._1;
                             UniProtKBEntry uniProtEntry = t._2;
                             UniProtKBEntry protNLMEntry = broadcastProtNLMMap.value().get(key);
-                            return new GoogleProtNLMEntryUpdater(keywordAccEntryMap)
+                            return new GoogleProtNLMEntryUpdater(
+                                            broadcastKeywordAccEntryMap.value())
                                     .call(new Tuple2<>(protNLMEntry, uniProtEntry));
                         });
+    }
+
+    private Map<String, KeywordEntry> convertToKeywordMap(
+            JavaPairRDD<String, KeywordEntry> keywordRdd) {
+        Map<String, KeywordEntry> keywordMap =
+                keywordRdd
+                        .mapToPair(
+                                tuple -> new Tuple2<>(tuple._2().getKeyword().getId(), tuple._2()))
+                        .collectAsMap();
+        return keywordMap;
     }
 
     void saveInDataStore(JavaRDD<UniProtKBEntry> protNLMEntryRDD) {
