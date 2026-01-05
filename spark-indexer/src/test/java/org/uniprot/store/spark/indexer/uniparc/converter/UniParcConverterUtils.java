@@ -29,8 +29,8 @@ public class UniParcConverterUtils {
         properties.add(getPropertyRow(PROPERTY_NCBI_TAXONOMY_ID, String.valueOf(i)));
         properties.add(getPropertyRow(PROPERTY_GENE_NAME, "geneNameValue"));
         properties.add(getPropertyRow(PROPERTY_PROTEIN_NAME, "proteinNameValue"));
-        properties.add(getPropertyRow(PROPERTY_PROTEOME_ID, "proteomeIdValue"));
-        properties.add(getPropertyRow(PROPERTY_COMPONENT, "componentValue"));
+        properties.add(getPropertyRow(PROPERTY_PROTEOMEID_COMPONENT, "proteomeComponentValue0"));
+        properties.add(getPropertyRow(PROPERTY_PROTEOMEID_COMPONENT, "proteomeComponentValue1"));
         properties.add(getPropertyRow(PROPERTY_CHAIN, "chainValue"));
         properties.add(getPropertyRow(PROPERTY_NCBI_GI, "ncbiGiValue"));
         properties.add(getPropertyRow(PROPERTY_UNIPROTKB_ACCESSION, "P12345"));
