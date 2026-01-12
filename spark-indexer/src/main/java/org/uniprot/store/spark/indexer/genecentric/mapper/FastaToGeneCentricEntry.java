@@ -31,7 +31,12 @@ public abstract class FastaToGeneCentricEntry
         List<Tuple2<String, GeneCentricEntry>> result = new ArrayList<>();
 
         final String proteomeId = parseProteomeId((FileSplit) inputSplit);
-        entries.forEachRemaining(fastaTuple -> result.add(parseEntry(proteomeId, fastaTuple)));
+        entries.forEachRemaining(fastaTuple -> {
+            Tuple2<String, GeneCentricEntry> tuple = parseEntry(proteomeId, fastaTuple);
+            if(tuple._1 != null) {
+                result.add(tuple);
+            }
+        });
 
         return result.iterator();
     }

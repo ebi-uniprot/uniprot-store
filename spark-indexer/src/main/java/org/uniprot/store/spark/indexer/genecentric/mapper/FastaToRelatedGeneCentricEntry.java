@@ -47,7 +47,7 @@ public class FastaToRelatedGeneCentricEntry extends FastaToGeneCentricEntry {
         String prefix = splitProteinName[0];
         String canonicalAccession = prefix.substring(prefix.lastIndexOf(" ") + 1);
 
-        if (!canonicalAccession.equalsIgnoreCase("readthrough")) {
+        if (!canonicalAccession.equalsIgnoreCase("readthrough") && !canonicalAccession.equalsIgnoreCase("null")) {
             UniProtKBAccession accession =
                     new UniProtKBAccessionBuilder(canonicalAccession).build();
             if (!accession.isValidAccession()) {

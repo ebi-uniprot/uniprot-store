@@ -103,4 +103,19 @@ class FastaToRelatedGeneCentricEntryTest {
         Tuple2<LongWritable, Text> tuple = new Tuple2<>(new LongWritable(), new Text(fastaInput));
         assertThrows(IndexHPSDocumentsException.class, () -> mapper.parseEntry(proteomeId, tuple));
     }
+
+    @Test
+    void nullCanonicalEntryReturnNull() {
+        String fastaInput =
+                ">tr|A0A087WPU2|A0A087WPU2_MOUSE Isoform of null, Predicted gene 28434 OS=Mus musculus OX=10090 GN=Gm28434 PE=4 SV=1\n" +
+                        "MKILILTVITLNFVIFFPGAFQENEASDSICCHLEPKCLLIKAEKR";
+
+        FastaToRelatedGeneCentricEntry mapper = new FastaToRelatedGeneCentricEntry();
+        String proteomeId = "UP000000554";
+        Tuple2<LongWritable, Text> tuple = new Tuple2<>(new LongWritable(), new Text(fastaInput));
+        Tuple2<String, GeneCentricEntry> result = mapper.parseEntry(proteomeId, tuple);
+        assertNotNull(result);
+        assertEquals("null", result._1);
+        assertNull(result._2);
+    }
 }
