@@ -208,7 +208,7 @@
 	<field name="proteomecomponent" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="proteome" type="lowercase" indexed="true"
-		stored="false" required="false" multiValued="true" />
+		stored="true" required="false" multiValued="true" />
 
 	<!-- Feature types -->
 	<dynamicField name="ft_*" type="full_ci" indexed="true"

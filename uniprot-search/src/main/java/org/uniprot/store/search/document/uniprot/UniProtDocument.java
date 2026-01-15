@@ -256,7 +256,6 @@ public class UniProtDocument implements Document {
     @Field("scope")
     public Set<String> scopes = new HashSet<>();
 
-    @Field("proteome")
     public Set<String> proteomes = new HashSet<>();
 
     @Field("proteomecomponent")
@@ -322,6 +321,15 @@ public class UniProtDocument implements Document {
     @Singular
     @Field("checksum")
     public Set<String> sequenceChecksums; // crc64 and md5
+
+    @Field("proteome")
+    public void setProteomes(List<String> proteomes) {
+        this.proteomes = new HashSet<>(proteomes);
+    }
+
+    public Set<String> getProteomes() {
+        return this.proteomes;
+    }
 
     @Override
     public String getDocumentId() {
