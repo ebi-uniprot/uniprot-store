@@ -65,7 +65,7 @@
 	<copyField source="scientific" dest="name_sort" />
 	<copyField source="tax_id" dest="tax_id_str" />
 	<copyField source="parent" dest="parent_str" />
-	<copyField source="ancestor" dest="ancestor_str" />
+	<copyField source="ancestor" dest="ancestor_str" multiValued="true"/>
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
 		docValues="true" />
