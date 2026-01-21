@@ -104,130 +104,55 @@
     "example": "SPECIES_GROUP",
     "includeInSwagger": true,
     "values": [
-      {
-        "name": "Superkingdom",
-        "value": "SUPERKINGDOM"
-      },
-      {
-        "name": "Kingdom",
-        "value": "KINGDOM"
-      },
-      {
-        "name": "Subkingdom",
-        "value": "SUBKINGDOM"
-      },
-      {
-        "name": "Superphylum",
-        "value": "SUPERPHYLUM"
-      },
-      {
-        "name": "Phylum",
-        "value": "PHYLUM"
-      },
-      {
-        "name": "Subphylum",
-        "value": "SUBPHYLUM"
-      },
-      {
-        "name": "Superclass",
-        "value": "SUPERCLASS"
-      },
-      {
-        "name": "Class",
-        "value": "CLASS"
-      },
-      {
-        "name": "Subclass",
-        "value": "SUBCLASS"
-      },
-      {
-        "name": "Infraclass",
-        "value": "INFRACLASS"
-      },
-      {
-        "name": "Cohort",
-        "value": "COHORT"
-      },
-      {
-        "name": "Subcohort",
-        "value": "SUBCOHORT"
-      },
-      {
-        "name": "Superorder",
-        "value": "SUPERORDER"
-      },
-      {
-        "name": "Order",
-        "value": "ORDER"
-      },
-      {
-        "name": "Suborder",
-        "value": "SUBORDER"
-      },
-      {
-        "name": "Infraorder",
-        "value": "INFRAORDER"
-      },
-      {
-        "name": "Parvorder",
-        "value": "PARVORDER"
-      },
-      {
-        "name": "Superfamily",
-        "value": "SUPERFAMILY"
-      },
-      {
-        "name": "Family",
-        "value": "FAMILY"
-      },
-      {
-        "name": "Subfamily",
-        "value": "SUBFAMILY"
-      },
-      {
-        "name": "Tribe",
-        "value": "TRIBE"
-      },
-      {
-        "name": "Subtribe",
-        "value": "SUBTRIBE"
-      },
-      {
-        "name": "Genus",
-        "value": "GENUS"
-      },
-      {
-        "name": "Subgenus",
-        "value": "SUBGENUS"
-      },
-      {
-        "name": "Species group",
-        "value": "SPECIES_GROUP"
-      },
-      {
-        "name": "Species subgroup",
-        "value": "SPECIES_SUBGROUP"
-      },
-      {
-        "name": "Species",
-        "value": "SPECIES"
-      },
-      {
-        "name": "Subspecies",
-        "value": "SUBSPECIES"
-      },
-      {
-        "name": "Varietas",
-        "value": "VARIETAS"
-      },
-      {
-        "name": "Forma",
-        "value": "FORMA"
-      },
-      {
-        "name": "No rank",
-        "value": "NO_RANK"
-      }
+      { "name": "Strain", "value": "STRAIN" },
+      { "name": "Serotype", "value": "SEROTYPE" },
+      { "name": "Series", "value": "SERIES" },
+      { "name": "Morph", "value": "MORPH" },
+      { "name": "Biotype", "value": "BIOTYPE" },
+      { "name": "Clade", "value": "CLADE" },
+      { "name": "Genotype", "value": "GENOTYPE" },
+      { "name": "Isolate", "value": "ISOLATE" },
+      { "name": "Forma Specialis", "value": "FORMA_SPECIALIS" },
+      { "name": "Pathogroup", "value": "PATHOGROUP" },
+      { "name": "Serogroup", "value": "SEROGROUP" },
+      { "name": "Section", "value": "SECTION" },
+      { "name": "Subsection", "value": "SUBSECTION" },
+      { "name": "Forma", "value": "FORMA" },
+      { "name": "Varietas", "value": "VARIETAS" },
+      { "name": "Subspecies", "value": "SUBSPECIES" },
+      { "name": "Species", "value": "SPECIES" },
+      { "name": "Species Subgroup", "value": "SPECIES_SUBGROUP" },
+      { "name": "Species Group", "value": "SPECIES_GROUP" },
+      { "name": "Subgenus", "value": "SUBGENUS" },
+      { "name": "Genus", "value": "GENUS" },
+      { "name": "Subtribe", "value": "SUBTRIBE" },
+      { "name": "Tribe", "value": "TRIBE" },
+      { "name": "Subfamily", "value": "SUBFAMILY" },
+      { "name": "Family", "value": "FAMILY" },
+      { "name": "Superfamily", "value": "SUPERFAMILY" },
+      { "name": "Parvorder", "value": "PARVORDER" },
+      { "name": "Infraorder", "value": "INFRAORDER" },
+      { "name": "Suborder", "value": "SUBORDER" },
+      { "name": "Order", "value": "ORDER" },
+      { "name": "Superorder", "value": "SUPERORDER" },
+      { "name": "Subcohort", "value": "SUBCOHORT" },
+      { "name": "Cohort", "value": "COHORT" },
+      { "name": "Infraclass", "value": "INFRACLASS" },
+      { "name": "Subclass", "value": "SUBCLASS" },
+      { "name": "Class", "value": "CLASS" },
+      { "name": "Superclass", "value": "SUPERCLASS" },
+      { "name": "Subphylum", "value": "SUBPHYLUM" },
+      { "name": "Phylum", "value": "PHYLUM" },
+      { "name": "Superphylum", "value": "SUPERPHYLUM" },
+      { "name": "Subkingdom", "value": "SUBKINGDOM" },
+      { "name": "Kingdom", "value": "KINGDOM" },
+      { "name": "Superkingdom", "value": "SUPERKINGDOM" },
+      { "name": "Realm", "value": "REALM" },
+      { "name": "Domain", "value": "DOMAIN" },
+      { "name": "Subvariety", "value": "SUBVARIETY" },
+      { "name": "Acellular Root", "value": "ACELLULAR_ROOT" },
+      { "name": "Cellular Root", "value": "CELLULAR_ROOT" },
+      { "name": "No Rank", "value": "NO_RANK" }
     ]
   },
   {
