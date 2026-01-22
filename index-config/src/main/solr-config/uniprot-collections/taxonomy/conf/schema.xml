@@ -54,7 +54,7 @@
 	<field name="parent_str" type="string" stored="false"
 		indexed="true" />
 	<field name="ancestor_str" type="string" stored="false"
-		indexed="true" multiValued="true"/>
+		indexed="true" multiValued="true" />
 	<!-- the whole taxonomy object as binary -->
 	<field name="taxonomy_obj" type="binary" indexed="false"
 		stored="true" required="true" multiValued="false" />
@@ -65,7 +65,7 @@
 	<copyField source="scientific" dest="name_sort" />
 	<copyField source="tax_id" dest="tax_id_str" />
 	<copyField source="parent" dest="parent_str" />
-	<copyField source="ancestor" dest="ancestor_str"/>
+	<copyField source="ancestor" dest="ancestor_str" />
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
 		docValues="true" />
