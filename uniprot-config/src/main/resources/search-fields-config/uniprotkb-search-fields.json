@@ -124,12 +124,6 @@
     "fieldType": "GENERAL"
   },
   {
-    "id":"source",
-    "fieldName": "source",
-    "dataType": "STRING",
-    "fieldType": "GENERAL"
-  },
-  {
     "id":"rhea",
     "fieldName": "rhea",
     "dataType": "STRING",
@@ -3792,7 +3786,7 @@
   },
   {
     "parentId" : "cross_references",
-    "childNumber": 0,
+    "childNumber": 1,
     "id": "database",
     "itemType": "SINGLE",
     "fieldName": "database",
@@ -3800,6 +3794,19 @@
     "dataType": "STRING",
     "example":  "Bgee",
     "description" : "Search by database aka cross reference",
+    "includeInSwagger": true
+  },
+  {
+    "parentId" : "cross_references",
+    "childNumber": 0,
+    "id": "xref_source",
+    "label": "Source",
+    "itemType": "SINGLE",
+    "fieldName": "source",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "example":  "google",
+    "description" : "Search by cross reference source",
     "includeInSwagger": true
   }
 ]
