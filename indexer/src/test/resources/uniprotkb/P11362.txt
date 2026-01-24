@@ -1343,7 +1343,6 @@ DR   InParanoid; P11362; -.
 DR   OMA; RCLILWA; -.
 DR   OrthoDB; 220433at2759; -.
 DR   PhylomeDB; P11362; -.
-DR   TreeFam; TF316307; -.
 DR   BRENDA; 2.7.10.1; 2681.
 DR   PathwayCommons; P11362; -.
 DR   Reactome; R-HSA-109704; PI3K Cascade.
