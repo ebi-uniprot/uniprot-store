@@ -192,7 +192,6 @@ DR   HOGENOM; HOG000231556; -.
 DR   InParanoid; Q9EPI6; -.
 DR   OrthoDB; EOG7M98G2; -.
 DR   PhylomeDB; Q9EPI6; -.
-DR   TreeFam; TF331286; -.
 DR   PRO; PR:Q9EPI6; -.
 DR   ExpressionAtlas; Q9EPI6; baseline.
 DR   GO; GO:0097440; C:apical dendrite; IDA:UniProtKB.
