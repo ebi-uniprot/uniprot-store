@@ -29,7 +29,6 @@ public class IdMappingFieldConfig {
     public static final String UNIREF_90_STR = "UniRef90";
     public static final String UNIREF_100_STR = "UniRef100";
     public static final String GENE_NAME_STR = "Gene Name";
-    public static final String PROTEOME_ID_STR = "Proteome ID";
     public static final String ACC_STR = convertDisplayNameToName(UNIPROTKB_STR);
     public static final String ACC_ID_STR = convertDisplayNameToName(UNIPROTKB_AC_ID_STR);
     public static final String SWISSPROT_STR = convertDisplayNameToName(UNIPROTKB_SWISS_STR);
@@ -37,7 +36,7 @@ public class IdMappingFieldConfig {
     public static final String UNIREF50_STR = convertDisplayNameToName(UNIREF_50_STR);
     public static final String UNIREF90_STR = convertDisplayNameToName(UNIREF_90_STR);
     public static final String UNIREF100_STR = convertDisplayNameToName(UNIREF_100_STR);
-    public static final String PROTEOME_STR = convertDisplayNameToName(PROTEOME_ID_STR);
+    public static final String GENENAME_STR = convertDisplayNameToName(GENE_NAME_STR);
 
     public static final String PIR_CRC64 = "CRC64";
     public static final String PIR_ACC_STR = "ACC";
@@ -201,16 +200,6 @@ public class IdMappingFieldConfig {
         UniProtDatabaseDetail crc64 =
                 new UniProtDatabaseDetail(
                         CRC64, CRC64, category, null, null, false, null, PIR_CRC64);
-        UniProtDatabaseDetail proteome =
-                new UniProtDatabaseDetail(
-                        PROTEOME_ID_STR,
-                        PROTEOME_ID_STR,
-                        category,
-                        "https://www.uniprot.org/proteomes/%id",
-                        null,
-                        false,
-                        null,
-                        "proteome");
         return List.of(
                 uniProtKBAcc,
                 uniProtKBAccId,
@@ -220,8 +209,7 @@ public class IdMappingFieldConfig {
                 uniRef90,
                 uniRef100,
                 geneName,
-                crc64,
-                proteome);
+                crc64);
     }
 
     static List<UniProtDatabaseDetail> createMissingIdMappingTypes() {

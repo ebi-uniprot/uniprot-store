@@ -29,7 +29,7 @@
 	<field name="protein_name" type="full_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="proteome" type="basic_ci" indexed="true"
-		stored="true" required="false" multiValued="true" />
+		stored="false" required="false" multiValued="true" />
 	<field name="proteomecomponent" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="uniprotkb" type="basic_ci" indexed="true"
