@@ -1,14 +1,25 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
+import static org.uniprot.core.uniprotkb.comment.CommentType.SUBCELLULAR_LOCATION;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.spark.api.java.function.Function;
+import org.jetbrains.annotations.NotNull;
 import org.uniprot.core.cv.keyword.KeywordCategory;
 import org.uniprot.core.cv.keyword.KeywordEntry;
+import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.core.uniprotkb.Keyword;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
+import org.uniprot.core.uniprotkb.comment.Comment;
+import org.uniprot.core.uniprotkb.comment.SubcellularLocation;
+import org.uniprot.core.uniprotkb.comment.SubcellularLocationComment;
+import org.uniprot.core.uniprotkb.comment.SubcellularLocationValue;
+import org.uniprot.core.uniprotkb.comment.impl.SubcellularLocationBuilder;
+import org.uniprot.core.uniprotkb.comment.impl.SubcellularLocationCommentBuilder;
+import org.uniprot.core.uniprotkb.comment.impl.SubcellularLocationValueBuilder;
 import org.uniprot.core.uniprotkb.impl.KeywordBuilder;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 
@@ -19,9 +30,13 @@ public class GoogleProtNLMEntryUpdater
 
     private static final long serialVersionUID = -3375925835880954913L;
     private final Map<String, KeywordEntry> keywordAccEntryMap;
+    private final Map<String, SubcellularLocationEntry> subcellNameEntryMap;
 
-    public GoogleProtNLMEntryUpdater(Map<String, KeywordEntry> keywordAccEntryMap) {
+    public GoogleProtNLMEntryUpdater(
+            Map<String, KeywordEntry> keywordAccEntryMap,
+            Map<String, SubcellularLocationEntry> SubcellNameEntryMap) {
         this.keywordAccEntryMap = keywordAccEntryMap;
+        this.subcellNameEntryMap = SubcellNameEntryMap;
     }
 
     @Override
@@ -30,17 +45,53 @@ public class GoogleProtNLMEntryUpdater
         UniProtKBEntry uniProtEntry = tuple._2();
         // inject keyword category
         List<Keyword> keywords = populateKeywordCategory(protNLMEntry.getKeywords());
+        List<Comment> comments = addSubcellularLocationId(protNLMEntry.getComments());
         return UniProtKBEntryBuilder.from(protNLMEntry)
                 .uniProtId(uniProtEntry.getUniProtkbId())
                 .keywordsSet(keywords)
+                .commentsSet(comments)
+                .build();
+    }
+
+    private List<Comment> addSubcellularLocationId(List<Comment> comments) {
+        return comments.stream()
+                .map(
+                        comment ->
+                                SUBCELLULAR_LOCATION.equals(comment.getCommentType())
+                                        ? getSubcellCommentWithId(comment)
+                                        : comment)
+                .toList();
+    }
+
+    @NotNull
+    private SubcellularLocationComment getSubcellCommentWithId(Comment comment) {
+        SubcellularLocationComment subcellularLocationComment =
+                (SubcellularLocationComment) comment;
+        List<SubcellularLocation> subcellularLocationsWithId =
+                subcellularLocationComment.getSubcellularLocations().stream()
+                        .map(this::enrichWithSubcellId)
+                        .toList();
+        return SubcellularLocationCommentBuilder.from(subcellularLocationComment)
+                .subcellularLocationsSet(subcellularLocationsWithId)
+                .build();
+    }
+
+    private SubcellularLocation enrichWithSubcellId(SubcellularLocation subcellularLocation) {
+        SubcellularLocationValue subcellLocationValue = subcellularLocation.getLocation();
+        SubcellularLocationValue subcelllocationValueWithId =
+                SubcellularLocationValueBuilder.from(subcellLocationValue)
+                        .id(subcellNameEntryMap.get(subcellLocationValue.getValue()).getId())
+                        .build();
+        return SubcellularLocationBuilder.from(subcellularLocation)
+                .location(subcelllocationValueWithId)
                 .build();
     }
 
     private List<Keyword> populateKeywordCategory(List<Keyword> keywords) {
-        return keywords.stream().map(this::injectCateory).toList();
+        return keywords.stream().map(this::injectCategory).toList();
     }
 
-    private Keyword injectCateory(Keyword keyword) {
+    private Keyword injectCategory(Keyword keyword) {
         KeywordEntry actualKeyword = this.keywordAccEntryMap.get(keyword.getId());
         KeywordCategory keywordCategory = KeywordCategory.UNKNOWN;
 
