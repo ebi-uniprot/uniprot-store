@@ -1314,7 +1314,6 @@ DR   MIM; 166250; phenotype.
 DR   MIM; 190440; phenotype.
 DR   MIM; 613001; phenotype.
 DR   MIM; 615465; phenotype.
-DR   neXtProt; NX_P11362; -.
 DR   OpenTargets; ENSG00000077782; -.
 DR   Orphanet; 2396; Encephalocraniocutaneous lipomatosis.
 DR   Orphanet; 251579; Giant cell glioblastoma.
