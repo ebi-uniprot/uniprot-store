@@ -201,16 +201,6 @@ public class IdMappingFieldConfig {
         UniProtDatabaseDetail crc64 =
                 new UniProtDatabaseDetail(
                         CRC64, CRC64, category, null, null, false, null, PIR_CRC64);
-        UniProtDatabaseDetail proteome =
-                new UniProtDatabaseDetail(
-                        PROTEOME_ID_STR,
-                        PROTEOME_ID_STR,
-                        category,
-                        "https://www.uniprot.org/proteomes/%id",
-                        null,
-                        false,
-                        null,
-                        "proteome");
         return List.of(
                 uniProtKBAcc,
                 uniProtKBAccId,
@@ -220,8 +210,7 @@ public class IdMappingFieldConfig {
                 uniRef90,
                 uniRef100,
                 geneName,
-                crc64,
-                proteome);
+                crc64);
     }
 
     static List<UniProtDatabaseDetail> createMissingIdMappingTypes() {
