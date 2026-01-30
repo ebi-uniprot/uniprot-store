@@ -1,7 +1,6 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import java.util.Map;
@@ -159,5 +158,39 @@ class GoogleProtNLMEntryUpdaterTest {
                 enrichedSubcellComment.getSubcellularLocations();
         assertEquals(subcellId0, enrichedSubcellLocations.get(0).getLocation().getId());
         assertEquals(subcellId1, enrichedSubcellLocations.get(1).getLocation().getId());
+        assertEquals(subcellName0, enrichedSubcellLocations.get(0).getLocation().getValue());
+        assertEquals(subcellName1, enrichedSubcellLocations.get(1).getLocation().getValue());
+    }
+
+    @Test
+    void testInvalidSubcellName() {
+        String subcellName0 = "Subcell0";
+        SubcellularLocationValueBuilder subcellValueBuilder0 =
+                new SubcellularLocationValueBuilder();
+        SubcellularLocationValue subcellValue0 = subcellValueBuilder0.value(subcellName0).build();
+        SubcellularLocationBuilder subcellBuilder0 = new SubcellularLocationBuilder();
+        SubcellularLocation subcellLocation0 = subcellBuilder0.location(subcellValue0).build();
+
+        SubcellularLocationCommentBuilder subcellCommentBuilder =
+                new SubcellularLocationCommentBuilder();
+        subcellCommentBuilder.subcellularLocationsSet(List.of(subcellLocation0));
+        SubcellularLocationComment subcellComment = subcellCommentBuilder.build();
+
+        UniProtKBEntry protNLMEntry =
+                new UniProtKBEntryBuilder("P12345", "PLACEHOLDER", UniProtKBEntryType.TREMBL)
+                        .commentsAdd(subcellComment)
+                        .commentsAdd(new BPCPCommentBuilder().build())
+                        .build();
+
+        Tuple2<UniProtKBEntry, UniProtKBEntry> input = new Tuple2<>(protNLMEntry, uniProtEntry);
+        String subcellName1 = "Subcell1";
+        String subcellId1 = "SL-5678";
+
+        Map<String, SubcellularLocationEntry> subcellMap =
+                Map.of(subcellName1, new SubcellularLocationEntryBuilder().id(subcellId1).build());
+        GoogleProtNLMEntryUpdater googleProtNLMEntryUpdater =
+                new GoogleProtNLMEntryUpdater(null, subcellMap);
+
+        assertThrows(IllegalArgumentException.class, () -> googleProtNLMEntryUpdater.call(input));
     }
 }

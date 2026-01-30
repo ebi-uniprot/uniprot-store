@@ -5,6 +5,7 @@ import static org.uniprot.core.uniprotkb.comment.CommentType.SUBCELLULAR_LOCATIO
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.spark.api.java.function.Function;
 import org.jetbrains.annotations.NotNull;
@@ -78,12 +79,21 @@ public class GoogleProtNLMEntryUpdater
 
     private SubcellularLocation enrichWithSubcellId(SubcellularLocation subcellularLocation) {
         SubcellularLocationValue subcellLocationValue = subcellularLocation.getLocation();
-        SubcellularLocationValue subcelllocationValueWithId =
+        String subcellLocationName = subcellLocationValue.getValue();
+        SubcellularLocationValue subcellLocationValueWithId =
                 SubcellularLocationValueBuilder.from(subcellLocationValue)
-                        .id(subcellNameEntryMap.get(subcellLocationValue.getValue()).getId())
+                        .id(
+                                Optional.ofNullable(subcellNameEntryMap.get(subcellLocationName))
+                                        .map(SubcellularLocationEntry::getId)
+                                        .orElseThrow(
+                                                () ->
+                                                        new IllegalArgumentException(
+                                                                "Invalid subcellular location name %s"
+                                                                        .formatted(
+                                                                                subcellLocationName))))
                         .build();
         return SubcellularLocationBuilder.from(subcellularLocation)
-                .location(subcelllocationValueWithId)
+                .location(subcellLocationValueWithId)
                 .build();
     }
 
