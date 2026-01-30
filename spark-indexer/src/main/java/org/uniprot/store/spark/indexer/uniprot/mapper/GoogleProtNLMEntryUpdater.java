@@ -24,8 +24,10 @@ import org.uniprot.core.uniprotkb.comment.impl.SubcellularLocationValueBuilder;
 import org.uniprot.core.uniprotkb.impl.KeywordBuilder;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
 
+import lombok.extern.slf4j.Slf4j;
 import scala.Tuple2;
 
+@Slf4j
 public class GoogleProtNLMEntryUpdater
         implements Function<Tuple2<UniProtKBEntry, UniProtKBEntry>, UniProtKBEntry>, Serializable {
 
@@ -85,12 +87,14 @@ public class GoogleProtNLMEntryUpdater
                         .id(
                                 Optional.ofNullable(subcellNameEntryMap.get(subcellLocationName))
                                         .map(SubcellularLocationEntry::getId)
-                                        .orElseThrow(
-                                                () ->
-                                                        new IllegalArgumentException(
-                                                                "Invalid subcellular location name %s"
-                                                                        .formatted(
-                                                                                subcellLocationName))))
+                                        .orElseGet(
+                                                () -> {
+                                                    log.warn(
+                                                            "Invalid subcellular location name %s"
+                                                                    .formatted(
+                                                                            subcellLocationName));
+                                                    return null;
+                                                }))
                         .build();
         return SubcellularLocationBuilder.from(subcellularLocation)
                 .location(subcellLocationValueWithId)

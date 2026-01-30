@@ -191,6 +191,14 @@ class GoogleProtNLMEntryUpdaterTest {
         GoogleProtNLMEntryUpdater googleProtNLMEntryUpdater =
                 new GoogleProtNLMEntryUpdater(null, subcellMap);
 
-        assertThrows(IllegalArgumentException.class, () -> googleProtNLMEntryUpdater.call(input));
+        UniProtKBEntry updatedProtNLMEntry = googleProtNLMEntryUpdater.call(input);
+        assertEquals("New Value", updatedProtNLMEntry.getUniProtkbId().getValue());
+        assertEquals(2, updatedProtNLMEntry.getComments().size());
+        SubcellularLocationComment enrichedSubcellComment =
+                (SubcellularLocationComment) updatedProtNLMEntry.getComments().get(0);
+        List<SubcellularLocation> enrichedSubcellLocations =
+                enrichedSubcellComment.getSubcellularLocations();
+        assertEquals(subcellName0, enrichedSubcellLocations.get(0).getLocation().getValue());
+        assertNull(enrichedSubcellLocations.get(0).getLocation().getId());
     }
 }
