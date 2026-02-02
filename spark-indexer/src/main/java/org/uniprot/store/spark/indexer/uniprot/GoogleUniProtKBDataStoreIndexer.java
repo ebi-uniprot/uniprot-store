@@ -7,11 +7,13 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.broadcast.Broadcast;
 import org.uniprot.core.cv.keyword.KeywordEntry;
+import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.store.DataStoreIndexer;
 import org.uniprot.store.spark.indexer.common.store.DataStoreParameter;
 import org.uniprot.store.spark.indexer.keyword.KeywordRDDReader;
+import org.uniprot.store.spark.indexer.subcell.SubcellularLocationRDDReader;
 import org.uniprot.store.spark.indexer.uniprot.mapper.GoogleProtNLMEntryUpdater;
 import org.uniprot.store.spark.indexer.uniprot.writer.UniProtKBDataStoreWriter;
 
@@ -48,15 +50,12 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
             JavaPairRDD<String, UniProtKBEntry> protNLMPairRDD,
             JavaPairRDD<String, UniProtKBEntry> uniProtRDDPair) {
         JavaSparkContext jsc = parameter.getSparkContext();
-        Map<String, UniProtKBEntry> protNLMMap = protNLMPairRDD.collectAsMap();
-        Broadcast<Map<String, UniProtKBEntry>> broadcastProtNLMMap = jsc.broadcast(protNLMMap);
-
-        // JavaPairRDD<keywordId,KeywordEntry> keyword --> extracted from keywlist.txt
-        KeywordRDDReader keywordReader = new KeywordRDDReader(this.parameter);
-        JavaPairRDD<String, KeywordEntry> keywordRDD = keywordReader.load();
-        Map<String, KeywordEntry> keywordAccEntryMap = convertToKeywordMap(keywordRDD);
+        Broadcast<Map<String, UniProtKBEntry>> broadcastProtNLMMap =
+                getProtNLMMapBroadcast(protNLMPairRDD, jsc);
         Broadcast<Map<String, KeywordEntry>> broadcastKeywordAccEntryMap =
-                jsc.broadcast(keywordAccEntryMap);
+                getKeywordMapBroadcast(jsc);
+        Broadcast<Map<String, SubcellularLocationEntry>> subcellularLocationMapBroadcast =
+                getSubcellularLocationMapBroadcast(jsc);
 
         return uniProtRDDPair
                 .filter(t -> broadcastProtNLMMap.value().containsKey(t._1))
@@ -66,9 +65,36 @@ public class GoogleUniProtKBDataStoreIndexer implements DataStoreIndexer {
                             UniProtKBEntry uniProtEntry = t._2;
                             UniProtKBEntry protNLMEntry = broadcastProtNLMMap.value().get(key);
                             return new GoogleProtNLMEntryUpdater(
-                                            broadcastKeywordAccEntryMap.value())
+                                            broadcastKeywordAccEntryMap.value(),
+                                            subcellularLocationMapBroadcast.value())
                                     .call(new Tuple2<>(protNLMEntry, uniProtEntry));
                         });
+    }
+
+    private static Broadcast<Map<String, UniProtKBEntry>> getProtNLMMapBroadcast(
+            JavaPairRDD<String, UniProtKBEntry> protNLMPairRDD, JavaSparkContext jsc) {
+        Map<String, UniProtKBEntry> protNLMMap = protNLMPairRDD.collectAsMap();
+        return jsc.broadcast(protNLMMap);
+    }
+
+    private Broadcast<Map<String, SubcellularLocationEntry>> getSubcellularLocationMapBroadcast(
+            JavaSparkContext jsc) {
+        SubcellularLocationRDDReader subcellularLocationReader =
+                new SubcellularLocationRDDReader(this.parameter);
+        Map<String, SubcellularLocationEntry> nameToSubCellularLocationMap =
+                subcellularLocationReader
+                        .load()
+                        .mapToPair(tuple -> new Tuple2<>(tuple._2().getName(), tuple._2()))
+                        .collectAsMap();
+        return jsc.broadcast(nameToSubCellularLocationMap);
+    }
+
+    private Broadcast<Map<String, KeywordEntry>> getKeywordMapBroadcast(JavaSparkContext jsc) {
+        // JavaPairRDD<keywordId,KeywordEntry> keyword --> extracted from keywlist.txt
+        KeywordRDDReader keywordReader = new KeywordRDDReader(this.parameter);
+        JavaPairRDD<String, KeywordEntry> keywordRDD = keywordReader.load();
+        Map<String, KeywordEntry> keywordAccEntryMap = convertToKeywordMap(keywordRDD);
+        return jsc.broadcast(keywordAccEntryMap);
     }
 
     private Map<String, KeywordEntry> convertToKeywordMap(
