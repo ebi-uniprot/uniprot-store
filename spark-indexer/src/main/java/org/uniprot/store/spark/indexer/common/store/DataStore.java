@@ -10,7 +10,8 @@ public enum DataStore {
     UNIREF_MEMBER("uniref-member"),
     UNIPARC_LIGHT("uniparc-light"),
     UNIPARC_CROSS_REFERENCE("uniparc-cross-reference"),
-    GOOGLE_PROTNLM("google-protnlm");
+    GOOGLE_PROTNLM("google-protnlm"),
+    PRECOMPUTED_ANNOTATION("precomputed-annotation");
 
     private final String name;
 

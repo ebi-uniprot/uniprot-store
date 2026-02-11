@@ -31,7 +31,7 @@ public class UniProtKBRDDTupleReader implements PairRDDReader<String, UniProtKBE
         this.shouldRepartition = shouldRepartition;
     }
 
-    private static final String SPLITTER = "\n//\n";
+    public static final String SPLITTER = "\n//\n";
 
     /**
      * @return an JavaPairRDD with <accession, UniProtKBEntry>
