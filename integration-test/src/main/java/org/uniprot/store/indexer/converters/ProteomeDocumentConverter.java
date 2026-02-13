@@ -1,5 +1,7 @@
 package org.uniprot.store.indexer.converters;
 
+import static org.uniprot.core.proteome.ProteomeType.NON_REFERENCE;
+import static org.uniprot.core.proteome.ProteomeType.REFERENCE;
 import static org.uniprot.core.util.Utils.*;
 
 import java.util.*;
@@ -8,6 +10,7 @@ import java.util.stream.Collectors;
 import org.uniprot.core.json.parser.proteome.ProteomeJsonConfig;
 import org.uniprot.core.proteome.CPDStatus;
 import org.uniprot.core.proteome.ProteomeEntry;
+import org.uniprot.core.proteome.ProteomeType;
 import org.uniprot.core.proteome.Superkingdom;
 import org.uniprot.core.util.Utils;
 import org.uniprot.core.xml.jaxb.proteome.ComponentType;
@@ -104,24 +107,17 @@ public class ProteomeDocumentConverter implements DocumentConverter<Proteome, Pr
         document.score = source.getAnnotationScore().getNormalizedAnnotationScore();
     }
 
-    // proteomeType: reference=1, complete=2, redundant=3,  excluded=4
+    // proteomeType: reference=1, non reference=2, excluded=3
     private void updateProteome(ProteomeDocument document, Proteome source) {
-        if ((source.getExcluded() != null)
-                && (source.getExcluded().getExclusionReason() != null)
-                && (!source.getExcluded().getExclusionReason().isEmpty())) {
-            document.proteomeType = 4;
-            document.isExcluded = true;
-        } else if ((source.getRedundantTo() != null) && (!source.getRedundantTo().isEmpty())) {
-            document.proteomeType = 3;
-            document.isRedundant = true;
-        } else if (source.isIsReferenceProteome() || source.isIsRepresentativeProteome()) {
-            // if Representative OR Reference
-            // it will be marked as reference proteomeType
+        ProteomeType proteomeType = ProteomeType.valueOf(source.getProteomeStatus());
+        if (REFERENCE.equals(proteomeType)) {
             document.proteomeType = 1;
             document.isReferenceProteome = true;
-        } else {
-            // Others Proteomes
+        } else if (NON_REFERENCE.equals(proteomeType)) {
             document.proteomeType = 2;
+        } else {
+            document.proteomeType = 3;
+            document.isExcluded = true;
         }
     }
 

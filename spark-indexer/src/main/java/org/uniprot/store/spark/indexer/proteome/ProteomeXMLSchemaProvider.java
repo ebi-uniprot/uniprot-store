@@ -9,8 +9,7 @@ public class ProteomeXMLSchemaProvider {
     public static final String TAXONOMY = "taxonomy";
     public static final String STRAIN = "strain";
     public static final String MODIFIED = "modified";
-    public static final String IS_REFERENCE_PROTEOME = "isReferenceProteome";
-    public static final String IS_REPRESENTATIVE_PROTEOME = "isRepresentativeProteome";
+    public static final String PROTEOME_STATUS = "proteomeStatus";
     public static final String GENOME_ANNOTATION = "genomeAnnotation";
     public static final String GENOME_ANNOTATION_SOURCE = "genomeAnnotationSource";
     public static final String GENOME_ANNOTATION_URL = "genomeAnnotationUrl";
@@ -45,9 +44,6 @@ public class ProteomeXMLSchemaProvider {
     public static final String CONSORTIUM = "consortium";
     public static final String ID = "_id";
     public static final String ISOLATE = "isolate";
-    public static final String REDUNDANT_TO = "redundantTo";
-    public static final String PANPROTEOME = "panproteome";
-    public static final String REDUNDANT_PROTEOME = "redundantProteome";
     public static final String EXCLUDED = "excluded";
     public static final String SIMILARITY = "_similarity";
     public static final String EXCLUSION_REASON = "exclusionReason";
@@ -59,14 +55,11 @@ public class ProteomeXMLSchemaProvider {
         structType = structType.add(PROTEIN_COUNT, DataTypes.StringType, true);
         structType = structType.add(UPID, DataTypes.StringType, false);
         structType = structType.add(TAXONOMY, DataTypes.LongType, false);
-        structType = structType.add(IS_REFERENCE_PROTEOME, DataTypes.BooleanType, false);
-        structType = structType.add(IS_REPRESENTATIVE_PROTEOME, DataTypes.BooleanType, false);
+        structType = structType.add(PROTEOME_STATUS, DataTypes.StringType, false);
         structType = structType.add(MODIFIED, DataTypes.DateType, false);
         structType = structType.add(STRAIN, DataTypes.StringType, true);
         structType = structType.add(DESCRIPTION, DataTypes.StringType, true);
         structType = structType.add(ISOLATE, DataTypes.StringType, true);
-        structType = structType.add(REDUNDANT_TO, DataTypes.StringType, true);
-        structType = structType.add(PANPROTEOME, DataTypes.StringType, true);
         structType = structType.add(ANNOTATION_SCORE, getAnnotationScoreSchema(), true);
         structType = structType.add(GENOME_ANNOTATION, getGenomeAnnotationSchema(), true);
         structType = structType.add(GENOME_ASSEMBLY, getGenomeAssemblySchema(), true);
@@ -75,11 +68,6 @@ public class ProteomeXMLSchemaProvider {
         structType = structType.add(SCORES, DataTypes.createArrayType(getScoresSchema()), true);
         structType =
                 structType.add(REFERENCE, DataTypes.createArrayType(getReferenceSchema()), true);
-        structType =
-                structType.add(
-                        REDUNDANT_PROTEOME,
-                        DataTypes.createArrayType(getRedundantProteomeSchema()),
-                        true);
         structType =
                 structType.add(EXCLUDED, DataTypes.createArrayType(getExclusionSchema()), true);
         return structType;
@@ -91,13 +79,6 @@ public class ProteomeXMLSchemaProvider {
                 exclusion.add(
                         EXCLUSION_REASON, DataTypes.createArrayType(DataTypes.StringType), false);
         return exclusion;
-    }
-
-    public static StructType getRedundantProteomeSchema() {
-        StructType redundantProtein = new StructType();
-        redundantProtein = redundantProtein.add(UPID_ATTRIBUTE, DataTypes.StringType, false);
-        redundantProtein = redundantProtein.add(SIMILARITY, DataTypes.StringType, true);
-        return redundantProtein;
     }
 
     public static StructType getReferenceSchema() {

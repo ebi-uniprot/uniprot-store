@@ -11,8 +11,7 @@
         </description>
         <taxonomy>289376</taxonomy>
         <modified>2020-10-17Z</modified>
-        <isReferenceProteome>true</isReferenceProteome>
-        <isRepresentativeProteome>true</isRepresentativeProteome>
+        <proteomeStatus>EXCLUDED</proteomeStatus>
         <strain>ATCC 51303 / DSM 11347 / YP87</strain>
         <genomeAssembly>
             <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>
@@ -87,8 +86,7 @@
         <upid>UP000006687</upid>
         <taxonomy>11049</taxonomy>
         <modified>2020-10-18Z</modified>
-        <isReferenceProteome>true</isReferenceProteome>
-        <isRepresentativeProteome>true</isRepresentativeProteome>
+        <proteomeStatus>REFERENCE</proteomeStatus>
         <strain>Lelystad</strain>
         <genomeAssembly>
             <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>
@@ -139,8 +137,7 @@
         <upid>UP000029766</upid>
         <taxonomy>60714</taxonomy>
         <modified>2020-10-17Z</modified>
-        <isReferenceProteome>true</isReferenceProteome>
-        <isRepresentativeProteome>true</isRepresentativeProteome>
+        <proteomeStatus>REFERENCE</proteomeStatus>
         <genomeAssembly>
             <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>
             <genomeAssembly>GCA_000859945.1</genomeAssembly>
@@ -183,8 +180,7 @@
         <upid>UP000164653</upid>
         <taxonomy>1076255</taxonomy>
         <modified>2020-10-17Z</modified>
-        <isReferenceProteome>true</isReferenceProteome>
-        <isRepresentativeProteome>true</isRepresentativeProteome>
+        <proteomeStatus>REFERENCE</proteomeStatus>
         <genomeAssembly>
             <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>
             <genomeAssembly>GCA_000892975.1</genomeAssembly>
@@ -232,8 +228,7 @@
         <upid>UP000029775</upid>
         <taxonomy>1559365</taxonomy>
         <modified>2020-10-17Z</modified>
-        <isReferenceProteome>true</isReferenceProteome>
-        <isRepresentativeProteome>false</isRepresentativeProteome>
+        <proteomeStatus>REFERENCE</proteomeStatus>
         <strain>Isolate Turnip/South Africa/B11/2006</strain>
         <genomeAssembly>
             <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>
@@ -291,8 +286,7 @@
         </description>
         <taxonomy>10116</taxonomy>
         <modified>2021-03-04</modified>
-        <isReferenceProteome>true</isReferenceProteome>
-        <isRepresentativeProteome>true</isRepresentativeProteome>
+        <proteomeStatus>NON_REFERENCE</proteomeStatus>
         <strain>Brown Norway</strain>
         <genomeAssembly>
             <genomeAssemblySource>Ensembl</genomeAssemblySource>
@@ -543,8 +537,7 @@
         <upid>UP000234681</upid>
         <taxonomy>10116</taxonomy>
         <modified>2021-03-07</modified>
-        <isReferenceProteome>false</isReferenceProteome>
-        <isRepresentativeProteome>false</isRepresentativeProteome>
+        <proteomeStatus>REFERENCE</proteomeStatus>
         <strain>BN; Sprague-Dawley</strain>
         <genomeAssembly>
             <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>

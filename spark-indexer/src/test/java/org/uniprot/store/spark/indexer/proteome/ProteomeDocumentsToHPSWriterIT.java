@@ -152,7 +152,7 @@ class ProteomeDocumentsToHPSWriterIT {
                         .build(),
                 proteomeEntry.getTaxonomy());
         assertEquals(LocalDate.of(2021, 3, 4), proteomeEntry.getModified());
-        assertEquals(REFERENCE_AND_REPRESENTATIVE, proteomeEntry.getProteomeType());
+        assertEquals(NON_REFERENCE, proteomeEntry.getProteomeType());
         assertEquals(
                 new ProteomeCompletenessReportBuilder()
                         .buscoReport(
@@ -289,7 +289,7 @@ class ProteomeDocumentsToHPSWriterIT {
                         .build(),
                 proteomeEntry.getTaxonomy());
         assertEquals("BN; Sprague-Dawley", proteomeEntry.getStrain());
-        assertEquals(NORMAL, proteomeEntry.getProteomeType());
+        assertEquals(REFERENCE, proteomeEntry.getProteomeType());
         assertEquals(LocalDate.of(2021, 3, 7), proteomeEntry.getModified());
         assertEquals(22, proteomeEntry.getComponents().size());
         assertEquals(3, proteomeEntry.getCitations().size());
@@ -314,7 +314,7 @@ class ProteomeDocumentsToHPSWriterIT {
                         .mnemonic("GAMV")
                         .build(),
                 proteomeEntry.getTaxonomy());
-        assertEquals(REFERENCE_AND_REPRESENTATIVE, proteomeEntry.getProteomeType());
+        assertEquals(REFERENCE, proteomeEntry.getProteomeType());
         assertEquals(LocalDate.of(2020, 10, 17), proteomeEntry.getModified());
         assertEquals(1, proteomeEntry.getComponents().size());
         assertEquals(1, proteomeEntry.getCitations().size());
@@ -360,7 +360,7 @@ class ProteomeDocumentsToHPSWriterIT {
                         .mnemonic("THEYD")
                         .build(),
                 proteomeEntry.getTaxonomy());
-        assertEquals(REFERENCE_AND_REPRESENTATIVE, proteomeEntry.getProteomeType());
+        assertEquals(EXCLUDED, proteomeEntry.getProteomeType());
         assertEquals(
                 "Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87) is a thermophilic\n"
                         + "            sulfate-reducing bacterium isolated from a thermal vent in Yellowstone Lake in Wyoming, USA. It has the\n"
@@ -604,7 +604,6 @@ class ProteomeDocumentsToHPSWriterIT {
         proteomeDocument.taxLineageIds =
                 new ArrayList<>(List.of(10116, 10066, 39107, 10114, 10116));
         proteomeDocument.strain = "BN; Sprague-Dawley";
-        proteomeDocument.isRedundant = true;
         proteomeDocument.genomeAccession =
                 new ArrayList<>(
                         List.of(

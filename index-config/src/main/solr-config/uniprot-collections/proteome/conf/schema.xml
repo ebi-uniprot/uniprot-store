@@ -23,8 +23,6 @@
 		stored="false" required="false" multiValued="false" docValues="true" />
 	<field name="reference" type="boolean" indexed="true"
 		stored="false" required="true" multiValued="false" />
-	<field name="redundant" type="boolean" indexed="true"
-		stored="false" required="true" multiValued="false" />
 	<field name="excluded" type="boolean" indexed="true"
 		stored="false" required="true" multiValued="false" />
 	<field name="genome_accession" type="basic_ci" indexed="true"

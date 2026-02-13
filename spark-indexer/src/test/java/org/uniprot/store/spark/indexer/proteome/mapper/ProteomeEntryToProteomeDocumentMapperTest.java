@@ -42,7 +42,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
     private static final int PROTEIN_COUNT_1 = 99;
     private static final int ANNOTATION_SCORE = 479;
     private static final CPDStatus cPDStatus = STANDARD;
-    private static final ProteomeType PROTEOME_TYPE = NORMAL;
+    private static final ProteomeType PROTEOME_TYPE = REFERENCE;
     private static final int BUSCO_COMPLETE = 39;
     private static final int BUSCO_TOTAL = 82;
     private static final long TAXON_ID_0 = 0L;
@@ -154,7 +154,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
 
         assertProteomeDocument(
                 proteomeDocument,
-                new ProteomeTypeInfo(2, false, false, false),
+                new ProteomeTypeInfo(1, true, false),
                 List.of(GENOME_ASSEMBLY_ID),
                 (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
                 proteomeEntry);
@@ -179,7 +179,6 @@ class ProteomeEntryToProteomeDocumentMapperTest {
         assertEquals(proteomeTypeInfo.proteomeType, proteomeDocument.proteomeType);
         assertEquals(proteomeTypeInfo.isReferenceProteome, proteomeDocument.isReferenceProteome);
         assertEquals(proteomeTypeInfo.isExcluded, proteomeDocument.isExcluded);
-        assertEquals(proteomeTypeInfo.isRedundant, proteomeDocument.isRedundant);
         assertEquals(SCIENTIFIC_NAME_1, proteomeDocument.organismSort);
         assertThat(
                 proteomeDocument.organismName,
@@ -217,7 +216,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
 
         assertProteomeDocument(
                 proteomeDocument,
-                new ProteomeTypeInfo(2, false, false, false),
+                new ProteomeTypeInfo(1, true, false),
                 List.of(GENOME_ASSEMBLY_ID),
                 null,
                 proteomeEntry);
@@ -232,7 +231,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
 
         assertProteomeDocument(
                 proteomeDocument,
-                new ProteomeTypeInfo(2, false, false, false),
+                new ProteomeTypeInfo(1, true, false),
                 List.of(),
                 (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
                 proteomeEntry);
@@ -247,38 +246,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
 
         assertProteomeDocument(
                 proteomeDocument,
-                new ProteomeTypeInfo(1, true, false, false),
-                List.of(GENOME_ASSEMBLY_ID),
-                (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
-                proteomeEntry);
-    }
-
-    @Test
-    void call_whenProteomeTypeRepresentative() throws Exception {
-        ProteomeEntry proteomeEntry = proteomeEntryBuilder.proteomeType(REPRESENTATIVE).build();
-
-        ProteomeDocument proteomeDocument =
-                proteomeEntryToProteomeDocumentMapper.call(proteomeEntry);
-
-        assertProteomeDocument(
-                proteomeDocument,
-                new ProteomeTypeInfo(1, true, false, false),
-                List.of(GENOME_ASSEMBLY_ID),
-                (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
-                proteomeEntry);
-    }
-
-    @Test
-    void call_whenProteomeTypeReferenceAndRepresentative() throws Exception {
-        ProteomeEntry proteomeEntry =
-                proteomeEntryBuilder.proteomeType(REFERENCE_AND_REPRESENTATIVE).build();
-
-        ProteomeDocument proteomeDocument =
-                proteomeEntryToProteomeDocumentMapper.call(proteomeEntry);
-
-        assertProteomeDocument(
-                proteomeDocument,
-                new ProteomeTypeInfo(1, true, false, false),
+                new ProteomeTypeInfo(1, true, false),
                 List.of(GENOME_ASSEMBLY_ID),
                 (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
                 proteomeEntry);
@@ -293,22 +261,22 @@ class ProteomeEntryToProteomeDocumentMapperTest {
 
         assertProteomeDocument(
                 proteomeDocument,
-                new ProteomeTypeInfo(4, false, true, false),
+                new ProteomeTypeInfo(3, false, true),
                 List.of(GENOME_ASSEMBLY_ID),
                 (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
                 proteomeEntry);
     }
 
     @Test
-    void call_whenProteomeTypeRedundant() throws Exception {
-        ProteomeEntry proteomeEntry = proteomeEntryBuilder.proteomeType(REDUNDANT).build();
+    void call_whenProteomeTypeNonReference() throws Exception {
+        ProteomeEntry proteomeEntry = proteomeEntryBuilder.proteomeType(NON_REFERENCE).build();
 
         ProteomeDocument proteomeDocument =
                 proteomeEntryToProteomeDocumentMapper.call(proteomeEntry);
 
         assertProteomeDocument(
                 proteomeDocument,
-                new ProteomeTypeInfo(3, false, false, true),
+                new ProteomeTypeInfo(2, false, false),
                 List.of(GENOME_ASSEMBLY_ID),
                 (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
                 proteomeEntry);
@@ -342,6 +310,5 @@ class ProteomeEntryToProteomeDocumentMapperTest {
         final int proteomeType;
         final boolean isReferenceProteome;
         final boolean isExcluded;
-        final boolean isRedundant;
     }
 }

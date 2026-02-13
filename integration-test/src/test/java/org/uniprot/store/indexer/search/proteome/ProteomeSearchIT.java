@@ -111,17 +111,6 @@ class ProteomeSearchIT {
     }
 
     @Test
-    void searchIsRedundant() {
-
-        String query = isRedudant(false);
-
-        QueryResponse queryResponse = searchEngine.getQueryResponse(query);
-
-        SolrDocumentList results = queryResponse.getResults();
-        assertEquals(5, results.size());
-    }
-
-    @Test
     void fetchAvroObject() {
         String upid = "UP000000718";
         String query = upid(upid);
@@ -163,13 +152,4 @@ class ProteomeSearchIT {
                 "" + taxId);
     }
 
-    private String isRedudant(Boolean b) {
-
-        return QueryBuilder.query(
-                searchEngine
-                        .getSearchFieldConfig()
-                        .getSearchFieldItemByName("redundant")
-                        .getFieldName(),
-                b.toString());
-    }
 }

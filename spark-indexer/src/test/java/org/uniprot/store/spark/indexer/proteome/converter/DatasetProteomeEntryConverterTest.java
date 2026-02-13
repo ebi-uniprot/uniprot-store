@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.uniprot.core.citation.SubmissionDatabase.EMBL_GENBANK_DDBJ;
 import static org.uniprot.core.proteome.CPDStatus.STANDARD;
+import static org.uniprot.core.proteome.ProteomeType.REFERENCE;
 import static org.uniprot.store.spark.indexer.proteome.ProteomeXMLSchemaProvider.*;
 
 import java.sql.Date;
@@ -121,16 +122,11 @@ class DatasetProteomeEntryConverterTest {
     private static final String SCORES_SCORE_2_1 = "averageCds";
     private static final String SCORES_VALUE_1_0 = "Standard";
     private static final String SCORES_VALUE_1_1 = "Advanced";
+    private static final String PROTEOME_STATUS_VALUE = "REFERENCE";
     private static final String SCORES_VALUE_2_0 = "5";
     private static final String SCORES_VALUE_2_1 = "1";
     private static final long EPOCH_MILLI_NOW = Instant.now().toEpochMilli();
     private static final String ISOLATE_VAL = "someIsolate";
-    private static final String REDUNDANT_TO_VAL = "209";
-    private static final String PANPROTEOME_VAL = "9450";
-    private static final String REDUNDANT_PROTEIN_ID_0 = "2098";
-    private static final String REDUNDANT_PROTEIN_ID_1 = "1634";
-    private static final String REDUNDANT_PROTEIN_SIMILARITY_0 = "23.5";
-    private static final String REDUNDANT_PROTEIN_SIMILARITY_1 = "443.5";
     public static final String PROTEIN_COUNT_VALUE = "25";
     private final DatasetProteomeEntryConverter proteomeEntryConverter =
             new DatasetProteomeEntryConverter();
@@ -168,9 +164,8 @@ class DatasetProteomeEntryConverterTest {
         List<Object> entryValues = new LinkedList<>();
         entryValues.add(UP_ID_VAL);
         entryValues.add(TAXONOMY_VAL);
-        entryValues.add(false);
-        entryValues.add(true);
         entryValues.add(new Date(EPOCH_MILLI_NOW));
+        entryValues.add(PROTEOME_STATUS_VALUE);
         entryValues.add(
                 (Seq)
                         JavaConverters.asScalaIteratorConverter(Collections.emptyIterator())
@@ -195,7 +190,7 @@ class DatasetProteomeEntryConverterTest {
                         Instant.ofEpochMilli(EPOCH_MILLI_NOW)
                                 .atZone(ZoneId.systemDefault())
                                 .toLocalDate())
-                .proteomeType(ProteomeType.REPRESENTATIVE)
+                .proteomeType(REFERENCE)
                 .citationsSet(List.of())
                 .build();
     }
@@ -204,9 +199,8 @@ class DatasetProteomeEntryConverterTest {
         List<Object> entryValues = new LinkedList<>();
         entryValues.add(UP_ID_VAL);
         entryValues.add(TAXONOMY_VAL);
-        entryValues.add(false);
-        entryValues.add(true);
         entryValues.add(new Date(EPOCH_MILLI_NOW));
+        entryValues.add(PROTEOME_STATUS_VALUE);
         return new GenericRowWithSchema(entryValues.toArray(), getProteomeMinimalXMLSchema());
     }
 
@@ -214,9 +208,8 @@ class DatasetProteomeEntryConverterTest {
         StructType structType = new StructType();
         structType = structType.add(UPID, DataTypes.StringType, false);
         structType = structType.add(TAXONOMY, DataTypes.LongType, false);
-        structType = structType.add(IS_REFERENCE_PROTEOME, DataTypes.BooleanType, false);
-        structType = structType.add(IS_REPRESENTATIVE_PROTEOME, DataTypes.BooleanType, false);
         structType = structType.add(MODIFIED, DataTypes.DateType, false);
+        structType = structType.add(PROTEOME_STATUS, DataTypes.StringType, false);
         return structType;
     }
 
@@ -225,7 +218,7 @@ class DatasetProteomeEntryConverterTest {
                 .proteinCount(Integer.valueOf(PROTEIN_COUNT_VALUE))
                 .proteomeId(UP_ID_VAL)
                 .taxonomy(new TaxonomyBuilder().taxonId(TAXONOMY_VAL).build())
-                .proteomeType(ProteomeType.EXCLUDED)
+                .proteomeType(REFERENCE)
                 .modified(
                         Instant.ofEpochMilli(EPOCH_MILLI_NOW)
                                 .atZone(ZoneId.systemDefault())
@@ -233,8 +226,6 @@ class DatasetProteomeEntryConverterTest {
                 .strain(STRAIN_VAL)
                 .description(DESCRIPTION_VAL)
                 .isolate(ISOLATE_VAL)
-                .redundantTo(new ProteomeIdBuilder(REDUNDANT_TO_VAL).build())
-                .panproteome(new ProteomeIdBuilder(PANPROTEOME_VAL).build())
                 .annotationScore((int) ANNOTATION_SCORE_SCORE_VAL)
                 .genomeAnnotation(
                         new GenomeAnnotationBuilder()
@@ -354,18 +345,6 @@ class DatasetProteomeEntryConverterTest {
                                 new LiteratureBuilder().build(),
                                 new UnpublishedBuilder().build()))
                 .exclusionReasonsAdd(ExclusionReason.MISSING_TRNA_GENES)
-                .redundantProteomesSet(
-                        List.of(
-                                new RedundantProteomeBuilder()
-                                        .proteomeId(REDUNDANT_PROTEIN_ID_0)
-                                        .similarity(
-                                                Float.parseFloat(REDUNDANT_PROTEIN_SIMILARITY_0))
-                                        .build(),
-                                new RedundantProteomeBuilder()
-                                        .proteomeId(REDUNDANT_PROTEIN_ID_1)
-                                        .similarity(
-                                                Float.parseFloat(REDUNDANT_PROTEIN_SIMILARITY_1))
-                                        .build()))
                 .proteomeCompletenessReport(
                         new ProteomeCompletenessReportBuilder()
                                 .cpdReport(
@@ -383,21 +362,17 @@ class DatasetProteomeEntryConverterTest {
         entryValues.add(PROTEIN_COUNT_VALUE);
         entryValues.add(UP_ID_VAL);
         entryValues.add(TAXONOMY_VAL);
-        entryValues.add(IS_REFERENCE_PROTEOME_VAL);
-        entryValues.add(IS_REPRESENTATIVE_PROTEOME_VAL);
+        entryValues.add(PROTEOME_STATUS_VALUE);
         entryValues.add(new Date(EPOCH_MILLI_NOW));
         entryValues.add(STRAIN_VAL);
         entryValues.add(DESCRIPTION_VAL);
         entryValues.add(ISOLATE_VAL);
-        entryValues.add(REDUNDANT_TO_VAL);
-        entryValues.add(PANPROTEOME_VAL);
         entryValues.add(getGenomeAnnotationScoreRow());
         entryValues.add(getGenomeAnnotationRow());
         entryValues.add(getGenomeAssemblyRow());
         entryValues.add(getComponentSeq());
         entryValues.add(getScoresSeq());
         entryValues.add(getReferenceSeq());
-        entryValues.add(getRedundantProteomes());
         entryValues.add(getExclusion());
 
         return new GenericRowWithSchema(entryValues.toArray(), getProteomeXMLSchema());
@@ -419,25 +394,6 @@ class DatasetProteomeEntryConverterTest {
     private WrappedArray getExclusionReasons() {
         String[] exclusionReasons = new String[] {EXCLUSION_REASON_VAL};
         return new WrappedArray.ofRef<>(exclusionReasons);
-    }
-
-    private Seq getRedundantProteomes() {
-        List<Object> redundantProteomes = new ArrayList<>();
-        redundantProteomes.add(
-                getRedundantProteome(REDUNDANT_PROTEIN_ID_0, REDUNDANT_PROTEIN_SIMILARITY_0));
-        redundantProteomes.add(
-                getRedundantProteome(REDUNDANT_PROTEIN_ID_1, REDUNDANT_PROTEIN_SIMILARITY_1));
-        return (Seq)
-                JavaConverters.asScalaIteratorConverter(redundantProteomes.iterator())
-                        .asScala()
-                        .toSeq();
-    }
-
-    private Row getRedundantProteome(String name, String similarity) {
-        List<Object> redundantProteome = new ArrayList<>();
-        redundantProteome.add(name);
-        redundantProteome.add(similarity);
-        return new GenericRowWithSchema(redundantProteome.toArray(), getRedundantProteomeSchema());
     }
 
     private Seq getComponentSeq() {
