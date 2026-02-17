@@ -1,7 +1,6 @@
 package org.uniprot.store.indexer.converters;
 
-import static org.uniprot.core.proteome.ProteomeType.NON_REFERENCE;
-import static org.uniprot.core.proteome.ProteomeType.REFERENCE;
+import static org.uniprot.core.proteome.ProteomeType.*;
 import static org.uniprot.core.util.Utils.*;
 
 import java.util.*;
@@ -113,11 +112,11 @@ public class ProteomeDocumentConverter implements DocumentConverter<Proteome, Pr
         if (REFERENCE.equals(proteomeType)) {
             document.proteomeType = 1;
             document.isReferenceProteome = true;
-        } else if (NON_REFERENCE.equals(proteomeType)) {
-            document.proteomeType = 2;
-        } else {
+        } else if (EXCLUDED.equals(proteomeType)) {
             document.proteomeType = 3;
             document.isExcluded = true;
+        } else {
+            document.proteomeType = 2;
         }
     }
 
