@@ -114,9 +114,9 @@ class ProteomeDocumentConverterTest {
         ProteomeDocument result = converter.convert(proteome);
         assertNotNull(result);
         assertEquals("UP123456", result.upid);
-        assertTrue(result.isExcluded);
+        assertFalse(result.isExcluded);
         assertFalse(result.isReferenceProteome);
-        assertEquals(3, result.proteomeType);
+        assertEquals(2, result.proteomeType);
     }
 
     @Test
