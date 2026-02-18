@@ -47,6 +47,10 @@ public class ProteomeXMLSchemaProvider {
     public static final String EXCLUDED = "excluded";
     public static final String SIMILARITY = "_similarity";
     public static final String EXCLUSION_REASON = "exclusionReason";
+    public static final String PANPROTEOME_TAXON = "panproteomeTaxon";
+    public static final String RELATED_TO = "relatedTo";
+    public static final String TAX_ID = "_taxId";
+    public static final String RELATED_REFERENCE_PROTEOME = "relatedReferenceProteome";
 
     private ProteomeXMLSchemaProvider() {}
 
@@ -70,6 +74,8 @@ public class ProteomeXMLSchemaProvider {
                 structType.add(REFERENCE, DataTypes.createArrayType(getReferenceSchema()), true);
         structType =
                 structType.add(EXCLUDED, DataTypes.createArrayType(getExclusionSchema()), true);
+        structType = structType.add(PANPROTEOME_TAXON, DataTypes.LongType, true);
+        structType = structType.add(RELATED_TO, getRelatedToSchema(), true);
         return structType;
     }
 
@@ -190,5 +196,22 @@ public class ProteomeXMLSchemaProvider {
                 genomeAnnotation.add(GENOME_ANNOTATION_SOURCE, DataTypes.StringType, false);
         genomeAnnotation = genomeAnnotation.add(GENOME_ANNOTATION_URL, DataTypes.StringType, true);
         return genomeAnnotation;
+    }
+
+    public static StructType getRelatedToSchema() {
+        StructType relatedTo = new StructType();
+        relatedTo =
+                relatedTo.add(
+                        RELATED_REFERENCE_PROTEOME,
+                        DataTypes.createArrayType((getRelatedReferenceProteomeSchema()), false));
+        return relatedTo;
+    }
+
+    public static StructType getRelatedReferenceProteomeSchema() {
+        StructType relatedProteome = new StructType();
+        relatedProteome = relatedProteome.add(UPID_ATTRIBUTE, DataTypes.StringType, false);
+        relatedProteome = relatedProteome.add(SIMILARITY, DataTypes.StringType, false);
+        relatedProteome = relatedProteome.add(TAX_ID, DataTypes.StringType, false);
+        return relatedProteome;
     }
 }

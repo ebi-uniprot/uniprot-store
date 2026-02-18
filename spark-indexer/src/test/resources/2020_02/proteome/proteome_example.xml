@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <proteomes xmlns="http://uniprot.org/proteome"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://uniprot.org/uniprot http://www.uniprot.org/support/docs/proteome.xsd">
+           xsi:schemaLocation="http://uniprot.org/uniprot https://www.uniprot.org/docs/proteome.xsd">
     <proteome proteinCount="10">
         <upid>UP000000718</upid>
         <description>Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87) is a thermophilic
@@ -12,6 +12,7 @@
         <taxonomy>289376</taxonomy>
         <modified>2020-10-17Z</modified>
         <proteomeStatus>EXCLUDED</proteomeStatus>
+        <panproteomeTaxon>14</panproteomeTaxon>
         <strain>ATCC 51303 / DSM 11347 / YP87</strain>
         <genomeAssembly>
             <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>
@@ -63,6 +64,11 @@
                 <dbReference type="PubMed" id="25635016"/>
             </citation>
         </reference>
+        <relatedTo>
+            <relatedReferenceProteome upid="UP000000601" similarity="0.011" taxId="224915"/>
+            <relatedReferenceProteome upid="UP000000669" similarity="0.013" taxId="372461"/>
+            <relatedReferenceProteome upid="UP000006811" similarity="0.011" taxId="261317"/>
+        </relatedTo>
         <annotationScore normalizedAnnotationScore="2"/>
         <scores name="busco">
             <property name="fragmented" value="3"/>

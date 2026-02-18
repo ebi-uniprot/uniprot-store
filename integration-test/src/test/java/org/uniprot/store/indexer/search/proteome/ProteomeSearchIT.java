@@ -151,5 +151,4 @@ class ProteomeSearchIT {
                         .getFieldName(),
                 "" + taxId);
     }
-
 }

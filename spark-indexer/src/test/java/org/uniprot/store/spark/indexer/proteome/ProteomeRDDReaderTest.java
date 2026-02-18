@@ -8,6 +8,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.proteome.ProteomeEntry;
+import org.uniprot.core.proteome.RelatedProteome;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
@@ -41,6 +42,15 @@ class ProteomeRDDReaderTest {
             assertEquals("UP000000718", firstTuple._1);
             assertNotNull(firstTuple._2.getTaxonomy());
             assertEquals(289376L, firstTuple._2.getTaxonomy().getTaxonId());
+            ProteomeEntry proteomeEntry = firstTuple._2;
+            assertNotNull(proteomeEntry);
+            assertEquals(14L, proteomeEntry.getPanproteomeTaxon().getTaxonId());
+            assertEquals(3, proteomeEntry.getRelatedProteomes().size());
+            RelatedProteome relatedProteome = proteomeEntry.getRelatedProteomes().get(0);
+            assertNotNull(relatedProteome);
+            assertNotNull(relatedProteome.getTaxId());
+            assertNotNull(relatedProteome.getSimilarity());
+            assertNotNull(relatedProteome.getId());
             javaPairRDD.foreach(tuple -> assertEquals(tuple._2.getId().getValue(), tuple._1));
         }
     }

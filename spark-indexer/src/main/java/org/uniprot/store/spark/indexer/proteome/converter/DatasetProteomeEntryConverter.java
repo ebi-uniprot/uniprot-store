@@ -123,10 +123,47 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
                             .collect(Collectors.toList());
             builder.exclusionReasonsSet(exclusionReasons);
         }
+
+        if (hasFieldName(PANPROTEOME_TAXON, row)) {
+            Taxonomy panproteomeTaxonomy =
+                    new TaxonomyBuilder()
+                            .taxonId(row.getLong(row.fieldIndex(PANPROTEOME_TAXON)))
+                            .build();
+            builder.panproteomeTaxon(panproteomeTaxonomy);
+        }
+
+        if (hasFieldName(RELATED_TO, row)) {
+            Row relatedToRow = (Row) row.get(row.fieldIndex(RELATED_TO));
+            if (hasFieldName(RELATED_REFERENCE_PROTEOME, relatedToRow)) {
+                List<Row> relatedReferenceProteomeRows =
+                        relatedToRow.getList(relatedToRow.fieldIndex(RELATED_REFERENCE_PROTEOME));
+                List<RelatedProteome> relatedProteomes =
+                        relatedReferenceProteomeRows.stream()
+                                .map(this::convertToRelatedProteome)
+                                .filter(Objects::nonNull)
+                                .toList();
+                builder.relatedProteomesSet(relatedProteomes);
+            }
+        }
+
         builder.proteomeType(
                 ProteomeConverter.getProteomeType(row.getString(row.fieldIndex(PROTEOME_STATUS))));
 
         return builder.build();
+    }
+
+    private RelatedProteome convertToRelatedProteome(Row row) {
+        String upid = row.getString(row.fieldIndex(UPID_ATTRIBUTE));
+        Float similarity = Float.parseFloat(row.getString(row.fieldIndex(SIMILARITY)));
+        Taxonomy relatedTaxonomy =
+                new TaxonomyBuilder()
+                        .taxonId(Long.parseLong(row.getString(row.fieldIndex(TAX_ID))))
+                        .build();
+        return new RelatedProteomeBuilder()
+                .proteomeId(new ProteomeIdBuilder(upid).build())
+                .similarity(similarity)
+                .taxonomy(relatedTaxonomy)
+                .build();
     }
 
     private Score getScore(Row row) {

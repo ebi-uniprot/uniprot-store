@@ -27,6 +27,7 @@ import org.uniprot.core.citation.impl.*;
 import org.uniprot.core.impl.CrossReferenceBuilder;
 import org.uniprot.core.proteome.*;
 import org.uniprot.core.proteome.impl.*;
+import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 
 import scala.Tuple2;
@@ -39,8 +40,6 @@ class DatasetProteomeEntryConverterTest {
     private static final String EXCLUSION_REASON_VAL = "missing tRNA genes";
     private static final String UP_ID_VAL = "UP000000718";
     private static final long TAXONOMY_VAL = 289376;
-    private static final boolean IS_REFERENCE_PROTEOME_VAL = true;
-    private static final boolean IS_REPRESENTATIVE_PROTEOME_VAL = false;
     private static final String STRAIN_VAL = "ATCC 51303 / DSM 11347 / YP87<";
     private static final String DESCRIPTION_VAL =
             "Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87) is a thermophilic sulfate-reducing bacterium isolated from a thermal vent in Yellowstone Lake in Wyoming, USA. It has the ability to use sulfate, thiosulfate, and sulfite as terminal electron acceptors. Pyruvate can support fermentative growth";
@@ -130,6 +129,10 @@ class DatasetProteomeEntryConverterTest {
     public static final String PROTEIN_COUNT_VALUE = "25";
     private final DatasetProteomeEntryConverter proteomeEntryConverter =
             new DatasetProteomeEntryConverter();
+    private static final Long PANPROTEOME_TAXON = 9000L;
+    private static final String UPID_1 = "UP000000601";
+    private static final Float SIMILARITY_1 = 0.9f;
+    private static final Long TAXON_ID_1 = 9334L;
 
     @Test
     void fullProteomeEntry() throws Exception {
@@ -214,6 +217,16 @@ class DatasetProteomeEntryConverterTest {
     }
 
     private ProteomeEntry getExpectedFullResult() {
+
+        ProteomeId proteomeId = new ProteomeIdBuilder(UPID_1).build();
+        Taxonomy taxId = new TaxonomyBuilder().taxonId(TAXON_ID_1).build();
+        RelatedProteome relatedProteome =
+                new RelatedProteomeBuilder()
+                        .proteomeId(proteomeId)
+                        .taxonomy(taxId)
+                        .similarity(SIMILARITY_1)
+                        .build();
+
         return new ProteomeEntryBuilder()
                 .proteinCount(Integer.valueOf(PROTEIN_COUNT_VALUE))
                 .proteomeId(UP_ID_VAL)
@@ -354,6 +367,8 @@ class DatasetProteomeEntryConverterTest {
                                                 .status(STANDARD)
                                                 .build())
                                 .build())
+                .panproteomeTaxon(new TaxonomyBuilder().taxonId(PANPROTEOME_TAXON).build())
+                .relatedProteomesAdd(relatedProteome)
                 .build();
     }
 
@@ -374,7 +389,8 @@ class DatasetProteomeEntryConverterTest {
         entryValues.add(getScoresSeq());
         entryValues.add(getReferenceSeq());
         entryValues.add(getExclusion());
-
+        entryValues.add(PANPROTEOME_TAXON);
+        entryValues.add(getRelatedTo());
         return new GenericRowWithSchema(entryValues.toArray(), getProteomeXMLSchema());
     }
 
@@ -464,6 +480,27 @@ class DatasetProteomeEntryConverterTest {
                                 new Tuple2<>(SCORES_SCORE_1_1, SCORES_VALUE_1_1),
                                 new Tuple2<>(SCORES_SCORE_2_1, SCORES_VALUE_2_1))));
         return (Seq) JavaConverters.asScalaIteratorConverter(scores.iterator()).asScala().toSeq();
+    }
+
+    private Row getRelatedTo() {
+
+        List<Row> relatedReferenceProteomes = new ArrayList<>();
+
+        relatedReferenceProteomes.add(
+                getRelatedReferenceProteomeRow(UPID_1, SIMILARITY_1, TAXON_ID_1));
+
+        Seq<Row> scalaSeq =
+                JavaConverters.collectionAsScalaIterableConverter(relatedReferenceProteomes)
+                        .asScala()
+                        .toSeq();
+
+        return new GenericRowWithSchema(new Object[] {scalaSeq}, getRelatedToSchema());
+    }
+
+    private Row getRelatedReferenceProteomeRow(String upid, Float similarity, Long taxonId) {
+        return new GenericRowWithSchema(
+                new Object[] {upid, String.valueOf(similarity), String.valueOf(taxonId)},
+                getRelatedReferenceProteomeSchema());
     }
 
     private Row getScoresRow(String name, List<Tuple2> properties) {
