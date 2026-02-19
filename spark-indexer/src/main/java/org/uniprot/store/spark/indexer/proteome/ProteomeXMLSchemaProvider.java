@@ -49,7 +49,7 @@ public class ProteomeXMLSchemaProvider {
     public static final String EXCLUSION_REASON = "exclusionReason";
     public static final String PANPROTEOME_TAXON = "panproteomeTaxon";
     public static final String RELATED_TO = "relatedTo";
-    public static final String TAX_ID = "_taxId";
+    public static final String TAXON = "_taxon";
     public static final String RELATED_REFERENCE_PROTEOME = "relatedReferenceProteome";
 
     private ProteomeXMLSchemaProvider() {}
@@ -211,7 +211,7 @@ public class ProteomeXMLSchemaProvider {
         StructType relatedProteome = new StructType();
         relatedProteome = relatedProteome.add(UPID_ATTRIBUTE, DataTypes.StringType, false);
         relatedProteome = relatedProteome.add(SIMILARITY, DataTypes.StringType, false);
-        relatedProteome = relatedProteome.add(TAX_ID, DataTypes.StringType, false);
+        relatedProteome = relatedProteome.add(TAXON, DataTypes.StringType, false);
         return relatedProteome;
     }
 }

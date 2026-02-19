@@ -157,7 +157,7 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
         Float similarity = Float.parseFloat(row.getString(row.fieldIndex(SIMILARITY)));
         Taxonomy relatedTaxonomy =
                 new TaxonomyBuilder()
-                        .taxonId(Long.parseLong(row.getString(row.fieldIndex(TAX_ID))))
+                        .taxonId(Long.parseLong(row.getString(row.fieldIndex(TAXON))))
                         .build();
         return new RelatedProteomeBuilder()
                 .proteomeId(new ProteomeIdBuilder(upid).build())

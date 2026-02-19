@@ -65,9 +65,9 @@
             </citation>
         </reference>
         <relatedTo>
-            <relatedReferenceProteome upid="UP000000601" similarity="0.011" taxId="224915"/>
-            <relatedReferenceProteome upid="UP000000669" similarity="0.013" taxId="372461"/>
-            <relatedReferenceProteome upid="UP000006811" similarity="0.011" taxId="261317"/>
+            <relatedReferenceProteome upid="UP000000601" similarity="0.011" taxon="224915"/>
+            <relatedReferenceProteome upid="UP000000669" similarity="0.013" taxon="372461"/>
+            <relatedReferenceProteome upid="UP000006811" similarity="0.011" taxon="261317"/>
         </relatedTo>
         <annotationScore normalizedAnnotationScore="2"/>
         <scores name="busco">
