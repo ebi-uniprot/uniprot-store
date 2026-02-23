@@ -57,7 +57,8 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
         UNIRULE,
         HELP,
         ARBA,
-        GOOGLE_PROTNLM
+        GOOGLE_PROTNLM,
+        PRECOMPUTED_ANNOTATION
     }
 
     private static final String SOLR_SYSTEM_PROPERTIES = "solr-system.properties";

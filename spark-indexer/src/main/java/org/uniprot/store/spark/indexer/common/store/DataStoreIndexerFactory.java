@@ -4,6 +4,7 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.uniparc.UniParcCrossReferenceDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniparc.UniParcLightDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniprot.GoogleUniProtKBDataStoreIndexer;
+import org.uniprot.store.spark.indexer.uniprot.PrecomputedAnnotationDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniref.UniRefLightDataStoreIndexer;
 import org.uniprot.store.spark.indexer.uniref.UniRefMembersDataStoreIndexer;
@@ -34,6 +35,9 @@ public class DataStoreIndexerFactory {
                 break;
             case GOOGLE_PROTNLM:
                 result = new GoogleUniProtKBDataStoreIndexer(jobParameter);
+                break;
+            case PRECOMPUTED_ANNOTATION:
+                result = new PrecomputedAnnotationDataStoreIndexer(jobParameter);
                 break;
             default:
                 throw new UnsupportedOperationException(

@@ -1,0 +1,75 @@
+AC   UPI0000001866-61156;
+DE   RecName: Full=ADP/ATP translocase {ECO:0000256|RuleBase:RU368008};
+DE   AltName: Full=ADP,ATP carrier protein {ECO:0000256|RuleBase:RU368008};
+CC   -!- FUNCTION: Catalyzes the exchange of ADP and ATP across the membrane.
+CC       {ECO:0000256|RuleBase:RU368008}.
+CC   -!- SUBUNIT: Monomer. {ECO:0000256|RuleBase:RU368008}.
+CC   -!- SUBCELLULAR LOCATION: Membrane {ECO:0000256|RuleBase:RU368008}; Multi-
+CC       pass membrane protein {ECO:0000256|RuleBase:RU368008}.
+CC   -!- SUBCELLULAR LOCATION: Mitochondrion inner membrane
+CC       {ECO:0000256|ARBA:ARBA00004448}; Multi-pass membrane protein
+CC       {ECO:0000256|ARBA:ARBA00004448}.
+CC   -!- SIMILARITY: Belongs to the mitochondrial carrier (TC 2.A.29) family.
+CC       {ECO:0000256|ARBA:ARBA00006375, ECO:0000256|RuleBase:RU000488}.
+KW   Antiport {ECO:0000256|ARBA:ARBA00022449};
+KW   ATP-binding {ECO:0000256|ARBA:ARBA00022840};
+KW   Membrane {ECO:0000256|ARBA:ARBA00023136, ECO:0000256|PROSITE-
+KW   ProRule:PRU00282}; Mitochondrion {ECO:0000256|ARBA:ARBA00023128};
+KW   Mitochondrion inner membrane {ECO:0000256|ARBA:ARBA00022792};
+KW   Repeat {ECO:0000256|ARBA:ARBA00022737};
+KW   Transmembrane {ECO:0000256|ARBA:ARBA00022692, ECO:0000256|PROSITE-
+KW   ProRule:PRU00282}; Transmembrane helix {ECO:0000256|ARBA:ARBA00022989};
+KW   Transport {ECO:0000256|ARBA:ARBA00022448, ECO:0000256|RuleBase:RU000488}.
+//
+AC   UPI0000001867-10090;
+DE   RecName: Full=RNA 3'-terminal phosphate cyclase-like protein {ECO:0000256|ARBA:ARBA00069298};
+CC   -!- FUNCTION: As part of the small subunit (SSU) processome, it plays a
+CC       role in 40S-ribosomal-subunit biogenesis in the early pre-rRNA
+CC       processing steps at sites A0, A1 and A2 that are required for proper
+CC       maturation of the 18S RNA. Activates BMS1 by promoting GDP/GTP
+CC       exchange. Does not have cyclase activity.
+CC       {ECO:0000256|ARBA:ARBA00056741}.
+CC   -!- SUBUNIT: Part of the small subunit (SSU) processome, composed of more
+CC       than 70 proteins and the RNA chaperone small nucleolar RNA (snoRNA) U3.
+CC       Interacts with BMS1. {ECO:0000256|ARBA:ARBA00065529}.
+CC   -!- SUBCELLULAR LOCATION: Nucleus, nucleolus
+CC       {ECO:0000256|ARBA:ARBA00004604}.
+CC   -!- SIMILARITY: Belongs to the RNA 3'-terminal cyclase family. Type 2
+CC       subfamily. {ECO:0000256|ARBA:ARBA00007089}.
+KW   Nucleus {ECO:0000256|ARBA:ARBA00023242};
+KW   Ribosome biogenesis {ECO:0000256|ARBA:ARBA00022517}.
+//
+AC   UPI0000001868-10090;
+DE   RecName: Full=FAS-associated death domain protein {ECO:0000256|ARBA:ARBA00069996, ECO:0000256|PIRNR:PIRNR018586};
+DE   AltName: Full=FAS-associating death domain-containing protein {ECO:0000256|PIRNR:PIRNR018586};
+CC   -!- FUNCTION: Apoptotic adapter molecule that recruits caspases CASP8 or
+CC       CASP10 to the activated FAS/CD95 or TNFRSF1A/TNFR-1 receptors. The
+CC       resulting aggregate called the death-inducing signaling complex (DISC)
+CC       performs CASP8 proteolytic activation. Active CASP8 initiates the
+CC       subsequent cascade of caspases mediating apoptosis. Involved in
+CC       interferon-mediated antiviral immune response, playing a role in the
+CC       positive regulation of interferon signaling.
+CC       {ECO:0000256|ARBA:ARBA00059068, ECO:0000256|PIRNR:PIRNR018586}.
+CC   -!- SUBUNIT: Can self-associate. Component of the AIM2 PANoptosome complex,
+CC       a multiprotein complex that drives inflammatory cell death
+CC       (PANoptosis). Component of the death-induced signaling complex (DISC)
+CC       composed of cell surface receptor FAS/CD95 or TNFRSF1A, adapter protein
+CC       FADD and the CASP8 protease; recruitment of CASP8 to the complex is
+CC       required for processing of CASP8 into the p18 and p10 subunits.
+CC       Interacts (via death domain) with FAS (via death domain). Interacts
+CC       directly (via DED domain) with NOL3 (via CARD domain); inhibits death-
+CC       inducing signaling complex (DISC) assembly by inhibiting the increase
+CC       in FAS-FADD binding induced by FAS activation. Interacts with CFLAR,
+CC       PEA15 and MBD4. When phosphorylated, part of a complex containing HIPK3
+CC       and FAS. May interact with MAVS/IPS1. Interacts with MOCV v-CFLAR
+CC       protein and PIDD1. Interacts with RIPK1 and TRADD. Interacts with
+CC       stimulated TNFRSF10B. Interacts with DDX24.
+CC       {ECO:0000256|ARBA:ARBA00066149}.
+CC   -!- SUBCELLULAR LOCATION: Cytoplasm {ECO:0000256|ARBA:ARBA00004496}.
+KW   Apoptosis {ECO:0000256|ARBA:ARBA00022703, ECO:0000256|PIRNR:PIRNR018586};
+KW   Cytoplasm {ECO:0000256|ARBA:ARBA00022490};
+KW   Immunity {ECO:0000256|ARBA:ARBA00022859, ECO:0000256|PIRNR:PIRNR018586};
+KW   Innate immunity {ECO:0000256|ARBA:ARBA00022588,
+KW   ECO:0000256|PIRNR:PIRNR018586};
+KW   Phosphoprotein {ECO:0000256|ARBA:ARBA00022553}.
+//
