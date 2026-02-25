@@ -36,16 +36,12 @@
         "value": "1"
       },
       {
-        "name": "Other",
+        "name": "Non Reference",
         "value": "2"
       },
       {
-        "name": "Redundant",
-        "value": "3"
-      },
-      {
         "name": "Excluded",
-        "value": "4"
+        "value": "3"
       }
     ]
   },
@@ -90,15 +86,6 @@
     "dataType": "BOOLEAN",
     "description": "search if reference",
     "example": "true"
-  },
-  {
-    "id": "redundant",
-    "fieldName": "redundant",
-    "fieldType": "GENERAL",
-    "validRegex": "^true|false$",
-    "dataType": "BOOLEAN",
-    "description": "Search if redundant",
-    "example": "false"
   },
   {
     "id": "excluded",

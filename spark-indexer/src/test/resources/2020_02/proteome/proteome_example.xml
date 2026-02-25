@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <proteomes xmlns="http://uniprot.org/proteome"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://uniprot.org/uniprot http://www.uniprot.org/support/docs/proteome.xsd">
+           xsi:schemaLocation="http://uniprot.org/uniprot https://www.uniprot.org/docs/proteome.xsd">
     <proteome proteinCount="10">
         <upid>UP000000718</upid>
         <description>Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87) is a thermophilic
@@ -11,8 +11,8 @@
         </description>
         <taxonomy>289376</taxonomy>
         <modified>2020-10-17Z</modified>
-        <isReferenceProteome>true</isReferenceProteome>
-        <isRepresentativeProteome>true</isRepresentativeProteome>
+        <proteomeStatus>EXCLUDED</proteomeStatus>
+        <panproteomeTaxon>14</panproteomeTaxon>
         <strain>ATCC 51303 / DSM 11347 / YP87</strain>
         <genomeAssembly>
             <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>
@@ -64,6 +64,11 @@
                 <dbReference type="PubMed" id="25635016"/>
             </citation>
         </reference>
+        <relatedTo>
+            <relatedReferenceProteome upid="UP000000601" similarity="0.011" taxon="224915"/>
+            <relatedReferenceProteome upid="UP000000669" similarity="0.013" taxon="372461"/>
+            <relatedReferenceProteome upid="UP000006811" similarity="0.011" taxon="261317"/>
+        </relatedTo>
         <annotationScore normalizedAnnotationScore="2"/>
         <scores name="busco">
             <property name="fragmented" value="3"/>
@@ -87,8 +92,7 @@
         <upid>UP000006687</upid>
         <taxonomy>11049</taxonomy>
         <modified>2020-10-18Z</modified>
-        <isReferenceProteome>true</isReferenceProteome>
-        <isRepresentativeProteome>true</isRepresentativeProteome>
+        <proteomeStatus>REFERENCE</proteomeStatus>
         <strain>Lelystad</strain>
         <genomeAssembly>
             <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>
@@ -139,8 +143,7 @@
         <upid>UP000029766</upid>
         <taxonomy>60714</taxonomy>
         <modified>2020-10-17Z</modified>
-        <isReferenceProteome>true</isReferenceProteome>
-        <isRepresentativeProteome>true</isRepresentativeProteome>
+        <proteomeStatus>REFERENCE</proteomeStatus>
         <genomeAssembly>
             <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>
             <genomeAssembly>GCA_000859945.1</genomeAssembly>
@@ -183,8 +186,7 @@
         <upid>UP000164653</upid>
         <taxonomy>1076255</taxonomy>
         <modified>2020-10-17Z</modified>
-        <isReferenceProteome>true</isReferenceProteome>
-        <isRepresentativeProteome>true</isRepresentativeProteome>
+        <proteomeStatus>REFERENCE</proteomeStatus>
         <genomeAssembly>
             <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>
             <genomeAssembly>GCA_000892975.1</genomeAssembly>
@@ -232,8 +234,7 @@
         <upid>UP000029775</upid>
         <taxonomy>1559365</taxonomy>
         <modified>2020-10-17Z</modified>
-        <isReferenceProteome>true</isReferenceProteome>
-        <isRepresentativeProteome>false</isRepresentativeProteome>
+        <proteomeStatus>REFERENCE</proteomeStatus>
         <strain>Isolate Turnip/South Africa/B11/2006</strain>
         <genomeAssembly>
             <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>
@@ -291,8 +292,7 @@
         </description>
         <taxonomy>10116</taxonomy>
         <modified>2021-03-04</modified>
-        <isReferenceProteome>true</isReferenceProteome>
-        <isRepresentativeProteome>true</isRepresentativeProteome>
+        <proteomeStatus>NON_REFERENCE</proteomeStatus>
         <strain>Brown Norway</strain>
         <genomeAssembly>
             <genomeAssemblySource>Ensembl</genomeAssemblySource>
@@ -543,8 +543,7 @@
         <upid>UP000234681</upid>
         <taxonomy>10116</taxonomy>
         <modified>2021-03-07</modified>
-        <isReferenceProteome>false</isReferenceProteome>
-        <isRepresentativeProteome>false</isRepresentativeProteome>
+        <proteomeStatus>REFERENCE</proteomeStatus>
         <strain>BN; Sprague-Dawley</strain>
         <genomeAssembly>
             <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>

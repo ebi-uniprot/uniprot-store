@@ -7,8 +7,7 @@
     <description>Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87) is a thermophilic sulfate-reducing bacterium isolated from a thermal vent in Yellowstone Lake in Wyoming, USA. It has the ability to use sulfate, thiosulfate, and sulfite as terminal electron acceptors. Pyruvate can support fermentative growth.</description>
     <taxonomy>289376</taxonomy>
     <modified>2020-10-17Z</modified>
-    <isReferenceProteome>true</isReferenceProteome>
-    <isRepresentativeProteome>true</isRepresentativeProteome>
+    <proteomeStatus>EXCLUDED</proteomeStatus>
     <strain>ATCC 51303 / DSM 11347 / YP87</strain>
     <genomeAssembly>
         <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>
@@ -79,8 +78,7 @@
     <upid>UP000006687</upid>
     <taxonomy>11049</taxonomy>
     <modified>2020-10-18Z</modified>
-    <isReferenceProteome>true</isReferenceProteome>
-    <isRepresentativeProteome>true</isRepresentativeProteome>
+    <proteomeStatus>NON_REFERENCE</proteomeStatus>
     <strain>Lelystad</strain>
     <genomeAssembly>
         <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>
@@ -129,8 +127,7 @@
     <upid>UP000029766</upid>
     <taxonomy>60714</taxonomy>
     <modified>2020-10-17Z</modified>
-    <isReferenceProteome>true</isReferenceProteome>
-    <isRepresentativeProteome>true</isRepresentativeProteome>
+    <proteomeStatus>SURVEILLANCE</proteomeStatus>
     <genomeAssembly>
         <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>
         <genomeAssembly>GCA_000859945.1</genomeAssembly>
@@ -173,8 +170,7 @@
     <upid>UP000164653</upid>
     <taxonomy>1076255</taxonomy>
     <modified>2020-10-17Z</modified>
-    <isReferenceProteome>true</isReferenceProteome>
-    <isRepresentativeProteome>true</isRepresentativeProteome>
+    <proteomeStatus>REFERENCE</proteomeStatus>
     <genomeAssembly>
         <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>
         <genomeAssembly>GCA_000892975.1</genomeAssembly>
@@ -222,8 +218,7 @@
     <upid>UP000029775</upid>
     <taxonomy>1559365</taxonomy>
     <modified>2020-10-17Z</modified>
-    <isReferenceProteome>true</isReferenceProteome>
-    <isRepresentativeProteome>false</isRepresentativeProteome>
+    <proteomeStatus>EXCLUDED</proteomeStatus>
     <strain>Isolate Turnip/South Africa/B11/2006</strain>
     <genomeAssembly>
         <genomeAssemblySource>ENA/EMBL</genomeAssemblySource>

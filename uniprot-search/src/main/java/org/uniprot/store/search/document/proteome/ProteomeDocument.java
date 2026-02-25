@@ -34,9 +34,6 @@ public class ProteomeDocument implements Document {
     @Field("reference")
     public boolean isReferenceProteome;
 
-    @Field("redundant")
-    public boolean isRedundant;
-
     @Field("excluded")
     public boolean isExcluded;
 
@@ -56,7 +53,7 @@ public class ProteomeDocument implements Document {
     public int score = 0;
 
     @Field("proteome_type")
-    public int proteomeType; // reference=1, complete=2, redundant=3,  excluded=4
+    public int proteomeType; // reference=1, non_reference=2, excluded=3
 
     @Field("busco")
     public Float busco;

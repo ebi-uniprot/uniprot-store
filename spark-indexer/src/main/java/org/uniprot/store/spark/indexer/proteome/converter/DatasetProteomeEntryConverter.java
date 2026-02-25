@@ -29,6 +29,7 @@ import org.uniprot.core.proteome.impl.*;
 import org.uniprot.core.uniprotkb.taxonomy.Taxonomy;
 import org.uniprot.core.uniprotkb.taxonomy.impl.TaxonomyBuilder;
 import org.uniprot.core.util.Utils;
+import org.uniprot.core.xml.proteome.ProteomeConverter;
 
 import lombok.Data;
 import scala.collection.mutable.WrappedArray;
@@ -76,16 +77,6 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
         if (hasFieldName(ISOLATE, row)) {
             builder.isolate(row.getString(row.fieldIndex(ISOLATE)));
         }
-        boolean isRedundant = false;
-        if (hasFieldName(REDUNDANT_TO, row)) {
-            isRedundant = true;
-            builder.redundantTo(
-                    new ProteomeIdBuilder((row.getString(row.fieldIndex(REDUNDANT_TO)))).build());
-        }
-        if (hasFieldName(PANPROTEOME, row)) {
-            builder.panproteome(
-                    new ProteomeIdBuilder((row.getString(row.fieldIndex(PANPROTEOME)))).build());
-        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'Z'");
         String dateString = row.getDate(row.fieldIndex(MODIFIED)).toString();
         boolean dateEndsWithZ = dateString.endsWith("Z");
@@ -115,13 +106,6 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
             builder.citationsSet(
                     referenceRows.stream().map(this::getCitation).collect(Collectors.toList()));
         }
-        if (hasFieldName(REDUNDANT_PROTEOME, row)) {
-            List<Row> redundantProteomeRows = row.getList(row.fieldIndex(REDUNDANT_PROTEOME));
-            builder.redundantProteomesSet(
-                    redundantProteomeRows.stream()
-                            .map(this::getRedundantProteome)
-                            .collect(Collectors.toList()));
-        }
         if (hasFieldName(SCORES, row)) {
             List<Row> scoreRows = row.getList(row.fieldIndex(SCORES));
             builder.proteomeCompletenessReport(
@@ -139,13 +123,47 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
                             .collect(Collectors.toList());
             builder.exclusionReasonsSet(exclusionReasons);
         }
-        boolean isReference = row.getBoolean(row.fieldIndex(IS_REFERENCE_PROTEOME));
-        boolean isRepresentative = row.getBoolean(row.fieldIndex(IS_REPRESENTATIVE_PROTEOME));
+
+        if (hasFieldName(PANPROTEOME_TAXON, row)) {
+            Taxonomy panproteomeTaxonomy =
+                    new TaxonomyBuilder()
+                            .taxonId(row.getLong(row.fieldIndex(PANPROTEOME_TAXON)))
+                            .build();
+            builder.panproteomeTaxon(panproteomeTaxonomy);
+        }
+
+        if (hasFieldName(RELATED_TO, row)) {
+            Row relatedToRow = (Row) row.get(row.fieldIndex(RELATED_TO));
+            if (hasFieldName(RELATED_REFERENCE_PROTEOME, relatedToRow)) {
+                List<Row> relatedReferenceProteomeRows =
+                        relatedToRow.getList(relatedToRow.fieldIndex(RELATED_REFERENCE_PROTEOME));
+                List<RelatedProteome> relatedProteomes =
+                        relatedReferenceProteomeRows.stream()
+                                .map(this::convertToRelatedProteome)
+                                .filter(Objects::nonNull)
+                                .toList();
+                builder.relatedProteomesSet(relatedProteomes);
+            }
+        }
+
         builder.proteomeType(
-                getProteomeType(
-                        isReference, isRepresentative, !exclusionReasons.isEmpty(), isRedundant));
+                ProteomeConverter.getProteomeType(row.getString(row.fieldIndex(PROTEOME_STATUS))));
 
         return builder.build();
+    }
+
+    private RelatedProteome convertToRelatedProteome(Row row) {
+        String upid = row.getString(row.fieldIndex(UPID_ATTRIBUTE));
+        Float similarity = Float.parseFloat(row.getString(row.fieldIndex(SIMILARITY)));
+        Taxonomy relatedTaxonomy =
+                new TaxonomyBuilder()
+                        .taxonId(Long.parseLong(row.getString(row.fieldIndex(TAXON))))
+                        .build();
+        return new RelatedProteomeBuilder()
+                .proteomeId(new ProteomeIdBuilder(upid).build())
+                .similarity(similarity)
+                .taxonomy(relatedTaxonomy)
+                .build();
     }
 
     private Score getScore(Row row) {
@@ -259,36 +277,6 @@ public class DatasetProteomeEntryConverter implements Function<Row, ProteomeEntr
             result = builder.build();
         }
         return result;
-    }
-
-    private static ProteomeType getProteomeType(
-            boolean isReference,
-            boolean isRepresentative,
-            boolean hasExclusionReason,
-            boolean hasRedundantProteomes) {
-        if (hasExclusionReason) {
-            return ProteomeType.EXCLUDED;
-        } else if (isReference && isRepresentative) {
-            return ProteomeType.REFERENCE_AND_REPRESENTATIVE;
-        } else if (isReference) {
-            return ProteomeType.REFERENCE;
-        } else if (isRepresentative) {
-            return ProteomeType.REPRESENTATIVE;
-        } else if (hasRedundantProteomes) {
-            return ProteomeType.REDUNDANT;
-        } else {
-            return ProteomeType.NORMAL;
-        }
-    }
-
-    private RedundantProteome getRedundantProteome(Row row) {
-        RedundantProteomeBuilder redundantProteomeBuilder = new RedundantProteomeBuilder();
-        redundantProteomeBuilder.proteomeId(row.getString(row.fieldIndex(UPID_ATTRIBUTE)));
-        if (hasFieldName(SIMILARITY, row)) {
-            redundantProteomeBuilder.similarity(
-                    Float.parseFloat(row.getString(row.fieldIndex(SIMILARITY))));
-        }
-        return redundantProteomeBuilder.build();
     }
 
     private List<ExclusionReason> getExclusionReasons(Row row) {

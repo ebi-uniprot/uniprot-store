@@ -43,6 +43,7 @@ class ProteomeDocumentConverterTest {
         Proteome proteome = xmlFactory.createProteome();
         proteome.setUpid("UP123456");
         proteome.setDescription("Proteome Description");
+        proteome.setProteomeStatus("EXCLUDED");
         ExclusionType exclusionType = xmlFactory.createExclusionType();
         exclusionType.getExclusionReason().add(ExclusionReason.MIXED_CULTURE.getName());
         proteome.setExcluded(exclusionType);
@@ -55,8 +56,7 @@ class ProteomeDocumentConverterTest {
         assertEquals("UP123456", result.upid);
         assertTrue(result.isExcluded);
         assertFalse(result.isReferenceProteome);
-        assertFalse(result.isRedundant);
-        assertEquals(4, result.proteomeType);
+        assertEquals(3, result.proteomeType);
     }
 
     @Test
@@ -66,7 +66,7 @@ class ProteomeDocumentConverterTest {
         Proteome proteome = xmlFactory.createProteome();
         proteome.setUpid("UP123456");
         proteome.setDescription("Proteome Description");
-        proteome.setIsReferenceProteome(true);
+        proteome.setProteomeStatus("REFERENCE");
 
         // then
         TaxonomyRepo repoMock = mock(TaxonomyRepo.class);
@@ -76,7 +76,6 @@ class ProteomeDocumentConverterTest {
         assertEquals("UP123456", result.upid);
         assertFalse(result.isExcluded);
         assertTrue(result.isReferenceProteome);
-        assertFalse(result.isRedundant);
         assertEquals(1, result.proteomeType);
     }
 
@@ -87,7 +86,7 @@ class ProteomeDocumentConverterTest {
         Proteome proteome = xmlFactory.createProteome();
         proteome.setUpid("UP123456");
         proteome.setDescription("Proteome Description");
-        proteome.setIsRepresentativeProteome(true);
+        proteome.setProteomeStatus("REFERENCE");
 
         // then
         TaxonomyRepo repoMock = mock(TaxonomyRepo.class);
@@ -97,40 +96,17 @@ class ProteomeDocumentConverterTest {
         assertEquals("UP123456", result.upid);
         assertFalse(result.isExcluded);
         assertTrue(result.isReferenceProteome);
-        assertFalse(result.isRedundant);
         assertEquals(1, result.proteomeType);
     }
 
     @Test
-    void convertReferenceAndRepresentativeChangeIsReferenceTrue() {
+    void convertSurveillance() {
         // when
         ObjectFactory xmlFactory = new ObjectFactory();
         Proteome proteome = xmlFactory.createProteome();
         proteome.setUpid("UP123456");
         proteome.setDescription("Proteome Description");
-        proteome.setIsRepresentativeProteome(true);
-        proteome.setIsReferenceProteome(true);
-
-        // then
-        TaxonomyRepo repoMock = mock(TaxonomyRepo.class);
-        ProteomeDocumentConverter converter = new ProteomeDocumentConverter(repoMock);
-        ProteomeDocument result = converter.convert(proteome);
-        assertNotNull(result);
-        assertEquals("UP123456", result.upid);
-        assertFalse(result.isExcluded);
-        assertTrue(result.isReferenceProteome);
-        assertFalse(result.isRedundant);
-        assertEquals(1, result.proteomeType);
-    }
-
-    @Test
-    void convertRedundantChangeIsRedundantTrue() {
-        // when
-        ObjectFactory xmlFactory = new ObjectFactory();
-        Proteome proteome = xmlFactory.createProteome();
-        proteome.setUpid("UP123456");
-        proteome.setDescription("Proteome Description");
-        proteome.setRedundantTo("UP123457");
+        proteome.setProteomeStatus("SURVEILLANCE");
 
         // then
         TaxonomyRepo repoMock = mock(TaxonomyRepo.class);
@@ -140,8 +116,27 @@ class ProteomeDocumentConverterTest {
         assertEquals("UP123456", result.upid);
         assertFalse(result.isExcluded);
         assertFalse(result.isReferenceProteome);
-        assertTrue(result.isRedundant);
-        assertEquals(3, result.proteomeType);
+        assertEquals(2, result.proteomeType);
+    }
+
+    @Test
+    void convertNonReference() {
+        // when
+        ObjectFactory xmlFactory = new ObjectFactory();
+        Proteome proteome = xmlFactory.createProteome();
+        proteome.setUpid("UP123456");
+        proteome.setDescription("Proteome Description");
+        proteome.setProteomeStatus("NON_REFERENCE");
+
+        // then
+        TaxonomyRepo repoMock = mock(TaxonomyRepo.class);
+        ProteomeDocumentConverter converter = new ProteomeDocumentConverter(repoMock);
+        ProteomeDocument result = converter.convert(proteome);
+        assertNotNull(result);
+        assertEquals("UP123456", result.upid);
+        assertFalse(result.isExcluded);
+        assertFalse(result.isReferenceProteome);
+        assertEquals(2, result.proteomeType);
     }
 
     @Test
@@ -152,6 +147,7 @@ class ProteomeDocumentConverterTest {
         proteome.setUpid("UP123456");
         proteome.setDescription("Proteome Description");
         proteome.setStrain("Strain value");
+        proteome.setProteomeStatus("REFERENCE");
         proteome.setTaxonomy(289376L);
 
         GenomeAnnotationType genomeAnnotation = xmlFactory.createGenomeAnnotationType();
@@ -183,9 +179,8 @@ class ProteomeDocumentConverterTest {
         assertNotNull(result);
         assertEquals("UP123456", result.upid);
         assertFalse(result.isExcluded);
-        assertFalse(result.isReferenceProteome);
-        assertFalse(result.isRedundant);
-        assertEquals(2, result.proteomeType);
+        assertTrue(result.isReferenceProteome);
+        assertEquals(1, result.proteomeType);
 
         assertNotNull(result.organismName);
         assertEquals(2, result.organismName.size());
