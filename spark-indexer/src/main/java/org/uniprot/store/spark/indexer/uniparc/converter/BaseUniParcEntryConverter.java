@@ -48,8 +48,7 @@ public abstract class BaseUniParcEntryConverter<T> implements MapFunction<Row, T
     protected static final String PROPERTY_PROTEIN_NAME = "protein_name";
     protected static final String PROPERTY_CHAIN = "chain";
     protected static final String PROPERTY_NCBI_GI = "NCBI_GI";
-    protected static final String PROPERTY_PROTEOME_ID = "proteome_id";
-    protected static final String PROPERTY_COMPONENT = "component";
+    protected static final String PROPERTY_PROTEOMEID_COMPONENT = "proteomeid_component";
     protected static final String PROPERTY_NCBI_TAXONOMY_ID = "NCBI_taxonomy_id";
     protected static final String PROPERTY_UNIPROTKB_ACCESSION = "UniProtKB_accession";
 
