@@ -354,6 +354,36 @@ class UniProtKBDocumentsToHPSWriterTest {
     }
 
     @Test
+    void canJoinCanonicalGeneCentricProteins() {
+        UniProtKBDocumentsToHPSWriter writer = new UniProtKBDocumentsToHPSWriter(parameter);
+        List<Tuple2<String, UniProtDocument>> tuples = new ArrayList<>();
+        String acc1 = "O51964"; // id in genecetric file
+        String acc2 = "Q9HQW4"; // id in genecetric file
+        String acc3 = "F7B8J7"; // id in genecetric file
+        String acc4 = "A0A6G0Z640";
+        tuples.add(new Tuple2<>(acc1, createUniProtDoc(acc1)));
+        tuples.add(new Tuple2<>(acc2, createUniProtDoc(acc2)));
+        tuples.add(new Tuple2<>(acc3, createUniProtDoc(acc3)));
+        tuples.add(new Tuple2<>(acc4, createUniProtDoc(acc4)));
+
+        JavaPairRDD<String, UniProtDocument> uniProtDocRDD =
+                parameter.getSparkContext().parallelizePairs(tuples);
+        // join with gene centric proteins
+        uniProtDocRDD = writer.joinGeneCentricProteins(uniProtDocRDD);
+
+        List<UniProtDocument> documents = uniProtDocRDD.values().collect();
+        assertNotNull(documents);
+        assertEquals(4, documents.size());
+        for (UniProtDocument doc : documents) {
+            if (doc.id.equals(acc1) || doc.id.equals(acc2) || doc.id.equals(acc3)) {
+                assertTrue(doc.isGeneCentric);
+            } else if (doc.id.equals(acc4)) {
+                assertFalse(doc.isGeneCentric);
+            }
+        }
+    }
+
+    @Test
     void canLoadDiseases() {
         UniProtKBDocumentsToHPSWriter writer = new UniProtKBDocumentsToHPSWriter(parameter);
         Map<String, DiseaseEntry> diseaseIdEntryMap =
