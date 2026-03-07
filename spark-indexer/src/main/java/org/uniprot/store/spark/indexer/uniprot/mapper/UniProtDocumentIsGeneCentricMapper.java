@@ -14,6 +14,8 @@ public class UniProtDocumentIsGeneCentricMapper
         UniProtDocument document = tuple2._1();
         if (tuple2._2 != null && tuple2._2.isPresent()) {
             document.isGeneCentric = tuple2._2.get();
+       } else {
+            document.isGeneCentric = false;
         }
         return document;
     }

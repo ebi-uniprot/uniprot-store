@@ -36,7 +36,7 @@ class UniProtDocumentIsGeneCentricMapperTest {
 
         UniProtDocument result = mapper.call(input);
 
-        assertNull(result.isGeneCentric);
+        assertFalse(result.isGeneCentric);
     }
 
     @Test
@@ -49,6 +49,6 @@ class UniProtDocumentIsGeneCentricMapperTest {
 
         UniProtDocument result = mapper.call(input);
 
-        assertNull(result.isGeneCentric);
+        assertFalse(result.isGeneCentric);
     }
 }

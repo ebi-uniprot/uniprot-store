@@ -359,8 +359,8 @@ class UniProtKBDocumentsToHPSWriterTest {
         List<Tuple2<String, UniProtDocument>> tuples = new ArrayList<>();
         String acc1 = "O51964"; // id in genecetric file
         String acc2 = "Q9HQW4"; // id in genecetric file
-        String acc3 = "F7B8J7"; // id in genecetric file
-        String acc4 = "A0A6G0Z640";
+        String acc3 = "P0CX05"; // id in genecetric file
+        String acc4 = "F7B8J7";
         tuples.add(new Tuple2<>(acc1, createUniProtDoc(acc1)));
         tuples.add(new Tuple2<>(acc2, createUniProtDoc(acc2)));
         tuples.add(new Tuple2<>(acc3, createUniProtDoc(acc3)));
@@ -375,9 +375,9 @@ class UniProtKBDocumentsToHPSWriterTest {
         assertNotNull(documents);
         assertEquals(4, documents.size());
         for (UniProtDocument doc : documents) {
-            if (doc.id.equals(acc1) || doc.id.equals(acc2) || doc.id.equals(acc3)) {
+            if (doc.accession.equals(acc1) || doc.accession.equals(acc2) || doc.accession.equals(acc3)) {
                 assertTrue(doc.isGeneCentric);
-            } else if (doc.id.equals(acc4)) {
+            } else if (doc.accession.equals(acc4)) {
                 assertFalse(doc.isGeneCentric);
             }
         }
@@ -408,6 +408,7 @@ class UniProtKBDocumentsToHPSWriterTest {
         assertEquals(accession, obsoleteDoc.accession);
         assertEquals(inactiveReason, obsoleteDoc.inactiveReason);
         assertEquals(uniparcId, obsoleteDoc.deletedEntryUniParc);
+        assertNull(obsoleteDoc.isGeneCentric);
     }
 
     private UniProtDocument createUniProtDoc(String accession) {
