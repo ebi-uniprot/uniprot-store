@@ -1,12 +1,12 @@
 package org.uniprot.store.spark.indexer.uniprot.mapper;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.apache.spark.api.java.Optional;
 import org.junit.jupiter.api.Test;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
 import scala.Tuple2;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UniProtDocumentIsGeneCentricMapperTest {
 
@@ -33,19 +33,6 @@ class UniProtDocumentIsGeneCentricMapperTest {
         UniProtDocument document = new UniProtDocument();
 
         Tuple2<UniProtDocument, Optional<Boolean>> input = new Tuple2<>(document, Optional.empty());
-
-        UniProtDocument result = mapper.call(input);
-
-        assertFalse(result.isGeneCentric);
-    }
-
-    @Test
-    void testCall_WithNullOptional() throws Exception {
-        UniProtDocumentIsGeneCentricMapper mapper = new UniProtDocumentIsGeneCentricMapper();
-        UniProtDocument document = new UniProtDocument();
-
-        // Tuple with document and a null Optional.
-        Tuple2<UniProtDocument, Optional<Boolean>> input = new Tuple2<>(document, null);
 
         UniProtDocument result = mapper.call(input);
 

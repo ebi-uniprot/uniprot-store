@@ -3,7 +3,6 @@ package org.uniprot.store.spark.indexer.uniprot.mapper;
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
-
 import scala.Tuple2;
 
 public class UniProtDocumentIsGeneCentricMapper
@@ -12,11 +11,7 @@ public class UniProtDocumentIsGeneCentricMapper
     public UniProtDocument call(Tuple2<UniProtDocument, Optional<Boolean>> tuple2)
             throws Exception {
         UniProtDocument document = tuple2._1();
-        if (tuple2._2 != null && tuple2._2.isPresent()) {
-            document.isGeneCentric = tuple2._2.get();
-       } else {
-            document.isGeneCentric = false;
-        }
+        document.isGeneCentric = tuple2._2.orElse(false);
         return document;
     }
 }
