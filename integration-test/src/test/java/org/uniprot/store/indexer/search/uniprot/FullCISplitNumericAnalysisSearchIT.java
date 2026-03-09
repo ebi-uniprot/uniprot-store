@@ -171,7 +171,7 @@ public class FullCISplitNumericAnalysisSearchIT {
     @EnumSource(FullCISplitNumericAnalysisSearchIT.FieldType.class)
     void canFindProblematicBaseCasePhraseQuery(FullCISplitNumericAnalysisSearchIT.FieldType field) {
         String accession = newAccession();
-        String fieldValue = "1a b2";
+        String fieldValue = "1a_b2";
         String query = fieldPhraseQuery(field.getQueryField(), fieldValue);
 
         new FullCISplitNumericAnalysisSearchIT.EntryCheck()
@@ -748,8 +748,8 @@ public class FullCISplitNumericAnalysisSearchIT {
     void canFindQuerySplitAfterNumber(FullCISplitNumericAnalysisSearchIT.FieldType field) {
         String accession = newAccession();
 
-        String indexFieldValue = "Delta-actitoxin-Axm1a";
-        String queryFieldValue = "Delta-actitoxin-Axm1";
+        String indexFieldValue = "Delta-actitoxin-Axm1";
+        String queryFieldValue = "Delta-actitoxin-Axm";
         String query = fieldQuery(field.getQueryField(), queryFieldValue);
 
         new FullCISplitNumericAnalysisSearchIT.EntryCheck()
