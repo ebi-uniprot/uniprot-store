@@ -875,6 +875,20 @@
     "example": "chromosome"
   },
   {
+    "parentId": "proteomes",
+    "childNumber": 2,
+    "id": "is_gene_centric",
+    "label": "Gene Centric",
+    "fieldName": "is_gene_centric",
+    "fieldType": "GENERAL",
+    "validRegex": "^true|false$",
+    "dataType": "BOOLEAN",
+    "itemType": "SINGLE",
+    "description": "Search by if gene centric or not",
+    "example": "true",
+    "includeInSwagger": true
+  },
+  {
     "seqNumber": 26,
     "id": "cited_for",
     "label": "Cited for",

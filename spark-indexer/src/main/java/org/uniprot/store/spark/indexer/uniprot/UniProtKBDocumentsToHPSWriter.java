@@ -19,6 +19,7 @@ import org.uniprot.core.cv.disease.DiseaseEntry;
 import org.uniprot.core.cv.go.GeneOntologyEntry;
 import org.uniprot.core.cv.pathway.UniPathway;
 import org.uniprot.core.cv.subcell.SubcellularLocationEntry;
+import org.uniprot.core.genecentric.GeneCentricEntry;
 import org.uniprot.core.taxonomy.TaxonomyEntry;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniref.UniRefEntry;
@@ -32,6 +33,7 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
+import org.uniprot.store.spark.indexer.genecentric.GeneCentricCanonicalRDDReader;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidence;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidenceMapper;
 import org.uniprot.store.spark.indexer.go.evidence.GOEvidencesRDDReader;
@@ -98,6 +100,8 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
         uniProtDocumentRDD = joinLiteratureMapped(uniProtDocumentRDD);
 
         uniProtDocumentRDD = joinSubcellularLocationRelations(uniProtEntryRDD, uniProtDocumentRDD);
+
+        uniProtDocumentRDD = joinGeneCentricProteins(uniProtDocumentRDD);
 
         boolean shouldIndexInactive =
                 Boolean.parseBoolean(config.getString("uniprot.index.inactive"));
@@ -369,5 +373,21 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
         return uniProtDocumentRDD
                 .leftOuterJoin(idTrackerRDDD)
                 .mapValues(new UniProtIdTrackerJoinMapper());
+    }
+
+    // return <accession, uniprotdoc with isGeneCentric flag set>
+    JavaPairRDD<String, UniProtDocument> joinGeneCentricProteins(
+            JavaPairRDD<String, UniProtDocument> uniProtDocumentRDD) {
+        GeneCentricCanonicalRDDReader canonicalReader =
+                new GeneCentricCanonicalRDDReader(parameter);
+        // <accession, genecentric>
+        JavaPairRDD<String, GeneCentricEntry> canonicalRDD = canonicalReader.load();
+        // <accession, boolean=isGenecentric>
+        JavaPairRDD<String, Boolean> canonicalProteinsRDD =
+                canonicalRDD.mapToPair(tuple2 -> new Tuple2<>(tuple2._1, true));
+
+        return uniProtDocumentRDD
+                .leftOuterJoin(canonicalProteinsRDD)
+                .mapValues(new UniProtDocumentIsGeneCentricMapper());
     }
 }

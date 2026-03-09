@@ -209,6 +209,8 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="proteome" type="lowercase" indexed="true"
 		stored="false" required="false" multiValued="true" />
+	<field name="is_gene_centric" type="boolean" indexed="true"
+		stored="false" required="false" multiValued="false" />
 
 	<!-- Feature types -->
 	<dynamicField name="ft_*" type="full_ci" indexed="true"
