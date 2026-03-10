@@ -375,7 +375,9 @@ class UniProtKBDocumentsToHPSWriterTest {
         assertNotNull(documents);
         assertEquals(4, documents.size());
         for (UniProtDocument doc : documents) {
-            if (doc.accession.equals(acc1) || doc.accession.equals(acc2) || doc.accession.equals(acc3)) {
+            if (doc.accession.equals(acc1)
+                    || doc.accession.equals(acc2)
+                    || doc.accession.equals(acc3)) {
                 assertTrue(doc.isGeneCentric);
             } else if (doc.accession.equals(acc4)) {
                 assertFalse(doc.isGeneCentric);

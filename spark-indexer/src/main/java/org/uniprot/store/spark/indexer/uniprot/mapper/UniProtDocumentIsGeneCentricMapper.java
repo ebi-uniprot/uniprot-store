@@ -3,6 +3,7 @@ package org.uniprot.store.spark.indexer.uniprot.mapper;
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 import org.uniprot.store.search.document.uniprot.UniProtDocument;
+
 import scala.Tuple2;
 
 public class UniProtDocumentIsGeneCentricMapper
