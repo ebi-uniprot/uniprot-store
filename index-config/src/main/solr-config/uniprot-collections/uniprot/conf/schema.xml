@@ -451,7 +451,7 @@
 				preserveOriginal="false" />
 			<filter class="solr.LowerCaseFilterFactory" />
 			<filter class="solr.WordDelimiterGraphFilterFactory"
-				generateNumberParts="0" splitOnCaseChange="0" preserveOriginal="0"
+				generateNumberParts="1" splitOnCaseChange="0" preserveOriginal="0"
 				splitOnNumerics="0" stemEnglishPossessive="1" generateWordParts="1"
 				catenateNumbers="0" catenateWords="0" catenateAll="0" />
 
