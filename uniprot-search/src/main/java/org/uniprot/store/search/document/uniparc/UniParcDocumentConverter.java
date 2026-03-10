@@ -59,7 +59,8 @@ public class UniParcDocumentConverter implements DocumentConverter<UniParcEntry,
             List<Proteome> proteomeIdComponents = xref.getProteomes();
             for (Proteome proteomeIdComponent : proteomeIdComponents) {
                 builder.proteome(proteomeIdComponent.getId());
-                builder.proteomeComponent(proteomeIdComponent.getComponent());
+                builder.proteomeComponent(
+                        proteomeIdComponent.getId() + ":" + proteomeIdComponent.getComponent());
             }
         }
 
