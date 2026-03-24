@@ -29,7 +29,7 @@
 		stored="false" required="false" multiValued="true" />
 	<field name="genome_assembly" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
-	<field name="proteome_type" type="int" indexed="true"
+	<field name="proteome_type" type="string" indexed="true"
 		stored="true" required="false" multiValued="false" docValues="true" />
 	<field name="annotation_score" type="int" indexed="true"
 		stored="true" required="false" multiValued="false" docValues="true" />
