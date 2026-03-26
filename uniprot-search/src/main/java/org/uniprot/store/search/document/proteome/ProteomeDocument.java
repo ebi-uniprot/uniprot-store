@@ -53,7 +53,7 @@ public class ProteomeDocument implements Document {
     public int score = 0;
 
     @Field("proteome_type")
-    public String proteomeType; // reference=1, non_reference=2, excluded=3
+    public String proteomeType;
 
     @Field("busco")
     public Float busco;

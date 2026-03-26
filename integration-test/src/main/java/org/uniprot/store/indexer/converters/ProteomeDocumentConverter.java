@@ -106,7 +106,6 @@ public class ProteomeDocumentConverter implements DocumentConverter<Proteome, Pr
         document.score = source.getAnnotationScore().getNormalizedAnnotationScore();
     }
 
-    // proteomeType: reference=1, non reference=2, excluded=3
     private void updateProteome(ProteomeDocument document, Proteome source) {
         ProteomeType proteomeType = ProteomeType.valueOf(source.getProteomeStatus());
         if (REFERENCE.equals(proteomeType)) {
