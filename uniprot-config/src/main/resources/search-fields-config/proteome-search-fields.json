@@ -33,15 +33,15 @@
     "values": [
       {
         "name": "Reference",
-        "value": "1"
+        "value": "REFERENCE"
       },
       {
         "name": "Non Reference",
-        "value": "2"
+        "value": "NON_REFERENCE"
       },
       {
         "name": "Excluded",
-        "value": "3"
+        "value": "EXCLUDED"
       }
     ]
   },
