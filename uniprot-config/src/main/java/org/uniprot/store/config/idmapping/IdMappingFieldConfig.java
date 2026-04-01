@@ -29,6 +29,9 @@ public class IdMappingFieldConfig {
     public static final String UNIREF_90_STR = "UniRef90";
     public static final String UNIREF_100_STR = "UniRef100";
     public static final String GENE_NAME_STR = "Gene Name";
+    public static final String REFSEQ_PROTEIN = "RefSeq Protein";
+    public static final String GI_NUMBER = "GI number";
+    public static final String EMBL = "EMBL/GenBank/DDBJ";
     public static final String ACC_STR = convertDisplayNameToName(UNIPROTKB_STR);
     public static final String ACC_ID_STR = convertDisplayNameToName(UNIPROTKB_AC_ID_STR);
     public static final String SWISSPROT_STR = convertDisplayNameToName(UNIPROTKB_SWISS_STR);
