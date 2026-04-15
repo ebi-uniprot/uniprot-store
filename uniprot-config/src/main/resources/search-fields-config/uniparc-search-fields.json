@@ -1,4 +1,4 @@
-  [
+[
   {
     "seqNumber": 0,
     "id": "upi",
@@ -51,17 +51,36 @@
   },
   {
     "seqNumber": 3,
+    "id": "proteomecomponent",
+    "label": "Proteome Component",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "proteomecomponent",
+    "childNumber": 0,
     "id": "upid",
     "fieldName": "proteome",
-    "label": "Proteome ID",
     "itemType": "SINGLE",
-    "validRegex": "UP[0-9]{9}",
     "fieldType": "GENERAL",
     "dataType": "STRING",
     "description": "Search by upid",
     "aliases": ["upid"],
+    "label": "Proteome ID",
+    "validRegex": "UP[0-9]{9}",
     "example": "UP000005640",
     "includeInSwagger": true
+  },
+  {
+    "parentId": "proteomecomponent",
+    "childNumber": 1,
+    "id": "component",
+    "fieldName": "proteomecomponent",
+    "itemType": "SINGLE",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by Proteome component",
+    "label": "Component Name",
+    "example": "chromosome"
   },
   {
     "id": "taxonomy_id",
@@ -201,17 +220,6 @@
     "example": "IPR004251",
     "includeInSwagger": true
   },
-   {
-    "seqNumber": 14,
-    "fieldType": "GENERAL",
-    "itemType": "SINGLE",
-    "label": "Proteome Component",
-    "fieldName": "proteomecomponent",
-    "id": "proteomecomponent",
-    "dataType": "STRING",
-    "description": "Search by Proteome component",
-    "example": "chromosome"
-  },
   {
     "id": "length_sort",
     "fieldName": "length",
@@ -239,5 +247,4 @@
     "description": "Search by organism name",
     "example": "Human"
   }
-   
 ]
