@@ -29,7 +29,7 @@
     "itemType": "SINGLE",
     "dataType": "ENUM",
     "description": "Search by proteome type",
-    "example": "1",
+    "example": "REFERENCE",
     "values": [
       {
         "name": "Reference",
