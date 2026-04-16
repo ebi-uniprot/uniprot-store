@@ -398,7 +398,7 @@ class ProteomeDocumentsToHPSWriterIT {
         proteomeDocument.genomeAccession = new ArrayList<>(List.of("CP001147"));
         proteomeDocument.genomeAssembly = new ArrayList<>(List.of("GCA_000020985.1"));
         proteomeDocument.score = 2;
-        proteomeDocument.proteomeType = 1;
+        proteomeDocument.proteomeType = "REFERENCE";
         proteomeDocument.busco = 94.354836f;
         proteomeDocument.cpd = 1;
         proteomeDocument.proteinCount = 10;
@@ -430,7 +430,7 @@ class ProteomeDocumentsToHPSWriterIT {
         proteomeDocument.genomeAccession = new ArrayList<>(List.of("M96262"));
         proteomeDocument.genomeAssembly = new ArrayList<>(List.of("GCA_003971765.1"));
         proteomeDocument.score = 5;
-        proteomeDocument.proteomeType = 1;
+        proteomeDocument.proteomeType = "REFERENCE";
         proteomeDocument.busco = 0.0f;
         proteomeDocument.cpd = 1;
         proteomeDocument.proteinCount = 11;
@@ -459,7 +459,7 @@ class ProteomeDocumentsToHPSWriterIT {
         proteomeDocument.genomeAccession = new ArrayList<>(List.of("Y13463"));
         proteomeDocument.genomeAssembly = new ArrayList<>(List.of("GCA_000859945.1"));
         proteomeDocument.score = 2;
-        proteomeDocument.proteomeType = 1;
+        proteomeDocument.proteomeType = "REFERENCE";
         proteomeDocument.busco = 0.0f;
         proteomeDocument.cpd = 1;
         proteomeDocument.proteinCount = 12;
@@ -486,7 +486,7 @@ class ProteomeDocumentsToHPSWriterIT {
         proteomeDocument.genomeAccession = new ArrayList<>(List.of("HQ849551"));
         proteomeDocument.genomeAssembly = new ArrayList<>(List.of("GCA_000892975.1"));
         proteomeDocument.score = 2;
-        proteomeDocument.proteomeType = 1;
+        proteomeDocument.proteomeType = "REFERENCE";
         proteomeDocument.busco = 0.0f;
         proteomeDocument.cpd = 1;
         proteomeDocument.proteinCount = 13;
@@ -516,7 +516,7 @@ class ProteomeDocumentsToHPSWriterIT {
         proteomeDocument.genomeAccession = new ArrayList<>(List.of("GU456685"));
         proteomeDocument.genomeAssembly = new ArrayList<>(List.of("GCA_000887455.1"));
         proteomeDocument.score = 2;
-        proteomeDocument.proteomeType = 1;
+        proteomeDocument.proteomeType = "REFERENCE";
         proteomeDocument.busco = 0.0f;
         proteomeDocument.cpd = 1;
         proteomeDocument.proteinCount = 14;
@@ -574,7 +574,7 @@ class ProteomeDocumentsToHPSWriterIT {
                                 "CM000092",
                                 "CM002824"));
         proteomeDocument.genomeAssembly = new ArrayList<>(List.of("GCA_000001895.4"));
-        proteomeDocument.proteomeType = 1;
+        proteomeDocument.proteomeType = "REFERENCE";
         proteomeDocument.busco = 96.86911f;
         proteomeDocument.cpd = 1;
         proteomeDocument.proteinCount = 0;
@@ -631,7 +631,7 @@ class ProteomeDocumentsToHPSWriterIT {
                                 "AAHX01000000"));
         proteomeDocument.genomeAssembly = new ArrayList<>(List.of("GCA_000002265.1"));
         proteomeDocument.score = 0;
-        proteomeDocument.proteomeType = 3;
+        proteomeDocument.proteomeType = "EXCLUDED";
         proteomeDocument.busco = 81.65676f;
         proteomeDocument.cpd = 1;
         proteomeDocument.proteinCount = 0;
