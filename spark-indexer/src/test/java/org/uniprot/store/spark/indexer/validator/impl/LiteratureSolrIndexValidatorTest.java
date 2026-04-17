@@ -22,7 +22,7 @@ class LiteratureSolrIndexValidatorTest {
                 SparkUtils.loadSparkContext(applicationConfig, SPARK_LOCAL_MASTER)) {
 
             LiteratureSolrIndexValidator validator =
-                    prepareValidator(applicationConfig, context, 15L, 15L);
+                    prepareValidator(applicationConfig, context, 16L, 16L);
 
             assertDoesNotThrow(validator::runValidation);
         }
@@ -40,7 +40,7 @@ class LiteratureSolrIndexValidatorTest {
             SparkIndexException error =
                     assertThrows(SparkIndexException.class, validator::runValidation);
             assertEquals(
-                    "Total Entries does not match. Collection: literature, DocumentOutput COUNT: 14, RDD COUNT: 15, Solr COUNT: 15",
+                    "Total Entries does not match. Collection: literature, DocumentOutput COUNT: 14, RDD COUNT: 16, Solr COUNT: 15",
                     error.getMessage());
         }
     }
@@ -57,7 +57,7 @@ class LiteratureSolrIndexValidatorTest {
             SparkIndexException error =
                     assertThrows(SparkIndexException.class, validator::runValidation);
             assertEquals(
-                    "Total Entries does not match. Collection: literature, DocumentOutput COUNT: 15, RDD COUNT: 15, Solr COUNT: 14",
+                    "Total Entries does not match. Collection: literature, DocumentOutput COUNT: 15, RDD COUNT: 16, Solr COUNT: 14",
                     error.getMessage());
         }
     }

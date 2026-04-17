@@ -44,7 +44,7 @@ class LiteratureDocumentsToHPSWriterTest {
             writer.writeIndexDocumentsToHPS();
             List<LiteratureDocument> savedDocuments = writer.getSavedDocuments();
             assertNotNull(savedDocuments);
-            assertEquals(15, savedDocuments.size());
+            assertEquals(16, savedDocuments.size());
 
             // test entries with only literature
             LiteratureDocument onlyLiteratureDoc =

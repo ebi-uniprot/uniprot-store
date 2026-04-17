@@ -169,7 +169,7 @@ public class PublicationDocumentMocker {
                 new MappedPublicationsBuilder()
                         .communityMappedReferencesAdd(communityRef)
                         .computationalMappedReferencesAdd(computationalRef)
-                        .uniProtKBMappedReference(kbRef)
+                        .uniProtKBMappedReferencesAdd(kbRef)
                         .build();
 
         return asBinary(mappedPublications);

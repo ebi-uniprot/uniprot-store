@@ -75,6 +75,15 @@ RA   Karpova A., Frey J.U., Mikhaylova M., Kreutz M.R.;
 RT   "Nuclear translocation of jacob in hippocampal neurons after stimuli
 RT   inducing long-term potentiation but not long-term depression.";
 RL   PLoS ONE 6:E17276-E17276(2011).
+RN   [8] {ECO:0007744|PDB:2ZEJ, ECO:0007744|PDB:3D6T}
+RP   X-RAY CRYSTALLOGRAPHY (2.0 ANGSTROMS) OF 1333-1516 IN COMPLEX WITH GDP,
+RP   FUNCTION, GTPASE ACTIVITY, ACTIVITY REGULATION, SUBUNIT, DOMAIN ROC, AND
+RP   MUTAGENESIS OF THR-1343 AND ARG-1398.
+RX   PubMed=18230735; DOI=10.1073/pnas.0709098105;
+RA   Deng J., Lewis P.A., Greggio E., Sluch E., Beilina A., Cookson M.R.;
+RT   "Structure of the ROC domain from the Parkinson's disease-associated
+RT   leucine-rich repeat kinase 2 reveals a dimeric GTPase.";
+RL   Proc. Natl. Acad. Sci. U.S.A. 105:1499-1504(2008).
 CC   -!- FUNCTION: Couples NMDA-sensitive glutamate receptor signaling to
 CC       the nucleus and triggers long-lasting changes in the
 CC       cytoarchitecture of dendrites and spine synapse processes. Part of
