@@ -11,11 +11,15 @@ import org.apache.commons.io.IOUtils;
 import org.uniprot.core.flatfile.parser.UniProtParser;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniProtParser;
 import org.uniprot.core.flatfile.parser.impl.SupportingDataMapImpl;
+import org.uniprot.core.gene.Gene;
 import org.uniprot.core.impl.SequenceBuilder;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
+import org.uniprot.core.uniprotkb.impl.GeneBuilder;
+import org.uniprot.core.uniprotkb.impl.GeneNameBuilder;
 import org.uniprot.core.uniprotkb.impl.UniProtKBAccessionBuilder;
 import org.uniprot.core.uniprotkb.impl.UniProtKBEntryBuilder;
+import org.uniprot.core.uniprotkb.taxonomy.impl.OrganismBuilder;
 
 /**
  * Created 19/09/18
@@ -70,6 +74,23 @@ public class UniProtEntryMocker {
 
     public static UniProtKBEntry create(Type type) {
         return UniProtKBEntryBuilder.from(entryMap.get(type)).build();
+    }
+
+    public static UniProtKBEntry create(Type type, List<String> genes) {
+        return UniProtKBEntryBuilder.from(entryMap.get(type))
+                .organism(
+                        new OrganismBuilder()
+                                .commonName("Human")
+                                .taxonId(9606)
+                                .scientificName("Homo sapiens")
+                                .build())
+                .uniProtId("FGFR2_HUMAN")
+                .genesSet(genes.stream().map(UniProtEntryMocker::getGene).toList())
+                .build();
+    }
+
+    private static Gene getGene(String gene) {
+        return new GeneBuilder().geneName(new GeneNameBuilder().value(gene).build()).build();
     }
 
     public static Collection<UniProtKBEntry> createEntries() {
