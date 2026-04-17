@@ -138,6 +138,22 @@ public class UniProtEntryReferencesConverter implements Serializable {
         return builder.build();
     }
 
+    public UniProtKBMappedReference createLightUniProtKBMappedReference(
+            String accession,
+            String source,
+            String sourceId,
+            String citationId,
+            Set<String> categories,
+            int referenceNumber) {
+        UniProtKBMappedReferenceBuilder builder = new UniProtKBMappedReferenceBuilder();
+        builder.uniProtKBAccession(accession);
+        builder.source(new MappedSourceBuilder().name(source).id(sourceId).build());
+        builder.citationId(citationId);
+        builder.sourceCategoriesSet(categories);
+        builder.referenceNumber(referenceNumber);
+        return builder.build();
+    }
+
     void convertReferences(List<UniProtKBReference> references, UniProtDocument document) {
         for (UniProtKBReference reference : references) {
             Citation citation = reference.getCitation();
@@ -232,7 +248,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
         }
     }
 
-    private Set<String> getCategoriesFromUniprotReference(
+    public Set<String> getCategoriesFromUniprotReference(
             UniProtKBReference uniProtkbReference, long organismId) {
         Set<String> result = new HashSet<>();
         if (uniProtkbReference.hasReferencePositions()) {
@@ -259,7 +275,7 @@ public class UniProtEntryReferencesConverter implements Serializable {
 
     private MappedPublications createMappedPublications(UniProtKBMappedReference mappedReference) {
         MappedPublicationsBuilder mappedPubsBuilder = new MappedPublicationsBuilder();
-        mappedPubsBuilder.uniProtKBMappedReference(mappedReference);
+        mappedPubsBuilder.uniProtKBMappedReferencesAdd(mappedReference);
         return mappedPubsBuilder.build();
     }
 }

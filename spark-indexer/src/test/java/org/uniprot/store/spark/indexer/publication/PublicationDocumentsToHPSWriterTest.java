@@ -2,6 +2,7 @@ package org.uniprot.store.spark.indexer.publication;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.uniprot.core.publication.MappedReferenceType.*;
 import static org.uniprot.store.spark.indexer.common.util.CommonVariables.SPARK_LOCAL_MASTER;
@@ -38,6 +39,7 @@ class PublicationDocumentsToHPSWriterTest {
 
     @Test
     void writeIndexDocumentsToHPS() throws IOException {
+
         // given
         Config application = SparkUtils.loadApplicationProperty();
         try (JavaSparkContext sparkContext =
@@ -137,11 +139,13 @@ class PublicationDocumentsToHPSWriterTest {
 
         assertThat(mappedPubsForKbRN4.getCommunityMappedReferences(), hasSize(1));
         assertThat(mappedPubsForKbRN4.getComputationallyMappedReferences(), hasSize(2));
-        assertThat(mappedPubsForKbRN4.getUniProtKBMappedReference(), is(notNullValue()));
+        assertThat(mappedPubsForKbRN4.getUniProtKBMappedReferences(), hasSize(1));
 
         // check uniprotkb ref within mapped reference
-        UniProtKBMappedReference kbRN4Ref = mappedPubsForKbRN4.getUniProtKBMappedReference();
-
+        List<UniProtKBMappedReference> kbRN4Refs =
+                mappedPubsForKbRN4.getUniProtKBMappedReferences();
+        assertFalse(kbRN4Refs.isEmpty());
+        UniProtKBMappedReference kbRN4Ref = kbRN4Refs.get(0);
         assertThat(kbRN4Ref.getReferencePositions(), contains("TISSUE SPECIFICITY"));
         assertThat(kbRN4Ref.getReferenceComments(), is(empty()));
         assertThat(kbRN4Ref.getSource().getName(), is("UniProtKB reviewed (Swiss-Prot)"));
@@ -187,7 +191,7 @@ class PublicationDocumentsToHPSWriterTest {
                         .filter(doc -> doc.getAccession().equals("Q9EPI6"))
                         .collect(Collectors.toList());
 
-        assertThat(kbDocs, hasSize(7));
+        assertThat(kbDocs, hasSize(8));
 
         // all accessions in file were used
         assertThat(
@@ -207,7 +211,8 @@ class PublicationDocumentsToHPSWriterTest {
                         "15018815",
                         LARGE_SCALE_STUDY_PUBMED_ID,
                         "19608740",
-                        "21364755"));
+                        "21364755",
+                        "18230735"));
 
         // check RN 1, and that it is a submission
         PublicationDocument kbRN1Doc = extractValue(kbDocs, PublicationDocument::getRefNumber, 1);
@@ -218,9 +223,11 @@ class PublicationDocumentsToHPSWriterTest {
         MappedPublications mappedPubsForKbRN1 = extractObject(kbRN1Doc);
         assertThat(mappedPubsForKbRN1.getCommunityMappedReferences(), hasSize(0));
         assertThat(mappedPubsForKbRN1.getComputationallyMappedReferences(), hasSize(0));
-        assertThat(mappedPubsForKbRN1.getUniProtKBMappedReference(), is(notNullValue()));
+        assertThat(mappedPubsForKbRN1.getUniProtKBMappedReferences(), hasSize(1));
 
-        UniProtKBMappedReference kbRN1Ref = mappedPubsForKbRN1.getUniProtKBMappedReference();
+        List<UniProtKBMappedReference> kbRN1Refs =
+                mappedPubsForKbRN1.getUniProtKBMappedReferences();
+        UniProtKBMappedReference kbRN1Ref = kbRN1Refs.get(0);
 
         assertThat(
                 kbRN1Ref.getReferencePositions(),
@@ -246,10 +253,12 @@ class PublicationDocumentsToHPSWriterTest {
         MappedPublications mappedPubsForKbRN3 = extractObject(kbRN3Doc);
         assertThat(mappedPubsForKbRN3.getCommunityMappedReferences(), hasSize(0));
         assertThat(mappedPubsForKbRN3.getComputationallyMappedReferences(), hasSize(0));
-        assertThat(mappedPubsForKbRN3.getUniProtKBMappedReference(), is(notNullValue()));
+        assertThat(mappedPubsForKbRN3.getUniProtKBMappedReferences(), hasSize(1));
 
-        UniProtKBMappedReference kbRN4Ref = mappedPubsForKbRN3.getUniProtKBMappedReference();
-
+        List<UniProtKBMappedReference> kbRN4Refs =
+                mappedPubsForKbRN3.getUniProtKBMappedReferences();
+        assertFalse(kbRN4Refs.isEmpty());
+        UniProtKBMappedReference kbRN4Ref = kbRN4Refs.get(0);
         assertThat(
                 kbRN4Ref.getReferencePositions(),
                 contains("NUCLEOTIDE SEQUENCE [LARGE SCALE MRNA] (ISOFORM 1)"));
@@ -262,6 +271,67 @@ class PublicationDocumentsToHPSWriterTest {
         assertThat(kbRN4Ref.getSource().getId(), is(nullValue()));
         assertThat(kbRN4Ref.getCitationId(), is("15489334"));
         assertThat(kbRN4Ref.getSourceCategories(), contains("Sequences"));
+
+        // check RN 8
+        PublicationDocument kbRN8Doc = extractValue(kbDocs, PublicationDocument::getRefNumber, 8);
+        assertThat(kbRN8Doc.getCitationId(), is("18230735"));
+        assertThat(kbRN8Doc.getCategories(), hasSize(5));
+        assertThat(
+                kbRN8Doc.getCategories(),
+                containsInAnyOrder(
+                        "Function",
+                        "Family & Domains",
+                        "Structure",
+                        "Interaction",
+                        "Phenotypes & Variants"));
+
+        MappedPublications mappedPubsForKbRN8 = extractObject(kbRN8Doc);
+        assertThat(mappedPubsForKbRN8.getCommunityMappedReferences(), hasSize(0));
+        assertThat(mappedPubsForKbRN8.getComputationallyMappedReferences(), hasSize(0));
+        assertThat(mappedPubsForKbRN8.getUniProtKBMappedReferences(), hasSize(3));
+        List<UniProtKBMappedReference> kbMappedRefs =
+                mappedPubsForKbRN8.getUniProtKBMappedReferences();
+        UniProtKBMappedReference kbMappedRef1 = kbMappedRefs.get(0);
+        assertThat(kbMappedRef1.getSource().getName(), is("UniProtKB reviewed (Swiss-Prot)"));
+        assertThat(kbMappedRef1.getSource().getId(), is(nullValue()));
+        assertThat(kbMappedRef1.getCitationId(), is("18230735"));
+        assertThat(kbMappedRef1.getUniProtKBAccession().getValue(), is("Q9EPI6"));
+        assertThat(
+                kbMappedRef1.getSourceCategories(),
+                containsInAnyOrder(
+                        "Function",
+                        "Family & Domains",
+                        "Structure",
+                        "Interaction",
+                        "Phenotypes & Variants"));
+
+        UniProtKBMappedReference kbMappedRef2 = kbMappedRefs.get(1);
+        assertThat(kbMappedRef2.getSource().getName(), is("PDB"));
+        assertThat(kbMappedRef2.getSource().getId(), is("2ZEJ"));
+        assertThat(kbMappedRef2.getCitationId(), is("18230735"));
+        assertThat(kbMappedRef2.getUniProtKBAccession().getValue(), is("Q9EPI6"));
+        assertThat(
+                kbMappedRef2.getSourceCategories(),
+                containsInAnyOrder(
+                        "Function",
+                        "Family & Domains",
+                        "Structure",
+                        "Interaction",
+                        "Phenotypes & Variants"));
+
+        UniProtKBMappedReference kbMappedRef3 = kbMappedRefs.get(2);
+        assertThat(kbMappedRef3.getSource().getName(), is("PDB"));
+        assertThat(kbMappedRef3.getSource().getId(), is("3D6T"));
+        assertThat(kbMappedRef3.getCitationId(), is("18230735"));
+        assertThat(kbMappedRef3.getUniProtKBAccession().getValue(), is("Q9EPI6"));
+        assertThat(
+                kbMappedRef3.getSourceCategories(),
+                containsInAnyOrder(
+                        "Function",
+                        "Family & Domains",
+                        "Structure",
+                        "Interaction",
+                        "Phenotypes & Variants"));
     }
 
     private void checkCommunityDocuments(List<PublicationDocument> savedDocuments)
@@ -309,7 +379,7 @@ class PublicationDocumentsToHPSWriterTest {
         MappedPublications mappedPubsForComm00Doc = extractObject(comm00Doc);
         assertThat(mappedPubsForComm00Doc.getCommunityMappedReferences(), hasSize(2));
         assertThat(mappedPubsForComm00Doc.getComputationallyMappedReferences(), hasSize(0));
-        assertThat(mappedPubsForComm00Doc.getUniProtKBMappedReference(), is(nullValue()));
+        assertThat(mappedPubsForComm00Doc.getUniProtKBMappedReferences(), is(empty()));
 
         CommunityMappedReference ref0 =
                 extractValue(
@@ -376,7 +446,7 @@ class PublicationDocumentsToHPSWriterTest {
         MappedPublications mappedPubsForComp00Doc = extractObject(comp00Doc);
         assertThat(mappedPubsForComp00Doc.getCommunityMappedReferences(), hasSize(0));
         assertThat(mappedPubsForComp00Doc.getComputationallyMappedReferences(), hasSize(3));
-        assertThat(mappedPubsForComp00Doc.getUniProtKBMappedReference(), is(nullValue()));
+        assertThat(mappedPubsForComp00Doc.getUniProtKBMappedReferences(), is(empty()));
 
         ComputationallyMappedReference ref0 =
                 extractValue(

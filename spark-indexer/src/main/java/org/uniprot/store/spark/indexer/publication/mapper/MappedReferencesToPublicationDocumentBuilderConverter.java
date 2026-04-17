@@ -85,15 +85,18 @@ public class MappedReferencesToPublicationDocumentBuilderConverter
         if (ref instanceof UniProtKBMappedReference) {
             UniProtKBMappedReference kbRef = (UniProtKBMappedReference) ref;
             docBuilder.refNumber(kbRef.getReferenceNumber() + 1);
-            mappedPublicationsBuilder.uniProtKBMappedReference(kbRef);
-
-            boolean isSwissProt =
-                    kbRef.getSource().getName().equals(UniProtKBEntryType.SWISSPROT.getName());
-            MappedReferenceType type =
-                    isSwissProt
-                            ? MappedReferenceType.UNIPROTKB_REVIEWED
-                            : MappedReferenceType.UNIPROTKB_UNREVIEWED;
-            return Optional.of(type.getIntValue());
+            mappedPublicationsBuilder.uniProtKBMappedReferencesAdd(kbRef);
+            String sourceName = kbRef.getSource().getName();
+            if (sourceName.equals(UniProtKBEntryType.SWISSPROT.getName())
+                    || sourceName.equals(UniProtKBEntryType.TREMBL.getName())) {
+                boolean isSwissProt =
+                        kbRef.getSource().getName().equals(UniProtKBEntryType.SWISSPROT.getName());
+                MappedReferenceType type =
+                        isSwissProt
+                                ? MappedReferenceType.UNIPROTKB_REVIEWED
+                                : MappedReferenceType.UNIPROTKB_UNREVIEWED;
+                return Optional.of(type.getIntValue());
+            }
         } else if (ref instanceof ComputationallyMappedReference) {
             mappedPublicationsBuilder.computationalMappedReferencesAdd(
                     (ComputationallyMappedReference) ref);
