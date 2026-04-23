@@ -154,7 +154,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
 
         assertProteomeDocument(
                 proteomeDocument,
-                new ProteomeTypeInfo(1, true, false),
+                new ProteomeTypeInfo("REFERENCE", true, false),
                 List.of(GENOME_ASSEMBLY_ID),
                 (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
                 proteomeEntry);
@@ -216,7 +216,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
 
         assertProteomeDocument(
                 proteomeDocument,
-                new ProteomeTypeInfo(1, true, false),
+                new ProteomeTypeInfo("REFERENCE", true, false),
                 List.of(GENOME_ASSEMBLY_ID),
                 null,
                 proteomeEntry);
@@ -231,7 +231,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
 
         assertProteomeDocument(
                 proteomeDocument,
-                new ProteomeTypeInfo(1, true, false),
+                new ProteomeTypeInfo("REFERENCE", true, false),
                 List.of(),
                 (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
                 proteomeEntry);
@@ -246,7 +246,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
 
         assertProteomeDocument(
                 proteomeDocument,
-                new ProteomeTypeInfo(1, true, false),
+                new ProteomeTypeInfo("REFERENCE", true, false),
                 List.of(GENOME_ASSEMBLY_ID),
                 (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
                 proteomeEntry);
@@ -261,7 +261,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
 
         assertProteomeDocument(
                 proteomeDocument,
-                new ProteomeTypeInfo(3, false, true),
+                new ProteomeTypeInfo("EXCLUDED", false, true),
                 List.of(GENOME_ASSEMBLY_ID),
                 (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
                 proteomeEntry);
@@ -276,7 +276,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
 
         assertProteomeDocument(
                 proteomeDocument,
-                new ProteomeTypeInfo(2, false, false),
+                new ProteomeTypeInfo("NON_REFERENCE", false, false),
                 List.of(GENOME_ASSEMBLY_ID),
                 (float) BUSCO_COMPLETE * 100 / BUSCO_TOTAL,
                 proteomeEntry);
@@ -307,7 +307,7 @@ class ProteomeEntryToProteomeDocumentMapperTest {
 
     @Data
     private static class ProteomeTypeInfo {
-        final int proteomeType;
+        final String proteomeType;
         final boolean isReferenceProteome;
         final boolean isExcluded;
     }

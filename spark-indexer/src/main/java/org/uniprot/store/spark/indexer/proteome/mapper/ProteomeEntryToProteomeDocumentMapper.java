@@ -108,15 +108,15 @@ public class ProteomeEntryToProteomeDocumentMapper
 
         switch (proteomeType) {
             case REFERENCE:
-                document.proteomeType = 1;
+                document.proteomeType = "REFERENCE";
                 document.isReferenceProteome = true;
                 break;
-            case NON_REFERENCE:
-                document.proteomeType = 2;
+            case EXCLUDED:
+                document.proteomeType = "EXCLUDED";
+                document.isExcluded = true;
                 break;
             default:
-                document.proteomeType = 3;
-                document.isExcluded = true;
+                document.proteomeType = "NON_REFERENCE";
         }
     }
 

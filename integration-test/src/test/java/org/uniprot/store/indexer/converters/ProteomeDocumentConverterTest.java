@@ -56,7 +56,7 @@ class ProteomeDocumentConverterTest {
         assertEquals("UP123456", result.upid);
         assertTrue(result.isExcluded);
         assertFalse(result.isReferenceProteome);
-        assertEquals(3, result.proteomeType);
+        assertEquals("EXCLUDED", result.proteomeType);
     }
 
     @Test
@@ -76,7 +76,7 @@ class ProteomeDocumentConverterTest {
         assertEquals("UP123456", result.upid);
         assertFalse(result.isExcluded);
         assertTrue(result.isReferenceProteome);
-        assertEquals(1, result.proteomeType);
+        assertEquals("REFERENCE", result.proteomeType);
     }
 
     @Test
@@ -96,7 +96,7 @@ class ProteomeDocumentConverterTest {
         assertEquals("UP123456", result.upid);
         assertFalse(result.isExcluded);
         assertTrue(result.isReferenceProteome);
-        assertEquals(1, result.proteomeType);
+        assertEquals("REFERENCE", result.proteomeType);
     }
 
     @Test
@@ -116,7 +116,7 @@ class ProteomeDocumentConverterTest {
         assertEquals("UP123456", result.upid);
         assertFalse(result.isExcluded);
         assertFalse(result.isReferenceProteome);
-        assertEquals(2, result.proteomeType);
+        assertEquals("NON_REFERENCE", result.proteomeType);
     }
 
     @Test
@@ -136,7 +136,7 @@ class ProteomeDocumentConverterTest {
         assertEquals("UP123456", result.upid);
         assertFalse(result.isExcluded);
         assertFalse(result.isReferenceProteome);
-        assertEquals(2, result.proteomeType);
+        assertEquals("NON_REFERENCE", result.proteomeType);
     }
 
     @Test
@@ -180,7 +180,7 @@ class ProteomeDocumentConverterTest {
         assertEquals("UP123456", result.upid);
         assertFalse(result.isExcluded);
         assertTrue(result.isReferenceProteome);
-        assertEquals(1, result.proteomeType);
+        assertEquals("REFERENCE", result.proteomeType);
 
         assertNotNull(result.organismName);
         assertEquals(2, result.organismName.size());
