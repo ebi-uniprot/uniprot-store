@@ -87,8 +87,7 @@ public class MappedReferencesToPublicationDocumentBuilderConverter
             docBuilder.refNumber(kbRef.getReferenceNumber() + 1);
             mappedPublicationsBuilder.uniProtKBMappedReferencesAdd(kbRef);
             String sourceName = kbRef.getSource().getName();
-            if (sourceName.equals(UniProtKBEntryType.SWISSPROT.getName())
-                    || sourceName.equals(UniProtKBEntryType.TREMBL.getName())) {
+            if (isUniProtSource(sourceName)) {
                 boolean isSwissProt =
                         kbRef.getSource().getName().equals(UniProtKBEntryType.SWISSPROT.getName());
                 MappedReferenceType type =
@@ -106,5 +105,10 @@ public class MappedReferencesToPublicationDocumentBuilderConverter
             return Optional.of(MappedReferenceType.COMMUNITY.getIntValue());
         }
         return Optional.empty();
+    }
+
+    private static boolean isUniProtSource(String sourceName) {
+        return sourceName.equals(UniProtKBEntryType.SWISSPROT.getName())
+                || sourceName.equals(UniProtKBEntryType.TREMBL.getName());
     }
 }

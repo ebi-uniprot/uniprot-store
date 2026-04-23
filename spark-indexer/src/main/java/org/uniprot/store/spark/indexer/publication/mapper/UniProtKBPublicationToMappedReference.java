@@ -160,7 +160,7 @@ public class UniProtKBPublicationToMappedReference
                     reference.getEvidences().stream()
                             .map(Evidence::getEvidenceCrossReference)
                             .toList();
-            List<MappedReferenceInfo> nonKBMappedReferenceInfos =
+            List<MappedReferenceInfo> nonUniProtSourceMappedReferenceInfos =
                     evidenceCrossRefs.stream()
                             .filter(CrossReference::hasDatabase)
                             .map(
@@ -174,9 +174,7 @@ public class UniProtKBPublicationToMappedReference
                                                     referenceNumber))
                             .map(mr -> new MappedReferenceInfo(mr, citationId))
                             .toList();
-            if (!nonKBMappedReferenceInfos.isEmpty()) {
-                mappedReferenceInfos.addAll(nonKBMappedReferenceInfos);
-            }
+            mappedReferenceInfos.addAll(nonUniProtSourceMappedReferenceInfos);
         }
     }
 

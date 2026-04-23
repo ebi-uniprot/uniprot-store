@@ -1,6 +1,7 @@
 package org.uniprot.store.indexer.uniprotkb.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -13,6 +14,7 @@ import org.uniprot.core.citation.Citation;
 import org.uniprot.core.citation.CitationDatabase;
 import org.uniprot.core.citation.impl.JournalArticleBuilder;
 import org.uniprot.core.impl.CrossReferenceBuilder;
+import org.uniprot.core.publication.UniProtKBMappedReference;
 import org.uniprot.core.uniprotkb.ReferenceComment;
 import org.uniprot.core.uniprotkb.ReferenceCommentType;
 import org.uniprot.core.uniprotkb.UniProtKBReference;
@@ -99,6 +101,29 @@ class UniProtKBEntryReferencesConverterTest {
         assertEquals(
                 new HashSet<>(Collections.singletonList("one reference comment")),
                 document.rcTransposon);
+    }
+
+    @Test
+    void testCreateLightUniProtKBMappedReference() {
+        String accession = "P12345";
+        String source = "TestSource";
+        String sourceId = "SRC001";
+        String citationId = "CIT123";
+        Set<String> categories = Set.of("cat1", "cat2");
+        int referenceNumber = 42;
+        UniProtEntryReferencesConverter converter = new UniProtEntryReferencesConverter();
+        UniProtKBMappedReference result =
+                converter.createLightUniProtKBMappedReference(
+                        accession, source, sourceId, citationId, categories, referenceNumber);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(accession, result.getUniProtKBAccession().getValue());
+        assertEquals(source, result.getSource().getName());
+        assertEquals(sourceId, result.getSource().getId());
+        assertEquals(citationId, result.getCitationId());
+        assertEquals(categories, result.getSourceCategories());
+        assertEquals(referenceNumber, result.getReferenceNumber());
     }
 
     private static UniProtKBReference getUniProtReference(
