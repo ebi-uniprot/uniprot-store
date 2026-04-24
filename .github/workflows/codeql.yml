@@ -53,6 +53,11 @@ jobs:
                 <username>${{ secrets.PRIVATE_ARTIFACTORY_USERNAME }}</username>
                 <password>${{ secrets.PRIVATE_ARTIFACTORY_PASSWORD }}</password>
               </server>
+              <server>
+                <id>uniprot-artifactory-snapshots</id>
+                <username>${{ secrets.PRIVATE_ARTIFACTORY_USERNAME }}</username>
+                <password>${{ secrets.PRIVATE_ARTIFACTORY_PASSWORD }}</password>
+              </server>
             </servers>
           </settings>
           EOF
