@@ -55,12 +55,16 @@ jobs:
               </server>
               <server>
                 <id>uniprot-artifactory-snapshots</id>
-                <id>uniprot-artifactory-release</id>
                 <username>${{ secrets.PRIVATE_ARTIFACTORY_USERNAME }}</username>
                 <password>${{ secrets.PRIVATE_ARTIFACTORY_PASSWORD }}</password>
               </server>
               <server>
                 <id>uniprot-artifactory-release</id>
+                <username>${{ secrets.PRIVATE_ARTIFACTORY_USERNAME }}</username>
+                <password>${{ secrets.PRIVATE_ARTIFACTORY_PASSWORD }}</password>
+              </server>
+              <server>
+                <id>uniprot-artifactory-private-thirdparty</id>
                 <username>${{ secrets.PRIVATE_ARTIFACTORY_USERNAME }}</username>
                 <password>${{ secrets.PRIVATE_ARTIFACTORY_PASSWORD }}</password>
               </server>
