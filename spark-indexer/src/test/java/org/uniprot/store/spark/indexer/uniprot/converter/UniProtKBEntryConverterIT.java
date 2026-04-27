@@ -278,27 +278,27 @@ class UniProtKBEntryConverterIT {
         assertTrue(doc.databases.contains("refseq"));
         assertTrue(doc.databases.contains("ensembl"));
 
-        assertEquals(7, doc.referenceTitles.size());
+        assertEquals(8, doc.referenceTitles.size());
         assertTrue(
                 doc.referenceTitles.contains(
                         "Characterization of the novel brain-specific protein Jacob."));
 
-        assertEquals(56, doc.referenceAuthors.size());
+        assertEquals(62, doc.referenceAuthors.size());
         assertTrue(doc.referenceAuthors.contains("Kramer P.R."));
         assertTrue(doc.referenceAuthors.contains("Wray S."));
         assertTrue(doc.referenceAuthors.contains("The MGC Project Team"));
 
-        assertEquals(7, doc.referenceCitationIds.size());
+        assertEquals(8, doc.referenceCitationIds.size());
         assertTrue(doc.referenceCitationIds.contains("CI-73HJSSOHL8LGA"));
         assertTrue(doc.referenceCitationIds.contains("15489334"));
 
-        assertEquals(5, doc.referencePubmeds.size());
+        assertEquals(6, doc.referencePubmeds.size());
         assertTrue(doc.referencePubmeds.contains("15489334"));
 
-        assertEquals(7, doc.referenceDates.size());
+        assertEquals(8, doc.referenceDates.size());
         assertTrue(doc.referenceDates.contains(d1Aug2000));
 
-        assertEquals(5, doc.referenceJournals.size());
+        assertEquals(6, doc.referenceJournals.size());
         assertTrue(doc.referenceJournals.contains("Genome Res."));
 
         assertEquals(18, doc.proteinsWith.size());
@@ -366,7 +366,7 @@ class UniProtKBEntryConverterIT {
         assertEquals(2, doc.rcStrain.size());
         assertTrue(doc.rcStrain.contains("Wistar"));
 
-        assertEquals(11, doc.scopes.size());
+        assertEquals(17, doc.scopes.size());
         assertTrue(doc.scopes.contains("SUBCELLULAR LOCATION"));
 
         assertEquals(50, doc.goes.size());

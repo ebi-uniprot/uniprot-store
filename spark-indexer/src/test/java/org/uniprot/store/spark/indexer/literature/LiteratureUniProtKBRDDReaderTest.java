@@ -32,7 +32,7 @@ class LiteratureUniProtKBRDDReaderTest {
             JavaPairRDD<String, LiteratureEntry> result = reader.load();
             assertNotNull(result);
             long count = result.count();
-            assertEquals(7L, count);
+            assertEquals(8L, count);
             validateTuple(result, "CI-73HJSSOHL8LGA");
             validateTuple(result, "21364755");
             validateTuple(result, "15018815");

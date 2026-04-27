@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.uniprot.core.publication.MappedReference;
+import org.uniprot.core.publication.UniProtKBMappedReference;
 import org.uniprot.core.publication.impl.*;
 import org.uniprot.core.uniprotkb.ReferenceCommentType;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
@@ -149,6 +150,20 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
                                         .build())
                         .referenceNumber(10)
                         .build());
+        UniProtKBMappedReference nonUniProtSourceRef =
+                new UniProtKBMappedReferenceBuilder()
+                        .source(new MappedSourceBuilder().name("PDB").id("PDBId").build())
+                        .citationId("citationId")
+                        .uniProtKBAccession("P21802")
+                        .sourceCategoriesAdd("Function")
+                        .referencePositionsAdd("Reference position")
+                        .referenceCommentsAdd(
+                                new ReferenceCommentBuilder()
+                                        .type(ReferenceCommentType.PLASMID)
+                                        .build())
+                        .referenceNumber(10)
+                        .build();
+        mappedReferences.add(nonUniProtSourceRef);
 
         Tuple2<String, Iterable<MappedReference>> tuple = new Tuple2<>(accPub, mappedReferences);
         Tuple2<String, PublicationDocument.Builder> result = mapper.call(tuple);
@@ -160,6 +175,7 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
         assertEquals("CI-ASDKJIU12", doc.getCitationId());
         assertEquals("P21802", doc.getAccession());
         assertTrue(doc.getCategories().contains("Interaction"));
+        assertEquals(1, doc.getTypes().size());
         assertTrue(doc.getTypes().contains(2));
         assertNotNull(doc.getPublicationMappedReferences());
         assertEquals(2, doc.getMainType());

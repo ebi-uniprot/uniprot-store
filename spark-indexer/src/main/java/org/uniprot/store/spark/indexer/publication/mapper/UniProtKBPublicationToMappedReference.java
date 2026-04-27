@@ -1,18 +1,24 @@
 package org.uniprot.store.spark.indexer.publication.mapper;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
+import org.uniprot.core.CrossReference;
 import org.uniprot.core.flatfile.parser.UniprotKBLineParser;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniprotKBLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.ac.AcLineObject;
 import org.uniprot.core.flatfile.parser.impl.ox.OxLineObject;
 import org.uniprot.core.publication.MappedReference;
+import org.uniprot.core.publication.UniProtKBMappedReference;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
 import org.uniprot.core.uniprotkb.UniProtKBReference;
+import org.uniprot.core.uniprotkb.evidence.Evidence;
+import org.uniprot.core.uniprotkb.evidence.EvidenceDatabase;
 import org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryReferencesConverter;
 import org.uniprot.store.spark.indexer.common.converter.UniProtKBReferencesConverter;
 
@@ -56,6 +62,7 @@ public class UniProtKBPublicationToMappedReference
                                         ref,
                                         organismId,
                                         refNumberCounter.getAndIncrement()))
+                .flatMap(List::stream)
                 .map(
                         referenceInfo ->
                                 new Tuple2<>(
@@ -104,9 +111,14 @@ public class UniProtKBPublicationToMappedReference
     static class MappedReferenceInfo {
         MappedReference mappedReference;
         String citationId;
+
+        MappedReferenceInfo(MappedReference mappedReference, String citationId) {
+            this.mappedReference = mappedReference;
+            this.citationId = citationId;
+        }
     }
 
-    MappedReferenceInfo createMappedReferenceInfo(
+    List<MappedReferenceInfo> createMappedReferenceInfo(
             String accession,
             UniProtKBEntryType entryType,
             UniProtKBReference reference,
@@ -114,13 +126,56 @@ public class UniProtKBPublicationToMappedReference
             int referenceNumber) {
 
         String citationId = reference.getCitation().getId();
-
-        MappedReferenceInfo mappedReferenceInfo = new MappedReferenceInfo();
-        mappedReferenceInfo.mappedReference =
+        List<MappedReferenceInfo> mappedReferenceInfos = new ArrayList<>();
+        // UniProtKBMappedReference
+        UniProtKBMappedReference mappedReference =
                 referencesConverter.createUniProtKBMappedReference(
                         accession, entryType, reference, citationId, organismId, referenceNumber);
-        mappedReferenceInfo.citationId = citationId;
-        return mappedReferenceInfo;
+        MappedReferenceInfo referenceInfo = new MappedReferenceInfo(mappedReference, citationId);
+        mappedReferenceInfos.add(referenceInfo);
+
+        addOtherCrossReferences(
+                accession,
+                reference,
+                organismId,
+                referenceNumber,
+                citationId,
+                mappedReferenceInfos);
+
+        return mappedReferenceInfos;
+    }
+
+    private void addOtherCrossReferences(
+            String accession,
+            UniProtKBReference reference,
+            long organismId,
+            int referenceNumber,
+            String citationId,
+            List<MappedReferenceInfo> mappedReferenceInfos) {
+        // add other cross references if present
+        if (reference.hasEvidences()) {
+            Set<String> categories =
+                    referencesConverter.getCategoriesFromUniprotReference(reference, organismId);
+            List<CrossReference<EvidenceDatabase>> evidenceCrossRefs =
+                    reference.getEvidences().stream()
+                            .map(Evidence::getEvidenceCrossReference)
+                            .toList();
+            List<MappedReferenceInfo> nonUniProtSourceMappedReferenceInfos =
+                    evidenceCrossRefs.stream()
+                            .filter(CrossReference::hasDatabase)
+                            .map(
+                                    xref ->
+                                            referencesConverter.createLightUniProtKBMappedReference(
+                                                    accession,
+                                                    xref.getDatabase().getName(),
+                                                    xref.getId(),
+                                                    citationId,
+                                                    categories,
+                                                    referenceNumber))
+                            .map(mr -> new MappedReferenceInfo(mr, citationId))
+                            .toList();
+            mappedReferenceInfos.addAll(nonUniProtSourceMappedReferenceInfos);
+        }
     }
 
     private UniProtKBEntryType getEntryType(String[] lines) {
