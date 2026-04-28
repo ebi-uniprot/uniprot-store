@@ -340,6 +340,7 @@
 						<include>*</include>
 					</includes>
 					<argLine>
+						${argLine}
 						--add-opens java.base/java.lang.invoke=ALL-UNNAMED
 						--add-opens java.base/java.util=ALL-UNNAMED
 						--add-opens
