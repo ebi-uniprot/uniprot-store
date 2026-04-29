@@ -26,8 +26,10 @@ jobs:
         include:
           - language: java-kotlin
             build-mode: manual
-          - language: javascript-typescript
-            build-mode: none
+    # This repository is built as a Maven multi-module project.
+    # The checked-in *.js files are Solr update scripts rather than a Node/TS codebase,
+    # so running the JavaScript extractor adds a second CodeQL lane without a real build target.
+    # Keeping analysis scoped to Java/Kotlin avoids spurious failures in the JS analyze phase.
 
     steps:
       - name: Checkout repository
