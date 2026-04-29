@@ -1,7 +1,5 @@
 package org.uniprot.store.search;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -251,10 +249,5 @@ public class SolrQueryUtil {
         }
 
         return sb.toString();
-    }
-
-    public static byte[] createDebugDigest(String input) throws Exception {
-        MessageDigest digest = MessageDigest.getInstance("MD5");
-        return digest.digest(input.getBytes(StandardCharsets.UTF_8));
     }
 }
