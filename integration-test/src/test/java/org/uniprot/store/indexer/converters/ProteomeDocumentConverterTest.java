@@ -226,6 +226,14 @@ class ProteomeDocumentConverterTest {
         assertEquals("Strain value", result.strain);
     }
 
+    @Test
+    void dummyTestForCodeQL(){
+        int result = 0;
+        double d = 2.0;
+        result +=  d;
+        assertTrue(result > 0);
+    }
+
     private ScoreType getCPDScore() {
         ObjectFactory xmlFactory = new ObjectFactory();
         ScoreType scoreType = xmlFactory.createScoreType();
