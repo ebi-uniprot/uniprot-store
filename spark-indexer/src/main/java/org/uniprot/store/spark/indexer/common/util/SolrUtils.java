@@ -4,8 +4,9 @@ import static java.util.Collections.singletonList;
 
 import java.util.Optional;
 
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.beans.DocumentObjectBinder;
-import org.apache.solr.client.solrj.impl.CloudSolrClient;
+import org.apache.solr.client.solrj.impl.CloudHttp2SolrClient;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -37,10 +38,13 @@ public class SolrUtils {
         return binder.toSolrInputDocument(doc);
     }
 
+    public static SolrClient createCloudSolrClient(String zkHost) {
+        return new CloudHttp2SolrClient.Builder(singletonList(zkHost), Optional.empty()).build();
+    }
+
     public static void commit(String collection, String zkHost) {
         log.info("Committing the data for collection " + collection);
-        try (CloudSolrClient client =
-                new CloudSolrClient.Builder(singletonList(zkHost), Optional.empty()).build()) {
+        try (SolrClient client = createCloudSolrClient(zkHost)) {
             client.commit(collection, true, true);
         } catch (Exception e) {
             log.error("Error committing the data for collection" + collection, e);
