@@ -14,7 +14,7 @@
 	file, see http://wiki.apache.org/solr/SolrConfigXml. -->
 <config>
 
-	<luceneMatchVersion>8.11.2</luceneMatchVersion>
+	<luceneMatchVersion>9.10</luceneMatchVersion>
 
 	<dataDir>${solr.data.home}/${solr.core.name}/data</dataDir>
 
@@ -42,11 +42,11 @@
 
 	<query>
 		<maxBooleanClauses>${solr.max.booleanClauses:1024}</maxBooleanClauses>
-		<filterCache class="solr.FastLRUCache" size="512"
+		<filterCache class="solr.CaffeineCache" size="512"
 			initialSize="512" autowarmCount="0" />
-		<queryResultCache class="solr.LRUCache" size="512"
-			initialSize="512" autowarmCount="0" />
-		<documentCache class="solr.LRUCache" size="512"
+		<queryResultCache class="solr.CaffeineCache"
+			size="512" initialSize="512" autowarmCount="0" />
+		<documentCache class="solr.CaffeineCache" size="512"
 			initialSize="512" autowarmCount="0" />
 		<enableLazyFieldLoading>true</enableLazyFieldLoading>
 		<queryResultWindowSize>20</queryResultWindowSize>
