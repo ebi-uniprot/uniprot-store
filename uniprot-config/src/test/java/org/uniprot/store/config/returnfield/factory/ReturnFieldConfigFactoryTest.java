@@ -67,4 +67,14 @@ class ReturnFieldConfigFactoryTest {
         assertThat(config.getAllFields(), hasSize(5));
         assertThat(config.getReturnFields(), hasSize(4));
     }
+
+    @Test
+    void canCreatePrecomputedAnnotationReturnFieldConfig() {
+        ReturnFieldConfig config =
+                ReturnFieldConfigFactory.getReturnFieldConfig(
+                        UniProtDataType.PRECOMPUTED_ANNOTATION);
+        assertThat(config, is(notNullValue()));
+        assertThat(config.getAllFields(), hasSize(3));
+        assertThat(config.getReturnFields(), hasSize(2));
+    }
 }
