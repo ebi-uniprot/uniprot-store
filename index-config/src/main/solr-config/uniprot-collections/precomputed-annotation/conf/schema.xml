@@ -19,7 +19,7 @@
 	<field name="accession" type="string" indexed="true"
 		stored="true" required="true" multiValued="false" docValues="true" />
 	<field name="proteome" type="string" indexed="true" stored="true"
-		required="true" multiValued="false" docValues="true" />
+		required="true" multiValued="true" docValues="true" />
 
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
