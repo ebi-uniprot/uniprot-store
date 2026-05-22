@@ -51,14 +51,14 @@ class PrecomputedAnnotationDocumentsToHPSWriterTest {
         }
 
         @Override
-        JavaPairRDD<String, String> loadTaxonomyProteomeIds() {
+        JavaPairRDD<Integer, String> loadTaxonomyProteomeIds() {
             return jobParameter
                     .getSparkContext()
                     .parallelizePairs(
                             List.of(
-                                    new Tuple2<>("61156", "UP000000001"),
-                                    new Tuple2<>("10090", "UP000000002"),
-                                    new Tuple2<>("10090", "UP000000003")));
+                                    new Tuple2<>(61156, "UP000000001"),
+                                    new Tuple2<>(10090, "UP000000002"),
+                                    new Tuple2<>(10090, "UP000000003")));
         }
 
         @Override

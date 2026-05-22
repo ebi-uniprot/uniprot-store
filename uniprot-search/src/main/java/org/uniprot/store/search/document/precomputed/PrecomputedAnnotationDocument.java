@@ -24,6 +24,12 @@ public class PrecomputedAnnotationDocument implements Document {
     @Field("proteome")
     private List<String> proteome = new ArrayList<>();
 
+    @Field("uniparc")
+    private String uniparc;
+
+    @Field("taxonomy_id")
+    public Integer taxonomyId;
+
     @Override
     public String getDocumentId() {
         return accession;

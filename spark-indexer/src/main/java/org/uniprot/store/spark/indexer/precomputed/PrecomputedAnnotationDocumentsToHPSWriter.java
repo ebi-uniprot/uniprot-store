@@ -6,13 +6,16 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.PairFunction;
 import org.uniprot.core.proteome.ProteomeEntry;
+import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.precomputed.PrecomputedAnnotationDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.precomputed.mapper.PrecomputedAnnotationDocumentProteomeJoin;
+import org.uniprot.store.spark.indexer.precomputed.mapper.PrecomputedAnnotationEntryToDocumentMapper;
 import org.uniprot.store.spark.indexer.proteome.ProteomeRDDReader;
+import org.uniprot.store.spark.indexer.uniprot.PrecomputedAnnotationRDDReader;
 
 import lombok.extern.slf4j.Slf4j;
 import scala.Tuple2;
@@ -21,13 +24,12 @@ import scala.Tuple2;
 public class PrecomputedAnnotationDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
     private final JobParameter jobParameter;
-    private final PrecomputedAnnotationDocumentRDDReader precomputedAnnotationDocumentRDDReader;
+    private final PrecomputedAnnotationRDDReader precomputedAnnotationRDDReader;
     private final ProteomeRDDReader proteomeRDDReader;
 
     public PrecomputedAnnotationDocumentsToHPSWriter(JobParameter jobParameter) {
         this.jobParameter = jobParameter;
-        this.precomputedAnnotationDocumentRDDReader =
-                new PrecomputedAnnotationDocumentRDDReader(jobParameter);
+        this.precomputedAnnotationRDDReader = new PrecomputedAnnotationRDDReader(jobParameter);
         this.proteomeRDDReader = new ProteomeRDDReader(jobParameter, false);
     }
 
@@ -39,25 +41,32 @@ public class PrecomputedAnnotationDocumentsToHPSWriter implements DocumentsToHPS
     }
 
     JavaRDD<PrecomputedAnnotationDocument> loadDocuments() {
-        JavaPairRDD<String, PrecomputedAnnotationDocument> taxonomyPrecomputedDocuments =
-                precomputedAnnotationDocumentRDDReader.load();
-        JavaPairRDD<String, Iterable<String>> taxonomyProteomeIds =
+        JavaRDD<UniProtKBEntry> precomputedAnnotationEntryRDD =
+                precomputedAnnotationRDDReader.load();
+        JavaRDD<PrecomputedAnnotationDocument> precomputedAnnotationDocumentRDD =
+                precomputedAnnotationEntryRDD.map(new PrecomputedAnnotationEntryToDocumentMapper());
+        //<taxonomyId, precomputedAnnotation>
+        JavaPairRDD<Integer, PrecomputedAnnotationDocument> precomputedAnnotationEntryPairedRDD =
+                precomputedAnnotationDocumentRDD.mapToPair(
+                        doc -> new Tuple2<>(doc.getTaxonomyId(), doc));
+        //<taxonomyId, Iterable<proteomeId>>
+        JavaPairRDD<Integer, Iterable<String>> taxonomyProteomeIds =
                 loadTaxonomyProteomeIds().groupByKey();
 
-        return taxonomyPrecomputedDocuments
+        return precomputedAnnotationEntryPairedRDD
                 .leftOuterJoin(taxonomyProteomeIds)
                 .values()
                 .map(new PrecomputedAnnotationDocumentProteomeJoin());
     }
 
-    JavaPairRDD<String, String> loadTaxonomyProteomeIds() {
+    JavaPairRDD<Integer, String> loadTaxonomyProteomeIds() {
         return proteomeRDDReader.load().values().mapToPair(getProteomeEntryToTaxonomyProteomeId());
     }
 
-    PairFunction<ProteomeEntry, String, String> getProteomeEntryToTaxonomyProteomeId() {
+    PairFunction<ProteomeEntry, Integer, String> getProteomeEntryToTaxonomyProteomeId() {
         return proteomeEntry ->
                 new Tuple2<>(
-                        String.valueOf(proteomeEntry.getTaxonomy().getTaxonId()),
+                        (int) (proteomeEntry.getTaxonomy().getTaxonId()),
                         proteomeEntry.getId().getValue());
     }
 

@@ -17,13 +17,31 @@
 
 	<!-- =============================== Precomputed Annotation fields =============================== -->
 	<field name="accession" type="string" indexed="true"
-		stored="true" required="true" multiValued="false" docValues="true" />
-	<field name="proteome" type="string" indexed="true" stored="true"
-		required="true" multiValued="true" docValues="true" />
+		stored="true" required="true" multiValued="false" />
+	<field name="proteome" type="lowercase" indexed="true"
+		   stored="false" required="false" multiValued="true" />
+	<field name="taxonomy_id" type="int" indexed="true"
+		   stored="false" required="true" multiValued="false" />
+	<field name="uniparc" type="string" indexed="true" stored="false"
+		   required="true" multiValued="false" />
 
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
 		docValues="true" />
 	<fieldType name="string" class="solr.StrField"
 		sortMissingLast="true" />
+	<fieldType name="int" class="solr.IntPointField"
+		docValues="true" />
+	<!-- lowercases the entire field value, keeping it as a single token. -->
+	<fieldType name="lowercase" class="solr.TextField"
+		positionIncrementGap="100">
+		<analyzer type="index">
+			<tokenizer class="solr.KeywordTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+		<analyzer type="query">
+			<tokenizer class="solr.KeywordTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
 </schema>
