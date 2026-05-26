@@ -6,16 +6,13 @@ import java.util.List;
 import org.apache.solr.client.solrj.beans.Field;
 import org.uniprot.store.search.document.Document;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Singular;
+import lombok.*;
 
 @Builder(toBuilder = true)
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class PrecomputedAnnotationDocument implements Document {
     @Field("accession")
     private String accession;

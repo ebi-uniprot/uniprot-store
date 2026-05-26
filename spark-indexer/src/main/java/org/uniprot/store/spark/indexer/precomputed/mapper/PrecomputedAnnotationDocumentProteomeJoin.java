@@ -2,7 +2,6 @@ package org.uniprot.store.spark.indexer.precomputed.mapper;
 
 import java.io.Serial;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.apache.spark.api.java.Optional;
@@ -27,8 +26,7 @@ public class PrecomputedAnnotationDocumentProteomeJoin
                         StreamSupport.stream(
                                         entryProteomeIds._2.orElse(List.of()).spliterator(), false)
                                 .distinct()
-                                .sorted()
-                                .collect(Collectors.toList()))
+                                .toList())
                 .build();
     }
 }

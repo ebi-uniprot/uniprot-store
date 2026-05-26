@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.precomputed.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -35,5 +36,29 @@ class PrecomputedAnnotationEntryToDocumentMapperTest {
         assertEquals(61156, document.getTaxonomyId());
         assertEquals("UPI0000001866-61156", document.getDocumentId());
         assertTrue(document.getProteome().isEmpty());
+    }
+
+    @Test
+    void canNotMapPrecomputedEntryWhenPrimaryAccessionIsNotInExpectedFormat() {
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder(
+                                "UPI0000001866_61156",
+                                "UPI0000001866_61156",
+                                UniProtKBEntryType.TREMBL)
+                        .build();
+
+        assertThrows(RuntimeException.class, () -> mapper.call(entry));
+    }
+
+    @Test
+    void canNotMapPrecomputedEntryWhenPrimaryAccessionTaxIdIsNotANumber() {
+        UniProtKBEntry entry =
+                new UniProtKBEntryBuilder(
+                                "UPI0000001866-T61156",
+                                "UPI0000001866-T61156",
+                                UniProtKBEntryType.TREMBL)
+                        .build();
+
+        assertThrows(RuntimeException.class, () -> mapper.call(entry));
     }
 }

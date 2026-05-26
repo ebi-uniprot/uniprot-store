@@ -4,8 +4,6 @@ import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollecti
 
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.api.java.function.PairFunction;
-import org.uniprot.core.proteome.ProteomeEntry;
 import org.uniprot.core.uniprotkb.UniProtKBEntry;
 import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.search.document.precomputed.PrecomputedAnnotationDocument;
@@ -14,11 +12,12 @@ import org.uniprot.store.spark.indexer.common.util.SolrUtils;
 import org.uniprot.store.spark.indexer.common.writer.DocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.precomputed.mapper.PrecomputedAnnotationDocumentProteomeJoin;
 import org.uniprot.store.spark.indexer.precomputed.mapper.PrecomputedAnnotationEntryToDocumentMapper;
+import org.uniprot.store.spark.indexer.precomputed.mapper.TaxIdToPrecomputedAnnotationDocument;
+import org.uniprot.store.spark.indexer.precomputed.mapper.TaxIdToProteomeId;
 import org.uniprot.store.spark.indexer.proteome.ProteomeRDDReader;
 import org.uniprot.store.spark.indexer.uniprot.PrecomputedAnnotationRDDReader;
 
 import lombok.extern.slf4j.Slf4j;
-import scala.Tuple2;
 
 @Slf4j
 public class PrecomputedAnnotationDocumentsToHPSWriter implements DocumentsToHPSWriter {
@@ -45,11 +44,11 @@ public class PrecomputedAnnotationDocumentsToHPSWriter implements DocumentsToHPS
                 precomputedAnnotationRDDReader.load();
         JavaRDD<PrecomputedAnnotationDocument> precomputedAnnotationDocumentRDD =
                 precomputedAnnotationEntryRDD.map(new PrecomputedAnnotationEntryToDocumentMapper());
-        //<taxonomyId, precomputedAnnotation>
+        // <taxonomyId, precomputedAnnotation>
         JavaPairRDD<Integer, PrecomputedAnnotationDocument> precomputedAnnotationEntryPairedRDD =
                 precomputedAnnotationDocumentRDD.mapToPair(
-                        doc -> new Tuple2<>(doc.getTaxonomyId(), doc));
-        //<taxonomyId, Iterable<proteomeId>>
+                        new TaxIdToPrecomputedAnnotationDocument());
+        // <taxonomyId, Iterable<proteomeId>>
         JavaPairRDD<Integer, Iterable<String>> taxonomyProteomeIds =
                 loadTaxonomyProteomeIds().groupByKey();
 
@@ -60,14 +59,7 @@ public class PrecomputedAnnotationDocumentsToHPSWriter implements DocumentsToHPS
     }
 
     JavaPairRDD<Integer, String> loadTaxonomyProteomeIds() {
-        return proteomeRDDReader.load().values().mapToPair(getProteomeEntryToTaxonomyProteomeId());
-    }
-
-    PairFunction<ProteomeEntry, Integer, String> getProteomeEntryToTaxonomyProteomeId() {
-        return proteomeEntry ->
-                new Tuple2<>(
-                        (int) (proteomeEntry.getTaxonomy().getTaxonId()),
-                        proteomeEntry.getId().getValue());
+        return proteomeRDDReader.load().values().mapToPair(new TaxIdToProteomeId());
     }
 
     void saveToHPS(JavaRDD<PrecomputedAnnotationDocument> documentRDD) {

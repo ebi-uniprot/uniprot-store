@@ -57,11 +57,20 @@ class PrecomputedAnnotationDocumentsToHPSWriterIT {
                     List.of("UP000061156"),
                     documentsByAccession.get("UPI0000001866-61156").getProteome());
             assertEquals(
+                    "UPI0000001866", documentsByAccession.get("UPI0000001866-61156").getUniparc());
+            assertEquals(61156, documentsByAccession.get("UPI0000001866-61156").getTaxonomyId());
+            assertEquals(
                     List.of("UP000010090", "UP000010091"),
                     documentsByAccession.get("UPI0000001867-10090").getProteome());
             assertEquals(
+                    "UPI0000001867", documentsByAccession.get("UPI0000001867-10090").getUniparc());
+            assertEquals(10090, documentsByAccession.get("UPI0000001867-10090").getTaxonomyId());
+            assertEquals(
                     List.of("UP000010090", "UP000010091"),
                     documentsByAccession.get("UPI0000001868-10090").getProteome());
+            assertEquals(
+                    "UPI0000001868", documentsByAccession.get("UPI0000001868-10090").getUniparc());
+            assertEquals(10090, documentsByAccession.get("UPI0000001868-10090").getTaxonomyId());
         }
     }
 

@@ -31,7 +31,7 @@ class PrecomputedAnnotationDocumentProteomeJoinTest {
                                 document,
                                 Optional.of(List.of("UP000000002", "UP000000001", "UP000000002"))));
 
-        assertEquals(List.of("UP000000001", "UP000000002"), result.getProteome());
+        assertEquals(List.of("UP000000002", "UP000000001"), result.getProteome());
         assertEquals("UPI0000001866-61156", result.getAccession());
         assertEquals("UPI0000001866", result.getUniparc());
         assertEquals(61156, result.getTaxonomyId());
