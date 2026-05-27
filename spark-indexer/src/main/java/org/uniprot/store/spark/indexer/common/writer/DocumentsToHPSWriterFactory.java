@@ -4,6 +4,7 @@ import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.genecentric.GeneCentricDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.literature.LiteratureDocumentsToHPSWriter;
+import org.uniprot.store.spark.indexer.precomputed.PrecomputedAnnotationDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.proteome.ProteomeDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.subcellularlocation.SubcellularLocationDocumentsToHPSWriter;
@@ -31,6 +32,9 @@ public class DocumentsToHPSWriterFactory {
                 break;
             case proteome:
                 writer = new ProteomeDocumentsToHPSWriter(jobParameter);
+                break;
+            case precomputedannotation:
+                writer = new PrecomputedAnnotationDocumentsToHPSWriter(jobParameter);
                 break;
             case publication:
                 writer = new PublicationDocumentsToHPSWriter(jobParameter);

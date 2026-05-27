@@ -47,6 +47,9 @@ class SolrIndexValidatorFactoryTest {
             case subcellularlocation:
                 assertTrue(validator instanceof SubcellularLocationSolrIndexValidator);
                 break;
+            case precomputedannotation:
+                assertTrue(validator instanceof PrecomputedAnnotationSolrIndexValidator);
+                break;
         }
     }
 
@@ -67,6 +70,7 @@ class SolrIndexValidatorFactoryTest {
                 Arguments.of(SolrCollection.publication),
                 Arguments.of(SolrCollection.literature),
                 Arguments.of(SolrCollection.taxonomy),
-                Arguments.of(SolrCollection.subcellularlocation));
+                Arguments.of(SolrCollection.subcellularlocation),
+                Arguments.of(SolrCollection.precomputedannotation));
     }
 }

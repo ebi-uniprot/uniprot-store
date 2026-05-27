@@ -1,0 +1,35 @@
+[
+  {
+    "seqNumber": 0,
+    "itemType": "GROUP",
+    "groupName": "Precomputed Annotation",
+    "isDatabaseGroup": false,
+    "id": "precomputed_annotation"
+  },
+  {
+    "parentId": "precomputed_annotation",
+    "childNumber": 0,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "isRequiredForJson": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder": 0,
+    "label": "Accession",
+    "name": "accession",
+    "paths": ["accession"],
+    "id": "accession",
+    "sortField": "accession"
+  },
+  {
+    "parentId": "precomputed_annotation",
+    "childNumber": 1,
+    "itemType": "SINGLE",
+    "includeInSwagger": true,
+    "isDefaultForTsv": true,
+    "defaultForTsvOrder": 1,
+    "label": "Proteome",
+    "name": "proteome",
+    "paths": ["proteome"],
+    "id": "proteome"
+  }
+]

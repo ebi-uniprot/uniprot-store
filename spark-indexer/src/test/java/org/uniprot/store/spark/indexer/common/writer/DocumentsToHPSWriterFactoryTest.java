@@ -13,6 +13,7 @@ import org.uniprot.store.search.SolrCollection;
 import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.genecentric.GeneCentricDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.literature.LiteratureDocumentsToHPSWriter;
+import org.uniprot.store.spark.indexer.precomputed.PrecomputedAnnotationDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.proteome.ProteomeDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.publication.PublicationDocumentsToHPSWriter;
 import org.uniprot.store.spark.indexer.subcellularlocation.SubcellularLocationDocumentsToHPSWriter;
@@ -81,6 +82,17 @@ class DocumentsToHPSWriterFactoryTest {
                 factory.createDocumentsToHPSWriter(SolrCollection.proteome, jobParameter);
         assertNotNull(writer);
         assertTrue(writer instanceof ProteomeDocumentsToHPSWriter);
+    }
+
+    @Test
+    void createPrecomputedAnnotationDocumentsToHPSWriterFactory() {
+        JobParameter jobParameter = Mockito.mock(JobParameter.class);
+        DocumentsToHPSWriterFactory factory = new DocumentsToHPSWriterFactory();
+        DocumentsToHPSWriter writer =
+                factory.createDocumentsToHPSWriter(
+                        SolrCollection.precomputedannotation, jobParameter);
+        assertNotNull(writer);
+        assertTrue(writer instanceof PrecomputedAnnotationDocumentsToHPSWriter);
     }
 
     @Test

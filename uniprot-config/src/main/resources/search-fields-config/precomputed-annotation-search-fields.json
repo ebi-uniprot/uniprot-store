@@ -1,0 +1,29 @@
+[
+  {
+    "id": "accession",
+    "fieldName": "accession",
+    "sortFieldId": "accession_sort",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by accession",
+    "example": "P21802",
+    "includeInSwagger": true
+  },
+  {
+    "id": "accession_sort",
+    "fieldName": "accession",
+    "fieldType": "SORT",
+    "dataType": "STRING",
+    "description": "Sort by accession",
+    "example": "accession asc"
+  },
+  {
+    "id": "proteome",
+    "fieldName": "proteome",
+    "fieldType": "GENERAL",
+    "dataType": "STRING",
+    "description": "Search by proteome",
+    "example": "UP000005640",
+    "includeInSwagger": true
+  }
+]

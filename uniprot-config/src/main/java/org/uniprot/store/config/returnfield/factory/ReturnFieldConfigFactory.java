@@ -17,6 +17,8 @@ public class ReturnFieldConfigFactory {
             "return-fields-config/genecentric-return-fields.json";
     public static final String LITERATURE_CONFIG_FILE =
             "return-fields-config/literature-return-fields.json";
+    public static final String PRECOMPUTED_ANNOTATION_CONFIG_FILE =
+            "return-fields-config/precomputed-annotation-return-fields.json";
     public static final String SUGGEST_CONFIG_FILE =
             "return-fields-config/suggest-return-fields.json";
     public static final String DISEASE_CONFIG_FILE =
@@ -55,6 +57,8 @@ public class ReturnFieldConfigFactory {
         typeConfigMap.put(UniProtDataType.CROSSREF, CROSS_REF_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.GENECENTRIC, GENE_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.LITERATURE, LITERATURE_CONFIG_FILE);
+        typeConfigMap.put(
+                UniProtDataType.PRECOMPUTED_ANNOTATION, PRECOMPUTED_ANNOTATION_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.SUGGEST, SUGGEST_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.DISEASE, DISEASE_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.KEYWORD, KEYWORD_CONFIG_FILE);
