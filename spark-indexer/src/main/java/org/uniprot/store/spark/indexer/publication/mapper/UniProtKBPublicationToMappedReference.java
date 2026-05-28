@@ -167,7 +167,7 @@ public class UniProtKBPublicationToMappedReference
                                     xref ->
                                             referencesConverter.createLightUniProtKBMappedReference(
                                                     accession,
-                                                    xref.getDatabase().getName(),
+                                                    xref.getDatabase() !=null? xref.getDatabase().getName(): "",
                                                     xref.getId(),
                                                     citationId,
                                                     categories,
