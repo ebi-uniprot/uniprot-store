@@ -153,13 +153,16 @@ public class UniProtKBPublicationToMappedReference
         if (reference.hasEvidences()) {
             Set<String> categories =
                     referencesConverter.getCategoriesFromUniprotReference(reference, organismId);
+
             List<CrossReference<EvidenceDatabase>> evidenceCrossRefs =
                     reference.getEvidences().stream()
+                            .filter(Objects::nonNull)
                             .map(Evidence::getEvidenceCrossReference)
+                            .filter(Objects::nonNull)
                             .toList();
+
             List<MappedReferenceInfo> nonUniProtSourceMappedReferenceInfos =
                     evidenceCrossRefs.stream()
-                            .filter(Objects::nonNull)
                             .filter(xref -> xref.hasDatabase() && xref.getDatabase() != null && xref.getDatabase().getName() != null)
                             .map(
                                     xref ->
@@ -170,8 +173,10 @@ public class UniProtKBPublicationToMappedReference
                                                     citationId,
                                                     categories,
                                                     referenceNumber))
+                            .filter(Objects::nonNull)
                             .map(mr -> new MappedReferenceInfo(mr, citationId))
                             .toList();
+
             mappedReferenceInfos.addAll(nonUniProtSourceMappedReferenceInfos);
         }
     }
