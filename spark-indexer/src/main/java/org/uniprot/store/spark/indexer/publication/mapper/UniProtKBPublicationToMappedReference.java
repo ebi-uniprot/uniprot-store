@@ -1,9 +1,6 @@
 package org.uniprot.store.spark.indexer.publication.mapper;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
@@ -162,12 +159,13 @@ public class UniProtKBPublicationToMappedReference
                             .toList();
             List<MappedReferenceInfo> nonUniProtSourceMappedReferenceInfos =
                     evidenceCrossRefs.stream()
-                            .filter(CrossReference::hasDatabase)
+                            .filter(Objects::nonNull)
+                            .filter(xref -> xref.hasDatabase() && xref.getDatabase() != null && xref.getDatabase().getName() != null)
                             .map(
                                     xref ->
                                             referencesConverter.createLightUniProtKBMappedReference(
                                                     accession,
-                                                    xref.getDatabase() !=null? xref.getDatabase().getName(): "",
+                                                    xref.getDatabase().getName(),
                                                     xref.getId(),
                                                     citationId,
                                                     categories,
