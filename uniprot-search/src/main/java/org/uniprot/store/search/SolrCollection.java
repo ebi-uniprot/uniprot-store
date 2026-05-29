@@ -22,6 +22,5 @@ public enum SolrCollection {
     arba,
     publication,
     help,
-    precomputedannotation,
-    precomputedannotation_first
+    precomputedannotation
 }
