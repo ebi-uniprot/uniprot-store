@@ -156,14 +156,12 @@ public class UniProtKBPublicationToMappedReference
 
             List<CrossReference<EvidenceDatabase>> evidenceCrossRefs =
                     reference.getEvidences().stream()
-                            .filter(Objects::nonNull)
                             .map(Evidence::getEvidenceCrossReference)
-                            .filter(Objects::nonNull)
                             .toList();
 
             List<MappedReferenceInfo> nonUniProtSourceMappedReferenceInfos =
                     evidenceCrossRefs.stream()
-                            .filter(xref -> xref.hasDatabase() && xref.getDatabase() != null && xref.getDatabase().getName() != null)
+                            .filter(CrossReference::hasDatabase)
                             .map(
                                     xref ->
                                             referencesConverter.createLightUniProtKBMappedReference(
@@ -173,7 +171,6 @@ public class UniProtKBPublicationToMappedReference
                                                     citationId,
                                                     categories,
                                                     referenceNumber))
-                            .filter(Objects::nonNull)
                             .map(mr -> new MappedReferenceInfo(mr, citationId))
                             .toList();
 
