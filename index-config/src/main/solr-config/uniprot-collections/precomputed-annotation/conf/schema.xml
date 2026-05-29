@@ -19,9 +19,9 @@
 	<field name="accession" type="string" indexed="true"
 		stored="true" required="true" multiValued="false" />
 	<field name="taxonomy_id" type="int" indexed="true"
-		   stored="false" required="true" multiValued="false" />
+		stored="false" required="true" multiValued="false" />
 	<field name="uniparc" type="string" indexed="true" stored="false"
-		   required="true" multiValued="false" />
+		required="true" multiValued="false" />
 
 	<!-- =============================== field types =============================== -->
 	<fieldType name="plong" class="solr.LongPointField"
