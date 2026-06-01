@@ -379,7 +379,6 @@ class GeneSearchIT {
         for (String toEscape : valuesThatRequireEscaping) {
             String accession = newAccession();
             String geneName = "hello" + toEscape + "world";
-            System.out.println(geneName);
             String query = geneQuery(geneName);
 
             index(accession, new GeneBuilder().setName(geneName).buildGNLine());

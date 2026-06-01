@@ -19,6 +19,7 @@
 		<cache-api.version>1.1.1</cache-api.version>
 		<spring.version>2.7.3</spring.version>
 		<maven-dependency-plugin.version>3.3.0</maven-dependency-plugin.version>
+		<test.reuseForks>false</test.reuseForks>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
