@@ -1,9 +1,6 @@
 package org.uniprot.store.spark.indexer.publication.mapper;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
@@ -156,10 +153,12 @@ public class UniProtKBPublicationToMappedReference
         if (reference.hasEvidences()) {
             Set<String> categories =
                     referencesConverter.getCategoriesFromUniprotReference(reference, organismId);
+
             List<CrossReference<EvidenceDatabase>> evidenceCrossRefs =
                     reference.getEvidences().stream()
                             .map(Evidence::getEvidenceCrossReference)
                             .toList();
+
             List<MappedReferenceInfo> nonUniProtSourceMappedReferenceInfos =
                     evidenceCrossRefs.stream()
                             .filter(CrossReference::hasDatabase)
@@ -174,6 +173,7 @@ public class UniProtKBPublicationToMappedReference
                                                     referenceNumber))
                             .map(mr -> new MappedReferenceInfo(mr, citationId))
                             .toList();
+
             mappedReferenceInfos.addAll(nonUniProtSourceMappedReferenceInfos);
         }
     }

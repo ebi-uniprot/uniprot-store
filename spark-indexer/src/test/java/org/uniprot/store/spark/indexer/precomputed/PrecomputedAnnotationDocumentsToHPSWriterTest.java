@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.Test;
@@ -17,8 +16,6 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import com.typesafe.config.Config;
-
-import scala.Tuple2;
 
 class PrecomputedAnnotationDocumentsToHPSWriterTest {
 
@@ -43,22 +40,8 @@ class PrecomputedAnnotationDocumentsToHPSWriterTest {
     private static class PrecomputedAnnotationDocumentsToHPSWriterFake
             extends PrecomputedAnnotationDocumentsToHPSWriter {
 
-        private final JobParameter jobParameter;
-
         PrecomputedAnnotationDocumentsToHPSWriterFake(JobParameter jobParameter) {
             super(jobParameter);
-            this.jobParameter = jobParameter;
-        }
-
-        @Override
-        JavaPairRDD<Integer, String> loadTaxonomyProteomeIds() {
-            return jobParameter
-                    .getSparkContext()
-                    .parallelizePairs(
-                            List.of(
-                                    new Tuple2<>(61156, "UP000000001"),
-                                    new Tuple2<>(10090, "UP000000002"),
-                                    new Tuple2<>(10090, "UP000000003")));
         }
 
         @Override
@@ -74,20 +57,11 @@ class PrecomputedAnnotationDocumentsToHPSWriterTest {
                                             PrecomputedAnnotationDocument::getAccession,
                                             document -> document));
             assertEquals(
-                    List.of("UP000000001"),
-                    documentsByAccession.get("UPI0000001866-61156").getProteome());
-            assertEquals(
                     "UPI0000001866", documentsByAccession.get("UPI0000001866-61156").getUniparc());
             assertEquals(61156, documentsByAccession.get("UPI0000001866-61156").getTaxonomyId());
             assertEquals(
-                    List.of("UP000000002", "UP000000003"),
-                    documentsByAccession.get("UPI0000001867-10090").getProteome());
-            assertEquals(
                     "UPI0000001867", documentsByAccession.get("UPI0000001867-10090").getUniparc());
             assertEquals(10090, documentsByAccession.get("UPI0000001867-10090").getTaxonomyId());
-            assertEquals(
-                    List.of("UP000000002", "UP000000003"),
-                    documentsByAccession.get("UPI0000001868-10090").getProteome());
             assertEquals(
                     "UPI0000001868", documentsByAccession.get("UPI0000001868-10090").getUniparc());
             assertEquals(10090, documentsByAccession.get("UPI0000001868-10090").getTaxonomyId());

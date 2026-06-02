@@ -2,7 +2,6 @@ package org.uniprot.store.spark.indexer.precomputed.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +34,6 @@ class PrecomputedAnnotationEntryToDocumentMapperTest {
         assertEquals("UPI0000001866", document.getUniparc());
         assertEquals(61156, document.getTaxonomyId());
         assertEquals("UPI0000001866-61156", document.getDocumentId());
-        assertTrue(document.getProteome().isEmpty());
     }
 
     @Test

@@ -16,18 +16,13 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.util.SparkUtils;
 
 import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 
 class PrecomputedAnnotationDocumentsToHPSWriterIT {
     private static final String RELEASE_NAME = "2020_02";
 
     @Test
-    void writeIndexDocumentsToHPSFromPrecomputedAndProteomeFiles() {
-        Config application =
-                ConfigFactory.parseString(
-                                "proteome.xml.file = proteome/proteome-matching-taxonomy.xml")
-                        .withFallback(SparkUtils.loadApplicationProperty())
-                        .resolve();
+    void writeIndexDocumentsToHPSFromPrecomputedFile() {
+        Config application = SparkUtils.loadApplicationProperty();
 
         try (JavaSparkContext sparkContext =
                 SparkUtils.loadSparkContext(application, SPARK_LOCAL_MASTER)) {
@@ -54,20 +49,11 @@ class PrecomputedAnnotationDocumentsToHPSWriterIT {
                                             document -> document));
 
             assertEquals(
-                    List.of("UP000061156"),
-                    documentsByAccession.get("UPI0000001866-61156").getProteome());
-            assertEquals(
                     "UPI0000001866", documentsByAccession.get("UPI0000001866-61156").getUniparc());
             assertEquals(61156, documentsByAccession.get("UPI0000001866-61156").getTaxonomyId());
             assertEquals(
-                    List.of("UP000010090", "UP000010091"),
-                    documentsByAccession.get("UPI0000001867-10090").getProteome());
-            assertEquals(
                     "UPI0000001867", documentsByAccession.get("UPI0000001867-10090").getUniparc());
             assertEquals(10090, documentsByAccession.get("UPI0000001867-10090").getTaxonomyId());
-            assertEquals(
-                    List.of("UP000010090", "UP000010091"),
-                    documentsByAccession.get("UPI0000001868-10090").getProteome());
             assertEquals(
                     "UPI0000001868", documentsByAccession.get("UPI0000001868-10090").getUniparc());
             assertEquals(10090, documentsByAccession.get("UPI0000001868-10090").getTaxonomyId());

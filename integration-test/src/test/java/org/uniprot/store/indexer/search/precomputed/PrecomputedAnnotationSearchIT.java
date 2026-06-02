@@ -17,68 +17,13 @@ class PrecomputedAnnotationSearchIT {
 
     @Test
     void canIndexAndSearchByDefaultAccessionField() {
-        PrecomputedAnnotationDocument document =
-                precomputedDocumentBuilder("P21802").proteome("UP000100001").build();
+        PrecomputedAnnotationDocument document = precomputedDocumentBuilder("P21802").build();
 
         searchEngine.indexEntry(document);
 
         QueryResponse response = searchEngine.getQueryResponse("select", "P21802");
 
         assertThat(response.getResults().getNumFound(), is(1L));
-    }
-
-    @Test
-    void canSearchProteomeField() {
-        String accession = "Q9Y261";
-        String proteome = "UP000100002";
-        PrecomputedAnnotationDocument document =
-                precomputedDocumentBuilder(accession).proteome(proteome).build();
-
-        searchEngine.indexEntry(document);
-
-        QueryResponse response = searchEngine.getQueryResponse("select", proteome(proteome));
-
-        assertThat(response.getResults().getNumFound(), is(1L));
-        assertThat(searchEngine.getIdentifiers(response), is(List.of(accession)));
-    }
-
-    @Test
-    void canSearchProteomeFieldWhenDocumentHasMultipleProteomes() {
-        String accession = "A0A0P0PA01";
-        String proteome = "UP000100004";
-        PrecomputedAnnotationDocument document =
-                precomputedDocumentBuilder(accession)
-                        .proteome(List.of("UP000100003", "UP000100004"))
-                        .build();
-
-        searchEngine.indexEntry(document);
-
-        QueryResponse response = searchEngine.getQueryResponse("select", proteome(proteome));
-
-        assertThat(response.getResults().getNumFound(), is(1L));
-        assertThat(searchEngine.getIdentifiers(response), is(List.of(accession)));
-    }
-
-    @Test
-    void searchByProteomeDoesNotReturnDocumentWithNoProteomes() {
-        String matchingAccession = "A0A0P0PA02";
-        String emptyProteomeAccession = "A0A0P0PA03";
-        String proteome = "UP000100005";
-        PrecomputedAnnotationDocument matchingDocument =
-                precomputedDocumentBuilder(matchingAccession).proteome(proteome).build();
-        PrecomputedAnnotationDocument emptyProteomeDocument =
-                precomputedDocumentBuilder(emptyProteomeAccession).build();
-
-        searchEngine.indexEntry(matchingDocument);
-        searchEngine.indexEntry(emptyProteomeDocument);
-
-        QueryResponse emptyProteomeResponse =
-                searchEngine.getQueryResponse("select", emptyProteomeAccession);
-        assertThat(emptyProteomeResponse.getResults().getNumFound(), is(1L));
-
-        QueryResponse response = searchEngine.getQueryResponse("select", proteome(proteome));
-        assertThat(response.getResults().getNumFound(), is(1L));
-        assertThat(searchEngine.getIdentifiers(response), is(List.of(matchingAccession)));
     }
 
     @Test
@@ -143,15 +88,6 @@ class PrecomputedAnnotationSearchIT {
                 .accession(accession)
                 .taxonomyId(9606)
                 .uniparc("UPI" + accession);
-    }
-
-    private String proteome(String proteome) {
-        return QueryBuilder.query(
-                searchEngine
-                        .getSearchFieldConfig()
-                        .getSearchFieldItemByName("proteome")
-                        .getFieldName(),
-                proteome);
     }
 
     private String uniparc(String uniparc) {
