@@ -16,14 +16,5 @@
     "dataType": "STRING",
     "description": "Sort by accession",
     "example": "accession asc"
-  },
-  {
-    "id": "proteome",
-    "fieldName": "proteome",
-    "fieldType": "GENERAL",
-    "dataType": "STRING",
-    "description": "Search by proteome",
-    "example": "UP000005640",
-    "includeInSwagger": true
   }
 ]
