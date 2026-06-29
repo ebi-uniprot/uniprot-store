@@ -17,7 +17,7 @@
 
 	<!-- =============================== Precomputed Annotation fields =============================== -->
 	<field name="accession" type="string" indexed="true"
-		stored="true" required="true" multiValued="false" />
+		stored="true" required="true" multiValued="false" docValues="true" />
 	<field name="taxonomy_id" type="int" indexed="true"
 		stored="false" required="true" multiValued="false" />
 	<field name="uniparc" type="string" indexed="true" stored="false"
