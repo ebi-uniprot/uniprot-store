@@ -43,8 +43,30 @@
 		<jacoco.version>0.8.8</jacoco.version>
 		<skipITs>false</skipITs>
 		<skipUTs>false</skipUTs>
+		<test.forkCount>1</test.forkCount>
+		<test.reuseForks>true</test.reuseForks>
 		<java.version>17</java.version>
 		<lombok.version>1.18.22</lombok.version>
+		<test.jvm.argLine>
+			--add-opens
+			java.base/java.lang.invoke=ALL-UNNAMED
+			--add-opens
+			java.base/java.util=ALL-UNNAMED
+			--add-opens
+			java.base/java.io=ALL-UNNAMED
+			--add-opens
+			java.base/sun.nio.cs=ALL-UNNAMED
+			--add-opens
+			java.base/sun.nio.ch=ALL-UNNAMED
+			--add-opens
+			java.base/java.lang=ALL-UNNAMED
+			--add-opens
+			java.base/java.nio=ALL-UNNAMED
+			--add-opens
+			java.base/sun.util.calendar=ALL-UNNAMED
+			--add-opens
+			java.base/sun.security.action=ALL-UNNAMED
+		</test.jvm.argLine>
 
 		<!-- Auto-formatting -->
 		<spotless.version>2.43.0</spotless.version>
@@ -252,7 +274,7 @@
 								</property>
 							</systemProperties>
 							<forkCount>1</forkCount>
-							<reuseForks>false</reuseForks>
+							<reuseForks>${test.reuseForks}</reuseForks>
 							<skipITs>${skipITs}</skipITs>
 							<argLine>${jacoco.agent.it.arg}</argLine>
 						</configuration>
@@ -335,32 +357,40 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.22.2</version>
 				<configuration>
-					<reuseForks>false</reuseForks>
-					<includes>
-						<include>*</include>
-					</includes>
+					<forkCount>${test.forkCount}</forkCount>
+					<reuseForks>${test.reuseForks}</reuseForks>
+					<skipTests>${skipUTs}</skipTests>
+					<excludes>
+						<exclude>**/*IT.java</exclude>
+						<exclude>**/IT*.java</exclude>
+					</excludes>
 					<argLine>
 						${argLine}
-						--add-opens
-						java.base/java.lang.invoke=ALL-UNNAMED
-						--add-opens
-						java.base/java.util=ALL-UNNAMED
-						--add-opens
-						java.base/java.io=ALL-UNNAMED
-						--add-opens
-						java.base/sun.nio.cs=ALL-UNNAMED
-						--add-opens
-						java.base/sun.nio.ch=ALL-UNNAMED
-						--add-opens
-						java.base/java.lang=ALL-UNNAMED
-						--add-opens
-						java.base/java.nio=ALL-UNNAMED
-						--add-opens
-						java.base/sun.util.calendar=ALL-UNNAMED
-						--add-opens
-						java.base/sun.security.action=ALL-UNNAMED
+						${test.jvm.argLine}
 					</argLine>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.22.2</version>
+				<configuration>
+					<forkCount>${test.forkCount}</forkCount>
+					<reuseForks>${test.reuseForks}</reuseForks>
+					<skipITs>${skipITs}</skipITs>
+					<argLine>
+						${argLine}
+						${test.jvm.argLine}
+					</argLine>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<!-- Auto-format code when built for consistency amongst developers' contributions -->
 			<plugin>

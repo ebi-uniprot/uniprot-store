@@ -21,6 +21,8 @@ public class SearchFieldConfigFactory {
             "search-fields-config/keyword-search-fields.json";
     public static final String LITERATURE_CONFIG_FILE =
             "search-fields-config/literature-search-fields.json";
+    public static final String PRECOMPUTED_ANNOTATION_CONFIG_FILE =
+            "search-fields-config/precomputed-annotation-search-fields.json";
     public static final String PROTEOME_CONFIG_FILE =
             "search-fields-config/proteome-search-fields.json";
     public static final String SUBCELLLOCATION_CONFIG_FILE =
@@ -53,6 +55,8 @@ public class SearchFieldConfigFactory {
         typeConfigMap.put(UniProtDataType.GENECENTRIC, GENECENTRIC_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.KEYWORD, KEYWORD_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.LITERATURE, LITERATURE_CONFIG_FILE);
+        typeConfigMap.put(
+                UniProtDataType.PRECOMPUTED_ANNOTATION, PRECOMPUTED_ANNOTATION_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.PROTEOME, PROTEOME_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.SUBCELLLOCATION, SUBCELLLOCATION_CONFIG_FILE);
         typeConfigMap.put(UniProtDataType.SUGGEST, SUGGEST_CONFIG_FILE);

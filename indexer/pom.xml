@@ -20,6 +20,7 @@
 		<spring.version>2.7.3</spring.version>
 		<maven-dependency-plugin.version>3.3.0</maven-dependency-plugin.version>
 		<solr.jackson.version>2.18.0</solr.jackson.version>
+		<test.reuseForks>false</test.reuseForks>
 	</properties>
 	<dependencyManagement>
 		<dependencies>

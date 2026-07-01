@@ -19,6 +19,9 @@ public class SolrIndexValidatorFactory {
             case proteome:
                 validator = new ProteomeSolrIndexValidator(jobParameter);
                 break;
+            case precomputedannotation:
+                validator = new PrecomputedAnnotationSolrIndexValidator(jobParameter);
+                break;
             case publication:
                 validator = new PublicationSolrIndexValidator(jobParameter);
                 break;

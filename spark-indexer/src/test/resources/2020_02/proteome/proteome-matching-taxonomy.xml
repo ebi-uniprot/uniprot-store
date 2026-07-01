@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proteomes xmlns="http://uniprot.org/proteome"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://uniprot.org/uniprot https://www.uniprot.org/docs/proteome.xsd">
+    <proteome proteinCount="1">
+        <upid>UP000061156</upid>
+        <taxonomy>61156</taxonomy>
+        <modified>2020-10-17Z</modified>
+        <proteomeStatus>REFERENCE</proteomeStatus>
+    </proteome>
+    <proteome proteinCount="2">
+        <upid>UP000010090</upid>
+        <taxonomy>10090</taxonomy>
+        <modified>2020-10-18Z</modified>
+        <proteomeStatus>REFERENCE</proteomeStatus>
+    </proteome>
+    <proteome proteinCount="3">
+        <upid>UP000010091</upid>
+        <taxonomy>10090</taxonomy>
+        <modified>2020-10-19Z</modified>
+        <proteomeStatus>NON_REFERENCE</proteomeStatus>
+    </proteome>
+</proteomes>
