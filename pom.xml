@@ -102,6 +102,17 @@
 				<version>${hamcrest.version}</version>
 				<scope>test</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.apache.solr</groupId>
+				<artifactId>solr-core</artifactId>
+				<version>9.10.1</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.glassfish.jersey.containers</groupId>
+						<artifactId>jersey-container-jetty-http</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
