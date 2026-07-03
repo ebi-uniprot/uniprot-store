@@ -8,7 +8,7 @@ import org.uniprot.store.search.document.precomputed.PrecomputedAnnotationDocume
 
 class PrecomputedAnnotationSearchEngine
         extends AbstractSearchEngine<PrecomputedAnnotationDocument> {
-    private static final String SEARCH_ENGINE_NAME = "precomputed-annotation";
+    private static final String SEARCH_ENGINE_NAME = "precomputedannotation";
 
     PrecomputedAnnotationSearchEngine() {
         super(SEARCH_ENGINE_NAME, identityConverter -> identityConverter);
