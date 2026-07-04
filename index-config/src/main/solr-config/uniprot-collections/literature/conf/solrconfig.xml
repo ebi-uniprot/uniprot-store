@@ -14,7 +14,7 @@
 	file, see http://wiki.apache.org/solr/SolrConfigXml. -->
 <config>
 
-	<luceneMatchVersion>8.11.2</luceneMatchVersion>
+	<luceneMatchVersion>9.10</luceneMatchVersion>
 
 	<dataDir>${solr.data.home}/${solr.core.name}/data</dataDir>
 

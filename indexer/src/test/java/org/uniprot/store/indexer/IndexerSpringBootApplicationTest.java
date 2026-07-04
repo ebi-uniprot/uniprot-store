@@ -4,7 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.impl.BaseHttpSolrClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -117,7 +117,7 @@ class IndexerSpringBootApplicationTest {
         ItemWriter<String> createWriter() {
             return list -> {
                 if (itemCount >= WHEN_TO_FAIL) {
-                    throw new HttpSolrClient.RemoteSolrException(
+                    throw new BaseHttpSolrClient.RemoteSolrException(
                             "localhost", 999, "No registered leader", new RuntimeException());
                 } else {
                     System.out.println(list);
