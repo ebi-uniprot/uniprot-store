@@ -183,6 +183,7 @@
 							<artifactSet>
 								<includes>
 									<include>org.apache.solr:solr-solrj</include>
+									<include>org.apache.solr:solr-solrj-zookeeper</include>
 									<include>org.eclipse.jetty:*</include>
 									<include>org.eclipse.jetty.http2:*</include>
 								</includes>
