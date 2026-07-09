@@ -227,11 +227,12 @@ public class UniProtEntryConverterUtil {
 
     public static void addProteomesXrefToDocument(
             UniProtDocument document, UniProtKBCrossReference xref) {
-        document.proteomes.add(xref.getId());
+        String proteomeId = xref.getId();
+        document.proteomes.add(proteomeId);
         if (xref.hasProperties()) {
             document.proteomeComponents.addAll(
                     xref.getProperties().stream()
-                            .map(Property::getValue)
+                            .map(property -> proteomeId + ":" + property.getValue())
                             .collect(Collectors.toSet()));
 
             document.content.addAll(getCrossRefPropertiesValues(xref));
