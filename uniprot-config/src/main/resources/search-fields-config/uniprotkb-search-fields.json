@@ -851,6 +851,13 @@
   {
     "parentId": "proteomes",
     "childNumber": 0,
+    "id": "proteomecomponent",
+    "label": "Proteome Component",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "proteomecomponent",
+    "childNumber": 0,
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
     "label": "Proteome ID",
@@ -863,7 +870,7 @@
     "includeInSwagger": true
   },
   {
-    "parentId": "proteomes",
+    "parentId": "proteomecomponent",
     "childNumber": 1,
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
@@ -876,7 +883,7 @@
   },
   {
     "parentId": "proteomes",
-    "childNumber": 2,
+    "childNumber": 1,
     "id": "is_gene_centric",
     "label": "Gene Centric",
     "fieldName": "is_gene_centric",

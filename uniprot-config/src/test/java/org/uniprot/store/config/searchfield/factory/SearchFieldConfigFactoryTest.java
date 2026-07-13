@@ -59,7 +59,7 @@ class SearchFieldConfigFactoryTest {
                 Arguments.of(UniProtDataType.SUGGEST, 3),
                 Arguments.of(UniProtDataType.TAXONOMY, 15),
                 Arguments.of(UniProtDataType.UNIPARC, 21),
-                Arguments.of(UniProtDataType.UNIPROTKB, 393 + uniProtKBDBTypesCount),
+                Arguments.of(UniProtDataType.UNIPROTKB, 394 + uniProtKBDBTypesCount),
                 Arguments.of(UniProtDataType.UNIREF, 17),
                 Arguments.of(UniProtDataType.UNIRULE, 30),
                 Arguments.of(UniProtDataType.HELP, 8),
