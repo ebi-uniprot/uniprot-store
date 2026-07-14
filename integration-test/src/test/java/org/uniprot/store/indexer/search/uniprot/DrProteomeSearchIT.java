@@ -70,12 +70,12 @@ class DrProteomeSearchIT {
                         searchEngine
                                 .getSearchFieldConfig()
                                 .getSearchFieldItemByName("proteomecomponent"),
-                        "Chromosome 14");
+                        "UP000005640:Chromosome 14");
 
         QueryResponse response = searchEngine.getQueryResponse(query);
 
         List<String> retrievedAccessions = searchEngine.getIdentifiers(response);
-        assertThat(retrievedAccessions, hasItems(Q6GZX4, Q197B6));
-        assertThat(retrievedAccessions, not(hasItem(Q6GZX3)));
+        assertThat(retrievedAccessions, hasItems(Q6GZX4));
+        assertThat(retrievedAccessions, not(hasItems(Q6GZX3, Q197B6)));
     }
 }
