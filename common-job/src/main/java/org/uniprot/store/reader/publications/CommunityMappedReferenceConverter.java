@@ -53,10 +53,13 @@ public class CommunityMappedReferenceConverter
     }
 
     private CommunityAnnotation convertAnnotation(String rawAnnotation) {
+        CommunityAnnotationBuilder builder = new CommunityAnnotationBuilder();
+        if (Utils.nullOrEmpty(rawAnnotation)) {
+            return builder.build();
+        }
+
         Matcher matcher = SECTION_DELIMITER_PATTERN.matcher(rawAnnotation);
         int prevMatchEnd = 0;
-
-        CommunityAnnotationBuilder builder = new CommunityAnnotationBuilder();
         CommunityAnnotationCommentType commentType = null;
         String commentValue;
 
