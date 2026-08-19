@@ -361,28 +361,41 @@ class UniProtKBDocumentsToHPSWriterTest {
         String acc2 = "Q9HQW4"; // id in genecetric file
         String acc3 = "P0CX05"; // id in genecetric file
         String acc4 = "F7B8J7";
-        tuples.add(new Tuple2<>(acc1, createUniProtDoc(acc1)));
-        tuples.add(new Tuple2<>(acc2, createUniProtDoc(acc2)));
-        tuples.add(new Tuple2<>(acc3, createUniProtDoc(acc3)));
-        tuples.add(new Tuple2<>(acc4, createUniProtDoc(acc4)));
+        UniProtDocument doc1 = createUniProtDoc(acc1);
+        doc1.proteomes = Set.of("UP000001");
+        UniProtDocument doc2 = createUniProtDoc(acc2);
+        doc2.proteomes = Set.of("UP000002", "UP000003");
+        UniProtDocument doc3 = createUniProtDoc(acc3);
+        doc3.proteomes = Set.of("UP000004");
+        UniProtDocument doc4 = createUniProtDoc(acc4);
+        doc4.proteomes = Set.of("UP000005");
+        tuples.add(new Tuple2<>(acc1, doc1));
+        tuples.add(new Tuple2<>(acc2, doc2));
+        tuples.add(new Tuple2<>(acc3, doc3));
+        tuples.add(new Tuple2<>(acc4, doc4));
 
         JavaPairRDD<String, UniProtDocument> uniProtDocRDD =
                 parameter.getSparkContext().parallelizePairs(tuples);
         // join with gene centric proteins
         uniProtDocRDD = writer.joinGeneCentricProteins(uniProtDocRDD);
 
-        List<UniProtDocument> documents = uniProtDocRDD.values().collect();
-        assertNotNull(documents);
-        assertEquals(4, documents.size());
-        for (UniProtDocument doc : documents) {
-            if (doc.accession.equals(acc1)
-                    || doc.accession.equals(acc2)
-                    || doc.accession.equals(acc3)) {
-                assertTrue(doc.isGeneCentric);
-            } else if (doc.accession.equals(acc4)) {
-                assertFalse(doc.isGeneCentric);
-            }
-        }
+        Map<String, UniProtDocument> documentMap =
+                uniProtDocRDD.values().collect().stream()
+                        .collect(
+                                Collectors.toMap(
+                                        document -> document.accession, Function.identity()));
+        assertEquals(4, documentMap.size());
+
+        assertTrue(documentMap.get(acc1).isGeneCentric);
+        assertEquals(Set.of("UP000001"), documentMap.get(acc1).proteomeCanonicals);
+        assertTrue(documentMap.get(acc2).isGeneCentric);
+        assertEquals(Set.of("UP000002", "UP000003"), documentMap.get(acc2).proteomeCanonicals);
+        assertTrue(documentMap.get(acc3).isGeneCentric);
+        assertEquals(Set.of("UP000004"), documentMap.get(acc3).proteomeCanonicals);
+
+        assertFalse(documentMap.get(acc4).isGeneCentric);
+        assertEquals(Set.of("UP000005"), documentMap.get(acc4).proteomes);
+        assertTrue(documentMap.get(acc4).proteomeCanonicals.isEmpty());
     }
 
     @Test

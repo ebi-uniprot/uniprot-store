@@ -884,6 +884,20 @@
   {
     "parentId": "proteomes",
     "childNumber": 1,
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "label": "Canonical Proteome ID",
+    "fieldName": "proteome_canonical",
+    "id": "proteome_canonical",
+    "validRegex": "(?i)^UP[0-9]{9}$",
+    "dataType": "STRING",
+    "description": "Search by Canonical Proteome ID",
+    "example": "UP000005640",
+    "includeInSwagger": true
+  },
+  {
+    "parentId": "proteomes",
+    "childNumber": 2,
     "id": "is_gene_centric",
     "label": "Gene Centric",
     "fieldName": "is_gene_centric",
