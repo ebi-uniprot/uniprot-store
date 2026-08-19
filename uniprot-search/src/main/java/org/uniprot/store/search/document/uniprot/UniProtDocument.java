@@ -259,6 +259,9 @@ public class UniProtDocument implements Document {
     @Field("proteome")
     public Set<String> proteomes = new HashSet<>();
 
+    @Field("proteome_canonical")
+    public Set<String> proteomeCanonicals = new HashSet<>();
+
     @Field("proteomecomponent")
     public Set<String> proteomeComponents = new HashSet<>();
 
@@ -413,6 +416,7 @@ public class UniProtDocument implements Document {
                 && Objects.equals(rcTransposon, that.rcTransposon)
                 && Objects.equals(scopes, that.scopes)
                 && Objects.equals(proteomes, that.proteomes)
+                && Objects.equals(proteomeCanonicals, that.proteomeCanonicals)
                 && Objects.equals(proteomeComponents, that.proteomeComponents)
                 && Objects.equals(goes, that.goes)
                 && Objects.equals(goIds, that.goIds)
@@ -512,6 +516,7 @@ public class UniProtDocument implements Document {
                 rcTransposon,
                 scopes,
                 proteomes,
+                proteomeCanonicals,
                 proteomeComponents,
                 goes,
                 goIds,
