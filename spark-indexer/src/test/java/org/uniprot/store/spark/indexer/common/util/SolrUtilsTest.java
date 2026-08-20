@@ -25,7 +25,12 @@ class SolrUtilsTest {
 
     @Test
     void convertToSolrInputDocumentNull() {
-        assertThrows(NullPointerException.class, () -> SolrUtils.convertToSolrInputDocument(null));
+        IllegalArgumentException exception =
+                assertThrows(
+                        IllegalArgumentException.class,
+                        () -> SolrUtils.convertToSolrInputDocument(null));
+
+        assertEquals("Cannot convert null document to SolrInputDocument", exception.getMessage());
     }
 
     @Test

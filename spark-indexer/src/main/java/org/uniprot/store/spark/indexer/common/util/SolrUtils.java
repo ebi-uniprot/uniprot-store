@@ -33,8 +33,28 @@ public class SolrUtils {
     }
 
     public static SolrInputDocument convertToSolrInputDocument(Document doc) {
+        if (doc == null) {
+            throw new IllegalArgumentException("Cannot convert null document to SolrInputDocument");
+        }
         DocumentObjectBinder binder = new DocumentObjectBinder();
-        return binder.toSolrInputDocument(doc);
+        try {
+            return binder.toSolrInputDocument(doc);
+        } catch (RuntimeException e) {
+            throw new IllegalStateException(
+                    "Unable to convert document to SolrInputDocument. documentType="
+                            + doc.getClass().getName()
+                            + ", documentId="
+                            + getDocumentId(doc),
+                    e);
+        }
+    }
+
+    private static String getDocumentId(Document doc) {
+        try {
+            return doc.getDocumentId();
+        } catch (RuntimeException e) {
+            return "<unavailable>";
+        }
     }
 
     public static void commit(String collection, String zkHost) {
