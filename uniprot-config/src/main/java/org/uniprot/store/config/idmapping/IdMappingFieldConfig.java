@@ -32,6 +32,7 @@ public class IdMappingFieldConfig {
     public static final String REFSEQ_PROTEIN = "RefSeq Protein";
     public static final String GI_NUMBER = "GI number";
     public static final String EMBL = "EMBL/GenBank/DDBJ";
+    public static final String MD5 = "MD5";
     public static final String ACC_STR = convertDisplayNameToName(UNIPROTKB_STR);
     public static final String ACC_ID_STR = convertDisplayNameToName(UNIPROTKB_AC_ID_STR);
     public static final String SWISSPROT_STR = convertDisplayNameToName(UNIPROTKB_SWISS_STR);
@@ -205,6 +206,8 @@ public class IdMappingFieldConfig {
         UniProtDatabaseDetail crc64 =
                 new UniProtDatabaseDetail(
                         CRC64, CRC64, category, null, null, false, null, PIR_CRC64);
+        UniProtDatabaseDetail md5 =
+                new UniProtDatabaseDetail(MD5, MD5, category, null, null, false, null, MD5);
         return List.of(
                 uniProtKBAcc,
                 uniProtKBAccId,
@@ -214,7 +217,8 @@ public class IdMappingFieldConfig {
                 uniRef90,
                 uniRef100,
                 geneName,
-                crc64);
+                crc64,
+                md5);
     }
 
     static List<UniProtDatabaseDetail> createMissingIdMappingTypes() {

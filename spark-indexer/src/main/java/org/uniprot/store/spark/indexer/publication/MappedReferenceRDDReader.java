@@ -55,6 +55,33 @@ public class MappedReferenceRDDReader {
         SparkSession spark = SparkSession.builder().config(jsc.getConf()).getOrCreate();
         JavaRDD<String> rawMappedRefStrRdd = spark.read().textFile(filePath).toJavaRDD();
 
-        return rawMappedRefStrRdd.map(converter).mapToPair(new MappedReferencePairMapper(keyType));
+        return rawMappedRefStrRdd
+                .map(line -> convertMappedReference(filePath, converter, line))
+                .mapToPair(new MappedReferencePairMapper(keyType));
+    }
+
+    private static MappedReference convertMappedReference(
+            String filePath, Function<String, MappedReference> converter, String line) {
+        try {
+            return converter.call(line);
+        } catch (Exception e) {
+            throw new IllegalStateException(
+                    "Unable to convert mapped reference from "
+                            + filePath
+                            + ". line="
+                            + abbreviate(line),
+                    e);
+        }
+    }
+
+    private static String abbreviate(String line) {
+        if (line == null) {
+            return null;
+        }
+        int maxLength = 500;
+        if (line.length() <= maxLength) {
+            return line;
+        }
+        return line.substring(0, maxLength) + "...";
     }
 }
