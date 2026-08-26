@@ -92,10 +92,10 @@ class IdMappingFieldConfigTest {
                                                 detail.getLinkedReason(),
                                                 detail.getIdMappingName()))
                         .collect(Collectors.toList());
-        Assertions.assertEquals(110, idMappingFields.size());
+        Assertions.assertEquals(109, idMappingFields.size());
         // remove duplicate
         ArrayList<UniProtDatabaseDetail> uniqueUniProtDatabaseDetails =
                 new ArrayList<>(new LinkedHashSet<>(idMappingFields));
-        Assertions.assertEquals(97, uniqueUniProtDatabaseDetails.size());
+        Assertions.assertEquals(96, uniqueUniProtDatabaseDetails.size());
     }
 }
