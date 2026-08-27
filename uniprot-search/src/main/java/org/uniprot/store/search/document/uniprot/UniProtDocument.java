@@ -334,6 +334,7 @@ public class UniProtDocument implements Document {
         return accession;
     }
 
+    @Field("checksum")
     public void setSequenceChecksums(List<String> checksums) {
         if (checksums != null) {
             this.sequenceChecksums = new HashSet<>(checksums);
