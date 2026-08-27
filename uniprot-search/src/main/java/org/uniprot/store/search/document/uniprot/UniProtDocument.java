@@ -324,7 +324,7 @@ public class UniProtDocument implements Document {
 
     @Singular
     @Field("checksum")
-    public Set<String> sequenceChecksums; // crc64 and md5
+    public Set<String> sequenceChecksums = new HashSet<>(); // crc64 and md5
 
     @Field("is_gene_centric")
     public Boolean isGeneCentric;
@@ -332,6 +332,13 @@ public class UniProtDocument implements Document {
     @Override
     public String getDocumentId() {
         return accession;
+    }
+
+    @Field("checksum")
+    public void setSequenceChecksums(Collection<String> checksums) {
+        if (checksums != null) {
+            this.sequenceChecksums = new HashSet<>(checksums);
+        }
     }
 
     @Override
