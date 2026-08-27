@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryCommentsConverter.EXPERIMENTAL;
 
@@ -187,9 +189,9 @@ class UniProtKBEntryConverterIT {
         assertEquals(378, doc.seqLength);
         assertNotNull(doc.sequenceChecksums);
         assertEquals(2, doc.sequenceChecksums.size());
-        assertEquals(
-                Set.of("B98E5DA48D875402BCB1518B33778DC5", "C04C3A81B3FE4EEB"),
-                doc.sequenceChecksums);
+        assertThat(
+                doc.sequenceChecksums,
+                containsInAnyOrder("C04C3A81B3FE4EEB", "B98E5DA48D875402BCB1518B33778DC5"));
 
         assertEquals(1, doc.scopes.size());
         assertTrue(doc.scopes.contains("NUCLEOTIDE SEQUENCE"));
