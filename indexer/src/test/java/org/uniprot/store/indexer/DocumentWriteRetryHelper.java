@@ -5,7 +5,7 @@ import static org.mockito.Mockito.*;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.impl.BaseHttpSolrClient;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.mockito.stubbing.Stubber;
 import org.uniprot.store.indexer.common.config.UniProtSolrClient;
@@ -28,7 +28,7 @@ public class DocumentWriteRetryHelper {
      * Stubs successive {@link UniProtSolrClient#saveBeans(String, Collection)} calls, based on a
      * given list of {@link SolrResponse} values. {@link SolrResponse#OK} simulates that Solr was
      * able to write the documents it received; {@link SolrResponse#REMOTE_EXCEPTION} simulates Solr
-     * being busy and responding with a {@link HttpSolrClient.RemoteSolrException}, meaning the
+     * being busy and responding with a {@link BaseHttpSolrClient.RemoteSolrException}, meaning the
      * documents could not be written
      *
      * @param responses represents a list of behavioural responses from Solr
@@ -48,10 +48,10 @@ public class DocumentWriteRetryHelper {
                     stubber =
                             (stubber == null)
                                     ? doThrow(
-                                            new HttpSolrClient.RemoteSolrException(
+                                            new BaseHttpSolrClient.RemoteSolrException(
                                                     HOST, CODE, MESSAGE, null))
                                     : stubber.doThrow(
-                                            new HttpSolrClient.RemoteSolrException(
+                                            new BaseHttpSolrClient.RemoteSolrException(
                                                     HOST, CODE, MESSAGE, null));
                     break;
                 default:

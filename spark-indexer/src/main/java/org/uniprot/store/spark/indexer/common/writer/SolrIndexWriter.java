@@ -1,15 +1,14 @@
 package org.uniprot.store.spark.indexer.common.writer;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
+import static org.uniprot.store.spark.indexer.common.util.SolrUtils.createCloudSolrClient;
 
 import java.time.Duration;
 import java.util.*;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.CloudSolrClient;
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.impl.BaseHttpSolrClient;
 import org.apache.solr.common.SolrException;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.spark.api.java.function.VoidFunction;
@@ -55,15 +54,14 @@ public class SolrIndexWriter implements VoidFunction<Iterator<SolrInputDocument>
     }
 
     protected SolrClient getSolrClient() {
-        return new CloudSolrClient.Builder(singletonList(parameter.getZkHost()), Optional.empty())
-                .build();
+        return createCloudSolrClient(parameter.getZkHost());
     }
 
     private RetryPolicy<Object> getSolrRetryPolicy() {
         return new RetryPolicy<>()
                 .handle(
                         asList(
-                                HttpSolrClient.RemoteSolrException.class,
+                                BaseHttpSolrClient.RemoteSolrException.class,
                                 SolrServerException.class,
                                 SolrException.class))
                 .withDelay(Duration.ofMillis(parameter.getDelay()))
