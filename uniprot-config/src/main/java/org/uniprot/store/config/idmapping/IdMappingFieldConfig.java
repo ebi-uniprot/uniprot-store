@@ -217,8 +217,7 @@ public class IdMappingFieldConfig {
                 uniRef90,
                 uniRef100,
                 geneName,
-                crc64,
-                md5);
+                crc64);
     }
 
     static List<UniProtDatabaseDetail> createMissingIdMappingTypes() {

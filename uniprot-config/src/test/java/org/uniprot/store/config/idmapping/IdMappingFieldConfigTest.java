@@ -21,7 +21,7 @@ class IdMappingFieldConfigTest {
     void testGetAllIdMappingFields() {
         List<UniProtDatabaseDetail> idMappingFields = IdMappingFieldConfig.getAllIdMappingTypes();
         Assertions.assertNotNull(idMappingFields);
-        Assertions.assertEquals(96, idMappingFields.size());
+        Assertions.assertEquals(95, idMappingFields.size());
         idMappingFields.forEach(field -> Assertions.assertNotNull(field.getIdMappingName()));
         // verify few mapped fields
         Set<String> names =
@@ -31,7 +31,7 @@ class IdMappingFieldConfigTest {
         Assertions.assertTrue(names.contains("ACC"));
         Assertions.assertTrue(names.contains("NF100"));
         Assertions.assertTrue(names.contains("EMBL"));
-        Assertions.assertTrue(names.contains("MD5"));
+        Assertions.assertFalse(names.contains("MD5"));
         Assertions.assertTrue(names.contains("OPENTARGETS_ID"));
     }
 
@@ -75,7 +75,7 @@ class IdMappingFieldConfigTest {
     @Test
     void testNoDuplicateUniProtDatabaseDetail() {
         List<UniProtDatabaseDetail> idMappingFields = IdMappingFieldConfig.getAllIdMappingTypes();
-        Assertions.assertEquals(96, idMappingFields.size());
+        Assertions.assertEquals(95, idMappingFields.size());
         // add details again to have duplicate
         idMappingFields.addAll(IdMappingFieldConfig.createMissingIdMappingTypes());
         idMappingFields =
@@ -92,10 +92,10 @@ class IdMappingFieldConfigTest {
                                                 detail.getLinkedReason(),
                                                 detail.getIdMappingName()))
                         .collect(Collectors.toList());
-        Assertions.assertEquals(109, idMappingFields.size());
+        Assertions.assertEquals(108, idMappingFields.size());
         // remove duplicate
         ArrayList<UniProtDatabaseDetail> uniqueUniProtDatabaseDetails =
                 new ArrayList<>(new LinkedHashSet<>(idMappingFields));
-        Assertions.assertEquals(96, uniqueUniProtDatabaseDetails.size());
+        Assertions.assertEquals(95, uniqueUniProtDatabaseDetails.size());
     }
 }
