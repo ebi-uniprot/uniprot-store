@@ -31,6 +31,7 @@ class IdMappingFieldConfigTest {
         Assertions.assertTrue(names.contains("ACC"));
         Assertions.assertTrue(names.contains("NF100"));
         Assertions.assertTrue(names.contains("EMBL"));
+        Assertions.assertFalse(names.contains("MD5"));
         Assertions.assertTrue(names.contains("OPENTARGETS_ID"));
     }
 

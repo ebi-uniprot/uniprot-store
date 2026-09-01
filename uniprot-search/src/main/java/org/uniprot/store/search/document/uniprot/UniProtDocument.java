@@ -324,7 +324,7 @@ public class UniProtDocument implements Document {
 
     @Singular
     @Field("checksum")
-    public Set<String> sequenceChecksums; // crc64 and md5
+    public List<String> sequenceChecksums = new ArrayList<>(); // crc64 and md5
 
     @Field("is_gene_centric")
     public Boolean isGeneCentric;
