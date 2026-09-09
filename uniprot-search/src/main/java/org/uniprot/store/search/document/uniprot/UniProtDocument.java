@@ -342,7 +342,6 @@ public class UniProtDocument implements Document {
         return organismTaxId == that.organismTaxId
                 && fragment == that.fragment
                 && precursor == that.precursor
-                && active == that.active
                 && d3structure == that.d3structure
                 && seqMass == that.seqMass
                 && seqLength == that.seqLength
@@ -384,6 +383,7 @@ public class UniProtDocument implements Document {
                 && Objects.equals(content, that.content)
                 && Objects.equals(featuresMap, that.featuresMap)
                 && Objects.equals(proteinExistence, that.proteinExistence)
+                && Objects.equals(active, that.active)
                 && Objects.equals(proteinsWith, that.proteinsWith)
                 && Objects.equals(subcellLocationTerm, that.subcellLocationTerm)
                 && Objects.equals(subcellLocationNote, that.subcellLocationNote)
@@ -431,6 +431,7 @@ public class UniProtDocument implements Document {
                 && Objects.equals(computationalPubmedIds, that.computationalPubmedIds)
                 && Objects.equals(communityPubmedIds, that.communityPubmedIds)
                 && Objects.equals(uniparc, that.uniparc)
+                && Objects.equals(deletedEntryUniParc, that.deletedEntryUniParc)
                 && Objects.equals(rheaIds, that.rheaIds)
                 && Objects.equals(suggests, that.suggests)
                 && Objects.equals(sequenceChecksums, that.sequenceChecksums)
