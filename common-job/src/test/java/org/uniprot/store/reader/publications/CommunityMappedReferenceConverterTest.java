@@ -50,6 +50,27 @@ class CommunityMappedReferenceConverterTest {
     }
 
     @Test
+    void convertsFullStopAnnotationToEmptyCommunityAnnotation() {
+        CommunityMappedReferenceConverter mapper = new CommunityMappedReferenceConverter();
+        CommunityMappedReference reference =
+                mapper.convert("Q93QW2\tORCID\t28103676\t0000-0000-0000-0000\t.");
+
+        assertThat(reference, notNullValue());
+        assertThat(reference.getCitationId(), is("28103676"));
+        assertThat(reference.getUniProtKBAccession().getValue(), is("Q93QW2"));
+        assertThat(reference.getSourceCategories(), empty());
+        assertThat(reference.getSource().getId(), is("0000-0000-0000-0000"));
+        assertThat(reference.getSource().getName(), is("ORCID"));
+        CommunityAnnotation communityAnnotation = reference.getCommunityAnnotation();
+        assertThat(communityAnnotation, notNullValue());
+        assertThat(communityAnnotation.getSubmissionDate(), is(nullValue()));
+        assertThat(communityAnnotation.getComment(), is(nullValue()));
+        assertThat(communityAnnotation.getDisease(), is(nullValue()));
+        assertThat(communityAnnotation.getFunction(), is(nullValue()));
+        assertThat(communityAnnotation.getProteinOrGene(), is(nullValue()));
+    }
+
+    @Test
     void convertsCorrectlyWithoutSpaceAfterTheCategoryNameColon() {
         CommunityMappedReferenceConverter mapper = new CommunityMappedReferenceConverter();
         CommunityMappedReference reference =

@@ -32,6 +32,7 @@ public class IdMappingFieldConfig {
     public static final String REFSEQ_PROTEIN = "RefSeq Protein";
     public static final String GI_NUMBER = "GI number";
     public static final String EMBL = "EMBL/GenBank/DDBJ";
+    public static final String MD5 = "MD5";
     public static final String ACC_STR = convertDisplayNameToName(UNIPROTKB_STR);
     public static final String ACC_ID_STR = convertDisplayNameToName(UNIPROTKB_AC_ID_STR);
     public static final String SWISSPROT_STR = convertDisplayNameToName(UNIPROTKB_SWISS_STR);
@@ -50,6 +51,7 @@ public class IdMappingFieldConfig {
     public static final String PIR_UNIREF90_STR = "NF90";
     public static final String PIR_UNIREF100_STR = "NF100";
     public static final String PIR_GENENAME_STR = "GENENAME";
+    private static final Set<String> removed = Set.of("GlyConnect");
 
     private static final UniProtDatabaseTypes ALL_DB_TYPES = UniProtDatabaseTypes.INSTANCE;
     private static final String CRC64 = "CRC64";
@@ -71,6 +73,7 @@ public class IdMappingFieldConfig {
             // replace special chars in name
             idMappingTypes =
                     idMappingTypes.stream()
+                            .filter(ud -> !removed.contains(ud.getName()))
                             .map(
                                     detail ->
                                             new UniProtDatabaseDetail(
@@ -203,6 +206,8 @@ public class IdMappingFieldConfig {
         UniProtDatabaseDetail crc64 =
                 new UniProtDatabaseDetail(
                         CRC64, CRC64, category, null, null, false, null, PIR_CRC64);
+        UniProtDatabaseDetail md5 =
+                new UniProtDatabaseDetail(MD5, MD5, category, null, null, false, null, MD5);
         return List.of(
                 uniProtKBAcc,
                 uniProtKBAccId,

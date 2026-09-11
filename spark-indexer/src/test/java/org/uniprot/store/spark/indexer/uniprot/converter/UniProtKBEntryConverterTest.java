@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.*;
@@ -316,9 +318,9 @@ class UniProtKBEntryConverterTest {
         assertEquals(373, document.seqMass);
         assertNotNull(document.sequenceChecksums);
         assertEquals(2, document.sequenceChecksums.size());
-        assertEquals(
-                Set.of("F6A6263167C92DE8644AC998B3C4E4D1", "6DDDDDDDDDB00000"),
-                document.sequenceChecksums);
+        assertThat(
+                document.sequenceChecksums,
+                containsInAnyOrder("6DDDDDDDDDB00000", "F6A6263167C92DE8644AC998B3C4E4D1"));
     }
 
     @Test

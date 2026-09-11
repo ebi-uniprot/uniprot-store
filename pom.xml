@@ -6,7 +6,7 @@
 
 	<groupId>org.uniprot</groupId>
 	<artifactId>uniprot-store-parent</artifactId>
-	<version>1.0.39-SNAPSHOT</version>
+	<version>1.0.43-SNAPSHOT</version>
 	<name>UniProt Store Aggregator</name>
 	<packaging>pom</packaging>
 
@@ -116,7 +116,6 @@
 		</dependencies>
 	</dependencyManagement>
 
-
 	<dependencies>
 		<!-- Tests -->
 		<dependency>
@@ -146,6 +145,12 @@
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-library</artifactId>
 			<version>${hamcrest.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>${slf4j.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

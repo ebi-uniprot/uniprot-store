@@ -43,4 +43,31 @@ class MappedReferencePairMapperTest {
         assertEquals("555555", result._1);
         assertEquals(mappedReference, result._2);
     }
+
+    @Test
+    void mapForAccessionAndCitationWithoutAccessionHasClearException() {
+        MappedReferencePairMapper mapper =
+                new MappedReferencePairMapper(KeyType.ACCESSION_AND_CITATION_ID);
+        MappedReference mappedReference =
+                new CommunityMappedReferenceBuilder().citationId("555555").build();
+
+        IllegalStateException exception =
+                assertThrows(IllegalStateException.class, () -> mapper.call(mappedReference));
+
+        assertTrue(exception.getMessage().contains("Missing accession"));
+        assertTrue(exception.getMessage().contains("citationId=555555"));
+    }
+
+    @Test
+    void mapForAccessionAndCitationWithoutCitationHasClearException() {
+        MappedReferencePairMapper mapper =
+                new MappedReferencePairMapper(KeyType.ACCESSION_AND_CITATION_ID);
+        MappedReference mappedReference =
+                new CommunityMappedReferenceBuilder().uniProtKBAccession("P12345").build();
+
+        IllegalStateException exception =
+                assertThrows(IllegalStateException.class, () -> mapper.call(mappedReference));
+
+        assertTrue(exception.getMessage().contains("Missing citationId"));
+    }
 }

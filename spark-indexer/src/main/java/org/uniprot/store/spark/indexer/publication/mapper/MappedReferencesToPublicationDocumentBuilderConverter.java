@@ -14,6 +14,7 @@ import org.uniprot.core.publication.CommunityMappedReference;
 import org.uniprot.core.publication.ComputationallyMappedReference;
 import org.uniprot.core.publication.MappedReference;
 import org.uniprot.core.publication.MappedReferenceType;
+import org.uniprot.core.publication.MappedSource;
 import org.uniprot.core.publication.UniProtKBMappedReference;
 import org.uniprot.core.publication.impl.MappedPublicationsBuilder;
 import org.uniprot.core.uniprotkb.UniProtKBEntryType;
@@ -51,11 +52,16 @@ public class MappedReferencesToPublicationDocumentBuilderConverter
         Set<Integer> types = new HashSet<>();
         Set<String> categories = new HashSet<>();
         for (MappedReference mappedReference : tuple._2) {
+            if (mappedReference == null) {
+                continue;
+            }
             Optional<Integer> type =
                     injectMappedReferenceInfo(
                             mappedReference, docBuilder, mappedPublicationsBuilder);
             type.ifPresent(types::add);
-            categories.addAll(mappedReference.getSourceCategories());
+            if (mappedReference.getSourceCategories() != null) {
+                categories.addAll(mappedReference.getSourceCategories());
+            }
         }
         if (categories.isEmpty()) {
             categories.add(UNCLASSIFIED);
@@ -66,10 +72,12 @@ public class MappedReferencesToPublicationDocumentBuilderConverter
                 .accession(accession)
                 .citationId(citationId)
                 .categories(categories)
-                .mainType(Collections.max(types))
                 .types(types)
                 .publicationMappedReferences(
                         PublicationUtils.asBinary(mappedPublicationsBuilder.build()));
+        if (!types.isEmpty()) {
+            docBuilder.mainType(Collections.max(types));
+        }
         return new Tuple2<>(citationId, docBuilder);
     }
 
@@ -86,10 +94,10 @@ public class MappedReferencesToPublicationDocumentBuilderConverter
             UniProtKBMappedReference kbRef = (UniProtKBMappedReference) ref;
             docBuilder.refNumber(kbRef.getReferenceNumber() + 1);
             mappedPublicationsBuilder.uniProtKBMappedReferencesAdd(kbRef);
-            String sourceName = kbRef.getSource().getName();
+            MappedSource source = kbRef.getSource();
+            String sourceName = source == null ? null : source.getName();
             if (isUniProtSource(sourceName)) {
-                boolean isSwissProt =
-                        kbRef.getSource().getName().equals(UniProtKBEntryType.SWISSPROT.getName());
+                boolean isSwissProt = UniProtKBEntryType.SWISSPROT.getName().equals(sourceName);
                 MappedReferenceType type =
                         isSwissProt
                                 ? MappedReferenceType.UNIPROTKB_REVIEWED
@@ -108,7 +116,7 @@ public class MappedReferencesToPublicationDocumentBuilderConverter
     }
 
     private static boolean isUniProtSource(String sourceName) {
-        return sourceName.equals(UniProtKBEntryType.SWISSPROT.getName())
-                || sourceName.equals(UniProtKBEntryType.TREMBL.getName());
+        return UniProtKBEntryType.SWISSPROT.getName().equals(sourceName)
+                || UniProtKBEntryType.TREMBL.getName().equals(sourceName);
     }
 }

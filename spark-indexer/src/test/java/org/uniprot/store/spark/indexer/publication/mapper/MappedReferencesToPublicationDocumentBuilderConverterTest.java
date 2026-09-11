@@ -220,4 +220,61 @@ class MappedReferencesToPublicationDocumentBuilderConverterTest {
         assertNotNull(doc.getPublicationMappedReferences());
         assertEquals(1, doc.getMainType());
     }
+
+    @Test
+    void mapUniProtKBMappedReferenceWithoutSource() throws Exception {
+        MappedReferencesToPublicationDocumentBuilderConverter mapper =
+                new MappedReferencesToPublicationDocumentBuilderConverter();
+        String accPub = "P21802_100";
+        List<MappedReference> mappedReferences = new ArrayList<>();
+        mappedReferences.add(
+                new UniProtKBMappedReferenceBuilder()
+                        .uniProtKBAccession("P21802")
+                        .citationId("100")
+                        .sourceCategoriesAdd("Interaction")
+                        .referenceNumber(10)
+                        .build());
+
+        Tuple2<String, Iterable<MappedReference>> tuple = new Tuple2<>(accPub, mappedReferences);
+        Tuple2<String, PublicationDocument.Builder> result = mapper.call(tuple);
+
+        assertNotNull(result);
+        PublicationDocument doc = result._2.build();
+        assertEquals("P21802", doc.getAccession());
+        assertEquals("100", doc.getCitationId());
+        assertTrue(doc.getCategories().contains("Interaction"));
+        assertTrue(doc.getTypes().isEmpty());
+        assertNull(doc.getMainType());
+        assertNotNull(doc.getPublicationMappedReferences());
+        assertEquals(11, doc.getRefNumber());
+    }
+
+    @Test
+    void mapUniProtKBMappedReferenceWithoutSourceName() throws Exception {
+        MappedReferencesToPublicationDocumentBuilderConverter mapper =
+                new MappedReferencesToPublicationDocumentBuilderConverter();
+        String accPub = "P21802_100";
+        List<MappedReference> mappedReferences = new ArrayList<>();
+        mappedReferences.add(
+                new UniProtKBMappedReferenceBuilder()
+                        .uniProtKBAccession("P21802")
+                        .citationId("100")
+                        .source(new MappedSourceBuilder().id("SRC").build())
+                        .sourceCategoriesAdd("Interaction")
+                        .referenceNumber(10)
+                        .build());
+
+        Tuple2<String, Iterable<MappedReference>> tuple = new Tuple2<>(accPub, mappedReferences);
+        Tuple2<String, PublicationDocument.Builder> result = mapper.call(tuple);
+
+        assertNotNull(result);
+        PublicationDocument doc = result._2.build();
+        assertEquals("P21802", doc.getAccession());
+        assertEquals("100", doc.getCitationId());
+        assertTrue(doc.getCategories().contains("Interaction"));
+        assertTrue(doc.getTypes().isEmpty());
+        assertNull(doc.getMainType());
+        assertNotNull(doc.getPublicationMappedReferences());
+        assertEquals(11, doc.getRefNumber());
+    }
 }

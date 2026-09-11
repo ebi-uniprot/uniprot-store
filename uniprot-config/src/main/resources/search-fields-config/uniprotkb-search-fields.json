@@ -851,6 +851,13 @@
   {
     "parentId": "proteomes",
     "childNumber": 0,
+    "id": "proteomecomponent",
+    "label": "Proteome Component",
+    "itemType": "SIBLING_GROUP"
+  },
+  {
+    "parentId": "proteomecomponent",
+    "childNumber": 0,
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
     "label": "Proteome ID",
@@ -863,7 +870,7 @@
     "includeInSwagger": true
   },
   {
-    "parentId": "proteomes",
+    "parentId": "proteomecomponent",
     "childNumber": 1,
     "fieldType": "GENERAL",
     "itemType": "SINGLE",
@@ -873,6 +880,20 @@
     "dataType": "STRING",
     "description": "Search by Proteome component",
     "example": "chromosome"
+  },
+  {
+    "parentId": "proteomes",
+    "childNumber": 1,
+    "fieldType": "GENERAL",
+    "itemType": "SINGLE",
+    "label": "Canonical Proteome ID",
+    "fieldName": "proteome_canonical",
+    "id": "proteome_canonical",
+    "validRegex": "(?i)^UP[0-9]{9}$",
+    "dataType": "STRING",
+    "description": "Search by Canonical Proteome ID",
+    "example": "UP000005640",
+    "includeInSwagger": true
   },
   {
     "parentId": "proteomes",

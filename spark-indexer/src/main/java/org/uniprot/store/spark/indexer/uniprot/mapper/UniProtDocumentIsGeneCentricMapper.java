@@ -13,6 +13,9 @@ public class UniProtDocumentIsGeneCentricMapper
             throws Exception {
         UniProtDocument document = tuple2._1();
         document.isGeneCentric = tuple2._2.orElse(false);
+        if (document.isGeneCentric) {
+            document.proteomeCanonicals = document.proteomes;
+        }
         return document;
     }
 }

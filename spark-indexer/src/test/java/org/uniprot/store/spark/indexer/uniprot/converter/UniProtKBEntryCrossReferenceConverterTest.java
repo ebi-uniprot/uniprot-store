@@ -51,7 +51,7 @@ class UniProtKBEntryCrossReferenceConverterTest {
         assertEquals(1L, document.xrefCountMap.get("xref_count_proteomes"));
 
         assertEquals(Collections.singleton("id value"), document.proteomes);
-        assertEquals(Collections.singleton("PC12345"), document.proteomeComponents);
+        assertEquals(Collections.singleton("id value:PC12345"), document.proteomeComponents);
         assertEquals(Collections.singleton("PC12345"), document.content);
     }
 

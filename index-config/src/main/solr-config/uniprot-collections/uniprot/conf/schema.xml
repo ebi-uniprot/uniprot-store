@@ -57,7 +57,7 @@
 		stored="false" required="false" multiValued="true" />
 
 	<field name="checksum" type="basic_ci" indexed="true"
-		stored="false" required="false" multiValued="true" />
+		stored="true" required="false" multiValued="true" />
 
 	<!-- Protein name section -->
 	<!-- access protein name via protgene_default for default search -->
@@ -208,6 +208,8 @@
 	<field name="proteomecomponent" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="proteome" type="lowercase" indexed="true"
+		stored="false" required="false" multiValued="true" />
+	<field name="proteome_canonical" type="lowercase" indexed="true"
 		stored="false" required="false" multiValued="true" />
 	<field name="is_gene_centric" type="boolean" indexed="true"
 		stored="false" required="false" multiValued="false" />

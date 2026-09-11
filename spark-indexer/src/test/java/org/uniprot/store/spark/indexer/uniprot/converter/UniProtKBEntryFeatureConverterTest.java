@@ -1,5 +1,7 @@
 package org.uniprot.store.spark.indexer.uniprot.converter;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.*;
@@ -125,8 +127,10 @@ class UniProtKBEntryFeatureConverterTest {
         assertEquals(
                 Collections.singletonList(ProteinsWith.BINDING_SITE.getValue()),
                 document.proteinsWith);
-        assertTrue(document.crossRefs.isEmpty());
-        assertTrue(document.databases.isEmpty());
+        assertThat(
+                document.crossRefs,
+                contains("CHEBI:29180", "CHEBI:83071", "ChEBI-CHEBI:29180", "ChEBI-CHEBI:83071"));
+        assertThat(document.databases, contains("chebi"));
     }
 
     @Test
@@ -174,8 +178,10 @@ class UniProtKBEntryFeatureConverterTest {
         assertEquals(
                 Collections.singletonList(ProteinsWith.BINDING_SITE.getValue()),
                 document.proteinsWith);
-        assertTrue(document.crossRefs.isEmpty());
-        assertTrue(document.databases.isEmpty());
+        assertThat(
+                document.crossRefs,
+                contains("CHEBI:29180", "CHEBI:83071", "ChEBI-CHEBI:29180", "ChEBI-CHEBI:83071"));
+        assertThat(document.databases, contains("chebi"));
     }
 
     @Test
@@ -223,8 +229,10 @@ class UniProtKBEntryFeatureConverterTest {
         assertEquals(
                 Collections.singletonList(ProteinsWith.BINDING_SITE.getValue()),
                 document.proteinsWith);
-        assertTrue(document.crossRefs.isEmpty());
-        assertTrue(document.databases.isEmpty());
+        assertThat(
+                document.crossRefs,
+                contains("CHEBI:29180", "CHEBI:83071", "ChEBI-CHEBI:29180", "ChEBI-CHEBI:83071"));
+        assertThat(document.databases, contains("chebi"));
     }
 
     @Test

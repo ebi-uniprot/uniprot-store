@@ -111,10 +111,8 @@ class UniProtEntryFeatureConverter {
         String dbname = dbType.getName();
 
         List<String> xrefIds = getXrefId(xrefId, dbname);
-        if (!dbType.equals(UniprotKBFeatureDatabase.CHEBI)) {
-            document.crossRefs.addAll(xrefIds);
-            document.databases.add(dbname.toLowerCase());
-        }
+        document.crossRefs.addAll(xrefIds);
+        document.databases.add(dbname.toLowerCase());
         document.content.addAll(xrefIds);
         featuresOfTypeList.addAll(xrefIds);
     }

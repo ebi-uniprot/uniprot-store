@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import org.apache.spark.api.java.function.PairFlatMapFunction;
 import org.uniprot.core.CrossReference;
+import org.uniprot.core.citation.Citation;
 import org.uniprot.core.flatfile.parser.UniprotKBLineParser;
 import org.uniprot.core.flatfile.parser.impl.DefaultUniprotKBLineParserFactory;
 import org.uniprot.core.flatfile.parser.impl.ac.AcLineObject;
@@ -42,6 +43,17 @@ public class UniProtKBPublicationToMappedReference
 
     @Override
     public Iterator<Tuple2<String, MappedReference>> call(String entryStr) throws Exception {
+        try {
+            return convertEntry(entryStr).iterator();
+        } catch (RuntimeException e) {
+            throw new IllegalStateException(
+                    "Unable to convert UniProtKB publication mapped references. accession="
+                            + getAccessionForError(entryStr),
+                    e);
+        }
+    }
+
+    private List<Tuple2<String, MappedReference>> convertEntry(String entryStr) {
         String[] lines = entryStr.split("\n");
 
         String accession = getAccession(lines);
@@ -65,7 +77,7 @@ public class UniProtKBPublicationToMappedReference
                                 new Tuple2<>(
                                         accession + "_" + referenceInfo.citationId,
                                         referenceInfo.mappedReference))
-                .iterator();
+                .toList();
     }
 
     String getAccession(String[] lines) {
@@ -122,7 +134,15 @@ public class UniProtKBPublicationToMappedReference
             long organismId,
             int referenceNumber) {
 
-        String citationId = reference.getCitation().getId();
+        Citation citation = reference == null ? null : reference.getCitation();
+        String citationId = citation == null ? null : citation.getId();
+        if (citationId == null || citationId.isEmpty()) {
+            throw new IllegalStateException(
+                    "Missing citation id for accession="
+                            + accession
+                            + ", referenceNumber="
+                            + referenceNumber);
+        }
         List<MappedReferenceInfo> mappedReferenceInfos = new ArrayList<>();
         // UniProtKBMappedReference
         UniProtKBMappedReference mappedReference =
@@ -156,12 +176,15 @@ public class UniProtKBPublicationToMappedReference
 
             List<CrossReference<EvidenceDatabase>> evidenceCrossRefs =
                     reference.getEvidences().stream()
+                            .filter(Objects::nonNull)
                             .map(Evidence::getEvidenceCrossReference)
                             .toList();
 
             List<MappedReferenceInfo> nonUniProtSourceMappedReferenceInfos =
                     evidenceCrossRefs.stream()
+                            .filter(Objects::nonNull)
                             .filter(CrossReference::hasDatabase)
+                            .filter(xref -> xref.getDatabase().getName() != null)
                             .map(
                                     xref ->
                                             referencesConverter.createLightUniProtKBMappedReference(
@@ -184,5 +207,21 @@ public class UniProtKBPublicationToMappedReference
         } else {
             return UniProtKBEntryType.TREMBL;
         }
+    }
+
+    private String getAccessionForError(String entryStr) {
+        if (entryStr == null) {
+            return null;
+        }
+        for (String line : entryStr.split("\n")) {
+            if (line.startsWith("AC ")) {
+                String accessionLine = line.substring(2).trim();
+                int delimiter = accessionLine.indexOf(';');
+                return delimiter >= 0
+                        ? accessionLine.substring(0, delimiter).trim()
+                        : accessionLine;
+            }
+        }
+        return null;
     }
 }

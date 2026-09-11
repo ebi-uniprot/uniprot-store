@@ -259,6 +259,9 @@ public class UniProtDocument implements Document {
     @Field("proteome")
     public Set<String> proteomes = new HashSet<>();
 
+    @Field("proteome_canonical")
+    public Set<String> proteomeCanonicals = new HashSet<>();
+
     @Field("proteomecomponent")
     public Set<String> proteomeComponents = new HashSet<>();
 
@@ -321,7 +324,7 @@ public class UniProtDocument implements Document {
 
     @Singular
     @Field("checksum")
-    public Set<String> sequenceChecksums; // crc64 and md5
+    public List<String> sequenceChecksums = new ArrayList<>(); // crc64 and md5
 
     @Field("is_gene_centric")
     public Boolean isGeneCentric;
@@ -339,7 +342,6 @@ public class UniProtDocument implements Document {
         return organismTaxId == that.organismTaxId
                 && fragment == that.fragment
                 && precursor == that.precursor
-                && active == that.active
                 && d3structure == that.d3structure
                 && seqMass == that.seqMass
                 && seqLength == that.seqLength
@@ -381,6 +383,7 @@ public class UniProtDocument implements Document {
                 && Objects.equals(content, that.content)
                 && Objects.equals(featuresMap, that.featuresMap)
                 && Objects.equals(proteinExistence, that.proteinExistence)
+                && Objects.equals(active, that.active)
                 && Objects.equals(proteinsWith, that.proteinsWith)
                 && Objects.equals(subcellLocationTerm, that.subcellLocationTerm)
                 && Objects.equals(subcellLocationNote, that.subcellLocationNote)
@@ -413,6 +416,7 @@ public class UniProtDocument implements Document {
                 && Objects.equals(rcTransposon, that.rcTransposon)
                 && Objects.equals(scopes, that.scopes)
                 && Objects.equals(proteomes, that.proteomes)
+                && Objects.equals(proteomeCanonicals, that.proteomeCanonicals)
                 && Objects.equals(proteomeComponents, that.proteomeComponents)
                 && Objects.equals(goes, that.goes)
                 && Objects.equals(goIds, that.goIds)
@@ -427,6 +431,7 @@ public class UniProtDocument implements Document {
                 && Objects.equals(computationalPubmedIds, that.computationalPubmedIds)
                 && Objects.equals(communityPubmedIds, that.communityPubmedIds)
                 && Objects.equals(uniparc, that.uniparc)
+                && Objects.equals(deletedEntryUniParc, that.deletedEntryUniParc)
                 && Objects.equals(rheaIds, that.rheaIds)
                 && Objects.equals(suggests, that.suggests)
                 && Objects.equals(sequenceChecksums, that.sequenceChecksums)
@@ -512,6 +517,7 @@ public class UniProtDocument implements Document {
                 rcTransposon,
                 scopes,
                 proteomes,
+                proteomeCanonicals,
                 proteomeComponents,
                 goes,
                 goIds,
