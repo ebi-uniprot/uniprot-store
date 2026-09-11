@@ -1,11 +1,11 @@
 package org.uniprot.store.spark.indexer.validator.impl;
 
-import static java.util.Collections.singletonList;
+import static org.uniprot.store.spark.indexer.common.util.SolrUtils.createCloudSolrClient;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
 import java.util.*;
 
-import org.apache.solr.client.solrj.impl.CloudSolrClient;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.ModifiableSolrParams;
@@ -77,7 +77,7 @@ public abstract class AbstractSolrIndexValidator implements SolrIndexValidator {
     private long getSolrCount() {
         String zkHost = jobParameter.getApplicationConfig().getString("solr.zkhost");
         long solrCount = 0L;
-        try (CloudSolrClient client = getSolrClient(zkHost)) {
+        try (SolrClient client = getSolrClient(zkHost)) {
             ModifiableSolrParams queryParams = new ModifiableSolrParams();
             queryParams.set("q", SOLR_QUERY);
             queryParams.set("rows", 0);
@@ -90,8 +90,8 @@ public abstract class AbstractSolrIndexValidator implements SolrIndexValidator {
         return solrCount;
     }
 
-    CloudSolrClient getSolrClient(String zkHost) {
-        return new CloudSolrClient.Builder(singletonList(zkHost), Optional.empty()).build();
+    SolrClient getSolrClient(String zkHost) {
+        return createCloudSolrClient(zkHost);
     }
 
     long getSavedDocumentsCount() {

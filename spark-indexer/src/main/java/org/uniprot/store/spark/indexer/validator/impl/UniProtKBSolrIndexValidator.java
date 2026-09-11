@@ -1,14 +1,14 @@
 package org.uniprot.store.spark.indexer.validator.impl;
 
-import static java.util.Collections.singletonList;
+import static org.uniprot.store.spark.indexer.common.util.SolrUtils.createCloudSolrClient;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getCollectionOutputReleaseDirPath;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.CloudSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.ModifiableSolrParams;
@@ -51,8 +51,7 @@ public class UniProtKBSolrIndexValidator implements SolrIndexValidator {
             long reviewed = 0;
             long reviewedIsoform = 0;
             long unReviewed = 0;
-            try (CloudSolrClient client =
-                    new CloudSolrClient.Builder(singletonList(zkHost), Optional.empty()).build()) {
+            try (SolrClient client = createCloudSolrClient(zkHost)) {
                 reviewed = getSolrCount(client, REVIEWED_QUERY);
                 log.info("reviewed Solr COUNT: " + reviewed);
 
@@ -226,8 +225,7 @@ public class UniProtKBSolrIndexValidator implements SolrIndexValidator {
                 .count();
     }
 
-    long getSolrCount(CloudSolrClient client, String query)
-            throws SolrServerException, IOException {
+    long getSolrCount(SolrClient client, String query) throws SolrServerException, IOException {
         ModifiableSolrParams queryParams = new ModifiableSolrParams();
         queryParams.set("q", query);
         queryParams.set("fl", "accession_id");

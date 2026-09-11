@@ -75,7 +75,9 @@ public class DataStoreManager implements AfterAllCallback, BeforeAllCallback {
         loadPropertiesAndSetAsSystemProperties();
         temporaryFolder = Files.createTempDirectory("solr");
         System.setProperty("solr.data.home", temporaryFolder.toString());
-        Path solrHome = Paths.get(System.getProperty(ClosableEmbeddedSolrClient.SOLR_HOME));
+        Path solrHome =
+                Paths.get(System.getProperty(ClosableEmbeddedSolrClient.SOLR_HOME))
+                        .toAbsolutePath();
         container = new CoreContainer(solrHome, new Properties());
         container.load();
     }
