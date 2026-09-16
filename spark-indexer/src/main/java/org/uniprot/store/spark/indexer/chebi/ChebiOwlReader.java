@@ -57,9 +57,9 @@ public class ChebiOwlReader {
                                                         DataTypes.StringType,
                                                         true)),
                                 true)
-                        .add("chebislash:inchikey", DataTypes.StringType, true)
+                        .add("chemrof:inchi_key_string", DataTypes.StringType, true)
                         .add("obo:IAO_0000115", DataTypes.StringType, true)
-                        .add("oboInOwl:hasId", DataTypes.StringType, true)
+                        .add("oboInOwl:id", DataTypes.StringType, true)
                         .add(
                                 CHEBI_RDFS_SUBCLASS_ATTRIBUTE,
                                 DataTypes.createArrayType(

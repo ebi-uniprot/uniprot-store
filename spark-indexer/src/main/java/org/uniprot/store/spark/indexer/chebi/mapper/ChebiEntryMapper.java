@@ -46,8 +46,8 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
         chebiBuilder.id(id);
         chebiBuilder.name(map.get("name").get(0));
         chebiBuilder.inchiKey(
-                map.get("chebislash:inchikey") != null
-                        ? map.get("chebislash:inchikey").get(0)
+                map.get("chemrof:inchi_key_string") != null
+                        ? map.get("chemrof:inchi_key_string").get(0)
                         : "");
         if (map.get(CHEBI_RDFS_LABEL_ATTRIBUTE) != null
                 && map.get(CHEBI_RDFS_LABEL_ATTRIBUTE).size() > 0) {
