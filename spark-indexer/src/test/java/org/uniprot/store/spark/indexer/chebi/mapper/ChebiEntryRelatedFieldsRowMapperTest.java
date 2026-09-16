@@ -47,12 +47,12 @@ public class ChebiEntryRelatedFieldsRowMapperTest {
                                 Arrays.asList("name189730", "name189731"))
                         .asScala()
                         .toSeq());
-        objectMap.put("chebislash:inchikey", Arrays.asList("TXHBQUJRFDOFJT-FBLBILBLSA-N"));
+        objectMap.put("chemrof:inchi_key_string", Arrays.asList("TXHBQUJRFDOFJT-FBLBILBLSA-N"));
         objectMap.put(
                 "obo:IAO_0000115",
                 Arrays.asList(
                         "A hydroxy fatty-acyl-CoA that results from the formal condensation of the thiol group of coenzyme A with the carboxy group of 2-hydroxybehenic acid."));
-        objectMap.put("oboInOwl:hasId", Arrays.asList("74148"));
+        objectMap.put("oboInOwl:id", Arrays.asList("74148"));
         objectMap.put(
                 "rdfs:subClassOf",
                 JavaConverters.collectionAsScalaIterableConverter(

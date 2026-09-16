@@ -68,9 +68,9 @@ public class ChebiNodeEntryRowMapperTest {
                                 "http://purl.uniprot.org/core/ChEBI_Common_Name")); // rdf:type
         values.add(JavaConverters.asScalaIteratorConverter(rdfType.iterator()).asScala().toSeq());
         values.add(null); // chebiStructuredName
-        values.add(null); // chebislash:inchikey
+        values.add(null); // chemrof:inchi_key_string
         values.add(null); // obo:IAO_0000115
-        values.add(null); // oboInOwl:hasId
+        values.add(null); // oboInOwl:id
         values.add(null); // rdfs:subClassOf
         List<Row> rdfsLabel =
                 Arrays.asList(
@@ -94,9 +94,9 @@ public class ChebiNodeEntryRowMapperTest {
         values.add(null); // name
         values.add(null); // rdf:type
         values.add(null); // chebiStructuredName
-        values.add(null); // chebislash:inchikey
+        values.add(null); // chemrof:inchi_key_string
         values.add(null); // obo:IAO_0000115
-        values.add(null); // oboInOwl:hasId
+        values.add(null); // oboInOwl:id
         values.add(null); // rdfs:subClassOf
         values.add(
                 JavaConverters.collectionAsScalaIterableConverter(
@@ -126,9 +126,9 @@ public class ChebiNodeEntryRowMapperTest {
                                 "http://www.w3.org/2002/07/owl#Restriction")); // rdf:type
         values.add(JavaConverters.asScalaIteratorConverter(rdfType.iterator()).asScala().toSeq());
         values.add(null); // chebiStructuredName
-        values.add(null); // chebislash:inchikey
+        values.add(null); // chemrof:inchi_key_string
         values.add(null); // obo:IAO_0000115
-        values.add(null); // oboInOwl:hasId
+        values.add(null); // oboInOwl:id
         values.add(null); // rdfs:subClassOf
         values.add(null); // rdfs:label
         List<Row> someProperty =

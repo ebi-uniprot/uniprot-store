@@ -47,7 +47,7 @@ class ChebiEntryMapperTest {
                         .asScala()
                         .toList());
         rawJavaMap.put(
-                "chebislash:inchikey",
+                "chemrof:inchi_key_string",
                 JavaConverters.asScalaBufferConverter(Arrays.asList("inchikey1"))
                         .asScala()
                         .toList());

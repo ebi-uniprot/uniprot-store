@@ -27,8 +27,8 @@ public class ChebiEntryRowMapperTest {
 
         Map<String, String> map = getRowMap(result);
         assertEquals("http://purl.obolibrary.org/obo/CHEBI_74148", result.get(0));
-        assertEquals("TXHBQUJRFDOFJT-FBLBILBLSA-N", map.get("chebislash:inchikey"));
-        assertEquals("74148", map.get("oboInOwl:hasId"));
+        assertEquals("TXHBQUJRFDOFJT-FBLBILBLSA-N", map.get("chemrof:inchi_key_string"));
+        assertEquals("74148", map.get("oboInOwl:id"));
     }
 
     @Test
@@ -40,8 +40,8 @@ public class ChebiEntryRowMapperTest {
 
         Map<String, String> map = getRowMap(result);
         assertEquals("http://purl.obolibrary.org/obo/CHEBI_74148", result.get(0));
-        assertEquals("TXHBQUJRFDOFJT-FBLBILBLSA-N", map.get("chebislash:inchikey"));
-        assertEquals("74148", map.get("oboInOwl:hasId"));
+        assertEquals("TXHBQUJRFDOFJT-FBLBILBLSA-N", map.get("chemrof:inchi_key_string"));
+        assertEquals("74148", map.get("oboInOwl:id"));
     }
 
     public static Row getChebiKeyValuesForRelatedAbstractSeq() {
@@ -61,10 +61,10 @@ public class ChebiEntryRowMapperTest {
                 JavaConverters.asScalaIteratorConverter(structuredNames.iterator())
                         .asScala()
                         .toSeq()); // chebiStructuredName
-        values.add("TXHBQUJRFDOFJT-FBLBILBLSA-N"); // chebislash:inchikey
+        values.add("TXHBQUJRFDOFJT-FBLBILBLSA-N"); // chemrof:inchi_key_string
         values.add(
                 "A hydroxy fatty-acyl-CoA that results from the formal condensation of the thiol group of coenzyme A with the carboxy group of 2-hydroxybehenic acid."); // obo:IAO_0000115
-        values.add("74148"); // oboInOwl:hasId
+        values.add("74148"); // oboInOwl:id
         List<Row> subClassOf =
                 Arrays.asList(
                         RowFactory.create(
@@ -101,10 +101,10 @@ public class ChebiEntryRowMapperTest {
                         RowFactory.create("_rdf:nodeID", "name189730"),
                         RowFactory.create("_rdf:nodeID", "name189731"));
         values.add(structuredNames.toString()); // chebiStructuredName
-        values.add("TXHBQUJRFDOFJT-FBLBILBLSA-N"); // chebislash:inchikey
+        values.add("TXHBQUJRFDOFJT-FBLBILBLSA-N"); // chemrof:inchi_key_string
         values.add(
                 "A hydroxy fatty-acyl-CoA that results from the formal condensation of the thiol group of coenzyme A with the carboxy group of 2-hydroxybehenic acid."); // obo:IAO_0000115
-        values.add("74148"); // oboInOwl:hasId
+        values.add("74148"); // oboInOwl:id
         List<Row> subClassOf =
                 Arrays.asList(
                         RowFactory.create(

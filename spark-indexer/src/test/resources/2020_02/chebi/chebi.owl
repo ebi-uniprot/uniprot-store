@@ -1,7 +1,9 @@
-<?xml version="1.0"?>
-<rdf:RDF xmlns="http://purl.uniprot.org/core/" xmlns:chebi="http://purl.obolibrary.org/obo/CHEBI_" xmlns:chebihash="http://purl.obolibrary.org/obo/chebi#" xmlns:chebislash="http://purl.obolibrary.org/obo/chebi/" xmlns:obo="http://purl.obolibrary.org/obo/" xmlns:oboInOwl="http://www.geneontology.org/formats/oboInOwl#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
-    <owl:Ontology rdf:about="">
-    </owl:Ontology>
+<?xml version='1.0' encoding='UTF-8'?>
+<rdf:RDF xml:base="http://purl.obolibrary.org/obo/chebi.owl" xmlns="http://purl.uniprot.org/core/" xmlns:chebi="http://purl.obolibrary.org/obo/CHEBI_" xmlns:chebislash="http://purl.obolibrary.org/obo/chebi/" xmlns:chemrof="https://w3id.org/chemrof/" xmlns:obo="http://purl.obolibrary.org/obo/" xmlns:oboInOwl="http://www.geneontology.org/formats/oboInOwl#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi.owl">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+        <oboInOwl:savedBy rdf:resource="https://isni.org/isni/0000000417874249"/>
+    </rdf:Description>
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/BFO_0000051">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
@@ -77,7 +79,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_1000">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name1"/>
-        <oboInOwl:hasId>1000</oboInOwl:hasId>
+        <oboInOwl:id>1000</oboInOwl:id>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1100"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
@@ -90,7 +92,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_1100">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name2"/>
-        <oboInOwl:hasId>1100</oboInOwl:hasId>
+        <oboInOwl:id>1100</oboInOwl:id>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1200"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
@@ -102,7 +104,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_1200">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name3"/>
-        <oboInOwl:hasId>1200</oboInOwl:hasId>
+        <oboInOwl:id>1200</oboInOwl:id>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1300"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
@@ -114,7 +116,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_1300">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name4"/>
-        <oboInOwl:hasId>1300</oboInOwl:hasId>
+        <oboInOwl:id>1300</oboInOwl:id>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1400"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
@@ -129,7 +131,7 @@
         <chebiStructuredName rdf:nodeID="name6"/>
         <chebiStructuredName rdf:nodeID="name7"/>
         <chebiStructuredName rdf:nodeID="name8"/>
-        <oboInOwl:hasId>138675</oboInOwl:hasId>
+        <oboInOwl:id>138675</oboInOwl:id>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
         <oboInOwl:hasDbXref rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Wikipedia:https://en.wikipedia.org/wiki/Gas</oboInOwl:hasDbXref>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1000"/>
@@ -158,7 +160,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_1400">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name9"/>
-        <oboInOwl:hasId>1400</oboInOwl:hasId>
+        <oboInOwl:id>1400</oboInOwl:id>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1500"/>
     </rdf:Description>
@@ -170,7 +172,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_1500">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name10"/>
-        <oboInOwl:hasId>1500</oboInOwl:hasId>
+        <oboInOwl:id>1500</oboInOwl:id>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name10">
@@ -192,12 +194,12 @@
         <chebiStructuredName rdf:nodeID="name21419"/>
         <chebiStructuredName rdf:nodeID="name21421"/>
         <chebiStructuredName rdf:nodeID="name21420"/>
-        <chebislash:formula>O2</chebislash:formula>
-        <chebislash:smiles>O=O</chebislash:smiles>
-        <chebislash:inchi>InChI=1S/O2/c1-2</chebislash:inchi>
-        <chebislash:inchikey>MYMOFIZGZYHOMD-UHFFFAOYSA-N</chebislash:inchikey>
-        <chebislash:charge>0</chebislash:charge>
-        <oboInOwl:hasId>15379</oboInOwl:hasId>
+        <chemrof:generalized_empirical_formula>O2</chemrof:generalized_empirical_formula>
+        <chemrof:smiles_string>O=O</chemrof:smiles_string>
+        <chemrof:inchi_string>InChI=1S/O2/c1-2</chemrof:inchi_string>
+        <chemrof:inchi_key_string>MYMOFIZGZYHOMD-UHFFFAOYSA-N</chemrof:inchi_key_string>
+        <chemrof:charge>0</chemrof:charge>
+        <oboInOwl:id>15379</oboInOwl:id>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
         <oboInOwl:hasDbXref>CAS:7782-44-7</oboInOwl:hasDbXref>
         <oboInOwl:hasDbXref>Gmelin:485</oboInOwl:hasDbXref>
@@ -334,13 +336,13 @@
         <chebiStructuredName rdf:nodeID="name32545"/>
         <chebiStructuredName rdf:nodeID="name32552"/>
         <chebiStructuredName rdf:nodeID="name32547"/>
-        <chebislash:formula>CO2</chebislash:formula>
-        <chebislash:smiles>O=C=O</chebislash:smiles>
-        <chebislash:inchi>InChI=1S/CO2/c2-1-3</chebislash:inchi>
-        <chebislash:inchikey>CURLTUGMZLYLDI-UHFFFAOYSA-N</chebislash:inchikey>
+        <chemrof:generalized_empirical_formula>CO2</chemrof:generalized_empirical_formula>
+        <chemrof:smiles_string>O=C=O</chemrof:smiles_string>
+        <chemrof:inchi_string>InChI=1S/CO2/c2-1-3</chemrof:inchi_string>
+        <chemrof:inchi_key_string>CURLTUGMZLYLDI-UHFFFAOYSA-N</chemrof:inchi_key_string>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_138675"/>
-        <chebislash:charge>0</chebislash:charge>
-        <oboInOwl:hasId>16526</oboInOwl:hasId>
+        <chemrof:charge>0</chemrof:charge>
+        <oboInOwl:id>16526</oboInOwl:id>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
         <oboInOwl:hasDbXref>Beilstein:1900390</oboInOwl:hasDbXref>
         <oboInOwl:hasDbXref>CAS:124-38-9</oboInOwl:hasDbXref>
@@ -511,7 +513,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_2200">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name11"/>
-        <oboInOwl:hasId>2200</oboInOwl:hasId>
+        <oboInOwl:id>2200</oboInOwl:id>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_2300"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
@@ -523,7 +525,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_2300">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name12"/>
-        <oboInOwl:hasId>2300</oboInOwl:hasId>
+        <oboInOwl:id>2300</oboInOwl:id>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_2400"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
@@ -541,7 +543,7 @@
         <chebiStructuredName rdf:nodeID="name35231"/>
         <chebiStructuredName rdf:nodeID="name35235"/>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_24431"/>
-        <oboInOwl:hasId>23367</oboInOwl:hasId>
+        <oboInOwl:id>23367</oboInOwl:id>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name35234">
@@ -573,7 +575,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_2400">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name13"/>
-        <oboInOwl:hasId>2400</oboInOwl:hasId>
+        <oboInOwl:id>2400</oboInOwl:id>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_2500"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
@@ -586,7 +588,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name46751"/>
         <chebiStructuredName rdf:nodeID="name46752"/>
-        <oboInOwl:hasId>24431</oboInOwl:hasId>
+        <oboInOwl:id>24431</oboInOwl:id>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name46751">
@@ -604,7 +606,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name49002"/>
         <chebiStructuredName rdf:nodeID="name49003"/>
-        <oboInOwl:hasId>24867</oboInOwl:hasId>
+        <oboInOwl:id>24867</oboInOwl:id>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_1000"/>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_24870"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
@@ -628,7 +630,7 @@
         <chebiStructuredName rdf:nodeID="name49013"/>
         <chebiStructuredName rdf:nodeID="name49014"/>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_23367"/>
-        <oboInOwl:hasId>24870</oboInOwl:hasId>
+        <oboInOwl:id>24870</oboInOwl:id>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#3_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name49011">
@@ -661,8 +663,8 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name1889"/>
         <chebiStructuredName rdf:nodeID="name1890"/>
-        <chebislash:inchikey>AABBBCCCDD-IIHHHHGGGFFFF-N</chebislash:inchikey>
-        <oboInOwl:hasId>2500</oboInOwl:hasId>
+        <chemrof:inchi_key_string>AABBBCCCDD-IIHHHHGGGFFFF-N</chemrof:inchi_key_string>
+        <oboInOwl:id>2500</oboInOwl:id>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name1889">
@@ -676,7 +678,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_3200">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name14"/>
-        <oboInOwl:hasId>3200</oboInOwl:hasId>
+        <oboInOwl:id>3200</oboInOwl:id>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_3300"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
         <rdfs:subClassOf rdf:nodeID="subclass2"/>
@@ -694,7 +696,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_3300">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name15"/>
-        <oboInOwl:hasId>3300</oboInOwl:hasId>
+        <oboInOwl:id>3300</oboInOwl:id>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_3400"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
@@ -706,7 +708,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_3400">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name16"/>
-        <oboInOwl:hasId>3400</oboInOwl:hasId>
+        <oboInOwl:id>3400</oboInOwl:id>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_3500"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
@@ -718,7 +720,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_3500">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name17"/>
-        <oboInOwl:hasId>3500</oboInOwl:hasId>
+        <oboInOwl:id>3500</oboInOwl:id>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name17">
@@ -729,8 +731,8 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_4200">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name18"/>
-        <chebislash:inchikey rdf:datatype="http://www.w3.org/2001/XMLSchema#string">IIHHHHGGGFFFF-AABBBCCCDD-N</chebislash:inchikey>
-        <oboInOwl:hasId>4200</oboInOwl:hasId>
+        <chemrof:inchi_key_string rdf:datatype="http://www.w3.org/2001/XMLSchema#string">IIHHHHGGGFFFF-AABBBCCCDD-N</chemrof:inchi_key_string>
+        <oboInOwl:id>4200</oboInOwl:id>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_4300"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
@@ -742,7 +744,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_4300">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name19"/>
-        <oboInOwl:hasId>4300</oboInOwl:hasId>
+        <oboInOwl:id>4300</oboInOwl:id>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_4400"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
@@ -754,7 +756,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_4400">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name20"/>
-        <oboInOwl:hasId>4400</oboInOwl:hasId>
+        <oboInOwl:id>4400</oboInOwl:id>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_4500"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
@@ -766,7 +768,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_4500">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name21"/>
-        <oboInOwl:hasId>4500</oboInOwl:hasId>
+        <oboInOwl:id>4500</oboInOwl:id>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name21">
@@ -778,7 +780,7 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name22"/>
         <rdfs:subClassOf rdf:nodeID="subclass3"/>
-        <oboInOwl:hasId>6500</oboInOwl:hasId>
+        <oboInOwl:id>6500</oboInOwl:id>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_6600"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
@@ -795,7 +797,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_6600">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name23"/>
-        <oboInOwl:hasId>6600</oboInOwl:hasId>
+        <oboInOwl:id>6600</oboInOwl:id>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/CHEBI_6700"/>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
@@ -807,7 +809,7 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/CHEBI_6700">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
         <chebiStructuredName rdf:nodeID="name24"/>
-        <oboInOwl:hasId>6700</oboInOwl:hasId>
+        <oboInOwl:id>6700</oboInOwl:id>
         <oboInOwl:inSubset rdf:resource="http://purl.obolibrary.org/obo/chebi#1_STAR"/>
     </rdf:Description>
     <rdf:Description rdf:nodeID="name24">
