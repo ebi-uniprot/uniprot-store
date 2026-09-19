@@ -181,7 +181,7 @@ public abstract class AbstractSearchEngine<E> implements BeforeAllCallback, Afte
         System.setProperty("solr.core.name", "uniprot");
         System.setProperty("solr.ulog.dir", indexHome.getAbsolutePath() + "/tlog");
 
-        Path solrConfigDir = Paths.get(SOLR_CONFIG_DIR);
+        Path solrConfigDir = Paths.get(SOLR_CONFIG_DIR).toAbsolutePath();
 
         logger.info(solrConfigDir.toString());
         CoreContainer container = new CoreContainer(solrConfigDir, new Properties());

@@ -6,12 +6,14 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.http.client.HttpClient;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
+import org.apache.solr.client.solrj.impl.Http2SolrClient;
 import org.apache.solr.client.solrj.impl.HttpClientUtil;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -142,12 +144,15 @@ public class UniProtSolrClient {
 
             CloudSolrClient client =
                     new CloudSolrClient.Builder(asList(zookeeperHosts), Optional.empty())
-                            .withConnectionTimeout(config.getConnectionTimeout())
-                            .withSocketTimeout(config.getSocketTimeout())
+                            .withInternalClientBuilder(
+                                    new Http2SolrClient.Builder()
+                                            .withConnectionTimeout(
+                                                    config.getConnectionTimeout(),
+                                                    TimeUnit.MILLISECONDS)
+                                            .withRequestTimeout(
+                                                    config.getSocketTimeout(),
+                                                    TimeUnit.MILLISECONDS))
                             .build();
-
-            client.setIdField(
-                    "accession_id"); // TODO: 10/07/19 refactor schemas to include unique field 'id'
             return client;
         } else if (!config.getHttphost().isEmpty()) {
             return new HttpSolrClient.Builder()

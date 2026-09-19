@@ -1,6 +1,6 @@
 package org.uniprot.store.spark.indexer.validator.impl;
 
-import org.apache.solr.client.solrj.impl.CloudSolrClient;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -28,7 +28,7 @@ public class SolrIndexValidatorUtil {
 
         Mockito.doReturn(docCount).when(validator).getSavedDocumentsCount();
 
-        CloudSolrClient solrClient = Mockito.mock(CloudSolrClient.class);
+        SolrClient solrClient = Mockito.mock(SolrClient.class);
 
         QueryResponse response = Mockito.mock(QueryResponse.class);
         SolrDocumentList queryResult = Mockito.mock(SolrDocumentList.class);

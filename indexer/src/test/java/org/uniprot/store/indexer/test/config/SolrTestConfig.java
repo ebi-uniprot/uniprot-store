@@ -60,7 +60,8 @@ public class SolrTestConfig implements DisposableBean {
     private CoreContainer createCoreContainer(String solrHomeDirectory)
             throws UnsupportedEncodingException {
         solrHomeDirectory = URLDecoder.decode(solrHomeDirectory, "utf-8");
-        return CoreContainer.createAndLoad(FileSystems.getDefault().getPath(solrHomeDirectory));
+        return CoreContainer.createAndLoad(
+                FileSystems.getDefault().getPath(solrHomeDirectory).toAbsolutePath());
     }
 
     @Bean(destroyMethod = "cleanUp")
