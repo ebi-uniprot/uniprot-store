@@ -4,6 +4,7 @@ import static org.uniprot.store.indexer.common.utils.UniProtAARuleUtils.extractP
 import static org.uniprot.store.indexer.uniprotkb.converter.UniProtEntryConverterUtil.*;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.uniprot.core.uniprotkb.description.*;
@@ -32,7 +33,8 @@ class UniprotKBEntryProteinDescriptionConverter {
         if (proteinDescription != null) {
             List<String> names = extractProteinDescriptionValues(proteinDescription);
             document.proteinNames.addAll(names);
-            document.proteinsNamesSort = truncatedSortValue(String.join(" ", names));
+            document.proteinsNamesSort =
+                    truncatedSortValue(String.join(" ", names).toLowerCase(Locale.ROOT));
 
             convertECNumbers(proteinDescription, document);
             convertFragmentNPrecursor(proteinDescription, document);

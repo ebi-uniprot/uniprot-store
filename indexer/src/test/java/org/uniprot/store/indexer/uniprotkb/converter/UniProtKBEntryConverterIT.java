@@ -112,7 +112,7 @@ class UniProtKBEntryConverterIT {
         assertFalse(doc.reviewed);
         assertEquals(1, doc.proteinNames.size());
         assertEquals("Cytochrome b", doc.proteinNames.get(0));
-        assertEquals("Cytochrome b", doc.proteinsNamesSort);
+        assertEquals("cytochrome b", doc.proteinsNamesSort);
         assertEquals(0, doc.ecNumbers.size());
 
         assertEquals("09-JAN-2007", dateFormat.format(doc.firstCreated).toUpperCase());
@@ -279,7 +279,9 @@ class UniProtKBEntryConverterIT {
                 doc.proteinNames.contains(
                         "Nasal embryonic luteinizing hormone-releasing hormone factor"));
         assertTrue(doc.proteinNames.contains("Nasal embryonic LHRH factor"));
-        assertEquals("NMDA receptor synaptonuclear s", doc.proteinsNamesSort);
+        assertEquals(
+                "nmda receptor synaptonuclear signaling and neuronal migratio",
+                doc.proteinsNamesSort);
 
         assertEquals(1, doc.ecNumbers.size());
         assertEquals(1, doc.ecNumbersExact.size());
@@ -492,7 +494,9 @@ class UniProtKBEntryConverterIT {
                 doc.proteinNames.contains(
                         "Nasal embryonic luteinizing hormone-releasing hormone factor"));
         assertTrue(doc.proteinNames.contains("Nasal embryonic LHRH factor"));
-        assertEquals("Isoform 2 of NMDA receptor syn", doc.proteinsNamesSort);
+        assertEquals(
+                "isoform 2 of nmda receptor synaptonuclear signaling and neur",
+                doc.proteinsNamesSort);
 
         assertEquals(0, doc.ecNumbers.size());
         assertEquals(0, doc.ecNumbersExact.size());
