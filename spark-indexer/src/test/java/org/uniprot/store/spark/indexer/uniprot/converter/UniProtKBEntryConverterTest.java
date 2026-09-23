@@ -316,6 +316,7 @@ class UniProtKBEntryConverterTest {
         assertEquals("P12345", document.accession);
         assertEquals(5, document.seqLength);
         assertEquals(373, document.seqMass);
+        assertEquals("F6A6263167C92DE8644AC998B3C4E4D1", document.md5);
         assertNotNull(document.sequenceChecksums);
         assertEquals(2, document.sequenceChecksums.size());
         assertThat(
