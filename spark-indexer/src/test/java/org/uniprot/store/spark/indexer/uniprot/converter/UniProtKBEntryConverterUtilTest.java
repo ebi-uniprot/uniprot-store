@@ -117,9 +117,9 @@ class UniProtKBEntryConverterUtilTest {
 
     @Test
     void truncatedSortValue() {
-        String value = "1234567890123456789012345678901234567890";
+        String value = "1234567890123456789012345678901234567890123456789012345678901234567890";
         assertEquals(
-                "123456789012345678901234567890",
+                "123456789012345678901234567890123456789012345678901234567890",
                 UniProtEntryConverterUtil.truncatedSortValue(value));
     }
 
