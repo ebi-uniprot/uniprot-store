@@ -59,7 +59,7 @@
 	<field name="checksum" type="basic_ci" indexed="true"
 		stored="false" required="false" multiValued="true" />
 
-	<field name="md5" type="basic_ci" indexed="true" stored="true"
+	<field name="md5" type="string" indexed="true" stored="true"
 		required="false" multiValued="false" />
 
 	<!-- Protein name section -->
