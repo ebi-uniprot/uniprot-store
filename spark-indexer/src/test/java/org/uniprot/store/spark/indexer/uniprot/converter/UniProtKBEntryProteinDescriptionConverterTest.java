@@ -61,8 +61,10 @@ class UniProtKBEntryProteinDescriptionConverterTest {
         assertEquals(25, document.proteinNames.size());
         assertEquals(indexedNames, document.proteinNames);
 
-        assertEquals(30, document.proteinsNamesSort.length());
-        assertEquals("rec full Name recommended shor", document.proteinsNamesSort);
+        assertEquals(60, document.proteinsNamesSort.length());
+        assertEquals(
+                "rec full name recommended short name sub full name a full al",
+                document.proteinsNamesSort);
 
         assertEquals(
                 Arrays.asList(

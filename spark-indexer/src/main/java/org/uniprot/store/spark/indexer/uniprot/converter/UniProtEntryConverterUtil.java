@@ -23,7 +23,7 @@ public class UniProtEntryConverterUtil {
 
     private UniProtEntryConverterUtil() {}
 
-    private static final int SORT_FIELD_MAX_LENGTH = 30;
+    private static final int SORT_FIELD_MAX_LENGTH = 60;
     private static final int SPELLCHECK_MIN_LENGTH = 4;
 
     static Set<String> extractEvidence(List<Evidence> evidences) {

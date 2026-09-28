@@ -215,7 +215,9 @@ class UniProtKBEntryConverterTest {
                         "some Gene name", "some Syn", "some locus", "some orf", "some other orf"),
                 document.geneNamesExact);
         assertEquals(document.geneNamesExact, document.geneNames);
-        assertEquals("some Gene name some Syn some l", document.geneNamesSort);
+        assertEquals(
+                "some Gene name some Syn some locus some orf some other orf",
+                document.geneNamesSort);
     }
 
     @Test

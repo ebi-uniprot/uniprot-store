@@ -4,6 +4,7 @@ import static org.uniprot.store.spark.indexer.uniprot.converter.UniProtEntryConv
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import org.uniprot.core.Value;
@@ -28,7 +29,8 @@ public class UniProtEntryProteinDescriptionConverter {
         if (Utils.notNull(proteinDescription)) {
             List<String> names = extractProteinDescriptionValues(proteinDescription);
             document.proteinNames.addAll(names);
-            document.proteinsNamesSort = truncatedSortValue(String.join(" ", names));
+            document.proteinsNamesSort =
+                    truncatedSortValue(String.join(" ", names).toLowerCase(Locale.ROOT));
 
             convertECNumbers(proteinDescription, document);
             convertFragmentNPrecursor(proteinDescription, document);
