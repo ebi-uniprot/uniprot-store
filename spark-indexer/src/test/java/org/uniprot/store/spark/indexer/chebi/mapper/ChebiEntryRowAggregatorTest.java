@@ -72,7 +72,7 @@ public class ChebiEntryRowAggregatorTest {
                 "owl:onProperty",
                 JavaConverters.asScalaIteratorConverter(
                                 Arrays.asList(
-                                                "http://purl.obolibrary.org/obo/chebi#has_major_microspecies_at_pH_7_3")
+                                                "http://purl.obolibrary.org/obo/chemrof#has_major_microspecies_at_pH7_3")
                                         .iterator())
                         .asScala()
                         .toSeq());
