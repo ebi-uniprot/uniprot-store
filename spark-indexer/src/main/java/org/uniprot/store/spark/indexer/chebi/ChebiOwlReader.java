@@ -2,6 +2,8 @@ package org.uniprot.store.spark.indexer.chebi;
 
 import static org.apache.spark.sql.functions.*;
 import static org.uniprot.store.indexer.common.utils.Constants.*;
+import static org.uniprot.store.spark.indexer.chebi.mapper.ChebiEntryMapper.CHEMROF_INCHI_KEY_STRING;
+import static org.uniprot.store.spark.indexer.chebi.mapper.ChebiEntryRelatedFieldsRowMapper.ABOUT_SUBJECT;
 import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
 
 import java.util.*;
@@ -24,6 +26,23 @@ import scala.collection.JavaConverters;
 
 public class ChebiOwlReader {
 
+    private static final String OBO_IAO_0000115 = "obo:IAO_0000115";
+    private static final String OBO_IN_OWL_ID = "oboInOwl:id";
+    private static final String SUBJECT = "subject";
+    private static final String OBJECT = "object";
+    private static final String CHEBI_FILE_PATH = "chebi.file.path";
+    private static final String COM_DATABRICKS_SPARK_XML = "com.databricks.spark.xml";
+    private static final String ROW_TAG = "rowTag";
+    private static final String RDF_DESCRIPTION = "rdf:Description";
+    private static final String SUB_CLASS_OF = "subClassOf";
+    private static final String ALIAS_A = "a";
+    private static final String ALIAS_B = "b";
+    private static final String A_SUBJECT = "a.subject";
+    private static final String B_SUBJECT = "b.subject";
+    private static final String B_OBJECT = "b.object";
+    private static final String A_CHEBI_STRUCTURED_NAME = "a.chebiStructuredName";
+    private static final String A_SUB_CLASS_OF = "a.subClassOf";
+    private static final String A_ABOUT_SUBJECT = "a.about_subject";
     private final SparkSession spark;
     private final JobParameter jobParameter;
 
@@ -38,7 +57,7 @@ public class ChebiOwlReader {
                 new StructType()
                         .add(CHEBI_RDF_ABOUT_ATTRIBUTE, DataTypes.StringType, true)
                         .add(CHEBI_RDF_NODE_ID_ATTRIBBUTE, DataTypes.StringType, true)
-                        .add("name", DataTypes.StringType, true)
+                        .add(NAME, DataTypes.StringType, true)
                         .add(
                                 CHEBI_RDF_TYPE_ATTRIBUTE,
                                 DataTypes.createArrayType(
@@ -57,9 +76,9 @@ public class ChebiOwlReader {
                                                         DataTypes.StringType,
                                                         true)),
                                 true)
-                        .add("chemrof:inchi_key_string", DataTypes.StringType, true)
-                        .add("obo:IAO_0000115", DataTypes.StringType, true)
-                        .add("oboInOwl:id", DataTypes.StringType, true)
+                        .add(CHEMROF_INCHI_KEY_STRING, DataTypes.StringType, true)
+                        .add(OBO_IAO_0000115, DataTypes.StringType, true)
+                        .add(OBO_IN_OWL_ID, DataTypes.StringType, true)
                         .add(
                                 CHEBI_RDFS_SUBCLASS_ATTRIBUTE,
                                 DataTypes.createArrayType(
@@ -101,9 +120,9 @@ public class ChebiOwlReader {
     private StructType getProcessedSchema() {
         StructType processedSchema =
                 new StructType()
-                        .add("subject", DataTypes.StringType)
+                        .add(SUBJECT, DataTypes.StringType)
                         .add(
-                                "object",
+                                OBJECT,
                                 DataTypes.createMapType(
                                         DataTypes.StringType,
                                         DataTypes.createArrayType(DataTypes.StringType)));
@@ -113,7 +132,7 @@ public class ChebiOwlReader {
     private StructType getExplodedSchema() {
         StructType explodedSchema =
                 new StructType()
-                        .add("about_subject", DataTypes.StringType)
+                        .add(ABOUT_SUBJECT, DataTypes.StringType)
                         .add(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE, DataTypes.StringType)
                         .add(CHEBI_RDFS_SUBCLASS_ATTRIBUTE, DataTypes.StringType);
         return explodedSchema;
@@ -122,12 +141,12 @@ public class ChebiOwlReader {
     private JavaRDD<Row> readChebiFile() {
         Config config = jobParameter.getApplicationConfig();
         String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
-        String filePath = releaseInputDir + config.getString("chebi.file.path");
+        String filePath = releaseInputDir + config.getString(CHEBI_FILE_PATH);
         Dataset<Row> rdfDescriptions =
                 this.spark
                         .read()
-                        .format("com.databricks.spark.xml")
-                        .option("rowTag", "rdf:Description")
+                        .format(COM_DATABRICKS_SPARK_XML)
+                        .option(ROW_TAG, RDF_DESCRIPTION)
                         .schema(getSchema())
                         .load(filePath);
         return rdfDescriptions.toJavaRDD();
@@ -151,24 +170,24 @@ public class ChebiOwlReader {
                 getLabelAndClassColumnsFromAboutRDD(explodedSchema, processedAboutDF);
         Dataset<Row> groupedExplodedAboutDF =
                 explodedAboutDF
-                        .groupBy("about_subject")
+                        .groupBy(ABOUT_SUBJECT)
                         .agg(
                                 collect_set(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE)
                                         .alias(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE),
-                                collect_set(CHEBI_RDFS_SUBCLASS_ATTRIBUTE).alias("subClassOf"));
+                                collect_set(CHEBI_RDFS_SUBCLASS_ATTRIBUTE).alias(SUB_CLASS_OF));
         JavaRDD<Row> joinedNodeRDD =
                 joinAndExtractLabelAndClassRelatedNodesFromNodeIdDF(
                         processedNodeIdDF, groupedExplodedAboutDF);
         Dataset<Row> joinedNodeDF = spark.createDataFrame(joinedNodeRDD, processedSchema);
         Dataset<Row> finalMergedDF =
                 processedAboutDF
-                        .as("a")
+                        .as(ALIAS_A)
                         .join(
-                                joinedNodeDF.as("b"),
-                                col("a.subject").equalTo(col("b.subject")),
+                                joinedNodeDF.as(ALIAS_B),
+                                col(A_SUBJECT).equalTo(col(B_SUBJECT)),
                                 "inner");
         finalMergedDF =
-                finalMergedDF.selectExpr("a.subject", "map_concat(a.object, b.object) as object");
+                finalMergedDF.selectExpr(A_SUBJECT, "map_concat(a.object, b.object) as object");
         JavaPairRDD<Long, ChebiEntry> chebiEntryPairRDD =
                 finalMergedDF.toJavaRDD().mapToPair(new ChebiEntryMapper());
         return chebiEntryPairRDD;
@@ -190,7 +209,7 @@ public class ChebiOwlReader {
             StructType explodedSchema, Dataset<Row> processedAboutDF) {
         Dataset<Row> explodedAboutDF =
                 processedAboutDF
-                        .selectExpr("subject AS about_subject", "object")
+                        .selectExpr("subject AS about_subject", OBJECT)
                         .flatMap(
                                 new ChebiEntryRelatedFieldsRowMapper(),
                                 RowEncoder.apply(explodedSchema));
@@ -201,13 +220,13 @@ public class ChebiOwlReader {
             Dataset<Row> processedNodeIdDF, Dataset<Row> groupedAboutDF) {
         JavaRDD<Row> joinedNodeRDD =
                 groupedAboutDF
-                        .alias("a")
+                        .alias(ALIAS_A)
                         .join(
-                                processedNodeIdDF.alias("b"),
-                                array_contains(col("a.chebiStructuredName"), col("b.subject"))
-                                        .or(array_contains(col("a.subClassOf"), col("b.subject"))),
+                                processedNodeIdDF.alias(ALIAS_B),
+                                array_contains(col(A_CHEBI_STRUCTURED_NAME), col(B_SUBJECT))
+                                        .or(array_contains(col(A_SUB_CLASS_OF), col(B_SUBJECT))),
                                 "inner")
-                        .select(col("a.about_subject"), col("b.subject"), col("b.object"))
+                        .select(col(A_ABOUT_SUBJECT), col(B_SUBJECT), col(B_OBJECT))
                         .toJavaRDD()
                         .flatMapToPair(new ChebiNodeEntryRelatedFieldsRowMapper())
                         .aggregateByKey(

@@ -110,7 +110,7 @@ class ChebiRDDReaderTest {
         assertTrue(relatedIds.contains("2400"));
         assertTrue(relatedIds.contains("2500"));
 
-        // Can Load has_major_microspecies_at_pH_7_3
+        // Can Load has_major_microspecies_at_pH7_3
         assertTrue(relatedIds.contains("4200"));
         assertTrue(relatedIds.contains("4300"));
         assertTrue(relatedIds.contains("4400"));
@@ -141,7 +141,7 @@ class ChebiRDDReaderTest {
         assertTrue(relatedIds.contains("4400"));
         assertTrue(relatedIds.contains("4500"));
 
-        // Can Load has_major_microspecies_at_pH_7_3
+        // Can Load has_major_microspecies_at_pH7_3
         assertTrue(relatedIds.contains("1000"));
         assertTrue(relatedIds.contains("1100"));
         assertTrue(relatedIds.contains("1200"));
@@ -149,7 +149,7 @@ class ChebiRDDReaderTest {
         assertTrue(relatedIds.contains("1400"));
         assertTrue(relatedIds.contains("1500"));
 
-        // Can Load has_major_microspecies_at_pH_7_3
+        // Can Load has_major_microspecies_at_pH7_3
         assertTrue(relatedIds.contains("2200"));
         assertTrue(relatedIds.contains("2300"));
         assertTrue(relatedIds.contains("2400"));
