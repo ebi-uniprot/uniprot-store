@@ -22,13 +22,13 @@
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi#has_functional_parent">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
     </rdf:Description>
-    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi#is_conjugate_acid_of">
+    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/RO_0018034">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
         <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/chebi#is_conjugate_base_of"/>
     </rdf:Description>
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi#is_conjugate_base_of">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/chebi#is_conjugate_acid_of"/>
+        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/RO_0018034"/>
     </rdf:Description>
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi#is_enantiomer_of">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
@@ -153,7 +153,7 @@
     </rdf:Description>
     <rdf:Description rdf:nodeID="subclass1">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
-        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/chebi#has_major_microspecies_at_pH_7_3"/>
+        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/chemrof#has_major_microspecies_at_pH7_3"/>
         <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_4200"/>
     </rdf:Description>
     <!-- http://purl.obolibrary.org/obo/CHEBI_1400 -->
@@ -689,7 +689,7 @@
     </rdf:Description>
     <rdf:Description rdf:nodeID="subclass2">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
-        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/chebi#is_conjugate_base_of"/>
+        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0018034"/>
         <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_6500"/>
     </rdf:Description>
     <!-- http://purl.obolibrary.org/obo/CHEBI_3300 -->
@@ -790,7 +790,7 @@
     </rdf:Description>
     <rdf:Description rdf:nodeID="subclass3">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
-        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/chebi#is_conjugate_acid_of"/>
+        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0018034"/>
         <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_3200"/>
     </rdf:Description>
     <!-- http://purl.obolibrary.org/obo/CHEBI_6600 -->

@@ -18,9 +18,14 @@ import scala.collection.JavaConverters;
 
 public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Serializable {
 
-    private static final String RELATED_CONJUGATE_BASE_PREFIX = "is_conjugate_base_of";
-    private static final String RELATED_CONJUGATE_ACID_PREFIX = "is_conjugate_acid_of";
-    private static final String RELATED_MICROSPECIES_PREFIX = "has_major_microspecies_at_pH_7_3";
+    private static final String RELATED_CONJUGATE_BASE_PREFIX = "0018033";
+    private static final String RELATED_CONJUGATE_ACID_PREFIX = "0018034";
+    private static final String RELATED_MICROSPECIES_PREFIX = "has_major_microspecies_at_pH7_3";
+    public static final String CHEMROF_INCHI_KEY_STRING = "chemrof:inchi_key_string";
+    public static final String CHEBI_PREFIX = "CHEBI_";
+    public static final String OBO_CHEBI_PATH = "/obo/CHEBI_";
+    public static final String SUBJECT = "subject";
+    public static final String NAME = "name";
 
     @Override
     public Tuple2<Long, ChebiEntry> call(Row row) throws Exception {
@@ -42,12 +47,12 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
                                                                 (scala.collection.Seq<String>)
                                                                         e.getValue())
                                                         .asJava()));
-        String id = row.getAs("subject").toString().split("/obo/CHEBI_")[1];
+        String id = row.getAs(SUBJECT).toString().split(OBO_CHEBI_PATH)[1];
         chebiBuilder.id(id);
-        chebiBuilder.name(map.get("name").get(0));
+        chebiBuilder.name(map.get(NAME).get(0));
         chebiBuilder.inchiKey(
-                map.get("chemrof:inchi_key_string") != null
-                        ? map.get("chemrof:inchi_key_string").get(0)
+                map.get(CHEMROF_INCHI_KEY_STRING) != null
+                        ? map.get(CHEMROF_INCHI_KEY_STRING).get(0)
                         : "");
         if (map.get(CHEBI_RDFS_LABEL_ATTRIBUTE) != null
                 && map.get(CHEBI_RDFS_LABEL_ATTRIBUTE).size() > 0) {
@@ -58,8 +63,8 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
         if (map.get(CHEBI_RDFS_SUBCLASS_ATTRIBUTE) != null) {
             for (int i = 0; i < map.get(CHEBI_RDFS_SUBCLASS_ATTRIBUTE).size(); i++) {
                 String rdfsSubClassValue = map.get(CHEBI_RDFS_SUBCLASS_ATTRIBUTE).get(i);
-                if (rdfsSubClassValue.contains("CHEBI_")) {
-                    String chebiId = rdfsSubClassValue.split("/obo/CHEBI_")[1].strip();
+                if (rdfsSubClassValue.contains(CHEBI_PREFIX)) {
+                    String chebiId = rdfsSubClassValue.split(OBO_CHEBI_PATH)[1].strip();
                     ;
                     if (!containsId(relatedIds, chebiId)) {
                         relatedIds.add(chebiId);
@@ -76,7 +81,7 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
                     String owlSomeValuesFrom =
                             (map.get(CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE)
                                             .get(i)
-                                            .split("/obo/CHEBI_")[1])
+                                            .split(OBO_CHEBI_PATH)[1])
                                     .strip();
                     if (!containsId(relatedIds, owlSomeValuesFrom)) {
                         relatedIds.add(owlSomeValuesFrom);
@@ -88,7 +93,7 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
                     String owlSomeValuesFrom =
                             (map.get(CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE)
                                             .get(i)
-                                            .split("/obo/CHEBI_")[1])
+                                            .split(OBO_CHEBI_PATH)[1])
                                     .strip();
                     if (!containsId(majorMicrospecies, owlSomeValuesFrom)) {
                         majorMicrospecies.add(owlSomeValuesFrom);
