@@ -76,8 +76,7 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
         if (map.get(CHEBI_OWL_PROPERTY_ATTRIBUTE) != null) {
             for (int i = 0; i < map.get(CHEBI_OWL_PROPERTY_ATTRIBUTE).size(); i++) {
                 String prop = map.get(CHEBI_OWL_PROPERTY_ATTRIBUTE).get(i);
-                if (prop.contains(RO_0018033)
-                        || prop.contains(RO_0018034)) {
+                if (prop.contains(RO_0018033) || prop.contains(RO_0018034)) {
                     String owlSomeValuesFrom =
                             (map.get(CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE)
                                             .get(i)
