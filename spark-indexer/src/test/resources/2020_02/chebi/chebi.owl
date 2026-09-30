@@ -24,9 +24,9 @@
     </rdf:Description>
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/RO_0018034">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/RO_0018034"/>
+        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/RO_0018033"/>
     </rdf:Description>
-    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/RO_0018034">
+    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/RO_0018033">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
         <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/RO_0018034"/>
     </rdf:Description>
@@ -689,7 +689,7 @@
     </rdf:Description>
     <rdf:Description rdf:nodeID="subclass2">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
-        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0018034"/>
+        <owl:onProperty rdf:resource="http://purl.obolibrary.org/obo/RO_0018033"/>
         <owl:someValuesFrom rdf:resource="http://purl.obolibrary.org/obo/CHEBI_6500"/>
     </rdf:Description>
     <!-- http://purl.obolibrary.org/obo/CHEBI_3300 -->
