@@ -1,7 +1,5 @@
 package org.uniprot.store.spark.indexer.chebi;
 
-import static org.uniprot.store.spark.indexer.common.util.SparkUtils.getInputReleaseDirPath;
-
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.graphx.Edge;
@@ -14,14 +12,12 @@ import org.uniprot.store.spark.indexer.common.JobParameter;
 import org.uniprot.store.spark.indexer.common.exception.SparkIndexException;
 import org.uniprot.store.spark.indexer.common.reader.PairRDDReader;
 
-import com.typesafe.config.Config;
-
 import scala.Tuple2;
 import scala.reflect.ClassTag;
 
 /**
- * ChebiRDDReader loads CHEBI data and also its related ids "is_a","is_conjugate_base_of" and
- * "has_major_microspecies_at_pH_7_3" from chebi.obo file. It also loads extra relatedIds from
+ * ChebiRDDReader loads CHEBI data and also its related ids "is_a","RO_0018033" and
+ * "has_major_microspecies_at_pH7_3" from chebi.owl file. It also loads extra relatedIds from
  * chebi_pH7_3_mapping.tsv file. Chebi data is a graph structure, and we use Apache Spark GraphX
  * library to load it.
  *
@@ -49,16 +45,13 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
      */
     @Override
     public JavaPairRDD<String, ChebiEntry> load() {
-        Config config = jobParameter.getApplicationConfig();
-        String releaseInputDir = getInputReleaseDirPath(config, jobParameter.getReleaseName());
-        String filePath = releaseInputDir + config.getString("chebi.file.path");
 
         jobParameter
                 .getSparkContext()
                 .hadoopConfiguration()
                 .set("textinputformat.record.delimiter", "\n\n");
 
-        JavaPairRDD<Long, ChebiEntry> chebiRDD = loadChebiRDD(filePath);
+        JavaPairRDD<Long, ChebiEntry> chebiRDD = loadChebiRDD();
 
         // JavaPairRDD<chebiId, Iterable<relatedChebiEntry>>
         JavaPairRDD<Long, Iterable<ChebiEntry>> relatedChebi = loadRelatedIdsRDD(chebiRDD);
@@ -94,10 +87,9 @@ public class ChebiRDDReader implements PairRDDReader<String, ChebiEntry> {
     /**
      * This method load chebi.owl file into JavaPairRDD of chebi entries.
      *
-     * @param filePath chebi.owl file path (extracted from application.properties)
      * @return return JavaPairRDD<chebiId,ChebiEntry>
      */
-    private JavaPairRDD<Long, ChebiEntry> loadChebiRDD(String filePath) {
+    private JavaPairRDD<Long, ChebiEntry> loadChebiRDD() {
         ChebiOwlReader chebiOwlReader = new ChebiOwlReader(jobParameter);
         JavaPairRDD<Long, ChebiEntry> chebiRDD = chebiOwlReader.load();
         return chebiRDD;

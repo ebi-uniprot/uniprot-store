@@ -18,8 +18,8 @@ import scala.collection.JavaConverters;
 
 public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Serializable {
 
-    private static final String RELATED_CONJUGATE_BASE_PREFIX = "0018033";
-    private static final String RELATED_CONJUGATE_ACID_PREFIX = "0018034";
+    private static final String RO_0018033 = "0018033";
+    private static final String RO_0018034 = "0018034";
     private static final String RELATED_MICROSPECIES_PREFIX = "has_major_microspecies_at_pH7_3";
     public static final String CHEMROF_INCHI_KEY_STRING = "chemrof:inchi_key_string";
     public static final String CHEBI_PREFIX = "CHEBI_";
@@ -76,8 +76,8 @@ public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Se
         if (map.get(CHEBI_OWL_PROPERTY_ATTRIBUTE) != null) {
             for (int i = 0; i < map.get(CHEBI_OWL_PROPERTY_ATTRIBUTE).size(); i++) {
                 String prop = map.get(CHEBI_OWL_PROPERTY_ATTRIBUTE).get(i);
-                if (prop.contains(RELATED_CONJUGATE_BASE_PREFIX)
-                        || prop.contains(RELATED_CONJUGATE_ACID_PREFIX)) {
+                if (prop.contains(RO_0018033)
+                        || prop.contains(RO_0018034)) {
                     String owlSomeValuesFrom =
                             (map.get(CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE)
                                             .get(i)

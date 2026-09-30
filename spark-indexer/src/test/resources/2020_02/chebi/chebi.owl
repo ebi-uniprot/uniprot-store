@@ -24,9 +24,9 @@
     </rdf:Description>
     <rdf:Description rdf:about="http://purl.obolibrary.org/obo/RO_0018034">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/chebi#is_conjugate_base_of"/>
+        <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/RO_0018034"/>
     </rdf:Description>
-    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/chebi#is_conjugate_base_of">
+    <rdf:Description rdf:about="http://purl.obolibrary.org/obo/RO_0018034">
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
         <owl:inverseOf rdf:resource="http://purl.obolibrary.org/obo/RO_0018034"/>
     </rdf:Description>
