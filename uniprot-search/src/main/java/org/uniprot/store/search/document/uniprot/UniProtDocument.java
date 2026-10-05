@@ -324,7 +324,10 @@ public class UniProtDocument implements Document {
 
     @Singular
     @Field("checksum")
-    public List<String> sequenceChecksums = new ArrayList<>(); // crc64 and md5
+    public Set<String> sequenceChecksums = new HashSet<>(); // crc64 and md5
+
+    @Field("md5")
+    public String md5;
 
     @Field("is_gene_centric")
     public Boolean isGeneCentric;
@@ -435,6 +438,7 @@ public class UniProtDocument implements Document {
                 && Objects.equals(rheaIds, that.rheaIds)
                 && Objects.equals(suggests, that.suggests)
                 && Objects.equals(sequenceChecksums, that.sequenceChecksums)
+                && Objects.equals(md5, that.md5)
                 && Objects.equals(isGeneCentric, that.isGeneCentric);
     }
 
@@ -537,6 +541,7 @@ public class UniProtDocument implements Document {
                 rheaIds,
                 suggests,
                 sequenceChecksums,
+                md5,
                 isGeneCentric);
     }
 
@@ -748,6 +753,9 @@ public class UniProtDocument implements Document {
                 + '\''
                 + ", suggests='"
                 + suggests
+                + '\''
+                + ", md5='"
+                + md5
                 + '\''
                 + '}';
     }
