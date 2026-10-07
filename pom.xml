@@ -32,7 +32,7 @@
 		<hamcrest.version>2.2</hamcrest.version>
 		<mockito-version>4.5.1</mockito-version>
 		<solr.version>8.11.2</solr.version>
-		<http-uniprot-private-url>https://wwwdev.ebi.ac.uk/uniprot/artifactory</http-uniprot-private-url>
+		<http-uniprot-private-url>https://unpartifactory.uniprot.org/artifactory</http-uniprot-private-url>
 		<jacoco.outputDir>${project.basedir}/../target</jacoco.outputDir>
 		<jacoco.out.ut.file>jacoco-ut.exec</jacoco.out.ut.file>
 		<jacoco.reportPath>${jacoco.outputDir}/${jacoco.out.ut.file}</jacoco.reportPath>
