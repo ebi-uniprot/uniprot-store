@@ -77,7 +77,7 @@ store:sonar:
 
 store:deploy:
   stage: deploy
-  script: mvn $MAVEN_CLI_OPTS -DskipTests deploy -s ${MAVEN_SETTINGS}
+  script: mvn $MAVEN_CLI_OPTS -DskipTests  -DskipUTs=true deploy -s ${MAVEN_SETTINGS}
   dependencies:
     - store:settings
   only:
