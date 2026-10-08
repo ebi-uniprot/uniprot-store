@@ -64,9 +64,7 @@ class ChebiEntryMapperTest {
                         .toList());
         rawJavaMap.put(
                 CHEBI_OWL_PROPERTY_ATTRIBUTE,
-                JavaConverters.asScalaBufferConverter(Arrays.asList("is_conjugate_acid_of"))
-                        .asScala()
-                        .toList());
+                JavaConverters.asScalaBufferConverter(Arrays.asList("0018034")).asScala().toList());
         rawJavaMap.put(
                 CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE,
                 JavaConverters.asScalaBufferConverter(
@@ -157,7 +155,7 @@ class ChebiEntryMapperTest {
         rawJavaMap.put(
                 CHEBI_OWL_PROPERTY_ATTRIBUTE,
                 JavaConverters.asScalaBufferConverter(
-                                Arrays.asList("has_major_microspecies_at_pH_7_3"))
+                                Arrays.asList("has_major_microspecies_at_pH7_3"))
                         .asScala()
                         .toList());
         rawJavaMap.put(
