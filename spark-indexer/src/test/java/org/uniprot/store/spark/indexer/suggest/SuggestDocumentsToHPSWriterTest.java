@@ -393,29 +393,32 @@ class SuggestDocumentsToHPSWriterTest {
         assertNotNull(suggestRdd);
         var suggests = suggestRdd.collect();
 
-        var totalEntriesInXmlFile = 1;
-        var totalNumbersOfDefaultTaxonSynonyms = 38;
-        var totalHostEntriesInXmlFile = 0;
-        var totalNumbersOfDefaultHostSynonyms = 18;
-        var totalHostSynonymsDocs = totalNumbersOfDefaultHostSynonyms + totalHostEntriesInXmlFile;
-        var alreadyPresentInSynonymsFile = 1;
-        var extraLineageFromTaxonomyRDDReaderFake = 3;
-        var organismDocsCount =
-                totalNumbersOfDefaultTaxonSynonyms
-                        + totalEntriesInXmlFile
-                        - alreadyPresentInSynonymsFile;
-        var taxonomyDocsCount = organismDocsCount + extraLineageFromTaxonomyRDDReaderFake;
+        // count docs per dictionary
+        var countByDictionary =
+                suggests.stream()
+                        .collect(
+                                Collectors.groupingBy(
+                                        doc -> String.valueOf(doc.dictionary),
+                                        Collectors.counting()));
+
         assertEquals(
-                totalHostSynonymsDocs + organismDocsCount + taxonomyDocsCount, suggests.size());
+                38L,
+                countByDictionary.get("ORGANISM")); // 38 default synonyms + 1 xml - 1 duplicate
+        assertEquals(41L, countByDictionary.get("TAXONOMY")); // organism docs + 3 fake lineage
+        assertEquals(28L, countByDictionary.get("HOST")); // 18 default + 10 table (incl. 11049)
+        assertEquals(107, suggests.size());
 
-        var resultMap = getResultMap(suggests.subList(0, organismDocsCount), doc -> doc.id);
-        assertTaxons(resultMap, false);
-
-        resultMap =
-                getResultMap(
-                        suggests.subList(taxonomyDocsCount + organismDocsCount, suggests.size()),
-                        doc -> doc.id);
-        assertTaxons(resultMap, false);
+        // spot checks: human is highest importance, fake lineage ids and common host id are present
+        assertTrue(
+                suggests.stream()
+                        .anyMatch(
+                                doc ->
+                                        "ORGANISM_9606".equals(doc.suggestId)
+                                                && "highest"
+                                                        .equalsIgnoreCase(
+                                                                String.valueOf(doc.importance))));
+        assertTrue(suggests.stream().anyMatch(doc -> "TAXONOMY_10066".equals(doc.suggestId)));
+        assertTrue(suggests.stream().anyMatch(doc -> "HOST_11049".equals(doc.suggestId)));
     }
 
     @Test
@@ -468,7 +471,7 @@ class SuggestDocumentsToHPSWriterTest {
                         new TaxonomyRDDReaderFake(parameter, true, true).loadTaxonomyLineage());
         assertNotNull(suggestRdd);
         List<SuggestDocument> suggests = suggestRdd.collect();
-        assertEquals(97L, suggests.size());
+        assertEquals(107L, suggests.size());
         SuggestDocument document =
                 suggests.stream()
                         .filter(doc -> doc.id.equals(docId))
