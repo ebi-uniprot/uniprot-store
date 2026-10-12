@@ -195,7 +195,8 @@ public class UniProtEntryConverter
     private void convertSequence(Sequence seq, UniProtDocument document) {
         document.seqLength = seq.getLength();
         document.seqMass = seq.getMolWeight();
-        document.sequenceChecksums = new ArrayList<>(Set.of(seq.getCrc64(), seq.getMd5()));
+        document.sequenceChecksums = Set.of(seq.getCrc64(), seq.getMd5());
+        document.md5 = seq.getMd5();
     }
 
     private void convertKeywords(List<Keyword> keywords, UniProtDocument document) {

@@ -69,7 +69,9 @@ class TaxonomyEntryToUniProtDocumentTest {
         assertTrue(result.organismName.contains("organism common name"));
         assertTrue(result.organismName.contains("organism synonym"));
 
-        assertEquals("organism scientific name organ", result.organismSort);
+        assertEquals(
+                "organism scientific name organism common name organism synon",
+                result.organismSort);
         assertEquals(9606, result.modelOrganism);
         assertNull(result.otherOrganism);
 
