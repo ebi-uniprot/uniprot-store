@@ -3,6 +3,10 @@ package org.uniprot.store.spark.indexer.chebi.mapper;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.uniprot.store.indexer.common.utils.Constants.*;
+import static org.uniprot.store.spark.indexer.chebi.mapper.ChebiEntryMapper.RELATED_MICROSPECIES_PREFIX;
+import static org.uniprot.store.spark.indexer.chebi.mapper.ChebiEntryMapper.RELATED_MICROSPECIES_URL;
+import static org.uniprot.store.spark.indexer.chebi.mapper.ChebiEntryMapper.RO_0018033;
+import static org.uniprot.store.spark.indexer.chebi.mapper.ChebiEntryMapper.RO_0018034;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,6 +14,8 @@ import java.util.HashMap;
 import org.apache.spark.sql.Row;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.uniprot.core.cv.chebi.ChebiEntry;
 
 import scala.Tuple2;
@@ -64,7 +70,9 @@ class ChebiEntryMapperTest {
                         .toList());
         rawJavaMap.put(
                 CHEBI_OWL_PROPERTY_ATTRIBUTE,
-                JavaConverters.asScalaBufferConverter(Arrays.asList("0018034")).asScala().toList());
+                JavaConverters.asScalaBufferConverter(Arrays.asList(RO_0018034))
+                        .asScala()
+                        .toList());
         rawJavaMap.put(
                 CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE,
                 JavaConverters.asScalaBufferConverter(
@@ -154,8 +162,7 @@ class ChebiEntryMapperTest {
                 JavaConverters.asScalaBufferConverter(Arrays.asList("name1")).asScala().toList());
         rawJavaMap.put(
                 CHEBI_OWL_PROPERTY_ATTRIBUTE,
-                JavaConverters.asScalaBufferConverter(
-                                Arrays.asList("has_major_microspecies_at_pH7_3"))
+                JavaConverters.asScalaBufferConverter(Arrays.asList(RELATED_MICROSPECIES_PREFIX))
                         .asScala()
                         .toList());
         rawJavaMap.put(
@@ -175,5 +182,85 @@ class ChebiEntryMapperTest {
         ChebiEntry entry = result._2;
         assertEquals(1, entry.getMajorMicrospecies().size());
         assertEquals("77793", entry.getMajorMicrospecies().get(0).getId());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {RO_0018033, RO_0018034})
+    void validateChebiWithChebi2ConjugateRelation(String relation) throws Exception {
+        String subject = "http://purl.obolibrary.org/obo/CHEBI_77814";
+        java.util.Map<Object, Object> rawJavaMap = new HashMap<>();
+        rawJavaMap.put(
+                "name",
+                JavaConverters.asScalaBufferConverter(Arrays.asList("name1")).asScala().toList());
+        rawJavaMap.put(
+                CHEBI_OWL_PROPERTY_ATTRIBUTE,
+                JavaConverters.asScalaBufferConverter(
+                                Arrays.asList("http://purl.obolibrary.org/obo/RO_" + relation))
+                        .asScala()
+                        .toList());
+        rawJavaMap.put(
+                CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE,
+                JavaConverters.asScalaBufferConverter(
+                                Arrays.asList("http://purl.obolibrary.org/obo/CHEBI_77793"))
+                        .asScala()
+                        .toList());
+        scala.collection.Map<Object, Object> scalaMap =
+                JavaConverters.mapAsScalaMapConverter(rawJavaMap).asScala();
+
+        Row row = mock(Row.class);
+        when(row.getAs("subject")).thenReturn(subject);
+        when(row.getMap(1)).thenReturn(scalaMap);
+
+        ChebiEntry entry = mapper.call(row)._2;
+        assertEquals(1, entry.getRelatedIds().size());
+        assertEquals("77793", entry.getRelatedIds().get(0).getId());
+    }
+
+    @Test
+    void validateChebiWithFullMajorMicrospeciesPropertyUrl() throws Exception {
+        String subject = "http://purl.obolibrary.org/obo/CHEBI_77814";
+        java.util.Map<Object, Object> rawJavaMap = new HashMap<>();
+        rawJavaMap.put(
+                "name",
+                JavaConverters.asScalaBufferConverter(Arrays.asList("name1")).asScala().toList());
+        rawJavaMap.put(
+                CHEBI_OWL_PROPERTY_ATTRIBUTE,
+                JavaConverters.asScalaBufferConverter(Arrays.asList(RELATED_MICROSPECIES_URL))
+                        .asScala()
+                        .toList());
+        rawJavaMap.put(
+                CHEBI_OWL_PROPERTY_VALUES_ATTRIBUTE,
+                JavaConverters.asScalaBufferConverter(
+                                Arrays.asList("http://purl.obolibrary.org/obo/CHEBI_77793"))
+                        .asScala()
+                        .toList());
+        scala.collection.Map<Object, Object> scalaMap =
+                JavaConverters.mapAsScalaMapConverter(rawJavaMap).asScala();
+
+        Row row = mock(Row.class);
+        when(row.getAs("subject")).thenReturn(subject);
+        when(row.getMap(1)).thenReturn(scalaMap);
+
+        ChebiEntry entry = mapper.call(row)._2;
+        assertEquals(1, entry.getMajorMicrospecies().size());
+        assertEquals("77793", entry.getMajorMicrospecies().get(0).getId());
+    }
+
+    @Test
+    void validateChebiWithoutChemrofInchiKey() throws Exception {
+        String subject = "http://purl.obolibrary.org/obo/CHEBI_77814";
+        java.util.Map<Object, Object> rawJavaMap = new HashMap<>();
+        rawJavaMap.put(
+                "name",
+                JavaConverters.asScalaBufferConverter(Arrays.asList("name1")).asScala().toList());
+        scala.collection.Map<Object, Object> scalaMap =
+                JavaConverters.mapAsScalaMapConverter(rawJavaMap).asScala();
+
+        Row row = mock(Row.class);
+        when(row.getAs("subject")).thenReturn(subject);
+        when(row.getMap(1)).thenReturn(scalaMap);
+
+        ChebiEntry entry = mapper.call(row)._2;
+        assertEquals("", entry.getInchiKey());
     }
 }

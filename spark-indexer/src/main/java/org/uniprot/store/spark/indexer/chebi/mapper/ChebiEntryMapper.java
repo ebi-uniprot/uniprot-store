@@ -18,9 +18,11 @@ import scala.collection.JavaConverters;
 
 public class ChebiEntryMapper implements PairFunction<Row, Long, ChebiEntry>, Serializable {
 
-    private static final String RO_0018033 = "0018033";
-    private static final String RO_0018034 = "0018034";
-    private static final String RELATED_MICROSPECIES_PREFIX = "has_major_microspecies_at_pH7_3";
+    public static final String RO_0018033 = "0018033";
+    public static final String RO_0018034 = "0018034";
+    public static final String RELATED_MICROSPECIES_PREFIX = "has_major_microspecies_at_pH7_3";
+    public static final String RELATED_MICROSPECIES_URL =
+            "http://purl.obolibrary.org/obo/chemrof#has_major_microspecies_at_pH7_3";
     public static final String CHEMROF_INCHI_KEY_STRING = "chemrof:inchi_key_string";
     public static final String CHEBI_PREFIX = "CHEBI_";
     public static final String OBO_CHEBI_PATH = "/obo/CHEBI_";

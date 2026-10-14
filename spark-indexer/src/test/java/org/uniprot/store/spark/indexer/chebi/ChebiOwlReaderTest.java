@@ -50,6 +50,14 @@ class ChebiOwlReaderTest {
             ChebiEntry gasMolecularEntity = entries.get(138675L);
             assertNotNull(gasMolecularEntity);
             assertChebiIdsContain(gasMolecularEntity.getMajorMicrospecies(), "4200");
+
+            ChebiEntry conjugateBase = entries.get(3200L);
+            assertNotNull(conjugateBase);
+            assertChebiIdsContain(conjugateBase.getRelatedIds(), "6500");
+
+            ChebiEntry conjugateAcid = entries.get(6500L);
+            assertNotNull(conjugateAcid);
+            assertChebiIdsContain(conjugateAcid.getRelatedIds(), "3200");
         }
     }
 
