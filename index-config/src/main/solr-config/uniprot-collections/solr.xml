@@ -17,6 +17,7 @@
 
 <solr>
 
+	<int name="maxBooleanClauses">${solr.max.booleanClauses:10240}</int>
 	<str name="allowPaths">${solr.allowPaths:}</str>
 	<solrcloud>
 
