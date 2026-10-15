@@ -154,7 +154,7 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
      */
     JavaRDD<SuggestDocument> getChebi(JavaRDD<String> flatFileRDD) {
 
-        // JavaPairRDD<chebiId,ChebiEntry Entry> --> extracted from chebi.obo
+        // JavaPairRDD<chebiId,ChebiEntry Entry> --> extracted from chebi.owl
         ChebiRDDReader chebiReader = new ChebiRDDReader(jobParameter);
         JavaPairRDD<String, ChebiEntry> chebiRDD = chebiReader.load();
 

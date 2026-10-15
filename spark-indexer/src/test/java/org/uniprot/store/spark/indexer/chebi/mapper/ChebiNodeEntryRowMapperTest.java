@@ -52,7 +52,7 @@ public class ChebiNodeEntryRowMapperTest {
         assertEquals("bn74148tmms73f74117", result.get(0));
         assertEquals("http://purl.obolibrary.org/obo/CHEBI_74117", map.get("owl:someValuesFrom"));
         assertEquals(
-                "http://purl.obolibrary.org/obo/chebi#has_major_microspecies_at_pH_7_3",
+                "http://purl.obolibrary.org/obo/chemrof#has_major_microspecies_at_pH7_3",
                 map.get("owl:onProperty"));
     }
 
@@ -135,7 +135,7 @@ public class ChebiNodeEntryRowMapperTest {
                 Arrays.asList(
                         RowFactory.create(
                                 CHEBI_RDF_RESOURCE_ATTRIBUTE,
-                                "http://purl.obolibrary.org/obo/chebi#has_major_microspecies_at_pH_7_3"));
+                                "http://purl.obolibrary.org/obo/chemrof#has_major_microspecies_at_pH7_3"));
         values.add(
                 JavaConverters.asScalaIteratorConverter(someProperty.iterator())
                         .asScala()

@@ -1,6 +1,7 @@
 package org.uniprot.store.spark.indexer.chebi.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.uniprot.store.spark.indexer.chebi.mapper.ChebiEntryMapper.RELATED_MICROSPECIES_URL;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -71,9 +72,7 @@ public class ChebiEntryRowAggregatorTest {
         expected.put(
                 "owl:onProperty",
                 JavaConverters.asScalaIteratorConverter(
-                                Arrays.asList(
-                                                "http://purl.obolibrary.org/obo/chebi#has_major_microspecies_at_pH_7_3")
-                                        .iterator())
+                                Arrays.asList(RELATED_MICROSPECIES_URL).iterator())
                         .asScala()
                         .toSeq());
         expected.put(

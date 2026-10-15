@@ -15,10 +15,13 @@ import scala.collection.JavaConverters;
 import scala.collection.Seq;
 
 public class ChebiEntryRelatedFieldsRowMapper implements FlatMapFunction<Row, Row> {
+
+    public static final String ABOUT_SUBJECT = "about_subject";
+
     @Override
     public Iterator<Row> call(Row row) throws Exception {
         List<Row> results = new ArrayList<>();
-        String subject = row.getAs("about_subject");
+        String subject = row.getAs(ABOUT_SUBJECT);
         scala.collection.Map<Object, Object> objectRow = row.getMap(1);
         List<String> chebiStructuredNames =
                 objectRow.contains(CHEBI_RDF_CHEBI_STRUCTURE_ATTRIBUTE)
