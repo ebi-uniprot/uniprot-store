@@ -15,6 +15,7 @@ OC   Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi;
 OC   Mammalia; Eutheria; Euarchontoglires; Glires; Rodentia; Sciurognathi;
 OC   Muroidea; Muridae; Murinae; Rattus.
 OX   NCBI_TaxID=10116;
+OH   NCBI_TaxID=11049; Porcine reproductive and respiratory syndrome virus.
 RN   [1]
 RP   NUCLEOTIDE SEQUENCE [MRNA] (ISOFORMS 1; 2 AND 4).
 RC   STRAIN=Sprague-Dawley; TISSUE=Brain;
