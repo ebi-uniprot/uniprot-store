@@ -197,9 +197,8 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
-							<!-- Spark submits the main artifact; it must contain the relocated
-								Jetty classes. -->
-							<shadedArtifactAttached>false</shadedArtifactAttached>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<shadedClassifierName>solrj-shaded</shadedClassifierName>
 							<createDependencyReducedPom>false</createDependencyReducedPom>
 							<artifactSet>
 								<includes>
