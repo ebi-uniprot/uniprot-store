@@ -51,8 +51,8 @@
 					<artifactId>jcl-over-slf4j</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.apache.solr</groupId>
-					<artifactId>solr-solrj</artifactId>
+					<groupId>org.glassfish.jersey.containers</groupId>
+					<artifactId>jersey-container-jetty-http</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.apache.logging.log4j</groupId>
