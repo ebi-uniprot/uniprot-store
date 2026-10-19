@@ -51,10 +51,6 @@
 					<artifactId>jcl-over-slf4j</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>org.glassfish.jersey.containers</groupId>
-					<artifactId>jersey-container-jetty-http</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>org.apache.logging.log4j</groupId>
 					<artifactId>*</artifactId>
 				</exclusion>
