@@ -32,6 +32,7 @@
 		<hamcrest.version>2.2</hamcrest.version>
 		<mockito-version>4.5.1</mockito-version>
 		<solr.version>9.10.1</solr.version>
+		<jetty.version>10.0.26</jetty.version>
 		<http-uniprot-private-url>https://unpartifactory.uniprot.org/artifactory</http-uniprot-private-url>
 		<jacoco.outputDir>${project.basedir}/../target</jacoco.outputDir>
 		<jacoco.out.ut.file>jacoco-ut.exec</jacoco.out.ut.file>
@@ -112,6 +113,63 @@
 						<artifactId>jersey-container-jetty-http</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+			<!-- Spring Boot 2.7 manages SolrJ 8 and Jetty 9; keep Solr 9 clients 
+				consistent. -->
+			<dependency>
+				<groupId>org.apache.solr</groupId>
+				<artifactId>solr-solrj</artifactId>
+				<version>${solr.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-client</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-http</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-io</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-util</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-alpn-client</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-alpn-java-client</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty.http2</groupId>
+				<artifactId>http2-client</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty.http2</groupId>
+				<artifactId>http2-common</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty.http2</groupId>
+				<artifactId>http2-hpack</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty.http2</groupId>
+				<artifactId>http2-http-client-transport</artifactId>
+				<version>${jetty.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
