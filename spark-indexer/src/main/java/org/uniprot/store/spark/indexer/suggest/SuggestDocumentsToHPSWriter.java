@@ -347,7 +347,11 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
         // ORGANISM HOST
         JavaRDD<SuggestDocument> organismHostSuggester =
                 flatFileOrganismHostRDD
-                        .join(organismWithLineage)
+                        .rightOuterJoin(organismWithLineage)
+                        .mapValues(
+                                t ->
+                                        new Tuple2<String, List<TaxonomyLineage>>(
+                                                t._1().orNull(), t._2()))
                         .mapValues(new OrganismToSuggestDocument(HOST.name()))
                         .union(getDefaultHighImportantTaxon(HOST))
                         .aggregateByKey(
