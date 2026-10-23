@@ -429,12 +429,18 @@ public class SuggestDocumentsToHPSWriter implements DocumentsToHPSWriter {
     JavaPairRDD<String, List<TaxonomyLineage>> getOrganismWithLineageRDD() {
         // compute the lineage of the taxonomy ids in the format <2, <1,1315,2>> using db
         TaxonomyLineageReader lineageReader = new TaxonomyLineageReader(jobParameter, true);
-        JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage = lineageReader.load();
+        JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage =
+                filterInvalidLineages(lineageReader.load());
         organismWithLineage.repartition(organismWithLineage.getNumPartitions());
         organismWithLineage.persist(StorageLevel.DISK_ONLY());
         // Count is terminal operator to have this RDD persist on disk
         log.info("Total no of TaxonomyLineageReader: " + organismWithLineage.count());
         return organismWithLineage;
+    }
+
+    JavaPairRDD<String, List<TaxonomyLineage>> filterInvalidLineages(
+            JavaPairRDD<String, List<TaxonomyLineage>> organismWithLineage) {
+        return organismWithLineage.filter(t -> t._2() != null && !t._2().isEmpty());
     }
 
     private JavaRDD<SuggestDocument> getTaxonomy(
