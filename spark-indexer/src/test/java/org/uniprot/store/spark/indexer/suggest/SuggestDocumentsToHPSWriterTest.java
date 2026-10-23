@@ -17,12 +17,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.reflect.FieldUtils;
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.junit.jupiter.api.*;
@@ -32,6 +34,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.Mockito;
 import org.opentest4j.AssertionFailedError;
+import org.uniprot.core.taxonomy.TaxonomyLineage;
+import org.uniprot.core.taxonomy.impl.TaxonomyLineageBuilder;
 import org.uniprot.store.search.document.suggest.SuggestDictionary;
 import org.uniprot.store.search.document.suggest.SuggestDocument;
 import org.uniprot.store.spark.indexer.common.JobParameter;
@@ -41,6 +45,8 @@ import org.uniprot.store.spark.indexer.taxonomy.reader.TaxonomyRDDReaderFake;
 import org.uniprot.store.spark.indexer.uniprot.UniProtKBRDDTupleReader;
 
 import com.typesafe.config.Config;
+
+import scala.Tuple2;
 
 /**
  * @author lgonzales
@@ -419,6 +425,26 @@ class SuggestDocumentsToHPSWriterTest {
                                                                 String.valueOf(doc.importance))));
         assertTrue(suggests.stream().anyMatch(doc -> "TAXONOMY_10066".equals(doc.suggestId)));
         assertTrue(suggests.stream().anyMatch(doc -> "HOST_11049".equals(doc.suggestId)));
+    }
+
+    @Test
+    void filterInvalidLineagesRetainsOnlyValidLineages() {
+        SuggestDocumentsToHPSWriter writer = new SuggestDocumentsToHPSWriter(parameter);
+        TaxonomyLineage validLineage = new TaxonomyLineageBuilder().taxonId(9606L).build();
+        JavaPairRDD<String, List<TaxonomyLineage>> lineages =
+                parameter
+                        .getSparkContext()
+                        .parallelizePairs(
+                                List.of(
+                                        new Tuple2<>("999998", null),
+                                        new Tuple2<>("999999", Collections.emptyList()),
+                                        new Tuple2<>("9606", List.of(validLineage))));
+
+        Map<String, List<TaxonomyLineage>> filteredLineages =
+                writer.filterInvalidLineages(lineages).collectAsMap();
+
+        assertEquals(1, filteredLineages.size());
+        assertEquals(List.of(validLineage), filteredLineages.get("9606"));
     }
 
     @Test
