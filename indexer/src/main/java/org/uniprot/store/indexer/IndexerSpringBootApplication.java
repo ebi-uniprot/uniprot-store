@@ -10,12 +10,13 @@ package org.uniprot.store.indexer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.solr.SolrAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.uniprot.store.indexer.app.UniProtIndexingJob;
 
 @EnableBatchProcessing
 @UniProtIndexingJob
-@SpringBootApplication
+@SpringBootApplication(exclude = SolrAutoConfiguration.class)
 public class IndexerSpringBootApplication {
     /**
      * To run a specific Spring Batch Job:
