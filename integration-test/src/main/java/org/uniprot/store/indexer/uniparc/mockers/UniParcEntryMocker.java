@@ -50,7 +50,12 @@ public class UniParcEntryMocker {
     }
 
     private static SequenceFeature getFeatureWithoutInterPro() {
-        return new SequenceFeatureBuilder().signatureDbType(SignatureDbType.PFAM).build();
+        return new SequenceFeatureBuilder()
+                .signatureDbType(SignatureDbType.PFAM)
+                .signatureDbId("PFAM_ID")
+                .interproGroup(new InterProGroupBuilder().name("PFAM_IP").id("PFAM_IP_ID").build())
+                .locationsAdd(new SequenceFeatureLocationBuilder().end(55).start(23).build())
+                .build();
     }
 
     public static UniParcEntry createUniParcEntry(
