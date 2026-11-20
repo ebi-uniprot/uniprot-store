@@ -19,7 +19,7 @@
 		<cache-api.version>1.1.1</cache-api.version>
 		<spring.version>2.7.3</spring.version>
 		<maven-dependency-plugin.version>3.3.0</maven-dependency-plugin.version>
-		<solr.jackson.version>2.18.0</solr.jackson.version>
+		<solr.jackson.version>2.18.12</solr.jackson.version>
 		<test.reuseForks>false</test.reuseForks>
 	</properties>
 	<dependencyManagement>
@@ -291,7 +291,7 @@
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.15.3</version>
+			<version>1.23.2</version>
 		</dependency>
 
 		<dependency>
