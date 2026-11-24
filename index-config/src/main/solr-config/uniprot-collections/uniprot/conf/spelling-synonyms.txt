@@ -1,0 +1,12 @@
+# Single-token spelling variants only. Do not add numeric or semantic synonyms.
+adaptor,adapter
+analogue,analog
+anaemia,anemia
+neurone,neuron
+haeme,heme
+haemoglobin,hemoglobin
+homologue,homolog
+tumour,tumor
+oestrogen,estrogen
+aluminum,aluminium
+haemagglutinin,hemagglutinin
