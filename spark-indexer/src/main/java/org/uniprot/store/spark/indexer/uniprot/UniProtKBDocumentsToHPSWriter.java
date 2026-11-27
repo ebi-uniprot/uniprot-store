@@ -103,6 +103,8 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
         uniProtDocumentRDD = joinGeneCentricProteins(uniProtDocumentRDD);
 
+        uniProtDocumentRDD = joinEmbeddings(uniProtDocumentRDD);
+
         boolean shouldIndexInactive =
                 Boolean.parseBoolean(config.getString("uniprot.index.inactive"));
         if (shouldIndexInactive) {
@@ -389,5 +391,17 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
         return uniProtDocumentRDD
                 .leftOuterJoin(canonicalProteinsRDD)
                 .mapValues(new UniProtDocumentIsGeneCentricMapper());
+    }
+
+    JavaPairRDD<String, UniProtDocument> joinEmbeddings(
+            JavaPairRDD<String, UniProtDocument> documents) {
+        JavaPairRDD<String, List<Float>> vectors = new EmbeddingsRDDReader(parameter).load();
+        return documents
+                .leftOuterJoin(vectors)
+                .mapValues(
+                        joined -> {
+                            joined._1.embeddings = joined._2.orElse(null);
+                            return joined._1;
+                        });
     }
 }

@@ -217,6 +217,9 @@
 	<field name="is_gene_centric" type="boolean" indexed="true"
 		stored="false" required="false" multiValued="false" />
 
+	<field name="embeddings" type="knn_vector_768" indexed="true"
+		stored="false" />
+
 	<!-- Feature types -->
 	<dynamicField name="ft_*" type="full_ci" indexed="true"
 		required="false" stored="false" multiValued="true" />
@@ -524,5 +527,8 @@
 			<filter class="solr.RemoveDuplicatesTokenFilterFactory" />
 		</analyzer>
 	</fieldType>
+	<fieldType name="knn_vector_768"
+		class="solr.DenseVectorField" vectorDimension="768"
+		similarityFunction="cosine" />
 	<!-- End of UJDK type definitions -->
 </schema>

@@ -332,6 +332,9 @@ public class UniProtDocument implements Document {
     @Field("is_gene_centric")
     public Boolean isGeneCentric;
 
+    @Field("embeddings")
+    public List<Float> embeddings = new ArrayList<>();
+
     @Override
     public String getDocumentId() {
         return accession;
@@ -439,7 +442,8 @@ public class UniProtDocument implements Document {
                 && Objects.equals(suggests, that.suggests)
                 && Objects.equals(sequenceChecksums, that.sequenceChecksums)
                 && Objects.equals(md5, that.md5)
-                && Objects.equals(isGeneCentric, that.isGeneCentric);
+                && Objects.equals(isGeneCentric, that.isGeneCentric)
+                && Objects.equals(embeddings, that.embeddings);
     }
 
     @Override
@@ -542,7 +546,8 @@ public class UniProtDocument implements Document {
                 suggests,
                 sequenceChecksums,
                 md5,
-                isGeneCentric);
+                isGeneCentric,
+                embeddings);
     }
 
     @Override
