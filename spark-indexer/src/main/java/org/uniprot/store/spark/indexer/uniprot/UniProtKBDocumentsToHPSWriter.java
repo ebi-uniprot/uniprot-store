@@ -77,7 +77,10 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
         this.parameter = jobParameter;
         this.reader = new UniProtKBRDDTupleReader(parameter, true);
     }
-    /** load all the data for UniProtDocument and write it into HPS (Hadoop File System) */
+
+    /**
+     * load all the data for UniProtDocument and write it into HPS (Hadoop File System)
+     */
     @Override
     public void writeIndexDocumentsToHPS() {
         JavaPairRDD<String, UniProtKBEntry> uniProtEntryRDD = reader.load();
@@ -308,7 +311,7 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
 
     /**
      * @param uniProtDocumentRDD current JavaPairRDD<accesion, UniProtDocument>
-     * @param unirefJavaPair JavaPairRDD<accesion, MappedUniRef>
+     * @param unirefJavaPair     JavaPairRDD<accesion, MappedUniRef>
      * @return RDD of JavaPairRDD<accesion, UniProtDocument> with MappedUniRef mapped information
      */
     private JavaPairRDD<String, UniProtDocument> joinUniRef(
@@ -323,7 +326,7 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
     /**
      * @param uniProtEntryRDD JavaPairRDD<accesion, UniProtKBEntry>
      * @return RDD of JavaPairRDD<accesion, UniProtKBEntry> with extended GoEvidence mapped
-     *     information
+     * information
      */
     JavaPairRDD<String, UniProtKBEntry> joinGoEvidences(
             JavaPairRDD<String, UniProtKBEntry> uniProtEntryRDD) {
@@ -335,7 +338,7 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
     /**
      * @param uniProtDocumentRDD current JavaPairRDD<accesion, UniProtDocument>
      * @return JavaPairRDD<accesion, UniProtDocument> with mapped PIR Computationally and community
-     *     mapped pubmed ids
+     * mapped pubmed ids
      */
     JavaPairRDD<String, UniProtDocument> joinLiteratureMapped(
             JavaPairRDD<String, UniProtDocument> uniProtDocumentRDD) {
@@ -400,7 +403,13 @@ public class UniProtKBDocumentsToHPSWriter implements DocumentsToHPSWriter {
                 .leftOuterJoin(vectors)
                 .mapValues(
                         joined -> {
-                            joined._1.embeddings = joined._2.orElse(null);
+                            List<Float> embedding = joined._2.orElse(null);
+
+                            if (embedding != null && embedding.isEmpty()) {
+                                embedding = null;
+                            }
+
+                            joined._1.embeddings = embedding;
                             return joined._1;
                         });
     }
