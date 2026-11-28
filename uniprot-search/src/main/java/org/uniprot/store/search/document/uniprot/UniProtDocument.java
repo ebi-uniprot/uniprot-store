@@ -333,7 +333,7 @@ public class UniProtDocument implements Document {
     public Boolean isGeneCentric;
 
     @Field("embeddings")
-    public List<Float> embeddings = new ArrayList<>();
+    public List<Float> embeddings;
 
     @Override
     public String getDocumentId() {
